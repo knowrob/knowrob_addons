@@ -1,0 +1,26 @@
+<package>
+  <description brief="inf9_comp_ehow">
+
+     inf9_comp_ehow
+
+     Prolog routines for interfacing the ehow.com import functions
+
+     For proper functioning, the Cyc ontology (opencyc.org or better researchcyc.org)
+     has to be installed and must be running, and WordNet 2.0 (!!, wordnet.princeton.edu)
+     needs to be installed at a location specified in the WNHOME environment variable.
+
+     [needs to be automated, includes are still missing - contact Moritz in case you
+      plan to use this module]
+
+  </description>
+  <author>Moritz Tenorth</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/inf9_comp_ehow</url>
+
+  <depend package="jpl"/>
+  <depend package="inf9_semweb"/>
+  <depend package="inf9_knowledge_base"/>
+</package>
+
+
