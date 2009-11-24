@@ -13,8 +13,8 @@
       plan to use this module]
 
   </description>
-  <author>Moritz Tenorth</author>
-  <license>BSD</license>
+  <author>Moritz Tenorth, Daniel Nyga</author>
+  <license>GPL</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/inf9_comp_ehow</url>
 
