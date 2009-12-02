@@ -58,7 +58,7 @@
 %     installation.
 % 
 %   Usage:
-%     rdf_triple(kitchen:forCommand, A, 'set a table').
+%     rdf_triple(knowrob:forCommand, A, 'set a table').
 %     A = 'http://www.owl-ontologies.com/Ontology1252257693.owl#SetATable'
 % 
 
