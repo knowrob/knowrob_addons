@@ -18,8 +18,6 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/inf9_comp_ehow</url>
 
-  <depend package="jpl"/>
-  <depend package="inf9_semweb"/>
   <depend package="inf9_knowledge_base"/>
 </package>
 

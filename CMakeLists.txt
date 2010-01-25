@@ -4,3 +4,11 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init()
 
+set( OWL_PATH_PREFIX ${inf9_knowledge_base_PACKAGE_PATH} )
+
+file(GLOB inputs owl/*.in)
+
+foreach( _in ${inputs} )
+  string(REPLACE ".in" "" _out ${_in})
+  configure_file( ${_in} ${_out} )
+endforeach( _in )
