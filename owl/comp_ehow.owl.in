@@ -23,7 +23,6 @@
     xml:base="http://ias.cs.tum.edu/kb/comp_ehow.owl">
   <owl:Ontology rdf:about="">
     <owl:imports rdf:resource="&local_path;knowrob.owl"/>
-    <owl:imports rdf:resource="&local_path;computable.owl"/>
   </owl:Ontology>
 
   <owl:DatatypeProperty rdf:about="#forCommand">

@@ -1,4 +1,3 @@
-
 /** <module> comp_ehow
 
   Description:
@@ -25,10 +24,25 @@
     rdf_triple(knowrob:forCommand, A, 'set a table').
     A = 'http://www.owl-ontologies.com/Ontology1252257693.owl#SetATable'
 
+
+  Copyright (C) 2010 by Moritz Tenorth
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 @author Moritz Tenorth
 @license GPL
 */
-
 
 :- module(comp_ehow,
     [
@@ -37,14 +51,14 @@
       plan_subevents/2
     ]).
 
-:- use_module(library(semweb/rdfs)).
-:- use_module(library(semweb/rdf_db)).
-:- use_module(library(semweb/rdfs_computable)).
-:- use_module(library(jpl)).
+:- use_module(library('semweb/rdfs')).
+:- use_module(library('semweb/rdf_db')).
+:- use_module(library('semweb/rdfs_computable')).
+:- use_module(library('jpl')).
 
 
 
-%%  comp_forCommand(-Plan, +Command) is nondet.
+%% comp_forCommand(-Plan, +Command) is nondet.
 %
 % Launch the ehow.com import procedure to import a plan described by the natural-language
 % command Command and return an OWL TBOX description of the plan.
@@ -60,7 +74,7 @@ comp_forCommand(Plan, Command) :-
 
 
 
-%%  plan_subevents(+Plan, ?SubEvents) is semidet.
+%% plan_subevents(+Plan, ?SubEvents) is semidet.
 %
 % Read all sub-event classes of the imported plan, i.e. single actions that need to be taken
 %
@@ -73,7 +87,7 @@ plan_subevents(Plan, SubEvents) :-
                     rdf_has(R, owl:someValuesFrom, SubEvent)), SubEvents).
 
 
-%%  matching_actions(?Plan, ?Act) is semidet.
+%% matching_actions(?Plan, ?Act) is semidet.
 %
 % Search for action instances that fit the classes described in the imported plan
 %
