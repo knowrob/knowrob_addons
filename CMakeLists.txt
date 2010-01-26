@@ -4,6 +4,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init()
 
+rosbuild_find_ros_package(inf9_knowledge_base)
 set( OWL_PATH_PREFIX ${inf9_knowledge_base_PACKAGE_PATH} )
 
 file(GLOB inputs owl/*.in)
