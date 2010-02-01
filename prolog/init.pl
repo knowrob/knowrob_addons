@@ -22,6 +22,7 @@
 :- register_ros_package(inf9_knowledge_base).
 :- register_ros_package(comp_ehow).
 
+:- use_module(library('comp_ehow')).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
