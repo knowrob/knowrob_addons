@@ -65,7 +65,7 @@
 %
 % @param Pre Identifier of the earlier time point
 % @param After Identifier of the later time point
-
+% 
 comp_forCommand(Plan, Command) :-
   var(Plan), nonvar(Command),
   jpl_call('instruction.exporter.owl.OWLExporter', 'convertHowtoToOWLOntology', [Command], F),
