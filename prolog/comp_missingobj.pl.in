@@ -85,10 +85,10 @@ comp_missingObjects(Missing) :-
 % ask the probabilistic inference engine which objects should be on the table
 %
 call_prob_inference(AreOnTable, ShouldBeOnTableWithProb) :-
-  classifiers:lists_to_arrays(AreOnTable, AreOnTableArray),
+  lists_to_arrays(AreOnTable, AreOnTableArray),
   jpl_call('edu.tum.cs.srldb.prolog.PrologInterface', 'setObjectsOnTable', [AreOnTableArray], _),
   jpl_call('edu.tum.cs.srldb.prolog.PrologInterface', 'getMissingObjectsOnTable', [], ShouldBeOnTableArray),
-  classifiers:arrays_to_lists(ShouldBeOnTableArray, ShouldBeOnTableWithProb).
+  arrays_to_lists(ShouldBeOnTableArray, ShouldBeOnTableWithProb).
 
 
 %% compute_missing_objects(+AreOnTable, +ShouldBeOnTableWithProb, -Missing, -MissingTypes)
