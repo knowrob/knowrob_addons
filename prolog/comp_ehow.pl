@@ -56,7 +56,11 @@
 :- use_module(library('semweb/rdfs_computable')).
 :- use_module(library('jpl')).
 
+:- owl_parser:owl_parse('../owl/comp_ehow.owl', false, false, true).
 
+
+:- ensure_loaded('wordnet.pl').
+:- rdf_db:rdf_load('wordnet-synset.rdf').
 
 %% comp_forCommand(-Plan, +Command) is nondet.
 %
