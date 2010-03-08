@@ -12,7 +12,7 @@
   <url>http://ias.in.tum.de/kb/wiki/index.php/comp_missingobj</url>
 
 
-  <depend package="inf9_knowledge_base"/>
+  <depend package="ias_knowledge_base"/>
   <depend package="srldb"/>
   <depend package="prolog_perception"/>
   <depend package="mod_vis"/>

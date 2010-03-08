@@ -5,8 +5,8 @@ rosbuild_init()
 
 
 # replace paths for includes in owl files
-rosbuild_find_ros_package(inf9_knowledge_base)
-set( OWL_PATH_PREFIX ${inf9_knowledge_base_PACKAGE_PATH} )
+rosbuild_find_ros_package(ias_knowledge_base)
+set( OWL_PATH_PREFIX ${ias_knowledge_base_PACKAGE_PATH} )
 
 file(GLOB inputs owl/*.in)
 
