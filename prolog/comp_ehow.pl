@@ -60,7 +60,7 @@
 
 
 :- ensure_loaded('wordnet.pl').
-:- rdf_db:rdf_load('wordnet-synset.rdf').
+% :- rdf_db:rdf_load('wordnet-synset.rdf').
 
 %% comp_forCommand(-Plan, +Command) is nondet.
 %
