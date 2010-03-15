@@ -27,6 +27,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
-:- owl_parser:owl_parse('../owl/comp_ehow.owl', false, false, true).
+:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/comp_ehow.owl', false, false, true).
 :- rdf_db:rdf_register_ns(comp_ehow, 'http://ias.cs.tum.edu/kb/comp_ehow.owl#',     [keep(true)]).
 

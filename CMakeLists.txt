@@ -13,3 +13,13 @@ foreach( _in ${inputs} )
   string(REPLACE ".in" "" _out ${_in})
   configure_file( ${_in} ${_out} )
 endforeach( _in )
+
+# replace path to local OWL files
+rosbuild_find_ros_package(comp_ehow)
+set( LOCAL_PACKAGE_PATH ${comp_ehow_PACKAGE_PATH} )
+
+file(GLOB inputs prolog/*.in)
+foreach( _in ${inputs} )
+  string(REPLACE ".in" "" _out ${_in})
+  configure_file( ${_in} ${_out} )
+endforeach( _in )
