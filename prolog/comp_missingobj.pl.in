@@ -48,7 +48,7 @@ comp_missingObjects(Missing) :-
   visualisation_canvas(Canvas),
 
   % read all objects that are on the table (including queries to vision system)
-  rdfs_instance_of(P, knowrob:'VisualPerception),
+  rdfs_instance_of(P, knowrob:'VisualPerception'),
   rdfs_instance_of(T, knowrob:'Table-PieceOfFurniture'),
   
   rdf_has(P, knowrob:objectActedOn, AreOnTable),
