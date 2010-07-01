@@ -1,0 +1,3 @@
+<launch>
+	<node name="prolog_engine" pkg="rosprolog" type="rosprolog" args="comp_missingobj" />
+</launch>
