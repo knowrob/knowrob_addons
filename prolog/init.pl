@@ -30,6 +30,6 @@
 :- use_module(library('comp_missingobj')).
 %:- use_module(library('comp_missingobj_offline')).
 
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/comp_missingobj.owl',  false, false, true).
-%:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/comp_missingobj_offline.owl',  false, false, true).
+:- owl_parser:owl_parse('/home/tenorth/work/ros/pkgs/tumros-internal/knowledge/comp_missingobj/owl/comp_missingobj.owl',  false, false, true).
+%:- owl_parser:owl_parse('/home/tenorth/work/ros/pkgs/tumros-internal/knowledge/comp_missingobj/owl/comp_missingobj_offline.owl',  false, false, true).
 
