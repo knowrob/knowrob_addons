@@ -26,6 +26,8 @@
 
 :- module(comp_missingobj,
     [
+      vis_all_objects_on_table/1,
+      vis_all_objects_inferred/3,
       comp_missingObjectTypes/2
     ]).
 
@@ -81,4 +83,84 @@ compute_missing_objects(DetectedObjects, RequiredObjects, MissingTypes) :-
 
 
 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % 
+% % %
+% % % TODO: update and remove the following
+% % %
+% % % 
+
+%% compare_inference_probs2(-Delta, +P1, +P2)
+%
+% compare two object classes with their resp. probabilities
+%
+compare_inference_probs2('>', I1, I2) :-
+    probability_of_instance(I1,P1),
+    probability_of_instance(I2,P2),
+    term_to_atom(N1, P1),
+    term_to_atom(N2, P2),
+    N1 < N2.
+
+compare_inference_probs2('<', I1, I2) :-
+    probability_of_instance(I1,P1),
+    probability_of_instance(I2,P2),
+    term_to_atom(N1, P1),
+    term_to_atom(N2, P2),
+    N1>=N2.
+
+
+probability_of_instance(I,P):-
+   rdf_has(Inf,knowrob:objectActedOn,I),
+   rdf_has(Inf,knowrob:probability, P).
+
+
+
+
+mostLikelyObjects(Objs, Probs, InfObjs) :-
+  findall(InfObj, (member(O,Objs),
+                    rdf_has(O,rdf:type,T),
+                    member(InfObj,Probs),
+                    rdf_has(InfObj,rdf:type,T)), InfObjs).
+
+
+mostLikelyObj(Objs, Probs, MLObj) :-
+  mostLikelyObjects(Objs, Probs, InfObjs),
+  predsort(compare_inference_probs2, InfObjs, [MLInfObj|_]),
+  rdf_has(MLInfObj,rdf:type,Type),
+  member(MLObj,Objs),
+  rdf_has(MLObj,rdf:type,Type).
+
+
+mostLikelyObjCopID(Objs, Probs, MLObj, CID) :-
+  mostLikelyObj(Objs, Probs, MLObj),
+  rdf_has(MLObj, knowrob:copID, CID).
+
+
+inferMissingObjects(Instances) :-
+   objects_on_table(_,_),!,
+   required_objects(Instances).
+
+
+missingObject(Table, MLObj, CID):-
+     findall(Obj, current_objects_on_table(Table, Obj), Objs),
+     findall(InfObj, (rdf_has(Inf, rdf:type, knowrob:'TableSettingModelInference'), rdf_has(Inf,knowrob:objectActedOn,InfObj)), Probs),
+     mostLikelyObjCopID(Objs, Probs, MLObj, CID).
+
+
+vis_all_objects_on_table(Table):-
+  add_object_perception(Table, _),
+  current_objects_on_table(Table, O),
+  add_object_perception(O, _).
+
+vis_all_objects_inferred(T,O,P):-
+  currently_inferred_objects(O),
+  rdf_has(Inf,knowrob:objectActedOn,O),
+  rdf_has(Inf, rdf:type, knowrob:'TableSettingModelInference'),
+  rdf_has(Inf,knowrob:probability,P),
+  term_to_atom(N,P),
+  N>T,
+  add_object_perception(O,  _).
 
