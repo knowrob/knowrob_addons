@@ -30,7 +30,10 @@
       vis_all_objects_inferred/3,
       comp_missingObjectTypes/2
     ]).
-
+    
+:-  rdf_meta
+    comp_missingObjectTypes(r, r),
+    current_objects_on_table(r,r).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % visualisation canvas
@@ -46,8 +49,10 @@
 %
 comp_missingObjectTypes(T, MissingTypes) :-
 
-  % find detected objects on the table
-  findall(Curr, current_objects_on_table(T, Curr), DetectedObjects),
+  get_timepoint(NOW),
+
+  % find detected objects on table T
+  findall(Curr, holds(on_Physical(Curr, T), NOW), DetectedObjects),
 
   % call the probabilistic inference engine
   mod_probcog_tablesetting:required_objects(RequiredObjects),
@@ -62,16 +67,11 @@ comp_missingObjectTypes(T, MissingTypes) :-
 % of objects that are supposed to be there to find missing items,
 % create instances of these objects with the resp. probability
 %
-compute_missing_objects(DetectedObjects, RequiredObjects, MissingTypes) :-
+compute_missing_objects(DetectedObjects, _RequiredObjects, MissingTypes) :-
 
-  % find those elements that have a prob > 0 to be on the table
-  findall(InfOT,  (member(InfO, RequiredObjects),
-                   rdf_has(InfO, rdf:type, InfOT),
-                   rdf_has(Inf, knowrob:objectActedOn, InfO),
-                   rdfs_individual_of(Inf, knowrob:'TableSettingModelInference'),
-                   rdf_has(Inf, knowrob:probability, InfProb),
-                   term_to_atom(Prob, InfProb),
-                   >(Prob, 0)), RequiredObjectTypes),
+  % get sorted list of elements that have a prob > 0 to be on the table
+  latest_inferred_object_set(RequiredObjectTypes),
+
 
   % read types of objects on the table
   findall(T, (member(O, DetectedObjects), rdf_has(O, rdf:type, T)), DetectedObjectTypes),
@@ -80,8 +80,12 @@ compute_missing_objects(DetectedObjects, RequiredObjects, MissingTypes) :-
   findall(ReqO, (member(ReqO, RequiredObjectTypes), not(member(ReqO, DetectedObjectTypes))), MissingTypes).
 
 
+% TODO:
 
-
+% * copID
+% * jloID
+% * query for last detection of an instance of the respective type
+%
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -95,42 +99,9 @@ compute_missing_objects(DetectedObjects, RequiredObjects, MissingTypes) :-
 
 
 
-% ask for the objects detected in the latest scan of table Table
-% e.g. 'http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable0'
-current_objects_on_table(Table, Object) :-
-    rdfs_instance_of(Perc, knowrob:'VisualPerception'),
-    latest_detection_of_instance(Table, P),
-    rdf_has(Perc, knowrob:objectActedOn, Object),
-    rdf_has(P, knowrob:startTime, Pstart),
-    rdf_has(Perc, knowrob:startTime, Pstart),
-    Object\=Table.
-
-
-% % %% compare_inference_probs2(-Delta, +P1, +P2)
-% % %
-% % % compare two object classes with their resp. probabilities
-% % %
-% % compare_inference_probs2('>', I1, I2) :-
-% %     probability_of_instance(I1,P1),
-% %     probability_of_instance(I2,P2),
-% %     term_to_atom(N1, P1),
-% %     term_to_atom(N2, P2),
-% %     N1 < N2.
-% % 
-% % compare_inference_probs2('<', I1, I2) :-
-% %     probability_of_instance(I1,P1),
-% %     probability_of_instance(I2,P2),
-% %     term_to_atom(N1, P1),
-% %     term_to_atom(N2, P2),
-% %     N1>=N2.
-% % 
-% % 
-% % probability_of_instance(I,P):-
-% %    rdf_has(Inf,knowrob:objectActedOn,I),
-% %    rdf_has(Inf,knowrob:probability, P).
-
-
-
+current_objects_on_table(T, Curr) :-
+get_timepoint(NOW),
+holds(on_Physical(Curr, T), NOW).
 
 mostLikelyObjects(Objs, Probs, InfObjs) :-
   findall(InfObj, (member(O,Objs),
@@ -176,4 +147,31 @@ vis_all_objects_inferred(T,O,P):-
   term_to_atom(N,P),
   N>T,
   add_object_perception(O,  _).
+
+
+
+
+
+% % %% compare_inference_probs2(-Delta, +P1, +P2)
+% % %
+% % % compare two object classes with their resp. probabilities
+% % %
+% % compare_inference_probs2('>', I1, I2) :-
+% %     probability_of_instance(I1,P1),
+% %     probability_of_instance(I2,P2),
+% %     term_to_atom(N1, P1),
+% %     term_to_atom(N2, P2),
+% %     N1 < N2.
+% % 
+% % compare_inference_probs2('<', I1, I2) :-
+% %     probability_of_instance(I1,P1),
+% %     probability_of_instance(I2,P2),
+% %     term_to_atom(N1, P1),
+% %     term_to_atom(N2, P2),
+% %     N1>=N2.
+% % 
+% % 
+% % probability_of_instance(I,P):-
+% %    rdf_has(Inf,knowrob:objectActedOn,I),
+% %    rdf_has(Inf,knowrob:probability, P).
 
