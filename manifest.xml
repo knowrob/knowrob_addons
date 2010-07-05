@@ -14,6 +14,7 @@
   <depend package="mod_probcog"/>
   <depend package="prolog_perception"/>
   <depend package="mod_vis"/>
+  <depend package="json_prolog"/>
 
 </package>
 
