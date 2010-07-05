@@ -212,7 +212,7 @@ create_tables(LongList, [Table|Tables]) :-
     (rdf_assert(Table, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable'),
 
     % set the pose
-    term_to_atom(rotMat3D-(1)-(0)-(0)-(Xt)-(0)-(1)-(0)-(Yt)-(0)-(0)-(1)-(0)-(0)-(0)-(0)-(1), Loc),
+    atomic_list_concat(['rotMat3D_1_0_0_',Xt,'_0_1_0_',Yt,'_0_0_1_',Zt,'_0_0_0_1'], Loc),
     rdf_assert(Table, knowrob:orientation, Loc),
     create_tables(Rest, Tables))
 
@@ -237,7 +237,7 @@ create_object_instances_from_ros_list(LongList, [Obj|Objs], Index) :-
   rdf_assert(Obj, rdf:type, T),
 
   % set the pose
-  term_to_atom(rotMat3D-(1)-(0)-(0)-(Xo)-(0)-(1)-(0)-(Yo)-(0)-(0)-(1)-(Zo)-(0)-(0)-(0)-(1), Loc),
+  atomic_list_concat(['rotMat3D_1_0_0_',Xo,'_0_1_0_',Yo,'_0_0_1_',Zo,'_0_0_0_1'], Loc),
   rdf_assert(Obj, knowrob:orientation, Loc),
 
   Index1 is Index+1,

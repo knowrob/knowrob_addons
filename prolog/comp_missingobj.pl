@@ -93,28 +93,41 @@ compute_missing_objects(DetectedObjects, RequiredObjects, MissingTypes) :-
 % % %
 % % % 
 
-%% compare_inference_probs2(-Delta, +P1, +P2)
-%
-% compare two object classes with their resp. probabilities
-%
-compare_inference_probs2('>', I1, I2) :-
-    probability_of_instance(I1,P1),
-    probability_of_instance(I2,P2),
-    term_to_atom(N1, P1),
-    term_to_atom(N2, P2),
-    N1 < N2.
-
-compare_inference_probs2('<', I1, I2) :-
-    probability_of_instance(I1,P1),
-    probability_of_instance(I2,P2),
-    term_to_atom(N1, P1),
-    term_to_atom(N2, P2),
-    N1>=N2.
 
 
-probability_of_instance(I,P):-
-   rdf_has(Inf,knowrob:objectActedOn,I),
-   rdf_has(Inf,knowrob:probability, P).
+% ask for the objects detected in the latest scan of table Table
+% e.g. 'http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable0'
+current_objects_on_table(Table, Object) :-
+    rdfs_instance_of(Perc, knowrob:'VisualPerception'),
+    latest_detection_of_instance(Table, P),
+    rdf_has(Perc, knowrob:objectActedOn, Object),
+    rdf_has(P, knowrob:startTime, Pstart),
+    rdf_has(Perc, knowrob:startTime, Pstart),
+    Object\=Table.
+
+
+% % %% compare_inference_probs2(-Delta, +P1, +P2)
+% % %
+% % % compare two object classes with their resp. probabilities
+% % %
+% % compare_inference_probs2('>', I1, I2) :-
+% %     probability_of_instance(I1,P1),
+% %     probability_of_instance(I2,P2),
+% %     term_to_atom(N1, P1),
+% %     term_to_atom(N2, P2),
+% %     N1 < N2.
+% % 
+% % compare_inference_probs2('<', I1, I2) :-
+% %     probability_of_instance(I1,P1),
+% %     probability_of_instance(I2,P2),
+% %     term_to_atom(N1, P1),
+% %     term_to_atom(N2, P2),
+% %     N1>=N2.
+% % 
+% % 
+% % probability_of_instance(I,P):-
+% %    rdf_has(Inf,knowrob:objectActedOn,I),
+% %    rdf_has(Inf,knowrob:probability, P).
 
 
 
@@ -134,14 +147,14 @@ mostLikelyObj(Objs, Probs, MLObj) :-
   rdf_has(MLObj,rdf:type,Type).
 
 
-mostLikelyObjCopID(Objs, Probs, MLObj, CID) :-
-  mostLikelyObj(Objs, Probs, MLObj),
-  rdf_has(MLObj, knowrob:copID, CID).
+% mostLikelyObjCopID(Objs, Probs, MLObj, CID) :-
+%   mostLikelyObj(Objs, Probs, MLObj),
+%   rdf_has(MLObj, knowrob:copID, CID).
 
 
-inferMissingObjects(Instances) :-
-   objects_on_table(_,_),!,
-   required_objects(Instances).
+% inferMissingObjects(Instances) :-
+%    objects_on_table(_,_),!,
+%    required_objects(Instances).
 
 
 missingObject(Table, MLObj, CID):-
