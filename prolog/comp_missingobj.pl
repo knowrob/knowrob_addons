@@ -54,11 +54,15 @@ comp_missingObjectTypes(Table, MissingTypes) :-
 
   get_timepoint(NOW),
 
+  % call the probabilistic inference engine
+  mod_probcog_tablesetting:required_objects(Table, RequiredObjects),
+
   % find detected objects on table Table
   findall(Curr, holds(on_Physical(Curr, Table), NOW), PerceivedObjects),
 
-  % call the probabilistic inference engine
-  mod_probcog_tablesetting:required_objects(_),
+  print('perceived:'), print(PerceivedObjects),print('\n'),
+
+  print('required:'), print(RequiredObjects),print('\n'),
 
   compute_missing_objects(PerceivedObjects, MissingTypes).
 
@@ -75,7 +79,7 @@ comp_missingObjectTypes(Table, MissingTypes) :-
 compute_missing_objects(PerceivedObjects, MissingTypes) :-
 
   % get sorted list of elements that have a prob > 0 to be on the table
-  latest_inferred_object_set(RequiredObjectTypes),
+  latest_inferred_object_types(RequiredObjectTypes),
 
   % read types of objects on the table
   findall(T, (member(O, PerceivedObjects), rdf_has(O, rdf:type, T)), DetectedObjectTypes),
