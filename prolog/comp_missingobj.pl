@@ -28,11 +28,14 @@
     [
 %       vis_all_objects_on_table/1,
 %       vis_all_objects_inferred/3,
-      comp_missingObjectTypes/2
+      comp_missingObjectTypes/4,
+      current_objects_on_table/2,
+      visualize_perceived_objects/1,
+      visualize_missing_objects/1
     ]).
 
 :-  rdf_meta
-    comp_missingObjectTypes(r, r),
+    comp_missingObjectTypes(r, r, r, r),
     current_objects_on_table(r,r).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,7 +53,7 @@
 % @param Table        Instance of a KitchenTable on which the setup is to be completed
 % @param MissingTypes List of object types that should be on the table given the current setup
 %
-comp_missingObjectTypes(Table, MissingTypes) :-
+comp_missingObjectTypes(Table, PerceivedObjects, MissingInstances, MissingTypes) :-
 
   get_timepoint(NOW),
 
@@ -60,11 +63,7 @@ comp_missingObjectTypes(Table, MissingTypes) :-
   % find detected objects on table Table
   findall(Curr, holds(on_Physical(Curr, Table), NOW), PerceivedObjects),
 
-  print('perceived:'), print(PerceivedObjects),print('\n'),
-
-  print('required:'), print(RequiredObjects),print('\n'),
-
-  compute_missing_objects(PerceivedObjects, MissingTypes).
+  compute_missing_objects(PerceivedObjects, MissingInstances, MissingTypes).
 
 
 
@@ -76,16 +75,18 @@ comp_missingObjectTypes(Table, MissingTypes) :-
 % @param PerceivedObjects  List of objects detected on a table
 % @param MissingTypes      List of object types that should be on that table given the current setup
 %
-compute_missing_objects(PerceivedObjects, MissingTypes) :-
+compute_missing_objects(PerceivedObjects, MissingInstances, MissingTypes) :-
 
   % get sorted list of elements that have a prob > 0 to be on the table
-  latest_inferred_object_types(RequiredObjectTypes),
+  latest_inferred_object_set(RequiredObjects),
+  findall(ObjT, (member(Obj, RequiredObjects), rdf_has(Obj, rdf:type, ObjT)), RequiredObjectTypes),
 
   % read types of objects on the table
-  findall(T, (member(O, PerceivedObjects), rdf_has(O, rdf:type, T)), DetectedObjectTypes),
+  findall(T, (member(O, PerceivedObjects), rdf_has(O, rdf:type, T)), PerceivedObjectTypes),
 
   % find all objects that should be on the table, but are not member of the set of observed objects
-  findall(ReqO, (member(ReqO, RequiredObjectTypes), not(member(ReqO, DetectedObjectTypes))), MissingTypes).
+  findall(ReqO,  (member(ReqO,  RequiredObjects),     not(member(ReqO,  PerceivedObjects))),    MissingInstances),
+  findall(ReqOT, (member(ReqOT, RequiredObjectTypes), not(member(ReqOT, PerceivedObjectTypes))), MissingTypes).
 
 
 
@@ -100,9 +101,7 @@ current_objects_on_table(T, Curr) :-
 % that are perceived on top of one of these tables
 visualize_perceived_objects(PerceivedObjects) :-
 
-  rdfs_instance_of(Table, knowrob:'KitchenTable'),
-  add_object_perception(Table, _),
-
+  findall(Table, (rdfs_individual_of(Table, knowrob:'KitchenTable'), add_object_perception(Table, _)), _),
   findall(Obj, (member(Obj, PerceivedObjects), add_object_perception(Obj, _)), _).
 
 
