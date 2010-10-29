@@ -29,6 +29,7 @@
 %       vis_all_objects_on_table/1,
 %       vis_all_objects_inferred/3,
       comp_missingObjectTypes/4,
+      comp_missingObjectTypes/3,
       current_objects_on_table/2,
       visualize_perceived_objects/1,
       visualize_missing_objects/1
@@ -44,26 +45,56 @@
 
 
 
-%% comp_missingObjectTypes(+Table, -Missing)
+%% comp_missingObjectTypes(+Table, -PerceivedObjects, -MissingInstances, -MissingTypes)
 %
 % check which objects are on the table, use prob inference to determine which ones
 % should be, compare both and create instances of the missing items with an existence
 % probability as determined by the prob inference procedure
 %
-% @param Table        Instance of a KitchenTable on which the setup is to be completed
-% @param MissingTypes List of object types that should be on the table given the current setup
 %
 comp_missingObjectTypes(Table, PerceivedObjects, MissingInstances, MissingTypes) :-
 
   get_timepoint(NOW),
 
   % call the probabilistic inference engine
-  mod_probcog_tablesetting:required_objects(Table, RequiredObjects),
+  mod_probcog_tablesetting:required_objects(Table, _RequiredObjects),
 
   % find detected objects on table Table
   findall(Curr, holds(on_Physical(Curr, Table), NOW), PerceivedObjects),
 
   compute_missing_objects(PerceivedObjects, MissingInstances, MissingTypes).
+
+
+
+%% comp_missingObjectTypes(PerceivedObjects, MissingInstances, MissingTypes)
+%
+% simplified predicate for the ROS Fall School
+%
+% Does not take the pose of objects into account, but assumes all perceived
+% objects to be evidence
+%
+%
+comp_missingObjectTypes(PerceivedObjects, MissingInstances, MissingTypes) :-
+
+  % call the probabilistic inference engine
+  mod_probcog_tablesetting:required_objects(_),
+
+  % determine perceived objects
+  findall(Obj, current_objects_on_table(_, Obj), PerceivedObjects),
+
+  compute_missing_objects(PerceivedObjects, MissingInstances, MissingTypes).
+
+% actual version:
+% current_objects_on_table(T, Curr) :-
+%   objects_on_table(_, _),
+%   get_timepoint(NOW),
+%   holds(on_Physical(Curr, T), NOW).
+
+% simplified version for the ROS Fall School
+current_objects_on_table(_, Curr) :-
+        latest_perceptions_of_types('http://ias.cs.tum.edu/kb/knowrob.owl#HumanScaleObject', LatestPerceptions),
+        member(Perc, LatestPerceptions),
+        rdf_has(Perc, knowrob:objectActedOn, Curr).
 
 
 
@@ -89,12 +120,6 @@ compute_missing_objects(PerceivedObjects, MissingInstances, MissingTypes) :-
   findall(ReqOT, (member(ReqOT, RequiredObjectTypes), not(member(ReqOT, PerceivedObjectTypes))), MissingTypes).
 
 
-
-% backwards compatibility
-current_objects_on_table(T, Curr) :-
-  objects_on_table(_, _),
-  get_timepoint(NOW),
-  holds(on_Physical(Curr, T), NOW).
 
 
 % visualize all tables in the environment and all objects
