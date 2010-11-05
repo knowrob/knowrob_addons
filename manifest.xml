@@ -15,7 +15,7 @@
   <depend package="prolog_perception"/>
   <depend package="mod_vis"/>
   <depend package="json_prolog"/>
-  <depend package="dyn_obj_store"/>
+<!--   <depend package="dyn_obj_store"/> -->
 
 </package>
 
