@@ -1,0 +1,150 @@
+commit 58f4769c00e014a1b49949603a40eb3312e3b319
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Wed Feb 9 13:32:16 2011 +0100
+
+    also moved comp_ehow out of knowrob
+
+commit cc6fc8286921aa7c813f33203d90da4bc0496031
+Author: Lorenz Mösenlechner <moesenle@in.tum.de>
+Date:   Sat Apr 24 15:59:58 2010 -0700
+
+    Created knowrob stack and moved most knowledge packages there.
+
+commit a015ed743c6e21ecbdcb9d35b57f2a0ce4940d5c
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Mon Mar 15 16:17:05 2010 +0100
+
+    fixed problem with local paths in init.pl
+    
+    rosprolog now finds referenced OWL files also when it is not started in the package's prolog directory
+    
+    fixing ticket #37
+
+commit 105666a427934c645008278bce371cf2796f3889
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Mon Mar 15 12:02:33 2010 +0100
+
+    copied changes from OWL repository, revision 225\n\n=Path: owl
+    URL: svn+ssh://svn@svnradig.informatik.tu-muenchen.de/knowledge/trunk/owl
+    Repository Root: svn+ssh://svn@svnradig.informatik.tu-muenchen.de/knowledge
+    Repository UUID: 7519aae1-3b1a-4aea-b015-717ca8ac3afd
+    Revision: 225
+    Node Kind: directory
+    Last Changed Author: tenorth
+    Last Changed Rev: 225
+    Last Changed Date: 2010-03-15 12:00:43 +0100 (Mon, 15 Mar 2010)
+
+commit 68c5de4e0886310e60afb7df33db1239f0cd1109
+Author: Lorenz Mösenlechner <moesenle@in.tum.de>
+Date:   Mon Mar 8 19:01:02 2010 +0100
+
+    Refactoring: renamed all occurrences of inf9 to ias.
+    
+    If something brakes, don't blame me and fix it yourself :)
+
+commit abb451ac1fff22069a3311a39497de2f75a63a47
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Thu Feb 11 16:50:35 2010 +0100
+
+    copied changes from OWL repository, revision 217\n\n=Path: owl
+    URL: svn+ssh://svn@svnradig.informatik.tu-muenchen.de/knowledge/trunk/owl
+    Repository Root: svn+ssh://svn@svnradig.informatik.tu-muenchen.de/knowledge
+    Repository UUID: 7519aae1-3b1a-4aea-b015-717ca8ac3afd
+    Revision: 217
+    Node Kind: directory
+    Last Changed Author: tenorth
+    Last Changed Rev: 217
+    Last Changed Date: 2010-02-11 16:50:13 +0100 (Thu, 11 Feb 2010)
+
+commit 35c348ae6770bf5d868c48fddc83591d6f317dd5
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Tue Feb 2 17:47:20 2010 +0100
+
+    added wiki urls to the manifest files in knowledge-related packages
+
+commit a122d1573060e272366567117b33d73a5d40528e
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Tue Feb 2 10:54:03 2010 +0100
+
+    copied changes from OWL repository, revision 199\n\n=Path: owl
+    URL: svn+ssh://svn@svnradig.informatik.tu-muenchen.de/knowledge/trunk/owl
+    Repository Root: svn+ssh://svn@svnradig.informatik.tu-muenchen.de/knowledge
+    Repository UUID: 7519aae1-3b1a-4aea-b015-717ca8ac3afd
+    Revision: 199
+    Node Kind: directory
+    Last Changed Author: tenorth
+    Last Changed Rev: 199
+    Last Changed Date: 2010-02-02 10:49:29 +0100 (Tue, 02 Feb 2010)
+
+commit 1bb032944b80528f149397889f74c16ae7643b25
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Mon Feb 1 14:49:44 2010 +0100
+
+    changed init.pl mechanism: modules now always load themselves when they are initalized using init.pl
+
+commit c92bc06bed0e7c90e61f48da87833180fb9e89db
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Tue Jan 26 11:39:36 2010 +0100
+
+    fixed path problem with OWL_PREFIX
+
+commit 137d683aa61ba1cdf171f81cb5f4b50e7d4212b2
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Mon Jan 25 18:18:10 2010 +0100
+
+    * several fixes - trying to make the KnowRob system work in ROS
+    
+    * partially working, but especially the JPL-related packages still WIP
+
+commit b9e324e70ea671c06e13902ed40e70eadb344300
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Mon Jan 25 16:16:58 2010 +0100
+
+    Much refactoring of the knowledge processing system
+    
+    * updated OWL and Prolog files
+    * created sensible dependency structure
+    * init.pl-hierarchy
+    * moved some files to the correct destination, removed duplicate jar files
+    * checked licenses, authors, dependencies
+
+commit 7f47ef06c05350b6bfd240e3d437f52e4898b430
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Sun Jan 24 16:29:48 2010 +0100
+
+    * added separate owl files for computable definitions
+    * updated computable files
+
+commit 8de39fbe8edfa99018b4909a2e2fe09932005264
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Wed Dec 2 14:34:22 2009 +0100
+
+    - adapted URLs from www9 to ias.cs.tum.edu
+    
+    - renamed kitchen.owl to knowrob.owl
+    
+    - switched to generic knowledge base user, removing person-specific URLs like ~tenorth
+
+commit dea39316b0898a726314caeb8d13281c7cd41959
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Tue Nov 24 20:56:57 2009 +0100
+
+    * added authors and licenses for the knowledge processing stuff
+
+commit fb03bf544043a38794c71359d59ef5da9ed9d0ee
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Fri Oct 16 16:29:56 2009 +0200
+
+    fixed quoting problem with library includes
+
+commit 476e658a35b4b73954d8eafa779ccca214e016da
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Fri Oct 16 16:17:17 2009 +0200
+
+    changed package names related to the move in the prev commit
+
+commit 77b86a96cb2501c0fa964f395b76404f0d0347aa
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Fri Oct 16 16:04:35 2009 +0200
+
+    moved from inf9_comp_* to comp_*
