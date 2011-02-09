@@ -1,0 +1,11 @@
+commit 2981ef823e9656f965ba603ee3b34e8138796cb7
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Wed Feb 9 14:40:18 2011 +0100
+
+    rosdep.yaml for ant now local for the mary_tts package
+
+commit 32492eebcc39eea108c1de9cccb844373f4a31b2
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Wed Feb 9 13:28:06 2011 +0100
+
+    moved opencyc, mary_tts and mod_dialog out of knowrob stack (to reduce its size)
