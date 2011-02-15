@@ -1,0 +1,5 @@
+commit 32492eebcc39eea108c1de9cccb844373f4a31b2
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Wed Feb 9 13:28:06 2011 +0100
+
+    moved opencyc, mary_tts and mod_dialog out of knowrob stack (to reduce its size)
