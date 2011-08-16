@@ -11,7 +11,7 @@
   <url>http://ros.org/wiki/mod_dialog</url>
 
   <depend package="mod_vis"/>
-  <depend package="rosjava"/>
+  <depend package="rosjava_jni"/>
   <depend package="std_msgs"/>
   <depend package="mary_tts"/>
   <depend package="comp_ehow"/>
