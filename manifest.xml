@@ -15,7 +15,7 @@
   <depend package="ias_knowledge_base"/>
   <depend package="opencyc"/>
   <depend package="mod_vis"/>
-  <depend package="rosjava"/>
+  <depend package="rosjava_jni"/>
   <depend package="comp_cop"/> <!-- TODO MT: depend only because of httpclient, refactor this! -->
 
   <export>
