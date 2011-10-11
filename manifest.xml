@@ -11,7 +11,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/mary_tts</url>
 
-  <depend package="rosjava"/>
+  <depend package="rosjava_jni"/>
   <depend package="std_msgs"/>
   <rosdep name="ant" />
 </package>
