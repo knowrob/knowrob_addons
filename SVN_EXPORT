@@ -1,11 +1,11 @@
-commit 4b36c6e7497a5a9042bd3326631e50fde396e678
+commit 15288c970c66e1c39b87ec6c88e06dda4e736479
 Author: Moritz Tenorth <tenorth@cs.tum.edu>
-Date:   Thu Feb 10 15:38:35 2011 +0100
+Date:   Tue Aug 16 07:34:53 2011 +0200
 
-    fixed bug: create wordnet dir during make process
+    updated rosjava reference
 
-commit 3aaed8f2cbb22ddfb1cecf84711c7f23fb74370f
+commit 3e78a6ee5b04440742f183421be94c0357452599
 Author: Moritz Tenorth <tenorth@cs.tum.edu>
-Date:   Wed Feb 9 14:41:55 2011 +0100
+Date:   Thu Feb 10 15:39:10 2011 +0100
 
     public export
