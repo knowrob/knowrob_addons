@@ -1,5 +1,11 @@
-commit 32492eebcc39eea108c1de9cccb844373f4a31b2
+commit 15288c970c66e1c39b87ec6c88e06dda4e736479
 Author: Moritz Tenorth <tenorth@cs.tum.edu>
-Date:   Wed Feb 9 13:28:06 2011 +0100
+Date:   Tue Aug 16 07:34:53 2011 +0200
 
-    moved opencyc, mary_tts and mod_dialog out of knowrob stack (to reduce its size)
+    updated rosjava reference
+
+commit 9d7c101545836aa841099a28e49f69da6d1bff98
+Author: Moritz Tenorth <tenorth@cs.tum.edu>
+Date:   Tue Feb 15 13:42:35 2011 +0100
+
+    public export
