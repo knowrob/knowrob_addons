@@ -42,21 +42,14 @@
 
 :- module(comp_ehow,
     [
-      comp_forCommand/2,
-      matching_actions/2,
-      plan_subevents/2,
-      plan_subevents_recursive/2,
-      plan_objects/2,
-      action_properties/3,
-      action_objectActedOn/2,
-      action_toLocation/2,
-      action_fromLocation/2
+      comp_forCommand/2
     ]).
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs_computable')).
 :- use_module(library('jpl')).
+:- use_module(library('knowrob_actions')).
 :- jpl_set_default_jvm_opts(['-Xmx2048M']).
 
 :- owl_parser:owl_parse('../owl/comp_ehow.owl', false, false, true).
@@ -80,7 +73,7 @@
 %
 % @param Pre Identifier of the earlier time point
 % @param After Identifier of the later time point
-% 
+%
 comp_forCommand(Plan, Command) :-
   var(Plan), nonvar(Command),
   jpl_new('instruction.exporter.owl.OWLExporter', [], OWLExp),
@@ -88,142 +81,3 @@ comp_forCommand(Plan, Command) :-
   owl_parse(F, false, false, true),
   rdf_has(Plan, rdfs:label, literal(type('http://www.w3.org/2001/XMLSchema#string', Command))).
 
-
-
-%% plan_subevents(+Plan, ?SubEvents) is semidet.
-%
-% Read all sub-event classes of the imported plan, i.e. single actions that need to be taken
-%
-% @param Plan Plan identifier
-% @param SubEvents List of sub-events of the plan
-%
-plan_subevents(Plan, SubEvents) :-
-  findall(SubEvent, ( owl_has(Plan, rdfs:subClassOf, D),
-                      owl_has(D, owl:intersectionOf, I),
-                      rdfs_member(R, I),
-                      rdf_has(R, owl:onProperty, knowrob:'subAction'),
-                      rdf_has(R, owl:someValuesFrom, SubEvent)), Sub),
-  predsort(compare_actions_partial_order, Sub, SubEvents).
-
-
-%% plan_subevents_recursive(+Plan, ?SubEvents) is semidet.
-%
-% Recursively read all sub-event classes of the imported plan, i.e. single actions that need to be taken
-%
-% @param Plan Plan identifier
-% @param SubEvents List of sub-events of the plan
-%
-plan_subevents_recursive(Plan, SubEvents) :-
-  plan_subevents_recursive_1(Plan, Sub),
-  flatten(Sub,SubEvents).
-
-% simple case: no subevents, return action itself
-plan_subevents_recursive_1(Plan, []) :-
-  plan_subevents(Plan, []).
-
-% if there are subevents, iterate
-plan_subevents_recursive_1(Plan, [Plan|SubSubEvents]) :-
-  plan_subevents(Plan, SubEvents),
-
-  findall(SubSubEvent, (member(SubEvent, SubEvents),
-                       plan_subevents_recursive_1(SubEvent, SubSubEvent)), SubSubEvents).
-
-
-
-
-%% plan_objects(+Plan, -Objects) is semidet.
-%
-% Read all objects mentioned in sub-actions of the imported plan
-%
-% @param Plan Plan identifier
-% @param SubEvents List of objects of the plan
-plan_objects(Plan, Objects) :-
-  plan_subevents(Plan, SubEvents),
-  findall(Obj,
-    (member(SubEvent, SubEvents),
-     action_objectActedOn(SubEvent, Obj)), Objects).
-
-
-%% action_objectActedOn(?Action, ?Object) is nondet.
-%
-% Reads the objectActedOn for a TBOX action description
-%
-action_objectActedOn(Action, Object) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_direct_subclass_of(Sup, Sup2),
-        owl_restriction(Sup2,restriction(knowrob:'objectActedOn', some_values_from(Object))).
-action_objectActedOn(Action, Object) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_restriction(Sup,restriction(knowrob:'objectActedOn', some_values_from(Object))).
-
-%% action_toLocation(?Action, ?Loc) is nondet.
-%
-% Reads the toLocation for a TBOX action description
-%
-action_toLocation(Action, Loc) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_direct_subclass_of(Sup, Sup2),
-        owl_restriction(Sup2,restriction(knowrob:'toLocation', some_values_from(Loc))).
-action_toLocation(Action, Loc) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_restriction(Sup,restriction(knowrob:'toLocation', some_values_from(Loc))).
-
-%% action_fromLocation(?Action, ?Loc) is nondet.
-%
-% Reads the fromLocation for a TBOX action description
-%
-action_fromLocation(Action, Loc) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_direct_subclass_of(Sup, Sup2),
-        owl_restriction(Sup2,restriction(knowrob:'fromLocation', some_values_from(Loc))).
-action_fromLocation(Action, Loc) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_restriction(Sup,restriction(knowrob:'fromLocation', some_values_from(Loc))).
-
-
-%% action_properties(?Action, ?Prop, ?Val) is nondet.
-%
-% Reads all action properties for a TBOX action description
-%
-action_properties(Action, Prop, Val) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_direct_subclass_of(Sup, Sup2),
-        owl_restriction(Sup2,restriction(Prop, some_values_from(Val))).
-action_properties(Action, Prop, Val) :-
-        owl_direct_subclass_of(Action, Sup),
-        owl_restriction(Sup,restriction(Prop, some_values_from(Val))).
-
-
-
-
-%% matching_actions(?Plan, ?Act) is semidet.
-%
-% Search for action instances that fit the classes described in the imported plan
-%
-% @param Plan Plan identifier
-% @param Act Matching actions
-matching_actions(Plan, Act) :-
-  plan_subevents(Plan, SubEvents),
-  rdf_has(Act, rdf:type, knowrob:'PuttingSomethingSomewhere'),
-  member(ActCl, SubEvents),
-  owl_individual_of(Act, ActCl).
-
-
-%% compare_actions_partial_order(-Rel, +Act1, +Act2) is semidet.
-%
-% Compare predicate to be used in predsort for sorting a list of actions
-% based on partial-order constraints
-%
-% Checks if there is an ordering constraint that has these two actions as before/after
-% TODO: can we check if these constraints belong to the current task?
-%
-compare_actions_partial_order('<', Act1, Act2) :-
-  owl_has(Constraint, knowrob:occursBeforeInOrdering, Act1),
-  owl_has(Constraint, knowrob:occursAfterInOrdering, Act2),!.
-
-compare_actions_partial_order('>', Act1, Act2) :-
-  owl_has(Constraint, knowrob:occursBeforeInOrdering, Act2),
-  owl_has(Constraint, knowrob:occursAfterInOrdering, Act1),!.
-
-% default: keep ordering if there are no matching ordering constraints
-compare_actions_partial_order('<', _, _).
