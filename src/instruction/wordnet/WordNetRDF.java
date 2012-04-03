@@ -208,7 +208,7 @@ public class WordNetRDF {
 	@SuppressWarnings("unused")
 	private static void cacheIrregularNouns() throws IOException,
 			WordNetException {
-		File noun_exc = new File(absoluteFilePath("etc/wordnet/noun.exc"));
+		File noun_exc = new File(absoluteFilePath("wordnet/noun.exc"));
 		if (!noun_exc.exists())
 			throw new FileNotFoundException(
 					"Mapping File for irregular Noun forms ("
