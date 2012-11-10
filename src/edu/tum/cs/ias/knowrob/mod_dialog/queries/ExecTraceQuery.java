@@ -3,7 +3,7 @@ package edu.tum.cs.ias.knowrob.mod_dialog.queries;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.tum.in.fipm.kipm.gui.visualisation.applets.CommunicationVisApplet;
+import edu.tum.cs.ias.knowrob.vis.applets.CommunicationVisApplet;
 import edu.tum.cs.ias.knowrob.mod_dialog.DialogModule;
 
 
