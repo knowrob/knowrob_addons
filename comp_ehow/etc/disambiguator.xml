@@ -41,7 +41,7 @@
   <dependency count="3" evidence="" />
   <dependency count="1" evidence="from" />
  </action>
- <action name="DoingAddition" count="2">
+ <action name="AddingSomething" count="2">
   <dependency count="2" evidence="" />
  </action>
  <action name="Incorporation-Physical" count="3">
@@ -177,7 +177,7 @@
   <dependency count="1" evidence="PreparingFoodOrDrink" />
  </object>
  <object name="TableSalt">
-  <dependency count="1" evidence="DoingAddition" />
+  <dependency count="1" evidence="AddingSomething" />
  </object>
  <object name="AcademicQuarter">
   <dependency count="1" evidence="SlicingSomething" />
@@ -284,7 +284,7 @@
   <dependency count="1" evidence="PuttingSomethingSomewhere" />
  </object>
  <object name="Pasta">
-  <dependency count="1" evidence="DoingAddition" />
+  <dependency count="1" evidence="AddingSomething" />
   <dependency count="1" evidence="Stirring" />
   <dependency count="2" evidence="CookingFood" />
   <dependency count="1" evidence="EatingAMorsel" />

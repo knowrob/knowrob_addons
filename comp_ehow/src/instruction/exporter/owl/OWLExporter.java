@@ -6,6 +6,7 @@ import instruction.importer.PlanImporter;
 import instruction.semanticObjects.Instruction;
 import instruction.semanticObjects.ObjectX;
 import instruction.semanticObjects.Preposition;
+import instruction.semanticObjects.Quantifier;
 import instruction.semanticObjects.Word;
 import instruction.wrapper.LocalFileWrapper;
 
@@ -25,6 +26,8 @@ import java.util.Set;
 import edu.stanford.smi.protege.exception.OntologyLoadException;
 import edu.stanford.smi.protegex.owl.ProtegeOWL;
 import edu.stanford.smi.protegex.owl.model.OWLClass;
+import edu.stanford.smi.protegex.owl.model.OWLDatatypeProperty;
+import edu.stanford.smi.protegex.owl.model.OWLIndividual;
 import edu.stanford.smi.protegex.owl.model.OWLModel;
 import edu.stanford.smi.protegex.owl.model.OWLNamedClass;
 import edu.stanford.smi.protegex.owl.model.OWLObjectProperty;
@@ -39,14 +42,15 @@ public class OWLExporter {
 		ConfigurationManager.loadSettings();
 	}
 	
-	public static final String KITCHEN_ONTOLOGY_URI = ConfigurationManager.getPathKnowRob();
+	public static final String KNOWROB_URI = ConfigurationManager.getPathKnowRob();
 	public static final String ABSTRACT_ACTION_CLASS = "knowrob:Action";
 	public static final String ABSTRACT_OBJECT_CLASS = "knowrob:SpatialThing-Localized";
 	public static final String ABSTRACT_OBJECT_PROPERTY = "knowrob:spatiallyRelated";
 
 	private static Map<String, OWLNamedClass> actionStore = new HashMap<String, OWLNamedClass>();
 	private static Map<String, OWLNamedClass> objectStore = new HashMap<String, OWLNamedClass>();
-	private static Map<String, OWLObjectProperty> propertyStore = new HashMap<String, OWLObjectProperty>();
+	private static Map<String, OWLObjectProperty> objPropStore = new HashMap<String, OWLObjectProperty>();
+	private static Map<String, OWLDatatypeProperty> dataPropStore = new HashMap<String, OWLDatatypeProperty>();
 
 	private static int locationCounter = 1;
 
@@ -190,7 +194,7 @@ public class OWLExporter {
 		
 		readAvailableActions();
 		readAvailableObjects();
-		readAvailableObjectProperties();
+		readAvailableProperties();
 
 		ConfigurationManager.loadSettings();
 		ConfigurationManager
@@ -257,6 +261,10 @@ public class OWLExporter {
 				String action = in.getAction().getAction().getCycConcepts()
 						.get(0);
 
+				if(action.equals("Flipping")) {
+					action = "FlippingAnObject";
+				}
+				
 				OWLNamedClass owlClass = actionStore.get(action);
 
 				if (owlClass != null) {
@@ -268,7 +276,7 @@ public class OWLExporter {
 					// Set the restriction on the "subEvents" property of the
 					// complex task
 					OWLSomeValuesFrom value = owlModel.createOWLSomeValuesFrom(
-							propertyStore.get("subEvents"), actionClass);
+							objPropStore.get("subAction"), actionClass);
 
 					// Set the restriction on the "objectActedOn" property
 					List<ObjectX> objects = in.getObjects();
@@ -283,7 +291,7 @@ public class OWLExporter {
 
 						String mappedName = objectDesignator;
 						if (objectStore.get(mappedName) != null) {
-							OWLSomeValuesFrom objectActedOn = owlModel.createOWLSomeValuesFrom(propertyStore
+							OWLSomeValuesFrom objectActedOn = owlModel.createOWLSomeValuesFrom(objPropStore
 																		.get("objectActedOn"), objectStore
 																		.get(mappedName));
 							objectRestrictions.add(objectActedOn);
@@ -291,6 +299,8 @@ public class OWLExporter {
 							System.err.println("Unkown Object Class: " + mappedName);
 					}
 
+					
+					// handle prepositional constraints
 					if (in.getPrepositions().size() > 0) {
 						Preposition p = in.getPrepositions().get(0);
 						if (p.getObjects().size() > 0) {
@@ -299,12 +309,33 @@ public class OWLExporter {
 							if (locations != null && (p.getPrepositions().contains(new Word( Word.TYPE_PREPOSITION, "from")) ||
 									p.getPrepositions().contains(new Word( Word.TYPE_PREPOSITION, "off"))))
 								objectRestrictions.add(owlModel
-										.createOWLSomeValuesFrom(propertyStore
+										.createOWLSomeValuesFrom(objPropStore
 												.get("fromLocation"), locations));
 							else if (locations != null)
 								objectRestrictions.add(owlModel
-										.createOWLSomeValuesFrom(propertyStore
+										.createOWLSomeValuesFrom(objPropStore
 												.get("toLocation"), locations));
+						}
+					}
+
+					// handle time constraints in the instructions
+					if (in.getTimeConstraint() != null) {
+						
+						Quantifier q = in.getTimeConstraint();
+						if (q.getMeasure() != null) {
+							
+							float duration = Float.valueOf(q.getAlternatives().get(0).getLabel());
+
+							if(q.getMeasure().getLabel().contains("inutes")) {
+								duration *= 60;
+								
+							} else if (q.getMeasure().getLabel().contains("ours")) {
+								duration *= 3600;
+
+							}
+
+							if (duration != 0)
+								objectRestrictions.add(owlModel.createOWLHasValue(dataPropStore.get("duration"), duration));
 						}
 					}
 
@@ -339,6 +370,7 @@ public class OWLExporter {
 
 	
 
+
 	/**
 	 * Read action classes from the KnowRob ontology
 	 * 
@@ -349,7 +381,7 @@ public class OWLExporter {
 
 		try {
 			OWLModel owlModel = ProtegeOWL
-					.createJenaOWLModelFromURI(KITCHEN_ONTOLOGY_URI);
+					.createJenaOWLModelFromURI(KNOWROB_URI);
 
 			OWLNamedClass actionClass = owlModel
 					.getOWLNamedClass(ABSTRACT_ACTION_CLASS);
@@ -382,7 +414,7 @@ public class OWLExporter {
 		try {
 
 			OWLModel owlModel = ProtegeOWL
-					.createJenaOWLModelFromURI(KITCHEN_ONTOLOGY_URI);
+					.createJenaOWLModelFromURI(KNOWROB_URI);
 
 			OWLClass actionClass = owlModel
 					.getOWLNamedClass(ABSTRACT_OBJECT_CLASS);
@@ -405,29 +437,32 @@ public class OWLExporter {
 	}
 
 	/**
-	 * Read object properties from the KnowRob ontology
+	 * Read object and datatype properties from the KnowRob ontology
 	 * 
 	 * @throws InstructionException
 	 */
 	@SuppressWarnings("unchecked")
-	private static void readAvailableObjectProperties()
-			throws InstructionException {
+	private static void readAvailableProperties() 	throws InstructionException {
 
 		try {
 
-			OWLModel owlModel = ProtegeOWL
-					.createJenaOWLModelFromURI(KITCHEN_ONTOLOGY_URI);
+			OWLModel owlModel = ProtegeOWL.createJenaOWLModelFromURI(KNOWROB_URI);
 
+			Collection<OWLObjectProperty> obj_properties = owlModel.getUserDefinedOWLObjectProperties();
 
-			Collection<OWLObjectProperty> properties = owlModel
-					.getUserDefinedOWLObjectProperties();
-
-			for (Iterator<OWLObjectProperty> it = properties.iterator(); it
-					.hasNext();) {
+			for (Iterator<OWLObjectProperty> it = obj_properties.iterator(); it.hasNext();) {
 				OWLObjectProperty prop = it.next();
-				propertyStore.put(prop.getLocalName(), prop);
+				objPropStore.put(prop.getLocalName(), prop);
 			}
 
+			Collection<OWLDatatypeProperty> data_properties = owlModel.getUserDefinedOWLDatatypeProperties();
+
+			for (Iterator<OWLDatatypeProperty> it = data_properties.iterator(); it.hasNext();) {
+				OWLDatatypeProperty prop = it.next();
+				dataPropStore.put(prop.getLocalName(), prop);
+			}
+
+			
 		} catch (OntologyLoadException e) {
 			e.printStackTrace();
 		}
@@ -472,27 +507,27 @@ public class OWLExporter {
 					// properties
 					OWLObjectProperty spatialRelation = null;
 					if (objectPredicate.equalsIgnoreCase("FrontSide"))
-						spatialRelation = propertyStore
+						spatialRelation = objPropStore
 								.get("inFrontOf-Generally");
 					
 					else if (objectPredicate.equalsIgnoreCase("TopSide"))
-						spatialRelation = propertyStore.get("aboveOf");
+						spatialRelation = objPropStore.get("aboveOf");
 					
 					else if (objectPredicate.equalsIgnoreCase("BottomSide"))
-						spatialRelation = propertyStore.get("belowOf");
+						spatialRelation = objPropStore.get("belowOf");
 
 					else if (objectPredicate.equalsIgnoreCase("LeftSide"))
-						spatialRelation = propertyStore.get("toTheLeftOf");
+						spatialRelation = objPropStore.get("toTheLeftOf");
 
 					else if (objectPredicate.equalsIgnoreCase("RightSide"))
-						spatialRelation = propertyStore.get("toTheRightOf");
+						spatialRelation = objPropStore.get("toTheRightOf");
 
 					else if (objectPredicate.equalsIgnoreCase("Side"))
-						spatialRelation = propertyStore.get("toTheSideOf");
+						spatialRelation = objPropStore.get("toTheSideOf");
 
 					else if (objectPredicate
 							.equalsIgnoreCase("CenterOfGeographicalRegion"))
-						spatialRelation = propertyStore.get("center");
+						spatialRelation = objPropStore.get("center");
 
 					if (spatialRelation != null)
 						locationRestrictions.add(owlModel
