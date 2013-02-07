@@ -4,6 +4,7 @@ import instruction.converter.Instruction2CycLConverter;
 import instruction.disambiguator.Disambiguator;
 import instruction.exceptions.InstructionException;
 import instruction.exporter.PlanExporter;
+import instruction.exporter.owl.OWLExporter;
 import instruction.factory.InstructionFactory;
 import instruction.opencyc.OpenCyc20;
 import instruction.postprocessor.InstructionPostProcessor;
@@ -28,7 +29,8 @@ public class PlanImporter {
 	Disambiguator disambiguator = null;
 	InstructionFactory factory = null;
 	InstructionPostProcessor postProc = null;
-	PlanExporter exporter = null;
+	PlanExporter cplExporter = null;
+	OWLExporter owlExporter = null;
 	Instruction2CycLConverter converter = null;
 
 	// Internal store for the generated data structures
@@ -37,8 +39,10 @@ public class PlanImporter {
 	private Instruction instTitle = null;
 	private SyntaxTree parsedTitle = null;
 	private IHowtoWebsiteWrapper wrapper = null;
-	private String rplPlan = null;
+	private String owlRecipe = null;
+	private String cplPlan = null;
 	private String planName = null;
+	private String command = null;
 	private List<String> nlInst = null;
 
 	// Progress Listener registry
@@ -86,9 +90,14 @@ public class PlanImporter {
 			converter = new Instruction2CycLConverter();
 		notifyProgressListeners( 90, "Done.\n" );
 
-		notifyProgressListeners( -1, "Initializing RPL Plan Exporter..." );
-		if ( exporter == null )
-			exporter = PlanExporter.getInstance();
+		notifyProgressListeners( -1, "Initializing CPL Plan Exporter..." );
+		if ( cplExporter == null )
+			cplExporter = PlanExporter.getInstance();
+
+		notifyProgressListeners( -1, "Initializing OWL Exporter..." );
+		if ( owlExporter == null )
+			owlExporter = new OWLExporter(this);
+		
 		notifyProgressListeners( 100, "Done.\n" );
 	}
 
@@ -299,7 +308,7 @@ public class PlanImporter {
 			notifyProgressListeners( 70, "Disambiguating Instructions..." );
 			disambiguator.disambiguateInstructions( instructionList );
 			notifyProgressListeners( 100, "Done.\n" );
-			for (Iterator i = instructionList.iterator(); i.hasNext(); )
+			for (Iterator<Instruction> i = instructionList.iterator(); i.hasNext(); )
 				System.out.println(i.next());
 		}
 		
@@ -324,13 +333,23 @@ public class PlanImporter {
 		planName = converter.getPlanName();
 	}
 
-	public void generateRPLPlan() throws InstructionException {
+	public void generateCPLPlan() throws InstructionException {
 
-		if ( exporter == null )
-			throw new InstructionException( "PlanImporter not initialized." );
+		if ( cplExporter == null )
+			throw new InstructionException( "CPL PlanImporter not initialized." );
+		
+		notifyProgressListeners( 50, "Generating CPL Plan..." );
+		cplPlan = cplExporter.exportPlanToCPL( planName );
+		notifyProgressListeners( 100, "Done.\n" );
+	}
 
-		notifyProgressListeners( 50, "Generating RPL Plan..." );
-		rplPlan = exporter.exportPlanToRPL( planName );
+	public void generateOWLRecipe() throws InstructionException {
+
+		if ( owlExporter == null )
+			throw new InstructionException( "OWLExporter not initialized." );
+
+		notifyProgressListeners( 70, "Generating OWL Recipe..." );
+		owlRecipe = owlExporter.convertHowtoToOWLOntology( command );
 		notifyProgressListeners( 100, "Done.\n" );
 	}
 
@@ -362,9 +381,14 @@ public class PlanImporter {
 		return converter.getAssertions();
 	}
 
-	public String getRPLPlan() {
+	public String getCPLPlan() {
 
-		return rplPlan;
+		return cplPlan;
+	}
+
+	public String getOWLRecipe() {
+
+		return owlRecipe;
 	}
 
 	public IHowtoWebsiteWrapper getWrapper() {
@@ -374,5 +398,13 @@ public class PlanImporter {
 	
 	public void setAddMappingListener(AddCycMappingListener listener) {
 		postProc.setAddMappingListener(listener);
+	}
+
+	public void setCommand(String cmd) {
+		this.command = cmd;
+	}
+	
+	public String getCommand() {
+		return this.command;
 	}
 }

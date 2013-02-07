@@ -173,3 +173,4 @@ add_runtime_classpath(${PROJECT_SOURCE_DIR}/lib/xschema.jar)
 add_java_source_dir(${PROJECT_SOURCE_DIR}/src)
 
 rospack_add_java_executable(ehow_importer instruction.ros.EhowImportService)
+rospack_add_java_executable(ehow_gui instruction.gui.test.InstructionGUITest)

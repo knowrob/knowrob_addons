@@ -5,17 +5,15 @@ import instruction.configuration.ConfigurationManager;
 import instruction.gui.internal.DisambiguationOracle;
 import instruction.gui.internal.PlanImporterWrapper;
 import instruction.gui.tab.BrowserTab;
-import instruction.gui.tab.CycViewTab;
 import instruction.gui.tab.InternalViewTab;
-import instruction.gui.tab.OnlineSearchPanel;
-import instruction.gui.tab.RPLViewTab;
+import instruction.gui.tab.OWLViewTab;
+import instruction.gui.tab.CPLViewTab;
 import instruction.gui.tab.SearchViewTab;
 import instruction.gui.tab.TreeViewTab;
 import instruction.opencyc.OpenCyc;
 import instruction.wrapper.LocalFileWrapper;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
 
 
 public class EHowInstructionPanel extends JPanel {
@@ -39,7 +35,7 @@ public class EHowInstructionPanel extends JPanel {
 	private static final long serialVersionUID = 7862127773357644721L;
 
 	JPanel[] tabs = { new SearchViewTab(), new BrowserTab(), new TreeViewTab(),
-			new InternalViewTab(), new CycViewTab(), new RPLViewTab() };
+			new InternalViewTab(), new OWLViewTab(), new CPLViewTab() };
 
 	JPanel me = this;
 	JComponent bar = null;
@@ -141,8 +137,12 @@ public class EHowInstructionPanel extends JPanel {
 												ConfigurationManager
 														.getDisambiguatorMode());
 								LocalFileWrapper wrp = new LocalFileWrapper();
+
 								String howto = ((SearchViewTab) tabComponent
 										.getSelectedComponent()).getHowtoPath();
+								
+								String cmd = howto; 
+								
 								File dummy = new File(howto);
 								if (dummy.exists())
 									wrp.load(howto);
@@ -156,6 +156,8 @@ public class EHowInstructionPanel extends JPanel {
 
 								PlanImporterWrapper.getImporter().setWrapper(
 										wrp);
+								
+								PlanImporterWrapper.getImporter().setCommand(cmd);
 
 								dlg.setVisible(false);
 								PlanImporterWrapper.getImporter()
@@ -244,6 +246,41 @@ public class EHowInstructionPanel extends JPanel {
 						}
 					}.start();
 				}
+//
+//				else if (idx == 3) {
+//					new Thread() {
+//						public void run() {
+//
+//							try {
+//								InstructionProgressDlg dlg = new InstructionProgressDlg(
+//										null);
+//								dlg
+//										.setLocationRelativeTo(EHowInstructionPanel.this);
+//								dlg.setModal(false);
+//								dlg.setVisible(true);
+//								PlanImporterWrapper.getImporter()
+//										.addProgressListener(dlg);
+//
+//								PlanImporterWrapper.getImporter()
+//										.convert2CycAssertions();
+//
+//								PlanImporterWrapper.getImporter()
+//										.removeProgressListener(dlg);
+//								dlg.setVisible(false);
+//								tabComponent.setSelectedIndex((tabComponent
+//										.getSelectedIndex() + 1)
+//										% tabs.length);
+//								tabComponent.setEnabledAt(4, true);
+//							} catch (Exception e) {
+//								JOptionPane.showMessageDialog(
+//										EHowInstructionPanel.this, e
+//												.getMessage(), "Error",
+//										JOptionPane.ERROR_MESSAGE);
+//								e.printStackTrace();
+//							}
+//						}
+//					}.start();
+//				}
 
 				else if (idx == 3) {
 					new Thread() {
@@ -260,7 +297,7 @@ public class EHowInstructionPanel extends JPanel {
 										.addProgressListener(dlg);
 
 								PlanImporterWrapper.getImporter()
-										.convert2CycAssertions();
+										.generateOWLRecipe();
 
 								PlanImporterWrapper.getImporter()
 										.removeProgressListener(dlg);
@@ -295,8 +332,11 @@ public class EHowInstructionPanel extends JPanel {
 										.addProgressListener(dlg);
 
 								PlanImporterWrapper.getImporter()
-										.generateRPLPlan();
-
+										.convert2CycAssertions();
+								
+								PlanImporterWrapper.getImporter()
+										.generateCPLPlan();
+								
 								PlanImporterWrapper.getImporter()
 										.removeProgressListener(dlg);
 								dlg.setVisible(false);

@@ -10,16 +10,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-public class RPLViewTab extends InstructionTab {
+public class CPLViewTab extends InstructionTab {
 
 	private static final long serialVersionUID = -7985157346179531359L;
 
-	public static String TITLE = "RPL Plan";
+	public static String TITLE = "CPL Plan";
 
 	JScrollPane scroll = null;
 	JTextArea text = null;
 
-	public RPLViewTab () {
+	public CPLViewTab () {
 
 		initialize();
 	}
@@ -37,31 +37,22 @@ public class RPLViewTab extends InstructionTab {
 		addComponentListener( new ComponentListener() {
 
 			public void componentHidden( ComponentEvent e ) {
-
-				// TODO Auto-generated method stub
-
 			}
 
 			public void componentMoved( ComponentEvent e ) {
-
-				// TODO Auto-generated method stub
-
 			}
 
 			public void componentResized( ComponentEvent e ) {
-
-				// TODO Auto-generated method stub
-
 			}
 
 			public void componentShown( ComponentEvent e ) {
 
-				String rpl = PlanImporterWrapper.getImporter().getRPLPlan();
+				String rpl = PlanImporterWrapper.getImporter().getCPLPlan();
 
 				if ( rpl == null )
-					text.setText( "No RPL Plan available" );
+					text.setText( "No CPL Plan available" );
 				else
-					text.setText( PlanImporterWrapper.getImporter().getRPLPlan() );
+					text.setText( PlanImporterWrapper.getImporter().getCPLPlan() );
 
 				SwingUtilities.invokeLater( new Runnable() {
 					public void run() {

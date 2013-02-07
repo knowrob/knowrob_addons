@@ -389,7 +389,7 @@ public class PlanExporter {
 		return cyc.askWithVariables(query, vars, mt);
 	}
 
-	public String exportPlanToRPL(String planName) {
+	public String exportPlanToCPL(String planName) {
 		String res = "";
 		
 		if(actionLocations!=null)
