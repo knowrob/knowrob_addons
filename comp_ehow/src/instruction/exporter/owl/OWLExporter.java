@@ -3,6 +3,7 @@ package instruction.exporter.owl;
 import instruction.configuration.ConfigurationManager;
 import instruction.exceptions.InstructionException;
 import instruction.importer.PlanImporter;
+import instruction.opencyc.OpenCyc20;
 import instruction.semanticObjects.Instruction;
 import instruction.semanticObjects.ObjectX;
 import instruction.semanticObjects.Preposition;
@@ -64,6 +65,21 @@ public class OWLExporter {
 			importer.initialize();
 			
 			this.initOWLConverter();
+			
+			System.out.println("Initializing Plan-Importer...");
+			Map<String, List<String>> mappings = ConfigurationManager.getMappings();
+			
+			Set<String> synsets = mappings.keySet();
+			for (Iterator<String> i = synsets.iterator(); i.hasNext();) {
+				String synset = i.next();
+				List<String> concepts = mappings.get(synset);
+				for (Iterator<String> j = concepts.iterator(); j.hasNext();) {
+					OpenCyc20.getInstance().addMapping(synset, j.next());
+				}
+			}
+			importer.getDisambiguator().load(
+					ConfigurationManager.getPathDisambiguator());
+			System.out.println("Plan-Importer initialized.");
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -201,20 +217,6 @@ public class OWLExporter {
 				.setPathDisambiguator("./etc/disambiguator.xml");
 		ConfigurationManager.setPathHowtos("./howtos");
 
-//		System.out.println("Initializing Plan-Importer...");
-//		Map<String, List<String>> mappings = ConfigurationManager
-//				.getMappings();
-//		Set<String> synsets = mappings.keySet();
-//		for (Iterator<String> i = synsets.iterator(); i.hasNext();) {
-//			String synset = i.next();
-//			List<String> concepts = mappings.get(synset);
-//			for (Iterator<String> j = concepts.iterator(); j.hasNext();) {
-//				OpenCyc20.getInstance().addMapping(synset, j.next());
-//			}
-//		}
-//		importer.getDisambiguator().load(
-//				ConfigurationManager.getPathDisambiguator());
-//		System.out.println("Plan-Importer initialized.");
 		return importer;
 	}
 
