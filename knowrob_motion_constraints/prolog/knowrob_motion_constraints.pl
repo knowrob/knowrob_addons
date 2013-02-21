@@ -22,7 +22,8 @@
     [
       plane_annotation_side_vector/3,
       print_annotation_normal_vectors/1,
-      generate_obj_parts/2
+      generate_obj_parts/2,
+      object_feature/4
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -40,7 +41,8 @@
 :-  rdf_meta
     print_annotation_normal_vectors(r),
     generate_obj_parts(r, -), 
-    plane_annotation_side_vector(r,-,-).
+    plane_annotation_side_vector(r,-,-),
+    object_feature(r, ?, ?, ?).
 %     storagePlaceForBecause(r,r,r),
 %     current_object_pose(r,-).
 
