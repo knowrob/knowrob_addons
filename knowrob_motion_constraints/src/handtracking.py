@@ -52,9 +52,9 @@ class Object():
             #print inv(rot_mat[0:3,0:3].transpose())
             #print feature.dir
             dir = rot_mat[0:3,0:3].transpose() * feature.dir
-            yield Feature(feature.name, feature.type, pos, dir)
+            yield ITasCFeature(feature.name, feature.type, pos, dir)
 
-class Feature():
+class ITasCFeature():
     '''
     Represents an itasc feature and provides methods for transforming
     its coordinates relative to the parent object.
@@ -116,20 +116,20 @@ if __name__ == '__main__':
         object_store.append(obj)
         if not o_type in concept_map: continue
         print 'Object: %s' % obj.name
-        query = knowrob.query("object_feature(%s, FeatureT, Pos, Dir)" % concept_map[o_type])
+        query = knowrob.query("object_feature(%s, ITasCFeatureT, Pos, Dir)" % concept_map[o_type])
         counters = [1] * 3
         for s in query.solutions():
-            featureT = s['FeatureT']
+            featureT = s['ITasCFeatureT']
             pos = numpy.matrix(s['Pos']).transpose()
             dir = numpy.matrix(s['Dir']).transpose()
-            feat_name = '%s/%s.%d'%(obj.name,Feature.NAMES[featureT],counters[featureT])
-            f = Feature(featureT, feat_name, pos, dir)
+            feat_name = '%s/%s.%d'%(obj.name,ITasCFeature.NAMES[featureT],counters[featureT])
+            f = ITasCFeature(featureT, feat_name, pos, dir)
             obj.features.append(f)
-            print '  Feature: %s, %s, pos:%s, dir:%s' % (feat_name, Feature.NAMES[featureT], str(pos), str(dir))
+            print '  ITasCFeature: %s, %s, pos:%s, dir:%s' % (feat_name, ITasCFeature.NAMES[featureT], str(pos), str(dir))
             counters[featureT] += 1
     
     # start ros node and broadcast all poses for each single frame
-    pub = rospy.Publisher('handtracking', PoseStamped)
+    pub = rospy.Publisher('handtracking', Feature)
     #rospy.init_node('handtracking')
     for frame_idx, frame in enumerate(frames):
         rot_mats = frame['mats']
@@ -139,12 +139,13 @@ if __name__ == '__main__':
             #obj_pos = rot_mat[0:3,3]
             #obj_dir = rot_mat[0:3,0:3]
             for feature in obj.iterFeaturePoses(rot_mat):
-                msg_frame = 'ref_frame_name?'
-                pos_vect = Vector3(float(feature.pos[0]), float(feature.pos[2]), float(feature.pos[3]))
-                dir_vect = Vector3(float(feature.dir[0]), float(feature.dir[2]), float(feature.dir[3]))
+                msg_frame = 'ref_frame_name'
+                pos_vect = Vector3(float(feature.pos[0]), float(feature.pos[1]), float(feature.pos[2]))
+                dir_vect = Vector3(float(feature.dir[0]), float(feature.dir[1]), float(feature.dir[2]))
                 contactdir_vect = Vector3(0, 0, 0)
-                feat_msg = Feature(msg_frame, feature.name, feature.type, pos_vect, dir_vect, contactdir_vect)
-                print "publishing..."
+                feat_msg = Feature(msg_frame, feature.type, feature.name, pos_vect, dir_vect, contactdir_vect)
+                print "publishing... "
+                print feat_msg
                 pub.publish(feat_msg)
                 #header = Header(frame_idx, timestamp, feature.name)
                 #pos_coord = map(lambda x: '%d'%x[0], feature.pos.tolist())
