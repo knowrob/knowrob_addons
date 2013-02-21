@@ -14,6 +14,9 @@
   <depend package="rospy"/>
   <depend package="knowrob_mesh_reasoning"/>
   <depend package="knowrob_cad_models"/>
+  <depend package="tf"/>
+  <depend package="constraint_msgs"/>
+  <depend package="json_prolog"/>
 </package>
 
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 Created on Feb 19, 2013
 
@@ -9,7 +10,7 @@ import fnmatch
 import numpy
 from numpy.linalg import inv
 import roslib
-roslib.load_manifest('json_prolog')
+roslib.load_manifest('knowrob_motion_constraints')
 import json_prolog
 import rospy
 import tf
@@ -35,13 +36,20 @@ class Object():
         self.name = name
         if features is None:
             self.features = []
-        self.features = features
+        else:
+            self.features = features
         
     def iterFeaturePoses(self, rot_mat):
         for feature in self.features:
-            pos = numpy.matrix(feature.pos.tolist()+[1]).transpose()
-            pos = (rot_mat * pos)[:2]
-            dir = inv(feature.dir[0:3,0:3])
+            
+            pos = numpy.vstack((feature.pos,[1.0],))
+            #print pos, type(pos)
+            #print rot_mat, type(rot_mat)
+            pos = (rot_mat * pos)[:3]
+            #print rot_mat[0:3,0:3]
+            #print inv(rot_mat[0:3,0:3].transpose())
+            #print feature.dir
+            dir = rot_mat[0:3,0:3].transpose() * feature.dir
             yield Feature(feature.name, feature.type, pos, dir)
 
 class Feature():
@@ -60,10 +68,10 @@ class Feature():
         self.pos = pos
         self.dir = dir
 
-concept_map = {'plate.obj': 'knowrob:DinnerPlate',
-               'spatula.obj': 'knowrob:Spatula',
-               'pancake.obj': 'knowrob:Pancake',
-               'mixer.obj': 'knowrob:PancakeMaker'}
+concept_map = {'plate.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#DinnerPlate'",
+               'spatula.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#Spatula'",
+               'pancake.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#Pancake'",
+               'mixer.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#PancakeMaker'"}
 
 if __name__ == '__main__':
     # extract frames
@@ -72,7 +80,7 @@ if __name__ == '__main__':
     solutions = map(lambda f: scipy.loadmat(os.path.join('..', 'data', scenario,f)), sorted(fnmatch.filter(os.listdir(os.path.join('..', 'data', scenario)), 'solution*.mat')))   
 
     # extract object classes from data
-    meshes = scipy.loadmat(os.path.join(scenario, 'mesh_filenames'))['filenames']
+    meshes = scipy.loadmat(os.path.join('..', 'data', scenario, 'mesh_filenames'))['filenames']
     classes = []
     for m in meshes:
         for p in m: pass
@@ -106,20 +114,21 @@ if __name__ == '__main__':
         object_store.append(obj)
         if not o_type in concept_map: continue
         print 'Object: %s' % obj.name
-        query = knowrob.query("features(ObjT, FeatureT, Pos, Dir).")
+        query = knowrob.query("object_feature(%s, FeatureT, Pos, Dir)" % concept_map[o_type])
         counters = [1] * 3
         for s in query.solutions():
             featureT = s['FeatureT']
             pos = numpy.matrix(s['Pos']).transpose()
             dir = numpy.matrix(s['Dir']).transpose()
-            feat_name = '%s/%s.%d'%(obj.name,counters[featureT])
+            feat_name = '%s/%s.%d'%(obj.name,Feature.NAMES[featureT],counters[featureT])
             f = Feature(featureT, feat_name, pos, dir)
+            obj.features.append(f)
             print '  Feature: %s, %s, pos:%s, dir:%s' % (feat_name, Feature.NAMES[featureT], str(pos), str(dir))
             counters[featureT] += 1
     
     # start ros node and broadcast all poses for each single frame
     pub = rospy.Publisher('handtracking', PoseStamped)
-    rospy.init_node('handtracking')
+    #rospy.init_node('handtracking')
     for frame_idx, frame in enumerate(frames):
         rot_mats = frame['mats']
         timestamp = Time(time.time())
@@ -127,11 +136,15 @@ if __name__ == '__main__':
             if len(obj.features) == 0: continue
             obj_pos = rot_mat[0:3,3]
             obj_dir = rot_mat[0:3,0:3]
-            for feature in obj.iterFeaturePoses(obj_pos, obj_dir):
+            for feature in obj.iterFeaturePoses(rot_mat):
                 header = Header(frame_idx, timestamp, feature.name)
-                position = Pose(Point(feature.pos))
-                orientation = Quaternion(feature.dir)
+                pos_coord = map(lambda x: '%d'%x[0], feature.pos.tolist())
+                position = Point(pos_coord[0], pos_coord[1], pos_coord[2])
+                dir_coord = map(lambda x: '%d'%x[0], feature.dir.tolist())
+                print dir_coord
+                orientation = Quaternion(dir_coord[0], dir_coord[1], dir_coord[2], dir_coord[3])
                 pose = Pose(position, orientation)
+                print("publishing...\n")
                 pub.publish(PoseStamped(header, pose))
         rospy.sleep(1.0)
 

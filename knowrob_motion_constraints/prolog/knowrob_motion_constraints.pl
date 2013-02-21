@@ -61,17 +61,17 @@ object_feature(ObjClass, FeatureType, FeaturePos, FeatureDir) :-
     ( (owl_individual_of(ObjInst, ObjClass),!);
       (rdf_instance_from_class(ObjClass, ObjInst))),
 
-    comp_physical_parts(ObjInst, PartInst),
+    rdf_triple(knowrob:properPhysicalParts, ObjInst, PartInst),
 
     (
      (sphere_annotation_position(PartInst, FeaturePos, FeatureDir),
-       FeatureType = 2) % POINT
+       FeatureType = 2) ; % POINT
      (cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir),
        FeatureType = 0) ; % LINE
      (plane_annotation_side_vector(PartInst, FeaturePos, FeatureDir),
        FeatureType = 0) ; % LINE
      (plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir),
-       FeatureType = 1) ; % PLANE
+       FeatureType = 1) % PLANE
     ).
 
 
@@ -87,7 +87,7 @@ sphere_annotation_position(PartInst, FeaturePos, FeatureDir) :-
 cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir) :-
 
     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone'),
-    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_])
+    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
     FeaturePos = [X,Y,Z],
 
     annotation_cone_direction(PartInst, Direction),
@@ -102,7 +102,7 @@ cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir) :-
 plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir) :-
 
     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface'),
-    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_])
+    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
     FeaturePos = [X,Y,Z],
 
     annotation_plane_normal(PartInst, Direction),
@@ -134,7 +134,9 @@ plane_annotation_side_vector(PartInst, SidePosList, SideDirList) :-
 
     % read pose of object part and transform to global coordinates
     knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J),
-    annotation_pose_list(J, PartPose),
+    annotation_pose_list(J, PartPose1),
+    PartPose1 = [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_],
+    PartPose = [X,Y,Z],
     knowrob_coordinates:list_to_vector3d(PartPose, PartPoseVec),
 
     compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList).
@@ -147,7 +149,7 @@ compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDir
     jpl_new('javax.vecmath.Vector3d', [LongSideVec], SidePosVec),
     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
 
-    knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList)
+    knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList),
     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
 
 % compute rear edge
@@ -157,7 +159,7 @@ compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDir
     jpl_call(SidePosVec, negate, [], _),
     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
 
-    knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList)
+    knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList),
     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
 
 
@@ -167,7 +169,7 @@ compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDir
     jpl_new('javax.vecmath.Vector3d', [ShortSideVec], SidePosVec),
     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
 
-    knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList)
+    knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList),
     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
 
 % compute left edge
@@ -177,7 +179,7 @@ compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDir
     jpl_call(SidePosVec, negate, [], _),
     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
 
-    knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList)
+    knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList),
     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
 
 
@@ -226,7 +228,7 @@ print_annotation_normal_vectors(Obj) :-
 
 
 
-
+/*
 % create side vector for plane annotation
 
 % short edges
@@ -277,31 +279,31 @@ plane_annotation_side_vector(Obj, SideVecPosList, ShortSideGlList) :-
 
 
     instantiate_and_visualize_cylinder(SideCenterVec, ShortSideGlList).
+*/
 
 
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-% Visualization
-
-instantiate_and_visualize_cylinder(SideCenterVec, ShortSideGlList) :-
-    % create cylinder at center of edge
-    knowrob_coordinates:vector3d_to_list(SideCenterVec, SideVecPosList), 
-    SideVecPosList=[PX,PY,PZ], 
-    create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder', 
-                            [1,0,0,PX,0,1,0,PY,0,0,1,PZ,0,0,0,1],  
-                            ['VisualPerception'], Cyl),
-
-
-    ShortSideGlList = [VX, VY, VZ],
-    rdf_instance_from_class(knowrob:'Vector', SideVecDir),
-    rdf_assert(SideVecDir, knowrob:vectorX, literal(type('http://www.w3.org/2001/XMLSchema#float', VX))),
-    rdf_assert(SideVecDir, knowrob:vectorY, literal(type('http://www.w3.org/2001/XMLSchema#float', VY))),
-    rdf_assert(SideVecDir, knowrob:vectorZ, literal(type('http://www.w3.org/2001/XMLSchema#float', VZ))),
-
-    rdf_assert(Cyl, knowrob:longitudinalDirection, SideVecDir),
-    add_object(Cyl, _).
-
-
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % Visualization
+% 
+% instantiate_and_visualize_cylinder(SideCenterVec, ShortSideGlList) :-
+%     % create cylinder at center of edge
+%     knowrob_coordinates:vector3d_to_list(SideCenterVec, SideVecPosList), 
+%     SideVecPosList=[PX,PY,PZ], 
+%     create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder', 
+%                             [1,0,0,PX,0,1,0,PY,0,0,1,PZ,0,0,0,1],  
+%                             ['VisualPerception'], Cyl),
+% 
+% 
+%     ShortSideGlList = [VX, VY, VZ],
+%     rdf_instance_from_class(knowrob:'Vector', SideVecDir),
+%     rdf_assert(SideVecDir, knowrob:vectorX, literal(type('http://www.w3.org/2001/XMLSchema#float', VX))),
+%     rdf_assert(SideVecDir, knowrob:vectorY, literal(type('http://www.w3.org/2001/XMLSchema#float', VY))),
+%     rdf_assert(SideVecDir, knowrob:vectorZ, literal(type('http://www.w3.org/2001/XMLSchema#float', VZ))),
+% 
+%     rdf_assert(Cyl, knowrob:longitudinalDirection, SideVecDir),
+%     add_object(Cyl, _).
+% 
+% 
 
 
 
