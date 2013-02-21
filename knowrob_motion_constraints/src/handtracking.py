@@ -17,10 +17,12 @@ import tf
 
 from std_msgs.msg import Header
 from std_msgs.msg import Time
-from geometry_msgs.msg import PoseStamped
-from geometry_msgs.msg import Pose
-from geometry_msgs.msg import Point
-from geometry_msgs.msg import Quaternion
+#from geometry_msgs.msg import PoseStamped
+#from geometry_msgs.msg import Pose
+#from geometry_msgs.msg import Point
+#from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import Vector3
+from constraint_msgs.msg import Feature
 
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
@@ -134,19 +136,24 @@ if __name__ == '__main__':
         timestamp = Time(time.time())
         for i, (obj, rot_mat) in enumerate(zip(object_store, rot_mats)):
             if len(obj.features) == 0: continue
-            obj_pos = rot_mat[0:3,3]
-            obj_dir = rot_mat[0:3,0:3]
+            #obj_pos = rot_mat[0:3,3]
+            #obj_dir = rot_mat[0:3,0:3]
             for feature in obj.iterFeaturePoses(rot_mat):
-                header = Header(frame_idx, timestamp, feature.name)
-                pos_coord = map(lambda x: '%d'%x[0], feature.pos.tolist())
-                position = Point(pos_coord[0], pos_coord[1], pos_coord[2])
-                dir_coord = map(lambda x: '%d'%x[0], feature.dir.tolist())
-                print dir_coord
-                orientation = Quaternion(dir_coord[0], dir_coord[1], dir_coord[2], dir_coord[3])
-                pose = Pose(position, orientation)
-                print("publishing...\n")
-                pub.publish(PoseStamped(header, pose))
-        rospy.sleep(1.0)
+                msg_frame = 'ref_frame_name?'
+                pos_vect = Vector3(float(feature.pos[0]), float(feature.pos[2]), float(feature.pos[3]))
+                dir_vect = Vector3(float(feature.dir[0]), float(feature.dir[2]), float(feature.dir[3]))
+                contactdir_vect = Vector3(0, 0, 0)
+                feat_msg = Feature(msg_frame, feature.name, feature.type, pos_vect, dir_vect, contactdir_vect)
+                print "publishing..."
+                pub.publish(feat_msg)
+                #header = Header(frame_idx, timestamp, feature.name)
+                #pos_coord = map(lambda x: '%d'%x[0], feature.pos.tolist())
+                #position = Point(pos_coord[0], pos_coord[1], pos_coord[2])
+                #dir_coord = map(lambda x: '%d'%x[0], feature.dir.tolist())
+                #print dir_coord
+                #orientation = Quaternion(dir_coord[0], dir_coord[1], dir_coord[2], dir_coord[3])
+                #pose = Pose(position, orientation)
+        rospy.sleep(0.5)
 
 #    fig = plt.figure()
 #    ax = fig.gca(projection='3d')
