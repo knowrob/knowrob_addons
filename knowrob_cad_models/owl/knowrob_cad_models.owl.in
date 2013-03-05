@@ -278,4 +278,14 @@
       </rdfs:subClassOf>
     </rdf:Description>
 
+
+    <rdf:Description rdf:about="&knowrob;Spatula">
+      <rdfs:subClassOf>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen-tools/spatula.kmz</owl:hasValue>
+        </owl:Restriction>
+      </rdfs:subClassOf>
+    </rdf:Description>
+
 </rdf:RDF>
