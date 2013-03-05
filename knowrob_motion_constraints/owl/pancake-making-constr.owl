@@ -1,0 +1,2219 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY motion-constraints "http://ias.cs.tum.edu/kb/motion-constraints.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#"
+     xml:base="http://ias.cs.tum.edu/kb/pancake-making-constr.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:motion-constraints="http://ias.cs.tum.edu/kb/motion-constraints.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl">
+        <owl:imports rdf:resource="file:///home/tenorth/work/ros/knowrob/knowrob_actions/owl/motion-constraints.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl# -->
+
+    <owl:ObjectProperty rdf:about="http://ias.cs.tum.edu/kb/knowrob.owl#"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#constrainedBy -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;constrainedBy"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#objectActedOn -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectActedOn"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#occursAfterInOrdering -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;occursAfterInOrdering"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#occursBeforeInOrdering -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;occursBeforeInOrdering"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#orderingConstraints -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;orderingConstraints"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#parts -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;parts"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#subAction -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;subAction"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#toolFeature -->
+
+    <owl:ObjectProperty rdf:about="&motion-constraints;toolFeature"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#worldFeature -->
+
+    <owl:ObjectProperty rdf:about="&motion-constraints;worldFeature"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrLowerLimit -->
+
+    <owl:DatatypeProperty rdf:about="&motion-constraints;constrLowerLimit"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrMaxVelocity -->
+
+    <owl:DatatypeProperty rdf:about="&motion-constraints;constrMaxVelocity"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrMinVelocity -->
+
+    <owl:DatatypeProperty rdf:about="&motion-constraints;constrMinVelocity"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrUpperLimit -->
+
+    <owl:DatatypeProperty rdf:about="&motion-constraints;constrUpperLimit"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrWeight -->
+
+    <owl:DatatypeProperty rdf:about="&motion-constraints;constrWeight"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl# -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/knowrob.owl#"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface -->
+
+    <owl:Class rdf:about="&knowrob;FlatPhysicalSurface"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlippingAnObject -->
+
+    <owl:Class rdf:about="&knowrob;FlippingAnObject"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle -->
+
+    <owl:Class rdf:about="&knowrob;Handle"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#ITaSCMotion -->
+
+    <owl:Class rdf:about="&knowrob;ITaSCMotion">
+        <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Pancake -->
+
+    <owl:Class rdf:about="&knowrob;Pancake"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#PartialOrdering-Strict -->
+
+    <owl:Class rdf:about="&knowrob;PartialOrdering-Strict"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Spatula -->
+
+    <owl:Class rdf:about="&knowrob;Spatula"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#SpatulaBlade -->
+
+    <owl:Class rdf:about="&knowrob;SpatulaBlade"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#VoluntaryBodyMovement -->
+
+    <owl:Class rdf:about="&knowrob;VoluntaryBodyMovement"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#DistanceConstraint -->
+
+    <owl:Class rdf:about="&motion-constraints;DistanceConstraint"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#HeightConstraint -->
+
+    <owl:Class rdf:about="&motion-constraints;HeightConstraint"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint -->
+
+    <owl:Class rdf:about="&motion-constraints;PerpendicularityConstraint"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#PointingAtConstraint -->
+
+    <owl:Class rdf:about="&motion-constraints;PointingAtConstraint">
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake">
+        <rdfs:subClassOf rdf:resource="&motion-constraints;PerpendicularityConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;toolFeature"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&knowrob;Handle"/>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&knowrob;parts"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom rdf:resource="&knowrob;Spatula"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: pointing downwards</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_aneXbLGX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_aneXbLGX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.3</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_bDGnttMX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_bDGnttMX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.3</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_cxFaEKPR -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_cxFaEKPR">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_dlqfTiny -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_dlqfTiny">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.08</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.08</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_eSzYGaIm -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_eSzYGaIm">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.2</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_flRdmVsr -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_flRdmVsr">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake">
+        <rdfs:subClassOf rdf:resource="&motion-constraints;PerpendicularityConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SpatulaBlade"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: align front</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_aneXbLGX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_aneXbLGX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_bDGnttMX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_bDGnttMX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_cxFaEKPR -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_cxFaEKPR">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_dlqfTiny -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_dlqfTiny">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_eSzYGaIm -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_eSzYGaIm">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_flRdmVsr -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_flRdmVsr">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake">
+        <rdfs:subClassOf rdf:resource="&motion-constraints;PerpendicularityConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;toolFeature"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&knowrob;FlatPhysicalSurface"/>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&knowrob;parts"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom rdf:resource="&knowrob;Spatula"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: facing pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_aneXbLGX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_aneXbLGX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.8</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_bDGnttMX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_bDGnttMX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.8</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_cxFaEKPR -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_cxFaEKPR">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.8</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_dlqfTiny -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_dlqfTiny">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.8</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_eSzYGaIm -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_eSzYGaIm">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.5</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.4</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_flRdmVsr -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_flRdmVsr">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.8</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach">
+        <rdfs:subClassOf rdf:resource="&knowrob;ITaSCMotion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_aneXbLGX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_aneXbLGX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_aneXbLGX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_aneXbLGX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_aneXbLGX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_aneXbLGX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop">
+        <rdfs:subClassOf rdf:resource="&knowrob;ITaSCMotion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_flRdmVsr"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_flRdmVsr"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_flRdmVsr"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_flRdmVsr"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_flRdmVsr"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_flRdmVsr"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch">
+        <rdfs:subClassOf rdf:resource="&knowrob;ITaSCMotion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_bDGnttMX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_bDGnttMX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_bDGnttMX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_bDGnttMX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_bDGnttMX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_bDGnttMX"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake">
+        <rdfs:subClassOf rdf:resource="&motion-constraints;DistanceConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;toolFeature"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&knowrob;Handle"/>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&knowrob;parts"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom rdf:resource="&knowrob;Spatula"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_aneXbLGX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_aneXbLGX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.15</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.17</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_bDGnttMX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_bDGnttMX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.15</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.17</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_cxFaEKPR -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_cxFaEKPR">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.02</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.02</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_dlqfTiny -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_dlqfTiny">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.07</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_eSzYGaIm -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_eSzYGaIm">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.4</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.07</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.4</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">100.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_flRdmVsr -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_flRdmVsr">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.02</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.02</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake">
+        <rdfs:subClassOf rdf:resource="&knowrob;FlippingAnObject"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
+                <owl:hasValue rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake12"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
+                <owl:hasValue rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake13"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
+                <owl:hasValue rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake23"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake">
+        <rdfs:subClassOf rdf:resource="&motion-constraints;HeightConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;toolFeature"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&knowrob;Handle"/>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&knowrob;parts"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom rdf:resource="&knowrob;Spatula"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: keep over</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_aneXbLGX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_aneXbLGX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_bDGnttMX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_bDGnttMX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_cxFaEKPR -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_cxFaEKPR">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_dlqfTiny -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_dlqfTiny">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.15</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_eSzYGaIm -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_eSzYGaIm">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_flRdmVsr -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_flRdmVsr">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.01</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift">
+        <rdfs:subClassOf rdf:resource="&knowrob;ITaSCMotion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_dlqfTiny"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_dlqfTiny"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_dlqfTiny"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_dlqfTiny"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_dlqfTiny"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_dlqfTiny"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn">
+        <rdfs:subClassOf rdf:resource="&knowrob;ITaSCMotion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_eSzYGaIm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_eSzYGaIm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_eSzYGaIm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_eSzYGaIm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_eSzYGaIm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_eSzYGaIm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake">
+        <rdfs:subClassOf rdf:resource="&knowrob;ITaSCMotion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_cxFaEKPR"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_cxFaEKPR"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_cxFaEKPR"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_cxFaEKPR"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_cxFaEKPR"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_cxFaEKPR"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake">
+        <rdfs:subClassOf rdf:resource="&motion-constraints;PointingAtConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;Pancake"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;toolFeature"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&knowrob;Handle"/>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&knowrob;parts"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom rdf:resource="&knowrob;Spatula"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_aneXbLGX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_aneXbLGX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_bDGnttMX -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_bDGnttMX">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_cxFaEKPR -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_cxFaEKPR">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_dlqfTiny -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_dlqfTiny">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_eSzYGaIm -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_eSzYGaIm">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_flRdmVsr -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_flRdmVsr">
+        <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMinVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrMaxVelocity"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.05</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&motion-constraints;constrWeight"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>left spatula: at pancake</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach -->
+
+    <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch -->
+
+    <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake12 -->
+
+    <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake12">
+        <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
+        <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake13 -->
+
+    <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake13">
+        <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
+        <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake23 -->
+
+    <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake23">
+        <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
+        <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake -->
+
+    <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+
