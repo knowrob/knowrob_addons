@@ -3,6 +3,11 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init()
 rosbuild_include(rosprolog utils)
+rosbuild_gensrv()
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(JAVA_OUTPUT_DIR ${PROJECT_SOURCE_DIR}/bin)
 
 # replace path to local OWL files
 rosbuild_find_ros_package(knowrob_motion_constraints)
@@ -24,3 +29,7 @@ foreach( _in ${inputs} )
   string(REPLACE ".in" "" _out ${_in})
   configure_file( ${_in} ${_out} )
 endforeach( _in )
+
+add_java_source_dir( ${PROJECT_SOURCE_DIR}/src )
+rospack_add_java_executable( constr_to_owl org.knowrob.constr.ConstraintsToOWLService )
+rospack_add_java_executable( constr_to_owl_test_client org.knowrob.constr.ConstraintsToOWLTestClient )

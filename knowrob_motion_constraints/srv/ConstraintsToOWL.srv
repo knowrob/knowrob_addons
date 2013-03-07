@@ -1,0 +1,10 @@
+#
+# converter service that accepts a constraint configuration and a list of
+# constraint values and generates an OWL description from it
+#
+string name # identifier for this motion definition
+string[] phases # list of identifiers for the different motion phases/constraint sets
+constraint_msgs/ConstraintConfig conf
+constraint_msgs/ConstraintCommand[] values
+---
+string owl_data
