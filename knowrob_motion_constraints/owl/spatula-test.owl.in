@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE rdf:RDF [
-<!ENTITY local_path 'file:///home/tenorth/work/ros/knowrob/ias_knowledge_base/owl/'>
+    <!ENTITY local_path 'file://@OWL_PATH_PREFIX@/owl/'>
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
