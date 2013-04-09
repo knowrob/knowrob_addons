@@ -23,7 +23,12 @@
       plane_annotation_side_vector/3,
       print_annotation_normal_vectors/1,
       generate_obj_parts/2,
-      object_feature/4
+      object_feature/4,
+      plan_constraints/2,
+      constraint_properties/3,
+      plan_constraints_of_type/3,
+      features_in_constraints/2,
+      plan_constraint_templates/2
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -42,7 +47,12 @@
     print_annotation_normal_vectors(r),
     generate_obj_parts(r, -), 
     plane_annotation_side_vector(r,-,-),
-    object_feature(r, ?, ?, ?).
+    object_feature(r, ?, ?, ?),
+    plan_constraints(r,r),
+    constraint_properties(r,r,r),
+    plan_constraints_of_type(r,r,r),
+    features_in_constraints(r,r),
+    plan_constraint_templates(r,r).
 %     storagePlaceForBecause(r,r,r),
 %     current_object_pose(r,-).
 
@@ -50,6 +60,55 @@
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
+
+:- rdf_db:rdf_register_ns(constr, 'http://ias.cs.tum.edu/kb/motion-constraints.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).
+
+
+% all constraints of motions for flipping a pancake
+plan_constraints(Plan, C) :-
+   plan_subevents(Plan, Sub),
+   member(Motion, Sub),
+   class_properties(Motion, knowrob:constrainedBy, C).
+
+
+% all properties of that constraint
+constraint_properties(C, P, O) :-
+   class_properties(C, P, O).
+
+
+% all distance constraints in the task
+plan_constraints_of_type(Plan, Type, C) :-
+   plan_subevents(Plan, Sub),
+   member(Motion, Sub),
+   class_properties(Motion, knowrob:constrainedBy, C),
+   owl_subclass_of(C, Type).
+
+
+% all object/feature specs in the task
+features_in_constraints(Plan, O) :-
+   plan_subevents(Plan, Sub),
+   member(Motion, Sub),
+   class_properties(Motion, knowrob:constrainedBy, C),
+   (class_properties(C, constr:toolFeature, O);
+    class_properties(C, constr:worldFeature, O)).
+
+
+% set of all constraint templates in the task
+
+plan_constraint_templates(Plan, ClsUnique) :-
+  findall(Cl, (plan_subevents(Plan, Sub),
+     member(Motion, Sub),
+     class_properties(Motion, knowrob:constrainedBy, C), 
+     owl_direct_subclass_of(C, Cl), 
+     rdf_has(Cl, rdf:type, owl:'Class')), Cls), 
+  sort(Cls, ClsUnique).
+
+
+
+
+
+
 
 
 
