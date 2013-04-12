@@ -24,7 +24,7 @@
       print_annotation_normal_vectors/1,
       generate_obj_parts/2,
       object_feature/4,
-      plan_constraints/2,
+      plan_constraints/3,
       constraint_properties/3,
       plan_constraints_of_type/3,
       features_in_constraints/2,
@@ -45,10 +45,10 @@
 
 :-  rdf_meta
     print_annotation_normal_vectors(r),
-    generate_obj_parts(r, -), 
+    generate_obj_parts(r, -),
     plane_annotation_side_vector(r,-,-),
     object_feature(r, ?, ?, ?),
-    plan_constraints(r,r),
+    plan_constraints(r,r,r),
     constraint_properties(r,r,r),
     plan_constraints_of_type(r,r,r),
     features_in_constraints(r,r),
@@ -66,10 +66,10 @@
 
 
 % all constraints of motions for flipping a pancake
-plan_constraints(Plan, C) :-
+plan_constraints(Plan, Motion, Cs) :-
    plan_subevents(Plan, Sub),
    member(Motion, Sub),
-   class_properties(Motion, knowrob:constrainedBy, C).
+   findall(C, class_properties(Motion, knowrob:constrainedBy, C), Cs).
 
 
 % all properties of that constraint
@@ -99,9 +99,9 @@ features_in_constraints(Plan, O) :-
 plan_constraint_templates(Plan, ClsUnique) :-
   findall(Cl, (plan_subevents(Plan, Sub),
      member(Motion, Sub),
-     class_properties(Motion, knowrob:constrainedBy, C), 
-     owl_direct_subclass_of(C, Cl), 
-     rdf_has(Cl, rdf:type, owl:'Class')), Cls), 
+     class_properties(Motion, knowrob:constrainedBy, C),
+     owl_direct_subclass_of(C, Cl),
+     rdf_has(Cl, rdf:type, owl:'Class')), Cls),
   sort(Cls, ClsUnique).
 
 
@@ -112,7 +112,7 @@ plan_constraint_templates(Plan, ClsUnique) :-
 
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % local object poses
 
 object_feature(ObjClass, FeatureType, FeaturePos, FeatureDir) :-
@@ -245,7 +245,7 @@ compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDir
 
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % global position stuff
 
 
@@ -267,20 +267,20 @@ print_annotation_normal_vectors(Obj) :-
     current_object_pose(Obj, ObjPose),
 
     % get all normal vectors
-    annotation_plane_normal(PartInst, NormalVec), 
+    annotation_plane_normal(PartInst, NormalVec),
 
     % read relative poses, and transform to global coordinates
-    knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J), 
-    annotation_pose_list(J, Pose), 
-    pose_into_global_coord(ObjPose, Pose, PoseGl), 
-    PoseGl=[_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_], 
+    knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J),
+    annotation_pose_list(J, Pose),
+    pose_into_global_coord(ObjPose, Pose, PoseGl),
+    PoseGl=[_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_],
 
-    % create a cylinder instance for visualization in direction of the 
+    % create a cylinder instance for visualization in direction of the
     % normal vector
-    create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder', 
-                             [1,0,0,X,0,1,0,Y,0,0,1,Z,0,0,0,1],  
-                             ['VisualPerception'], Cyl),  
-    rdf_assert(Cyl, knowrob:longitudinalDirection, NormalVec), 
+    create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder',
+                             [1,0,0,X,0,1,0,Y,0,0,1,Z,0,0,0,1],
+                             ['VisualPerception'], Cyl),
+    rdf_assert(Cyl, knowrob:longitudinalDirection, NormalVec),
     add_object(Cyl, _), highlight_object(Cyl, _).
 
 
@@ -343,26 +343,26 @@ plane_annotation_side_vector(Obj, SideVecPosList, ShortSideGlList) :-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % Visualization
-% 
+%
 % instantiate_and_visualize_cylinder(SideCenterVec, ShortSideGlList) :-
 %     % create cylinder at center of edge
-%     knowrob_coordinates:vector3d_to_list(SideCenterVec, SideVecPosList), 
-%     SideVecPosList=[PX,PY,PZ], 
-%     create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder', 
-%                             [1,0,0,PX,0,1,0,PY,0,0,1,PZ,0,0,0,1],  
+%     knowrob_coordinates:vector3d_to_list(SideCenterVec, SideVecPosList),
+%     SideVecPosList=[PX,PY,PZ],
+%     create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder',
+%                             [1,0,0,PX,0,1,0,PY,0,0,1,PZ,0,0,0,1],
 %                             ['VisualPerception'], Cyl),
-% 
-% 
+%
+%
 %     ShortSideGlList = [VX, VY, VZ],
 %     rdf_instance_from_class(knowrob:'Vector', SideVecDir),
 %     rdf_assert(SideVecDir, knowrob:vectorX, literal(type('http://www.w3.org/2001/XMLSchema#float', VX))),
 %     rdf_assert(SideVecDir, knowrob:vectorY, literal(type('http://www.w3.org/2001/XMLSchema#float', VY))),
 %     rdf_assert(SideVecDir, knowrob:vectorZ, literal(type('http://www.w3.org/2001/XMLSchema#float', VZ))),
-% 
+%
 %     rdf_assert(Cyl, knowrob:longitudinalDirection, SideVecDir),
 %     add_object(Cyl, _).
-% 
-% 
+%
+%
 
 
 
