@@ -10,9 +10,9 @@ if __name__ == '__main__':
     prolog = json_prolog.Prolog()
 
     print("Read constraint templates:")
-    query = prolog.query("plan_constraint_templates(pancake_constr:'FlippingAPancake', _Cs), member(C, _Cs), constraint_properties(C, P, O)")
+    query = prolog.query("plan_constraint_templates(pancake_constr:'FlippingAPancake', _Cs), member(C, _Cs), owl_direct_subclass_of(C, T), rdf_has(T, rdf:type, owl:'Class'),  constraint_properties(C, P, O)")
     for solution in query.solutions():
-        print 'Found solution:\n ConstraintTemplate = %s\n Property = %s\n Value = %s\n' % (solution['C'], solution['P'], solution['O'])
+        print 'Found solution:\n ConstraintTemplate = %s\n Type = %s\n Property = %s\n Value = %s\n' % (solution['C'], solution['T'], solution['P'], solution['O'])
     query.finish()
 
     print "\n\n\n\n\n"
