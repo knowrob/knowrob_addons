@@ -1,0 +1,7 @@
+bin
+build
+msg_gne
+msg_gen
+srv_gen
+owl/self_info.owl
+prolog/init.pl
