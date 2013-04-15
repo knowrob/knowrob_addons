@@ -5,3 +5,9 @@ prolog/init.pl
 prolog/ias_semantic_map.pl
 prolog/ccrl2_semantic_map.pl
 owl/ccrl2_semantic_map.owl
+bin
+build
+prolog/bosch_semantic_map.pl
+owl/bosch_semantic_map.owl
+owl/bosch_semantic_map_addons.owl
+owl/kitchenobjects.owl
