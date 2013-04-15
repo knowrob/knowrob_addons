@@ -224,7 +224,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/cooking-vessels/Cookingpot_2.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/cooking-vessels/pot-ww.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -243,7 +243,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/drinking-vessels/Dishes_Mug.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/drinking-vessels/d75af64aa166c24eacbe2257d0988c9c.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -273,7 +273,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/pancake-maker.ply</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/pancake-maker.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
