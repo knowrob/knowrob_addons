@@ -6,15 +6,21 @@ import java.util.Map;
 
 import processing.core.PApplet;
 import processing.core.PShape;
+import ros.NodeHandle;
+import ros.Ros;
 
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
+
+import edu.tum.cs.ias.knowrob.json_prolog.Prolog;
 
 
 /**
@@ -25,9 +31,6 @@ import org.yaml.snakeyaml.Yaml;
  * files and OBJ (Object) files into a Processing sketch. This example loads an
  * SVG file of a monster robot face and displays it to the screen. 
  */
-
-// The next line is needed if running in JavaScript Mode with Processing.js
-/* @pjs preload="bot1.svg"; */ 
 
 public class FlowChartVis extends PApplet {
 
@@ -42,13 +45,14 @@ public class FlowChartVis extends PApplet {
 	int bgY = 0;
 
 	static String svg_file = "";
-	
+
+	static Ros ros;
+	public static NodeHandle n;
+
 
 	public void setup() {
 
 		size(1100, 600);
-		// The file "bot1.svg" must be in the data folder
-		// of the current sketch to load successfully
 
 		chart = loadShape(svg_file);
 		bg = chart.getChild("background");
@@ -69,7 +73,7 @@ public class FlowChartVis extends PApplet {
 
 	}
 
-	
+
 	public void draw(){
 		background(0xffffff);
 		shape(chart, 0, 0);
@@ -123,16 +127,25 @@ public class FlowChartVis extends PApplet {
 				if(act.startsWith("prolog")) {
 
 					System.err.println("Executing Prolog query:");
-					System.err.println("    " + act.substring(9));
+					System.err.println(act.substring(9));
+
+					sendPrologQuery(act.substring(9));
+
 
 				} else if (act.startsWith("java")) {
 
 					System.err.println("Calling Java method:");
 					System.err.println("    Class:  " + act.substring(7).split("#")[0]);
 					System.err.println("    Method: " + act.substring(7).split("#")[1]);
+					
+
+					callJavaMethod(act.substring(7).split("#")[0], act.substring(7).split("#")[1]);
 
 				} else if (act.startsWith("service")) {
-					
+
+					callROSService(act.substring(10).split("#")[0], 
+							act.substring(10).split("#")[1].split("&")[0]);
+
 					System.err.println("Calling ROS service:");
 					System.err.println("    service:  " + act.substring(10).split("#")[0]);
 					System.err.println("    Args: " + act.substring(10).split("#")[1]);
@@ -241,15 +254,99 @@ public class FlowChartVis extends PApplet {
 	}
 
 
+	// // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+	// execute actions
+
+	/**
+	 * Send a Prolog query via the json_prolog ROS service
+	 * 
+	 * @param query Query to be sent (without trailing '.')
+	 */
+	public void sendPrologQuery(String query) {
+
+		Prolog pl = new Prolog();
+		pl.query(query);
+
+	}
+
+
+	/**
+	 * Call one out of a predefined set of ROS services
+	 * 
+	 * @param service Service name
+	 * @param arg Optional string argument
+	 */
+	public void callROSService(String service, String arg) {
+
+		// TODO: implement code for calling the different kinds of services 
+		
+//		if(service.equals("comm_vis_set_left_img")) {
+//
+//			ServiceClient<CommVisSetLeftImg.Request, CommVisSetLeftImg.Response, CommVisSetLeftImg> sc =
+//					n.serviceClient("add_two_ints" , new CommVisSetLeftImg(), false);
+//
+//			CommVisSetLeftImg.Request rq = new CommVisSetLeftImg.Request();
+//			sc.call(rq);
+//			
+//			sc.shutdown();
+//
+//		}
+
+
+	}
+
+	/**
+	 * Support for calling a static method without arguments
+	 * 
+	 * @param cls Fully qualified class name
+	 * @param method Method name inside that class
+	 */
+	public void callJavaMethod(String cls, String method) {
+
+		try {
+			Class<?> clz = Class.forName(cls);
+			
+			for(Method m : clz.getMethods()) {
+				
+				if(m.getName().equals(method)) {
+					m.invoke(clz, (Object[]) null);
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	/**
+	 * Thread-safe ROS initialization
+	 */
+	protected static void initRos() {
+
+		ros = Ros.getInstance();
+
+		if(!Ros.getInstance().isInitialized()) {
+			ros.init("knowrob_flowchart_vis");
+		}
+		n = ros.createNodeHandle();
+
+	}
 
 	public static void main(String args[]) {
-		
+
 		if(args.length < 1) {
 			System.err.println("Usage: flowchart_vis <filename>.svg");
 			return;
 		}
 		svg_file = args[0];
-		
+
 		PApplet.main(new String[] { "org.knowrob.vis.flowchart.FlowChartVis" });
 	}
 }
