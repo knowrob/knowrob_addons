@@ -1,0 +1,288 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY local_path 'file://@OWL_PATH_PREFIX@/owl/'>
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY spatula "http://ias.cs.tum.edu/kb/spatula-features.owl#" >
+    
+]>
+
+
+<rdf:RDF xmlns="&spatula;"
+     xml:base="http://ias.cs.tum.edu/kb/spatula-features.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/spatula-features.owl">
+        <owl:imports rdf:resource="&local_path;knowrob.owl"/>
+    </owl:Ontology>
+
+
+    <owl:Class rdf:about="ToolFeature">
+        <rdfs:subClassOf rdf:resource="&spatula;SpatialThing-Localized"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&spatula;PlaneFeature">
+        <rdfs:subClassOf rdf:resource="&spatula;ToolFeature"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&spatula;LineFeature">
+        <rdfs:subClassOf rdf:resource="&spatula;ToolFeature"/>
+    </owl:Class>
+    
+
+    <owl:DatatypeProperty rdf:about="&knowrob;tfFrame">
+
+
+
+<!-- #################  LEFT SPATULA  #################   -->
+
+<owl:NamedIndividual rdf:about="&spatula;Spatula_LvaYsvy6">
+  <rdf:type rdf:resource="&knowrob;Spatula"/>
+  <knowrob:properPhysicalParts rdf:resource="&spatula;LineFeature_z3rLFrlP"/>
+  <knowrob:properPhysicalParts rdf:resource="&spatula;LineFeature_Am3WUeCK"/>
+  <knowrob:properPhysicalParts rdf:resource="&spatula;PlaneFeature_biRSdwIO"/>
+ </owl:NamedIndividual>
+
+
+
+
+
+<owl:NamedIndividual rdf:about="&spatula;LineFeature_z3rLFrlP">
+  <rdf:type rdf:resource="&knowrob;LineFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">left spatula: main axis</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">l_spatula<knowrob:tfFrame/>
+  <knowrob:direction rdf:resource="&spatula;Vector_QsCCjyzY"/>
+ </owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_QsCCjyzY">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.125</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+
+
+
+
+<owl:NamedIndividual rdf:about="&spatula;LineFeature_Am3WUeCK">
+  <rdf:type rdf:resource="&knowrob;LineFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">left spatula: front axis</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">l_spatula<knowrob:tfFrame/>
+  <knowrob:position  rdf:resource="&spatula;Vector_awYZVYsD"/>
+  <knowrob:direction rdf:resource="&spatula;Vector_BFToQkXU"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&spatula;Vector_awYZVYsD">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0475</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&spatula;Vector_BFToQkXU">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.125</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+
+
+
+
+ 
+ <owl:NamedIndividual rdf:about="&spatula;PlaneFeature_biRSdwIO">
+   <rdf:type rdf:resource="&knowrob;PlaneFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">left spatula: plane</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">l_spatula<knowrob:tfFrame/>
+  <knowrob:direction rdf:resource="&spatula;Vector_TmRIIGmK"/>
+  <knowrob:contact_direction rdf:resource="&spatula;Vector_GolxpFcZ"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&spatula;Vector_TmRIIGmK">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.1</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&spatula;Vector_GolxpFcZ">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.1</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+
+
+
+
+ 
+ <!-- #################  RIGHT SPATULA  #################   -->
+ 
+ 
+
+ <owl:NamedIndividual rdf:about="&spatula;Spatula_Rkpqmqf1">
+   <rdf:type rdf:resource="&knowrob;Spatula"/>
+   <knowrob:properPhysicalParts rdf:resource="&spatula;LineFeature_IiTqC8zK"/>
+   <knowrob:properPhysicalParts rdf:resource="&spatula;PlaneFeature_v27b2AvO"/>
+ </owl:NamedIndividual>
+
+
+
+<owl:NamedIndividual rdf:about="&spatula;LineFeature_IiTqC8zK">
+  <rdf:type rdf:resource="&knowrob;LineFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">right spatula: front axis</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">r_spatula<knowrob:tfFrame/>
+  <knowrob:position rdf:resource="&spatula;Vector_blcZOBWF"/>
+  <knowrob:direction rdf:resource="&spatula;Vector_tsWkguBU"/>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_blcZOBWF">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0475</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&spatula;Vector_tsWkguBU">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.125</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+
+ 
+ 
+<owl:NamedIndividual rdf:about="&spatula;PlaneFeature_v27b2AvO">
+  <rdf:type rdf:resource="&knowrob;PlaneFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">right spatula: plane</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">r_spatula<knowrob:tfFrame/>
+  <knowrob:direction rdf:resource="&spatula;Vector_KVBtnLYG"/>
+  <knowrob:contact_direction rdf:resource="&spatula;Vector_QSPSfinL"/>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_KVBtnLYG">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.1</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_QSPSfinL">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.1</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+
+
+
+
+
+<!-- #################  PANCAKE  #################   -->
+
+<owl:NamedIndividual rdf:about="&spatula;Pancake_PjkWnkr1">
+  <rdf:type rdf:resource="&knowrob;Pancake"/>
+  <knowrob:properPhysicalParts rdf:resource="&spatula;PlaneFeature_DQoI3DXH"/>
+  <knowrob:properPhysicalParts rdf:resource="&spatula;LineFeature_fkAqjiWS"/>
+  <knowrob:properPhysicalParts rdf:resource="&spatula;PlaneFeature_ua8Y1cmR"/>
+</owl:NamedIndividual>
+  
+
+
+ <owl:NamedIndividual rdf:about="&spatula;PlaneFeature_DQoI3DXH">
+   <rdf:type rdf:resource="&knowrob;PlaneFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">pancake plane</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">pancake<knowrob:tfFrame/>
+  <knowrob:direction rdf:resource="&spatula;Vector_ravxSkbD"/>
+  <knowrob:contact_direction rdf:resource="&spatula;Vector_bFRIclrN"/>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_ravxSkbD">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.1</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_bFRIclrN">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.1</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+
+
+<owl:NamedIndividual rdf:about="&spatula;LineFeature_fkAqjiWS">
+  <rdf:type rdf:resource="&knowrob;LineFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">pancake right rim</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">pancake<knowrob:tfFrame/>
+  <knowrob:position rdf:resource="&spatula;Vector_RsUKjoyN"/>
+  <knowrob:direction rdf:resource="&spatula;Vector_dtAUGxQV"/>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_RsUKjoyN">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">-0.08</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_dtAUGxQV">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.1</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+
+
+
+
+<owl:NamedIndividual rdf:about="&spatula;PlaneFeature_ua8Y1cmR">
+  <rdf:type rdf:resource="&knowrob;PlaneFeature"/>
+  <rdfs:label rdf:datatype="&xsd;string">pancake right rim plane</rdfs:label>
+  <knowrob:tfFrame rdf:datatype="&xsd;string">pancake<knowrob:tfFrame/>
+  <knowrob:direction rdf:resource="&spatula;Vector_rvLcOnrM"/>
+  <knowrob:position rdf:resource="&spatula;Vector_VKwzfjxC"/>
+  <knowrob:contact_direction rdf:resource="&spatula;Vector_rhhbltJC"/>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_rvLcOnrM">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.1</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_VKwzfjxC">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">-0.07</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+ 
+<owl:NamedIndividual rdf:about="&spatula;Vector_rhhbltJC">
+  <rdf:type rdf:resource="&knowrob;Vector"/>
+  <knowrob:vectorX rdf:datatype="&xsd;double">0.1</knowrob:vectorX>
+  <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>
+
+
