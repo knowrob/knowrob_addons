@@ -9,16 +9,30 @@ if __name__ == '__main__':
     rospy.init_node('test_json_prolog')
     prolog = json_prolog.Prolog()
 
-    print("Read constraint templates:")
-    query = prolog.query("plan_constraint_templates(pancake_constr:'FlippingAPancake', _Cs), member(C, _Cs), owl_direct_subclass_of(C, T), rdf_has(T, rdf:type, owl:'Class'),  constraint_properties(C, P, O)")
+    print("\n\nRead motion phases:\n")
+    query = prolog.query("plan_subevents(pancake_constr:'FlippingAPancake', P)")
     for solution in query.solutions():
-        print 'Found solution:\n ConstraintTemplate = %s\n Type = %s\n Property = %s\n Value = %s\n' % (solution['C'], solution['T'], solution['P'], solution['O'])
+        print 'Motion Phases = %s\n' % (solution['P'])
     query.finish()
 
     print "\n\n\n\n\n"
 
-    print("Read the actual sets of constraints and their properties:")
-    query = prolog.query("plan_constraints(pancake_constr:'FlippingAPancake', M, Cs), member(C, Cs), owl_direct_subclass_of(C, T), rdf_has(T, rdf:type, owl:'Class'),  constraint_properties(C, P, _Ol), strip_literal_type(_Ol, O)")
+    print("Extracting constraints for first motion phase:\n")
+    query = prolog.query("motion_constraint(pancake_constr:'BothSpatulasApproach', C), constraint_properties(C, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MinVel, MaxVel)")
     for solution in query.solutions():
-        print 'Found solution:\n MotionSegment = %s\n Constraint = %s\n ConstraintTemplate = %s\n Property = %s\n Value = %s\n' % (solution['M'], solution['C'], solution['T'], solution['P'], solution['O'])
+        print 'Constraint: %s\n Function: %s\n ToolFeature: %s\n WorldFeature: %s\n Weight: %s\n Lower: %s\n Upper: %s\n MinVel: %s\n MaxVel: %s\n' % (solution['C'], solution['Type'], solution['ToolFeature'], solution['WorldFeature'], solution['Weight'], solution['Lower'], solution['Upper'], solution['MinVel'], solution['MaxVel'])
     query.finish()
+
+    print "\n\n\n\n\n"
+
+    print("Extracting feature properties for one of the features:\n")
+    query = prolog.query("feature_properties(spatula:'LineFeature_z3rLFrlP', Type, Label, TfFrame, Position, Direction, ContactDirection)")
+    for solution in query.solutions():
+        print 'Feature:\n Type: %s\n Label: %s\n TfFrame: %s\n Position: %s\n Direction: %s\n ContactDirection: %s\n' % (solution['Type'], solution['Label'], solution['TfFrame'], solution['Position'], solution['Direction'], solution['ContactDirection'])
+    query.finish()
+
+#    print("Read the actual sets of constraints and their properties:")
+#    query = prolog.query("plan_constraints(pancake_constr:'FlippingAPancake', M, Cs), member(C, Cs), owl_direct_subclass_of(C, T), rdf_has(T, rdf:type, owl:'Class'),  constraint_properties(C, P, _Ol), strip_literal_type(_Ol, O)")
+#    for solution in query.solutions():
+#        print 'Found solution:\n MotionSegment = %s\n Constraint = %s\n ConstraintTemplate = %s\n Property = %s\n Value = %s\n' % (solution['M'], solution['C'], solution['T'], solution['P'], solution['O'])
+#    query.finish()
