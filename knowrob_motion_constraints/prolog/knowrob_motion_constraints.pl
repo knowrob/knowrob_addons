@@ -106,7 +106,34 @@ plan_constraint_templates(Plan, ClsUnique) :-
 
 
 
+% owl_has('http://ias.cs.tum.edu/kb/spatula-features.owl#Spatula_LvaYsvy6', knowrob:properPhysicalParts, F),
 
+
+
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+
+  rdf_has(Feature, rdf:type, Type),
+  owl_subclass_of(Type, knowrob:'ToolFeature'),
+  rdf_has(Feature, rdfs:label, literal(type(_,Label))),
+  rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),
+
+  owl_has(Feature, knowrob:position, Pos),
+  owl_has(Pos, knowrob:vectorX, literal(type(_,PX))),
+  owl_has(Pos, knowrob:vectorY, literal(type(_,PY))),
+  owl_has(Pos, knowrob:vectorZ, literal(type(_,PZ))),
+  Position = [PX, PY, PZ],
+
+  owl_has(Feature, knowrob:direction, Dir),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  Direction = [DX, DY, DZ],
+
+  owl_has(Feature, knowrob:contactDirection, Cont),
+  owl_has(Cont, knowrob:vectorX, literal(type(_,CX))),
+  owl_has(Cont, knowrob:vectorY, literal(type(_,CY))),
+  owl_has(Cont, knowrob:vectorZ, literal(type(_,CZ))),
+  ContactDirection = [CX, CY, CZ].
 
 
 
