@@ -24,11 +24,12 @@
       print_annotation_normal_vectors/1,
       generate_obj_parts/2,
       object_feature/4,
-      plan_constraints/3,
-      constraint_properties/3,
+      motion_constraint/2,
+      constraint_properties/9,
       plan_constraints_of_type/3,
       features_in_constraints/2,
-      plan_constraint_templates/2
+      plan_constraint_templates/2,
+      feature_properties/7
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -48,13 +49,14 @@
     generate_obj_parts(r, -),
     plane_annotation_side_vector(r,-,-),
     object_feature(r, ?, ?, ?),
-    plan_constraints(r,r,r),
-    constraint_properties(r,r,r),
     plan_constraints_of_type(r,r,r),
     features_in_constraints(r,r),
+    motion_constraint(r, r),
+    constraint_properties(r, r, r, r, -, -, -, -, -),
+    feature_properties(r, -, -, -, -, -, -),
     plan_constraint_templates(r,r).
-%     storagePlaceForBecause(r,r,r),
-%     current_object_pose(r,-).
+
+
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
@@ -65,17 +67,93 @@
 :- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).
 
 
-% all constraints of motions for flipping a pancake
-plan_constraints(Plan, Motion, Cs) :-
-   plan_subevents(Plan, Sub),
-   member(Motion, Sub),
-   findall(C, class_properties(Motion, knowrob:constrainedBy, C), Cs).
+
+%% motion_constraint(+Motion, -C) is nondet.
+%
+% All constraints defined for the given motion class.
+%
+% @param Motion OWL identifier for a motion class, e.g. pancake_constr:'BothSpatulasApproach'
+% @param Constr OWL identifier of the constraint
+%
+motion_constraint(Motion, Constr) :-
+   class_properties(Motion, knowrob:constrainedBy, Constr).
 
 
-% all properties of that constraint
-constraint_properties(C, P, O) :-
-   class_properties(C, P, O).
 
+%% constraint_properties(+Constr, -Type, -ToolFeature, -WorldFeature, -Weight, -Lower, -Upper, -MinVel, -MaxVel) is nondet.
+%
+% Convenience predicate: read all properties of a motion constraint with
+% one predicate call
+%
+% @param Constr         OWL identifier of the constraint to be read
+% @param Type           OWL class describing the type of constraint (e.g. distance, height)
+% @param ToolFeature    OWL identifier of the tool feature (i.e. spatial part of the tool to be controlled)
+% @param WorldFeature   OWL identifier of the world feature (i.e. spatial part of the world)
+% @param Weight         Weight describing the hardness of the constraints
+% @param Lower          Lower limit for the controlled values
+% @param Upper          Upper limit for the controlled values
+% @param MinVel         Minimum velocity to be used
+% @param MaxVel         Maximum velocity to be used
+%
+constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MinVel, MaxVel) :-
+
+   owl_subclass_of(Constr, Type),
+   owl_direct_subclass_of(Type, constr:'MotionConstraint'),
+
+   class_properties(Constr, constr:toolFeature, ToolFeature),
+   class_properties(Constr, constr:worldFeature, WorldFeature),
+
+   class_properties(Constr, constr:constrWeight, literal(type(_, Weight))),
+
+   class_properties(Constr, constr:constrLowerLimit, literal(type(_, Lower))),
+   class_properties(Constr, constr:constrUpperLimit, literal(type(_, Upper))),
+
+   class_properties(Constr, constr:constrMinVelocity, literal(type(_, MinVel))),
+   class_properties(Constr, constr:constrMaxVelocity, literal(type(_, MaxVel))).
+
+
+
+
+%% feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) is nondet.
+%
+% Convenience predicate: read all properties of a feature with one predicate call
+%
+% @param Feature           OWL identifier of the feature to be reads
+% @param Type              OWL class describing the feature type (e.g. line, plane)
+% @param Label             Natural-language label describing this feature
+% @param TfFrame           Coordinate frame in which this feature is described
+% @param Position          Position vector as list [x,y,z] w.r.t. TfFrame
+% @param Direction         Direction vector as list [x,y,z] w.r.t. TfFrame
+% @param ContactDirection  ContactDirection vector as list [x,y,z] w.r.t. TfFrame
+%
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+
+  rdf_has(Feature, rdf:type, Type),
+  owl_subclass_of(Type, knowrob:'ToolFeature'),
+  rdf_has(Feature, rdfs:label, literal(type(_,Label))),
+  rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),
+
+  owl_has(Feature, knowrob:position, Pos),
+  owl_has(Pos, knowrob:vectorX, literal(type(_,PX))),
+  owl_has(Pos, knowrob:vectorY, literal(type(_,PY))),
+  owl_has(Pos, knowrob:vectorZ, literal(type(_,PZ))),
+  Position = [PX, PY, PZ],
+
+  owl_has(Feature, knowrob:direction, Dir),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  Direction = [DX, DY, DZ],
+
+  owl_has(Feature, knowrob:contactDirection, Cont),
+  owl_has(Cont, knowrob:vectorX, literal(type(_,CX))),
+  owl_has(Cont, knowrob:vectorY, literal(type(_,CY))),
+  owl_has(Cont, knowrob:vectorZ, literal(type(_,CZ))),
+  ContactDirection = [CX, CY, CZ].
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 % all distance constraints in the task
 plan_constraints_of_type(Plan, Type, C) :-
@@ -104,36 +182,10 @@ plan_constraint_templates(Plan, ClsUnique) :-
      rdf_has(Cl, rdf:type, owl:'Class')), Cls),
   sort(Cls, ClsUnique).
 
+% all properties of that constraint
+constraint_property(C, P, O) :-
+   class_properties(C, P, O).
 
-
-% owl_has('http://ias.cs.tum.edu/kb/spatula-features.owl#Spatula_LvaYsvy6', knowrob:properPhysicalParts, F),
-
-
-
-feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
-
-  rdf_has(Feature, rdf:type, Type),
-  owl_subclass_of(Type, knowrob:'ToolFeature'),
-  rdf_has(Feature, rdfs:label, literal(type(_,Label))),
-  rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),
-
-  owl_has(Feature, knowrob:position, Pos),
-  owl_has(Pos, knowrob:vectorX, literal(type(_,PX))),
-  owl_has(Pos, knowrob:vectorY, literal(type(_,PY))),
-  owl_has(Pos, knowrob:vectorZ, literal(type(_,PZ))),
-  Position = [PX, PY, PZ],
-
-  owl_has(Feature, knowrob:direction, Dir),
-  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
-  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
-  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
-  Direction = [DX, DY, DZ],
-
-  owl_has(Feature, knowrob:contactDirection, Cont),
-  owl_has(Cont, knowrob:vectorX, literal(type(_,CX))),
-  owl_has(Cont, knowrob:vectorY, literal(type(_,CY))),
-  owl_has(Cont, knowrob:vectorZ, literal(type(_,CZ))),
-  ContactDirection = [CX, CY, CZ].
 
 
 
