@@ -30,9 +30,3 @@ if __name__ == '__main__':
     for solution in query.solutions():
         print 'Feature:\n Type: %s\n Label: %s\n TfFrame: %s\n Position: %s\n Direction: %s\n ContactDirection: %s\n' % (solution['Type'], solution['Label'], solution['TfFrame'], solution['Position'], solution['Direction'], solution['ContactDirection'])
     query.finish()
-
-#    print("Read the actual sets of constraints and their properties:")
-#    query = prolog.query("plan_constraints(pancake_constr:'FlippingAPancake', M, Cs), member(C, Cs), owl_direct_subclass_of(C, T), rdf_has(T, rdf:type, owl:'Class'),  constraint_properties(C, P, _Ol), strip_literal_type(_Ol, O)")
-#    for solution in query.solutions():
-#        print 'Found solution:\n MotionSegment = %s\n Constraint = %s\n ConstraintTemplate = %s\n Property = %s\n Value = %s\n' % (solution['M'], solution['C'], solution['T'], solution['P'], solution['O'])
-#    query.finish()
