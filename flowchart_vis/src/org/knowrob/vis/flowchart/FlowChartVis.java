@@ -1,6 +1,11 @@
 package org.knowrob.vis.flowchart;
 
+import instruction.gui.EHowInstructionPanel;
+
+import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +22,8 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+
+import javax.swing.JFrame;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -49,6 +56,8 @@ public class FlowChartVis extends PApplet {
 	static Ros ros;
 	public static NodeHandle n;
 
+	public static JFrame ehow_window;
+	public static EHowInstructionPanel ehow_panel;
 
 	public void setup() {
 
@@ -322,6 +331,30 @@ public class FlowChartVis extends PApplet {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void importEhowInstruction() {
+		
+    // setup and pre-initialize the ehow window  	
+	  	ehow_window = new JFrame();
+	  	ehow_window.setVisible( false );
+	  	ehow_window.setSize( 1100, 800 );
+	  	ehow_window.setTitle( "Plan Importer GUI" );
+	  	ehow_window.setLocation( 400, 300 );
+	  	ehow_window.setBackground(new Color(20, 20, 20));
+	  	
+	  	ehow_window.addWindowListener( new WindowAdapter() {
+	  		public void windowClosing( WindowEvent we ) {
+	    	//System.exit( 0 );
+	  			ehow_window.setVisible(false);
+	    	} } );
+
+	  	ehow_panel = new EHowInstructionPanel();
+	  	ehow_window.add( ehow_panel );
+	  	ehow_panel.init();
+	  	ehow_panel.revalidate();
+	  	ehow_panel.setVisible(true);
+	
 	}
 	
 	

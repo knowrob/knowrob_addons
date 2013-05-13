@@ -1,5 +1,5 @@
 actiondefs:
-  wikihow        : 'java://org.knowrob.wikihow.Importer#doStuff()'
+  wikihow        : 'java://org.knowrob.vis.flowchart.FlowChartVis#importEhowInstruction'
   importer       : 'prolog://query(a, B, C), a2(C)'
   prac           : 'java://org.prac.main.PracInfer#doStuff()'
   functional     : 'bla'
