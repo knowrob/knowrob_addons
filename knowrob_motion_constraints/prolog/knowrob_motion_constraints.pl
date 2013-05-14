@@ -25,6 +25,7 @@
       generate_obj_parts/2,
       object_feature/4,
       motion_constraint/2,
+      motion_constraint/3,
       constraint_properties/9,
       plan_constraints_of_type/3,
       features_in_constraints/2,
@@ -52,6 +53,7 @@
     plan_constraints_of_type(r,r,r),
     features_in_constraints(r,r),
     motion_constraint(r, r),
+    motion_constraint(r, r, r),
     constraint_properties(r, r, r, r, -, -, -, -, -),
     feature_properties(r, -, -, -, -, -, -),
     plan_constraint_templates(r,r).
@@ -76,7 +78,23 @@
 % @param Constr OWL identifier of the constraint
 %
 motion_constraint(Motion, Constr) :-
-   class_properties(Motion, knowrob:constrainedBy, Constr).
+    class_properties(Motion, knowrob:constrainedBy, Constr).
+
+
+%% motion_constraint(+Motion, +Tool, -C) is nondet.
+%
+% All constraints defined for the given motion class and the given Tool.
+%
+% @param Motion OWL identifier for a motion class, e.g. pancake_constr:'BothSpatulasApproach'
+% @param Motion OWL identifier for a tool, e.g. an instance of a spatula
+% @param Constr OWL identifier of the constraint
+%
+motion_constraint(Motion, Tool, Constr) :-
+    class_properties(Motion, knowrob:constrainedBy, Constr),
+    class_properties(Constr, constr:toolFeature, Tf),
+    owl_has(Tool,knowrob:properPhysicalParts, Tf).
+
+
 
 
 
