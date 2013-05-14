@@ -61,7 +61,7 @@ public class FlowChartVis extends PApplet {
 
 	public void setup() {
 
-		size(1100, 600);
+		size(1100, 600, JAVA2D);
 
 		chart = loadShape(svg_file);
 		bg = chart.getChild("background");
@@ -336,24 +336,24 @@ public class FlowChartVis extends PApplet {
 	public static void importEhowInstruction() {
 		
     // setup and pre-initialize the ehow window  	
-	  	ehow_window = new JFrame();
-	  	ehow_window.setVisible( false );
-	  	ehow_window.setSize( 1100, 800 );
-	  	ehow_window.setTitle( "Plan Importer GUI" );
-	  	ehow_window.setLocation( 400, 300 );
-	  	ehow_window.setBackground(new Color(20, 20, 20));
-	  	
-	  	ehow_window.addWindowListener( new WindowAdapter() {
-	  		public void windowClosing( WindowEvent we ) {
-	    	//System.exit( 0 );
-	  			ehow_window.setVisible(false);
-	    	} } );
-
-	  	ehow_panel = new EHowInstructionPanel();
-	  	ehow_window.add( ehow_panel );
-	  	ehow_panel.init();
-	  	ehow_panel.revalidate();
-	  	ehow_panel.setVisible(true);
+//	  	ehow_window = new JFrame();
+//	  	ehow_window.setVisible( false );
+//	  	ehow_window.setSize( 1100, 800 );
+//	  	ehow_window.setTitle( "Plan Importer GUI" );
+//	  	ehow_window.setLocation( 400, 300 );
+//	  	ehow_window.setBackground(new Color(20, 20, 20));
+//	  	
+//	  	ehow_window.addWindowListener( new WindowAdapter() {
+//	  		public void windowClosing( WindowEvent we ) {
+//	    	//System.exit( 0 );
+//	  			ehow_window.setVisible(false);
+//	    	} } );
+//
+//	  	ehow_panel = new EHowInstructionPanel();
+//	  	ehow_window.add( ehow_panel );
+//	  	ehow_panel.init();
+//	  	ehow_panel.revalidate();
+//	  	ehow_panel.setVisible(true);
 	
 	}
 	
