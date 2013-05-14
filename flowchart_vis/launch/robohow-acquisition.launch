@@ -1,0 +1,6 @@
+<launch>
+  <node name="knowrob" pkg="rosprolog" type="run_with_prolog_env" args="flowchart_vis $(find json_prolog)/bin/json_prolog" />
+  <node name="rosprac" pkg="rosprac" type="rospracinfer.sh"/>
+  <node name="flowchart_vis" pkg="flowchart_vis" type="flowchart_vis" args="../img/block-diagram-acquisition.svg" cwd="node"/>
+  <include file="$(find opencyc)/launch/opencyc.launch" />
+</launch>
