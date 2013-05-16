@@ -1,9 +1,9 @@
 actiondefs:
-  wikihow        : 'java://org.knowrob.wikihow.Importer#doStuff()'
-  importer       : 'prolog://query(a, B, C), a2(C)'
-  prac           : 'java://org.prac.main.PracInfer#doStuff()'
+  wikihow        : 'bla'
+  importer       : 'bla'
+  prac           : 'bla'
   functional     : 'bla'
-  tracking       : 'service://hand_tracking/start#startTracking'
+  tracking       : 'bla'
   annotation     : 'bla'
   representation : 'bla'
   constraints    : 'bla'
