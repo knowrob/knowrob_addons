@@ -10,7 +10,7 @@
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY motion-constraints "http://ias.cs.tum.edu/kb/motion-constraints.owl#" >
     <!ENTITY pancake-constr "http://ias.cs.tum.edu/kb/pancake-making-constr.owl#" >
-    <!ENTITY spatula "http://ias.cs.tum.edu/kb/spatula-features.owl#" >
+    <!ENTITY spatula-features "http://ias.cs.tum.edu/kb/spatula-features.owl#" >
 ]>
 
 
