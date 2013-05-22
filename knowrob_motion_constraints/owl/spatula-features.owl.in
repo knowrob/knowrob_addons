@@ -63,14 +63,14 @@
   <rdf:type rdf:resource="&knowrob;Vector"/>
   <knowrob:vectorX rdf:datatype="&xsd;double">0</knowrob:vectorX>
   <knowrob:vectorY rdf:datatype="&xsd;double">0</knowrob:vectorY>
-  <knowrob:vectorZ rdf:datatype="&xsd;double">0.125</knowrob:vectorZ>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0</knowrob:vectorZ>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&spatula;Vector_QsCCjyzY">
   <rdf:type rdf:resource="&knowrob;Vector"/>
   <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
   <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
-  <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+  <knowrob:vectorZ rdf:datatype="&xsd;double">0.125</knowrob:vectorZ>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&spatula;Vector_C8j6Xb9V">
