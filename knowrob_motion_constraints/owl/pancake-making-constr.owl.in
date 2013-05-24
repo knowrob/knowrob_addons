@@ -3939,8 +3939,8 @@
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake45">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
-        <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
-        <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
+        <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake46">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
