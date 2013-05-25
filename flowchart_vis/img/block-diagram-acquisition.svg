@@ -15,7 +15,7 @@
    id="svg8329"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="block-diagram-acquisition.svg">
+   sodipodi:docname="block-diagram-acquisition.pdf">
   <defs
      id="defs8331" />
   <sodipodi:namedview
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -4108,7 +4108,7 @@
     </g>
     <g
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:LMSans10;-inkscape-font-specification:LMSans10"
-       id="text4804-3">
+       id="text_games_menu">
       <path
          d="m 878.00114,682.44885 c 0,-0.504 -0.504,-0.504 -0.672,-0.504 l -2.758,0 c -0.168,0 -0.672,0 -0.672,0.504 0,0.504 0.504,0.504 0.672,0.504 l 2.758,0 c 0.168,0 0.672,0 0.672,-0.504"
          style="font-size:14px;font-weight:bold;font-family:LMSans10;-inkscape-font-specification:LMSans10 Bold"
