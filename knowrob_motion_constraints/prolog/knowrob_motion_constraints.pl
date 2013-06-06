@@ -98,7 +98,7 @@ motion_constraint(Motion, Tool, Constr) :-
 
 
 
-%% constraint_properties(+Constr, -Type, -ToolFeature, -WorldFeature, -Weight, -Lower, -Upper, -MinVel, -MaxVel) is nondet.
+%% constraint_properties(+Constr, -Type, -ToolFeature, -WorldFeature, -Weight, -Lower, -Upper, -MaxVel) is nondet.
 %
 % Convenience predicate: read all properties of a motion constraint with
 % one predicate call
@@ -110,10 +110,9 @@ motion_constraint(Motion, Tool, Constr) :-
 % @param Weight         Weight describing the hardness of the constraints
 % @param Lower          Lower limit for the controlled values
 % @param Upper          Upper limit for the controlled values
-% @param MinVel         Minimum velocity to be used
 % @param MaxVel         Maximum velocity to be used
 %
-constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MinVel, MaxVel) :-
+constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MaxVel) :-
 
    owl_subclass_of(Constr, Type),
    owl_direct_subclass_of(Type, constr:'MotionConstraint'),
@@ -126,7 +125,6 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
    class_properties(Constr, constr:constrLowerLimit, literal(type(_, Lower))),
    class_properties(Constr, constr:constrUpperLimit, literal(type(_, Upper))),
 
-   class_properties(Constr, constr:constrMinVelocity, literal(type(_, MinVel))),
    class_properties(Constr, constr:constrMaxVelocity, literal(type(_, MaxVel))).
 
 
