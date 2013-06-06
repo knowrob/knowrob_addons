@@ -144,6 +144,8 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
 % @param Direction         Direction vector as list [x,y,z] w.r.t. TfFrame
 % @param ContactDirection  ContactDirection vector as list [x,y,z] w.r.t. TfFrame
 %
+
+% read properties of 'real' features (manually defined)
 feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
 
   rdf_has(Feature, rdf:type, Type),
@@ -170,6 +172,57 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   ContactDirection = [CX, CY, CZ].
 
 
+% read cylinders as line features
+feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+
+  owl_individual_of(Feature, FeatureClassDef),
+  
+  rdf_has(Feature, rdf:type, T),
+  owl_subclass_of(T, knowrob:'Cone'),
+  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
+  
+  (rdf_has(Feature, rdfs:label, literal(type(_,Label))); Label=''),
+  (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))); TfFrame = 'map'),
+
+  % todo: use relative pose instead?
+  current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
+  Position = [PX, PY, PZ],
+
+  rdf_triple(knowrob:longitudinalDirection, Feature, Dir),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  Direction = [DX, DY, DZ],
+
+  ContactDirection = [0, 0, 0].
+  
+  
+% read planes as plane features
+feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+
+  owl_individual_of(Feature, FeatureClassDef),
+
+  rdf_has(Feature, rdf:type, T),
+  owl_subclass_of(T, knowrob:'FlatPhysicalSurface'),
+  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
+  
+  (rdf_has(Feature, rdfs:label, literal(type(_,Label))); Label=''),
+  (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))); TfFrame = 'map'),
+
+  % todo: use relative pose instead?
+  current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
+  Position = [PX, PY, PZ],
+
+  rdf_triple(knowrob:normalDirection, Feature, Dir),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  Direction = [DX, DY, DZ],
+
+  % TODO: how to determine contact direction?
+  ContactDirection = [0, 0, 0].
+  
+  
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
