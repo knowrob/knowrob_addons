@@ -26,7 +26,7 @@
       object_feature/4,
       motion_constraint/2,
       motion_constraint/3,
-      constraint_properties/9,
+      constraint_properties/8,
       plan_constraints_of_type/3,
       features_in_constraints/2,
       plan_constraint_templates/2,
@@ -54,7 +54,7 @@
     features_in_constraints(r,r),
     motion_constraint(r, r),
     motion_constraint(r, r, r),
-    constraint_properties(r, r, r, r, -, -, -, -, -),
+    constraint_properties(r, r, r, r, -, -, -, -),
     feature_properties(r, -, -, -, -, -, -),
     plan_constraint_templates(r,r).
 
