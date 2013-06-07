@@ -18,6 +18,7 @@
   <depend package="tf"/>
   <depend package="constraint_msgs"/>
   <depend package="json_prolog"/>
+  <depend package="mod_srdl"/>
 </package>
 
 
