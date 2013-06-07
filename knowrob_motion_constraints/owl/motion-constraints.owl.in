@@ -50,6 +50,17 @@
      -->
 
     
+    <owl:Class rdf:about="&knowrob;ToolFeature">
+        <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;PlaneFeature">
+        <rdfs:subClassOf rdf:resource="&knowrob;ToolFeature"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;LineFeature">
+        <rdfs:subClassOf rdf:resource="&knowrob;ToolFeature"/>
+    </owl:Class>
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#toolFeature -->
