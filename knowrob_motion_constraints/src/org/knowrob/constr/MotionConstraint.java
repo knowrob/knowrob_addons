@@ -31,8 +31,8 @@ public class MotionConstraint {
 
 	protected MotionConstraintTemplate template;
 	
-	public static int CONSTRAINT_BOX_WIDTH  = 150;
-	public static int CONSTRAINT_BOX_HEIGHT = 60;
+	public static int CONSTRAINT_BOX_WIDTH  = 170;
+	public static int CONSTRAINT_BOX_HEIGHT = 80;
 
 	
 
@@ -69,11 +69,11 @@ public class MotionConstraint {
 
 	public void draw(PApplet c, int x, int y, ControlP5 controlP5) {
 
-		controlP5.get(name + "_name").setPosition(x+5, y+5);
+		controlP5.get(name + "_name").setPosition(x+15, y+15);
 
-		controlP5.get(name + "_lower").setPosition(x+5, y+25);
-		controlP5.get(name + "_upper").setPosition(x+50, y+25);
-		controlP5.get(name + "_active").setPosition(x+95, y+26);
+		controlP5.get(name + "_lower").setPosition(x+15, y+35);
+		controlP5.get(name + "_upper").setPosition(x+60, y+35);
+		controlP5.get(name + "_active").setPosition(x+105, y+36);
 
 		c.fill(255);
 		c.rect(x,y,CONSTRAINT_BOX_WIDTH, CONSTRAINT_BOX_HEIGHT);
@@ -136,17 +136,8 @@ public class MotionConstraint {
 
 		String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
 
-		// Base IRI for OWL ontology
-		String OWL = "http://www.w3.org/2002/07/owl#";
-
-		// Base IRI for RDFS
-		String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
-
 		// Base IRI for motion constraints ontology	
 		String CONSTR = "http://ias.cs.tum.edu/kb/motion-constraints.owl#";
-
-		// Base IRI for new ontology
-		String CONSTR_DEF = "http://ias.cs.tum.edu/kb/motion-def.owl#";
 
 
 		OWLObjectProperty constrainedBy   = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
@@ -200,6 +191,11 @@ public class MotionConstraint {
 //	
 		return constrCls;
 
+	}
+	
+
+	public void readFromOWL(OWLOntology ont, OWLClass constrCls) {
+		
 	}
 
 }

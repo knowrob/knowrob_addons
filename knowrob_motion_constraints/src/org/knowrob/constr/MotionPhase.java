@@ -2,11 +2,17 @@ package org.knowrob.constr;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
+import org.knowrob.constr.util.RestrictionVisitor;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
@@ -18,6 +24,7 @@ public class MotionPhase {
 
 	protected String name = "";
 	protected ArrayList<MotionConstraint> constraints;
+	public final static String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
 
 	public MotionPhase() {
 		this.constraints = new ArrayList<MotionConstraint>();
@@ -133,6 +140,28 @@ public class MotionPhase {
 
 
 
+	public void readFromOWL(OWLClass phaseCls, MotionConstraintTemplate tmpl, OWLOntology ont, OWLDataFactory factory, ControlP5 controlP5) {
+
+		OWLObjectProperty constrainedBy = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
+		
+		// read constraints for phases
+		RestrictionVisitor constrainedByVisitor = new RestrictionVisitor(Collections.singleton(ont), constrainedBy);
+		
+		for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass((OWLClass)phaseCls)) {
+			OWLClassExpression superCls = ax.getSuperClass();
+			superCls.accept(constrainedByVisitor);
+		}
+		
+		// TODO: associate constraints to templates
+		for (OWLClassExpression constr : constrainedByVisitor.getRestrictionFillers()) {
+
+			MotionConstraint c = new MotionConstraint(constr.toString(), 
+					new String[]{"DirectionConstraint"}, 
+					false, 0.2, 0.6, tmpl, controlP5);
+			this.addConstraint(c);
+		}
+
+	}
 
 
 

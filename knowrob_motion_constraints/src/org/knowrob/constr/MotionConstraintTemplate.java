@@ -23,7 +23,7 @@ public class MotionConstraintTemplate {
 	protected String worldFeature = "";
 	
 	
-	public static int TEMPLATE_BOX_WIDTH  = 150;
+	public static int TEMPLATE_BOX_WIDTH  = 170;
 	public static int TEMPLATE_BOX_HEIGHT = 80;
 
 	
@@ -57,18 +57,18 @@ public class MotionConstraintTemplate {
 
 	public void draw(PApplet c, int x, int y, ControlP5 controlP5) {
 
-		controlP5.get(name + "_name").setPosition(x+5, y+5);
+		controlP5.get(name + "_name").setPosition(x+15, y+5);
 
 
 		c.fill(255);
 		c.rect(x,y,TEMPLATE_BOX_WIDTH, TEMPLATE_BOX_HEIGHT);
 
 		c.fill(100);
-		controlP5.get(name + "_tool_label").setPosition(x+5, y+30);
-		controlP5.get(name + "_world_label").setPosition(x+5, y+50);
+		controlP5.get(name + "_tool_label").setPosition(x+15, y+30);
+		controlP5.get(name + "_world_label").setPosition(x+15, y+50);
 
-		controlP5.get(name + "_tool").setPosition(x+45, y+25);
-		controlP5.get(name + "_world").setPosition(x+45, y+45);
+		controlP5.get(name + "_tool").setPosition(x+55, y+25);
+		controlP5.get(name + "_world").setPosition(x+55, y+45);
 
 		c.fill(100);
 

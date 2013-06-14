@@ -2,49 +2,28 @@ package org.knowrob.constr;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import org.knowrob.constr.util.RestrictionVisitor;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
-import org.semanticweb.owlapi.model.OWLImportsDeclaration;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
-import org.semanticweb.owlapi.util.OWLClassExpressionVisitorAdapter;
 
 import controlP5.ControlP5;
-import edu.tum.cs.ias.knowrob.owl.JointInstance;
 import edu.tum.cs.ias.knowrob.owl.OWLThing;
-import edu.tum.cs.ias.knowrob.owl.ObjectInstance;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
-import edu.tum.cs.ias.knowrob.owl.utils.OWLImportExport;
 
 
 import processing.core.PApplet;
-import ros.pkg.constraint_msgs.msg.Constraint;
-import ros.pkg.constraint_msgs.msg.ConstraintCommand;
-import ros.pkg.constraint_msgs.msg.ConstraintConfig;
-
 public class MotionTask {
 
 	protected String name = "";
@@ -293,8 +272,6 @@ public class MotionTask {
 
 				OWLClass actioncls = factory.getOWLClass(IRI.create(actionClassIRI));
 				OWLObjectProperty subAction = factory.getOWLObjectProperty(IRI.create(KNOWROB + "subAction"));
-				OWLObjectProperty constrainedBy = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
-				
 				
 				
 				// read sub-actions == motion phases
@@ -308,35 +285,17 @@ public class MotionTask {
 				for (OWLClassExpression sub : subActionVisitor.getRestrictionFillers()) {
 
 					// TODO: sort based on ordering constraints
-					System.out.println(sub.toString());	
 
-					MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
-					phases.add(p);
-					
 					// TODO: read templates from OWL
 					MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new String[]{""}, "handle", "pancake", controlP5);
 					templates.add(tmpl);
-
-					// read constraints for phases
-					RestrictionVisitor constrainedByVisitor = new RestrictionVisitor(Collections.singleton(ont), constrainedBy);
 					
-					for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass((OWLClass)sub)) {
-						OWLClassExpression superCls = ax.getSuperClass();
-						superCls.accept(constrainedByVisitor);
-					}
+					MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
+					p.readFromOWL((OWLClass) sub, tmpl, ont, factory, controlP5);
 					
-					// TODO: associate constraints to templates
-					for (OWLClassExpression constr : constrainedByVisitor.getRestrictionFillers()) {
+					phases.add(p);
 
-						MotionConstraint c = new MotionConstraint(constr.toString(), 
-								new String[]{"DirectionConstraint"}, 
-								false, 0.2, 0.6, tmpl, controlP5);
-						p.addConstraint(c);
-					}
 				}
-
-				
-
 			}
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -365,54 +324,4 @@ public class MotionTask {
 	}
 
 
-
-	/** Visits existential restrictions and collects the properties which are restricted
-	 * 
-	 *  (adapted from OWLAPI examples)
-	 * 
-	 */
-
-	private static class RestrictionVisitor extends OWLClassExpressionVisitorAdapter {
-
-		private Set<OWLClass> processedClasses;
-//		private Set<OWLObjectPropertyExpression> restrictedProperties;
-		private Set<OWLClassExpression> restrictionFillers;
-		private Set<OWLOntology> onts;
-		private OWLObjectProperty prop;
-
-		public RestrictionVisitor(Set<OWLOntology> onts, OWLObjectProperty prop) {
-			restrictionFillers = new HashSet<OWLClassExpression>();
-			processedClasses = new HashSet<OWLClass>();
-			this.onts = onts;
-			this.prop = prop;
-		}
-
-		public Set<OWLClassExpression> getRestrictionFillers() {
-			return restrictionFillers;
-		}
-
-		@Override
-		public void visit(OWLClass desc) {
-
-			if (!processedClasses.contains(desc)) {
-				
-				processedClasses.add(desc);
-				
-				for (OWLOntology ont : onts) {
-					for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass(desc)) {
-						ax.getSuperClass().accept(this);
-					}
-				}
-			}
-		}
-
-		@Override
-		public void visit(OWLObjectSomeValuesFrom desc) {
-			// This method gets called when a class expression is an existential
-			// (someValuesFrom) restriction and it asks us to visit it
-
-			if(desc.getProperty().equals(prop))
-				restrictionFillers.add(desc.getFiller());
-		}
-	} 
 }
