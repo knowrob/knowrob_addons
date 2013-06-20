@@ -2,10 +2,12 @@ package org.knowrob.constr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -13,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
@@ -194,7 +197,34 @@ public class MotionConstraint {
 	}
 	
 
-	public void readFromOWL(OWLOntology ont, OWLClass constrCls) {
+	public void readFromOWL(OWLClass constrCls, OWLOntology ont, OWLDataFactory factory, ControlP5 controlP5) {
+
+		String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
+
+		// Base IRI for motion constraints ontology	
+		String CONSTR = "http://ias.cs.tum.edu/kb/motion-constraints.owl#";
+
+		OWLObjectProperty constrainedBy   = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
+
+		OWLObjectProperty toolFeature     = factory.getOWLObjectProperty(IRI.create(CONSTR + "toolFeature"));
+		OWLObjectProperty worldFeature    = factory.getOWLObjectProperty(IRI.create(CONSTR + "worldFeature"));
+
+		OWLDataProperty constrLowerLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrLowerLimit"));
+		OWLDataProperty constrUpperLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrUpperLimit"));
+		OWLDataProperty constrWeight      = factory.getOWLDataProperty(IRI.create(CONSTR + "constrWeight"));
+
+		Set<OWLClassExpression> sup1 = constrCls.getSuperClasses(ont);
+		Set<OWLClassExpression> sup2 = constrCls.getSubClasses(ont);
+		
+		Set<OWLSubClassOfAxiom> sup = ont.getSubClassAxiomsForSubClass(constrCls);
+		Set<OWLSubClassOfAxiom> sub = ont.getSubClassAxiomsForSuperClass(constrCls);
+		Set<OWLClassAxiom> all = ont.getAxioms(constrCls);
+
+		for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass((OWLClass)constrCls)) {
+			OWLClassExpression superCls = ax.getSuperClass();
+			
+			System.out.println(superCls.toString());
+		}
 		
 	}
 

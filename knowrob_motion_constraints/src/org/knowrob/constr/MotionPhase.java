@@ -155,9 +155,12 @@ public class MotionPhase {
 		// TODO: associate constraints to templates
 		for (OWLClassExpression constr : constrainedByVisitor.getRestrictionFillers()) {
 
+			
 			MotionConstraint c = new MotionConstraint(constr.toString(), 
-					new String[]{"DirectionConstraint"}, 
-					false, 0.2, 0.6, tmpl, controlP5);
+					new String[]{"DirectionConstraint"}, false, 0.0, 0.0, tmpl, controlP5);
+
+			c.readFromOWL((OWLClass) constr, ont, factory, controlP5);
+			
 			this.addConstraint(c);
 		}
 
