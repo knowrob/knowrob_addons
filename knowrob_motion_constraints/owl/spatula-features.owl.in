@@ -4,14 +4,14 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY local_path 'file://@OWL_PATH_PREFIX@/owl/'>
     <!ENTITY srdl_path 'file://@SRDL_PATH_PREFIX@/owl/'>
-    
+
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY spatula "http://ias.cs.tum.edu/kb/spatula-features.owl#" >
-    
+
     <!ENTITY pr2 "http://ias.cs.tum.edu/kb/PR2.owl#" >
     <!ENTITY srdl2 "http://ias.cs.tum.edu/kb/srdl2.owl#" >
     <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
@@ -61,11 +61,11 @@
     <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
     <knowrob:vectorZ rdf:datatype="&xsd;double">0.125</knowrob:vectorZ>
 </owl:NamedIndividual>
- 
- 
+
+
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception51_BneDtt">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;Handle_z3rLFrlP"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;Handle_z3rLFrlP"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_HKEOLB"/>
 </owl:NamedIndividual>
@@ -118,7 +118,7 @@
 
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception51_biEOLB">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;BladeOfADevice_biRSdwIO"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;BladeOfADevice_biRSdwIO"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_biEOLB"/>
 </owl:NamedIndividual>
@@ -172,7 +172,7 @@
 
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception51_AmEOLB">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;FrontSide_Am3WUeCK"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;FrontSide_Am3WUeCK"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_AmEOLB"/>
 </owl:NamedIndividual>
@@ -238,7 +238,7 @@
 
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception_mBQRXQcq">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;BladeOfADevice_v27b2AvO"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;BladeOfADevice_v27b2AvO"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_mBQRXQcq"/>
 </owl:NamedIndividual>
@@ -289,7 +289,7 @@
 
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception_blcZOBWF">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;FrontSide_IiTqC8zK"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;FrontSide_IiTqC8zK"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_blcZOBWF"/>
 </owl:NamedIndividual>
@@ -349,7 +349,7 @@
 
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception_gJhTyKU3">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;FlatPhysicalSurface_DQoI3DXH"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;FlatPhysicalSurface_DQoI3DXH"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_gJhTyKU3"/>
 </owl:NamedIndividual>
@@ -397,7 +397,7 @@
 
 <owl:NamedIndividual rdf:about="&spatula;VisualPerception_VKwzfjxC">
     <rdf:type rdf:resource="&knowrob;VisualPerception"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;RightSide_ua8Y1cmR"/>
+    <knowrob:objectActedOn rdf:resource="&spatula;RightSide_ua8Y1cmR"/>
     <knowrob:startTime rdf:resource="&knowrob;timepoint_1363460436"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_VKwzfjxC"/>
 </owl:NamedIndividual>
@@ -429,5 +429,4 @@
 
 
 </rdf:RDF>
-
 

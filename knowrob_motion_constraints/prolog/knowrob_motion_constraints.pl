@@ -174,9 +174,9 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
 
 
 % read cylinders as line features
-feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
 
-  owl_individual_of(Feature, FeatureClassDef),
+%   owl_individual_of(Feature, FeatureClassDef),
 
   rdf_has(Feature, rdf:type, T),
   owl_subclass_of(T, knowrob:'Cone'),
@@ -199,9 +199,9 @@ feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, C
 
 
 % read planes as plane features
-feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
 
-  owl_individual_of(Feature, FeatureClassDef),
+%   owl_individual_of(Feature, FeatureClassDef),
 
   rdf_has(Feature, rdf:type, T),
   owl_subclass_of(T, knowrob:'FlatPhysicalSurface'),
