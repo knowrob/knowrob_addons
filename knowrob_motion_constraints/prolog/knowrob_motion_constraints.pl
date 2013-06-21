@@ -118,8 +118,10 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
    owl_subclass_of(Constr, Type),
    owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),
 
-   class_properties(Constr, constr:toolFeature, ToolFeature),
-   class_properties(Constr, constr:worldFeature, WorldFeature),
+   class_properties(Constr, constr:toolFeature, ToolFeatureClass),
+   owl_individual_of(ToolFeature, ToolFeatureClass),
+   class_properties(Constr, constr:worldFeature, WorldFeatureClass),
+   owl_individual_of(WorldFeature, WorldFeatureClass),
 
    class_properties(Constr, constr:constrWeight, literal(type(_, Weight))),
 
