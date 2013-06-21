@@ -116,7 +116,7 @@ motion_constraint(Motion, Tool, Constr) :-
 constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MaxVel) :-
 
    owl_subclass_of(Constr, Type),
-   owl_direct_subclass_of(Type, constr:'MotionConstraint'),
+   owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),
 
    class_properties(Constr, constr:toolFeature, ToolFeature),
    class_properties(Constr, constr:worldFeature, WorldFeature),
