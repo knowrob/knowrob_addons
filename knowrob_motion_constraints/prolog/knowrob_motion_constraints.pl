@@ -92,7 +92,7 @@ motion_constraint(Motion, Constr) :-
 motion_constraint(Motion, Tool, Constr) :-
     class_properties(Motion, knowrob:constrainedBy, Constr),
     class_properties(Constr, constr:toolFeature, Tf),
-    owl_has(Tool,knowrob:properPhysicalParts, Tf).
+    owl_individual_of(Tool, Tf).
 
 
 
@@ -174,11 +174,11 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
 feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
 
   owl_individual_of(Feature, FeatureClassDef),
-  
+
   rdf_has(Feature, rdf:type, T),
   owl_subclass_of(T, knowrob:'Cone'),
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
-  
+
   (rdf_has(Feature, rdfs:label, literal(type(_,Label))); Label=''),
   (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))); TfFrame = 'map'),
 
@@ -193,8 +193,8 @@ feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, C
   Direction = [DX, DY, DZ],
 
   ContactDirection = [0, 0, 0].
-  
-  
+
+
 % read planes as plane features
 feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
 
@@ -203,7 +203,7 @@ feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, C
   rdf_has(Feature, rdf:type, T),
   owl_subclass_of(T, knowrob:'FlatPhysicalSurface'),
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
-  
+
   (rdf_has(Feature, rdfs:label, literal(type(_,Label))); Label=''),
   (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))); TfFrame = 'map'),
 
@@ -219,8 +219,8 @@ feature_properties(FeatureClassDef, Type, Label, TfFrame, Position, Direction, C
 
   % TODO: how to determine contact direction?
   ContactDirection = [0, 0, 0].
-  
-  
+
+
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
