@@ -86,13 +86,14 @@ motion_constraint(Motion, Constr) :-
 % All constraints defined for the given motion class and the given Tool.
 %
 % @param Motion OWL identifier for a motion class, e.g. pancake_constr:'BothSpatulasApproach'
-% @param Motion OWL identifier for a tool, e.g. an instance of a spatula
+% @param Tool   OWL identifier for a tool, e.g. an instance of a spatula
 % @param Constr OWL identifier of the constraint
 %
 motion_constraint(Motion, Tool, Constr) :-
     class_properties(Motion, knowrob:constrainedBy, Constr),
     class_properties(Constr, constr:toolFeature, Tf),
-    owl_individual_of(Tool, Tf).
+    once(owl_individual_of(ToolPart, Tf)),
+    owl_has(Tool, knowrob:properPhysicalParts, ToolPart).
 
 
 
