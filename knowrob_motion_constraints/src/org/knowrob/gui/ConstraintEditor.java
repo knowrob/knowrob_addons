@@ -106,8 +106,8 @@ public class ConstraintEditor extends PApplet {
 		task = new MotionTask("Flipping a pancake", controlP5);
 		//task.fillWithTestData();
 		
-		task.readFromOWL("/home/tenorth/work/ros/fuerte/stacks/knowrob_addons/knowrob_motion_constraints/owl/pancake-making-constr.owl", 
-						 "http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake");
+		//task.readFromOWL("/home/tenorth/work/ros/fuerte/stacks/knowrob_addons/knowrob_motion_constraints/owl/pancake-making-constr.owl", 
+		//				 "http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake");
 		
 
 		// set initial values for 'add' box dimensions
