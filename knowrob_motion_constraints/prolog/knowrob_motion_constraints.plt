@@ -21,8 +21,6 @@
 
 :- begin_tests(knowrob_motion_constraints).
 
-:- use_module(library(plunit/plunit)).
-
 :- use_module(library('knowrob_motion_constraints')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('thea/owl_parser')).
