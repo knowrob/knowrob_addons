@@ -158,7 +158,7 @@
       <rdf:type rdf:resource="&knowrob;Cone"/>
     <rdfs:label rdf:datatype="&xsd;string">left spatula: front axis</rdfs:label>
     <knowrob:tfFrame rdf:datatype="&xsd;string">l_spatula</knowrob:tfFrame>
-    <knowrob:direction rdf:resource="&spatula;Vector_BFToQkXU"/>
+    <knowrob:longitudinalDirection rdf:resource="&spatula;Vector_BFToQkXU"/>
 </owl:NamedIndividual>
 
 
@@ -224,7 +224,7 @@
     <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
     <rdfs:label rdf:datatype="&xsd;string">right spatula: plane</rdfs:label>
     <knowrob:properPhysicalParts rdf:resource="&spatula;FrontSide_IiTqC8zK"/>
-    <knowrob:direction rdf:resource="&spatula;Vector_KVBtnLYG"/>
+    <knowrob:normalDirection rdf:resource="&spatula;Vector_KVBtnLYG"/>
 </owl:NamedIndividual>
 
 
@@ -277,7 +277,7 @@
     <rdf:type rdf:resource="&knowrob;FrontSide"/>
       <rdf:type rdf:resource="&knowrob;Cone"/>
     <rdfs:label rdf:datatype="&xsd;string">right spatula: front axis</rdfs:label>
-    <knowrob:direction rdf:resource="&spatula;Vector_tsWkguBU"/>
+    <knowrob:longitudinalDirection rdf:resource="&spatula;Vector_tsWkguBU"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&spatula;Vector_tsWkguBU">
@@ -337,7 +337,7 @@
     <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
     <rdfs:label rdf:datatype="&xsd;string">pancake plane</rdfs:label>
     <knowrob:properPhysicalParts rdf:resource="&spatula;RightSide_ua8Y1cmR"/>
-    <knowrob:direction rdf:resource="&spatula;Vector_ravxSkbD"/>
+    <knowrob:normalDirection rdf:resource="&spatula;Vector_ravxSkbD"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&spatula;Vector_ravxSkbD">
@@ -385,7 +385,7 @@
     <rdf:type rdf:resource="&knowrob;RightSide"/>
     <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
     <rdfs:label rdf:datatype="&xsd;string">pancake right rim plane</rdfs:label>
-    <knowrob:direction rdf:resource="&spatula;Vector_rvLcOnrM"/>
+    <knowrob:normalDirection rdf:resource="&spatula;Vector_rvLcOnrM"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&spatula;Vector_rvLcOnrM">
