@@ -213,8 +213,8 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   owl_subclass_of(T, knowrob:'FlatPhysicalSurface'),
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
 
-  (rdf_has(Feature, rdfs:label, literal(type(_,Label))); Label=''),
-  (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))); TfFrame = 'map'),
+  (rdf_has(Feature, rdfs:label, literal(type(_,Label))),!; Label=''),
+  (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!; TfFrame = 'map'),
 
   % todo: use relative pose instead?
   current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
