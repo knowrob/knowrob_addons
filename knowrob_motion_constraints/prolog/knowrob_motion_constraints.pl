@@ -116,12 +116,13 @@ motion_constraint(Motion, Tool, Constr) :-
 constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MaxVel) :-
 
     owl_subclass_of(Constr, Type),
-    owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),
+    owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),!,
 
     class_properties(Constr, constr:toolFeature, ToolFeatureClass),
-    owl_individual_of(ToolFeature, ToolFeatureClass),
+    owl_individual_of(ToolFeature, ToolFeatureClass),!,
+    
     class_properties(Constr, constr:worldFeature, WorldFeatureClass),
-    owl_individual_of(WorldFeature, WorldFeatureClass),
+    owl_individual_of(WorldFeature, WorldFeatureClass),!,
 
     class_properties(Constr, constr:constrWeight, literal(type(_, W))),
     term_to_atom(Weight, W),
@@ -133,7 +134,7 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
     term_to_atom(Upper, U),
 
     class_properties(Constr, constr:constrMaxVelocity, literal(type(_, Mv))),
-    term_to_atom(MaxVel, Mv).
+    term_to_atom(MaxVel, Mv),!.
 
 
 
