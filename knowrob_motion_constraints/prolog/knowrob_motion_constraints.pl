@@ -115,20 +115,25 @@ motion_constraint(Motion, Tool, Constr) :-
 %
 constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MaxVel) :-
 
-   owl_subclass_of(Constr, Type),
-   owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),
+    owl_subclass_of(Constr, Type),
+    owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),
 
-   class_properties(Constr, constr:toolFeature, ToolFeatureClass),
-   owl_individual_of(ToolFeature, ToolFeatureClass),
-   class_properties(Constr, constr:worldFeature, WorldFeatureClass),
-   owl_individual_of(WorldFeature, WorldFeatureClass),
+    class_properties(Constr, constr:toolFeature, ToolFeatureClass),
+    owl_individual_of(ToolFeature, ToolFeatureClass),
+    class_properties(Constr, constr:worldFeature, WorldFeatureClass),
+    owl_individual_of(WorldFeature, WorldFeatureClass),
 
-   class_properties(Constr, constr:constrWeight, literal(type(_, Weight))),
+    class_properties(Constr, constr:constrWeight, literal(type(_, W))),
+    term_to_atom(Weight, W),
 
-   class_properties(Constr, constr:constrLowerLimit, literal(type(_, Lower))),
-   class_properties(Constr, constr:constrUpperLimit, literal(type(_, Upper))),
+    class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))),
+    term_to_atom(Lower, L),
 
-   class_properties(Constr, constr:constrMaxVelocity, literal(type(_, MaxVel))).
+    class_properties(Constr, constr:constrUpperLimit, literal(type(_, U))),
+    term_to_atom(Upper, U),
+
+    class_properties(Constr, constr:constrMaxVelocity, literal(type(_, Mv))),
+    term_to_atom(MaxVel, Mv).
 
 
 
@@ -155,21 +160,21 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),
 
   owl_has(Feature, knowrob:position, Pos),
-  owl_has(Pos, knowrob:vectorX, literal(type(_,PX))),
-  owl_has(Pos, knowrob:vectorY, literal(type(_,PY))),
-  owl_has(Pos, knowrob:vectorZ, literal(type(_,PZ))),
+  owl_has(Pos, knowrob:vectorX, literal(type(_,Px))), term_to_atom(PX, Px),
+  owl_has(Pos, knowrob:vectorY, literal(type(_,Py))), term_to_atom(PY, Py),
+  owl_has(Pos, knowrob:vectorZ, literal(type(_,Pz))), term_to_atom(PZ, Pz),
   Position = [PX, PY, PZ],
 
   owl_has(Feature, knowrob:direction, Dir),
-  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
-  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
-  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
   Direction = [DX, DY, DZ],
 
   owl_has(Feature, knowrob:contactDirection, Cont),
-  owl_has(Cont, knowrob:vectorX, literal(type(_,CX))),
-  owl_has(Cont, knowrob:vectorY, literal(type(_,CY))),
-  owl_has(Cont, knowrob:vectorZ, literal(type(_,CZ))),
+  owl_has(Cont, knowrob:vectorX, literal(type(_,Cx))), term_to_atom(CX, Cx),
+  owl_has(Cont, knowrob:vectorY, literal(type(_,Cy))), term_to_atom(CY, Cy),
+  owl_has(Cont, knowrob:vectorZ, literal(type(_,Cz))), term_to_atom(CZ, Cz),
   ContactDirection = [CX, CY, CZ].
 
 
@@ -190,9 +195,9 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   Position = [PX, PY, PZ],
 
   rdf_triple(knowrob:longitudinalDirection, Feature, Dir),
-  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
-  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
-  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
   Direction = [DX, DY, DZ],
 
   ContactDirection = [0, 0, 0].
@@ -215,9 +220,9 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   Position = [PX, PY, PZ],
 
   rdf_triple(knowrob:normalDirection, Feature, Dir),
-  owl_has(Dir, knowrob:vectorX, literal(type(_,DX))),
-  owl_has(Dir, knowrob:vectorY, literal(type(_,DY))),
-  owl_has(Dir, knowrob:vectorZ, literal(type(_,DZ))),
+  owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
+  owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
+  owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
   Direction = [DX, DY, DZ],
 
   % TODO: how to determine contact direction?
