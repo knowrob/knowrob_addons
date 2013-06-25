@@ -3,6 +3,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init()
 rosbuild_include(rosprolog utils)
+rosbuild_genmsg()
 rosbuild_gensrv()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
