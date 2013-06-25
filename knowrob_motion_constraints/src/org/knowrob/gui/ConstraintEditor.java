@@ -23,6 +23,7 @@ package org.knowrob.gui;
 
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import org.knowrob.constr.MotionTask;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -36,10 +37,14 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
+import controlP5.ControlEvent;
 import controlP5.ControlP5;
 import controlP5.ControllerInterface;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
+import edu.tum.cs.ias.knowrob.owl.utils.OWLImportExport;
+import edu.tum.cs.ias.knowrob.prolog.PrologInterface;
 import processing.core.PApplet;
+import ros.pkg.knowrob_motion_constraints.srv.ConstraintsToOWL;
 
 
 /**
@@ -103,11 +108,8 @@ public class ConstraintEditor extends PApplet {
 		strokeWeight(1);
 		
 		task = new MotionTask("Flipping a pancake", controlP5);
-		//task.fillWithTestData();
 		
-		//task.readFromOWL("/home/tenorth/work/ros/fuerte/stacks/knowrob_addons/knowrob_motion_constraints/owl/pancake-making-constr.owl", 
-		//				 "http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake");
-		
+		controlP5.addButton("Save to OWL", 10.0f).setWidth(120).setColorForeground(0).setColorBackground(180).setPosition(40,15);
 
 		// set initial values for 'add' box dimensions
 		task.recomputeBoxDimensions();
@@ -120,7 +122,7 @@ public class ConstraintEditor extends PApplet {
 		background(255);
 		
 		if(task!=null) {
-			task.draw(this, 40, 40, controlP5);
+			task.draw(this, 40, 60, controlP5);
 		}
 
 	}
@@ -196,13 +198,58 @@ public class ConstraintEditor extends PApplet {
 		
 		synchronized(controlP5) {
 			for(ControllerInterface<?> c : controlP5.getAll()) {
-				System.out.println("Removing " + c.getName() + "...");
 				controlP5.remove(c.getName());
 			}
 		}
 	}
 
 
+	public void controlEvent(ControlEvent theEvent) {
+
+		if (theEvent.isController() && theEvent.getController().getValue()==10f) {
+
+			String savePath = selectOutput();  // opens file chooser
+			if (savePath == null) {
+				// no file selected
+				return;
+				
+			} else {
+
+				if(new File(savePath).isDirectory()) {
+					savePath += File.separator + task.getName() + ".owl";
+				}
+				
+				// export as file
+				OWLOntology ontology = null;
+
+				// Create ontology manager and data factory
+				OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+				OWLDataFactory factory = manager.getOWLDataFactory();
+				DefaultPrefixManager pm = MotionTask.PREFIX_MANAGER;
+
+				// Create empty OWL ontology
+				try {
+
+					ontology = manager.createOntology(IRI.create(MotionTask.MOTION));
+					manager.setOntologyFormat(ontology, new RDFXMLOntologyFormat());
+
+				} catch (OWLOntologyCreationException e) {
+					e.printStackTrace();
+				}
+
+				// Import motion constraints ontology
+				OWLImportsDeclaration oid = factory.getOWLImportsDeclaration(IRI.create(MotionTask.CONSTR));
+				AddImport addImp = new AddImport(ontology,oid);
+				manager.applyChange(addImp);
+
+				task.writeToOWL(manager, factory, pm, ontology);
+				
+				OWLFileUtils.saveOntologyToFile(ontology, savePath, manager.getOntologyFormat(ontology));
+				
+			}
+		}
+
+	}
 	public void setTask(MotionTask task) {
 		this.task = task;
 	}

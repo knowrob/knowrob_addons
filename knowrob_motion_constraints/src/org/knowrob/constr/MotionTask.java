@@ -20,7 +20,6 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
-import controlP5.ControllerInterface;
 import edu.tum.cs.ias.knowrob.owl.OWLThing;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
 
@@ -35,12 +34,12 @@ public class MotionTask {
 	protected List<MotionConstraintTemplate> templates;
 
 	public float ADD_PHASE_BOX_X = 40;
-	public float ADD_PHASE_BOX_Y = 40;
+	public float ADD_PHASE_BOX_Y = 100;
 	public float ADD_PHASE_BOX_W = 120 + 40;
 	public float ADD_PHASE_BOX_H = 40;
 
 	public float ADD_CONSTR_BOX_X = 40 + 120;
-	public float ADD_CONSTR_BOX_Y = 40;
+	public float ADD_CONSTR_BOX_Y = 100;
 	public float ADD_CONSTR_BOX_W = 40;
 	public float ADD_CONSTR_BOX_H = 40;
 
@@ -113,7 +112,7 @@ public class MotionTask {
 		this.controlP5 = controlP5;
 		
 		synchronized(controlP5) {
-			controlP5.addTextfield(name + "_name").setText(name).setWidth(120).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).setPosition(40,15);
+			controlP5.addTextfield(name + "_name").setText(name).setWidth(120).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).setPosition(40,60);
 		}
 	}
 
@@ -183,12 +182,12 @@ public class MotionTask {
 			if(phases.size()>0) {
 				
 				ADD_PHASE_BOX_X = 40;
-				ADD_PHASE_BOX_Y = 40 + (phases.size()*MotionConstraint.CONSTRAINT_BOX_HEIGHT) + MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
+				ADD_PHASE_BOX_Y = 60 + (phases.size()*MotionConstraint.CONSTRAINT_BOX_HEIGHT) + MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
 				ADD_PHASE_BOX_W = 120 + 40 + phases.get(0).getConstraints().size() * MotionConstraint.CONSTRAINT_BOX_WIDTH;
 				ADD_PHASE_BOX_H = 40;
 
 				ADD_CONSTR_BOX_X = 40 + 120+ phases.get(0).getConstraints().size() * MotionConstraint.CONSTRAINT_BOX_WIDTH ;
-				ADD_CONSTR_BOX_Y = 40 + MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
+				ADD_CONSTR_BOX_Y = 60 + MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
 				ADD_CONSTR_BOX_W = 40;
 				ADD_CONSTR_BOX_H = (phases.size()*MotionConstraint.CONSTRAINT_BOX_HEIGHT);
 			}
