@@ -201,6 +201,9 @@ public class ConstraintEditor extends PApplet {
 				controlP5.remove(c.getName());
 			}
 		}
+
+		controlP5.addButton("Save to OWL", 10.0f).setWidth(120).setColorForeground(0).setColorBackground(180).setPosition(40,15);
+
 	}
 
 
