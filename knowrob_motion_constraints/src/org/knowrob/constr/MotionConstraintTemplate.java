@@ -1,7 +1,6 @@
 package org.knowrob.constr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -24,11 +23,8 @@ public class MotionConstraintTemplate {
 	private String label = "";
 	protected ArrayList<String> types;
 
-
 	protected String toolFeature = "";
 	protected String worldFeature = "";
-	private ControlP5 controlP5;
-	
 	
 	public static int TEMPLATE_BOX_WIDTH  = 170;
 	public static int TEMPLATE_BOX_HEIGHT = 80;

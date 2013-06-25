@@ -1,12 +1,6 @@
 package org.knowrob.constr;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import ros.*;
-import ros.pkg.constraint_msgs.msg.Constraint;
-import ros.pkg.constraint_msgs.msg.ConstraintCommand;
-import ros.pkg.constraint_msgs.msg.Feature;
 import ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate;
 import ros.pkg.knowrob_motion_constraints.msg.MotionConstraint;
 import ros.pkg.knowrob_motion_constraints.msg.MotionPhase;

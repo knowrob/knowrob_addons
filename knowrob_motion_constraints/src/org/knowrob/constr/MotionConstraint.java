@@ -31,7 +31,6 @@ public class MotionConstraint {
 	protected double constrUpperLimit;
 
 	protected MotionConstraintTemplate template;
-	private ControlP5 controlP5;
 	
 	public static int CONSTRAINT_BOX_WIDTH  = 170;
 	public static int CONSTRAINT_BOX_HEIGHT = 80;

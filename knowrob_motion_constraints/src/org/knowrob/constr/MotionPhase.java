@@ -28,7 +28,6 @@ public class MotionPhase {
 	protected String name = "";
 	private String label = "";
 	protected ArrayList<MotionConstraint> constraints;
-	private ControlP5 controlP5;
 
 
 	public MotionPhase() {
@@ -50,7 +49,6 @@ public class MotionPhase {
 		this();
 
 		this.name = name;
-		this.controlP5 = controlP5;
 
 		controlP5.addTextfield(name + "_name").setText(name).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
 
