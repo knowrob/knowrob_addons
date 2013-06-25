@@ -1,6 +1,7 @@
 package org.knowrob.constr;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,14 +91,19 @@ public class MotionTask {
 
 	public MotionTask(ros.pkg.knowrob_motion_constraints.msg.MotionTask msg, ControlP5 controlP5) {
 
+		this();
 		this.name = msg.name;
+		this.controlP5 = controlP5;
 
+		synchronized(templates) {
 		for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate tmpl : msg.templates) {
 			this.templates.add(new MotionConstraintTemplate(tmpl, controlP5));
 		}
-
+		}
+		synchronized(phases) {
 		for(ros.pkg.knowrob_motion_constraints.msg.MotionPhase phase : msg.phases) {
 			this.phases.add(new MotionPhase(phase, templates, controlP5));
+		}
 		}
 	}
 
@@ -203,7 +209,7 @@ public class MotionTask {
 
 				for(MotionConstraint c : phases.get(0).getConstraints()) {
 
-					p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new String[]{""}, true, 0f, 0f, c.getTemplate(), controlP5));
+					p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), true, 0f, 0f, c.getTemplate(), controlP5));
 
 					try { Thread.sleep(5); } catch (InterruptedException e) {
 						e.printStackTrace();
@@ -222,13 +228,13 @@ public class MotionTask {
 
 		synchronized(phases) {
 
-			MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new String[]{""}, "", "", controlP5);
+			MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "", "", controlP5);
 
 			templates.add(tmpl);
 
 			for(MotionPhase p : phases) {
 
-				p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new String[]{""}, true, 0f, 0f, tmpl, controlP5));
+				p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), true, 0f, 0f, tmpl, controlP5));
 
 				try { Thread.sleep(5); } catch (InterruptedException e) {
 					e.printStackTrace();
@@ -249,7 +255,7 @@ public class MotionTask {
 				MotionPhase p = new MotionPhase("phase " + i, controlP5);
 
 
-				MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new String[]{""}, "handle", "pancake", controlP5);
+				MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "handle", "pancake", controlP5);
 				templates.add(tmpl);
 
 				try { Thread.sleep(5); } catch (InterruptedException e) {
@@ -259,7 +265,7 @@ public class MotionTask {
 				for(int j=0;j<5;j++) {
 
 					MotionConstraint c = new MotionConstraint(OWLThing.getUniqueID("").substring(1), 
-							new String[]{"DirectionConstraint"}, 
+							new ArrayList<String>(Arrays.asList(new String[]{"DirectionConstraint"})), 
 							false, 0.2, 0.6, tmpl, controlP5);
 					p.addConstraint(c);
 
@@ -278,7 +284,7 @@ public class MotionTask {
 	public void readFromOWL(String filename, String actionClassIRI) {
 
 		try {
-
+			synchronized(phases) {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 			OWLDataFactory factory = manager.getOWLDataFactory();
 
@@ -303,7 +309,7 @@ public class MotionTask {
 					// TODO: sort based on ordering constraints
 
 					// TODO: read templates from OWL
-					MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new String[]{""}, "handle", "pancake", controlP5);
+					MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "handle", "pancake", controlP5);
 					templates.add(tmpl);
 
 					MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
@@ -311,6 +317,7 @@ public class MotionTask {
 
 					phases.add(p);
 
+				}
 				}
 			}
 		} catch (OWLOntologyCreationException e) {
@@ -336,18 +343,28 @@ public class MotionTask {
 
 
 		// write motion phases
-		ArrayList<OWLClass> tmpl_cls = new ArrayList<OWLClass>();
-		for(MotionConstraintTemplate t : templates) {
-			tmpl_cls.add(t.writeToOWL(manager, factory, pm, ontology));
+		synchronized(templates) {
+			ArrayList<OWLClass> tmpl_cls = new ArrayList<OWLClass>();
+			for(MotionConstraintTemplate t : templates) {
+				tmpl_cls.add(t.writeToOWL(manager, factory, pm, ontology));
+			}
 		}
-
 
 		// write motion phases
-		ArrayList<OWLClass> phases_cls = new ArrayList<OWLClass>();
-		for(MotionPhase p : phases) {
-			phases_cls.add(p.writeToOWL(manager, factory, pm, ontology));
-		}
+		ArrayList<OWLClass> phasesCls = new ArrayList<OWLClass>();
+		OWLObjectProperty subAction = factory.getOWLObjectProperty(IRI.create(KNOWROB + "subAction"));
+		
+		synchronized(phases) {
+			for(MotionPhase p : phases) {
 
+				OWLClass phaseCls = p.writeToOWL(manager, factory, pm, ontology);
+				phasesCls.add(phaseCls);
+
+				// add as sub-action
+				OWLClassExpression subActionRestr = factory.getOWLObjectSomeValuesFrom(subAction, phaseCls);
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(motiontask, subActionRestr))); 
+			}
+		}
 
 		// write ordering constraints
 		OWLObjectProperty orderingConstraints = factory.getOWLObjectProperty(IRI.create(KNOWROB + "orderingConstraints"));
@@ -356,21 +373,28 @@ public class MotionTask {
 
 		OWLClass partialOrderingClass = factory.getOWLClass(IRI.create(KNOWROB + "PartialOrdering-Strict"));
 
-		for(int i = 0; i<phases_cls.size(); i++) {
-			for(int j=i+1; j<phases_cls.size(); j++) {
+		for(int i = 0; i<phasesCls.size(); i++) {
+			for(int j=i+1; j<phasesCls.size(); j++) {
 
 				// create ordering instance
+				try{
 
-				OWLNamedIndividual ordering = factory.getOWLNamedIndividual(IRI.create(MOTION + this.name + i + j + OWLThing.getUniqueID("")));
-				manager.applyChanges(manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(partialOrderingClass, ordering)));
+					OWLNamedIndividual ordering = factory.getOWLNamedIndividual(IRI.create(MOTION + this.name + i + j + OWLThing.getUniqueID("")));
+					manager.applyChanges(manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(partialOrderingClass, ordering)));
 
-				manager.applyChanges(manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(occursBeforeInOrdering, ordering, (OWLIndividual) phases_cls.get(i))));
-				manager.applyChanges(manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(occursAfterInOrdering, ordering, (OWLIndividual) phases_cls.get(j))));
+					OWLNamedIndividual pre = factory.getOWLNamedIndividual(IRI.create(phasesCls.get(i).toStringID()));
+					OWLNamedIndividual post = factory.getOWLNamedIndividual(IRI.create(phasesCls.get(j).toStringID()));
 
-				// add restriction to task class
-				OWLClassExpression orderingRestr = factory.getOWLObjectHasValue(orderingConstraints, ordering);
-				manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(motiontask, orderingRestr))); 
+					manager.applyChanges(manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(occursBeforeInOrdering, ordering, pre)));
+					manager.applyChanges(manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(occursAfterInOrdering, ordering, post)));
 
+					// add restriction to task class
+					OWLClassExpression orderingRestr = factory.getOWLObjectHasValue(orderingConstraints, ordering);
+					manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(motiontask, orderingRestr))); 
+
+				} catch( Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 

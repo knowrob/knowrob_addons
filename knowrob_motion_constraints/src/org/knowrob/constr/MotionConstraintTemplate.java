@@ -2,6 +2,7 @@ package org.knowrob.constr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -20,12 +21,13 @@ import processing.core.PApplet;
 public class MotionConstraintTemplate {
 
 	protected String name = "";
-	private String label;
+	private String label = "";
 	protected ArrayList<String> types;
 
 
 	protected String toolFeature = "";
 	protected String worldFeature = "";
+	private ControlP5 controlP5;
 	
 	
 	public static int TEMPLATE_BOX_WIDTH  = 170;
@@ -41,21 +43,15 @@ public class MotionConstraintTemplate {
 	
 
 	public MotionConstraintTemplate(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate msg, ControlP5 controlP5) {
-		
-		this.name = msg.name;
-		this.types.addAll(msg.types);
-		
-		this.toolFeature = msg.toolFeature;
-		this.worldFeature = msg.worldFeature;
-
+		this(msg.name, msg.types, msg.toolFeature, msg.worldFeature, controlP5);
 	}
 
-	public MotionConstraintTemplate(String name, String[] types, String toolFeature, String worldFeature, ControlP5 controlP5) {
+	public MotionConstraintTemplate(String name, List<String> types, String toolFeature, String worldFeature, ControlP5 controlP5) {
 
 		this();
 
 		this.name = name;
-		this.types = new ArrayList<String>(Arrays.asList(types));
+		this.types = new ArrayList<String>(types);
 		
 		this.toolFeature = toolFeature;
 		this.worldFeature = worldFeature;
@@ -111,7 +107,7 @@ public class MotionConstraintTemplate {
 	public OWLClass writeToOWL(OWLOntologyManager manager, OWLDataFactory factory, DefaultPrefixManager pm, OWLOntology ontology) {
 
 		
-		// create motion class
+		// create template class
 		OWLClass templateCl = factory.getOWLClass(IRI.create(MotionTask.MOTION + name));
 		
 		

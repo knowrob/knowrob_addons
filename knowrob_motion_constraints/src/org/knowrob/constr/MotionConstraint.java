@@ -1,7 +1,6 @@
 package org.knowrob.constr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -23,7 +22,7 @@ import processing.core.PApplet;
 public class MotionConstraint {
 
 	protected String name = "";
-	private String label;
+	private String label = "";
 	protected ArrayList<String> types;
 
 	protected boolean active = true;
@@ -32,6 +31,7 @@ public class MotionConstraint {
 	protected double constrUpperLimit;
 
 	protected MotionConstraintTemplate template;
+	private ControlP5 controlP5;
 	
 	public static int CONSTRAINT_BOX_WIDTH  = 170;
 	public static int CONSTRAINT_BOX_HEIGHT = 80;
@@ -46,28 +46,24 @@ public class MotionConstraint {
 
 
 	public MotionConstraint(ros.pkg.knowrob_motion_constraints.msg.MotionConstraint msg, List<MotionConstraintTemplate> templates, ControlP5 controlP5) {
-		
-		this.name = msg.name;
-		this.types.addAll(msg.types);
-		this.active = msg.active;
-		this.constrLowerLimit = msg.constrLowerLimit;
-		this.constrUpperLimit = msg.constrUpperLimit;
+
+		this(msg.name, msg.types, msg.active, msg.constrLowerLimit, msg.constrUpperLimit, null, controlP5);
 		
 		for(MotionConstraintTemplate t : templates) {
-			if(t.getName().equals(msg.name)) {
+			if(t.getName().equals(msg.template.name)) {
 				this.template = t;
 				break;
 			}
 		}
 	}
 	
-	public MotionConstraint(String name, String[] types, boolean active, double constrLowerLimit, double constrUpperLimit, MotionConstraintTemplate template, ControlP5 controlP5) {
+	public MotionConstraint(String name, List<String> types, boolean active, double constrLowerLimit, double constrUpperLimit, MotionConstraintTemplate template, ControlP5 controlP5) {
 
 		this();
 
 		this.name = name;
 		this.active = active;
-		this.types = new ArrayList<String>(Arrays.asList(types));
+		this.types = new ArrayList<String>(types);
 		
 		this.constrLowerLimit = constrLowerLimit;
 		this.constrUpperLimit = constrUpperLimit;
@@ -154,7 +150,7 @@ public class MotionConstraint {
 	public OWLClass writeToOWL(OWLOntologyManager manager, OWLDataFactory factory, DefaultPrefixManager pm, OWLOntology ontology) {
 
 		// create constraint class
-		String constrClsIRI = OWLThing.getUniqueID(template.getName());
+		String constrClsIRI = OWLThing.getUniqueID(MotionTask.MOTION + template.getName());
 		OWLClass constrCls = factory.getOWLClass(IRI.create(constrClsIRI));
 
 		// set constraint types 

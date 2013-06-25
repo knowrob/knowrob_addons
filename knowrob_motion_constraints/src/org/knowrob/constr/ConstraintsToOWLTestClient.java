@@ -2,18 +2,15 @@ package org.knowrob.constr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-
-import org.knowrob.constr.ConstraintsToOWLService.ConvertToOwlCallback;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import ros.*;
 import ros.pkg.constraint_msgs.msg.Constraint;
 import ros.pkg.constraint_msgs.msg.ConstraintCommand;
-import ros.pkg.constraint_msgs.msg.ConstraintConfig;
 import ros.pkg.constraint_msgs.msg.Feature;
+import ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate;
+import ros.pkg.knowrob_motion_constraints.msg.MotionConstraint;
+import ros.pkg.knowrob_motion_constraints.msg.MotionPhase;
+import ros.pkg.knowrob_motion_constraints.msg.MotionTask;
 import ros.pkg.knowrob_motion_constraints.srv.ConstraintsToOWL;
 
 
@@ -51,66 +48,108 @@ public class ConstraintsToOWLTestClient {
 	public String callConversionService() {
 
 		ServiceClient<ConstraintsToOWL.Request, ConstraintsToOWL.Response, ConstraintsToOWL> sc =
-				n.serviceClient("/knowrob_motion_constraints/constraints_to_owl" , new ConstraintsToOWL(), false);
+				n.serviceClient("constraints_to_owl" , new ConstraintsToOWL(), false);
 
 		
 		// fill request with test data
 		ConstraintsToOWL.Request req = new ConstraintsToOWL.Request();
 
-		// name and phases
-		req.name = "TestAction";
-		req.phases = new ArrayList<String>(Arrays.asList("Approach", "Touch"));
+		
+		// Task definition
+		req.task = new MotionTask();
+		req.task.name = "FlippingAPancake";
+		req.task.label = "test label task";
+		
+		
+		
+		// Constraint templates
+		MotionConstraintTemplate tmpl1 = new MotionConstraintTemplate();
+		tmpl1.name = "HeightLeftSpatulaPancake";
+		tmpl1.label = "test label template 1";
+		tmpl1.types.add("HeightConstraint");
+		tmpl1.toolFeature = "Handle";
+		tmpl1.worldFeature = "FlatPhysicalSurface";
+		req.task.templates.add(tmpl1);
+
+		MotionConstraintTemplate tmpl2 = new MotionConstraintTemplate();
+		tmpl2.name = "AlignLeftSpatulaFrontPancake";
+		tmpl2.label = "test label template 2";
+		tmpl2.types.add("PerpendicularityConstraint");
+		tmpl2.toolFeature = "FrontSide";
+		tmpl2.worldFeature = "FlatPhysicalSurface";
+		req.task.templates.add(tmpl2);
+		
+		
+		// // // // // // // // // // // // // // // // // // //
+		// Motion phase 1
+		MotionPhase phase1 = new MotionPhase();
+		phase1.name = "BothSpatulasTouch";
+		phase1.label = "test label phase 1";
+		req.task.phases.add(phase1);
+		
+		// Motion constraints
+		MotionConstraint c1_1 = new MotionConstraint();
+		c1_1.name = "HeightLeftSpatulaPancake_bDGnttMX";
+		c1_1.label = "constr1-1 test label";
+		c1_1.types.add("SlowMotionConstraint");
+		c1_1.types.add("HeightLeftSpatulaPancake");
+		c1_1.template = tmpl1;
+		c1_1.active = true;
+		c1_1.constrLowerLimit = 0.0;
+		c1_1.constrUpperLimit = 0.01;
+		phase1.constraints.add(c1_1);
+		
+		MotionConstraint c1_2 = new MotionConstraint();
+		c1_2.name = "AlignLeftSpatulaFrontPancake_bDGnttMX";
+		c1_2.label = "constr1-2 test label";
+		c1_2.types.add("SlowMotionConstraint");
+		c1_2.types.add("AlignLeftSpatulaFrontPancake");
+		c1_2.template = tmpl2;
+		c1_2.active = true;
+		c1_2.constrLowerLimit = -0.05;
+		c1_2.constrUpperLimit = 0.05;
+		phase1.constraints.add(c1_2);
+
+
+
+		// // // // // // // // // // // // // // // // // // //
+		// Motion phase 2
+		
+		MotionPhase phase2 = new MotionPhase();
+		phase2.name = "BothSpatulasApproach";
+		phase2.label = "test label phase 2";
+		req.task.phases.add(phase2);
+
+		// Motion constraints
+		MotionConstraint c2_1 = new MotionConstraint();
+		c2_1.name = "HeightLeftSpatulaPancake_aneXbLGX";
+		c2_1.label = "constr2-1 test label";
+		c2_1.types.add("SlowMotionConstraint");
+		c2_1.types.add("HeightLeftSpatulaPancake");
+		c2_1.template = tmpl1;
+		c2_1.active = true;
+		c2_1.constrLowerLimit = 0.15;
+		c2_1.constrUpperLimit = 0.17;
+		phase2.constraints.add(c2_1);
+		
+		MotionConstraint c2_2 = new MotionConstraint();
+		c2_2.name = "AlignLeftSpatulaFrontPancake_aneXbLGX";
+		c2_2.label = "constr2-2 test label";
+		c2_2.types.add("SlowMotionConstraint");
+		c2_2.types.add("AlignLeftSpatulaFrontPancake");
+		c2_2.template = tmpl2;
+		c2_2.active = true;
+		c2_2.constrLowerLimit = -0.1;
+		c2_2.constrUpperLimit = 0.1;
+		phase2.constraints.add(c2_2);
+		
+		
+		
+		
 
 		
-		// constraint templates
-		Constraint c1 = new Constraint();
-		c1.name = "PointToolAtObj";
-		c1.function = "pointing_at";
 		
-		c1.tool_feature = new Feature();
-		c1.tool_feature.frame_id = "map";
-		c1.tool_feature.type = 0;
-		c1.tool_feature.name = "Spatula1";
-		
-		c1.world_feature = new Feature();
-		c1.tool_feature.frame_id = "map";
-		c1.tool_feature.type = 0;
-		c1.tool_feature.name = "PancakeMaker1";
-		req.conf.constraints.add(c1);
-		
-		Constraint c2 = new Constraint();
-		c2.name = "KeepToolAboveObj";
-		c2.function = "height";
-		
-		c2.tool_feature = new Feature();
-		c2.tool_feature.frame_id = "map";
-		c2.tool_feature.type = 0;
-		c2.tool_feature.name = "Spatula1";
-		
-		c2.world_feature = new Feature();
-		c2.tool_feature.frame_id = "map";
-		c2.tool_feature.type = 0;
-		c2.tool_feature.name = "PancakeMaker1";
-		req.conf.constraints.add(c2);
-		
-		
-		// constraint values
-		ConstraintCommand p1 = new ConstraintCommand();
-		p1.weight  = new double[]{ 1,  0};
-		p1.pos_lo  = new double[]{ 0.0,  0.0};
-		p1.pos_hi  = new double[]{ 0.5,  0.3};
-		p1.min_vel = new double[]{-0.2, -0.2};
-		p1.max_vel = new double[]{ 0.2,  0.2};
-		req.values.add(p1);
-		
-		ConstraintCommand p2 = new ConstraintCommand();
-		p2.weight  = new double[]{ 0,  1};
-		p2.pos_lo  = new double[]{ 0.1,  0.2};
-		p2.pos_hi  = new double[]{ 0.1,  0.6};
-		p2.min_vel = new double[]{-0.1, -0.1};
-		p2.max_vel = new double[]{ 0.1,  0.1};
-		req.values.add(p2);
-		
+
 		
 		ConstraintsToOWL.Response res;
 		try {

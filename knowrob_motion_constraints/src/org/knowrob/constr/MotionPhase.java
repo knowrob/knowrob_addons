@@ -1,6 +1,7 @@
 package org.knowrob.constr;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -25,8 +26,9 @@ import processing.core.PApplet;
 public class MotionPhase {
 
 	protected String name = "";
-	private String label;
+	private String label = "";
 	protected ArrayList<MotionConstraint> constraints;
+	private ControlP5 controlP5;
 
 
 	public MotionPhase() {
@@ -35,7 +37,7 @@ public class MotionPhase {
 
 	public MotionPhase(ros.pkg.knowrob_motion_constraints.msg.MotionPhase msg, List<MotionConstraintTemplate> templates, ControlP5 controlP5) {
 		
-		this.name = msg.name;
+		this(msg.name, controlP5);
 		
 		for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraint constr : msg.constraints) {
 			this.constraints.add(new MotionConstraint(constr, templates, controlP5));
@@ -48,6 +50,7 @@ public class MotionPhase {
 		this();
 
 		this.name = name;
+		this.controlP5 = controlP5;
 
 		controlP5.addTextfield(name + "_name").setText(name).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
 
@@ -169,7 +172,7 @@ public class MotionPhase {
 
 			
 			MotionConstraint c = new MotionConstraint(constr.toString(), 
-					new String[]{"DirectionConstraint"}, false, 0.0, 0.0, tmpl, controlP5);
+					new ArrayList<String>(Arrays.asList(new String[]{"DirectionConstraint"})), false, 0.0, 0.0, tmpl, controlP5);
 
 			c.readFromOWL((OWLClass) constr, ont, factory, controlP5);
 			

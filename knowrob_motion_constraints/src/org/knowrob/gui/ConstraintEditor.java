@@ -21,15 +21,14 @@
  */
 package org.knowrob.gui;
 
+import java.awt.Frame;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 
 import org.knowrob.constr.MotionTask;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -39,7 +38,6 @@ import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
-import edu.tum.cs.ias.knowrob.owl.utils.OWLImportExport;
 import processing.core.PApplet;
 
 
@@ -53,7 +51,7 @@ public class ConstraintEditor extends PApplet {
 
 	private static final long serialVersionUID = -284448276454939406L;
 
-	protected ControlP5 controlP5;
+	public ControlP5 controlP5;
 
 	protected MotionTask task;
 
@@ -176,11 +174,24 @@ public class ConstraintEditor extends PApplet {
 		manager.applyChange(addImp);
 
 		task.writeToOWL(manager, factory, pm, ontology);
+		
 		OWLFileUtils.saveOntologyToFile(ontology, ontology.getOWLOntologyManager().getOntologyFormat(ontology), filename);
 		
 	}
 
+	public void setFrame(Frame frame) {
+		this.frame = frame;
+	}
 
+
+	public MotionTask getTask() {
+		return task;
+	}
+
+
+	public void setTask(MotionTask task) {
+		this.task = task;
+	}
 	public static void main(String args[]) {
 		PApplet.main(new String[] { "org.knowrob.gui.ConstraintEditor" });
 	}
