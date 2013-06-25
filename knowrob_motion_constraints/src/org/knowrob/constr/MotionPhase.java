@@ -3,8 +3,10 @@ package org.knowrob.constr;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.knowrob.constr.util.RestrictionVisitor;
+import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -23,14 +25,24 @@ import processing.core.PApplet;
 public class MotionPhase {
 
 	protected String name = "";
+	private String label;
 	protected ArrayList<MotionConstraint> constraints;
-	public final static String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
+
 
 	public MotionPhase() {
 		this.constraints = new ArrayList<MotionConstraint>();
 	}
 
-
+	public MotionPhase(ros.pkg.knowrob_motion_constraints.msg.MotionPhase msg, List<MotionConstraintTemplate> templates, ControlP5 controlP5) {
+		
+		this.name = msg.name;
+		
+		for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraint constr : msg.constraints) {
+			this.constraints.add(new MotionConstraint(constr, templates, controlP5));
+		}
+	}
+	
+	
 	public MotionPhase(String name, ControlP5 controlP5) {
 
 		this();
@@ -142,7 +154,7 @@ public class MotionPhase {
 
 	public void readFromOWL(OWLClass phaseCls, MotionConstraintTemplate tmpl, OWLOntology ont, OWLDataFactory factory, ControlP5 controlP5) {
 
-		OWLObjectProperty constrainedBy = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
+		OWLObjectProperty constrainedBy = factory.getOWLObjectProperty(IRI.create(MotionTask.KNOWROB + "constrainedBy"));
 		
 		// read constraints for phases
 		RestrictionVisitor constrainedByVisitor = new RestrictionVisitor(Collections.singleton(ont), constrainedBy);
@@ -170,15 +182,31 @@ public class MotionPhase {
 
 	public OWLClass writeToOWL(OWLOntologyManager manager, OWLDataFactory factory, DefaultPrefixManager pm, OWLOntology ontology) {
 
+		OWLClass itascmotion = factory.getOWLClass(IRI.create(MotionTask.KNOWROB + "ITaSCMotion"));
+		OWLClass phaseCl = factory.getOWLClass(IRI.create(MotionTask.MOTION + name));
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(phaseCl, itascmotion)));
 
+		// set label
+		if(!this.label.isEmpty())
+			manager.applyChange(new AddAxiom(ontology, 
+					factory.getOWLAnnotationAssertionAxiom(
+							factory.getRDFSLabel(), 
+							IRI.create(MotionTask.MOTION + name), 
+							factory.getOWLLiteral(this.label)))); 
+		
+		
+		OWLObjectProperty constrainedBy = factory.getOWLObjectProperty(IRI.create(MotionTask.KNOWROB + "constrainedBy"));
 		for(MotionConstraint constr : constraints) {
-
-			// TODO: export phase name, trypes, properties
-
-			constr.writeToOWL(manager, factory, pm, ontology);
+			
+			if(constr.isActive()) {
+				OWLClass constrCl = constr.writeToOWL(manager, factory, pm, ontology);
+				
+				OWLClassExpression constrainedByRestr = factory.getOWLObjectSomeValuesFrom(constrainedBy, constrCl);
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(phaseCl, constrainedByRestr))); 
+			}
 		}
 		
-		return null;
+		return phaseCl;
 	}
 
 }

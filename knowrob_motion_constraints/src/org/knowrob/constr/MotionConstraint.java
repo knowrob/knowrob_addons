@@ -2,29 +2,28 @@ package org.knowrob.constr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
 
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
+import edu.tum.cs.ias.knowrob.owl.OWLThing;
 
 import processing.core.PApplet;
 
 public class MotionConstraint {
 
 	protected String name = "";
+	private String label;
 	protected ArrayList<String> types;
 
 	protected boolean active = true;
@@ -45,6 +44,23 @@ public class MotionConstraint {
 
 	}
 
+
+	public MotionConstraint(ros.pkg.knowrob_motion_constraints.msg.MotionConstraint msg, List<MotionConstraintTemplate> templates, ControlP5 controlP5) {
+		
+		this.name = msg.name;
+		this.types.addAll(msg.types);
+		this.active = msg.active;
+		this.constrLowerLimit = msg.constrLowerLimit;
+		this.constrUpperLimit = msg.constrUpperLimit;
+		
+		for(MotionConstraintTemplate t : templates) {
+			if(t.getName().equals(msg.name)) {
+				this.template = t;
+				break;
+			}
+		}
+	}
+	
 	public MotionConstraint(String name, String[] types, boolean active, double constrLowerLimit, double constrUpperLimit, MotionConstraintTemplate template, ControlP5 controlP5) {
 
 		this();
@@ -137,61 +153,37 @@ public class MotionConstraint {
 
 	public OWLClass writeToOWL(OWLOntologyManager manager, OWLDataFactory factory, DefaultPrefixManager pm, OWLOntology ontology) {
 
-		String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
+		// create constraint class
+		String constrClsIRI = OWLThing.getUniqueID(template.getName());
+		OWLClass constrCls = factory.getOWLClass(IRI.create(constrClsIRI));
 
-		// Base IRI for motion constraints ontology	
-		String CONSTR = "http://ias.cs.tum.edu/kb/motion-constraints.owl#";
+		// set constraint types 
+		for(String t : types) {
+			OWLClass constrType = factory.getOWLClass(IRI.create(MotionTask.CONSTR + t));
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, constrType)));	
+		}
 
+		// set label
+		if(!this.label.isEmpty())
+			manager.applyChange(new AddAxiom(ontology, 
+					factory.getOWLAnnotationAssertionAxiom(
+							factory.getRDFSLabel(), 
+							IRI.create(constrClsIRI), 
+							factory.getOWLLiteral(this.label)))); 
 
-		OWLObjectProperty constrainedBy   = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
+		// set properties
+		OWLDataProperty constrWeight = factory.getOWLDataProperty(IRI.create(MotionTask.CONSTR + "constrWeight"));
+		OWLClassExpression weightRestr = factory.getOWLDataHasValue(constrWeight, factory.getOWLLiteral(1.0));
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, weightRestr))); 
 
-		OWLObjectProperty toolFeature     = factory.getOWLObjectProperty(IRI.create(CONSTR + "toolFeature"));
-		OWLObjectProperty worldFeature    = factory.getOWLObjectProperty(IRI.create(CONSTR + "worldFeature"));
+		OWLDataProperty constrLowerLimit  = factory.getOWLDataProperty(IRI.create(MotionTask.CONSTR + "constrLowerLimit"));
+		OWLClassExpression lowerLimitRestr = factory.getOWLDataHasValue(constrLowerLimit, factory.getOWLLiteral(this.constrLowerLimit));
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, lowerLimitRestr))); 
+		
+		OWLDataProperty constrUpperLimit  = factory.getOWLDataProperty(IRI.create(MotionTask.CONSTR + "constrUpperLimit"));
+		OWLClassExpression upperLimitRestr = factory.getOWLDataHasValue(constrUpperLimit, factory.getOWLLiteral(this.constrUpperLimit));
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, upperLimitRestr))); 
 
-		OWLDataProperty constrLowerLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrLowerLimit"));
-		OWLDataProperty constrUpperLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrUpperLimit"));
-		OWLDataProperty constrWeight      = factory.getOWLDataProperty(IRI.create(CONSTR + "constrWeight"));
-
-
-		// determine constraint type and create subclass
-		String constr_t = CONSTR + types.get(0); // TODO: read all types here
-		String constr_n = CONSTR + name;
-
-		OWLClass constrType = factory.getOWLClass(IRI.create(constr_t));
-		OWLClass constrCls = factory.getOWLClass(IRI.create(constr_n));
-		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, constrType)));
-
-
-//		// annotate subclass with feature values
-//		OWLNamedIndividual tool = factory.getOWLNamedIndividual(IRI.create(KNOWROB + this.toolFeature));
-//		OWLClassExpression toolFeatureRestr = factory.getOWLObjectHasValue(toolFeature, tool);
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, toolFeatureRestr))); 
-//
-//		OWLNamedIndividual world = factory.getOWLNamedIndividual(IRI.create(KNOWROB + this.worldFeature));
-//		OWLClassExpression worldFeatureRestr = factory.getOWLObjectHasValue(worldFeature, world);
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, worldFeatureRestr))); 
-
-//
-//		OWLClass constrVal = factory.getOWLClass(IRI.create(OWLThing.getUniqueID(constr_n)));
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrVal, constrCls)));
-//
-//		// set properties
-//		if(active)
-//		OWLClassExpression weightRestr = factory.getOWLDataHasValue(constrWeight, factory.getOWLLiteral(1.0));
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrVal, weightRestr))); 
-//
-//		OWLClassExpression lowerLimitRestr = factory.getOWLDataHasValue(constrLowerLimit, factory.getOWLLiteral(val.pos_lo[i]));
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrVal, lowerLimitRestr))); 
-//		OWLClassExpression upperLimitRestr = factory.getOWLDataHasValue(constrUpperLimit, factory.getOWLLiteral(val.pos_hi[i]));
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrVal, upperLimitRestr))); 
-//
-//
-//		// TODO: link constraints to phases in the task
-//
-//		OWLClassExpression constrainedByRestr = factory.getOWLObjectSomeValuesFrom(constrainedBy, constrVal);
-//		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(phases_cls.get(i), constrainedByRestr))); 
-//
-//	
 		return constrCls;
 
 	}
@@ -199,26 +191,21 @@ public class MotionConstraint {
 
 	public void readFromOWL(OWLClass constrCls, OWLOntology ont, OWLDataFactory factory, ControlP5 controlP5) {
 
-		String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
-
-		// Base IRI for motion constraints ontology	
-		String CONSTR = "http://ias.cs.tum.edu/kb/motion-constraints.owl#";
-
-		OWLObjectProperty constrainedBy   = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
-
-		OWLObjectProperty toolFeature     = factory.getOWLObjectProperty(IRI.create(CONSTR + "toolFeature"));
-		OWLObjectProperty worldFeature    = factory.getOWLObjectProperty(IRI.create(CONSTR + "worldFeature"));
-
-		OWLDataProperty constrLowerLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrLowerLimit"));
-		OWLDataProperty constrUpperLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrUpperLimit"));
-		OWLDataProperty constrWeight      = factory.getOWLDataProperty(IRI.create(CONSTR + "constrWeight"));
-
-		Set<OWLClassExpression> sup1 = constrCls.getSuperClasses(ont);
-		Set<OWLClassExpression> sup2 = constrCls.getSubClasses(ont);
-		
-		Set<OWLSubClassOfAxiom> sup = ont.getSubClassAxiomsForSubClass(constrCls);
-		Set<OWLSubClassOfAxiom> sub = ont.getSubClassAxiomsForSuperClass(constrCls);
-		Set<OWLClassAxiom> all = ont.getAxioms(constrCls);
+//		OWLObjectProperty constrainedBy   = factory.getOWLObjectProperty(IRI.create(KNOWROB + "constrainedBy"));
+//
+//		OWLObjectProperty toolFeature     = factory.getOWLObjectProperty(IRI.create(CONSTR + "toolFeature"));
+//		OWLObjectProperty worldFeature    = factory.getOWLObjectProperty(IRI.create(CONSTR + "worldFeature"));
+//
+//		OWLDataProperty constrLowerLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrLowerLimit"));
+//		OWLDataProperty constrUpperLimit  = factory.getOWLDataProperty(IRI.create(CONSTR + "constrUpperLimit"));
+//		OWLDataProperty constrWeight      = factory.getOWLDataProperty(IRI.create(CONSTR + "constrWeight"));
+//
+//		Set<OWLClassExpression> sup1 = constrCls.getSuperClasses(ont);
+//		Set<OWLClassExpression> sup2 = constrCls.getSubClasses(ont);
+//		
+//		Set<OWLSubClassOfAxiom> sup = ont.getSubClassAxiomsForSubClass(constrCls);
+//		Set<OWLSubClassOfAxiom> sub = ont.getSubClassAxiomsForSuperClass(constrCls);
+//		Set<OWLClassAxiom> all = ont.getAxioms(constrCls);
 
 		for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass((OWLClass)constrCls)) {
 			OWLClassExpression superCls = ax.getSuperClass();

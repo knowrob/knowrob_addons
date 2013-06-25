@@ -11,6 +11,8 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -27,6 +29,8 @@ import processing.core.PApplet;
 public class MotionTask {
 
 	protected String name = "";
+	protected String label = "";
+
 	protected List<MotionPhase> phases;
 	protected List<MotionConstraintTemplate> templates;
 
@@ -61,7 +65,7 @@ public class MotionTask {
 	public final static String CONSTR = "http://ias.cs.tum.edu/kb/motion-constraints.owl#";
 
 	// Base IRI for new ontology
-	public final static String CONSTR_DEF = "http://ias.cs.tum.edu/kb/motion-def.owl#";
+	public final static String MOTION = "http://ias.cs.tum.edu/kb/motion-def.owl#";
 
 
 	// Prefix manager
@@ -71,7 +75,7 @@ public class MotionTask {
 		PREFIX_MANAGER.setPrefix("constr:", CONSTR);
 		PREFIX_MANAGER.setPrefix("owl:", OWL);
 		PREFIX_MANAGER.setPrefix("rdfs:", RDFS);
-		PREFIX_MANAGER.setPrefix("constrdef:", CONSTR_DEF);
+		PREFIX_MANAGER.setPrefix("motion:", MOTION);
 	}
 
 
@@ -84,6 +88,18 @@ public class MotionTask {
 
 	}
 
+	public MotionTask(ros.pkg.knowrob_motion_constraints.msg.MotionTask msg, ControlP5 controlP5) {
+
+		this.name = msg.name;
+
+		for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate tmpl : msg.templates) {
+			this.templates.add(new MotionConstraintTemplate(tmpl, controlP5));
+		}
+
+		for(ros.pkg.knowrob_motion_constraints.msg.MotionPhase phase : msg.phases) {
+			this.phases.add(new MotionPhase(phase, templates, controlP5));
+		}
+	}
 
 	public MotionTask(String name, ControlP5 controlP5) {
 
@@ -272,16 +288,16 @@ public class MotionTask {
 
 				OWLClass actioncls = factory.getOWLClass(IRI.create(actionClassIRI));
 				OWLObjectProperty subAction = factory.getOWLObjectProperty(IRI.create(KNOWROB + "subAction"));
-				
-				
+
+
 				// read sub-actions == motion phases
 				RestrictionVisitor subActionVisitor = new RestrictionVisitor(Collections.singleton(ont), subAction);
-				
+
 				for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass(actioncls)) {
 					OWLClassExpression superCls = ax.getSuperClass();
 					superCls.accept(subActionVisitor);
 				}
-								
+
 				for (OWLClassExpression sub : subActionVisitor.getRestrictionFillers()) {
 
 					// TODO: sort based on ordering constraints
@@ -289,10 +305,10 @@ public class MotionTask {
 					// TODO: read templates from OWL
 					MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new String[]{""}, "handle", "pancake", controlP5);
 					templates.add(tmpl);
-					
+
 					MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
 					p.readFromOWL((OWLClass) sub, tmpl, ont, factory, controlP5);
-					
+
 					phases.add(p);
 
 				}
@@ -307,20 +323,57 @@ public class MotionTask {
 	public void writeToOWL(OWLOntologyManager manager, OWLDataFactory factory, DefaultPrefixManager pm, OWLOntology ontology) {
 
 
-		// TODO: adapt and check!!
+		// create class identifier
+		OWLClass motiontask = factory.getOWLClass(IRI.create(MOTION + this.name));
 
-		ArrayList<OWLClass> phases_cls = new ArrayList<OWLClass>();
-		OWLClass itascmotion = factory.getOWLClass(IRI.create(KNOWROB + "ITaSCMotion"));
+		// set label
+		if(!this.label.isEmpty())
+			manager.applyChange(new AddAxiom(ontology, 
+					factory.getOWLAnnotationAssertionAxiom(
+							factory.getRDFSLabel(), 
+							IRI.create(MOTION + this.name), 
+							factory.getOWLLiteral(this.label)))); 
 
-		for(MotionPhase p : phases) {
 
-			OWLClass phaseCl = factory.getOWLClass(IRI.create(CONSTR + p.getName()));
-			manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(phaseCl, itascmotion)));
-
-			phases_cls.add(phaseCl);
-
-			p.writeToOWL(manager, factory, pm, ontology);
+		// write motion phases
+		ArrayList<OWLClass> tmpl_cls = new ArrayList<OWLClass>();
+		for(MotionConstraintTemplate t : templates) {
+			tmpl_cls.add(t.writeToOWL(manager, factory, pm, ontology));
 		}
+
+
+		// write motion phases
+		ArrayList<OWLClass> phases_cls = new ArrayList<OWLClass>();
+		for(MotionPhase p : phases) {
+			phases_cls.add(p.writeToOWL(manager, factory, pm, ontology));
+		}
+
+
+		// write ordering constraints
+		OWLObjectProperty orderingConstraints = factory.getOWLObjectProperty(IRI.create(KNOWROB + "orderingConstraints"));
+		OWLObjectProperty occursBeforeInOrdering = factory.getOWLObjectProperty(IRI.create(KNOWROB + "occursBeforeInOrdering"));
+		OWLObjectProperty occursAfterInOrdering = factory.getOWLObjectProperty(IRI.create(KNOWROB + "occursAfterInOrdering"));
+
+		OWLClass partialOrderingClass = factory.getOWLClass(IRI.create(KNOWROB + "PartialOrdering-Strict"));
+
+		for(int i = 0; i<phases_cls.size(); i++) {
+			for(int j=i+1; j<phases_cls.size(); j++) {
+
+				// create ordering instance
+
+				OWLNamedIndividual ordering = factory.getOWLNamedIndividual(IRI.create(MOTION + this.name + i + j + OWLThing.getUniqueID("")));
+				manager.applyChanges(manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(partialOrderingClass, ordering)));
+
+				manager.applyChanges(manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(occursBeforeInOrdering, ordering, (OWLIndividual) phases_cls.get(i))));
+				manager.applyChanges(manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(occursAfterInOrdering, ordering, (OWLIndividual) phases_cls.get(j))));
+
+				// add restriction to task class
+				OWLClassExpression orderingRestr = factory.getOWLObjectHasValue(orderingConstraints, ordering);
+				manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(motiontask, orderingRestr))); 
+
+			}
+		}
+
 	}
 
 

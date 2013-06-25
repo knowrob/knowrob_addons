@@ -3,8 +3,12 @@ package org.knowrob.constr;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
@@ -16,6 +20,7 @@ import processing.core.PApplet;
 public class MotionConstraintTemplate {
 
 	protected String name = "";
+	private String label;
 	protected ArrayList<String> types;
 
 
@@ -31,6 +36,17 @@ public class MotionConstraintTemplate {
 	public MotionConstraintTemplate() {
 
 		types = new ArrayList<String>();
+
+	}
+	
+
+	public MotionConstraintTemplate(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate msg, ControlP5 controlP5) {
+		
+		this.name = msg.name;
+		this.types.addAll(msg.types);
+		
+		this.toolFeature = msg.toolFeature;
+		this.worldFeature = msg.worldFeature;
 
 	}
 
@@ -94,8 +110,39 @@ public class MotionConstraintTemplate {
 
 	public OWLClass writeToOWL(OWLOntologyManager manager, OWLDataFactory factory, DefaultPrefixManager pm, OWLOntology ontology) {
 
+		
+		// create motion class
+		OWLClass templateCl = factory.getOWLClass(IRI.create(MotionTask.MOTION + name));
+		
+		
+		// set super classes
+		for(String t : types) {
+			OWLClass sup = factory.getOWLClass(IRI.create(MotionTask.CONSTR + t));
+			manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(templateCl, sup)));
+		}
 
-		return null;
+		// set label
+		if(!this.label.isEmpty())
+			manager.applyChange(new AddAxiom(ontology, 
+					factory.getOWLAnnotationAssertionAxiom(
+							factory.getRDFSLabel(), 
+							IRI.create(MotionTask.MOTION + name), 
+							factory.getOWLLiteral(this.label)))); 
+		
+		
+		// annotate subclass with feature values
+		OWLObjectProperty toolFeatureProp = factory.getOWLObjectProperty(IRI.create(MotionTask.CONSTR + "toolFeature"));
+		OWLClassExpression toolCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.toolFeature));
+		OWLClassExpression toolFeatureRestr = factory.getOWLObjectSomeValuesFrom(toolFeatureProp, toolCls);
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(templateCl, toolFeatureRestr))); 
+
+
+		OWLObjectProperty worldFeatureProp = factory.getOWLObjectProperty(IRI.create(MotionTask.CONSTR + "worldFeature"));
+		OWLClassExpression worldCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.worldFeature));
+		OWLClassExpression worldFeatureRestr = factory.getOWLObjectSomeValuesFrom(worldFeatureProp, worldCls);
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(templateCl, worldFeatureRestr))); 
+
+		return templateCl;
 
 	}
 
