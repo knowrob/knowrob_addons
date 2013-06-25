@@ -37,6 +37,7 @@ public class MotionPhase {
 	public MotionPhase(ros.pkg.knowrob_motion_constraints.msg.MotionPhase msg, List<MotionConstraintTemplate> templates, ControlP5 controlP5) {
 		
 		this(msg.name, controlP5);
+		this.label = msg.label;
 		
 		for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraint constr : msg.constraints) {
 			this.constraints.add(new MotionConstraint(constr, templates, controlP5));
@@ -50,8 +51,9 @@ public class MotionPhase {
 
 		this.name = name;
 
-		controlP5.addTextfield(name + "_name").setText(name).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
-
+		synchronized(controlP5) {
+			controlP5.addTextfield(name + "_name").setText(name).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
+		}
 	}
 
 

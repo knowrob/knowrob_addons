@@ -37,6 +37,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
+import controlP5.ControllerInterface;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
 import processing.core.PApplet;
 
@@ -117,7 +118,10 @@ public class ConstraintEditor extends PApplet {
 	public void draw() {
 
 		background(255);
-		task.draw(this, 40, 40, controlP5);
+		
+		if(task!=null) {
+			task.draw(this, 40, 40, controlP5);
+		}
 
 	}
 
@@ -186,6 +190,16 @@ public class ConstraintEditor extends PApplet {
 
 	public MotionTask getTask() {
 		return task;
+	}
+
+	public void clearControlP5() {
+		
+		synchronized(controlP5) {
+			for(ControllerInterface<?> c : controlP5.getAll()) {
+				System.out.println("Removing " + c.getName() + "...");
+				controlP5.remove(c.getName());
+			}
+		}
 	}
 
 

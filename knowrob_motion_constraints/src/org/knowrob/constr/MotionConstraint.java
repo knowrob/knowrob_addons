@@ -47,6 +47,7 @@ public class MotionConstraint {
 	public MotionConstraint(ros.pkg.knowrob_motion_constraints.msg.MotionConstraint msg, List<MotionConstraintTemplate> templates, ControlP5 controlP5) {
 
 		this(msg.name, msg.types, msg.active, msg.constrLowerLimit, msg.constrUpperLimit, null, controlP5);
+		this.label = msg.label;
 		
 		for(MotionConstraintTemplate t : templates) {
 			if(t.getName().equals(msg.template.name)) {
@@ -69,31 +70,32 @@ public class MotionConstraint {
 
 		this.template = template;
 		
+		synchronized(controlP5) {
+			controlP5.addTextfield(name + "_name").setWidth(140).setText(name).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
 
-		controlP5.addTextfield(name + "_name").setWidth(140).setText(name).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
+			controlP5.addTextfield(name + "_lower").setWidth(40).setText(""+constrUpperLimit).setCaptionLabel("lower").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
+			controlP5.addTextfield(name + "_upper").setWidth(40).setText(""+constrLowerLimit).setCaptionLabel("upper").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
 
-		controlP5.addTextfield(name + "_lower").setWidth(40).setText(""+constrUpperLimit).setCaptionLabel("lower").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
-		controlP5.addTextfield(name + "_upper").setWidth(40).setText(""+constrLowerLimit).setCaptionLabel("upper").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
-
-		// create a toggle
-		controlP5.addToggle(name + "_active").setSize(17,17).setValue(active).setCaptionLabel("active").setColorBackground(255).setColorForeground(130).setColorActive(130).getCaptionLabel().setColor(80);
-
+			// create a toggle
+			controlP5.addToggle(name + "_active").setSize(17,17).setValue(active).setCaptionLabel("active").setColorBackground(255).setColorForeground(130).setColorActive(130).getCaptionLabel().setColor(80);
+		}
 	}
 
 
 	public void draw(PApplet c, int x, int y, ControlP5 controlP5) {
 
-		controlP5.get(name + "_name").setPosition(x+15, y+15);
+		synchronized(controlP5) {
+			controlP5.get(name + "_name").setPosition(x+15, y+15);
 
-		controlP5.get(name + "_lower").setPosition(x+15, y+35);
-		controlP5.get(name + "_upper").setPosition(x+60, y+35);
-		controlP5.get(name + "_active").setPosition(x+105, y+36);
+			controlP5.get(name + "_lower").setPosition(x+15, y+35);
+			controlP5.get(name + "_upper").setPosition(x+60, y+35);
+			controlP5.get(name + "_active").setPosition(x+105, y+36);
 
-		c.fill(255);
-		c.rect(x,y,CONSTRAINT_BOX_WIDTH, CONSTRAINT_BOX_HEIGHT);
+			c.fill(255);
+			c.rect(x,y,CONSTRAINT_BOX_WIDTH, CONSTRAINT_BOX_HEIGHT);
 
-		c.fill(100);
-
+			c.fill(100);
+		}
 
 	}
 

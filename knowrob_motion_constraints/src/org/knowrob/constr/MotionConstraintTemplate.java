@@ -40,6 +40,7 @@ public class MotionConstraintTemplate {
 
 	public MotionConstraintTemplate(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate msg, ControlP5 controlP5) {
 		this(msg.name, msg.types, msg.toolFeature, msg.worldFeature, controlP5);
+		this.label = msg.label;
 	}
 
 	public MotionConstraintTemplate(String name, List<String> types, String toolFeature, String worldFeature, ControlP5 controlP5) {
@@ -52,34 +53,34 @@ public class MotionConstraintTemplate {
 		this.toolFeature = toolFeature;
 		this.worldFeature = worldFeature;
 
+		synchronized(controlP5) {
+			controlP5.addTextfield(name + "_name").setText(name).setWidth(140).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
 
-		controlP5.addTextfield(name + "_name").setText(name).setWidth(140).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
-
-		controlP5.addTextlabel(name + "_tool_label").setText("tool").setColorValueLabel(80);
-		controlP5.addTextfield(name + "_tool").setText(toolFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
-		controlP5.addTextlabel(name + "_world_label").setText("world").setColorValueLabel(80);
-		controlP5.addTextfield(name + "_world").setText(worldFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
-
+			controlP5.addTextlabel(name + "_tool_label").setText("tool").setColorValueLabel(80);
+			controlP5.addTextfield(name + "_tool").setText(toolFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
+			controlP5.addTextlabel(name + "_world_label").setText("world").setColorValueLabel(80);
+			controlP5.addTextfield(name + "_world").setText(worldFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
+		}
 	}
 
 
 	public void draw(PApplet c, int x, int y, ControlP5 controlP5) {
 
-		controlP5.get(name + "_name").setPosition(x+15, y+5);
+		synchronized(controlP5) {
+			controlP5.get(name + "_name").setPosition(x+15, y+5);
 
+			c.fill(255);
+			c.rect(x,y,TEMPLATE_BOX_WIDTH, TEMPLATE_BOX_HEIGHT);
 
-		c.fill(255);
-		c.rect(x,y,TEMPLATE_BOX_WIDTH, TEMPLATE_BOX_HEIGHT);
+			c.fill(100);
+			controlP5.get(name + "_tool_label").setPosition(x+15, y+30);
+			controlP5.get(name + "_world_label").setPosition(x+15, y+50);
 
-		c.fill(100);
-		controlP5.get(name + "_tool_label").setPosition(x+15, y+30);
-		controlP5.get(name + "_world_label").setPosition(x+15, y+50);
+			controlP5.get(name + "_tool").setPosition(x+55, y+25);
+			controlP5.get(name + "_world").setPosition(x+55, y+45);
 
-		controlP5.get(name + "_tool").setPosition(x+55, y+25);
-		controlP5.get(name + "_world").setPosition(x+55, y+45);
-
-		c.fill(100);
-
+			c.fill(100);
+		}
 
 	}
 

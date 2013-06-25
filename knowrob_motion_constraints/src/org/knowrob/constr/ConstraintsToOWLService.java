@@ -92,6 +92,8 @@ public class ConstraintsToOWLService {
 		@Override
 		public ConstraintsToOWL.Response call(ConstraintsToOWL.Request req) {
 
+			editor.clearControlP5();
+			editor.setTask(null);
 			
 			MotionTask task = new MotionTask(req.task, editor.controlP5);
 			
@@ -122,6 +124,7 @@ public class ConstraintsToOWLService {
 			ConstraintsToOWL.Response res = new ConstraintsToOWL.Response();
 			
 			res.owl_data = OWLFileUtils.saveOntologytoString(ontology, manager.getOntologyFormat(ontology));
+			
 			
 			task.recomputeBoxDimensions();
 			editor.setTask(task);

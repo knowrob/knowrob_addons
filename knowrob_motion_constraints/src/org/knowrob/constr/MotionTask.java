@@ -1,7 +1,6 @@
 package org.knowrob.constr;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
 import controlP5.ControlP5;
+import controlP5.ControllerInterface;
 import edu.tum.cs.ias.knowrob.owl.OWLThing;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
 
@@ -90,19 +90,18 @@ public class MotionTask {
 
 	public MotionTask(ros.pkg.knowrob_motion_constraints.msg.MotionTask msg, ControlP5 controlP5) {
 
-		this();
-		this.name = msg.name;
-		this.controlP5 = controlP5;
-
+		this(msg.name, controlP5);
+		this.label = msg.label;
+		
 		synchronized(templates) {
-		for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate tmpl : msg.templates) {
-			this.templates.add(new MotionConstraintTemplate(tmpl, controlP5));
-		}
+			for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate tmpl : msg.templates) {
+				this.templates.add(new MotionConstraintTemplate(tmpl, controlP5));
+			}
 		}
 		synchronized(phases) {
-		for(ros.pkg.knowrob_motion_constraints.msg.MotionPhase phase : msg.phases) {
-			this.phases.add(new MotionPhase(phase, templates, controlP5));
-		}
+			for(ros.pkg.knowrob_motion_constraints.msg.MotionPhase phase : msg.phases) {
+				this.phases.add(new MotionPhase(phase, templates, controlP5));
+			}
 		}
 	}
 
@@ -112,9 +111,10 @@ public class MotionTask {
 
 		this.name = name;
 		this.controlP5 = controlP5;
-
-		controlP5.addTextfield(name + "_name").setText(name).setWidth(120).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).setPosition(40,15);
-
+		
+		synchronized(controlP5) {
+			controlP5.addTextfield(name + "_name").setText(name).setWidth(120).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).setPosition(40,15);
+		}
 	}
 
 
@@ -141,25 +141,25 @@ public class MotionTask {
 		int curX = x;
 		int curY = y;
 
-		synchronized(phases) {
-
-			// draw motion template headers
+		// draw motion template headers
+		synchronized(templates) {
 			for(MotionConstraintTemplate t : templates) {
 				t.draw(c, curX + 120, curY, controlP5);
 				curX += MotionConstraintTemplate.TEMPLATE_BOX_WIDTH;
 			}
+		}
+		curX = x;
+		curY += MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
 
-			curX = x;
-			curY += MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
-
-			// draw motion phases and constraints
+		// draw motion phases and constraints
+		synchronized(phases) {
 			for(MotionPhase p : phases) {
-
 				p.draw(c, curX, curY, controlP5);
 				curY += MotionConstraint.CONSTRAINT_BOX_HEIGHT;
-
 			}
-			controlP5.draw();
+			synchronized(controlP5) {
+				controlP5.draw();
+			}
 		}
 
 		c.fill(100);
@@ -179,7 +179,9 @@ public class MotionTask {
 	public void recomputeBoxDimensions() {
 
 		synchronized(phases) {
+			
 			if(phases.size()>0) {
+				
 				ADD_PHASE_BOX_X = 40;
 				ADD_PHASE_BOX_Y = 40 + (phases.size()*MotionConstraint.CONSTRAINT_BOX_HEIGHT) + MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
 				ADD_PHASE_BOX_W = 120 + 40 + phases.get(0).getConstraints().size() * MotionConstraint.CONSTRAINT_BOX_WIDTH;
@@ -198,6 +200,7 @@ public class MotionTask {
 	public void addMotionPhase() {
 
 		synchronized(phases) {
+			
 			MotionPhase p = new MotionPhase(OWLThing.getUniqueID("").substring(1), controlP5);
 
 			try { Thread.sleep(5); } catch (InterruptedException e) {
@@ -246,77 +249,43 @@ public class MotionTask {
 
 
 
-	public void fillWithTestData() {
-
-		synchronized(phases) {
-			for(int i=0;i<5;i++) {
-
-				MotionPhase p = new MotionPhase("phase " + i, controlP5);
-
-
-				MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "handle", "pancake", controlP5);
-				templates.add(tmpl);
-
-				try { Thread.sleep(5); } catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-				for(int j=0;j<5;j++) {
-
-					MotionConstraint c = new MotionConstraint(OWLThing.getUniqueID("").substring(1), 
-							new ArrayList<String>(Arrays.asList(new String[]{"DirectionConstraint"})), 
-							false, 0.2, 0.6, tmpl, controlP5);
-					p.addConstraint(c);
-
-					try { Thread.sleep(5); } catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-
-				phases.add(p);
-			}
-		}
-	}
-
-
-
 	public void readFromOWL(String filename, String actionClassIRI) {
 
 		try {
 			synchronized(phases) {
-			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-			OWLDataFactory factory = manager.getOWLDataFactory();
+				OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+				OWLDataFactory factory = manager.getOWLDataFactory();
 
-			OWLOntology ont = OWLFileUtils.loadOntologyFromFile(filename);
+				OWLOntology ont = OWLFileUtils.loadOntologyFromFile(filename);
 
-			if(ont!=null) {
+				if(ont!=null) {
 
-				OWLClass actioncls = factory.getOWLClass(IRI.create(actionClassIRI));
-				OWLObjectProperty subAction = factory.getOWLObjectProperty(IRI.create(KNOWROB + "subAction"));
+					OWLClass actioncls = factory.getOWLClass(IRI.create(actionClassIRI));
+					OWLObjectProperty subAction = factory.getOWLObjectProperty(IRI.create(KNOWROB + "subAction"));
 
 
-				// read sub-actions == motion phases
-				RestrictionVisitor subActionVisitor = new RestrictionVisitor(Collections.singleton(ont), subAction);
+					// read sub-actions == motion phases
+					RestrictionVisitor subActionVisitor = new RestrictionVisitor(Collections.singleton(ont), subAction);
 
-				for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass(actioncls)) {
-					OWLClassExpression superCls = ax.getSuperClass();
-					superCls.accept(subActionVisitor);
-				}
+					for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass(actioncls)) {
+						OWLClassExpression superCls = ax.getSuperClass();
+						superCls.accept(subActionVisitor);
+					}
 
-				for (OWLClassExpression sub : subActionVisitor.getRestrictionFillers()) {
+					for (OWLClassExpression sub : subActionVisitor.getRestrictionFillers()) {
 
-					// TODO: sort based on ordering constraints
+						// TODO: sort based on ordering constraints
 
-					// TODO: read templates from OWL
-					MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "handle", "pancake", controlP5);
-					templates.add(tmpl);
+						// TODO: read templates from OWL
+						MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "handle", "pancake", controlP5);
+						templates.add(tmpl);
 
-					MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
-					p.readFromOWL((OWLClass) sub, tmpl, ont, factory, controlP5);
+						MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
+						p.readFromOWL((OWLClass) sub, tmpl, ont, factory, controlP5);
 
-					phases.add(p);
+						phases.add(p);
 
-				}
+					}
 				}
 			}
 		} catch (OWLOntologyCreationException e) {
@@ -343,10 +312,12 @@ public class MotionTask {
 
 		// write motion phases
 		synchronized(templates) {
+			
 			ArrayList<OWLClass> tmpl_cls = new ArrayList<OWLClass>();
 			for(MotionConstraintTemplate t : templates) {
 				tmpl_cls.add(t.writeToOWL(manager, factory, pm, ontology));
 			}
+			
 		}
 
 		// write motion phases
@@ -354,6 +325,7 @@ public class MotionTask {
 		OWLObjectProperty subAction = factory.getOWLObjectProperty(IRI.create(KNOWROB + "subAction"));
 		
 		synchronized(phases) {
+			
 			for(MotionPhase p : phases) {
 
 				OWLClass phaseCls = p.writeToOWL(manager, factory, pm, ontology);
@@ -363,6 +335,7 @@ public class MotionTask {
 				OWLClassExpression subActionRestr = factory.getOWLObjectSomeValuesFrom(subAction, phaseCls);
 				manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(motiontask, subActionRestr))); 
 			}
+			
 		}
 
 		// write ordering constraints
