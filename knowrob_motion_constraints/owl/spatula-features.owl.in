@@ -41,7 +41,7 @@
     <rdf:type rdf:resource="&knowrob;Spatula"/>
     <knowrob:properPhysicalParts rdf:resource="&spatula;Handle_z3rLFrlP"/>
     <knowrob:properPhysicalParts rdf:resource="&spatula;BladeOfADevice_biRSdwIO"/>
-    <srdl2-comp:predecessorInKinematicChain rdf:resource="&pr2;PR2_l_gripper_palm_link"/>
+    <srdl2-comp:predecessorInKinematicChain rdf:resource="&pr2;pr2_l_gripper_palm_link"/>
 </owl:NamedIndividual>
 
 
@@ -214,7 +214,7 @@
 <owl:NamedIndividual rdf:about="&spatula;Spatula_Rkpqmqf1">
     <rdf:type rdf:resource="&knowrob;Spatula"/>
     <knowrob:properPhysicalParts rdf:resource="&spatula;BladeOfADevice_v27b2AvO"/>
-    <srdl2-comp:predecessorInKinematicChain rdf:resource="&pr2;PR2_r_gripper_palm_link"/>
+    <srdl2-comp:predecessorInKinematicChain rdf:resource="&pr2;pr2_r_gripper_palm_link"/>
 </owl:NamedIndividual>
 
 
