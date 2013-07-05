@@ -1,0 +1,45 @@
+:- module(comp_execution_trace,
+    [
+      ctask/2,
+      record/1	
+    ]).
+
+:- use_module(library('semweb/rdfs')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/rdf_db')).
+:- use_module(library('semweb/rdfs_computable')).
+:- use_module(library('thea/owl_parser')).
+
+
+:- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(execution_trace, 'http://ias.cs.tum.edu/kb/execution_trace.owl#', [keep(true)]).
+
+
+ctask(ExecFile, Ham) :-
+    % create ROS client object
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient', ['my_client'], Client),
+
+    jpl_call(Client, 'getTrace', [], Returned_Power),
+
+    jpl_array_to_list(Returned_Power, Ham2),
+
+    rdf_has(Ham, rdf:type, execution_trace:'ExecTask').
+
+    %record(Ham).
+
+    %term_to_atom(Returned_Power2, Y),
+    %rdf_assert(Y, rdf:type, execution_trace:'ExecTask'),
+
+    %rdf_has(Ham2, rdf:type, execution_trace:'ExecTask'),
+    %atom_to_term(Ham2, Ham, []).
+    
+record(List) :-
+    [X|Y] = List,
+
+    term_to_atom(X, X1),
+
+    rdf_assert(X1, rdf:type, execution_trace:'ExecTask'),
+    record(Y).
+
+record([]) :-
+1=1.
