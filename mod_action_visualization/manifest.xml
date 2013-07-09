@@ -1,0 +1,26 @@
+<package>
+  <description brief="mod_action_visualization">
+
+     mod_action_visualization
+
+  </description>
+  <author>asil</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/mod_action_visualization</url>
+
+  <depend package="knowrob_common"/>
+  <depend package="mod_vis"/>
+  <depend package="rosjava_jni"/>
+  <depend package="cram_et_prolog"/>
+  
+
+
+  <export>
+    <java classpath="${prefix}/bin"/>
+  </export>
+
+
+</package>
+
+

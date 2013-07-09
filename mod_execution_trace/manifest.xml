@@ -1,0 +1,23 @@
+<package>
+  <description brief="mod_execution_trace">
+
+     mod_execution_trace
+
+  </description>
+  <author>asil</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/mod_execution_trace</url>
+  <depend package="knowrob_common"/>
+  <depend package="mod_vis"/>
+  <depend package="rosjava_jni"/>
+  
+
+
+  <export>
+    <java classpath="${prefix}/bin"/>
+  </export>
+
+</package>
+
+
