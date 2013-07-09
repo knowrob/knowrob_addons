@@ -34,8 +34,8 @@
    </owl:Class>
 
   <owl:ObjectProperty rdf:about="&modexecutiontrace;TaskGoalContext">
-        <rdfs:range rdf:resource="&&modexecutiontrace;goal"/>
-        <rdfs:domain rdf:resource="&knowrob;Thing"/>
+        <rdfs:range rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:domain rdf:resource="&modexecutiontrace;GoalContext"/>
   </owl:ObjectProperty>
 
 
