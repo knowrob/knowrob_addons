@@ -31,9 +31,6 @@ import ros.*;
 import ros.communication.*;
 import ros.pkg.geometry_msgs.msg.Point;
 import ros.pkg.geometry_msgs.msg.Quaternion;
-import ros.pkg.pr2_msgs.msg.*;
-import ros.pkg.cram_et_prolog.msg.*;
-import ros.pkg.cram_et_prolog.srv.*;
 
 //knowrob stuff
 import edu.tum.cs.ias.knowrob.utils.ros.RosUtilities;
@@ -53,7 +50,7 @@ import edu.tum.cs.ias.knowrob.owl.OWLIndividual;
  */
 
 
-public class ROSClient3 
+public class ROSClient 
 {
 	////////////////////////////////////////////////////////////////////////////////
 	// Set IRIs for the ontologies used here
@@ -109,7 +106,7 @@ public class ROSClient3
 
 	ArrayList<Node> listOfAddedGoalContext;
         
-	public ROSClient3(String node_name) 
+	public ROSClient(String node_name) 
 	{
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
@@ -213,6 +210,25 @@ public class ROSClient3
 				OWLObjectProperty goalContextOfTask = factory.getOWLObjectProperty("modexecutiontrace:TaskGoalContext", pm);
 				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(goalContextOfTask, task_inst, goal_context_inst));
 
+				NodeList taskChildNodes = current.getChildNodes();
+
+				for(int x = 0; x < nList.getLength(); x++)
+				{				
+					if(taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
+					{
+						;
+					}
+					else if(taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
+					{
+						;
+					}
+					else if(taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
+					{
+						;
+					}
+		
+				}
+
 			}
 
 			File output = new File("/home/asil/Desktop/executiontrace.owl");
@@ -256,7 +272,7 @@ public class ROSClient3
         public static void main(String[] args) 
         {
 
-                ROSClient3 d = new ROSClient3("knowrob_execution_trace_test_123");
+                ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
 		int i = 1;
 		while (i == 1)
 		{
