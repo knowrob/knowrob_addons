@@ -183,7 +183,7 @@ public class ROSClient
 			OWLNamedIndividual action_inst = null;
 			OWLNamedIndividual prev_action_inst = null;
 
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+			//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
  			//NodeList nList = doc.getElementsByTagName("goal-context");
 			//NodeList nList = doc.getDocumentElement();
 
@@ -212,22 +212,37 @@ public class ROSClient
 
 				NodeList taskChildNodes = current.getChildNodes();
 
+				String created, running, failed, succeeded;
+
 				for(int x = 0; x < nList.getLength(); x++)
 				{				
-					if(taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
+					if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
 					{
-						;
+						created = taskChildNodes.item(x).getTextContent();
+						System.out.println(created);
 					}
-					else if(taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
+					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
 					{
-						;
+						running = taskChildNodes.item(x).getTextContent();
+						System.out.println(running);
 					}
-					else if(taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
+					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
 					{
-						;
+						failed = taskChildNodes.item(x).getTextContent();
+						System.out.println(failed);
+					}
+					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("SUCCEEDED"))
+					{
+						succeeded = taskChildNodes.item(x).getTextContent();
+						System.out.println(succeeded);
 					}
 		
 				}
+				
 
 			}
 
@@ -251,7 +266,7 @@ public class ROSClient
 
 			if(!(currentDummy.getNodeName().equals("#document")) && listOfAddedGoalContext.get(i).getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").equals(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_")))
 			{
-				System.out.println(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_"));
+				//System.out.println(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_"));
 				doesExist = true;
 				break;
 			}
