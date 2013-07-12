@@ -212,7 +212,7 @@ public class ROSClient
 
 				NodeList taskChildNodes = current.getChildNodes();
 
-				String created, running, failed, succeeded;
+				String created = null, running = null, failed = null, succeeded = null;
 
 				for(int x = 0; x < nList.getLength(); x++)
 				{				
@@ -220,29 +220,56 @@ public class ROSClient
 						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
 					{
 						created = taskChildNodes.item(x).getTextContent();
-						System.out.println(created);
 					}
 					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
 						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
 					{
 						running = taskChildNodes.item(x).getTextContent();
-						System.out.println(running);
 					}
 					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
 						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
 					{
 						failed = taskChildNodes.item(x).getTextContent();
-						System.out.println(failed);
 					}
 					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
 						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("SUCCEEDED"))
 					{
-						succeeded = taskChildNodes.item(x).getTextContent();
-						System.out.println(succeeded);
+						succeeded = taskChildNodes.item(x).getTextContent();						
 					}
 		
 				}
+
+				OWLNamedIndividual timestamp_created = factory.getOWLNamedIndividual("executiontrace:timepoint_"+created, pm);
+				OWLClass time_class = factory.getOWLClass("knowrob:TimePoint", pm);
+				manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_created));
+
+				OWLNamedIndividual timestamp_running = factory.getOWLNamedIndividual("executiontrace:timepoint_"+running, pm);
+				manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_running));
+
+				OWLObjectProperty createdTime = factory.getOWLObjectProperty("modexecutiontrace:creationTime", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(createdTime, task_inst, timestamp_created));
 				
+				OWLObjectProperty runningTime = factory.getOWLObjectProperty("modexecutiontrace:runningTime", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(runningTime, task_inst, timestamp_running));
+
+				
+				if (failed != null)
+				{
+					OWLNamedIndividual timestamp_failed = factory.getOWLNamedIndividual("executiontrace:timepoint_"+failed, pm);
+					manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_failed));
+
+					OWLObjectProperty failedTime = factory.getOWLObjectProperty("modexecutiontrace:failedTime", pm);
+					manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(failedTime, task_inst, timestamp_failed));
+				}
+				
+				if (succeeded != null)
+				{
+					OWLNamedIndividual timestamp_succeeded = factory.getOWLNamedIndividual("executiontrace:timepoint_"+succeeded, pm);
+					manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_succeeded));
+
+					OWLObjectProperty succeededTime = factory.getOWLObjectProperty("modexecutiontrace:succeededTime", pm);
+					manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(succeededTime, task_inst, timestamp_succeeded));
+				}
 
 			}
 

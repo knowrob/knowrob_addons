@@ -37,6 +37,29 @@
         <rdfs:range rdf:resource="&modexecutiontrace;Task"/>
         <rdfs:domain rdf:resource="&modexecutiontrace;GoalContext"/>
   </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;creationTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+    </owl:ObjectProperty>
 
+   <owl:ObjectProperty rdf:about="&modexecutiontrace;runningTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&modexecutiontrace;failedTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+    </owl:ObjectProperty>
+
+     <owl:ObjectProperty rdf:about="&modexecutiontrace;succeededTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+    </owl:ObjectProperty>
 
 </rdf:RDF>
