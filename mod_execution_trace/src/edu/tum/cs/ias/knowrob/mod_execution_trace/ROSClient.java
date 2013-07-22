@@ -189,7 +189,7 @@ public class ROSClient
 
 			NodeList nList = doc.getElementsByTagName("task");
 
-			for(int i = 1; i < nList.getLength(); i++)
+			for(int i = 0; i < nList.getLength(); i++)
 			{
 				Node current = nList.item(i);
 				Node directParent = current.getParentNode();				
@@ -320,14 +320,14 @@ public class ROSClient
        
         public static void main(String[] args) 
         {
-		if(args.length >= 3)
+		if(args.length >= 2)
 		{
 		
 		    	ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
 			int i = 1;
 			while (i == 1)
 			{
-				/*Reply answer = */ d.getTrace(args[1], args[2]);
+				/*Reply answer = */ d.getTrace(args[0], args[1]);
 				//String res = answer.result;
 		        	//System.out.println(x);
 				i++;
