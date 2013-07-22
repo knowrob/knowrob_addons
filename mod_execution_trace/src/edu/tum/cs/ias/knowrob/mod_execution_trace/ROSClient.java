@@ -131,7 +131,7 @@ public class ROSClient
 		             
         }
 
-        public void getTrace() 
+        public void getTrace(String inputFileName, String outputFileName) 
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 				
@@ -145,7 +145,7 @@ public class ROSClient
 			System.out.println("Parsing failed!!!");
 		}
 		
-		File inputFile = new File("/home/asil/Desktop/exec-trace.xml");
+		File inputFile = new File(inputFileName/*"/home/asil/Desktop/exec-trace.xml"*/);
 		//InputSource newSource = new InputSource(inputFile); 		
 
 		Document doc = null; // new Document();
@@ -277,10 +277,10 @@ public class ROSClient
 
 			}
 
-			File output = new File("/home/asil/Desktop/executiontrace.owl");
-			IRI documentIRI2 = IRI.create(output);
+			File outputFile = new File(outputFileName/*"/home/asil/Desktop/executiontrace.owl"*/);
+			IRI documentIRI2 = IRI.create(outputFile);
 			manager.saveOntology(ontology, new RDFXMLOntologyFormat(), documentIRI2);
-//			manager.saveOntology(ontology, new SystemOutDocumentTarget());		
+			manager.saveOntology(ontology, new SystemOutDocumentTarget());		
 		}
 		catch (Exception e) 
 		{
@@ -320,16 +320,20 @@ public class ROSClient
        
         public static void main(String[] args) 
         {
-
-                ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
-		int i = 1;
-		while (i == 1)
+		if(args.length >= 3)
 		{
-			/*Reply answer = */ d.getTrace();
-			//String res = answer.result;
-                	//System.out.println(x);
-			i++;
-                }
+		
+		    	ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
+			int i = 1;
+			while (i == 1)
+			{
+				/*Reply answer = */ d.getTrace(args[1], args[2]);
+				//String res = answer.result;
+		        	//System.out.println(x);
+				i++;
+		        }
+		}
+		else System.out.println("Insufficient number of parameters");
         }
 
 }
