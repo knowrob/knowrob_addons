@@ -201,9 +201,13 @@ public class ROSClient
 					checkAndAddNewGoalContext(currentDummy);
 				}
 
-				OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + directParent.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").toLowerCase(), pm);
+				String goal_context_name = directParent.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").toLowerCase();
+				goal_context_name = goal_context_name.replaceAll("'", "");
+				OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + goal_context_name, pm);
 
-				OWLNamedIndividual task_inst = factory.getOWLNamedIndividual("executiontrace:" + current.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").toLowerCase(), pm);
+				String task_name = current.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").toLowerCase();
+				task_name = task_name.replaceAll("'", "");
+				OWLNamedIndividual task_inst = factory.getOWLNamedIndividual("executiontrace:" + task_name, pm);
 				OWLClass task_class = factory.getOWLClass("modexecutiontrace:Task", pm);
 				manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(task_class, task_inst));
 
@@ -291,7 +295,7 @@ public class ROSClient
 		{
 			//System.out.println("Abc: " + currentDummy.getNodeName());
 
-			if(!(currentDummy.getNodeName().equals("#document")) && listOfAddedGoalContext.get(i).getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").equals(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_")))
+			if(!(currentDummy.getNodeName().equals("#document")) && listOfAddedGoalContext.get(i).getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").replaceAll("'", "").equals(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").replaceAll("'", "")))
 			{
 				//System.out.println(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_"));
 				doesExist = true;
@@ -305,7 +309,10 @@ public class ROSClient
 		{
 			listOfAddedGoalContext.add(currentDummy);
 
-			OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + currentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_"), pm);
+			String goal_context_name = currentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_");
+				
+			goal_context_name = goal_context_name.replaceAll("'", "");
+			OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + goal_context_name, pm);
 			OWLClass goal_context_class = factory.getOWLClass("modexecutiontrace:GoalContext", pm);
 			manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(goal_context_class, goal_context_inst));
 		}
