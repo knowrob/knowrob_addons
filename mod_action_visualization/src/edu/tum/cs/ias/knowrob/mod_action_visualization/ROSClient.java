@@ -30,8 +30,6 @@ import ros.communication.*;
 import ros.pkg.geometry_msgs.msg.Point;
 import ros.pkg.geometry_msgs.msg.Quaternion;
 //import ros.pkg.pr2_msgs.msg.*;
-import ros.pkg.cram_et_prolog.msg.*;
-import ros.pkg.cram_et_prolog.srv.*;
 
 //knowrob stuff
 import edu.tum.cs.ias.knowrob.utils.ros.RosUtilities;
