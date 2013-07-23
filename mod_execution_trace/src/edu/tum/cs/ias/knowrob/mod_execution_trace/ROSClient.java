@@ -310,11 +310,28 @@ public class ROSClient
 			listOfAddedGoalContext.add(currentDummy);
 
 			String goal_context_name = currentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_");
-				
 			goal_context_name = goal_context_name.replaceAll("'", "");
 			OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + goal_context_name, pm);
 			OWLClass goal_context_class = factory.getOWLClass("modexecutiontrace:GoalContext", pm);
 			manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(goal_context_class, goal_context_inst));
+			
+			Node parentDummy = currentDummy.getParentNode(); 
+			if(parentDummy!= null && !(parentDummy.getNodeName().equals("#document")))
+			{
+				
+				listOfAddedGoalContext.add(parentDummy);
+				
+				String parent_goal_context_name = parentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_");
+				parent_goal_context_name = parent_goal_context_name.replaceAll("'", "");
+
+				OWLNamedIndividual parent_goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + parent_goal_context_name, pm);
+
+				OWLObjectProperty parental_relation = factory.getOWLObjectProperty("modexecutiontrace:parentGoalContext", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(parental_relation, goal_context_inst, parent_goal_context_inst));
+
+				OWLObjectProperty child_relation = factory.getOWLObjectProperty("modexecutiontrace:childGoalContext", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(child_relation, parent_goal_context_inst, goal_context_inst));
+			}			
 		}
 	}
        
