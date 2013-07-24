@@ -62,6 +62,4 @@ add_classpath(${rosjava_jni_PACKAGE_PATH}/bin)
 #add_jar_dir(${PROJECT_SOURCE_DIR})
 add_java_source_dir(${PROJECT_SOURCE_DIR}/src)
 
-rospack_add_java_executable(ROSClient edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient3)
-#rospack_add_java_executable(ROSClient edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient)
-#rospack_add_java_executable(ROSClient2 edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient2)
+rospack_add_java_executable(ROSClient edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient)
