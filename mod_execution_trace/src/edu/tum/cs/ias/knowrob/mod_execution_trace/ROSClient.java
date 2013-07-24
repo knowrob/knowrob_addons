@@ -1,27 +1,30 @@
 package edu.tum.cs.ias.knowrob.mod_execution_trace;
 
-//java stuff
-import java.io.* ;
+// java staff
+import java.io.*;
 import java.io.File;
 import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.*;
-/*import java.util.StringTokenizer;
-import java.util.Stack;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Vector;*/
+import java.util.StringTokenizer;
+import java.util.Vector;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+//import org.xml.sax.helpers.InputSource;
 
-
-import jpl.*;
-import jpl.Query;                // empirically, we need this, but I don't know why...
-import jpl.PrologException;
-import jpl.fli.Prolog;
-import jpl.*;
-import java.util.Hashtable;
+// owl stuff
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
+import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
+import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
+//import edu.tum.cs.ias.labeling.labels.readers.LabelsDatFileReader;
+//import edu.tum.cs.ias.labeling.labels.readers.YamlConfigReader;
 
 //ros stuff
 import ros.*;
@@ -32,23 +35,88 @@ import ros.pkg.geometry_msgs.msg.Quaternion;
 //knowrob stuff
 import edu.tum.cs.ias.knowrob.utils.ros.RosUtilities;
 import edu.tum.cs.ias.knowrob.prolog.PrologInterface;
+import edu.tum.cs.ias.knowrob.owl.OWLIndividual;
+
+
+/**
+ * Create label file that describes the tasks in execution trace 
+ * in terms of instances of the respective OWL classes.
+ * 
+ * The output is an ABOX representation of the action sequence
+ * that can be loaded e.g. in the KnowRob knowledge base.
+ * 
+ * @author Asil Kaan Bozcuoglu, asil@cs.uni-bremen.de
+ *
+ */
+
 
 public class ROSClient 
 {
+	////////////////////////////////////////////////////////////////////////////////
+	// Set IRIs for the ontologies used here
+	//
+
+	// Base IRI for KnowRob ontology
+	public final static String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
+	public final static String EXECUTIONTRACE = "http://ias.cs.tum.edu/kb/executiontrace.owl#";
+	public final static String MODEXECUTIONTRACE = "http://ias.cs.tum.edu/kb/modexecutiontrace.owl#";
+
+	// Base IRI for OWL ontology
+	public final static String OWL = "http://www.w3.org/2002/07/owl#";
+
+	// Base IRI for RDFS
+	public final static String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
+
+	// Base IRI for semantic map ontology	
+	public final static String IAS_MAP = "http://ias.cs.tum.edu/kb/ias_semantic_map.owl#";
+
+	// ROS package name for KnowRob
+	public final static String KNOWROB_PKG = "ias_knowledge_base";
+
+	// OWL file of the KnowRob ontology (relative to KNOWROB_PKG)
+	public final static String KNOWROB_OWL = "owl/knowrob.owl";
+
+	// Namespace of OWL File
+	public static String NAMESPACE = "http://ias.cs.tum.edu/kb/knowrob2.owl#";
+
+	// Prefix manager
+	public final static DefaultPrefixManager PREFIX_MANAGER = new DefaultPrefixManager(KNOWROB);
+	static 
+	{
+		PREFIX_MANAGER.setPrefix("knowrob:", KNOWROB);
+		PREFIX_MANAGER.setPrefix("executiontrace:", EXECUTIONTRACE);
+		PREFIX_MANAGER.setPrefix("modexecutiontrace:", MODEXECUTIONTRACE);
+		PREFIX_MANAGER.setPrefix("owl:",    OWL);
+		PREFIX_MANAGER.setPrefix("rdfs:", RDFS);
+	}
+
+
 
         static Boolean rosInitialized = false;
         static Ros ros;
         static NodeHandle n1;
 	static double r;
         public ArrayList store;	
+
+
+	OWLDataFactory factory;
+	OWLOntologyManager manager;
+	DefaultPrefixManager pm;
+        OWLOntology ontology;
+
+	ArrayList<Node> listOfAddedGoalContext;
         
-        public ROSClient(String node_name) 
+	public ROSClient(String node_name) 
 	{
+		manager = OWLManager.createOWLOntologyManager();
+		factory = manager.getOWLDataFactory();
+
 	        initRos(node_name);
 		store = new ArrayList();
 
-		PrologInterface.initJPLProlog("mod_vis");
-		PrologInterface.executeQuery("register_ros_package('mod_execution_trace')"); 
+		ontology = null;
+
+		listOfAddedGoalContext = new ArrayList<Node>();
         }
 
         protected static void initRos(String node_name) 
@@ -63,310 +131,227 @@ public class ROSClient
 		             
         }
 
-        public String[] getTrace() 
+        public void getTrace(String inputFileName, String outputFileName) 
 	{
-		Reply result=null;
-		try 
-                {
-
-			ServiceClient<QueryExecutionTrace.Request, QueryExecutionTrace.Response, QueryExecutionTrace> sc =
-                                n1.serviceClient("/query_execution_trace", new QueryExecutionTrace());
-
-                        QueryExecutionTrace.Request req = new QueryExecutionTrace.Request();
-			req.filename = "/home/asil/Desktop/traces-4/a.ek";
-			req.request = new Req();
-			req.request.predicate = "(task ?tsk)";			
-                        result = sc.call(req).response;
-                        sc.shutdown();
-
-                } 
-                catch (RosException e) 
-                {
-			ros.logError("ROSClient: Call to service failed");
-                }
-		
-		String parseString = result.result.substring(5);
-		StringTokenizer stringTokenizer = new StringTokenizer(parseString, "#");
-		
-		int tokenCount = stringTokenizer.countTokens();
-		String[] interimElements = new String[tokenCount];
-		String[][][] allElements = new String[tokenCount][][];
-		int i = 0;
-
-		while (stringTokenizer.hasMoreElements()) 
-		{
-			interimElements[i] = stringTokenizer.nextElement().toString();
-			i++;
-		}
-
-		for(int x = 1; x < tokenCount; x++)
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				
+		DocumentBuilder dBuilder = null; // new DocumentBuilder();
+		try
 		{		
-			int type = checkType(interimElements[x]);
-
-			ArrayList<String[]> dataPrologReady = convertToPrologReady(type, interimElements[x]);
-
-			if(dataPrologReady != null)
-			{
-				allElements[x] = new String[dataPrologReady.size()][];
-
-				for(int y = 0; y < dataPrologReady.size(); y++)
-				{
-					allElements[x][y] = new String[dataPrologReady.get(y).length];
-					String[] curr = dataPrologReady.get(y);
-										
-
-					for(int z = 0; z < dataPrologReady.get(y).length; z++)
-					{
-						allElements[x][y][z] = curr[z];
-	
-					}
-				}
-
-			}
- 			
+			dBuilder = dbFactory.newDocumentBuilder();
 		}
-
-		int length = 0;
-
-		for (int x = 1; x < allElements.length; x++)
+		catch(javax.xml.parsers.ParserConfigurationException e)
 		{
-			if( allElements[x] != null)
-			{
-				for(int y = 0; y < allElements[x].length; y++)
-				{
-					length += allElements[x][y].length;
-				}
-			}
+			System.out.println("Parsing failed!!!");
 		}
-
-		String[] allElementsOneDimensional = new String[length];
-		int count = 0;
-		for (int x = 1; x < allElements.length; x++)
-		{
-			if( allElements[x] != null)
-			{
-				for(int y = 0; y < allElements[x].length; y++)
-				{
-					for(int z = 0; z < allElements[x][y].length; z++)
-					{
-						allElementsOneDimensional[count] = allElements[x][y][z];
-						count++;
-					}
-				}
-			}
-		}
-
-
-
-		count = 0;
-		boolean isNewTask = true;
-		//Variable task = new Variable("Xxx");
-		String task = "Xxx";
-
-		for(int x = 0; x < allElementsOneDimensional.length; x++)
-		{
-			String current = allElementsOneDimensional[x];
-
-			if(isNewTask)
-			{
-				task = "task_" + count;
-				/*Compound assert_goal = new Compound(
- 					"rdf_has",
- 					new Term[] {
- 						task,
-						new Atom("rdf:type"),
- 						new Atom("execution_trace:'Task'")
- 					}
- 				);*/
-
-				//System.out.println("deneme");
-				//PrologInterface.executeQuery("Ta = " + task + "");
-				//PrologInterface.executeQuery("term_to_atom(Ta, Tsk)");
-
-				PrologInterface.executeQuery("rdf_assert(" + task + ", rdf:type, execution_trace:'Task')"); 		
-				
-				isNewTask = false;
-				count++;
-			}
-			
-			if(current.equals("GOAL"))
-			{
-				String prefix = "goal_";
-				prefix = prefix.concat(allElementsOneDimensional[x+1]);
-				prefix = prefix.concat("_");
-				prefix = prefix.concat(allElementsOneDimensional[x+2]);
-				prefix = prefix.concat("_");
-				prefix = prefix.concat(allElementsOneDimensional[x+3]);
-				prefix = prefix.replace("-", "_");
-				prefix = prefix.replace(":", "_");
-				prefix = prefix.replace("?", "");
-
-				//PrologInterface.executeQuery("Gl = '" + prefix + "'");
-				//PrologInterface.executeQuery("term_to_atom(Gl, goal)");
-
-				PrologInterface.executeQuery("rdf_assert(" + prefix + ", rdf:type, execution_trace:'Goal')");
-
-				PrologInterface.executeQuery("rdf_assert(" + task + ", execution_trace:'taskGoal'," + prefix + ")");
-
-
-				x = x + 3;
-			}
-			else if(current.equals("GOAL-CONTEXT"))
-			{
-				String prefix = "goalcontext_";
-				prefix = prefix.concat(allElementsOneDimensional[x+1]);
-				prefix = prefix.concat("_");
-				prefix = prefix.concat(allElementsOneDimensional[x+2]);
-				prefix = prefix.replace("-", "_");
-				prefix = prefix.replace(":", "_");
-				prefix = prefix.replace("?", "");
-
-				//PrologInterface.executeQuery("GlC = '" + prefix + "'");
-				//PrologInterface.executeQuery("term_to_atom(GlC, goalcontext)");
-
-				PrologInterface.executeQuery("rdf_assert(" + prefix + ", rdf:type, execution_trace:'GoalContext')");
-
-				PrologInterface.executeQuery("rdf_assert(" + task + ", execution_trace:'taskGoalContext'," + prefix + ")");				
-
-
-				x = x + 2;
-			}
-			else if(current.equals("TOP-LEVEL"))
-			{
-				String prefix = "toplevel_";
-				prefix = prefix.concat(allElementsOneDimensional[x+1]);
-				prefix = prefix.replace("-", "_");
-				prefix = prefix.replace(":", "_");
-				prefix = prefix.replace("?", "");
-
-				//PrologInterface.executeQuery("ToL = '" + prefix + "'");
-				//PrologInterface.executeQuery("term_to_atom(ToL, toplevel)");
-
-				PrologInterface.executeQuery("rdf_assert(" + prefix + ", rdf:type, execution_trace:'TopLevel')");
-
-				PrologInterface.executeQuery("rdf_assert(" + task + ", execution_trace:'taskTopLevel'," + prefix + ")");
-
-
-
-				isNewTask = true;
-				x = x + 1;
-
-			}		
-
-
-			
-		}
-
-		InputStreamReader istream = new InputStreamReader(System.in);
-                BufferedReader bufRead = new BufferedReader(istream);
-
-		String prologQuery = "";
-
-		try {
-               		System.out.println("Enter prolog query: ");
-               		prologQuery = bufRead.readLine();
-          	}
-          	catch (IOException err) {
-               		System.out.println("Error reading line");
-          	}
-
-		HashMap<String, Vector<String>> results = PrologInterface.executeQuery(prologQuery);
-
-		/*Set set = results.entrySet(); 
-		// Get an iterator 
-		Iterator it = set.iterator(); 
-		// Display elements 
-		while(it.hasNext()) 
-		{ 
-			Map.Entry me = (Map.Entry)it.next(); 
-			System.out.print(me.getKey() + ": "); 
-			System.out.println(me.getValue()); 
-		} */
-
-		System.out.println(results);
-
-		System.out.println(allElementsOneDimensional.length);
-
-		/*for(int x = 0; x < allElementsOneDimensional.length; x++)
-			System.out.println(allElementsOneDimensional[x]);*/
-
-		return allElementsOneDimensional;
-	}
-
-	int checkType(String data)
-	{
-		if(data.length() > 16 && data.substring(1,15).equals("TASK-TREE-NODE"))
-			return 0;
-		return -1;	
-	}
-
-	ArrayList<String[]> convertToPrologReady(int type, String data)
-	{
-		if (type == 0)
-		{
-			String dataToBeUsed = data.substring(31);
-			
-			ArrayList<String[]> components = new ArrayList<String[]>();
-			
-			int paranthesisCount = 0;
-			for(int i = 0; i < dataToBeUsed.length(); i++)
-			{
-				String currentChar = dataToBeUsed.substring(i, i+1);				
-				if (currentChar.equals("(")) paranthesisCount++;
-				else if (currentChar.equals(")")) paranthesisCount--;
-
-				
-				
-				if (paranthesisCount > 0 && !(currentChar.equals(")")) && !(currentChar.equals("(")))
-				{
-					if((currentChar.equals("\n")) || (currentChar.equals("\t")))
-						store.add(" ");
-					else store.add(currentChar);
-				}
-				else if (paranthesisCount == 0)
-				{
-					String subData = "";
-					for(int ind = 0; ind < store.size(); ind++)
-					{
-						String xx = store.get(ind).toString();
-						subData = subData + xx;
-					}
-					store.clear();
-
-					StringTokenizer divider = new StringTokenizer(subData, " ");
 		
-					int elementCount = divider.countTokens();
-					String[] coreElements = new String[elementCount];
-					int j = 0;
-					while (divider.hasMoreElements()) 
-					{
-						coreElements[j] = divider.nextElement().toString();
-						j++;
-					}
-	
-					if (elementCount != 0)
-						components.add(coreElements);
+		File inputFile = new File(inputFileName/*"/home/asil/Desktop/exec-trace.xml"*/);
+		//InputSource newSource = new InputSource(inputFile); 		
 
-				} 
-			}
-			return components;
-						
+		Document doc = null; // new Document();
+		try
+		{
+			doc = dBuilder.parse(inputFile);
+ 		}
+		catch(Exception e)
+		{
+			System.out.println("Parsing failed!!!");
 		}
-		return null;
+
+		doc.getDocumentElement().normalize();
+		
+		// OWL PART
+		try
+		{
+			// Create ontology manager and data factory
+			manager = OWLManager.createOWLOntologyManager();
+			factory = manager.getOWLDataFactory();
+	
+			// Get prefix manager using the base IRI as default namespace
+			pm = PREFIX_MANAGER;
+
+			// Create empty OWL ontology
+			ontology = manager.createOntology(IRI.create(NAMESPACE));
+			manager.setOntologyFormat(ontology, new RDFXMLOntologyFormat());
+
+			// Import KnowRob ontology
+			OWLImportsDeclaration oid = factory.getOWLImportsDeclaration(IRI.create("knowrob"));
+			AddImport addImp = new AddImport(ontology,oid);
+			manager.applyChange(addImp);
+
+			// Action instances 
+			OWLNamedIndividual action_inst = null;
+			OWLNamedIndividual prev_action_inst = null;
+
+			//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+ 			//NodeList nList = doc.getElementsByTagName("goal-context");
+			//NodeList nList = doc.getDocumentElement();
+
+			NodeList nList = doc.getElementsByTagName("task");
+
+			for(int i = 0; i < nList.getLength(); i++)
+			{
+				Node current = nList.item(i);
+				Node directParent = current.getParentNode();				
+				Node currentDummy = current;
+
+				while(currentDummy.getParentNode() != null)
+				{
+					currentDummy = currentDummy.getParentNode();
+					checkAndAddNewGoalContext(currentDummy);
+				}
+
+				String goal_context_name = directParent.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").toLowerCase();
+				goal_context_name = goal_context_name.replaceAll("'", "");
+				OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + goal_context_name, pm);
+
+				String task_name = current.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").toLowerCase();
+				task_name = task_name.replaceAll("'", "");
+				OWLNamedIndividual task_inst = factory.getOWLNamedIndividual("executiontrace:" + task_name, pm);
+				OWLClass task_class = factory.getOWLClass("modexecutiontrace:Task", pm);
+				manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(task_class, task_inst));
+
+				OWLObjectProperty goalContextOfTask = factory.getOWLObjectProperty("modexecutiontrace:TaskGoalContext", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(goalContextOfTask, task_inst, goal_context_inst));
+
+				NodeList taskChildNodes = current.getChildNodes();
+
+				String created = null, running = null, failed = null, succeeded = null;
+
+				for(int x = 0; x < nList.getLength(); x++)
+				{				
+					if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
+					{
+						created = taskChildNodes.item(x).getTextContent();
+					}
+					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
+					{
+						running = taskChildNodes.item(x).getTextContent();
+					}
+					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
+					{
+						failed = taskChildNodes.item(x).getTextContent();
+					}
+					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
+						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("SUCCEEDED"))
+					{
+						succeeded = taskChildNodes.item(x).getTextContent();						
+					}
+		
+				}
+
+				OWLNamedIndividual timestamp_created = factory.getOWLNamedIndividual("executiontrace:timepoint_"+created, pm);
+				OWLClass time_class = factory.getOWLClass("knowrob:TimePoint", pm);
+				manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_created));
+
+				OWLNamedIndividual timestamp_running = factory.getOWLNamedIndividual("executiontrace:timepoint_"+running, pm);
+				manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_running));
+
+				OWLObjectProperty createdTime = factory.getOWLObjectProperty("modexecutiontrace:creationTime", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(createdTime, task_inst, timestamp_created));
+				
+				OWLObjectProperty runningTime = factory.getOWLObjectProperty("modexecutiontrace:runningTime", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(runningTime, task_inst, timestamp_running));
+
+				
+				if (failed != null)
+				{
+					OWLNamedIndividual timestamp_failed = factory.getOWLNamedIndividual("executiontrace:timepoint_"+failed, pm);
+					manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_failed));
+
+					OWLObjectProperty failedTime = factory.getOWLObjectProperty("modexecutiontrace:failedTime", pm);
+					manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(failedTime, task_inst, timestamp_failed));
+				}
+				
+				if (succeeded != null)
+				{
+					OWLNamedIndividual timestamp_succeeded = factory.getOWLNamedIndividual("executiontrace:timepoint_"+succeeded, pm);
+					manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(time_class, timestamp_succeeded));
+
+					OWLObjectProperty succeededTime = factory.getOWLObjectProperty("modexecutiontrace:succeededTime", pm);
+					manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(succeededTime, task_inst, timestamp_succeeded));
+				}
+
+			}
+
+			File outputFile = new File(outputFileName/*"/home/asil/Desktop/executiontrace.owl"*/);
+			IRI documentIRI2 = IRI.create(outputFile);
+			manager.saveOntology(ontology, new RDFXMLOntologyFormat(), documentIRI2);
+			manager.saveOntology(ontology, new SystemOutDocumentTarget());		
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}		
+	}
+
+	void checkAndAddNewGoalContext(Node currentDummy)
+	{
+		boolean doesExist = false;
+		for(int i = 0; i < listOfAddedGoalContext.size(); i++)
+		{
+			//System.out.println("Abc: " + currentDummy.getNodeName());
+
+			if(!(currentDummy.getNodeName().equals("#document")) && listOfAddedGoalContext.get(i).getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").replaceAll("'", "").equals(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_").replaceAll("'", "")))
+			{
+				//System.out.println(currentDummy.getAttributes().getNamedItem("name").getNodeValue().replaceAll(" ", "_"));
+				doesExist = true;
+				break;
+			}
+			else if (currentDummy.getNodeName().equals("#document"))
+				doesExist = true;
+		}
+
+		if(!doesExist)
+		{
+			listOfAddedGoalContext.add(currentDummy);
+
+			String goal_context_name = currentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_");
+			goal_context_name = goal_context_name.replaceAll("'", "");
+			OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + goal_context_name, pm);
+			OWLClass goal_context_class = factory.getOWLClass("modexecutiontrace:GoalContext", pm);
+			manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(goal_context_class, goal_context_inst));
+			
+			Node parentDummy = currentDummy.getParentNode(); 
+			if(parentDummy!= null && !(parentDummy.getNodeName().equals("#document")))
+			{
+				
+				listOfAddedGoalContext.add(parentDummy);
+				
+				String parent_goal_context_name = parentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_");
+				parent_goal_context_name = parent_goal_context_name.replaceAll("'", "");
+
+				OWLNamedIndividual parent_goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + parent_goal_context_name, pm);
+
+				OWLObjectProperty parental_relation = factory.getOWLObjectProperty("modexecutiontrace:parentGoalContext", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(parental_relation, goal_context_inst, parent_goal_context_inst));
+
+				OWLObjectProperty child_relation = factory.getOWLObjectProperty("modexecutiontrace:childGoalContext", pm);
+				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(child_relation, parent_goal_context_inst, goal_context_inst));
+			}			
+		}
 	}
        
         public static void main(String[] args) 
         {
-
-                ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
-		int i =1;
-		while (i == 1)
+		if(args.length >= 2)
 		{
-			/*Reply answer = */ d.getTrace();
-			//String res = answer.result;
-                	//System.out.println(x);
-			
-                }
+		
+		    	ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
+			int i = 1;
+			while (i == 1)
+			{
+				/*Reply answer = */ d.getTrace(args[0], args[1]);
+				//String res = answer.result;
+		        	//System.out.println(x);
+				i++;
+		        }
+		}
+		else System.out.println("Insufficient number of parameters. Usage: ./ROSClient [input_file] [output_file]");
         }
 
 }
+

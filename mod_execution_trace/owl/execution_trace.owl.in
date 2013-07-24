@@ -34,9 +34,43 @@
    </owl:Class>
 
   <owl:ObjectProperty rdf:about="&modexecutiontrace;TaskGoalContext">
-        <rdfs:range rdf:resource="&&modexecutiontrace;goal"/>
-        <rdfs:domain rdf:resource="&knowrob;Thing"/>
+        <rdfs:range rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:domain rdf:resource="&modexecutiontrace;GoalContext"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;creationTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+    </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;runningTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
   </owl:ObjectProperty>
 
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;failedTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+  </owl:ObjectProperty>
 
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;succeededTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;Task"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;parentGoalContext">
+        <rdfs:domain rdf:resource="&modexecutiontrace;GoalContext"/>
+        <rdfs:range rdf:resource="&knowrob;GoalContext"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;childGoalContext">
+        <rdfs:domain rdf:resource="&modexecutiontrace;GoalContext"/>
+        <rdfs:range rdf:resource="&modexecutiontrace;GoalContext"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+  </owl:ObjectProperty>
 </rdf:RDF>
