@@ -12,7 +12,6 @@
   <depend package="mod_vis"/>
   <depend package="rosjava_jni"/>
   <depend package="json_prolog"/>
-  <depend package="rosprac"/>
   <depend package="comp_ehow"/>
 
 </package>
