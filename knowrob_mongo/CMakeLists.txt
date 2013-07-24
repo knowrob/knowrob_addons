@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.6)
+cmake_minimum_required(VERSION 2.8.7)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init()
@@ -12,6 +12,32 @@ add_classpath(${PROJECT_SOURCE_DIR}/lib/mongo-java-driver-2.11.2.jar)
 add_runtime_classpath(${PROJECT_SOURCE_DIR}/lib/mongo-java-driver-2.11.2.jar)
 
 add_java_source_dir(${PROJECT_SOURCE_DIR}/src)
+
+include(UseJava)
+
+find_jar(JSON_LIB_JAR NAMES json-lib)
+add_classpath(${JSON_LIB_JAR})
+add_runtime_classpath(${JSON_LIB_JAR})
+
+find_jar(COMMONS_BEANUTILS_JAR NAMES commons-beanutils)
+add_classpath(${COMMONS_BEANUTILS_JAR})
+add_runtime_classpath(${COMMONS_BEANUTILS_JAR})
+
+find_jar(COMMONS_COLLECTIONS3_JAR commons-collections3)
+add_classpath(${COMMONS_COLLECTIONS3_JAR})
+add_runtime_classpath(${COMMONS_COLLECTIONS3_JAR})
+
+find_jar(COMMONS_LOGGING_JAR commons-logging)
+add_classpath(${COMMONS_LOGGING_JAR})
+add_runtime_classpath(${COMMONS_LOGGING_JAR})
+
+find_jar(EZMORPH_JAR ezmorph)
+add_classpath(${EZMORPH_JAR})
+add_runtime_classpath(${EZMORPH_JAR})
+
+find_jar(COMMONS_LANG_JAR commons-lang)
+add_classpath(${COMMONS_LANG_JAR})
+add_runtime_classpath(${COMMONS_LANG_JAR})
 
 
 # replace path to local OWL files

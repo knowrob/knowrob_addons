@@ -11,6 +11,8 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/knowrob_mongo</url>
 
+  <rosdep name="libjson-java"/>
+  <rosdep name="libjson-glib"/>
   <depend package="rosjava_jni"/>
   <depend package="mod_srdl"/>
   <depend package="jpl"/>
