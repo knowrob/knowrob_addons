@@ -38,6 +38,8 @@ public class MongoDBInterface {
 		cols.put("x", 1 );
 		cols.put("y",  1 );
 		
+		
+		
 		DBCursor cursor = coll.find(query, cols );
 		cursor.sort(new BasicDBObject("__recorded", -1));
 		try {
