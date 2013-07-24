@@ -350,7 +350,7 @@ public class ROSClient
 				i++;
 		        }
 		}
-		else System.out.println("Insufficient number of parameters");
+		else System.out.println("Insufficient number of parameters. Usage: ./ROSClient [input_file] [output_file]");
         }
 
 }
