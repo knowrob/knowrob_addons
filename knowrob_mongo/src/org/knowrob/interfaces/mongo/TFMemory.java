@@ -61,7 +61,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -421,7 +420,6 @@ public class TFMemory {
 
 		StampedTransform res = null;
 		try {
-			int i = 0;
 			while(cursor.hasNext()) {
 
 				DBObject row = cursor.next();

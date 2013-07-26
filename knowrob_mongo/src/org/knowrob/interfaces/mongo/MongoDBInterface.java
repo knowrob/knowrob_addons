@@ -6,14 +6,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.DBCursor;
-import com.mongodb.QueryBuilder;
-import com.mongodb.util.Util;
 
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
-import java.util.Date;
-
-import org.knowrob.interfaces.mongo.util.ISO8601Date;
 
 import ros.communication.Time;
 import tfjava.StampedTransform;
@@ -86,48 +81,6 @@ public class MongoDBInterface {
 //	}
 
 
-	private StampedTransform loadTransformFromDB(String childFrameID, Date date) {
-		
-		DBCollection coll = db.getCollection("tf");
-		DBObject query = new BasicDBObject();
-		
-		// select time slice from BUFFER_SIZE seconds before to one second after given time
-		Date start = new Date(date.getTime()-BUFFER_SIZE * 1000);
-		Date end   = new Date(date.getTime() + 1000);
-		
-		query = QueryBuilder.start("transforms")
-				.elemMatch(new BasicDBObject("child_frame_id", childFrameID))
-				.and("__recorded").greaterThanEquals( start )
-				.and("__recorded").lessThan( end )
-				.get();
-
-		DBObject cols  = new BasicDBObject();
-		cols.put("_id", 1 );
-		cols.put("__recorded",  1 );
-		cols.put("transforms",  1 );
-
-
-		DBCursor cursor = coll.find(query, cols );
-		cursor.sort(new BasicDBObject("__recorded", -1));
-		
-		
-		StampedTransform res = null;
-		try {
-			int i = 0;
-			while(cursor.hasNext()) {
-
-				DBObject row = cursor.next();
-				System.out.println(row.get("__recorded").toString() + " " + i++);
-
-				mem.setTransforms(row.get("transforms").toString());
-
-				break;
-			}
-		} finally {
-			cursor.close();
-		}
-		return res;
-	}
 
 	public static void main(String[] args) {
 
