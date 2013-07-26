@@ -11,40 +11,40 @@ public class ISO8601Date {
 
 	protected Date date;
 
+	
+	// constructors
 	public ISO8601Date(String isodate) {
-		this.date = parse(isodate).getDate();
-	}
-	
-	
-	
-	public ISO8601Date(Date d) {
-		this.date = d;
-	}
-	
-	public ISO8601Date(Time t) {
-		date = new Date((long)t.secs * 1000 + t.nsecs/1000);
-	}
-
-	
-	public static ISO8601Date parse(String datestring) {
-
 		SimpleDateFormat sdf;
 		
-		if(datestring.contains("."))
+		if(isodate.contains("."))
 			sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		else 
 			sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		
 	    GregorianCalendar datum = new GregorianCalendar();
 	    try {
-	    	datum.setTime(sdf.parse(datestring));
-	    	return new ISO8601Date(datum.getTime());
+	    	datum.setTime(sdf.parse(isodate));
+	    	this.date = datum.getTime();
+	    	
 	    } catch (ParseException e) {
 		    e.printStackTrace();
 	    }
-	    return null;
+
+	}
+	
+	public ISO8601Date(Date d) {
+		this.date = d;
 	}
 
+	public ISO8601Date(Time t) {
+		date = new Date((long)t.secs * 1000 + t.nsecs/1000);
+	}
+
+	public ISO8601Date(long t) {
+		date = new Date(t);
+	}
+
+	
 	
 	@Override
 	public String toString() {
@@ -52,20 +52,19 @@ public class ISO8601Date {
 		return sdf.format(this.date);
 	}
 
-	
-	public long toNanoSeconds() {
-		return date.getTime() * 1000;
-	}
-	
 	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public long getNanoSeconds() {
+		return date.getTime() * 1000;
+	}
+
+	public long getMilliSeconds() {
+		return date.getTime() * 1000;
 	}
 	
-	public Time getROSTime() {
+	public Time toROSTime() {
 		GregorianCalendar datum = new GregorianCalendar();
 		datum.setTime(date);
 		long ms = datum.getTimeInMillis();
@@ -73,8 +72,7 @@ public class ISO8601Date {
 		Time t  = new Time();
 		t.secs  = (int) (ms / 1000);
 		t.nsecs = (int) (ms % 1000) * 1000;
-		return t;
-		
+		return t;	
 	}
 	
 }
