@@ -1,9 +1,6 @@
 %%
 %% Copyright (C) 2013 by Moritz Tenorth
 %%
-%% This module provides methods for representing and reasoning about
-%% constraint-based motion specifications in KnowRob.
-%%
 %% This program is free software; you can redistribute it and/or modify
 %% it under the terms of the GNU General Public License as published by
 %% the Free Software Foundation; either version 3 of the License, or
