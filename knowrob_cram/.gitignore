@@ -1,0 +1,7 @@
+.classpath
+.project
+bin
+msg_gen
+srv_gen
+build
+owl/knowrob_mongo.owl
