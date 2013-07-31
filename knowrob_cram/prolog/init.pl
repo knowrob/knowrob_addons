@@ -18,4 +18,4 @@
 :- register_ros_package(ias_knowledge_base).
 :- register_ros_package(knowrob_mongo).
 
-:- use_module(library(knowrob_mongo)).
+:- register_ros_package(knowrob_cram).

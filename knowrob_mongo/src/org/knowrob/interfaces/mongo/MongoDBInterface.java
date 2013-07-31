@@ -8,11 +8,20 @@ import com.mongodb.DBObject;
 import com.mongodb.DBCursor;
 
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
+
+import ros.communication.Time;
+import tfjava.StampedTransform;
 
 public class MongoDBInterface {
 
+	// duration through which transforms are to be kept in the buffer
+	protected final static int BUFFER_SIZE = 5;
+	
 	MongoClient mongoClient;
 	DB db;
+
+	TFMemory mem;
 
 	public MongoDBInterface() {
 
@@ -22,6 +31,7 @@ public class MongoDBInterface {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		mem = TFMemory.getInstance();
 	}
 	
 	
@@ -37,6 +47,8 @@ public class MongoDBInterface {
 		DBObject cols  = new BasicDBObject();
 		cols.put("x", 1 );
 		cols.put("y",  1 );
+		
+		
 		
 		DBCursor cursor = coll.find(query, cols );
 		cursor.sort(new BasicDBObject("__recorded", -1));
@@ -56,11 +68,44 @@ public class MongoDBInterface {
 	}
 
 
+//	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, Time time) {
+//		return lookupTransform(targetFrameId, sourceFrameId, new ISO8601Date(time).getDate());
+//	}
+//
+//	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, Date date) {
+//
+//		StampedTransform res = loadTransformFromDB(targetFrameId, sourceFrameId, date);
+//		res = mem.lookupTransform(targetFrameId, sourceFrameId, new ISO8601Date(date).getROSTime());
+//
+//		return res;
+//	}
+
+
+
 	public static void main(String[] args) {
 
 		MongoDBInterface m = new MongoDBInterface();
 		System.out.println("pose: [" + m.getPose("turtle1")[0] + ", " + m.getPose("turtle1")[1] + "]");
-
+		
+		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
+		Time t = new Time(timestamp.getTime()/1000);
+		
+		long t0 = System.nanoTime();
+		TFMemory tf = new TFMemory();
+		StampedTransform trans  = tf.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", t);
+		System.out.println(trans);
+		long t1 = System.nanoTime();
+		StampedTransform trans2 = tf.lookupTransform("/base_link", "/head_mount_kinect_ir_link", t);
+		System.out.println(trans2);
+		long t2 = System.nanoTime();
+		
+		double first = (t1-t0)/ 1E6;
+		double second = (t2-t1)/ 1E6;
+		
+		System.out.println(first);
+		System.out.println(second);
+		
+		
 	}
 }
 

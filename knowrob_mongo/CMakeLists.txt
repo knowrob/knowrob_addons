@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.6)
+cmake_minimum_required(VERSION 2.8.7)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 rosbuild_init()
@@ -12,6 +12,16 @@ add_classpath(${PROJECT_SOURCE_DIR}/lib/mongo-java-driver-2.11.2.jar)
 add_runtime_classpath(${PROJECT_SOURCE_DIR}/lib/mongo-java-driver-2.11.2.jar)
 
 add_java_source_dir(${PROJECT_SOURCE_DIR}/src)
+
+include(UseJava)
+
+find_jar(JACKSON_CORE_JAR NAMES jackson-core)
+add_classpath(${JACKSON_CORE_JAR})
+add_runtime_classpath(${JACKSON_CORE_JAR})
+
+find_jar(JACKSON_MAPPER_JAR NAMES jackson-mapper)
+add_classpath(${JACKSON_MAPPER_JAR})
+add_runtime_classpath(${JACKSON_MAPPER_JAR})
 
 
 # replace path to local OWL files

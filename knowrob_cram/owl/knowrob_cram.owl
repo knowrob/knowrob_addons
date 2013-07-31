@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
+    <!ENTITY computable "http://ias.cs.tum.edu/kb/computable.owl#" >
+    <!ENTITY PR2 "http://ias.cs.tum.edu/kb/knowrob_cram.owl#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/knowrob_cram.owl#"
+     xml:base="http://ias.cs.tum.edu/kb/knowrob_cram.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://ias.cs.tum.edu/kb/computable.owl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:PR2="http://ias.cs.tum.edu/kb/knowrob_cram.owl#"
+     xmlns:srdl2-comp="http://ias.cs.tum.edu/kb/srdl2-comp.owl#"
+     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/knowrob_cram.owl">
+        <owl:imports rdf:resource="file:///home/tenorth/work/ros/groovy/rosbuild_ws/stacks/knowrob/ias_knowledge_base/owl/knowrob.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#CRAMEvent -->
+
+    <owl:Class rdf:about="&PR2;CRAMEvent">
+        <rdfs:subClassOf rdf:resource="&knowrob;Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#DesignatorAction -->
+
+    <owl:Class rdf:about="&PR2;DesignatorAction">
+        <rdfs:subClassOf rdf:resource="&PR2;DesignatorInteraction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#DesignatorInteraction -->
+
+    <owl:Class rdf:about="&PR2;DesignatorInteraction">
+        <rdfs:subClassOf rdf:resource="&PR2;CRAMEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#EquateDesignator -->
+
+    <owl:Class rdf:about="&PR2;EquateDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;DesignatorAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#GoalAction -->
+
+    <owl:Class rdf:about="&PR2;GoalAction">
+        <rdfs:subClassOf rdf:resource="&PR2;CRAMEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#GoalMaintain -->
+
+    <owl:Class rdf:about="&PR2;GoalMaintain">
+        <rdfs:subClassOf rdf:resource="&PR2;GoalAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#GoalMonitor -->
+
+    <owl:Class rdf:about="&PR2;GoalMonitor">
+        <rdfs:subClassOf rdf:resource="&PR2;GoalAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#GoalPerceive -->
+
+    <owl:Class rdf:about="&PR2;GoalPerceive">
+        <rdfs:subClassOf rdf:resource="&PR2;GoalAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#GoalPerform -->
+
+    <owl:Class rdf:about="&PR2;GoalPerform">
+        <rdfs:subClassOf rdf:resource="&PR2;GoalAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#PerformActionDesignator -->
+
+    <owl:Class rdf:about="&PR2;PerformActionDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;PerformDesignator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#PerformDesignator -->
+
+    <owl:Class rdf:about="&PR2;PerformDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;DesignatorAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveActionDesignator -->
+
+    <owl:Class rdf:about="&PR2;ResolveActionDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;ResolveDesignator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveDesignator -->
+
+    <owl:Class rdf:about="&PR2;ResolveDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;DesignatorAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveLocationDesignator -->
+
+    <owl:Class rdf:about="&PR2;ResolveLocationDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;ResolveDesignator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveObjectDesignator -->
+
+    <owl:Class rdf:about="&PR2;ResolveObjectDesignator">
+        <rdfs:subClassOf rdf:resource="&PR2;ResolveDesignator"/>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#WithDesignators -->
+
+    <owl:Class rdf:about="&PR2;WithDesignators">
+        <rdfs:subClassOf rdf:resource="&PR2;DesignatorInteraction"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
