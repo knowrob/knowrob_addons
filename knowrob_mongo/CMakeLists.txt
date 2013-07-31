@@ -11,18 +11,19 @@ set(JAVA_OUTPUT_DIR ${PROJECT_SOURCE_DIR}/bin)
 add_classpath(${PROJECT_SOURCE_DIR}/lib/mongo-java-driver-2.11.2.jar)
 add_runtime_classpath(${PROJECT_SOURCE_DIR}/lib/mongo-java-driver-2.11.2.jar)
 
-add_java_source_dir(${PROJECT_SOURCE_DIR}/src)
-
 include(UseJava)
 
 find_jar(JACKSON_CORE_JAR NAMES jackson-core)
+message(JACKSON_CORE_JAR ${JACKSON_CORE_JAR})
 add_classpath(${JACKSON_CORE_JAR})
 add_runtime_classpath(${JACKSON_CORE_JAR})
 
 find_jar(JACKSON_MAPPER_JAR NAMES jackson-mapper)
 add_classpath(${JACKSON_MAPPER_JAR})
+message(JACKSON_MAPPER_JAR ${JACKSON_MAPPER_JAR})
 add_runtime_classpath(${JACKSON_MAPPER_JAR})
 
+add_java_source_dir(${PROJECT_SOURCE_DIR}/src)
 
 # replace path to local OWL files
 rosbuild_find_ros_package(knowrob_mongo)
