@@ -27,7 +27,7 @@ public class MongoDBInterface {
 
 		try {
 			mongoClient = new MongoClient( "localhost" , 27017 );
-			db = mongoClient.getDB("roslog-pr2");
+			db = mongoClient.getDB("roslog");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -87,12 +87,24 @@ public class MongoDBInterface {
 		MongoDBInterface m = new MongoDBInterface();
 		System.out.println("pose: [" + m.getPose("turtle1")[0] + ", " + m.getPose("turtle1")[1] + "]");
 		
-		Timestamp timestamp = Timestamp.valueOf("2013-07-24 11:44:01.0");
+		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
 		Time t = new Time(timestamp.getTime()/1000);
 		
+		long t0 = System.nanoTime();
 		TFMemory tf = new TFMemory();
-		StampedTransform trans = tf.lookupTransform("/sensor_mount_link", "/head_mount_kinect_ir_link", t);
+		StampedTransform trans  = tf.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", t);
 		System.out.println(trans);
+		long t1 = System.nanoTime();
+		StampedTransform trans2 = tf.lookupTransform("/base_link", "/head_mount_kinect_ir_link", t);
+		System.out.println(trans2);
+		long t2 = System.nanoTime();
+		
+		double first = (t1-t0)/ 1E6;
+		double second = (t2-t1)/ 1E6;
+		
+		System.out.println(first);
+		System.out.println(second);
+		
 		
 	}
 }

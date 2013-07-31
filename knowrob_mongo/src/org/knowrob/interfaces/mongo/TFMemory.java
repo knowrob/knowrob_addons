@@ -47,6 +47,10 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Point3d;
 import javax.vecmath.Matrix4d;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.util.StdDateFormat;
 import org.knowrob.interfaces.mongo.util.ISO8601Date;
 
 import com.mongodb.BasicDBObject;
@@ -57,12 +61,12 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.QueryBuilder;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.LinkedList;
 
@@ -97,11 +101,8 @@ public class TFMemory {
 	/** Map that maps frame IDs (names) to frames */    
 	protected HashMap<String, Frame> frames;
 
-	/** TF name prefix, currently not used (TODO) */
-	protected String tfPrefix = "";
-
 	// duration through which transforms are to be kept in the buffer
-	protected final static int BUFFER_SIZE = 5;
+	protected final static float BUFFER_SIZE = 0.5f;
 
 	MongoClient mongoClient;
 	DB db;
@@ -128,7 +129,7 @@ public class TFMemory {
 
 		try {
 			mongoClient = new MongoClient( "localhost" , 27017 );
-			db = mongoClient.getDB("roslog-pr2");
+			db = mongoClient.getDB("roslog");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -142,34 +143,35 @@ public class TFMemory {
 	 * *                            TF LISTENER                             *
 	 * ********************************************************************** */	
 
+	@SuppressWarnings("unchecked")
 	protected boolean setTransforms(String json_transforms) {
 
-		JSONArray tfs = JSONArray.fromObject(json_transforms);
-
-
-		for (int i = 0; i < tfs.size(); i++) {
-
-			setTransform(tfs.getJSONObject(i));
-
-
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.getDeserializationConfig().withDateFormat(new StdDateFormat());
+		try {
+			
+			for(Object transform : mapper.readValue(json_transforms, List.class))
+				setTransform((Map<String, Object>) transform);
+			
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-
 		return true;
 	}
 
 	/**
 	 * Converts transform (a geometry msg) to a TransformStorage object and adds it to the buffer.
 	 */    
-	protected boolean setTransform(JSONObject tf_stamped) {
-
-		// read JSON string
-		JSONObject json_header = tf_stamped.getJSONObject("header");
-		JSONObject json_transform = tf_stamped.getJSONObject("transform");
+	@SuppressWarnings("unchecked")
+	protected boolean setTransform(Map<String, Object> tf_stamped) {
 
 		// resolve the frame ID's
-		String childFrameID = assertResolved(tfPrefix, tf_stamped.getString("child_frame_id"));
-		String frameID = assertResolved(tfPrefix, json_header.getString("frame_id"));
+		String childFrameID = assertResolved("", (String) tf_stamped.get("child_frame_id"));
+		String frameID = assertResolved("", (String) ((Map<String,Object>)tf_stamped.get("header")).get("frame_id"));
 
 
 		boolean errorExists = false;
@@ -194,21 +196,23 @@ public class TFMemory {
 		Frame frame = lookupOrInsertFrame(childFrameID);
 
 		// convert tf message to JTransform datastructure
-		double trans_x = json_transform.getJSONObject("translation").getDouble("x");
-		double trans_y = json_transform.getJSONObject("translation").getDouble("y");
-		double trans_z = json_transform.getJSONObject("translation").getDouble("z");
+		Map<String, Map<String, Number>> transform = (Map<String, Map<String, Number>>) tf_stamped.get("transform");
+		
+		double trans_x = transform.get("translation").get("x").doubleValue();
+		double trans_y = transform.get("translation").get("y").doubleValue();
+		double trans_z = transform.get("translation").get("z").doubleValue();
 
-		double rot_w = json_transform.getJSONObject("rotation").getDouble("w");
-		double rot_x = json_transform.getJSONObject("rotation").getDouble("x");
-		double rot_y = json_transform.getJSONObject("rotation").getDouble("y");
-		double rot_z = json_transform.getJSONObject("rotation").getDouble("z");
+		double rot_w = transform.get("rotation").get("w").doubleValue();
+		double rot_x = transform.get("rotation").get("x").doubleValue();
+		double rot_y = transform.get("rotation").get("y").doubleValue();
+		double rot_z = transform.get("rotation").get("z").doubleValue();
 
 		// add frames to map
 		Frame childFrame = lookupOrInsertFrame(childFrameID);
 		Frame parentFrame = lookupOrInsertFrame(frameID);
 
 
-		ISO8601Date timestamp = new ISO8601Date(json_header.getJSONObject("stamp").getString("$date"));
+		ISO8601Date timestamp = new ISO8601Date(((Map<String, Map<String, String>>)tf_stamped.get("header")).get("stamp").get("$date"));
 
 		TransformStorage tf = new TransformStorage(new Vector3d(trans_x, trans_y, trans_z),
 				new Quat4d(rot_x, rot_y, rot_z, rot_w),
@@ -297,8 +301,8 @@ public class TFMemory {
 	public StampedTransform lookupTransform(String targetFrameID, String sourceFrameID, Time time) {
 
 		// resolve the source and target IDs
-		String resolvedTargetID = assertResolved(tfPrefix, targetFrameID);
-		String resolvedSourceID = assertResolved(tfPrefix, sourceFrameID);
+		String resolvedTargetID = assertResolved("", targetFrameID);
+		String resolvedSourceID = assertResolved("", sourceFrameID);
 
 		// if source and target are the same, return the identity transform
 		if (resolvedSourceID == resolvedTargetID) {
@@ -313,8 +317,16 @@ public class TFMemory {
 
 		// load data from DB if the current time point is already in the buffer
 		Frame sourceFrame = verifyDataAvailable(time, resolvedSourceID);
+		if(sourceFrame==null) {
+			System.err.println("Cannot transform: source frame \"" + resolvedSourceID + "\" does not exist.");
+			return null;
+		} 
+
 		Frame targetFrame = verifyDataAvailable(time, resolvedTargetID);
-		
+		if(targetFrame==null) {
+			System.err.println("Cannot transform: target frame \"" + resolvedTargetID + "\" does not exist.");
+			return null;
+		}
 		
 		// list that will contain transformations from source frame to some frame F        
 		LinkedList<TransformStorage> inverseTransforms = new LinkedList<TransformStorage>();
@@ -323,7 +335,6 @@ public class TFMemory {
 
 		// fill the lists using lookupLists. If it returns FALSE, no transformation could be found.
 		if (!lookupLists(targetFrame, sourceFrame, time.totalNsecs(), inverseTransforms, forwardTransforms)) {
-			// TODO give warning
 			System.err.println("Cannot transform: source + \"" + resolvedSourceID + "\" and target \""
 					+ resolvedTargetID + "\" are not connected.");
 			return null;
@@ -360,8 +371,8 @@ public class TFMemory {
 		// lookup frame
 		Frame frame = frames.get(frameID);
 
+		// check if frame is inside time cache
 		boolean inside = false;
-
 		if(frame!=null && frame.getParentFrames()!=null) {
 			for(Frame f : frame.getParentFrames()) {
 
@@ -377,11 +388,6 @@ public class TFMemory {
 			loadTransformFromDB(frameID, new ISO8601Date(time).getDate());
 			frame = frames.get(frameID);
 		} 
-		
-		if(frame==null) {
-			System.err.println("Cannot transform: source frame \"" + frameID + "\" does not exist.");
-			return null;
-		}    
 		return frame;
 	}
 
@@ -399,33 +405,35 @@ public class TFMemory {
 		DBObject query = new BasicDBObject();
 
 		// select time slice from BUFFER_SIZE seconds before to one second after given time
-		Date start = new Date(date.getTime()-BUFFER_SIZE * 1000);
-		Date end   = new Date(date.getTime() + 1000);
+		Date start = new Date((long) (date.getTime() - ((int) (BUFFER_SIZE * 1000) ) ));
+		Date end   = new Date((long) (date.getTime() + 500));
 
-		query = QueryBuilder.start("transforms")
-				.elemMatch(new BasicDBObject("child_frame_id", childFrameID))
-				.and("__recorded").greaterThanEquals( start )
-				.and("__recorded").lessThan( end )
-				.get();
-
+		// read all frames in time slice 
+		query = QueryBuilder.start("__recorded").greaterThanEquals( start )
+							.and("__recorded").lessThan( end )
+							.get();
+		
+		// TODO: check if we can read only the latest transforms for the child frame
+		// -> should be feasible since verifyDataAvailable should load data when needed,
+		//    maybe needs to be made recursive
+		// query = QueryBuilder.start("transforms")  
+		// 		.elemMatch(new BasicDBObject("child_frame_id", childFrameID))
+		// 		.and("__recorded").greaterThanEquals( start )
+		// 		.and("__recorded").lessThan( end )
+		// 		.get();
+		
+		
+		// read only transforms and time stamp
 		DBObject cols  = new BasicDBObject();
-		cols.put("_id", 1 );
-		cols.put("__recorded",  1 );
 		cols.put("transforms",  1 );
-
-
+		cols.put("__recorded",  1 );
+		
 		DBCursor cursor = coll.find(query, cols );
-		cursor.sort(new BasicDBObject("__recorded", -1));
-
 
 		StampedTransform res = null;
 		try {
 			while(cursor.hasNext()) {
-
-				DBObject row = cursor.next();
-				setTransforms(row.get("transforms").toString());
-
-				break;
+				setTransforms(cursor.next().get("transforms").toString());
 			}
 		} finally {
 			cursor.close();
@@ -557,7 +565,7 @@ public class TFMemory {
 					Q.add(parentFrameNode);
 				}
 			}
-		}    
+		}
 
 		// target and source frames are not connected.        
 		return false;
@@ -687,22 +695,5 @@ public class TFMemory {
 		}  else {		    
 			return "/" + frameID;			
 		}
-	}	
-
-	/* Returns the tf prefix from the parameter list
-	 * 
-	 * TODO: does not work yet
-	private static String getPrefixParam(NodeHandle nh) {
-		String param; 
-		if (!nh.hasParam("tf_prefix")) return ""; 
-
-		try {
-			return nh.getStringParam("tf_prefix", false);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
 	}
-	 */	
-
 }
