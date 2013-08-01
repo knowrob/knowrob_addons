@@ -35,31 +35,31 @@
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMEvent"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;GoalAction">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalAction">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMAction"/>
    </owl:Class>
   
-  <owl:Class rdf:about="&modexecutiontrace;GoalPerceive">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerceive">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;GoalPerceiveObject">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerceiveObject">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalPerceive"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;GoalMonitor">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalMonitor">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;GoalPerform">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerform">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;GoalPerformOnProcessModule">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerformOnProcessModule">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalPerform"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;GoalMaintain">
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalMaintain">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
    </owl:Class>
 
@@ -71,8 +71,12 @@
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorInteraction"/>
    </owl:Class>
 
-  <owl:Class rdf:about="&modexecutiontrace;ResolveDesignator">
+  <owl:Class rdf:about="&modexecutiontrace;DesignatorAction">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorInteraction"/>
+   </owl:Class>
+
+  <owl:Class rdf:about="&modexecutiontrace;ResolveDesignator">
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorAction"/>
    </owl:Class>
 
   <owl:Class rdf:about="&modexecutiontrace;ResolveActionDesignator">
@@ -88,50 +92,14 @@
    </owl:Class>
 
   <owl:Class rdf:about="&modexecutiontrace;EquateDesignator">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorInteraction"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorAction"/>
    </owl:Class>
 
    <owl:Class rdf:about="&modexecutiontrace;PerformDesignator">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorInteraction"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorAction"/>
    </owl:Class>
 
   <owl:Class rdf:about="&modexecutiontrace;PerformActionDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;PerformDesignator"/>
    </owl:Class>
-  
-  <owl:ObjectProperty rdf:about="&modexecutiontrace;creationTime">
-        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMAction"/>
-        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
-        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
-    </owl:ObjectProperty>
-
-  <owl:ObjectProperty rdf:about="&modexecutiontrace;runningTime">
-        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMAction"/>
-        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
-        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
-  </owl:ObjectProperty>
-
-  <owl:ObjectProperty rdf:about="&modexecutiontrace;failedTime">
-        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMAction"/>
-        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
-        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
-  </owl:ObjectProperty>
-
-  <owl:ObjectProperty rdf:about="&modexecutiontrace;succeededTime">
-        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMAction"/>
-        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
-        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
-  </owl:ObjectProperty>
-
-  <owl:ObjectProperty rdf:about="&modexecutiontrace;parentAction">
-        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMAction"/>
-        <rdfs:range rdf:resource="&knowrob;CRAMAction"/>
-        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
-  </owl:ObjectProperty>
-
-  <owl:ObjectProperty rdf:about="&modexecutiontrace;childAction">
-        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMAction"/>
-        <rdfs:range rdf:resource="&knowrob;CRAMAction"/>
-        <rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
-  </owl:ObjectProperty>
 </rdf:RDF>
