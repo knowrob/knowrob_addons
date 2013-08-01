@@ -2,6 +2,10 @@ package org.knowrob.interfaces.mongo.types;
 
 import java.util.Date;
 
+import javax.vecmath.Matrix4d;
+import javax.vecmath.Quat4d;
+import javax.vecmath.Vector3d;
+
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -40,4 +44,24 @@ public class PoseStamped extends ros.pkg.geometry_msgs.msg.PoseStamped {
 		
 		return this;
 	}
+	
+	/**
+	 * Transform pose to matrix representation 
+	 * 
+	 * @return Matrix4d representing this pose
+	 */
+	public Matrix4d getMatrix4d() {
+		
+		Quat4d q = new Quat4d(this.pose.orientation.x, 
+							  this.pose.orientation.y,
+							  this.pose.orientation.z,
+							  this.pose.orientation.w);
+		
+		Vector3d t = new Vector3d(this.pose.position.x,
+								  this.pose.position.y,
+								  this.pose.position.z);
+		
+		return new Matrix4d(q, t, 1);
+	}
+	
 }

@@ -73,3 +73,19 @@ mng_lookup_transform(Target, Source, TimePoint, Transform) :-
 
 
 
+mng_designator(TimePoint, Type, Pose) :-
+
+  rdf_split_url(_, TimePointLocal, TimePoint),
+  atom_concat('timepoint_', TimeAtom, TimePointLocal),
+  term_to_atom(Time, TimeAtom),
+
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+  jpl_call(DB, 'latestUIMAPerceptionBefore', [Time], Designator),
+
+  jpl_call(Designator, 'get', ['type'], Type),
+  
+  jpl_call(Designator, 'get', ['pose'], StampedPose),
+  jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
+  knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, Pose).
+
+
