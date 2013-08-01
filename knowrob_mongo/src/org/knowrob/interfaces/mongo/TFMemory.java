@@ -51,8 +51,9 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.util.StdDateFormat;
-import org.knowrob.interfaces.mongo.util.ISO8601Date;
+import org.knowrob.interfaces.mongo.types.ISODate;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -143,22 +144,10 @@ public class TFMemory {
 	 * *                            TF LISTENER                             *
 	 * ********************************************************************** */	
 
-	@SuppressWarnings("unchecked")
-	protected boolean setTransforms(String json_transforms) {
+	protected boolean setTransforms(BasicDBList transforms) {
 
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.getDeserializationConfig().withDateFormat(new StdDateFormat());
-		try {
-			
-			for(Object transform : mapper.readValue(json_transforms, List.class))
-				setTransform((Map<String, Object>) transform);
-			
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		for(Object transform : transforms) {
+			setTransform((BasicDBObject) transform);
 		}
 		return true;
 	}
@@ -166,12 +155,11 @@ public class TFMemory {
 	/**
 	 * Converts transform (a geometry msg) to a TransformStorage object and adds it to the buffer.
 	 */    
-	@SuppressWarnings("unchecked")
-	protected boolean setTransform(Map<String, Object> tf_stamped) {
+	protected boolean setTransform(BasicDBObject db_transform) {
 
 		// resolve the frame ID's
-		String childFrameID = assertResolved("", (String) tf_stamped.get("child_frame_id"));
-		String frameID = assertResolved("", (String) ((Map<String,Object>)tf_stamped.get("header")).get("frame_id"));
+		String childFrameID = assertResolved("", (String) db_transform.get("child_frame_id"));
+		String frameID = assertResolved("", (String) ((BasicDBObject) db_transform.get("header")).get("frame_id"));
 
 
 		boolean errorExists = false;
@@ -192,36 +180,25 @@ public class TFMemory {
 
 		if (errorExists) return false;	    
 
-		// lookup or insert child frame
-		Frame frame = lookupOrInsertFrame(childFrameID);
-
-		// convert tf message to JTransform datastructure
-		Map<String, Map<String, Number>> transform = (Map<String, Map<String, Number>>) tf_stamped.get("transform");
-		
-		double trans_x = transform.get("translation").get("x").doubleValue();
-		double trans_y = transform.get("translation").get("y").doubleValue();
-		double trans_z = transform.get("translation").get("z").doubleValue();
-
-		double rot_w = transform.get("rotation").get("w").doubleValue();
-		double rot_x = transform.get("rotation").get("x").doubleValue();
-		double rot_y = transform.get("rotation").get("y").doubleValue();
-		double rot_z = transform.get("rotation").get("z").doubleValue();
 
 		// add frames to map
-		Frame childFrame = lookupOrInsertFrame(childFrameID);
+		Frame childFrame  = lookupOrInsertFrame(childFrameID);
 		Frame parentFrame = lookupOrInsertFrame(frameID);
 
 
-		ISO8601Date timestamp = new ISO8601Date(((Map<String, Map<String, String>>)tf_stamped.get("header")).get("stamp").get("$date"));
+		org.knowrob.interfaces.mongo.types.TransformStorage tf = 
+				new org.knowrob.interfaces.mongo.types.TransformStorage().
+				readFromDBObject(db_transform, childFrame, parentFrame);
 
-		TransformStorage tf = new TransformStorage(new Vector3d(trans_x, trans_y, trans_z),
-				new Quat4d(rot_x, rot_y, rot_z, rot_w),
-				timestamp.getNanoSeconds(),
-				parentFrame, childFrame);
+
+		//		new Vector3d(trans_x, trans_y, trans_z),
+//				new Quat4d(rot_x, rot_y, rot_z, rot_w),
+////				timestamp.getNanoSeconds(),
+//				parentFrame, childFrame);
 
 
 		// try to insert tf in corresponding time cache. If result is FALSE, the tf contains old data.
-		if (!frame.insertData(tf)) {
+		if (!childFrame.insertData(tf)) {
 			System.err.println("TF_OLD_DATA ignoring data from the past for frame \"" + childFrameID + "\" at time " + ((double)tf.getTimeStamp() / 1E9));
 			return false;
 		}
@@ -376,7 +353,7 @@ public class TFMemory {
 		if(frame!=null && frame.getParentFrames()!=null) {
 			for(Frame f : frame.getParentFrames()) {
 
-				if(frame.getTimeCache(f).timeInBufferRange(new ISO8601Date(time).getMilliSeconds())) {
+				if(frame.getTimeCache(f).timeInBufferRange(new ISODate(time).getMilliSeconds())) {
 					inside = true;
 					break;
 				}
@@ -385,7 +362,7 @@ public class TFMemory {
 		} else if(frame!=null || !inside) {
 			
 			// load data from DB if frame is unknown or time not buffered yet
-			loadTransformFromDB(frameID, new ISO8601Date(time).getDate());
+			loadTransformFromDB(frameID, new ISODate(time).getDate());
 			frame = frames.get(frameID);
 		} 
 		return frame;
@@ -433,7 +410,7 @@ public class TFMemory {
 		StampedTransform res = null;
 		try {
 			while(cursor.hasNext()) {
-				setTransforms(cursor.next().get("transforms").toString());
+				setTransforms((BasicDBList) cursor.next().get("transforms"));
 			}
 		} finally {
 			cursor.close();
@@ -477,7 +454,7 @@ public class TFMemory {
 	 * queue. This may be a bit confusing.
 	 */	
 	protected boolean lookupLists(Frame targetFrame, Frame sourceFrame, long time,
-			LinkedList<TransformStorage> inverseTransforms, LinkedList<TransformStorage> forwardTransforms) {
+			LinkedList<tfjava.TransformStorage> inverseTransforms, LinkedList<tfjava.TransformStorage> forwardTransforms) {
 
 		// wrap the source and target frames in search nodes
 		SearchNode<Frame> sourceNode = new SearchNode<Frame>(sourceFrame);

@@ -6,11 +6,14 @@ import com.mongodb.DBCollection;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.DBCursor;
+import com.mongodb.QueryBuilder;
 
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
+import java.util.Date;
 
-import org.knowrob.interfaces.mongo.util.ISO8601Date;
+import org.knowrob.interfaces.mongo.types.Designator;
+import org.knowrob.interfaces.mongo.types.ISODate;
 
 import ros.communication.Time;
 import tfjava.StampedTransform;
@@ -84,6 +87,40 @@ public class MongoDBInterface {
 		return(mem.lookupTransform(targetFrameId, sourceFrameId, t));
 	}
 
+	
+	public Designator latestUIMAPerceptionBefore(int posix_ts) {
+		
+		Designator res = null;		
+		DBCollection coll = db.getCollection("uima_uima_results");
+
+		// read all events up to one minute before the time
+		Date start = new ISODate((long) 1000 * (posix_ts - 60) ).getDate();
+		Date end   = new ISODate((long) 1000 * posix_ts ).getDate();
+
+		DBObject query = QueryBuilder
+				.start("__recorded").greaterThanEquals( start )
+				.and("__recorded").lessThan( end ).get();
+
+		DBObject cols  = new BasicDBObject();
+		cols.put("designator", 1 );
+		
+		DBCursor cursor = coll.find(query, cols );
+		cursor.sort(new BasicDBObject("__recorded", -1));
+		try {
+			while(cursor.hasNext()) {
+				
+				DBObject row = cursor.next();
+				res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				break;
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+		}
+		return res;
+	}
+	
 
 	public static void main(String[] args) {
 
@@ -113,6 +150,10 @@ public class MongoDBInterface {
 		// test lookupTransform wrapper
 		trans = m.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", 1374841534);
 		System.out.println(trans);
+		
+		// test UIMA result interface
+		Designator d = m.latestUIMAPerceptionBefore(1374841669);
+		System.out.println(d);
 	}
 }
 
