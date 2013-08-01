@@ -10,6 +10,8 @@ import com.mongodb.DBCursor;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
 
+import org.knowrob.interfaces.mongo.util.ISO8601Date;
+
 import ros.communication.Time;
 import tfjava.StampedTransform;
 
@@ -67,25 +69,28 @@ public class MongoDBInterface {
 		return res;
 	}
 
-
-//	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, Time time) {
-//		return lookupTransform(targetFrameId, sourceFrameId, new ISO8601Date(time).getDate());
-//	}
-//
-//	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, Date date) {
-//
-//		StampedTransform res = loadTransformFromDB(targetFrameId, sourceFrameId, date);
-//		res = mem.lookupTransform(targetFrameId, sourceFrameId, new ISO8601Date(date).getROSTime());
-//
-//		return res;
-//	}
-
+	/**
+	 * Wrapper around the lookupTransform method of the TFMemory class
+	 * 
+	 * @param sourceFrameId ID of the source frame of the transformation
+	 * @param targetFrameId ID of the target frame of the transformation
+	 * @param posix_ts POSIX timestamp (seconds since 1.1.1970)
+	 * @return
+	 */
+	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, int posix_ts) {
+		
+		Time t = new Time();
+		t.secs = posix_ts;
+		return(mem.lookupTransform(targetFrameId, sourceFrameId, t));
+	}
 
 
 	public static void main(String[] args) {
 
 		MongoDBInterface m = new MongoDBInterface();
-		System.out.println("pose: [" + m.getPose("turtle1")[0] + ", " + m.getPose("turtle1")[1] + "]");
+		
+		
+		// test transformation lookup based on DB information
 		
 		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
 		Time t = new Time(timestamp.getTime()/1000);
@@ -102,10 +107,12 @@ public class MongoDBInterface {
 		double first = (t1-t0)/ 1E6;
 		double second = (t2-t1)/ 1E6;
 		
-		System.out.println(first);
-		System.out.println(second);
+		System.out.println("Time to look up first transform: " + first + "ms");
+		System.out.println("Time to look up second transform in same time slice: " + second + "ms");
 		
-		
+		// test lookupTransform wrapper
+		trans = m.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", 1374841534);
+		System.out.println(trans);
 	}
 }
 

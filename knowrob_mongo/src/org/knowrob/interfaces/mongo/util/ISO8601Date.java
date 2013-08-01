@@ -32,14 +32,29 @@ public class ISO8601Date {
 
 	}
 	
+	/**
+	 * Create from Java Date object
+	 * 
+	 * @param d
+	 */
 	public ISO8601Date(Date d) {
 		this.date = d;
 	}
 
+	/**
+	 * Create from ROS Time object
+	 * 
+	 * @param t
+	 */
 	public ISO8601Date(Time t) {
 		date = new Date((long)t.secs * 1000 + t.nsecs/1000);
 	}
 
+	/**
+	 * Create from Java time stamp
+	 * 
+	 * @param t Time as milliseconds since 1.1.1970
+	 */
 	public ISO8601Date(long t) {
 		date = new Date(t);
 	}

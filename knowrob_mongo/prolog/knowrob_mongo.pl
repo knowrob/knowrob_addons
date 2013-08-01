@@ -15,9 +15,10 @@
 %% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %%
 
-:- module(knowrob_motion_constraints,
+:- module(knowrob_mongo,
     [
-      mng_object_pose/2
+      mng_object_pose/2,
+      mng_lookup_transform/4
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -27,6 +28,7 @@
 :- use_module(library('jpl')).
 :- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_perception')).
+:- use_module(library('knowrob_coordinates')).
 
 :- owl_parser:owl_parse('../owl/knowrob_mongo.owl', false, false, true).
 
@@ -57,8 +59,17 @@ mng_object_pose(Obj, X-Y) :-
 
 
 
+mng_lookup_transform(Target, Source, TimePoint, Transform) :-
 
+  rdf_split_url(_, TimePointLocal, TimePoint),
+  atom_concat('timepoint_', TimeAtom, TimePointLocal),
+  term_to_atom(Time, TimeAtom),
 
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+  jpl_call(DB, 'lookupTransform', [Target, Source, Time], StampedTransform),
+
+  jpl_call(StampedTransform, 'getMatrix4', [], TransformMatrix4d),
+  knowrob_coordinates:matrix4d_to_list(TransformMatrix4d, Transform).
 
 
 

@@ -19,7 +19,7 @@
   <depend package="tfjava"/>
 
   <export>
-    <java classpath="${prefix}/bin:${prefix}/lib/mongo-java-driver-2.11.2.jar"/>
+    <java classpath="${prefix}/bin:${prefix}/lib/mongo-java-driver-2.11.2.jar:/usr/share/java/jackson-core.jar:/usr/share/java/jackson-mapper.jar"/>
   </export>
 
 </package>
