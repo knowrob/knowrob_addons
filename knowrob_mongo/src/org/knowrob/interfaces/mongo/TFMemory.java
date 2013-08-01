@@ -47,10 +47,6 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Point3d;
 import javax.vecmath.Matrix4d;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.util.StdDateFormat;
 import org.knowrob.interfaces.mongo.types.ISODate;
 
 import com.mongodb.BasicDBList;
@@ -62,12 +58,9 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.QueryBuilder;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.LinkedList;
 

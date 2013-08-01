@@ -11,15 +11,13 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/knowrob_mongo</url>
 
-  <rosdep name="libjackson-json-java"/>
-  
   <depend package="rosjava_jni"/>
   <depend package="mod_srdl"/>
   <depend package="jpl"/>
   <depend package="tfjava"/>
 
   <export>
-    <java classpath="${prefix}/bin:${prefix}/lib/mongo-java-driver-2.11.2.jar:/usr/share/java/jackson-core.jar:/usr/share/java/jackson-mapper.jar"/>
+    <java classpath="${prefix}/bin:${prefix}/lib/mongo-java-driver-2.11.2.jar"/>
   </export>
 
 </package>
