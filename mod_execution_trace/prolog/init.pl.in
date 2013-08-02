@@ -11,6 +11,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/execution_trace.owl', false, false, true).
-:- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/modexecutiontrace.owl#', [keep(true)]).
+:- owl_parser:owl_parse('@KNOWROB_CRAM_PATH_PREFIX@/owl/knowrob_cram.owl', false, false, true).
+:- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
 
