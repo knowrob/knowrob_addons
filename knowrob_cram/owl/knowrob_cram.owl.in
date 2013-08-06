@@ -7,7 +7,7 @@
           <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
           <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
           <!ENTITY knowrob 'http://ias.cs.tum.edu/kb/knowrob.owl'>
-	  <!ENTITY modexecutiontrace 'http://ias.cs.tum.edu/kb/modexecutiontrace.owl'>
+	  <!ENTITY modexecutiontrace 'http://ias.cs.tum.edu/kb/knowrob_cram.owl'>
           <!ENTITY actionmodel 'http://ias.cs.tum.edu/kb/actionmodel.owl'>
 
           ]>
@@ -27,77 +27,146 @@
         <owl:imports rdf:resource="file://@OWL_PATH_PREFIX@/owl/knowrob.owl"/>
   </owl:Ontology>
 
-  <owl:Class rdf:about="&modexecutiontrace;CRAMEvent">
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+
+  
+   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#CRAMEvent -->
+
+   <owl:Class rdf:about="&modexecutiontrace;CRAMEvent">
    	<rdfs:subClassOf rdf:resource="&knowrob;Action"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#CRAMAction -->
 
   <owl:Class rdf:about="&modexecutiontrace;CRAMAction">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMEvent"/>
    </owl:Class>
 
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalAction -->
+
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalAction">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMAction"/>
    </owl:Class>
   
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalPerceive -->
+
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerceive">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalObject -->
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerceiveObject">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalPerceive"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalPerceive"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalMonitor -->
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalMonitor">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalPerform -->
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerform">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalPerformOnProcessModule -->
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerformOnProcessModule">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalPerform"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalPerform"/>
    </owl:Class>
 
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalMaintain -->
+
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalMaintain">
-   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;GoalAction"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#DesignatorInteraction -->
 
   <owl:Class rdf:about="&modexecutiontrace;DesignatorInteraction">
    	<rdfs:subClassOf rdf:resource="&knowrob;Action"/>
    </owl:Class>
 
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#WithDesignators -->
+
   <owl:Class rdf:about="&modexecutiontrace;WithDesignators">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorInteraction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#DesignatorAction -->
 
   <owl:Class rdf:about="&modexecutiontrace;DesignatorAction">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorInteraction"/>
    </owl:Class>
 
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveDesignator -->
+
   <owl:Class rdf:about="&modexecutiontrace;ResolveDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorAction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveActionDesignator -->
 
   <owl:Class rdf:about="&modexecutiontrace;ResolveActionDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;ResolveDesignator"/>
    </owl:Class>
 
+  
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveObjectDesignator -->
+
   <owl:Class rdf:about="&modexecutiontrace;ResolveObjectDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;ResolveDesignator"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveLocationDesignator -->
 
   <owl:Class rdf:about="&modexecutiontrace;ResolveLocationDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;ResolveDesignator"/>
    </owl:Class>
 
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ResolveLocationDesignator -->
+
   <owl:Class rdf:about="&modexecutiontrace;EquateDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorAction"/>
    </owl:Class>
 
+
+   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#PerformDesignator -->
+
    <owl:Class rdf:about="&modexecutiontrace;PerformDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;DesignatorAction"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#PerformActionDesignator -->
 
   <owl:Class rdf:about="&modexecutiontrace;PerformActionDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;PerformDesignator"/>
