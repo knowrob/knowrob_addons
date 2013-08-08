@@ -15,6 +15,8 @@ set( OWL_PATH_PREFIX ${ias_knowledge_base_PACKAGE_PATH} )
 rosbuild_find_ros_package(ias_semantic_map)
 set( IAS_MAP_PATH_PREFIX ${ias_semantic_map_PACKAGE_PATH} )
 
+rosbuild_find_ros_package(knowrob_cram)
+set( KNOWROB_CRAM_PATH_PREFIX ${knowrob_cram_PACKAGE_PATH} )
 
 file(GLOB inputs prolog/*.in)
 foreach( _in ${inputs} )
