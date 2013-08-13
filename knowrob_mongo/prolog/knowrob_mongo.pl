@@ -17,8 +17,8 @@
 
 :- module(knowrob_mongo,
     [
-      mng_object_pose/2,
-      mng_lookup_transform/4
+      mng_lookup_transform/4,
+      mng_latest_designator_before_time/3
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -33,8 +33,10 @@
 :- owl_parser:owl_parse('../owl/knowrob_mongo.owl', false, false, true).
 
 
-% :-  rdf_meta
-%     plan_constraint_templates(r,r).
+:-  rdf_meta
+    mng_lookup_transform(+,+,r,-),
+    mng_latest_designator_before_time(r,-,-).
+
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
@@ -43,22 +45,11 @@
 
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#', [keep(true)]).
 
-%% mng_object_pose(+Obj, -Pose) is nondet.
-%
-% Compute object poses from mongo DB log data
-%
-% @param Obj OWL identifier of an object instance
-% @param Pose Concatenation X-Y of pose coordinates
-%
-mng_object_pose(Obj, X-Y) :-
-
-  owl_has(Obj, srdl2comp:urdfName, literal(UrdfName)),
-  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
-  jpl_call(DB, 'getPose', [UrdfName], PoseArray),
-  jpl_array_to_list(PoseArray, [X,Y]).
 
 
 
+%% mng_lookup_transform(+Target, +Source, +TimePoint, -Transform) is nondet.
+% 
 mng_lookup_transform(Target, Source, TimePoint, Transform) :-
 
   rdf_split_url(_, TimePointLocal, TimePoint),
@@ -73,7 +64,9 @@ mng_lookup_transform(Target, Source, TimePoint, Transform) :-
 
 
 
-mng_designator(TimePoint, Type, Pose) :-
+%% mng_latest_designator_before_time(+TimePoint, -Type, -Pose) is nondet.
+%
+mng_latest_designator_before_time(TimePoint, Type, Pose) :-
 
   rdf_split_url(_, TimePointLocal, TimePoint),
   atom_concat('timepoint_', TimeAtom, TimePointLocal),
