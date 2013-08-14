@@ -49,7 +49,7 @@
 
 
 %% mng_lookup_transform(+Target, +Source, +TimePoint, -Transform) is nondet.
-% 
+%
 mng_lookup_transform(Target, Source, TimePoint, Transform) :-
 
   rdf_split_url(_, TimePointLocal, TimePoint),
@@ -76,9 +76,38 @@ mng_latest_designator_before_time(TimePoint, Type, Pose) :-
   jpl_call(DB, 'latestUIMAPerceptionBefore', [Time], Designator),
 
   jpl_call(Designator, 'get', ['type'], Type),
-  
+
   jpl_call(Designator, 'get', ['pose'], StampedPose),
   jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
   knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, Pose).
+
+
+% read the pose of RobotPart from tf
+mng_tf_pose(RobotPart, Pose) :-
+
+  owl_has(RobotPart, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(SourceFrameID)),
+  atom_concat('/', SourceFrameID, SourceFrame),
+
+  % TODO: handle time correctly
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+
+  knowrob_coordinates:list_to_matrix4d([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1], MatrixIn),
+  jpl_new('ros.communication.Time', [], TimeIn),
+  jpl_set(TimeIn, 'secs',  1376484439 ),
+
+  knowrob_coordinates:list_to_matrix4d([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1], MatrixOut),
+  jpl_new('ros.communication.Time', [], TimeOut),
+  jpl_set(TimeOut, 'secs',  1376484439 ),
+
+  jpl_new('tfjava.Stamped', [MatrixIn, SourceFrame, TimeIn], StampedIn),
+  jpl_new('tfjava.Stamped', [MatrixOut, '/base_link', TimeOut], StampedOut),
+
+  jpl_call(DB, 'transformPose', ['/odom_combined', StampedIn, StampedOut], _),
+
+  jpl_call(StampedOut, 'getData', [], MatrixOut2),
+  knowrob_coordinates:matrix4d_to_list(MatrixOut2, Pose).
+
+
+
 
 

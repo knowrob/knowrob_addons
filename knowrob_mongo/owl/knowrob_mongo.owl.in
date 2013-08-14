@@ -49,12 +49,12 @@
 
     <!-- Computable definitions -->
 
-<!--    <computable:PrologProperty rdf:about="#computeMongoOrientation">
-        <computable:command rdf:datatype="&xsd;string">mng_object_pose</computable:command>
+    <computable:PrologProperty rdf:about="#computeTfOrientation">
+        <computable:command rdf:datatype="&xsd;string">mng_tf_pose</computable:command>
         <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
         <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
         <computable:target rdf:resource="&knowrob;orientation"/>
-    </computable:PrologProperty>-->
+    </computable:PrologProperty>
 
 
 </rdf:RDF>
