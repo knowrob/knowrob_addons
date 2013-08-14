@@ -12,10 +12,13 @@ import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.vecmath.Matrix4d;
+
 import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.interfaces.mongo.types.ISODate;
 
 import ros.communication.Time;
+import tfjava.Stamped;
 import tfjava.StampedTransform;
 
 public class MongoDBInterface {
@@ -87,7 +90,12 @@ public class MongoDBInterface {
 		return(mem.lookupTransform(targetFrameId, sourceFrameId, t));
 	}
 
-	
+
+	public void transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
+		mem.transformPose(targetFrameID, stampedIn, stampedOut);
+	}
+
+
 	public Designator latestUIMAPerceptionBefore(int posix_ts) {
 		
 		Designator res = null;		
@@ -148,7 +156,7 @@ public class MongoDBInterface {
 		System.out.println("Time to look up second transform in same time slice: " + second + "ms");
 		
 		// test lookupTransform wrapper
-		trans = m.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", 1374841534);
+		trans = m.lookupTransform("/base_link", "/head_mount_kinect_ir_link",  1376484439 );
 		System.out.println(trans);
 		
 		// test UIMA result interface
