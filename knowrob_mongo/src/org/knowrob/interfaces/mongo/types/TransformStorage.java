@@ -53,8 +53,8 @@ public class TransformStorage extends tfjava.TransformStorage {
 		this.rotation.y = rot.getDouble("y");
 		this.rotation.z = rot.getDouble("z");
 		this.rotation.w = rot.getDouble("w");
-
-		this.timeStamp = ((Date) ((BasicDBObject) transform.get("header")).get("stamp")).getTime();
+		
+		this.timeStamp = (long) (((Date) ((BasicDBObject) transform.get("header")).get("stamp")).getTime() * 1E6);
 
 		return this;
 	}
