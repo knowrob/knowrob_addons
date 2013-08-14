@@ -57,6 +57,7 @@
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalAction">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMAction"/>
+	<rdfs:subClassOf rdf:resource="&knowrob;Event"/>
    </owl:Class>
   
 
@@ -64,6 +65,7 @@
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerceive">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
+	<rdfs:subClassOf rdf:resource="&knowrob;Perceive"/>
    </owl:Class>
 
 
@@ -71,6 +73,7 @@
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerceiveObject">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalPerceive"/>
+	<rdfs:subClassOf rdf:resource="&knowrob;VisualPerception"/>
    </owl:Class>
 
 
@@ -78,6 +81,7 @@
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalMonitor">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
+	<rdfs:subClassOf rdf:resource="&knowrob;MentalEvent"/>	
    </owl:Class>
 
 
@@ -85,6 +89,7 @@
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerform">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalAction"/>
+	<rdfs:subClassOf rdf:resource="&knowrob;PhysicalEvent"/>
    </owl:Class>
 
 
@@ -170,4 +175,75 @@
   <owl:Class rdf:about="&modexecutiontrace;PerformActionDesignator">
    	<rdfs:subClassOf rdf:resource="&modexecutiontrace;PerformDesignator"/>
    </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#CRAMFailure -->
+
+  <owl:Class rdf:about="&modexecutiontrace;CRAMFailure">
+   	<rdfs:subClassOf rdf:resource="&knowrob;COMPLETED_ERROR"/>
+   </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ObjectNotFound -->
+
+  <owl:Class rdf:about="&modexecutiontrace;ObjectNotFound">
+   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   </owl:Class>
+
+
+   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ManipulationPoseUnreachable -->
+
+  <owl:Class rdf:about="&modexecutiontrace;ManipulationPoseUnreachable">
+   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   </owl:Class>
+
+
+   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ObjectLost -->
+
+  <owl:Class rdf:about="&modexecutiontrace;ObjectLost">
+   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   </owl:Class>
+
+   
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#LocationNotReached -->
+
+  <owl:Class rdf:about="&modexecutiontrace;LocationNotReached">
+   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   </owl:Class>
+
+
+  
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#eventFailure -->
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;eventFailure">
+        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMEvent"/>
+        <rdfs:range rdf:resource="&modexecutiontrace;CRAMFailure"/>
+  </owl:ObjectProperty>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#failureTime -->
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;failureTime">
+        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMFailure"/>
+        <rdfs:range rdf:resource="&knowrob;TimePoint"/>
+	<rdfs:subPropertyOf rdf:resource="&knowrob;temporallyRelated"/>
+  </owl:ObjectProperty>
+
+  
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#failureObject -->
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;failureObject">
+        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMFailure"/>
+        <rdfs:range rdf:resource="&knowrob;EnduringThing-Localized"/>
+	<rdfs:subPropertyOf rdf:resource="&knowrob;objectActedOn"/>
+  </owl:ObjectProperty>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#failurePose -->
+
+  <owl:ObjectProperty rdf:about="&modexecutiontrace;failurePose">
+        <rdfs:domain rdf:resource="&modexecutiontrace;CRAMFailure"/>
+        <rdfs:range rdf:resource="&knowrob;RotationMatrix3D"/>
+  </owl:ObjectProperty>
+
 </rdf:RDF>
