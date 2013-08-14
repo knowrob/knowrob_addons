@@ -105,7 +105,12 @@ mng_tf_pose(RobotPart, Pose) :-
   jpl_call(DB, 'transformPose', ['/odom_combined', StampedIn, StampedOut], _),
 
   jpl_call(StampedOut, 'getData', [], MatrixOut2),
-  knowrob_coordinates:matrix4d_to_list(MatrixOut2, Pose).
+  knowrob_coordinates:matrix4d_to_list(MatrixOut2, PoseList),
+  create_pose(PoseList, Pose),
+
+  create_perception_instance(['Proprioception'], Perception),
+  set_object_perception(RobotPart, Perception),
+  rdf_assert(Perception, knowrob:eventOccursAt, Pose).
 
 
 
