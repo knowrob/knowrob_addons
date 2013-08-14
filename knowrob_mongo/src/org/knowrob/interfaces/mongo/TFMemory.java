@@ -96,7 +96,7 @@ public class TFMemory {
 	protected HashMap<String, Frame> frames;
 
 	// duration through which transforms are to be kept in the buffer
-	protected final static float BUFFER_SIZE = 0.5f;
+	protected final static float BUFFER_SIZE = 2f;
 
 	MongoClient mongoClient;
 	DB db;
@@ -243,7 +243,7 @@ public class TFMemory {
 	 */ 	
 	public void transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
 		StampedTransform transform = lookupTransform(targetFrameID, stampedIn.frameID, stampedIn.timeStamp);
-		transform.transformPose(stampedIn.getData(), stampedOut.getData());	    
+		transform.transformPose(stampedIn.getData(), stampedOut.getData());	  
 		stampedOut.frameID = targetFrameID;
 		stampedOut.timeStamp = stampedIn.timeStamp;
 	}
@@ -308,18 +308,21 @@ public class TFMemory {
 			System.err.println("Cannot transform: source + \"" + resolvedSourceID + "\" and target \""
 					+ resolvedTargetID + "\" are not connected.");
 			return null;
-		}        
-
+		}
+		
 		// create an identity transform with the correct time stamp
 		StampedTransform out = StampedTransform.getIdentity();	    
 		out.timeStamp = time;
 
-		// multiply all transforms from source frame to frame F TODO: right?
+		out.frameID = resolvedTargetID;
+		out.childFrameID = resolvedSourceID;      
+		
+		// multiply all transforms from source frame to frame F
 		for(TransformStorage t : inverseTransforms) {           
 			out.mul(StorageToStampedTransform(t));
 		}
 
-		// multiply all transforms from frame F to target frame TODO: right?
+		// multiply all transforms from frame F to target frame
 		for(TransformStorage t : forwardTransforms) {	        
 			out.mul(StorageToStampedTransform(t).invert(), out);
 		}	    
