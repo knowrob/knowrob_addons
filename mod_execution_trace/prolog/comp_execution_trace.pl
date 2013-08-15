@@ -30,32 +30,9 @@
 :- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
 
-task(Task) :-
-	rdf_has(Task, rdf:type, modexecutiontrace:'CRAMAction');
-
-	rdf_has(Task, rdf:type, knowrob:'VisualPerception');
-
-	rdf_has(Task, rdf:type, knowrob:'PerformOnProcessModule');
-
-	rdf_has(Task, rdf:type, knowrob:'Perform');
-
-	rdf_has(Task, rdf:type, knowrob:'Monitor');
-
-	rdf_has(Task, rdf:type, knowrob:'Perceive');
-
-	rdf_has(Task, rdf:type, knowrob:'ResolveActionDesignator');
-
+task(Task) :-	
 	rdf_has(Task, rdf:type, A),
-	rdf_has(A, rdfs:subClassOf, modexecutiontrace:'CRAMAction');
-
-	rdf_has(Task, rdf:type, A),
-	rdf_has(A, rdfs:subClassOf, B),
-	rdf_has(B, rdfs:subClassOf, modexecutiontrace:'CRAMAction');
-	
-	rdf_has(Task, rdf:type, A),
-	rdf_has(A, rdfs:subClassOf, B),
-	rdf_has(B, rdfs:subClassOf, C),
-	rdf_has(C, rdfs:subClassOf, modexecutiontrace:'CRAMAction').
+	rdf_individual_of(A, modexecutiontrace:'CRAMAction').
 
 subtask(Task, Subtask) :-
 	task(Task),
@@ -95,27 +72,27 @@ task_end(Task, End) :-
 	task(Task),
 	rdf_has(Task, knowrob:'endTime', End).
 
-holds(task_status(Task, Status), t):-
+holds(task_status(Task, Status), T):-
 	task(Task),
 	task_start(Task, Start),
 	task_end(Task, End),
-	computable_time_check(Start, t, Compare_Result1),
-	computable_time_check(t, End, Compare_Result2)
+	computable_time_check(Start, T, Compare_Result1),
+	computable_time_check(T, End, Compare_Result2)
 	term_to_atom(Compare_Result1, c1),	
 	term_to_atom(Compare_Result2, c2),
 	((c1 is 1) -> (((c2 is 1) -> (Status = [Continue]);(Status = [Done])));(((c2 is 1) -> (Status = [Error]); (Status = [NotStarted])))).
 
-holds(object_visible(Object, Status), t):-
-	computable_belief(Object, t, Loc),
+holds(object_visible(Object, Status), T):-
+	computable_belief(Object, T, Loc),
 	rdf_triple(comp_spatial:'m01', Loc, Result),
 	term_to_atom(Result, r),
 	((r is -1) -> (Status = [true]);(Status = [false])).	
 
-holds(object_placed_at(Object, Loc), t):-
-	computable_belief(Object, t, Actual_Loc),
+holds(object_placed_at(Object, Loc), T):-
+	computable_belief(Object, T, Actual_Loc),
 	computable_time_check(Loc, Actual_Loc, Compare_Result),
 	term_to_atom(Compare_Result, r),
-	((r is 0) -> (Status = [true]);(Status = [false])).
+	((r is 0) -> (true);(false)).
 
 returned_value(Task, Obj) :-
 	rdf_has(Task, rdf:type, knowrob:'VisualPerception'),
@@ -139,9 +116,9 @@ computable_belief(Object, Time, Loc) :-
     jpl_array_to_list(Localization_Array, LocList),
 
 
-    [M00, M01, M02] = LocList,
+    [M00, M01, M02, M10, M11, M12, M20, M21, M22] = LocList,
 
-    atomic_list_concat(['rotMat2D_',M00,'_',M01,'_',M02], LocIdentifier),
+    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M10,'_',M11,'_',M12, '_',M20,'_',M21,'_',M22], LocIdentifier),
 
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix2D').
@@ -160,12 +137,12 @@ computable_truth(Object, Time, Loc) :-
     jpl_array_to_list(Localization_Array, LocList),
 
 
-    [M00, M01, M02] = LocList,
+    [M00, M01, M02, M10, M11, M12, M20, M21, M22] = LocList,
 
-    atomic_list_concat(['rotMat2D_',M00,'_',M01,'_',M02], LocIdentifier),
+    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M10,'_',M11,'_',M12, '_',M20,'_',M21,'_',M22], LocIdentifier),
 
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
-    rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix2D').
+    rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
 
 computable_time_check(Time1, Time2, Compare_Result) :-
     
