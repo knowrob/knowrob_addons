@@ -91,8 +91,8 @@ public class MongoDBInterface {
 	}
 
 
-	public void transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
-		mem.transformPose(targetFrameID, stampedIn, stampedOut);
+	public boolean transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
+		return mem.transformPose(targetFrameID, stampedIn, stampedOut);
 	}
 
 
