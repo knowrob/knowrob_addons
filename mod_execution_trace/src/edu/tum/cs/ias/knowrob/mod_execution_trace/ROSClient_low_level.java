@@ -36,6 +36,11 @@
 package edu.tum.cs.ias.knowrob.mod_execution_trace;
 
 import java.util.Date;
+import java.lang.Integer;
+import java.sql.Timestamp;
+import java.util.StringTokenizer;
+import java.lang.Integer;
+import java.lang.Double;
 
 import ros.*;
 import ros.communication.*;
@@ -49,7 +54,7 @@ public class ROSClient_low_level
         static Ros ros;
         static NodeHandle n;
 
-	static MongoDBInterface mdb;
+	MongoDBInterface mdb;
 
 
 
@@ -61,6 +66,8 @@ public class ROSClient_low_level
         public ROSClient_low_level(String node_name) 
 	{
                 initRos(node_name);
+
+		mdb = new MongoDBInterface();
         }
 
 
@@ -79,8 +86,6 @@ public class ROSClient_low_level
                         ros.init(node_name);
                 }
                 n = ros.createNodeHandle();
-
-		mdb = new MongoDBInterface();
 
                 n.spinOnce();
                
@@ -110,16 +115,33 @@ public class ROSClient_low_level
 
         }
 
-	public double[] getBelief(/*String object, String date*/) 
+	public double[] getBelief(String object, String date) 
 	{
+		int date_converted = Integer.parseInt(date);
+
+		Designator d;
+
+		if(object != null)
+		{
+			System.out.println("1");	
+			d = mdb.getUIMAPerception(object, date_converted);
+			System.out.println(d);
+			d = mdb.latestUIMAPerceptionBefore(date_converted);
+			System.out.println(d);
+		}
+		else
+		{
+			d = mdb.getUIMAPerception(object, date_converted);
+		}
+
+		
+		
 		double [][] dummy = new double[1][3];
 
 		dummy[0][0] = 0;
 		dummy[0][1] = 0;
 		dummy[0][2] = 0;
-
-		System.out.println("info not available");
-
+		
 		return dummy[0];
 	}
 
@@ -137,4 +159,66 @@ public class ROSClient_low_level
 
 	}
 
+	public int timeComparison(String time1, String time2)
+	{
+		StringTokenizer s1 = new StringTokenizer(time1, "_");
+		StringTokenizer s2 = new StringTokenizer(time2, "_");
+
+		String time_value1 = "0";
+		String time_value2 = "0";
+
+		while (s1.hasMoreTokens())
+		{
+                	time_value1 = s1.nextToken();
+                	time_value2 = s2.nextToken();
+            	}
+		
+		int time_value_integer_1 = Integer.parseInt(time_value1);
+		int time_value_integer_2 = Integer.parseInt(time_value2);
+
+		if( time_value_integer_1 > time_value_integer_2)
+			return 2;
+		else if( time_value_integer_1 == time_value_integer_2)
+			return 0;
+		else if( time_value_integer_1 < time_value_integer_2)
+			return 1; 
+
+		return -2;	
+	}
+
+	public int locationComparison(String location1, String location2)
+	{
+		StringTokenizer s1 = new StringTokenizer(location1, "_");
+		StringTokenizer s2 = new StringTokenizer(location2, "_");
+
+		String element_value1 = s1.nextToken();
+		String element_value2 = s2.nextToken();
+
+		double element_value_d1;
+		double element_value_d2;
+		while (s1.hasMoreTokens())
+		{
+                	element_value1 = s1.nextToken();
+                	element_value2 = s2.nextToken();
+
+			element_value_d1 = Double.parseDouble(element_value1);
+			element_value_d2 = Double.parseDouble(element_value2);
+
+			if(element_value_d1 != element_value_d2)
+				return 1;
+
+            	}
+		
+		return 0;	
+	}
+
+	public static void main(String[] args) {
+
+		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
+
+		Timestamp timestamp = Timestamp.valueOf("2013-08-05 13:32:35.0");
+		long d = timestamp.getTime();
+		System.out.println(d);
+		deneme.getBelief("51ffa963106a029da6b91a32", "" + d/1000);
+	}
 }

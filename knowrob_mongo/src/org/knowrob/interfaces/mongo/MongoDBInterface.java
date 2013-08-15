@@ -128,6 +128,41 @@ public class MongoDBInterface {
 		}
 		return res;
 	}
+
+	// gets perception of given object at given time within a 1 minute interval
+	public Designator getUIMAPerception(String object, int posix_ts) {
+		
+		Designator res = null;		
+		DBCollection coll = db.getCollection("uima_uima_results");
+
+		// read all events up to one minute before the time
+		Date start = new ISODate((long) 1000 * (posix_ts - 30) ).getDate();
+		Date end   = new ISODate((long) 1000 * (posix_ts + 30) ).getDate();
+
+		DBObject query = QueryBuilder
+				.start("__recorded").greaterThanEquals( start )
+				.and("__recorded").lessThan( end )
+				.and("designator.ObjectID").is(object).get();
+
+		DBObject cols  = new BasicDBObject();
+		cols.put("designator", 1 );		
+
+		DBCursor cursor = coll.find(query, cols);
+		cursor.sort(new BasicDBObject("__recorded", -1));
+		try {
+			while(cursor.hasNext()) {
+				
+				DBObject row = cursor.next();
+				res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				break;
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+		}
+		return res;
+	}
 	
 
 	public static void main(String[] args) {
