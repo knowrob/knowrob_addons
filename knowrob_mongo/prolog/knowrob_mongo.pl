@@ -157,3 +157,46 @@ mng_tf_pose_at_time(RobotPart, Frame, TimePoint, Pose) :-
 
 
 
+%% obj_visible_in_camera(+Obj, ?Camera, +TimePoint) is nondet.
+%
+% Check if Obj is visible by Camera at time TimePoint.
+%
+obj_visible_in_camera(Obj, Camera, TimePoint) :-
+
+  findall(Camera, owl_individual_of(Camera, srdl2comp:'Camera'), Cameras),
+  member(Camera, Cameras),
+
+  % Read camera properties: horizontal field of view, aspect ratio -> vertical field of view
+  once(owl_has(Camera, srdl2comp:hfov, literal(type(_, HFOVa)))),
+  term_to_atom(HFOV, HFOVa),
+
+  once(owl_has(Camera, srdl2comp:imageSizeX, literal(type(_, ImgXa)))),
+  term_to_atom(ImgX, ImgXa),
+
+  once(owl_has(Camera, srdl2comp:imageSizeY, literal(type(_, ImgYa)))),
+  term_to_atom(ImgY, ImgYa),
+
+  VFOV is ImgY / ImgX * HFOV,
+
+
+  % Read object pose w.r.t. camera
+  once(owl_has(Camera, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(CamFrameID))),
+  atom_concat('/', CamFrameID, CamFrame),
+
+  mng_tf_pose_at_time(Obj, CamFrame, TimePoint, RelObjPose),
+
+  owl_has(RelObjPose, knowrob:m03, literal(type(_,ObjX))),
+  owl_has(RelObjPose, knowrob:m13, literal(type(_,ObjY))),
+  owl_has(RelObjPose, knowrob:m23, literal(type(_,ObjZ))),
+
+  BearingX is atan2(ObjY, ObjX) / pi * 180,
+  BearingY is atan2(ObjZ, ObjX) / pi * 180,
+
+  BearingX < HFOV,
+  BearingY < VFOV.
+
+
+
+
+
+
