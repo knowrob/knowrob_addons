@@ -241,11 +241,15 @@ public class TFMemory {
 	/**
 	 * Transforms a stamped pose to the given target frame, and returns the result in stampedOut.
 	 */ 	
-	public void transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
+	public boolean transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
 		StampedTransform transform = lookupTransform(targetFrameID, stampedIn.frameID, stampedIn.timeStamp);
-		transform.transformPose(stampedIn.getData(), stampedOut.getData());	  
-		stampedOut.frameID = targetFrameID;
-		stampedOut.timeStamp = stampedIn.timeStamp;
+		if(transform!=null) {
+			transform.transformPose(stampedIn.getData(), stampedOut.getData());	  
+			stampedOut.frameID = targetFrameID;
+			stampedOut.timeStamp = stampedIn.timeStamp;
+			return true;
+		}
+		return false;
 	}
 
 	/**

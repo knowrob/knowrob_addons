@@ -18,7 +18,9 @@
 :- module(knowrob_mongo,
     [
       mng_lookup_transform/4,
-      mng_latest_designator_before_time/3
+      mng_latest_designator_before_time/3,
+      mng_tf_pose_at_time/4,
+      mng_tf_pose/2
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -35,20 +37,47 @@
 
 :-  rdf_meta
     mng_lookup_transform(+,+,r,-),
-    mng_latest_designator_before_time(r,-,-).
+    mng_latest_designator_before_time(r,-,-),
+    mng_tf_pose(r, r),
+    mng_tf_pose_at_time(r, +, r, r).
 
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
-
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#', [keep(true)]).
 
 
 
+%% mng_latest_designator_before_time(+TimePoint, -Type, -Pose) is nondet.
+%
+% @param TimePoint  Instance of knowrob:TimePoint
+% @param Type       'Type' property of the designator
+% @param PoseList   Object pose from designator as list[16]
+%
+mng_latest_designator_before_time(TimePoint, Type, PoseList) :-
+
+  rdf_split_url(_, TimePointLocal, TimePoint),
+  atom_concat('timepoint_', TimeAtom, TimePointLocal),
+  term_to_atom(Time, TimeAtom),
+
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+  jpl_call(DB, 'latestUIMAPerceptionBefore', [Time], Designator),
+
+  jpl_call(Designator, 'get', ['type'], Type),
+
+  jpl_call(Designator, 'get', ['pose'], StampedPose),
+  jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
+  knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, PoseList).
+
 
 %% mng_lookup_transform(+Target, +Source, +TimePoint, -Transform) is nondet.
+%
+% @param Target     Target frame ID
+% @param Source     Source frame ID
+% @param TimePoint  Instance of knowrob:TimePoint
+% @param Transform  Transformation matrix as list[16]
 %
 mng_lookup_transform(Target, Source, TimePoint, Transform) :-
 
@@ -63,56 +92,68 @@ mng_lookup_transform(Target, Source, TimePoint, Transform) :-
   knowrob_coordinates:matrix4d_to_list(TransformMatrix4d, Transform).
 
 
-
-%% mng_latest_designator_before_time(+TimePoint, -Type, -Pose) is nondet.
+%% mng_tf_pose(+RobotPart, -Pose) is nondet.
 %
-mng_latest_designator_before_time(TimePoint, Type, Pose) :-
+% Read the pose of RobotPart in /map coordinates from logged tf data, default to 'now'
+%
+% @param RobotPart  Instance of a robot part with the 'urdfName' property set
+% @param Pose       Instance of a knowrob:RotationMatrix3D with the pose data
+%
+mng_tf_pose(RobotPart, Pose) :-
+
+  get_timepoint(TimePoint),
+  mng_tf_pose_at_time(RobotPart, '/map', TimePoint, Pose).
+
+
+%% mng_tf_map_pose_at_time(+RobotPart, +Frame, +TimePoint, +Pose) is nondet.
+%
+% Read the pose of RobotPart in the given coordinate frame from logged tf data
+%
+% @param RobotPart  Instance of a robot part with the 'urdfName' property set
+% @param Frame      Atom with tf frame ID in which the pose shall be returned (e.g. '/map')
+% @param TimePoint  Instance of knowrob:TimePoint
+% @param Pose       Instance of a knowrob:RotationMatrix3D with the pose data
+%
+mng_tf_pose_at_time(RobotPart, Frame, TimePoint, Pose) :-
 
   rdf_split_url(_, TimePointLocal, TimePoint),
   atom_concat('timepoint_', TimeAtom, TimePointLocal),
   term_to_atom(Time, TimeAtom),
-
-  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
-  jpl_call(DB, 'latestUIMAPerceptionBefore', [Time], Designator),
-
-  jpl_call(Designator, 'get', ['type'], Type),
-
-  jpl_call(Designator, 'get', ['pose'], StampedPose),
-  jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
-  knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, Pose).
-
-
-% read the pose of RobotPart from tf
-mng_tf_pose(RobotPart, Pose) :-
+  TimeInt is round(Time),
 
   owl_has(RobotPart, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(SourceFrameID)),
   atom_concat('/', SourceFrameID, SourceFrame),
 
-  % TODO: handle time correctly
-  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
-
   knowrob_coordinates:list_to_matrix4d([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1], MatrixIn),
   jpl_new('ros.communication.Time', [], TimeIn),
-  jpl_set(TimeIn, 'secs',  1376484439 ),
+  jpl_set(TimeIn, 'secs', TimeInt),
+  jpl_new('tfjava.Stamped', [MatrixIn, SourceFrame, TimeIn], StampedIn),
 
   knowrob_coordinates:list_to_matrix4d([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1], MatrixOut),
   jpl_new('ros.communication.Time', [], TimeOut),
-  jpl_set(TimeOut, 'secs',  1376484439 ),
-
-  jpl_new('tfjava.Stamped', [MatrixIn, SourceFrame, TimeIn], StampedIn),
+  jpl_set(TimeOut, 'secs', TimeInt),
   jpl_new('tfjava.Stamped', [MatrixOut, '/base_link', TimeOut], StampedOut),
 
-  jpl_call(DB, 'transformPose', ['/odom_combined', StampedIn, StampedOut], _),
+
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+  jpl_call(DB, 'transformPose', [Frame, StampedIn, StampedOut], @(true)),
 
   jpl_call(StampedOut, 'getData', [], MatrixOut2),
   knowrob_coordinates:matrix4d_to_list(MatrixOut2, PoseList),
   create_pose(PoseList, Pose),
 
+  % TODO: set previousDetectionOfObject / latestDetectionOfObject
   create_perception_instance(['Proprioception'], Perception),
   set_object_perception(RobotPart, Perception),
-  rdf_assert(Perception, knowrob:eventOccursAt, Pose).
+  rdf_assert(Perception, knowrob:eventOccursAt, Pose),
 
+  % set time point for pose
+  jpl_get(TimeOut, 'secs', PoseTime),
+  term_to_atom(PoseTime, PoseTimeAtom),
+  atom_concat('http://ias.cs.tum.edu/kb/knowrob_mongo.owl#timepoint_', PoseTimeAtom, PoseTimePoint),
 
+  rdf_assert(PoseTimePoint, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#TimePoint'),
+  rdf_assert(Perception, knowrob:startTime, PoseTimePoint).
 
 
 
