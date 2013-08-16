@@ -39,8 +39,11 @@ import java.util.Date;
 import java.lang.Integer;
 import java.sql.Timestamp;
 import java.util.StringTokenizer;
-import java.lang.Integer;
-import java.lang.Double;
+import java.lang.*;
+
+import javax.vecmath.Matrix4d;
+import javax.vecmath.Quat4d;
+import javax.vecmath.Vector3d;
 
 import ros.*;
 import ros.communication.*;
@@ -90,59 +93,50 @@ public class ROSClient_low_level
                 n.spinOnce();
                
         }
-	
-	
-        public double[] getObserved(/*String object, String date*/) 
-	{
-		/*if(object != null)
-		{
-			
-			Designator d = mdb.latestUIMAPerceptionBefore(date);
-			
-		}
-		else
-		{
-			Designator d = mdb.latestUIMAPerceptionBefore(date);
-		}*/
-
-		double [][] dummy = new double[1][3];
-
-		dummy[0][0] = 0;
-		dummy[0][1] = 0;
-		dummy[0][2] = 0;
-
-		return dummy[0];
-
-        }
 
 	public double[] getBelief(String object, String date) 
 	{
 		int date_converted = Integer.parseInt(date);
 
 		Designator d;
-
-		if(object != null)
-		{
-			System.out.println("1");	
-			d = mdb.getUIMAPerception(object, date_converted);
-			System.out.println(d);
-			d = mdb.latestUIMAPerceptionBefore(date_converted);
-			System.out.println(d);
-		}
-		else
-		{
-			d = mdb.getUIMAPerception(object, date_converted);
-		}
-
+	
+		d = mdb.getUIMAPerception(object, date_converted);
 		
-		
-		double [][] dummy = new double[1][3];
+		PoseStamped pose = (PoseStamped)d.get("pose");
+		Matrix4d poseMatrix = pose.getMatrix4d();
 
-		dummy[0][0] = 0;
-		dummy[0][1] = 0;
-		dummy[0][2] = 0;
+		/*double o_x, o_y, o_z, o_w;
+		o_x = Double.parseDouble((String)d.get("pose.pose.orientation.x"));
+		o_y = Double.parseDouble((String)d.get("pose.pose.orientation.y"));
+		o_z = Double.parseDouble((String)d.get("pose.pose.orientation.z"));
+		o_w = Double.parseDouble((String)d.get("pose.pose.orientation.w"));
 		
-		return dummy[0];
+		double x, y, z, w;
+		x = Double.parseDouble((String)d.get("pose.pose.position.x"));
+		y = Double.parseDouble((String)d.get("pose.pose.position.y"));
+		z = Double.parseDouble((String)d.get("pose.pose.position.z"));
+		w = Double.parseDouble((String)d.get("pose.pose.position.w"));*/
+
+		double[] dummy = new double[16];
+
+		dummy[0] = poseMatrix.getElement(0, 0); 
+		dummy[1] = poseMatrix.getElement(0, 1);
+		dummy[2] = poseMatrix.getElement(0, 2);
+		dummy[3] = poseMatrix.getElement(0, 3);
+		dummy[4] = poseMatrix.getElement(1, 0);
+		dummy[5] = poseMatrix.getElement(1, 1);
+		dummy[6] = poseMatrix.getElement(1, 2);
+		dummy[7] = poseMatrix.getElement(1, 3);
+		dummy[8] = poseMatrix.getElement(2, 0); 
+		dummy[9] = poseMatrix.getElement(2, 1);
+		dummy[10] = poseMatrix.getElement(2, 2);
+		dummy[11] = poseMatrix.getElement(2, 3);
+		dummy[12] = poseMatrix.getElement(3, 0);
+		dummy[13] = poseMatrix.getElement(3, 1);
+		dummy[14] = poseMatrix.getElement(3, 2);
+		dummy[15] = poseMatrix.getElement(3, 3);
+		
+		return dummy;
 	}
 
 	public double[] getReal(/*String object, String date*/) 
@@ -216,7 +210,7 @@ public class ROSClient_low_level
 
 		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
 
-		Timestamp timestamp = Timestamp.valueOf("2013-08-05 13:32:35.0");
+		Timestamp timestamp = Timestamp.valueOf("2013-08-05 15:32:35.0");
 		long d = timestamp.getTime();
 		System.out.println(d);
 		deneme.getBelief("51ffa963106a029da6b91a32", "" + d/1000);

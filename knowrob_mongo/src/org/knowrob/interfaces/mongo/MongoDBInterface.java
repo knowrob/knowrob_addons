@@ -20,6 +20,7 @@ import org.knowrob.interfaces.mongo.types.ISODate;
 import ros.communication.Time;
 import tfjava.Stamped;
 import tfjava.StampedTransform;
+import org.bson.types.ObjectId;
 
 public class MongoDBInterface {
 
@@ -142,10 +143,10 @@ public class MongoDBInterface {
 		DBObject query = QueryBuilder
 				.start("__recorded").greaterThanEquals( start )
 				.and("__recorded").lessThan( end )
-				.and("designator.ObjectID").is(object).get();
+				.and("_id").is(new ObjectId(object)).get();
 
 		DBObject cols  = new BasicDBObject();
-		cols.put("designator", 1 );		
+		cols.put("designator", 1 );				
 
 		DBCursor cursor = coll.find(query, cols);
 		cursor.sort(new BasicDBObject("__recorded", -1));
