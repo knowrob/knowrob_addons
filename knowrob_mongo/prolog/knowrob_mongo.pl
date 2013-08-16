@@ -189,14 +189,11 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
   owl_has(RelObjPose, knowrob:m13, literal(type(_,ObjY))),
   owl_has(RelObjPose, knowrob:m23, literal(type(_,ObjZ))),
 
-  BearingX is atan2(ObjY, ObjX) / pi * 180,
-  BearingY is atan2(ObjZ, ObjX) / pi * 180,
+  BearingX is atan2(ObjY, ObjX),
+  BearingY is atan2(ObjZ, ObjX),
 
-  BearingX < HFOV,
-  BearingY < VFOV.
-
-
-
+  abs(BearingX) < HFOV/2,
+  abs(BearingY) < VFOV/2.
 
 
 
