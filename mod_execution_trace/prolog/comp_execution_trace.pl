@@ -42,6 +42,20 @@ subtask(Task, Subtask) :-
 subtask_all(Task, Subtask) :-
 	subtask(Task, Subtask);	
 
+	nonvar(Task),
+	task(Task),
+	task(Subtask),
+	subtask(Task, A),
+	subtask_all(A, Subtask);
+
+
+	nonvar(Subtask),
+	task(Task),
+	task(Subtask),
+	subtask(A, Subtask),
+	subtask_all(Task, A);
+
+
 	task(Task),
 	task(Subtask),
 	subtask(Task, A),
