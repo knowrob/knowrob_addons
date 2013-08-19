@@ -35,10 +35,9 @@
 
 package edu.tum.cs.ias.knowrob.mod_execution_trace;
 
-import java.util.Date;
+import java.util.*;
 import java.lang.Integer;
 import java.sql.Timestamp;
-import java.util.StringTokenizer;
 import java.lang.*;
 
 import javax.vecmath.Matrix4d;
@@ -150,6 +149,19 @@ public class ROSClient_low_level
 		System.out.println("info not available");
 
 		return dummy[0];
+
+	}
+
+        public long[] getPerceptionTimeStamps(String object) 
+	{
+		List<Date> listOfTimes = mdb.getUIMAPerceptionTimes(object);
+
+		long[] timeStamps = new long[listOfTimes.size()];
+
+		for(int i = 0; i < listOfTimes.size(); i++)		
+			timeStamps[i] = listOfTimes.get(i).getTime();
+
+		return timeStamps;
 
 	}
 

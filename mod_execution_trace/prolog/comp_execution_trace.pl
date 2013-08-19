@@ -56,6 +56,8 @@ subtask_all(Task, Subtask) :-
 	subtask_all(Task, A);
 
 
+	var(Task),
+	var(Subtask),
 	task(Task),
 	task(Subtask),
 	subtask(Task, A),
@@ -87,6 +89,7 @@ task_end(Task, End) :-
 	rdf_has(Task, knowrob:'endTime', End).
 
 holds(task_status(Task, Status), T):-
+	nonvar(Task),	
 	task(Task),
 	task_start(Task, Start),
 	task_end(Task, End),
@@ -94,13 +97,24 @@ holds(task_status(Task, Status), T):-
 	computable_time_check(T, End, Compare_Result2)
 	term_to_atom(Compare_Result1, c1),	
 	term_to_atom(Compare_Result2, c2),
-	((c1 is 1) -> (((c2 is 1) -> (Status = [Continue]);(Status = [Done])));(((c2 is 1) -> (Status = [Error]); (Status = [NotStarted])))).
+	((c1 is 1) -> (((c2 is 1) -> (Status = [Continue]);(Status = [Done])));(((c2 is 1) -> (Status = [Error]); (Status = [NotStarted]))));
+
+	nonvar(Status),
+	nonvar(T),.
 
 holds(object_visible(Object, Status), T):-
+	nonvar(Object),	
+	nonvar(T),
 	computable_belief(Object, T, Loc),
 	rdf_triple(comp_spatial:'m01', Loc, Result),
 	term_to_atom(Result, r),
-	((r is -1) -> (Status = [true]);(Status = [false])).	
+	((r is -1) -> (Status = [true]);(Status = [false]));
+	
+	nonvar(Object),	
+	nonvar(Status),
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	computable_perception_instances(Object, T, Loc),.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 
 holds(object_placed_at(Object, Loc), T):-
 	computable_belief(Object, T, Actual_Loc),
@@ -130,9 +144,9 @@ computable_belief(Object, Time, Loc) :-
     jpl_array_to_list(Localization_Array, LocList),
 
 
-    [M00, M01, M02, M10, M11, M12, M20, M21, M22] = LocList,
+    [M00, M01, M02, M03, M10, M11, M12, M13, M20, M21, M22, M23, M30, M31, M32, M33] = LocList,
 
-    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M10,'_',M11,'_',M12, '_',M20,'_',M21,'_',M22], LocIdentifier),
+    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M03,'_',M10,'_',M11,'_',M12,'_',M13,'_',M20,'_',M21,'_',M22'_',M23,'_',M30,'_',M31,'_',M32'_',M33], LocIdentifier),
 
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix2D').
@@ -151,9 +165,9 @@ computable_truth(Object, Time, Loc) :-
     jpl_array_to_list(Localization_Array, LocList),
 
 
-    [M00, M01, M02, M10, M11, M12, M20, M21, M22] = LocList,
+    [M00, M01, M02, M03, M10, M11, M12, M13, M20, M21, M22, M23, M30, M31, M32, M33] = LocList,
 
-    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M10,'_',M11,'_',M12, '_',M20,'_',M21,'_',M22], LocIdentifier),
+    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M03,'_',M10,'_',M11,'_',M12,'_',M13,'_',M20,'_',M21,'_',M22'_',M23,'_',M30,'_',M31,'_',M32'_',M33], LocIdentifier),
 
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
@@ -187,3 +201,16 @@ computable_location_check(L1, L2, Compare_Result) :-
     jpl_array_to_list(Result, ResultList),
 
     [Compare_Result] = ResultList.
+
+computable_perception_instances(Object, TimeList, Status) :-
+
+    % create ROS client object
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+
+    term_to_atom(Object, o1),
+
+    term_to_atom(Status, s1),
+
+    jpl_call(Client, 'timeComparison', [o1], Times),
+
+    jpl_array_to_list(Times, TimeList).

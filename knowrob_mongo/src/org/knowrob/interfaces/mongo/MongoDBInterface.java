@@ -10,15 +10,12 @@ import com.mongodb.QueryBuilder;
 
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
-import java.util.Date;
-
-import javax.vecmath.Matrix4d;
+import java.util.*;
 
 import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.interfaces.mongo.types.ISODate;
 
 import ros.communication.Time;
-import tfjava.Stamped;
 import tfjava.StampedTransform;
 import org.bson.types.ObjectId;
 
@@ -36,7 +33,7 @@ public class MongoDBInterface {
 
 		try {
 			mongoClient = new MongoClient( "localhost" , 27017 );
-			db = mongoClient.getDB("roslog");
+			db = mongoClient.getDB("test");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -91,12 +88,7 @@ public class MongoDBInterface {
 		return(mem.lookupTransform(targetFrameId, sourceFrameId, t));
 	}
 
-
-	public boolean transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
-		return mem.transformPose(targetFrameID, stampedIn, stampedOut);
-	}
-
-
+	
 	public Designator latestUIMAPerceptionBefore(int posix_ts) {
 		
 		Designator res = null;		
@@ -104,7 +96,7 @@ public class MongoDBInterface {
 
 		// read all events up to one minute before the time
 		Date start = new ISODate((long) 1000 * (posix_ts - 60) ).getDate();
-		Date end   = new ISODate((long) 1000 * posix_ts ).getDate();
+		Date end   = new ISODate((long) 1000 * (posix_ts + 60) ).getDate();
 
 		DBObject query = QueryBuilder
 				.start("__recorded").greaterThanEquals( start )
@@ -113,11 +105,10 @@ public class MongoDBInterface {
 		DBObject cols  = new BasicDBObject();
 		cols.put("designator", 1 );
 		
-		DBCursor cursor = coll.find(query, cols );
+		DBCursor cursor = coll.find(query);
 		cursor.sort(new BasicDBObject("__recorded", -1));
 		try {
 			while(cursor.hasNext()) {
-				
 				DBObject row = cursor.next();
 				res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
 				break;
@@ -166,6 +157,34 @@ public class MongoDBInterface {
 	}
 	
 
+	public List<Date> getUIMAPerceptionTimes(String object) {
+		List<Date> times = new ArrayList<Date>();	
+		DBCollection coll = db.getCollection("uima_uima_results");
+
+		DBObject query = QueryBuilder
+				.start("_id").is(new ObjectId(object)).get();
+
+		DBObject cols  = new BasicDBObject();
+		cols.put("__recorded", 1 );				
+
+		DBCursor cursor = coll.find(query, cols);
+		cursor.sort(new BasicDBObject("__recorded", -1));
+		try {
+			while(cursor.hasNext()) {
+				
+				DBObject row = cursor.next();
+				Date currentTime = (new ISODate(0).readFromDBObject((BasicDBObject) row.get("__recorded"))).getDate();
+				times.add(currentTime);
+				
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+		}
+		return times;
+	}
+
 	public static void main(String[] args) {
 
 		MongoDBInterface m = new MongoDBInterface();
@@ -192,7 +211,7 @@ public class MongoDBInterface {
 		System.out.println("Time to look up second transform in same time slice: " + second + "ms");
 		
 		// test lookupTransform wrapper
-		trans = m.lookupTransform("/base_link", "/head_mount_kinect_ir_link",  1376484439 );
+		trans = m.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", 1374841534);
 		System.out.println(trans);
 		
 		// test UIMA result interface
