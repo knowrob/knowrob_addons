@@ -134,7 +134,8 @@ public class MongoDBInterface {
 		DBObject query = QueryBuilder
 				.start("__recorded").greaterThanEquals( start )
 				.and("__recorded").lessThan( end )
-				.and("_id").is(new ObjectId(object)).get();
+				.and("designator.__id").is(object).get();
+				//.and("_id").is(new ObjectId(object)).get();
 
 		DBObject cols  = new BasicDBObject();
 		cols.put("designator", 1 );				
@@ -162,7 +163,7 @@ public class MongoDBInterface {
 		DBCollection coll = db.getCollection("uima_uima_results");
 
 		DBObject query = QueryBuilder
-				.start("_id").is(new ObjectId(object)).get();
+				.start("designator.__id").is(object).get();
 
 		DBObject cols  = new BasicDBObject();
 		cols.put("__recorded", 1 );				
@@ -183,6 +184,42 @@ public class MongoDBInterface {
 			cursor.close();
 		}
 		return times;
+	}
+
+	public List<String> getUIMAPerceptionObjects(int posix_ts) {
+
+		Designator res = null;
+
+		Date start = new ISODate((long) 1000 * (posix_ts - 30) ).getDate();
+		Date end   = new ISODate((long) 1000 * (posix_ts + 30) ).getDate();
+
+		List<String> objects = new ArrayList<String>();	
+		DBCollection coll = db.getCollection("uima_uima_results");
+
+		DBObject query = QueryBuilder
+				.start("__recorded").greaterThanEquals( start )
+				.and("__recorded").lessThan( end ).get();
+
+
+		DBObject cols  = new BasicDBObject();
+		cols.put("designator", 1 );				
+
+		DBCursor cursor = coll.find(query, cols);
+		cursor.sort(new BasicDBObject("__recorded", -1));
+		try {
+			while(cursor.hasNext()) {
+				
+				DBObject row = cursor.next();
+				res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				objects.add((String)res.get("__id"));
+				
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+		}
+		return objects;
 	}
 
 	public static void main(String[] args) {

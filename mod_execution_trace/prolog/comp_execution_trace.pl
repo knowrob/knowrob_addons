@@ -110,11 +110,15 @@ holds(object_visible(Object, Status), T):-
 	term_to_atom(Result, r),
 	((r is -1) -> (Status = [true]);(Status = [false]));
 	
-	nonvar(Object),	
-	nonvar(Status),
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	computable_perception_instances(Object, T, Loc),.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+	nonvar(Object),
+	var(T),	
+	computable_perception_time_instances(Object, T),
+	Status = [true];
+
+	var(Object),
+	nonvar(T),	
+	computable_perception_object_instances(T, Object),
+	Status = [true].	
 
 holds(object_placed_at(Object, Loc), T):-
 	computable_belief(Object, T, Actual_Loc),
@@ -202,15 +206,24 @@ computable_location_check(L1, L2, Compare_Result) :-
 
     [Compare_Result] = ResultList.
 
-computable_perception_instances(Object, TimeList, Status) :-
+computable_perception_time_instances(Object, TimeList) :-
 
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
     term_to_atom(Object, o1),
 
-    term_to_atom(Status, s1),
-
-    jpl_call(Client, 'timeComparison', [o1], Times),
+    jpl_call(Client, 'getPerceptionTimeStamps', [o1], Times),
 
     jpl_array_to_list(Times, TimeList).
+
+computable_perception_object_instances(Time, ObjectList) :-
+
+    % create ROS client object
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+
+    term_to_atom(Object, o1),
+
+    jpl_call(Client, 'getPerceptionObjects', [o1], Objects),
+
+    jpl_array_to_list(Objects, ObjectList).

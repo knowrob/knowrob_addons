@@ -165,6 +165,20 @@ public class ROSClient_low_level
 
 	}
 
+	public String[] getPerceptionObjects(String date) 
+	{
+		int date_converted = Integer.parseInt(date);
+		List<String> listOfObjects = mdb.getUIMAPerceptionObjects(date_converted);
+
+		String[] objects = new String[listOfObjects.size()];
+
+		for(int i = 0; i < listOfObjects.size(); i++)		
+			objects[i] = listOfObjects.get(i);
+
+		return objects;
+
+	}
+
 	public int timeComparison(String time1, String time2)
 	{
 		StringTokenizer s1 = new StringTokenizer(time1, "_");
