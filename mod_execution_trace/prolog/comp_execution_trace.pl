@@ -68,7 +68,7 @@
 
 task(Task) :-	
 	rdf_has(Task, rdf:type, A),
-	rdf_individual_of(A, modexecutiontrace:'CRAMAction').
+	rdf_reachable(A, rdfs:subClassOf, modexecutiontrace:'CRAMAction').
 
 subtask(Task, Subtask) :-
 	task(Task),

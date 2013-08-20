@@ -93,6 +93,19 @@
    </owl:Class>
 
 
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalNavigate -->
+
+  <owl:Class rdf:about="&modexecutiontrace;AchieveGoalNavigate">
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalPerform"/>
+   </owl:Class>
+
+
+  <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveAtLocation -->
+
+  <owl:Class rdf:about="&modexecutiontrace;AchieveAtLocation">
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;AchieveGoalPerform"/>
+   </owl:Class>
+
   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#AchieveGoalPerformOnProcessModule -->
 
   <owl:Class rdf:about="&modexecutiontrace;AchieveGoalPerformOnProcessModule">
