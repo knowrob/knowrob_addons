@@ -200,28 +200,28 @@
   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ObjectNotFound -->
 
   <owl:Class rdf:about="&modexecutiontrace;ObjectNotFound">
-   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMFailure"/>
    </owl:Class>
 
 
    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ManipulationPoseUnreachable -->
 
   <owl:Class rdf:about="&modexecutiontrace;ManipulationPoseUnreachable">
-   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMFailure"/>
    </owl:Class>
 
 
    <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#ObjectLost -->
 
   <owl:Class rdf:about="&modexecutiontrace;ObjectLost">
-   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMFailure"/>
    </owl:Class>
 
    
   <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#LocationNotReached -->
 
   <owl:Class rdf:about="&modexecutiontrace;LocationNotReached">
-   	<rdfs:subClassOf rdf:resource="&knowrob;CRAMFailure"/>
+   	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMFailure"/>
    </owl:Class>
 
 
