@@ -124,6 +124,7 @@
 
   <owl:Class rdf:about="&modexecutiontrace;DesignatorInteraction">
    	<rdfs:subClassOf rdf:resource="&knowrob;Action"/>
+	<rdfs:subClassOf rdf:resource="&modexecutiontrace;CRAMEvent"/>
    </owl:Class>
 
 
