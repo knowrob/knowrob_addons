@@ -1,6 +1,7 @@
 :- module(comp_execution_trace,
     [
      	task/1,
+	task_class/2,
 	subtask/2,
 	subtask_all/2,
       	task_goal/2,
@@ -45,6 +46,7 @@
 % (i.e. rdf namespaces are automatically expanded)
 :-  rdf_meta
     task(r),
+    task_class(r,r),
     subtask(r,r),
     subtask_all(r,r),
     task_goal(r,r),
@@ -68,7 +70,11 @@
 
 task(Task) :-	
 	rdf_has(Task, rdf:type, A),
-	rdf_reachable(A, rdfs:subClassOf, modexecutiontrace:'CRAMAction').
+	rdf_reachable(A, rdfs:subClassOf, modexecutiontrace:'CRAMEvent').
+
+task_class(Task, Class) :-	
+	rdf_has(Task, rdf:type, Class),
+	rdf_reachable(Class, rdfs:subClassOf, modexecutiontrace:'CRAMEvent').
 
 subtask(Task, Subtask) :-
 	task(Task),
@@ -101,20 +107,21 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, rdf:type, Goal);
+	rdf_has(Task, modexecutiontrace:'goalContext', Goal).
+	% rdf_has(Task, rdf:type, Goal);
 
 	% task(Task),
 	% rdf_has(Task, rdf:type, Goal),
 	% Goal = modexecutiontrace:'AchieveGoalAction';
 
-	task(Task),
-	rdf_has(Task, rdf:type, Goal),
-	rdf_has(Goal, rdfs:subClassOf, modexecutiontrace:'AchieveGoalAction');
+	% task(Task),
+	% rdf_has(Task, rdf:type, Goal),
+	% rdf_has(Goal, rdfs:subClassOf, modexecutiontrace:'AchieveGoalAction');
 
-	task(Task),
-	rdf_has(Task, rdf:type, Goal),
-	rdf_has(Goal, rdfs:subClassOf, B),
-	rdf_has(B, rdfs:subClassOf, modexecutiontrace:'AchieveGoalAction').
+	% task(Task),
+	% rdf_has(Task, rdf:type, Goal),
+	% rdf_has(Goal, rdfs:subClassOf, B),
+	% rdf_has(B, rdfs:subClassOf, modexecutiontrace:'AchieveGoalAction').
 	
 task_start(Task, Start) :-
 	task(Task),
@@ -262,7 +269,7 @@ computable_perception_object_instances(Time, ObjectList) :-
 
 failure_class(Error, Class) :-	
 	rdf_has(Error, rdf:type, Class),
-	rdf_individual_of(Class, modexecutiontrace:'CRAMFailure').
+	rdf_reachable(Class, rdfs:subClassOf, modexecutiontrace:'CRAMFailure').
 
 failure_task(Error, Task) :-
 	task(Task),	
