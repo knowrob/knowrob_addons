@@ -71,6 +71,7 @@ mng_latest_designator_before_time(TimePoint, Type, PoseList) :-
   jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
   knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, PoseList).
 
+  
 
 %% mng_lookup_transform(+Target, +Source, +TimePoint, -Transform) is nondet.
 %
@@ -195,5 +196,33 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
   abs(BearingX) < HFOV/2,
   abs(BearingY) < VFOV/2.
 
+
+obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
+
+  findall(Camera, owl_individual_of(Camera, srdl2comp:'Camera'), Cameras),
+  member(Camera, Cameras),
+
+  % Read object pose w.r.t. camera
+  once(owl_has(Camera, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(CamFrameID))),
+  atom_concat('/', CamFrameID, CamFrame),
+
+  mng_tf_pose_at_time(Obj,     CamFrame, TimePoint, RelObjPose),
+  owl_has(RelObjPose, knowrob:m03, literal(type(_,ObjX))),
+  owl_has(RelObjPose, knowrob:m13, literal(type(_,ObjY))),
+  owl_has(RelObjPose, knowrob:m23, literal(type(_,ObjZ))),
+
+  ObjBearingX is atan2(ObjY, ObjX),
+  ObjBearingY is atan2(ObjZ, ObjX),
+
+  mng_tf_pose_at_time(Blocker, CamFrame, TimePoint, RelBlkPose),
+  owl_has(RelBlkPose, knowrob:m03, literal(type(_,BlkX))),
+  owl_has(RelBlkPose, knowrob:m13, literal(type(_,BlkY))),
+  owl_has(RelBlkPose, knowrob:m23, literal(type(_,BlkZ))),
+
+  BlkBearingX is atan2(BlkY, BlkX),
+  BlkBearingY is atan2(BlkZ, BlkX),
+
+  abs(ObjBearingX - BlkBearingX) < 10/360*pi,
+  abs(ObjBearingY - BlkBearingY) < 10/360*pi.
 
 
