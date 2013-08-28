@@ -89,8 +89,10 @@ public class MongoDBInterface {
 		for(String db_name : new String[]{"uima_uima_results", "logged_designators"}) {
 
 			DBCollection coll = db.getCollection(db_name);
-			DBObject query = QueryBuilder.start("designator.__id").is(designator).get();
-
+			DBObject query = new QueryBuilder()
+								.or(QueryBuilder.start("designator.__id").is(designator).get(),
+									QueryBuilder.start("designator.__ID").is(designator).get()).get();
+			
 			DBObject cols  = new BasicDBObject();
 			cols.put("designator", 1 );				
 
@@ -256,6 +258,10 @@ public class MongoDBInterface {
 
 		// test UIMA result interface
 		Designator d = m.latestUIMAPerceptionBefore(1374841669);
+		System.out.println(d);
+		
+		// test designator reading
+		d = m.getDesignatorByID("designator_JsnxFl2UQZY5LM");
 		System.out.println(d);
 	}
 }
