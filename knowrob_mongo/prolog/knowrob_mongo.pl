@@ -106,26 +106,48 @@ mng_tf_pose(RobotPart, Pose) :-
   mng_tf_pose_at_time(RobotPart, '/map', TimePoint, Pose).
 
 
-%% mng_tf_map_pose_at_time(+RobotPart, +Frame, +TimePoint, +Pose) is nondet.
+%% mng_tf_pose_at_time(+RobotPart, +TargetFrame, +TimePoint, -Pose) is nondet.
 %
 % Read the pose of RobotPart in the given coordinate frame from logged tf data
 %
-% @param RobotPart  Instance of a robot part with the 'urdfName' property set
-% @param Frame      Atom with tf frame ID in which the pose shall be returned (e.g. '/map')
-% @param TimePoint  Instance of knowrob:TimePoint
-% @param Pose       Instance of a knowrob:RotationMatrix3D with the pose data
+% @param RobotPart    Instance of a robot part with the 'urdfName' property set
+% @param TargetFrame  Atom with tf frame ID in which the pose shall be returned (e.g. '/map')
+% @param TimePoint    Instance of knowrob:TimePoint
+% @param Pose         Instance of a knowrob:RotationMatrix3D with the pose data
 %
-mng_tf_pose_at_time(RobotPart, Frame, TimePoint, Pose) :-
+mng_tf_pose_at_time(RobotPart, TargetFrame, TimePoint, Pose) :-
+
+  owl_has(RobotPart, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(SourceFrameID)),
+  atom_concat('/', SourceFrameID, SourceFrame),
+  
+  mng_obj_pose_at_time(RobotPart, SourceFrame, TargetFrame, TimePoint, Pose).
+
+
+
+%% mng_obj_pose_at_time(+Obj, +SourceFrame, +TargetFrame, +TimePoint, -Pose) is nondet.
+%
+% Read the pose of Obj and transform it into the coordinates given by
+% TargetFrame  based on logged tf data
+%
+% @param Obj          Object instance
+% @param SourceFrame  Atom with tf frame ID in what the object's pose is given
+% @param TargetFrame  Atom with tf frame ID in which the pose shall be returned (e.g. '/map')
+% @param TimePoint    Instance of knowrob:TimePoint
+% @param Pose         Instance of a knowrob:RotationMatrix3D with the pose data
+%
+mng_obj_pose_at_time(Obj, SourceFrame, TargetFrame, TimePoint, Pose) :-
+
+  % read object pose in original coordinates at TimePoint
+  (object_pose_at_time(Obj, Time, PoseListIn)
+     -> true ;
+        PoseListIn = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),
 
   rdf_split_url(_, TimePointLocal, TimePoint),
   atom_concat('timepoint_', TimeAtom, TimePointLocal),
   term_to_atom(Time, TimeAtom),
   TimeInt is round(Time),
-
-  owl_has(RobotPart, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(SourceFrameID)),
-  atom_concat('/', SourceFrameID, SourceFrame),
-
-  knowrob_coordinates:list_to_matrix4d([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1], MatrixIn),
+        
+  knowrob_coordinates:list_to_matrix4d(PoseListIn, MatrixIn),
   jpl_new('ros.communication.Time', [], TimeIn),
   jpl_set(TimeIn, 'secs', TimeInt),
   jpl_new('tfjava.Stamped', [MatrixIn, SourceFrame, TimeIn], StampedIn),
@@ -135,17 +157,17 @@ mng_tf_pose_at_time(RobotPart, Frame, TimePoint, Pose) :-
   jpl_set(TimeOut, 'secs', TimeInt),
   jpl_new('tfjava.Stamped', [MatrixOut, '/base_link', TimeOut], StampedOut),
 
-
   jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
-  jpl_call(DB, 'transformPose', [Frame, StampedIn, StampedOut], @(true)),
+  jpl_call(DB, 'transformPose', [TargetFrame, StampedIn, StampedOut], @(true)),
 
   jpl_call(StampedOut, 'getData', [], MatrixOut2),
   knowrob_coordinates:matrix4d_to_list(MatrixOut2, PoseList),
   create_pose(PoseList, Pose),
+  rdf_assert(Pose, knowrob:tfFrame, TargetFrame),
 
   % TODO: set previousDetectionOfObject / latestDetectionOfObject
   create_perception_instance(['Proprioception'], Perception),
-  set_object_perception(RobotPart, Perception),
+  set_object_perception(Obj, Perception),
   rdf_assert(Perception, knowrob:eventOccursAt, Pose),
 
   % set time point for pose
@@ -197,6 +219,9 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
   abs(BearingY) < VFOV/2.
 
 
+
+
+  
 obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
 
   findall(Camera, owl_individual_of(Camera, srdl2comp:'Camera'), Cameras),
