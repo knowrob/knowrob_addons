@@ -71,7 +71,78 @@ mng_latest_designator_before_time(TimePoint, Type, PoseList) :-
   jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
   knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, PoseList).
 
+
+
+
+mng_designator_type(Designator, Type) :-
+
+  rdf_split_url(_, DesigID, Designator),
+
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+  jpl_call(DB, 'getDesignatorByID', [DesigID], DesigJava),
+
+  jpl_call(DesigJava, 'getType', [], Type).
+   
+
+mng_designator_props(Designator, Prop, Value) :-
+
+  rdf_split_url(_, DesigID, Designator),
+
+  jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
+  jpl_call(DB, 'getDesignatorByID', [DesigID], DesigJava),
+
+  jpl_call(DesigJava, 'keySet', [], PropsSet),
+  jpl_set_element(PropsSet, Prop),
   
+  once(mng_desig_get_value(Designator, DesigJava, Prop, Value)).
+
+
+% Internal helper method: handle the different kinds of designator values
+
+% create designator instance for child-designators
+mng_desig_get_value(_Designator, DesigJava, Prop, Value) :-
+  jpl_call(DesigJava, 'get', [Prop], ValIn),
+  jpl_ref_to_type(ValIn,  class([org,knowrob,interfaces,mongo,types],['Designator'])),
+  Value=ValIn. % TODO
+
+% create observation of the object to which the designator is attached
+mng_desig_get_value(Designator, DesigJava, Prop, Pose) :-
+
+  jpl_call(DesigJava, 'get', [Prop], PoseStamped),
+  jpl_ref_to_type(PoseStamped,  class([org,knowrob,interfaces,mongo,types],['PoseStamped'])),
+
+  jpl_call(PoseStamped, 'getMatrix4d', [], PoseMatrix4d),
+  knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, PoseList),
+  create_pose(PoseList, Pose),
+
+  % find out which object we are talking about
+  rdf_has(Obj, knowrob:designator, Designator),
+
+  % determine detection type (e.g. perception)
+  jpl_call(DesigJava, 'getDetectionType', [], DetectionType),
+  
+  % create perception instance attached to the object this designator belongs to
+  create_perception_instance([DetectionType], Detection),
+  set_object_perception(Obj, Detection),
+  rdf_assert(Detection, knowrob:eventOccursAt, Pose),
+
+  % set time point for pose
+  jpl_get(PoseStamped, 'header', Header),
+  jpl_get(Header, 'stamp', Stamp),
+  jpl_get(Stamp,  'secs', TimeSecs),
+  term_to_atom(TimeSecs, TimeSecsAtom),
+  atom_concat('http://ias.cs.tum.edu/kb/knowrob_mongo.owl#timepoint_', TimeSecsAtom, PoseTimePoint),
+
+  jpl_get(Header, 'frame_id', Frame),
+  rdf_assert(Pose, knowrob:relativeTo, Frame),
+  
+  rdf_assert(PoseTimePoint, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#TimePoint'),
+  rdf_assert(Detection, knowrob:startTime, PoseTimePoint).
+
+% just return the value for other properties
+mng_desig_get_value(_Designator, DesigJava, Prop, Value) :-
+  jpl_call(DesigJava, 'get', [Prop], Value).
+
 
 %% mng_lookup_transform(+Target, +Source, +TimePoint, -Transform) is nondet.
 %
