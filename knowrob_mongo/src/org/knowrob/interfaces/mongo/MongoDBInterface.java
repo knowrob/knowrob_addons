@@ -16,6 +16,7 @@ import javax.vecmath.Matrix4d;
 
 import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.interfaces.mongo.types.ISODate;
+import org.knowrob.interfaces.mongo.types.PoseStamped;
 
 import ros.communication.Time;
 import tfjava.Stamped;
@@ -235,7 +236,36 @@ public class MongoDBInterface {
 	}
 	
 	
-	
+	public Matrix4d getDesignatorLocation(String id) {
+		Matrix4d poseMatrix = null;	
+		DBCollection coll = db.getCollection("uima_uima_results");
+
+		DBObject query = QueryBuilder
+				.start("designator.__id").is(id).get();
+
+		DBObject cols  = new BasicDBObject();
+		cols.put("__recorded", 1 );
+		cols.put("designator", 1 );				
+
+		DBCursor cursor = coll.find(query, cols);
+		cursor.sort(new BasicDBObject("__recorded", -1));
+		try {
+			while(cursor.hasNext()) {
+				
+				DBObject row = cursor.next();
+				Designator des = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				PoseStamped pose_stamped = (PoseStamped)des.get("pose");
+				poseMatrix = pose_stamped.getMatrix4d();
+				break;
+				
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			cursor.close();
+		}
+		return poseMatrix;
+	}
 
 	public static void main(String[] args) {
 
