@@ -1,7 +1,10 @@
 package org.knowrob.interfaces.mongo.types;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.vecmath.Vector3d;
 
@@ -37,7 +40,38 @@ public class Designator {
 	public int size() {
 		return values.size();
 	}
+	public void clear() {
+		values.clear();
+	}
 
+	public boolean containsValue(Object arg0) {
+		return values.containsValue(arg0);
+	}
+
+	public Set<Entry<String, Object>> entrySet() {
+		return values.entrySet();
+	}
+
+	public boolean equals(Object arg0) {
+		return values.equals(arg0);
+	}
+
+	public Set<String> keySet() {
+		return values.keySet();
+	}
+
+	public void putAll(Map<? extends String, ? extends Object> arg0) {
+		values.putAll(arg0);
+	}
+
+	public Object remove(Object arg0) {
+		return values.remove(arg0);
+	}
+
+	public Collection<Object> values() {
+		return values.values();
+	}
+	
 	public String getType() {
 		return type;
 	}
