@@ -15,8 +15,8 @@ import com.mongodb.BasicDBObject;
 public class Designator {
 
 	protected Map<String, Object> values;
-	protected String type;
-
+	protected String detectionType = "";
+	
 	public Designator() {
 		values = new LinkedHashMap<String, Object>();
 	}
@@ -73,13 +73,23 @@ public class Designator {
 	}
 	
 	public String getType() {
-		return type;
+		return values.get("_designator_type").toString();
 	}
 
 	public void setType(String type) {
-		this.type = type;
+		this.values.put("_designator_type", type);
+	}
+	
+	public String getDetectionType() {
+		return detectionType;
 	}
 
+	public void setDetectionType(String type) {
+		this.detectionType = type;
+	}
+
+	
+	
 	/**
 	 * Read from a MongoDB result object
 	 * 
