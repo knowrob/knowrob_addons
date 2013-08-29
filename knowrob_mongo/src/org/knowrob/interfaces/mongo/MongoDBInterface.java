@@ -100,7 +100,17 @@ public class MongoDBInterface {
 			
 			while(cursor.hasNext()) {
 				DBObject row = cursor.next();
-				return new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				
+				Designator desig = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				
+				// set the event type (i.e. perception, sth else) to store 
+				// which kind of information is described in the designator
+				if(db_name.equals("uima_uima_results"))
+					desig.setDetectionType("VisualPerception");
+				else
+					desig.setDetectionType("MentalEvent");
+				
+				return desig;
 			}
 			cursor.close();
 		}
@@ -234,8 +244,8 @@ public class MongoDBInterface {
 
 		// test transformation lookup based on DB information
 
-		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
-		Time t = new Time(timestamp.getTime()/1000);
+//		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
+		Time t = new Time(1377766521);
 
 		long t0 = System.nanoTime();
 		TFMemory tf = new TFMemory();
@@ -253,15 +263,15 @@ public class MongoDBInterface {
 		System.out.println("Time to look up second transform in same time slice: " + second + "ms");
 
 		// test lookupTransform wrapper
-		trans = m.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", 1374841534);
+		trans = m.lookupTransform("/map", "/head_mount_kinect_ir_link", 1377766521);
 		System.out.println(trans);
 
 		// test UIMA result interface
-		Designator d = m.latestUIMAPerceptionBefore(1374841669);
+		Designator d = m.latestUIMAPerceptionBefore(1377766521);
 		System.out.println(d);
 		
 		// test designator reading
-		d = m.getDesignatorByID("designator_JsnxFl2UQZY5LM");
+		d = m.getDesignatorByID("designator_bunEaUUmPbuoLN");
 		System.out.println(d);
 	}
 }
