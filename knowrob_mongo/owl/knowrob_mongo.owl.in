@@ -31,22 +31,7 @@
         <owl:imports rdf:resource="&srdl_path;srdl2-comp.owl"/>
     </owl:Ontology>
 
-
-    <!-- Test instances -->
-
-    <owl:NamedIndividual rdf:about="&knowrob_mongo;turtle1">
-        <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
-        <srdl2-comp:urdfName>turtle1</srdl2-comp:urdfName>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="&knowrob_mongo;turtle2">
-        <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
-        <srdl2-comp:urdfName>turtle2</srdl2-comp:urdfName>
-    </owl:NamedIndividual>
-
-
-
-
+    
     <!-- Computable definitions -->
 
     <computable:PrologProperty rdf:about="#computeTfOrientation">
