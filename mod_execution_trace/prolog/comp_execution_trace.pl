@@ -9,14 +9,15 @@
 	task_end/2,
 	cram_holds/2,
 	returned_value/2,
+	computable_designator/2,
 	computable_belief/3,
       	computable_truth/3,
 	computable_time_check/3,
 	computable_location_check/3,
 	computable_perception_time_instances/2,
 	computable_perception_object_instances/2,
-	belief_at/2,
-	truth_at/2,
+	%belief_at/2,
+	%truth_at/2,
 	failure_class/2,
 	failure_task/2,
 	failure_attribute/3
@@ -54,14 +55,15 @@
     task_end(r,r),
     cram_holds(r,r),
     returned_value(r,r),
+    computable_designator(r,r),
     computable_belief(r,r,r),
     computable_truth(r,r,r),
     computable_time_check(r,r,r),
     computable_location_check(r,r,r),
     computable_perception_time_instance(r,r),
     computable_perception_object_instance(r,r),
-    belief_at(r,r),
-    truth_at(r,r),
+    %belief_at(r,r),
+    %truth_at(r,r),
     failure_class(r,r),
     failure_task(r,r),
     failure_attribute(r,r,r).
@@ -173,38 +175,13 @@ returned_value(Task, Obj) :-
 	rdf_has(Task, rdf:type, knowrob:'VisualPerception'),
 	rdf_has(Task, knowrob:'detectedObject', Obj).
 
-belief_at(Loc, Time) :-
-	computable_belief(first(Loc), Time, second(Loc)).
-
-truth_at(Loc, Time) :-
-	computable_belief(first(Loc), Time, second(Loc)).
-
-computable_belief(Object, Time, Loc) :-
-    
+computable_designator(Designator, Loc) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    jpl_call(Client, 'getBelief', [], Localization_Array),
+    Designator = literal(type(A,D)),
 
-    jpl_array_to_list(Localization_Array, LocList),
-
-    [M00, M01, M02, M03, M10, M11, M12, M13, M20, M21, M22, M23, M30, M31, M32, M33] = LocList,
-
-    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M03,'_',M10,'_',M11,'_',M12,'_',M13,'_',M20,'_',M21,'_',M22,'_',M23,'_',M30,'_',M31,'_',M32,'_',M33], LocIdentifier),
-
-    atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
-    rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix2D').
-
-computable_truth(Object, Time, Loc) :-
-    
-    % create ROS client object
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-
-    term_to_atom(Time, t),
-
-    term_to_atom(Object, o),
-
-    jpl_call(Client, 'getReal', [o, t], Localization_Array),
+    jpl_call(Client, 'getBeliefByDesignator', [D], Localization_Array),
 
     jpl_array_to_list(Localization_Array, LocList),
 
@@ -214,6 +191,7 @@ computable_truth(Object, Time, Loc) :-
 
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
+
 
 computable_time_check(Time1, Time2, Compare_Result) :-
     
@@ -239,7 +217,7 @@ computable_location_check(L1, L2, Compare_Result) :-
 
     term_to_atom(L2, l2),
 
-    jpl_call(Client, 'timeComparison', [l1, l2], Result),
+    jpl_call(Client, 'locationComparison', [l1, l2], Result),
 
     jpl_array_to_list(Result, ResultList),
 

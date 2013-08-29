@@ -93,16 +93,11 @@ public class ROSClient_low_level
                
         }
 
-	public double[] getBelief(String object, String date) 
-	{
-		int date_converted = Integer.parseInt(date);
 
-		Designator d;
-	
-		d = mdb.getUIMAPerception(object, date_converted);
-		
-		PoseStamped pose = (PoseStamped)d.get("pose");
-		Matrix4d poseMatrix = pose.getMatrix4d();
+	public double[] getBeliefByDesignator(String designatorId) 
+	{
+		System.out.println(designatorId);
+		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
 
 		/*double o_x, o_y, o_z, o_w;
 		o_x = Double.parseDouble((String)d.get("pose.pose.orientation.x"));
@@ -136,20 +131,7 @@ public class ROSClient_low_level
 		dummy[15] = poseMatrix.getElement(3, 3);
 		
 		return dummy;
-	}
-
-	public double[] getReal(/*String object, String date*/) 
-	{
-		double [][] dummy = new double[1][3];
-
-		dummy[0][0] = 0;
-		dummy[0][1] = 0;
-		dummy[0][2] = 0;
-
-		System.out.println("info not available");
-
-		return dummy[0];
-
+		
 	}
 
         public long[] getPerceptionTimeStamps(String object) 
@@ -181,6 +163,8 @@ public class ROSClient_low_level
 
 	public int timeComparison(String time1, String time2)
 	{
+		System.out.println("hello1");
+
 		StringTokenizer s1 = new StringTokenizer(time1, "_");
 		StringTokenizer s2 = new StringTokenizer(time2, "_");
 
@@ -234,11 +218,11 @@ public class ROSClient_low_level
 
 	public static void main(String[] args) {
 
-		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
+		/*ROSClient_low_level deneme = new ROSClient_low_level("deneme");
 
 		Timestamp timestamp = Timestamp.valueOf("2013-08-05 15:32:35.0");
 		long d = timestamp.getTime();
 		System.out.println(d);
-		deneme.getBelief("51ffa963106a029da6b91a32", "" + d/1000);
+		deneme.getBelief("51ffa963106a029da6b91a32", "" + d/1000);*/
 	}
 }
