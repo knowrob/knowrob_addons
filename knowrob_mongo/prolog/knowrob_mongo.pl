@@ -26,7 +26,10 @@
       mng_transform_pose/5,
 
       mng_robot_pose/2,
-      mng_robot_pose_at_time/4
+      mng_robot_pose_at_time/4,
+
+      obj_blocked_by_in_camera/4,
+      obj_visible_in_camera/3
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -45,7 +48,10 @@
     mng_lookup_transform(+,+,r,-),
     mng_latest_designator_before_time(r,-,-),
     mng_tf_pose(r, r),
-    mng_tf_pose_at_time(r, +, r, r).
+    mng_tf_pose_at_time(r, +, r, r),
+
+    obj_blocked_by_in_camera(r, r, r, r),
+    obj_visible_in_camera(r, r, r).
 
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -309,11 +315,9 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
   once(owl_has(Camera, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(CamFrameID))),
   atom_concat('/', CamFrameID, CamFrame),
 
-  owl_has(Obj, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(ObjFrameID)),
-  atom_concat('/', ObjFrameID, ObjFrame),
-  
-  mng_transform_pose([1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1], ObjFrame,
-                    CamFrame, TimePoint, RelObjPose),
+
+  object_pose_at_time(Obj, TimePoint, PoseListObj),
+  mng_transform_pose(PoseListObj, '/map', CamFrame, TimePoint, RelObjPose),
 
   RelObjPose = [_,_,_,ObjX,_,_,_,ObjY,_,_,_,ObjZ,_,_,_,_],
 
@@ -327,7 +331,7 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
 
 
   
-obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint, ObjXDeg, ObjYDeg, BlkXDeg, BlkYDeg) :-
+obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
 
   findall(Camera, owl_individual_of(Camera, srdl2comp:'Camera'), Cameras),
   member(Camera, Cameras),
@@ -345,8 +349,8 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint, ObjXDeg, ObjYDeg, BlkX
   ObjBearingY is atan2(ObjZ, ObjX),
 
   % debug
-  ObjXDeg is ObjBearingX /2 /pi * 360,
-  ObjYDeg is ObjBearingY /2 /pi * 360,
+%   ObjXDeg is ObjBearingX /2 /pi * 360,
+%   ObjYDeg is ObjBearingY /2 /pi * 360,
   
   % Read poses of blocking robot parts w.r.t. camera
   sub_component('http://ias.cs.tum.edu/kb/PR2.owl#PR2Robot1', Blocker),
@@ -354,7 +358,7 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint, ObjXDeg, ObjYDeg, BlkX
   owl_has(Blocker, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(PartFrameID)),
   atom_concat('/', PartFrameID, PartFrame),
 
-  print(PartFrame),
+%   print(PartFrame),
   % transform identity pose from robot part frame to camera frame
   mng_transform_pose([1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1], PartFrame,
                      CamFrame, TimePoint, BlockerPoseInCamFrame),
@@ -363,11 +367,10 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint, ObjXDeg, ObjYDeg, BlkX
   BlkBearingY is atan2(BlkZ, BlkX),
 
   % debug
-  BlkXDeg is BlkBearingX /2 /pi * 360,
-  BlkYDeg is BlkBearingY /2 /pi * 360.
-%   ,
-%   
-%   abs(ObjBearingX - BlkBearingX) < 10/360 * 2 * pi,
-%   abs(ObjBearingY - BlkBearingY) < 10/360 * 2 * pi.
+%   BlkXDeg is BlkBearingX /2 /pi * 360,
+%   BlkYDeg is BlkBearingY /2 /pi * 360,
+   
+  abs(ObjBearingX - BlkBearingX) < 10/360 * 2 * pi,
+  abs(ObjBearingY - BlkBearingY) < 10/360 * 2 * pi.
 
 
