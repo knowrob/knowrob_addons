@@ -35,7 +35,7 @@
 
 
 :- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
+
 
 % define holds as meta-predicate and allow the definitions
 % to be in different parts of the source file
@@ -70,13 +70,14 @@
 
 
 
-task(Task) :-	
-	rdf_has(Task, rdf:type, A),
-	rdf_reachable(A, rdfs:subClassOf, modexecutiontrace:'CRAMEvent').
+task(Task) :-
+  owl_individual_of(Task, knowrob:'CRAMEvent').
+% 	rdf_has(Task, rdf:type, A),
+% 	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
 
-task_class(Task, Class) :-	
+task_class(Task, Class) :-
 	rdf_has(Task, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, modexecutiontrace:'CRAMEvent').
+	rdfs_subclass_of(Class, knowrob:'CRAMEvent').
 
 subtask(Task, Subtask) :-
 	task(Task),
@@ -109,21 +110,21 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, modexecutiontrace:'goalContext', Goal).
+	rdf_has(Task, knowrob:'goalContext', Goal).
 	% rdf_has(Task, rdf:type, Goal);
 
 	% task(Task),
 	% rdf_has(Task, rdf:type, Goal),
-	% Goal = modexecutiontrace:'AchieveGoalAction';
+	% Goal = knowrob:'AchieveGoalAction';
 
 	% task(Task),
 	% rdf_has(Task, rdf:type, Goal),
-	% rdf_has(Goal, rdfs:subClassOf, modexecutiontrace:'AchieveGoalAction');
+	% rdf_has(Goal, rdfs:subClassOf, knowrob:'AchieveGoalAction');
 
 	% task(Task),
 	% rdf_has(Task, rdf:type, Goal),
 	% rdf_has(Goal, rdfs:subClassOf, B),
-	% rdf_has(B, rdfs:subClassOf, modexecutiontrace:'AchieveGoalAction').
+	% rdf_has(B, rdfs:subClassOf, knowrob:'AchieveGoalAction').
 	
 task_start(Task, Start) :-
 	task(Task),
@@ -247,12 +248,12 @@ computable_perception_object_instances(Time, ObjectList) :-
 
 failure_class(Error, Class) :-	
 	rdf_has(Error, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, modexecutiontrace:'CRAMFailure').
+	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
 
 failure_task(Error, Task) :-
 	task(Task),	
 	failure_class(Error, Class),
-	rdf_has(Task, modexecutiontrace:'eventFailure', Error).
+	rdf_has(Task, knowrob:'eventFailure', Error).
 
 failure_attribute(Error,AttributeName,Value) :-
 	failure_class(Error, Class),
