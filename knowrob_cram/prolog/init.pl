@@ -19,3 +19,5 @@
 :- register_ros_package(knowrob_mongo).
 
 :- register_ros_package(knowrob_cram).
+
+:- owl_parser:owl_parse('../owl/knowrob_cram.owl', false, false, true).

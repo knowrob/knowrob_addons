@@ -15,7 +15,6 @@ rosbuild_find_ros_package(knowrob_mongo)
 set( LOCAL_PACKAGE_PATH ${knowrob_mongo_PACKAGE_PATH} )
 fix_ros_destination_path(MONGO_PACKAGE_PATH)
 
-
 file(GLOB inputs owl/*.in)
 foreach( _in ${inputs} )
   string(REPLACE ".in" "" _out ${_in})
