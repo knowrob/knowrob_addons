@@ -349,23 +349,21 @@ public class TFMemory {
 		Frame frame = frames.get(frameID);
 
 		// check if frame is inside time cache
-		boolean inside = false;
 		if(frame!=null && frame.getParentFrames()!=null) {
 			for(Frame f : frame.getParentFrames()) {
 
 				if(frame.getTimeCache(f).timeInBufferRange(new ISODate(time).getMilliSeconds())) {
-					inside = true;
-					break;
+					return frame;
 				}
 			}
 
-		} else if(frame!=null || !inside) {
-			
-			// load data from DB if frame is unknown or time not buffered yet
-			loadTransformFromDB(frameID, new ISODate(time).getDate());
-			frame = frames.get(frameID);
 		} 
+			
+		// load data from DB if frame is unknown or time not buffered yet
+		loadTransformFromDB(frameID, new ISODate(time).getDate());
+		frame = frames.get(frameID);
 		return frame;
+
 	}
 
 
