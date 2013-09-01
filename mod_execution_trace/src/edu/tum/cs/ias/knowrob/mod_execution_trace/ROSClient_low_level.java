@@ -163,8 +163,6 @@ public class ROSClient_low_level
 
 	public int timeComparison(String time1, String time2)
 	{
-		System.out.println("hello1");
-
 		StringTokenizer s1 = new StringTokenizer(time1, "_");
 		StringTokenizer s2 = new StringTokenizer(time2, "_");
 
@@ -214,6 +212,44 @@ public class ROSClient_low_level
             	}
 		
 		return 0;	
+	}
+
+	public int checkLocationChange(String designator, String object, String time)
+	{
+		StringTokenizer s1 = new StringTokenizer(time, "_");
+		s1.nextToken();
+		int time_l = Integer.parseInt(s1.nextToken()) -61;
+		Designator des = mdb.latestUIMAPerceptionBefore(time_l);
+		PoseStamped pose_stamped = (PoseStamped)des.get("pose");
+		Matrix4d poseMatrix = pose_stamped.getMatrix4d();
+		double[] dummy = new double[16];
+		dummy[0] = poseMatrix.getElement(0, 0); 
+		dummy[1] = poseMatrix.getElement(0, 1);
+		dummy[2] = poseMatrix.getElement(0, 2);
+		dummy[3] = poseMatrix.getElement(0, 3);
+		dummy[4] = poseMatrix.getElement(1, 0);
+		dummy[5] = poseMatrix.getElement(1, 1);
+		dummy[6] = poseMatrix.getElement(1, 2);
+		dummy[7] = poseMatrix.getElement(1, 3);
+		dummy[8] = poseMatrix.getElement(2, 0); 
+		dummy[9] = poseMatrix.getElement(2, 1);
+		dummy[10] = poseMatrix.getElement(2, 2);
+		dummy[11] = poseMatrix.getElement(2, 3);
+		dummy[12] = poseMatrix.getElement(3, 0);
+		dummy[13] = poseMatrix.getElement(3, 1);
+		dummy[14] = poseMatrix.getElement(3, 2);
+		dummy[15] = poseMatrix.getElement(3, 3);
+
+
+		StringTokenizer s2 = new StringTokenizer(designator, "_");
+		s2.nextToken();
+		String designator_id = s2.nextToken();
+
+		double[] m_old = getBeliefByDesignator(designator);
+		if(Math.abs(dummy[12] - m_old[12]) < 0.1 && Math.abs(dummy[13] - m_old[13]) < 0.1 && Math.abs(dummy[14] - m_old[14]) < 0.1)
+			return 0;
+		else return -1;
+
 	}
 
 	public static void main(String[] args) {

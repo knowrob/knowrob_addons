@@ -9,23 +9,17 @@
 	task_end/2,
 	cram_holds/2,
 	returned_value/2,
+	belief_at/2,
+	occurs/2,
 	computable_designator/2,
-	computable_belief/3,
-      	computable_truth/3,
 	computable_time_check/3,
 	computable_location_check/3,
 	computable_perception_time_instances/2,
 	computable_perception_object_instances/2,
-	%belief_at/2,
-	%truth_at/2,
+	computable_loc_change/2,
 	failure_class/2,
 	failure_task/2,
-	failure_attribute/3
-	%task_status done
-	%belief_at done
-	%occur
-	%holds_at _ during _tt(throughout) different predicates or single
-	
+	failure_attribute/3	
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -42,6 +36,12 @@
 :- meta_predicate cram_holds(0, ?, ?).
 :- discontiguous cram_holds/2.
 
+:- meta_predicate occurs(0, ?, ?).
+:- discontiguous occurs/2.
+
+:- meta_predicate cram_holds(0, ?, ?).
+:- discontiguous cram_holds/2.
+
 
 % define predicates as rdf_meta predicates
 % (i.e. rdf namespaces are automatically expanded)
@@ -53,17 +53,16 @@
     task_goal(r,r),
     task_start(r,r),
     task_end(r,r),
+    belief_at(r,r),
+    occurs(r,r),
     cram_holds(r,r),
     returned_value(r,r),
     computable_designator(r,r),
-    computable_belief(r,r,r),
-    computable_truth(r,r,r),
     computable_time_check(r,r,r),
     computable_location_check(r,r,r),
     computable_perception_time_instance(r,r),
     computable_perception_object_instance(r,r),
-    %belief_at(r,r),
-    %truth_at(r,r),
+    computable_loc_change(r,r),
     failure_class(r,r),
     failure_task(r,r),
     failure_attribute(r,r,r).
@@ -133,6 +132,26 @@ task_end(Task, End) :-
 	task(Task),
 	rdf_has(Task, knowrob:'endTime', End).
 
+belief_at(loc(Obj,Loc), Time) :-
+	var(Loc),
+	nonvar(Time),
+	task(Task),
+	computable_designator(Designator, Loc).
+
+occurs(loc_change(Obj),T)):-
+	task(Task),
+	rdf_has(Task, rdf:type, modexecutiontrace:'AchieveGoalPerceiveObject'),
+	returned_value(Task, Obj),
+        task_start(Task, T),
+	rdf_has(Task, knowrob:'designator', Designator),
+	computable_loc_change(Designator, Obj, T).
+
+occurs(object_perceived(Obj),T)):-
+	task(Task),
+	rdf_has(Task, rdf:type, modexecutiontrace:'AchieveGoalPerceiveObject'),
+	returned_value(Task, Obj),
+	task_start(Task, T).
+
 cram_holds(task_status(Task, Status), T):-
 	nonvar(Task),	
 	task(Task),
@@ -142,10 +161,10 @@ cram_holds(task_status(Task, Status), T):-
 	computable_time_check(T, End, Compare_Result2),
 	term_to_atom(Compare_Result1, c1),	
 	term_to_atom(Compare_Result2, c2),
-	((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted']))));
+	((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted'])))).
 
-	nonvar(Status),
-	nonvar(T).
+	%nonvar(Status),
+	%nonvar(T).
 
 cram_holds(object_visible(Object, Status), T):-
 	nonvar(Object),	
@@ -191,6 +210,19 @@ computable_designator(Designator, Loc) :-
 
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
+
+computable_loc_change(Designator, Object, T) :-
+    % create ROS client object
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+
+    Designator = literal(type(A,D)),
+
+    jpl_call(Client, 'getBeliefByDesignator', [Designator, Object, T], Result),
+
+    jpl_array_to_list(Result, ResultList),
+
+    [Compare_Result] = ResultList,
+    ((r is 0) -> (true);(false)).
 
 
 computable_time_check(Time1, Time2, Compare_Result) :-
