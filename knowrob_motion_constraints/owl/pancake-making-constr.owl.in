@@ -14,7 +14,7 @@
     <!ENTITY pancake-constr "http://ias.cs.tum.edu/kb/pancake-making-constr.owl#" >
     <!ENTITY spatula-features "http://ias.cs.tum.edu/kb/spatula-features.owl#" >
     
-    <!ENTITY pr2 "http://ias.cs.tum.edu/kb/PR2.owl#" >
+    <!ENTITY PR2 "http://ias.cs.tum.edu/kb/PR2.owl#" >
     <!ENTITY srdl2 "http://ias.cs.tum.edu/kb/srdl2.owl#" >
     <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
     <!ENTITY srdl2-cap "http://ias.cs.tum.edu/kb/srdl2-cap.owl#" >
