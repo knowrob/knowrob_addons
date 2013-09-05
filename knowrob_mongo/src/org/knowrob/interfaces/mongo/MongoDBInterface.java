@@ -238,10 +238,9 @@ public class MongoDBInterface {
 	
 	public Matrix4d getDesignatorLocation(String id) {
 		Matrix4d poseMatrix = null;	
-		DBCollection coll = db.getCollection("uima_uima_results");
-
+		DBCollection coll = db.getCollection("logged_designators");
 		DBObject query = QueryBuilder
-				.start("designator.__id").is(id).get();
+				.start("designator.__ID").is(id).get();
 
 		DBObject cols  = new BasicDBObject();
 		cols.put("__recorded", 1 );
@@ -253,8 +252,8 @@ public class MongoDBInterface {
 			while(cursor.hasNext()) {
 				
 				DBObject row = cursor.next();
-				Designator des = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
-				PoseStamped pose_stamped = (PoseStamped)des.get("pose");
+				Designator res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+				PoseStamped pose_stamped = (PoseStamped)res.get("POSE");
 				poseMatrix = pose_stamped.getMatrix4d();
 				break;
 				

@@ -93,10 +93,11 @@ public class ROSClient_low_level
                
         }
 
-
 	public double[] getBeliefByDesignator(String designatorId) 
 	{
-		System.out.println(designatorId);
+		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
+		s1.nextToken();
+		designatorId= s1.nextToken();
 		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
 
 		/*double o_x, o_y, o_z, o_w;
@@ -112,23 +113,26 @@ public class ROSClient_low_level
 		w = Double.parseDouble((String)d.get("pose.pose.position.w"));*/
 
 		double[] dummy = new double[16];
-
-		dummy[0] = poseMatrix.getElement(0, 0); 
-		dummy[1] = poseMatrix.getElement(0, 1);
-		dummy[2] = poseMatrix.getElement(0, 2);
-		dummy[3] = poseMatrix.getElement(0, 3);
-		dummy[4] = poseMatrix.getElement(1, 0);
-		dummy[5] = poseMatrix.getElement(1, 1);
-		dummy[6] = poseMatrix.getElement(1, 2);
-		dummy[7] = poseMatrix.getElement(1, 3);
-		dummy[8] = poseMatrix.getElement(2, 0); 
-		dummy[9] = poseMatrix.getElement(2, 1);
-		dummy[10] = poseMatrix.getElement(2, 2);
-		dummy[11] = poseMatrix.getElement(2, 3);
-		dummy[12] = poseMatrix.getElement(3, 0);
-		dummy[13] = poseMatrix.getElement(3, 1);
-		dummy[14] = poseMatrix.getElement(3, 2);
-		dummy[15] = poseMatrix.getElement(3, 3);
+		if(poseMatrix != null)
+		{
+			dummy[0] = poseMatrix.getElement(0, 0); 
+			dummy[1] = poseMatrix.getElement(0, 1);
+			dummy[2] = poseMatrix.getElement(0, 2);
+			dummy[3] = poseMatrix.getElement(0, 3);
+			dummy[4] = poseMatrix.getElement(1, 0);
+			dummy[5] = poseMatrix.getElement(1, 1);
+			dummy[6] = poseMatrix.getElement(1, 2);
+			dummy[7] = poseMatrix.getElement(1, 3);
+			dummy[8] = poseMatrix.getElement(2, 0); 
+			dummy[9] = poseMatrix.getElement(2, 1);
+			dummy[10] = poseMatrix.getElement(2, 2);
+			dummy[11] = poseMatrix.getElement(2, 3);
+			dummy[12] = poseMatrix.getElement(3, 0);
+			dummy[13] = poseMatrix.getElement(3, 1);
+			dummy[14] = poseMatrix.getElement(3, 2);
+			dummy[15] = poseMatrix.getElement(3, 3);
+		}
+		else dummy[15] = -1;
 		
 		return dummy;
 		
@@ -214,39 +218,43 @@ public class ROSClient_low_level
 		return 0;	
 	}
 
-	public int checkLocationChange(String designator, String object, String time)
+	public int checkLocationChange(String designator, String time)
 	{
 		StringTokenizer s1 = new StringTokenizer(time, "_");
 		s1.nextToken();
+		System.out.println(s1.nextToken());
 		int time_l = Integer.parseInt(s1.nextToken()) -61;
 		Designator des = mdb.latestUIMAPerceptionBefore(time_l);
-		PoseStamped pose_stamped = (PoseStamped)des.get("pose");
-		Matrix4d poseMatrix = pose_stamped.getMatrix4d();
+		PoseStamped pose_stamped = null;
+		Matrix4d poseMatrix = null;
+		if(des != null) 
+		{
+			pose_stamped = (PoseStamped)des.get("POSE");
+			poseMatrix = pose_stamped.getMatrix4d();
+		}
 		double[] dummy = new double[16];
-		dummy[0] = poseMatrix.getElement(0, 0); 
-		dummy[1] = poseMatrix.getElement(0, 1);
-		dummy[2] = poseMatrix.getElement(0, 2);
-		dummy[3] = poseMatrix.getElement(0, 3);
-		dummy[4] = poseMatrix.getElement(1, 0);
-		dummy[5] = poseMatrix.getElement(1, 1);
-		dummy[6] = poseMatrix.getElement(1, 2);
-		dummy[7] = poseMatrix.getElement(1, 3);
-		dummy[8] = poseMatrix.getElement(2, 0); 
-		dummy[9] = poseMatrix.getElement(2, 1);
-		dummy[10] = poseMatrix.getElement(2, 2);
-		dummy[11] = poseMatrix.getElement(2, 3);
-		dummy[12] = poseMatrix.getElement(3, 0);
-		dummy[13] = poseMatrix.getElement(3, 1);
-		dummy[14] = poseMatrix.getElement(3, 2);
-		dummy[15] = poseMatrix.getElement(3, 3);
-
-
-		StringTokenizer s2 = new StringTokenizer(designator, "_");
-		s2.nextToken();
-		String designator_id = s2.nextToken();
+		if(poseMatrix != null)
+		{
+			dummy[0] = poseMatrix.getElement(0, 0); 
+			dummy[1] = poseMatrix.getElement(0, 1);
+			dummy[2] = poseMatrix.getElement(0, 2);
+			dummy[3] = poseMatrix.getElement(0, 3);
+			dummy[4] = poseMatrix.getElement(1, 0);
+			dummy[5] = poseMatrix.getElement(1, 1);
+			dummy[6] = poseMatrix.getElement(1, 2);
+			dummy[7] = poseMatrix.getElement(1, 3);
+			dummy[8] = poseMatrix.getElement(2, 0); 
+			dummy[9] = poseMatrix.getElement(2, 1);
+			dummy[10] = poseMatrix.getElement(2, 2);
+			dummy[11] = poseMatrix.getElement(2, 3);
+			dummy[12] = poseMatrix.getElement(3, 0);
+			dummy[13] = poseMatrix.getElement(3, 1);
+			dummy[14] = poseMatrix.getElement(3, 2);
+			dummy[15] = poseMatrix.getElement(3, 3);
+		}
 
 		double[] m_old = getBeliefByDesignator(designator);
-		if(Math.abs(dummy[12] - m_old[12]) < 0.1 && Math.abs(dummy[13] - m_old[13]) < 0.1 && Math.abs(dummy[14] - m_old[14]) < 0.1)
+		if(poseMatrix != null && Math.abs(dummy[12] - m_old[12]) < 0.1 && Math.abs(dummy[13] - m_old[13]) < 0.1 && Math.abs(dummy[14] - m_old[14]) < 0.1)
 			return 0;
 		else return -1;
 

@@ -29,7 +29,7 @@
 
 
 :- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
-
+:- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
 
 % define holds as meta-predicate and allow the definitions
 % to be in different parts of the source file
@@ -39,8 +39,8 @@
 :- meta_predicate occurs(0, ?, ?).
 :- discontiguous occurs/2.
 
-:- meta_predicate cram_holds(0, ?, ?).
-:- discontiguous cram_holds/2.
+:- meta_predicate belief_at(0, ?, ?).
+:- discontiguous belief_at/2.
 
 
 % define predicates as rdf_meta predicates
@@ -69,14 +69,17 @@
 
 
 
-task(Task) :-
-  owl_individual_of(Task, knowrob:'CRAMEvent').
-% 	rdf_has(Task, rdf:type, A),
-% 	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
+task(Task) :-	
+	rdf_has(Task, rdf:type, A),
+	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent');
 
-task_class(Task, Class) :-
+	rdf_has(Task, rdf:type, knowrob:'VisualPerception').
+task_class(Task, Class) :-	
 	rdf_has(Task, rdf:type, Class),
-	rdfs_subclass_of(Class, knowrob:'CRAMEvent').
+	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent');
+
+	rdf_has(Task, rdf:type, Class),
+	rdf_reachable(Class, rdfs:subClassOf, knowrob:'VisualPerception').
 
 subtask(Task, Subtask) :-
 	task(Task),
@@ -109,21 +112,7 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, knowrob:'goalContext', Goal).
-	% rdf_has(Task, rdf:type, Goal);
-
-	% task(Task),
-	% rdf_has(Task, rdf:type, Goal),
-	% Goal = knowrob:'AchieveGoalAction';
-
-	% task(Task),
-	% rdf_has(Task, rdf:type, Goal),
-	% rdf_has(Goal, rdfs:subClassOf, knowrob:'AchieveGoalAction');
-
-	% task(Task),
-	% rdf_has(Task, rdf:type, Goal),
-	% rdf_has(Goal, rdfs:subClassOf, B),
-	% rdf_has(B, rdfs:subClassOf, knowrob:'AchieveGoalAction').
+	rdf_has(Task, knowrob:'taskContext', Goal).
 	
 task_start(Task, Start) :-
 	task(Task),
@@ -136,20 +125,26 @@ task_end(Task, End) :-
 belief_at(loc(Obj,Loc), Time) :-
 	var(Loc),
 	nonvar(Time),
+	rdf_transaction((
 	task(Task),
-	computable_designator(Designator, Loc).
+	task_end(Task, Time),
+	returned_value(Task, Obj),
+	rdf_has(Task, knowrob:'perceptionResult', Designator),
+	computable_designator(Designator, Loc))).
 
-occurs(loc_change(Obj),T)):-
-	task(Task),
-	rdf_has(Task, rdf:type, modexecutiontrace:'AchieveGoalPerceiveObject'),
+occurs(loc_change(Obj),T) :-
+	nonvar(Obj),
+	nonvar(T),
+	task_class(Task, knowrob:'VisualPerception'),
 	returned_value(Task, Obj),
         task_start(Task, T),
-	rdf_has(Task, knowrob:'designator', Designator),
-	computable_loc_change(Designator, Obj, T).
+	rdf_has(Task, knowrob:'perceptionResult', Designator),
+	computable_loc_change(Designator, T).
 
-occurs(object_perceived(Obj),T)):-
-	task(Task),
-	rdf_has(Task, rdf:type, modexecutiontrace:'AchieveGoalPerceiveObject'),
+occurs(object_perceived(Obj),T) :-
+	nonvar(Obj),
+	nonvar(T),
+	task_class(Task, knowrob:'VisualPerception'),
 	returned_value(Task, Obj),
 	task_start(Task, T).
 
@@ -163,9 +158,6 @@ cram_holds(task_status(Task, Status), T):-
 	term_to_atom(Compare_Result1, c1),	
 	term_to_atom(Compare_Result2, c2),
 	((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted'])))).
-
-	%nonvar(Status),
-	%nonvar(T).
 
 cram_holds(object_visible(Object, Status), T):-
 	nonvar(Object),	
@@ -193,15 +185,17 @@ cram_holds(object_placed_at(Object, Loc), T):-
 
 returned_value(Task, Obj) :-
 	rdf_has(Task, rdf:type, knowrob:'VisualPerception'),
-	rdf_has(Task, knowrob:'detectedObject', Obj).
+	rdf_has(Task, knowrob:'detectedObject', Obj);
+	
+	task(Task),
+	failure_task(Obj, Task).
 
 computable_designator(Designator, Loc) :-
-    % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    Designator = literal(type(A,D)),
+    % Designator = literal(type(A,D)),
 
-    jpl_call(Client, 'getBeliefByDesignator', [D], Localization_Array),
+    jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
 
     jpl_array_to_list(Localization_Array, LocList),
 
@@ -212,18 +206,16 @@ computable_designator(Designator, Loc) :-
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
 
-computable_loc_change(Designator, Object, T) :-
+computable_loc_change(Designator, Time) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    Designator = literal(type(A,D)),
-
-    jpl_call(Client, 'getBeliefByDesignator', [Designator, Object, T], Result),
+    jpl_call(Client, 'checkLocationChange', [Designator, Time], Result),
 
     jpl_array_to_list(Result, ResultList),
 
     [Compare_Result] = ResultList,
-    ((r is 0) -> (true);(false)).
+    ((Compare_Result is -1) -> (true);(false)).
 
 
 computable_time_check(Time1, Time2, Compare_Result) :-
