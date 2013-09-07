@@ -11,12 +11,12 @@
 	returned_value/2,
 	belief_at/2,
 	occurs/2,
-	computable_designator/2,
-	computable_time_check/3,
-	computable_location_check/3,
-	computable_perception_time_instances/2,
-	computable_perception_object_instances/2,
-	computable_loc_change/2,
+	javarun_designator/2,
+	javarun_time_check/3,
+	javarun_location_check/3,
+	javarun_perception_time_instances/2,
+	javarun_perception_object_instances/2,
+	javarun_loc_change/2,
 	failure_class/2,
 	failure_task/2,
 	failure_attribute/3	
@@ -24,7 +24,7 @@
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('semweb/rdfs_computable')).
+:- use_module(library('semweb/rdfs_javarun')).
 :- use_module(library('thea/owl_parser')).
 
 
@@ -57,12 +57,12 @@
     occurs(r,r),
     cram_holds(r,r),
     returned_value(r,r),
-    computable_designator(r,r),
-    computable_time_check(r,r,r),
-    computable_location_check(r,r,r),
-    computable_perception_time_instance(r,r),
-    computable_perception_object_instance(r,r),
-    computable_loc_change(r,r),
+    javarun_designator(r,r),
+    javarun_time_check(r,r,r),
+    javarun_location_check(r,r,r),
+    javarun_perception_time_instance(r,r),
+    javarun_perception_object_instance(r,r),
+    javarun_loc_change(r,r),
     failure_class(r,r),
     failure_task(r,r),
     failure_attribute(r,r,r).
@@ -130,7 +130,7 @@ belief_at(loc(Obj,Loc), Time) :-
 	task_end(Task, Time),
 	returned_value(Task, Obj),
 	rdf_has(Task, knowrob:'perceptionResult', Designator),
-	computable_designator(Designator, Loc))).
+	javarun_designator(Designator, Loc))).
 
 occurs(loc_change(Obj),T) :-
 	nonvar(Obj),
@@ -139,7 +139,7 @@ occurs(loc_change(Obj),T) :-
 	returned_value(Task, Obj),
         task_start(Task, T),
 	rdf_has(Task, knowrob:'perceptionResult', Designator),
-	computable_loc_change(Designator, T).
+	javarun_loc_change(Designator, T).
 
 occurs(object_perceived(Obj),T) :-
 	nonvar(Obj),
@@ -153,8 +153,8 @@ cram_holds(task_status(Task, Status), T):-
 	task(Task),
 	task_start(Task, Start),
 	task_end(Task, End),
-	computable_time_check(Start, T, Compare_Result1),
-	computable_time_check(T, End, Compare_Result2),
+	javarun_time_check(Start, T, Compare_Result1),
+	javarun_time_check(T, End, Compare_Result2),
 	term_to_atom(Compare_Result1, c1),	
 	term_to_atom(Compare_Result2, c2),
 	((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted'])))).
@@ -162,24 +162,24 @@ cram_holds(task_status(Task, Status), T):-
 cram_holds(object_visible(Object, Status), T):-
 	nonvar(Object),	
 	nonvar(T),
-	computable_belief(Object, T, Loc),
+	javarun_belief(Object, T, Loc),
 	rdf_triple(comp_spatial:'m01', Loc, Result),
 	term_to_atom(Result, r),
-	((r is -1) -> (Status = [true]);(Status = [false]));
+	((r is -1) -> (Status = [true]);(Status = [false])).
 	
-	nonvar(Object),
-	var(T),	
-	computable_perception_time_instances(Object, T),
-	Status = [true];
+	%nonvar(Object),
+	%var(T),	
+	%javarun_perception_time_instances(Object, T),
+	%Status = [true];
 
-	var(Object),
-	nonvar(T),	
-	computable_perception_object_instances(T, Object),
-	Status = [true].	
+	%var(Object),
+	%nonvar(T),	
+	%javarun_perception_object_instances(T, Object),
+	%Status = [true].	
 
 cram_holds(object_placed_at(Object, Loc), T):-
-	computable_belief(Object, T, Actual_Loc),
-	computable_time_check(Loc, Actual_Loc, Compare_Result),
+	javarun_belief(Object, T, Actual_Loc),
+	javarun_time_check(Loc, Actual_Loc, Compare_Result),
 	term_to_atom(Compare_Result, r),
 	((r is 0) -> (true);(false)).
 
@@ -190,7 +190,7 @@ returned_value(Task, Obj) :-
 	task(Task),
 	failure_task(Obj, Task).
 
-computable_designator(Designator, Loc) :-
+javarun_designator(Designator, Loc) :-
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
     % Designator = literal(type(A,D)),
@@ -206,7 +206,7 @@ computable_designator(Designator, Loc) :-
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
 
-computable_loc_change(Designator, Time) :-
+javarun_loc_change(Designator, Time) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
@@ -218,37 +218,29 @@ computable_loc_change(Designator, Time) :-
     ((Compare_Result is -1) -> (true);(false)).
 
 
-computable_time_check(Time1, Time2, Compare_Result) :-
+javarun_time_check(Time1, Time2, Compare_Result) :-
     
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    term_to_atom(Time1, t1),
-
-    term_to_atom(Time2, t2),
-
-    jpl_call(Client, 'timeComparison', [t1, t2], Result),
+    jpl_call(Client, 'timeComparison', [Time1, Time2], Result),
 
     jpl_array_to_list(Result, ResultList),
 
     [Compare_Result] = ResultList.
 
-computable_location_check(L1, L2, Compare_Result) :-
+javarun_location_check(L1, L2, Compare_Result) :-
     
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    term_to_atom(L1, l1),
-
-    term_to_atom(L2, l2),
-
-    jpl_call(Client, 'locationComparison', [l1, l2], Result),
+    jpl_call(Client, 'locationComparison', [L1, L2], Result),
 
     jpl_array_to_list(Result, ResultList),
 
     [Compare_Result] = ResultList.
 
-computable_perception_time_instances(Object, TimeList) :-
+javarun_perception_time_instances(Object, TimeList) :-
 
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
@@ -259,7 +251,7 @@ computable_perception_time_instances(Object, TimeList) :-
 
     jpl_array_to_list(Times, TimeList).
 
-computable_perception_object_instances(Time, ObjectList) :-
+javarun_perception_object_instances(Time, ObjectList) :-
 
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
