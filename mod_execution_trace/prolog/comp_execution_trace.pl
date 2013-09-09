@@ -24,7 +24,7 @@
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('semweb/rdfs_javarun')).
+:- use_module(library('semweb/rdfs_computable')).
 :- use_module(library('thea/owl_parser')).
 
 
@@ -223,42 +223,30 @@ javarun_time_check(Time1, Time2, Compare_Result) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    jpl_call(Client, 'timeComparison', [Time1, Time2], Result),
+    jpl_call(Client, 'timeComparison', [Time1, Time2], Compare_Result).
 
-    jpl_array_to_list(Result, ResultList),
-
-    [Compare_Result] = ResultList.
 
 javarun_location_check(L1, L2, Compare_Result) :-
     
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    jpl_call(Client, 'locationComparison', [L1, L2], Result),
-
-    jpl_array_to_list(Result, ResultList),
-
-    [Compare_Result] = ResultList.
+    jpl_call(Client, 'locationComparison', [L1, L2], Compare_Result).
 
 javarun_perception_time_instances(Object, TimeList) :-
 
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    term_to_atom(Object, o1),
-
-    jpl_call(Client, 'getPerceptionTimeStamps', [o1], Times),
+    jpl_call(Client, 'getPerceptionTimeStamps', [Object], Times),
 
     jpl_array_to_list(Times, TimeList).
 
 javarun_perception_object_instances(Time, ObjectList) :-
-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    term_to_atom(Object, o1),
-
-    jpl_call(Client, 'getPerceptionObjects', [o1], Objects),
+    jpl_call(Client, 'getPerceptionObjects', [Time], Objects),
 
     jpl_array_to_list(Objects, ObjectList).
 
@@ -268,9 +256,9 @@ failure_class(Error, Class) :-
 
 failure_task(Error, Task) :-
 	task(Task),	
-	failure_class(Error, Class),
+	%failure_class(Error, Class),
 	rdf_has(Task, knowrob:'eventFailure', Error).
 
 failure_attribute(Error,AttributeName,Value) :-
-	failure_class(Error, Class),
+	%failure_class(Error, Class),
 	rdf_has(Error, AttributeName, Value).
