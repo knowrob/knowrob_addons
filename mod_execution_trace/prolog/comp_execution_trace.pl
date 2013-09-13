@@ -112,7 +112,7 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, knowrob:'taskContext', Goal).
+	rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal))).
 	
 task_start(Task, Start) :-
 	task(Task),
