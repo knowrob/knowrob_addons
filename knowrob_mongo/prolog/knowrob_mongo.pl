@@ -245,11 +245,14 @@ mng_robot_pose(Robot, Pose) :-
 % @param Pose         Instance of a knowrob:RotationMatrix3D with the pose data
 %
 mng_robot_pose_at_time(Robot, TargetFrame, TimePoint, Pose) :-
+
   findall(S, (sub_component(Robot, S),
               owl_individual_of(S, srdl2comp:'UrdfLink')), Ss),
+
   sort(Ss, Ssorted),
-  member(Sub, Ssorted),
-  mng_comp_pose_at_time(Sub, TargetFrame, TimePoint, Pose).
+  findall(P, (member(Sub, Ssorted),mng_comp_pose_at_time(Sub, TargetFrame, TimePoint, P)), Ps),
+
+  nth0(0, Ps, Pose).
 
 
 
