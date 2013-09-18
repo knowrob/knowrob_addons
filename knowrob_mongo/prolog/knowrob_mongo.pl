@@ -21,12 +21,14 @@
       mng_designator_type/2,
       mng_designator_props/3,
       mng_obj_pose_by_desig/2,
-      
+
       mng_lookup_transform/4,
       mng_transform_pose/5,
 
       mng_robot_pose/2,
       mng_robot_pose_at_time/4,
+      mng_comp_pose/2,
+      mng_comp_pose_at_time/4,
 
       obj_blocked_by_in_camera/4,
       obj_visible_in_camera/3
@@ -47,8 +49,11 @@
 :-  rdf_meta
     mng_lookup_transform(+,+,r,-),
     mng_latest_designator_before_time(r,-,-),
-    mng_tf_pose(r, r),
-    mng_tf_pose_at_time(r, +, r, r),
+
+    mng_robot_pose(r, r),
+    mng_robot_pose_at_time(r, +, r, r),
+    mng_comp_pose(r, r),
+    mng_comp_pose_at_time(r, +, r, r),
 
     obj_blocked_by_in_camera(r, r, r, r),
     obj_visible_in_camera(r, r, r).
@@ -63,7 +68,7 @@
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Designator integration
-% 
+%
 
 %% mng_latest_designator_before_time(+TimePoint, -Type, -Pose) is nondet.
 %
@@ -103,7 +108,7 @@ mng_designator_type(Designator, Type) :-
   jpl_call(DB, 'getDesignatorByID', [DesigID], DesigJava),
 
   jpl_call(DesigJava, 'getType', [], Type).
-   
+
 
 mng_designator_props(Designator, Prop, Value) :-
 
@@ -114,7 +119,7 @@ mng_designator_props(Designator, Prop, Value) :-
 
   jpl_call(DesigJava, 'keySet', [], PropsSet),
   jpl_set_element(PropsSet, Prop),
-  
+
   once(mng_desig_get_value(Designator, DesigJava, Prop, Value)).
 
 
@@ -152,7 +157,7 @@ mng_desig_get_value(Designator, DesigJava, Prop, Pose) :-
 
   % determine detection type (e.g. perception)
   jpl_call(DesigJava, 'getDetectionType', [], DetectionType),
-  
+
   % create perception instance attached to the object this designator belongs to
   atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', DetectionType, DClass),
   rdf_instance_from_class(DClass, Detection),
@@ -218,21 +223,50 @@ mng_transform_pose(PoseListIn, SourceFrame, TargetFrame, TimePoint, PoseListOut)
   knowrob_coordinates:matrix4d_to_list(MatrixOut2, PoseListOut).
 
 
+%% mng_robot_pose(+Robot, -Pose) is nondet.
+%
+% Compute the pose of all components of the robot at the current point in time.
+%
+% @param Robot        Instance of a robot in SRDL
+% @param Pose         Instance of a knowrob:RotationMatrix3D with the pose data
+%
+mng_robot_pose(Robot, Pose) :-
+  get_timepoint(TimePoint),
+  mng_robot_pose_at_time(Robot, '/map', TimePoint, Pose).
 
-%% mng_robot_pose(+RobotPart, -Pose) is nondet.
+
+%% mng_robot_pose_at_time(Robot, TargetFrame, TimePoint, Pose) is nondet.
+%
+% Compute the pose of all components of the robot at the given point in time.
+%
+% @param Robot        Instance of a robot in SRDL
+% @param TargetFrame  Atom with tf frame ID in which the pose shall be returned (e.g. '/map')
+% @param TimePoint    Instance of knowrob:TimePoint
+% @param Pose         Instance of a knowrob:RotationMatrix3D with the pose data
+%
+mng_robot_pose_at_time(Robot, TargetFrame, TimePoint, Pose) :-
+  findall(S, (sub_component(Robot, S),
+              owl_individual_of(S, srdl2comp:'UrdfLink')), Ss),
+  sort(Ss, Ssorted),
+  member(Sub, Ssorted),
+  mng_comp_pose_at_time(Sub, TargetFrame, TimePoint, Pose).
+
+
+
+%% mng_comp_pose(+RobotPart, -Pose) is nondet.
 %
 % Read the pose of RobotPart in /map coordinates from logged tf data, default to 'now'
 %
 % @param RobotPart  Instance of a robot part with the 'urdfName' property set
 % @param Pose       Instance of a knowrob:RotationMatrix3D with the pose data
 %
-mng_robot_pose(RobotPart, Pose) :-
+mng_comp_pose(RobotPart, Pose) :-
 
   get_timepoint(TimePoint),
-  mng_robot_pose_at_time(RobotPart, '/map', TimePoint, Pose).
+  mng_comp_pose_at_time(RobotPart, '/map', TimePoint, Pose).
 
 
-%% mng_robot_pose_at_time(+RobotPart, +TargetFrame, +TimePoint, -Pose) is nondet.
+%% mng_comp_pose_at_time(+RobotPart, +TargetFrame, +TimePoint, -Pose) is nondet.
 %
 % Read the pose of RobotPart in the given coordinate frame from logged tf data
 %
@@ -241,11 +275,11 @@ mng_robot_pose(RobotPart, Pose) :-
 % @param TimePoint    Instance of knowrob:TimePoint
 % @param Pose         Instance of a knowrob:RotationMatrix3D with the pose data
 %
-mng_robot_pose_at_time(RobotPart, TargetFrame, TimePoint, Pose) :-
+mng_comp_pose_at_time(RobotPart, TargetFrame, TimePoint, Pose) :-
 
   owl_has(RobotPart, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(SourceFrameID)),
   atom_concat('/', SourceFrameID, SourceFrame),
-  
+
   mng_obj_pose_at_time(RobotPart, SourceFrame, TargetFrame, TimePoint, Pose).
 
 
@@ -267,12 +301,14 @@ mng_obj_pose_at_time(Obj, SourceFrame, TargetFrame, TimePoint, Pose) :-
   (object_pose_at_time(Obj, TimePoint, PoseListIn)
      -> true ;
         PoseListIn = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),
-        
+
   mng_transform_pose(PoseListIn, SourceFrame, TargetFrame, TimePoint, PoseListOut),
   create_pose(PoseListOut, Pose),
   rdf_assert(Pose, knowrob:tfFrame, TargetFrame),
 
-  create_perception_instance(['Proprioception'], Perception),
+  rdf_instance_from_class('http://ias.cs.tum.edu/kb/knowrob.owl#Proprioception', Perception),
+  rdf_assert(Perception, knowrob:startTime, TimePoint),
+
   set_object_perception(Obj, Perception),
   rdf_assert(Perception, knowrob:eventOccursAt, Pose),
 
@@ -288,7 +324,7 @@ mng_obj_pose_at_time(Obj, SourceFrame, TargetFrame, TimePoint, Pose) :-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Higher-level reasoning methods
 %
-  
+
 %% obj_visible_in_camera(+Obj, ?Camera, +TimePoint) is nondet.
 %
 % Check if Obj is visible by Camera at time TimePoint.
@@ -330,7 +366,7 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
 
 
 
-  
+
 obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
 
   findall(Camera, owl_individual_of(Camera, srdl2comp:'Camera'), Cameras),
@@ -340,7 +376,7 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
   once(owl_has(Camera, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#urdfName', literal(CamFrameID))),
   atom_concat('/', CamFrameID, CamFrame),
 
-  
+
   % Read object pose w.r.t. camera
   object_pose_at_time(Obj, TimePoint, PoseListObj),
   mng_transform_pose(PoseListObj, '/map', CamFrame, TimePoint, ObjPoseInCamFrame),
@@ -351,7 +387,7 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
   % debug
 %   ObjXDeg is ObjBearingX /2 /pi * 360,
 %   ObjYDeg is ObjBearingY /2 /pi * 360,
-  
+
   % Read poses of blocking robot parts w.r.t. camera
   sub_component('http://ias.cs.tum.edu/kb/PR2.owl#PR2Robot1', Blocker),
   rdfs_individual_of(Blocker, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#UrdfLink'),
@@ -369,7 +405,7 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
   % debug
 %   BlkXDeg is BlkBearingX /2 /pi * 360,
 %   BlkYDeg is BlkBearingY /2 /pi * 360,
-   
+
   abs(ObjBearingX - BlkBearingX) < 10/360 * 2 * pi,
   abs(ObjBearingY - BlkBearingY) < 10/360 * 2 * pi.
 

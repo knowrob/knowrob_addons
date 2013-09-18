@@ -31,15 +31,15 @@
         <owl:imports rdf:resource="&srdl_path;srdl2-comp.owl"/>
     </owl:Ontology>
 
-    
+
     <!-- Computable definitions -->
 
-    <computable:PrologProperty rdf:about="#computeTfOrientation">
+<!--    <computable:PrologProperty rdf:about="#computeTfOrientation">
         <computable:command rdf:datatype="&xsd;string">mng_tf_pose</computable:command>
         <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
         <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
         <computable:target rdf:resource="&knowrob;orientation"/>
-    </computable:PrologProperty>
+    </computable:PrologProperty>-->
 
 
 </rdf:RDF>
