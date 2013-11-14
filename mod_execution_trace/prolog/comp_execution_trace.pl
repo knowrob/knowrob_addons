@@ -112,15 +112,21 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, knowrob:goalContext, literal(type(_, Goal))).
+	rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
 task_start(Task, Start) :-
 	task(Task),
-	rdf_has(Task, knowrob:'startTime', Start).
+	rdf_has(Task, knowrob:'startTime', StT).%,
+% 	rdf_split_url(_, TimePointLocal, StT),
+% 	atom_concat('timepoint_', TimeAtom, TimePointLocal),
+% 	term_to_atom(Start, TimeAtom).
 
 task_end(Task, End) :-
 	task(Task),
-	rdf_has(Task, knowrob:'endTime', End).
+	rdf_has(Task, knowrob:'endTime', EndT).%,
+%         rdf_split_url(_, TimePointLocal, EndT),
+%         atom_concat('timepoint_', TimeAtom, TimePointLocal),
+%         term_to_atom(End, TimeAtom).
 
 belief_at(loc(Obj,Loc), Time) :-
 	var(Loc),
