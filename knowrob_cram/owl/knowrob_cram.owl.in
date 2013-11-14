@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE rdf:RDF [
-          
+
           <!ENTITY local_path 'file://@IAS_KB_PACKAGE_PATH@/owl/'>
           <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
           <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
@@ -191,6 +191,13 @@
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CRAMMonitor -->
 
     <owl:Class rdf:about="&knowrob;CRAMMonitor">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
+    </owl:Class>
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CRAMMonitor -->
+
+    <owl:Class rdf:about="&knowrob;CRAMAchieve">
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
     </owl:Class>
 
