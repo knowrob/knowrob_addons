@@ -21,10 +21,10 @@
     <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl">
         <owl:imports rdf:resource="&local_path;knowrob.owl"/>
     </owl:Ontology>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Annotation properties
@@ -32,16 +32,16 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://www.w3.org/2000/01/rdf-schema#comment -->
 
     <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Object Properties
@@ -49,7 +49,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
     <owl:Class rdf:about="&knowrob;ToolFeature">
         <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>
@@ -69,7 +69,7 @@
         <rdfs:range rdf:resource="&knowrob;SpatialThing-Localized"/>
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
     </owl:ObjectProperty>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#worldFeature -->
@@ -78,10 +78,10 @@
         <rdfs:range rdf:resource="&knowrob;SpatialThing-Localized"/>
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
     </owl:ObjectProperty>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Data properties
@@ -89,7 +89,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrLowerLimit -->
@@ -99,7 +99,7 @@
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
         <rdfs:range rdf:resource="&xsd;double"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrMaxVelocity -->
@@ -109,7 +109,7 @@
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
         <rdfs:range rdf:resource="&xsd;double"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrMinVelocity -->
@@ -119,7 +119,7 @@
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
         <rdfs:range rdf:resource="&xsd;double"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrUpperLimit -->
@@ -129,7 +129,7 @@
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
         <rdfs:range rdf:resource="&xsd;double"/>
     </owl:DatatypeProperty>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrWeight -->
@@ -139,10 +139,10 @@
         <rdfs:domain rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
         <rdfs:range rdf:resource="&xsd;double"/>
     </owl:DatatypeProperty>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Classes
@@ -150,7 +150,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#ITaSCMotion -->
@@ -158,19 +158,19 @@
     <owl:Class rdf:about="&knowrob;ITaSCMotion">
         <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#SpatialThing-Localized -->
 
     <owl:Class rdf:about="&knowrob;SpatialThing-Localized"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#VoluntaryBodyMovement -->
 
     <owl:Class rdf:about="&knowrob;VoluntaryBodyMovement"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#AngleConstraint -->
@@ -178,7 +178,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#AngleConstraint">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#DirectionConstraint -->
@@ -186,7 +186,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#DirectionConstraint">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#DistanceConstraint -->
@@ -194,7 +194,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#DistanceConstraint">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#FastMotionConstraint -->
@@ -208,7 +208,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#HeightConstraint -->
@@ -216,7 +216,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#HeightConstraint">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#MediumVelMotionConstraint -->
@@ -230,13 +230,13 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint -->
 
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType -->
@@ -244,7 +244,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByVelocity -->
@@ -252,7 +252,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByVelocity">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraint"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint -->
@@ -260,7 +260,7 @@
     <owl:Class rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint">
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType"/>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#PointingAtConstraint -->
@@ -269,7 +269,7 @@
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/motion-constraints.owl#MotionConstraintByType"/>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#SlowMotionConstraint -->
@@ -283,7 +283,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#VeryFastMotionConstraint -->
@@ -297,7 +297,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#VerySlowMotionConstraint -->

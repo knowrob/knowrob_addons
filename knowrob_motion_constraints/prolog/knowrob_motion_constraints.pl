@@ -120,7 +120,7 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
 
     class_properties(Constr, constr:toolFeature, ToolFeatureClass),
     owl_individual_of(ToolFeature, ToolFeatureClass),!,
-    
+
     class_properties(Constr, constr:worldFeature, WorldFeatureClass),
     owl_individual_of(WorldFeature, WorldFeatureClass),!,
 

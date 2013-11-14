@@ -19,7 +19,7 @@
 	javarun_loc_change/2,
 	failure_class/2,
 	failure_task/2,
-	failure_attribute/3	
+	failure_attribute/3
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -69,12 +69,12 @@
 
 
 
-task(Task) :-	
+task(Task) :-
 	rdf_has(Task, rdf:type, A),
 	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent');
 
 	rdf_has(Task, rdf:type, knowrob:'VisualPerception').
-task_class(Task, Class) :-	
+task_class(Task, Class) :-
 	rdf_has(Task, rdf:type, Class),
 	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent');
 
@@ -87,7 +87,7 @@ subtask(Task, Subtask) :-
 	rdf_has(Task, knowrob:'subAction', Subtask).
 
 subtask_all(Task, Subtask) :-
-	subtask(Task, Subtask);	
+	subtask(Task, Subtask);
 
 	nonvar(Task),
 	task(Task),
@@ -112,8 +112,8 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal))).
-	
+	rdf_has(Task, knowrob:goalContext, literal(type(_, Goal))).
+
 task_start(Task, Start) :-
 	task(Task),
 	rdf_has(Task, knowrob:'startTime', Start).
@@ -149,33 +149,33 @@ occurs(object_perceived(Obj),T) :-
 	task_start(Task, T).
 
 cram_holds(task_status(Task, Status), T):-
-	nonvar(Task),	
+	nonvar(Task),
 	task(Task),
 	task_start(Task, Start),
 	task_end(Task, End),
 	javarun_time_check(Start, T, Compare_Result1),
 	javarun_time_check(T, End, Compare_Result2),
-	term_to_atom(Compare_Result1, c1),	
+	term_to_atom(Compare_Result1, c1),
 	term_to_atom(Compare_Result2, c2),
 	((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted'])))).
 
 cram_holds(object_visible(Object, Status), T):-
-	nonvar(Object),	
+	nonvar(Object),
 	nonvar(T),
 	javarun_belief(Object, T, Loc),
 	rdf_triple(comp_spatial:'m01', Loc, Result),
 	term_to_atom(Result, r),
 	((r is -1) -> (Status = [true]);(Status = [false])).
-	
+
 	%nonvar(Object),
-	%var(T),	
+	%var(T),
 	%javarun_perception_time_instances(Object, T),
 	%Status = [true];
 
 	%var(Object),
-	%nonvar(T),	
+	%nonvar(T),
 	%javarun_perception_object_instances(T, Object),
-	%Status = [true].	
+	%Status = [true].
 
 cram_holds(object_placed_at(Object, Loc), T):-
 	javarun_belief(Object, T, Actual_Loc),
@@ -186,7 +186,7 @@ cram_holds(object_placed_at(Object, Loc), T):-
 returned_value(Task, Obj) :-
 	rdf_has(Task, rdf:type, knowrob:'VisualPerception'),
 	rdf_has(Task, knowrob:'detectedObject', Obj);
-	
+
 	task(Task),
 	failure_task(Obj, Task).
 
@@ -219,7 +219,7 @@ javarun_loc_change(Designator, Time) :-
 
 
 javarun_time_check(Time1, Time2, Compare_Result) :-
-    
+
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
@@ -227,7 +227,7 @@ javarun_time_check(Time1, Time2, Compare_Result) :-
 
 
 javarun_location_check(L1, L2, Compare_Result) :-
-    
+
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
@@ -250,12 +250,12 @@ javarun_perception_object_instances(Time, ObjectList) :-
 
     jpl_array_to_list(Objects, ObjectList).
 
-failure_class(Error, Class) :-	
+failure_class(Error, Class) :-
 	rdf_has(Error, rdf:type, Class),
 	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
 
 failure_task(Error, Task) :-
-	task(Task),	
+	task(Task),
 	%failure_class(Error, Class),
 	rdf_has(Task, knowrob:'eventFailure', Error).
 

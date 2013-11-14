@@ -4,7 +4,7 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY local_path 'file://@LOCAL_PACKAGE_PATH@/owl/'>
     <!ENTITY srdl_path 'file://@SRDL_PATH_PREFIX@/owl/'>
-    
+
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
@@ -13,7 +13,7 @@
     <!ENTITY motion-constraints "http://ias.cs.tum.edu/kb/motion-constraints.owl#" >
     <!ENTITY pancake-constr "http://ias.cs.tum.edu/kb/pancake-making-constr.owl#" >
     <!ENTITY spatula-features "http://ias.cs.tum.edu/kb/spatula-features.owl#" >
-    
+
     <!ENTITY PR2 "http://ias.cs.tum.edu/kb/PR2.owl#" >
     <!ENTITY srdl2 "http://ias.cs.tum.edu/kb/srdl2.owl#" >
     <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
@@ -38,7 +38,7 @@
 
 
 
-    <!-- 
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Annotation properties
@@ -47,10 +47,10 @@
      -->
 
     <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Object Properties
@@ -58,76 +58,76 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#constrainedBy -->
 
     <owl:ObjectProperty rdf:about="&knowrob;constrainedBy"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#objectActedOn -->
 
     <owl:ObjectProperty rdf:about="&knowrob;objectActedOn"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#occursAfterInOrdering -->
 
     <owl:ObjectProperty rdf:about="&knowrob;occursAfterInOrdering"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#occursBeforeInOrdering -->
 
     <owl:ObjectProperty rdf:about="&knowrob;occursBeforeInOrdering"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#orderingConstraints -->
 
     <owl:ObjectProperty rdf:about="&knowrob;orderingConstraints"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#parts -->
 
     <owl:ObjectProperty rdf:about="&knowrob;parts"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#properPhysicalParts -->
 
     <owl:ObjectProperty rdf:about="&knowrob;properPhysicalParts"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#subAction -->
 
     <owl:ObjectProperty rdf:about="&knowrob;subAction"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#toolFeature -->
 
     <owl:ObjectProperty rdf:about="&motion-constraints;toolFeature"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#worldFeature -->
 
     <owl:ObjectProperty rdf:about="&motion-constraints;worldFeature"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain -->
 
     <owl:ObjectProperty rdf:about="&srdl2-comp;predecessorInKinematicChain"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Data properties
@@ -135,40 +135,40 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrLowerLimit -->
 
     <owl:DatatypeProperty rdf:about="&motion-constraints;constrLowerLimit"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrMaxVelocity -->
 
     <owl:DatatypeProperty rdf:about="&motion-constraints;constrMaxVelocity"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrMinVelocity -->
 
     <owl:DatatypeProperty rdf:about="&motion-constraints;constrMinVelocity"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrUpperLimit -->
 
     <owl:DatatypeProperty rdf:about="&motion-constraints;constrUpperLimit"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#constrWeight -->
 
     <owl:DatatypeProperty rdf:about="&motion-constraints;constrWeight"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Classes
@@ -176,133 +176,133 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#BladeOfADevice -->
 
     <owl:Class rdf:about="&knowrob;BladeOfADevice"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface -->
 
     <owl:Class rdf:about="&knowrob;FlatPhysicalSurface"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlippingAnObject -->
 
     <owl:Class rdf:about="&knowrob;FlippingAnObject"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FrontSide -->
 
     <owl:Class rdf:about="&knowrob;FrontSide"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle -->
 
     <owl:Class rdf:about="&knowrob;Handle"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#ITaSCMotion -->
 
     <owl:Class rdf:about="&knowrob;ITaSCMotion"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#LeftArm -->
 
     <owl:Class rdf:about="&knowrob;LeftArm"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Pancake -->
 
     <owl:Class rdf:about="&knowrob;Pancake"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#PartialOrdering-Strict -->
 
     <owl:Class rdf:about="&knowrob;PartialOrdering-Strict"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RightArm -->
 
     <owl:Class rdf:about="&knowrob;RightArm"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RightSide -->
 
     <owl:Class rdf:about="&knowrob;RightSide"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Spatula -->
 
     <owl:Class rdf:about="&knowrob;Spatula"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#SpatulaBlade -->
 
     <owl:Class rdf:about="&knowrob;SpatulaBlade"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#VoluntaryBodyMovement -->
 
     <owl:Class rdf:about="&knowrob;VoluntaryBodyMovement"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#DistanceConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;DistanceConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#FastMotionConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;FastMotionConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#HeightConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;HeightConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#MediumVelMotionConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;MediumVelMotionConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;PerpendicularityConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#PointingAtConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;PointingAtConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#SlowMotionConstraint -->
 
     <owl:Class rdf:about="&motion-constraints;SlowMotionConstraint"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake -->
@@ -361,7 +361,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: pointing downwards</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_aneXbLGX -->
@@ -388,7 +388,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_bDGnttMX -->
@@ -415,7 +415,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_cxFaEKPR -->
@@ -442,7 +442,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_dsTvdBVZ -->
@@ -469,7 +469,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_elqfTiny -->
@@ -496,7 +496,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_fSzYGaIm -->
@@ -523,7 +523,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaAxisPancake_glRdmVsr -->
@@ -550,7 +550,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake -->
@@ -623,7 +623,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: align front</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_aneXbLGX -->
@@ -650,7 +650,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_bDGnttMX -->
@@ -677,7 +677,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_cxFaEKPR -->
@@ -704,7 +704,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_dsTvdBVZ -->
@@ -731,7 +731,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_elqfTiny -->
@@ -758,7 +758,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_fSzYGaIm -->
@@ -785,7 +785,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_glRdmVsr -->
@@ -812,7 +812,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake -->
@@ -871,7 +871,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: facing pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_aneXbLGX -->
@@ -898,7 +898,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_bDGnttMX -->
@@ -925,7 +925,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_cxFaEKPR -->
@@ -952,7 +952,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_dsTvdBVZ -->
@@ -979,7 +979,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_elqfTiny -->
@@ -1006,7 +1006,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_fSzYGaIm -->
@@ -1033,7 +1033,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_glRdmVsr -->
@@ -1060,7 +1060,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake -->
@@ -1147,7 +1147,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>right spatula: align front</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_aneXbLGX -->
@@ -1174,7 +1174,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_bDGnttMX -->
@@ -1201,7 +1201,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_cxFaEKPR -->
@@ -1228,7 +1228,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_dsTvdBVZ -->
@@ -1255,7 +1255,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_elqfTiny -->
@@ -1282,7 +1282,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_fSzYGaIm -->
@@ -1309,7 +1309,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaFrontPancake_glRdmVsr -->
@@ -1336,7 +1336,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake -->
@@ -1409,7 +1409,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>right spatula: align side</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_aneXbLGX -->
@@ -1436,7 +1436,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_bDGnttMX -->
@@ -1463,7 +1463,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_cxFaEKPR -->
@@ -1490,7 +1490,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_dsTvdBVZ -->
@@ -1517,7 +1517,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_elqfTiny -->
@@ -1544,7 +1544,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_fSzYGaIm -->
@@ -1571,7 +1571,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignRightSpatulaSidePancake_glRdmVsr -->
@@ -1598,7 +1598,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach -->
@@ -1672,7 +1672,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop -->
@@ -1746,7 +1746,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch -->
@@ -1820,7 +1820,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake -->
@@ -1879,7 +1879,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_aneXbLGX -->
@@ -1907,7 +1907,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_bDGnttMX -->
@@ -1935,7 +1935,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_cxFaEKPR -->
@@ -1963,7 +1963,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_dsTvdBVZ -->
@@ -1990,7 +1990,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_elqfTiny -->
@@ -2018,7 +2018,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_fSzYGaIm -->
@@ -2046,7 +2046,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_glRdmVsr -->
@@ -2074,7 +2074,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: distance from pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake -->
@@ -2161,7 +2161,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>right spatula: distance front to pancake rim</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter -->
@@ -2233,7 +2233,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_aneXbLGX -->
@@ -2260,7 +2260,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_bDGnttMX -->
@@ -2287,7 +2287,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_cxFaEKPR -->
@@ -2314,7 +2314,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_dsTvdBVZ -->
@@ -2341,7 +2341,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_elqfTiny -->
@@ -2368,7 +2368,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_fSzYGaIm -->
@@ -2395,7 +2395,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancakeCenter_glRdmVsr -->
@@ -2422,7 +2422,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_aneXbLGX -->
@@ -2449,7 +2449,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_bDGnttMX -->
@@ -2476,7 +2476,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_cxFaEKPR -->
@@ -2503,7 +2503,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_dsTvdBVZ -->
@@ -2530,7 +2530,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_elqfTiny -->
@@ -2557,7 +2557,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_fSzYGaIm -->
@@ -2584,7 +2584,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceRightSpatulaFrontPancake_glRdmVsr -->
@@ -2611,7 +2611,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake -->
@@ -2793,7 +2793,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake -->
@@ -2852,7 +2852,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: keep over</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_aneXbLGX -->
@@ -2879,7 +2879,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_bDGnttMX -->
@@ -2906,7 +2906,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_cxFaEKPR -->
@@ -2933,7 +2933,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_dsTvdBVZ -->
@@ -2960,7 +2960,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_elqfTiny -->
@@ -2987,7 +2987,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_fSzYGaIm -->
@@ -3014,7 +3014,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightLeftSpatulaPancake_glRdmVsr -->
@@ -3041,7 +3041,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim -->
@@ -3128,7 +3128,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>right spatula: height front over pancake rim</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_aneXbLGX -->
@@ -3155,7 +3155,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_bDGnttMX -->
@@ -3182,7 +3182,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_cxFaEKPR -->
@@ -3209,7 +3209,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_dsTvdBVZ -->
@@ -3236,7 +3236,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_elqfTiny -->
@@ -3263,7 +3263,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_fSzYGaIm -->
@@ -3290,7 +3290,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#HeightRightSpatulaPancakeRim_glRdmVsr -->
@@ -3317,7 +3317,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift -->
@@ -3391,7 +3391,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn -->
@@ -3465,7 +3465,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake -->
@@ -3539,7 +3539,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake -->
@@ -3597,7 +3597,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_aneXbLGX -->
@@ -3625,7 +3625,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_bDGnttMX -->
@@ -3653,7 +3653,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_cxFaEKPR -->
@@ -3681,7 +3681,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_dsTvdBVZ -->
@@ -3708,7 +3708,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_elqfTiny -->
@@ -3736,7 +3736,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_fSzYGaIm -->
@@ -3764,7 +3764,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#PointingLeftSpatulaPancake_glRdmVsr -->
@@ -3792,7 +3792,7 @@
         </rdfs:subClassOf>
         <rdfs:comment>left spatula: at pancake</rdfs:comment>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove -->
@@ -3866,34 +3866,34 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#LineFeature_Am3WUeCK -->
 
     <owl:Class rdf:about="&spatula-features;LineFeature_Am3WUeCK"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#LineFeature_z3rLFrlP -->
 
     <owl:Class rdf:about="&spatula-features;LineFeature_z3rLFrlP"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#PlaneFeature_DQoI3DXH -->
 
     <owl:Class rdf:about="&spatula-features;PlaneFeature_DQoI3DXH"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#PlaneFeature_biRSdwIO -->
 
     <owl:Class rdf:about="&spatula-features;PlaneFeature_biRSdwIO"/>
-    
 
 
-    <!-- 
+
+    <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Individuals
@@ -3901,49 +3901,49 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/PR2.owl#PR2_l_gripper_palm_link -->
 
     <owl:NamedIndividual rdf:about="&PR2;PR2_l_gripper_palm_link"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/PR2.owl#PR2_r_gripper_palm_link -->
 
     <owl:NamedIndividual rdf:about="&PR2;PR2_r_gripper_palm_link"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_elqfTiny -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaFrontPancake_elqfTiny"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_elqfTiny -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#AlignLeftSpatulaPlanePancake_elqfTiny"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake12 -->
@@ -3953,7 +3953,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake13 -->
@@ -3963,7 +3963,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake14 -->
@@ -3973,7 +3973,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake15 -->
@@ -3983,7 +3983,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake16 -->
@@ -3993,7 +3993,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake17 -->
@@ -4003,7 +4003,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasApproach"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake23 -->
@@ -4013,7 +4013,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake24 -->
@@ -4023,7 +4023,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake25 -->
@@ -4033,7 +4033,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake26 -->
@@ -4043,7 +4043,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake27 -->
@@ -4053,7 +4053,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasTouch"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake34 -->
@@ -4063,7 +4063,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake35 -->
@@ -4073,7 +4073,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake36 -->
@@ -4083,7 +4083,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake37 -->
@@ -4093,7 +4093,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake45 -->
@@ -4103,7 +4103,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake46 -->
@@ -4113,7 +4113,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake47 -->
@@ -4123,7 +4123,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake56 -->
@@ -4133,7 +4133,7 @@
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake57 -->
@@ -4143,7 +4143,7 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#FlippingAPancake67 -->
@@ -4153,67 +4153,67 @@
         <knowrob:occursAfterInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#BothSpatulasStop"/>
         <knowrob:occursBeforeInOrdering rdf:resource="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
     </owl:NamedIndividual>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaLift"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaTurn"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#LeftSpatulaUnderPancake"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove -->
 
     <owl:NamedIndividual rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl#RightSpatulaRemove"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#LineFeature_Am3WUeCK -->
 
     <owl:NamedIndividual rdf:about="&spatula-features;LineFeature_Am3WUeCK"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#LineFeature_IiTqC8zK -->
 
     <owl:NamedIndividual rdf:about="&spatula-features;LineFeature_IiTqC8zK"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#LineFeature_z3rLFrlP -->
 
     <owl:NamedIndividual rdf:about="&spatula-features;LineFeature_z3rLFrlP"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#PlaneFeature_DQoI3DXH -->
 
     <owl:NamedIndividual rdf:about="&spatula-features;PlaneFeature_DQoI3DXH"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#PlaneFeature_biRSdwIO -->
 
     <owl:NamedIndividual rdf:about="&spatula-features;PlaneFeature_biRSdwIO"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#PlaneFeature_ua8Y1cmR -->
 
     <owl:NamedIndividual rdf:about="&spatula-features;PlaneFeature_ua8Y1cmR"/>
-    
+
 
 
     <!-- http://ias.cs.tum.edu/kb/spatula-features.owl#PlaneFeature_v27b2AvO -->
