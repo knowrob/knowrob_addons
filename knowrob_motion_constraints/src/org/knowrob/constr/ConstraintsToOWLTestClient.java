@@ -1,7 +1,8 @@
 package org.knowrob.constr;
 
+import java.util.ArrayList;
+
 import ros.*;
-import ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate;
 import ros.pkg.knowrob_motion_constraints.msg.MotionConstraint;
 import ros.pkg.knowrob_motion_constraints.msg.MotionPhase;
 import ros.pkg.knowrob_motion_constraints.msg.MotionTask;
@@ -51,99 +52,104 @@ public class ConstraintsToOWLTestClient {
 		
 		// Task definition
 		req.task = new MotionTask();
-		req.task.name = "FlippingAPancake";
-		req.task.label = "test label task";
+		req.task.name = "PouringSomething";
+		req.task.label = "test pouring task";
 		
-		
-		
-		// Constraint templates
-		MotionConstraintTemplate tmpl1 = new MotionConstraintTemplate();
-		tmpl1.name = "HeightLeftSpatulaPancake";
-		tmpl1.label = "test label template 1";
-		tmpl1.types.add("HeightConstraint");
-		tmpl1.toolFeature = "Handle";
-		tmpl1.worldFeature = "FlatPhysicalSurface";
-		req.task.templates.add(tmpl1);
 
-		MotionConstraintTemplate tmpl2 = new MotionConstraintTemplate();
-		tmpl2.name = "AlignLeftSpatulaFrontPancake";
-		tmpl2.label = "test label template 2";
-		tmpl2.types.add("PerpendicularityConstraint");
-		tmpl2.toolFeature = "FrontSide";
-		tmpl2.worldFeature = "FlatPhysicalSurface";
-		req.task.templates.add(tmpl2);
-		
+		MotionConstraint top_distance_constraint = 
+				makeConstraint("distance bottle-top to oven-center", 
+						"DistanceConstraint", 
+						"bla 1", 
+						"bottle-top", 
+						"oven-center", 
+						"", 
+						0.03, 
+						0.07);
+
+		MotionConstraint top_height_constraint = 
+				makeConstraint("height bottom-top over oven-center", 
+						"HeightConstraint", 
+						"bla 2", 
+						"bottle-top", 
+						"oven-center", 
+						"/oven", 
+						0.25, 
+						0.3);
+
+	             
+		MotionConstraint bottle_upright_constraint = 
+				makeConstraint("bottle upright", 
+						"PerpendicularityConstraint", 
+						"bla 1", 
+						"bottle-axis",
+						"oven-center",
+						"", 
+						0.95, 
+						1.2);
+	             
+	             
+		MotionConstraint bottle_pointing_oven_center = 
+				makeConstraint("bottle pointing oven center", 
+						"PointingAtConstraint", 
+						"bla 3", 
+						"bottle-axis", 
+						"oven-center", 
+						"", 
+						-0.1, 
+						0.1);
+	             
+	             
+		MotionConstraint bottle_tilted_down = 
+				makeConstraint("bottle tilted down", 
+						"PerpendicularityConstraint", 
+						"bla 4", 
+						"bottle-axis", 
+						"oven-center", 
+						"", 
+						-0.2, 
+						-0.1);
+
 		
 		// // // // // // // // // // // // // // // // // // //
 		// Motion phase 1
+		
 		MotionPhase phase1 = new MotionPhase();
-		phase1.name = "BothSpatulasTouch";
+		phase1.name = "MoveAbovePan";
 		phase1.label = "test label phase 1";
+
+		phase1.constraints.add(top_distance_constraint);
+		phase1.constraints.add(top_height_constraint);
+		phase1.constraints.add(bottle_upright_constraint);
 		req.task.phases.add(phase1);
+
 		
-		// Motion constraints
-		MotionConstraint c1_1 = new MotionConstraint();
-		c1_1.name = "HeightLeftSpatulaPancake_bDGnttMX";
-		c1_1.label = "constr1-1 test label";
-		c1_1.types.add("SlowMotionConstraint");
-		c1_1.types.add("HeightLeftSpatulaPancake");
-		c1_1.template = tmpl1;
-		c1_1.active = true;
-		c1_1.constrLowerLimit = 0.0;
-		c1_1.constrUpperLimit = 0.01;
-		phase1.constraints.add(c1_1);
-		
-		MotionConstraint c1_2 = new MotionConstraint();
-		c1_2.name = "AlignLeftSpatulaFrontPancake_bDGnttMX";
-		c1_2.label = "constr1-2 test label";
-		c1_2.types.add("SlowMotionConstraint");
-		c1_2.types.add("AlignLeftSpatulaFrontPancake");
-		c1_2.template = tmpl2;
-		c1_2.active = true;
-		c1_2.constrLowerLimit = -0.05;
-		c1_2.constrUpperLimit = 0.05;
-		phase1.constraints.add(c1_2);
-
-
-
 		// // // // // // // // // // // // // // // // // // //
 		// Motion phase 2
 		
 		MotionPhase phase2 = new MotionPhase();
-		phase2.name = "BothSpatulasApproach";
+		phase2.name = "TiltBottle";
 		phase2.label = "test label phase 2";
+
+		phase2.constraints.add(top_distance_constraint);
+		phase2.constraints.add(top_height_constraint);
+		phase2.constraints.add(bottle_pointing_oven_center);
+		phase2.constraints.add(bottle_tilted_down);
 		req.task.phases.add(phase2);
 
-		// Motion constraints
-		MotionConstraint c2_1 = new MotionConstraint();
-		c2_1.name = "HeightLeftSpatulaPancake_aneXbLGX";
-		c2_1.label = "constr2-1 test label";
-		c2_1.types.add("SlowMotionConstraint");
-		c2_1.types.add("HeightLeftSpatulaPancake");
-		c2_1.template = tmpl1;
-		c2_1.active = true;
-		c2_1.constrLowerLimit = 0.15;
-		c2_1.constrUpperLimit = 0.17;
-		phase2.constraints.add(c2_1);
-		
-		MotionConstraint c2_2 = new MotionConstraint();
-		c2_2.name = "AlignLeftSpatulaFrontPancake_aneXbLGX";
-		c2_2.label = "constr2-2 test label";
-		c2_2.types.add("SlowMotionConstraint");
-		c2_2.types.add("AlignLeftSpatulaFrontPancake");
-		c2_2.template = tmpl2;
-		c2_2.active = true;
-		c2_2.constrLowerLimit = -0.1;
-		c2_2.constrUpperLimit = 0.1;
-		phase2.constraints.add(c2_2);
-		
-		
-		
-		
 
 		
+		// // // // // // // // // // // // // // // // // // //
+		// Motion phase 3
 		
+		MotionPhase phase3 = new MotionPhase();
+		phase3.name = "MoveAbovePan";
+		phase3.label = "test label phase 3";
 
+		phase3.constraints.add(top_distance_constraint);
+		phase3.constraints.add(top_height_constraint);
+		phase3.constraints.add(bottle_upright_constraint);
+		req.task.phases.add(phase3);
+		
 		
 		ConstraintsToOWL.Response res;
 		try {
@@ -157,6 +163,37 @@ public class ConstraintsToOWLTestClient {
 
 		return "";
 	}
+	
+	
+	
+	private MotionConstraint makeConstraint(
+			String name, 
+			String type, 
+			String label, 
+			String toolFeature, 
+			String worldFeature, 
+			String refFeature, 
+			double d, double e) {
+		
+		MotionConstraint res = new MotionConstraint();
+		res.name = name;
+		res.label = label;
+		
+		res.types = new ArrayList<String>();
+		res.types.add(type);
+		
+		res.toolFeature = toolFeature;
+		res.worldFeature  = worldFeature;
+		res.refFeature = refFeature;
+		
+		res.constrLowerLimit = d;
+		res.constrUpperLimit = e;
+		
+		return res;
+	}
+	
+	
+	
 
 	public static void main(String[] args) {
 

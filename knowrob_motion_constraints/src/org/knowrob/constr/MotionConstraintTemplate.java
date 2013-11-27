@@ -17,6 +17,7 @@ import controlP5.ControlP5;
 
 import processing.core.PApplet;
 
+
 public class MotionConstraintTemplate {
 
 	protected String name = "";
@@ -25,6 +26,7 @@ public class MotionConstraintTemplate {
 
 	protected String toolFeature = "";
 	protected String worldFeature = "";
+	protected String reference = "";
 	
 	public static int TEMPLATE_BOX_WIDTH  = 170;
 	public static int TEMPLATE_BOX_HEIGHT = 80;
@@ -39,11 +41,11 @@ public class MotionConstraintTemplate {
 	
 
 	public MotionConstraintTemplate(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate msg, ControlP5 controlP5) {
-		this(msg.name, msg.types, msg.toolFeature, msg.worldFeature, controlP5);
+		//this(msg.name, msg.types, msg.toolFeature, msg.worldFeature, msg.reference, controlP5);
 		this.label = msg.label;
 	}
 
-	public MotionConstraintTemplate(String name, List<String> types, String toolFeature, String worldFeature, ControlP5 controlP5) {
+	public MotionConstraintTemplate(String name, List<String> types, String toolFeature, String worldFeature, String reference, ControlP5 controlP5) {
 
 		this();
 
@@ -52,6 +54,7 @@ public class MotionConstraintTemplate {
 		
 		this.toolFeature = toolFeature;
 		this.worldFeature = worldFeature;
+		this.reference = reference;
 
 		synchronized(controlP5) {
 			controlP5.addTextfield(name + "_name").setText(name).setWidth(140).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255);
@@ -60,6 +63,8 @@ public class MotionConstraintTemplate {
 			controlP5.addTextfield(name + "_tool").setText(toolFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
 			controlP5.addTextlabel(name + "_world_label").setText("world").setColorValueLabel(80);
 			controlP5.addTextfield(name + "_world").setText(worldFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
+			controlP5.addTextlabel(name + "_ref_label").setText("ref").setColorValueLabel(80);
+			controlP5.addTextfield(name + "_ref").setText(worldFeature).setWidth(100).setCaptionLabel("").setColor(0).setColorForeground(0).setColorBackground(255).getCaptionLabel().setColor(80);
 		}
 	}
 
@@ -78,6 +83,9 @@ public class MotionConstraintTemplate {
 
 			controlP5.get(name + "_tool").setPosition(x+55, y+25);
 			controlP5.get(name + "_world").setPosition(x+55, y+45);
+			
+			controlP5.get(name + "_tool").setPosition(x+95, y+25);
+			controlP5.get(name + "_world").setPosition(x+95, y+45);
 
 			c.fill(100);
 		}
@@ -134,6 +142,11 @@ public class MotionConstraintTemplate {
 		OWLClassExpression worldCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.worldFeature));
 		OWLClassExpression worldFeatureRestr = factory.getOWLObjectSomeValuesFrom(worldFeatureProp, worldCls);
 		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(templateCl, worldFeatureRestr))); 
+
+		OWLObjectProperty refFeatureProp = factory.getOWLObjectProperty(IRI.create(MotionTask.CONSTR + "refFeature"));
+		OWLClassExpression refCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.reference));
+		OWLClassExpression refFeatureRestr = factory.getOWLObjectSomeValuesFrom(refFeatureProp, refCls);
+		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(templateCl, refFeatureRestr))); 
 
 		return templateCl;
 

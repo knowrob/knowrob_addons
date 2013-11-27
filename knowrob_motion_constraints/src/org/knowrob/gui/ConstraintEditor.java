@@ -41,10 +41,7 @@ import controlP5.ControlEvent;
 import controlP5.ControlP5;
 import controlP5.ControllerInterface;
 import edu.tum.cs.ias.knowrob.owl.utils.OWLFileUtils;
-import edu.tum.cs.ias.knowrob.owl.utils.OWLImportExport;
-import edu.tum.cs.ias.knowrob.prolog.PrologInterface;
 import processing.core.PApplet;
-import ros.pkg.knowrob_motion_constraints.srv.ConstraintsToOWL;
 
 
 /**

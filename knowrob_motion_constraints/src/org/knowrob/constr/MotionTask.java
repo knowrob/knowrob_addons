@@ -31,7 +31,6 @@ public class MotionTask {
 	protected String label = "";
 
 	protected List<MotionPhase> phases;
-	protected List<MotionConstraintTemplate> templates;
 
 	public float ADD_PHASE_BOX_X = 40;
 	public float ADD_PHASE_BOX_Y = 100;
@@ -83,7 +82,6 @@ public class MotionTask {
 	public MotionTask() {
 
 		phases = Collections.synchronizedList(new ArrayList<MotionPhase>());
-		templates = Collections.synchronizedList(new ArrayList<MotionConstraintTemplate>());
 
 	}
 
@@ -92,14 +90,9 @@ public class MotionTask {
 		this(msg.name, controlP5);
 		this.label = msg.label;
 		
-		synchronized(templates) {
-			for(ros.pkg.knowrob_motion_constraints.msg.MotionConstraintTemplate tmpl : msg.templates) {
-				this.templates.add(new MotionConstraintTemplate(tmpl, controlP5));
-			}
-		}
 		synchronized(phases) {
 			for(ros.pkg.knowrob_motion_constraints.msg.MotionPhase phase : msg.phases) {
-				this.phases.add(new MotionPhase(phase, templates, controlP5));
+				this.phases.add(new MotionPhase(phase, controlP5));
 			}
 		}
 	}
@@ -140,15 +133,15 @@ public class MotionTask {
 		int curX = x;
 		int curY = y;
 
-		// draw motion template headers
-		synchronized(templates) {
-			for(MotionConstraintTemplate t : templates) {
-				t.draw(c, curX + 120, curY, controlP5);
-				curX += MotionConstraintTemplate.TEMPLATE_BOX_WIDTH;
-			}
-		}
-		curX = x;
-		curY += MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
+//		// draw motion template headers
+//		synchronized(templates) {
+//			for(MotionConstraintTemplate t : templates) {
+//				t.draw(c, curX + 120, curY, controlP5);
+//				curX += MotionConstraintTemplate.TEMPLATE_BOX_WIDTH;
+//			}
+//		}
+//		curX = x;
+//		curY += MotionConstraintTemplate.TEMPLATE_BOX_HEIGHT;
 
 		// draw motion phases and constraints
 		synchronized(phases) {
@@ -210,7 +203,7 @@ public class MotionTask {
 
 				for(MotionConstraint c : phases.get(0).getConstraints()) {
 
-					p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), true, 0f, 0f, c.getTemplate(), controlP5));
+					p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "", "", "", 0f, 0f, controlP5));
 
 					try { Thread.sleep(5); } catch (InterruptedException e) {
 						e.printStackTrace();
@@ -229,19 +222,14 @@ public class MotionTask {
 
 		synchronized(phases) {
 
-			MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "", "", controlP5);
-
-			templates.add(tmpl);
-
 			for(MotionPhase p : phases) {
 
-				p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), true, 0f, 0f, tmpl, controlP5));
+				p.addConstraint(new MotionConstraint(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "", "", "", 0f, 0f, controlP5));
 
 				try { Thread.sleep(5); } catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
-
 			recomputeBoxDimensions();
 		}
 	}
@@ -274,16 +262,10 @@ public class MotionTask {
 					for (OWLClassExpression sub : subActionVisitor.getRestrictionFillers()) {
 
 						// TODO: sort based on ordering constraints
-
-						// TODO: read templates from OWL
-						MotionConstraintTemplate tmpl = new MotionConstraintTemplate(OWLThing.getUniqueID("").substring(1), new ArrayList<String>(), "handle", "pancake", controlP5);
-						templates.add(tmpl);
-
 						MotionPhase p = new MotionPhase(sub.toString().substring(1, sub.toString().length()-1), controlP5);
-						p.readFromOWL((OWLClass) sub, tmpl, ont, factory, controlP5);
+						p.readFromOWL((OWLClass) sub, ont, factory, controlP5);
 
 						phases.add(p);
-
 					}
 				}
 			}
@@ -308,16 +290,6 @@ public class MotionTask {
 							IRI.create(MOTION + this.name), 
 							factory.getOWLLiteral(this.label)))); 
 
-
-		// write motion phases
-		synchronized(templates) {
-			
-			ArrayList<OWLClass> tmpl_cls = new ArrayList<OWLClass>();
-			for(MotionConstraintTemplate t : templates) {
-				tmpl_cls.add(t.writeToOWL(manager, factory, pm, ontology));
-			}
-			
-		}
 
 		// write motion phases
 		ArrayList<OWLClass> phasesCls = new ArrayList<OWLClass>();
@@ -368,8 +340,5 @@ public class MotionTask {
 				}
 			}
 		}
-
 	}
-
-
 }
