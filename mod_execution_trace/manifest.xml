@@ -9,7 +9,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/mod_execution_trace</url>
   <depend package="knowrob_common"/>
-  <depend package="mod_vis"/>
+<!--   <depend package="mod_vis"/> -->
   <depend package="rosjava_jni"/>
   <depend package="knowrob_cram"/>
   <depend package="knowrob_mongo"/>
