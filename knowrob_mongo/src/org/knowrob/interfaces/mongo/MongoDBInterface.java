@@ -274,8 +274,11 @@ public class MongoDBInterface {
 		// test transformation lookup based on DB information
 
 //		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
-		Time t = new Time(1377766521);
+//		Time t = new Time(1377766521);
+		Time t = new Time(1383143712); // no
+//		Time t = new Time(1383144279);  //1
 
+		
 		long t0 = System.nanoTime();
 		TFMemory tf = new TFMemory();
 		StampedTransform trans  = tf.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", t);
@@ -295,13 +298,13 @@ public class MongoDBInterface {
 		trans = m.lookupTransform("/map", "/head_mount_kinect_ir_link", 1377766521);
 		System.out.println(trans);
 
-		// test UIMA result interface
-		Designator d = m.latestUIMAPerceptionBefore(1377766521);
-		System.out.println(d);
-		
-		// test designator reading
-		d = m.getDesignatorByID("designator_bunEaUUmPbuoLN");
-		System.out.println(d);
+//		// test UIMA result interface
+//		Designator d = m.latestUIMAPerceptionBefore(1377766521);
+//		System.out.println(d);
+//		
+//		// test designator reading
+//		d = m.getDesignatorByID("designator_bunEaUUmPbuoLN");
+//		System.out.println(d);
 	}
 }
 

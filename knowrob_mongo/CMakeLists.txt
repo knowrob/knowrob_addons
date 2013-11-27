@@ -39,3 +39,7 @@ foreach( _in ${inputs} )
   string(REPLACE ".in" "" _out ${_in})
   configure_file( ${_in} ${_out} )
 endforeach( _in )
+
+
+
+rospack_add_java_executable(MongoDBInterface org.knowrob.interfaces.mongo.MongoDBInterface)
