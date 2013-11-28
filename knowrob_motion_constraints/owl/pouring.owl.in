@@ -178,39 +178,15 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#bottle-axis -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_DZoe7tXt -->
 
-    <owl:Class rdf:about="&constr;bottle-axis"/>
-    
-
-
-    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#bottle-top -->
-
-    <owl:Class rdf:about="&constr;bottle-top"/>
-    
-
-
-    <!-- http://ias.cs.tum.edu/kb/motion-constraints.owl#oven-center -->
-
-    <owl:Class rdf:about="&constr;oven-center"/>
-    
-
-
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_Gb65VZET -->
-
-    <owl:Class rdf:about="&motion;DistanceConstraint_Gb65VZET">
+    <owl:Class rdf:about="&motion;DistanceConstraint_DZoe7tXt">
         <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
         <rdfs:subClassOf rdf:resource="&constr;DistanceConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.07</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -221,21 +197,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-top"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_OK0jMMir -->
-
-    <owl:Class rdf:about="&motion;DistanceConstraint_OK0jMMir">
-        <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&constr;DistanceConstraint"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
                 <owl:hasValue rdf:datatype="&xsd;double">0.07</owl:hasValue>
             </owl:Restriction>
@@ -243,34 +204,22 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-top"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.03</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;ObjectMainAxis"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_SMsa4N2t -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_aePJVzGM -->
 
-    <owl:Class rdf:about="&motion;DistanceConstraint_SMsa4N2t">
+    <owl:Class rdf:about="&motion;DistanceConstraint_aePJVzGM">
         <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
         <rdfs:subClassOf rdf:resource="&constr;DistanceConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -288,30 +237,51 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-top"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;BottleCap"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_FExBgIPp -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_mJiq8Pzr -->
 
-    <owl:Class rdf:about="&motion;HeightConstraint_FExBgIPp">
-        <rdfs:label rdf:datatype="&xsd;string">bla 2</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&constr;HeightConstraint"/>
+    <owl:Class rdf:about="&motion;DistanceConstraint_mJiq8Pzr">
+        <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&constr;DistanceConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.25</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;double">0.03</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.07</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;BottleCap"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_OZjsDs1E -->
+
+    <owl:Class rdf:about="&motion;HeightConstraint_OZjsDs1E">
+        <rdfs:label rdf:datatype="&xsd;string">bla 2</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&constr;HeightConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;refFeature"/>
@@ -326,56 +296,29 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-top"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_N8JrcY13 -->
-
-    <owl:Class rdf:about="&motion;HeightConstraint_N8JrcY13">
-        <rdfs:label rdf:datatype="&xsd;string">bla 2</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&constr;HeightConstraint"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-top"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
                 <owl:hasValue rdf:datatype="&xsd;double">0.25</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;refFeature"/>
-                <owl:hasValue rdf:datatype="&xsd;string">/oven</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.3</owl:hasValue>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;BottleCap"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_dtpYFEP7 -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_VkyXlD3q -->
 
-    <owl:Class rdf:about="&motion;HeightConstraint_dtpYFEP7">
+    <owl:Class rdf:about="&motion;HeightConstraint_VkyXlD3q">
         <rdfs:label rdf:datatype="&xsd;string">bla 2</rdfs:label>
         <rdfs:subClassOf rdf:resource="&constr;HeightConstraint"/>
         <rdfs:subClassOf>
@@ -386,8 +329,14 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;bottle-top"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:someValuesFrom rdf:resource="&motion;oven-center"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -402,10 +351,43 @@
                 <owl:hasValue rdf:datatype="&xsd;double">0.3</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_ouGDWJ2K -->
+
+    <owl:Class rdf:about="&motion;HeightConstraint_ouGDWJ2K">
+        <rdfs:label rdf:datatype="&xsd;string">bla 2</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&constr;HeightConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-top"/>
+                <owl:someValuesFrom rdf:resource="&motion;bottle-top"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.25</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;oven-center"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;refFeature"/>
+                <owl:hasValue rdf:datatype="&xsd;string">/oven</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.3</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -420,40 +402,40 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;DistanceConstraint_Gb65VZET"/>
+                <owl:someValuesFrom rdf:resource="&motion;DistanceConstraint_mJiq8Pzr"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;PerpendicularityConstraint_qKgPGMc4"/>
+                <owl:someValuesFrom rdf:resource="&motion;HeightConstraint_VkyXlD3q"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;HeightConstraint_N8JrcY13"/>
+                <owl:someValuesFrom rdf:resource="&motion;PerpendicularityConstraint_iiprrB8P"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_1S3SyRuv -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_SoYmvFF5 -->
 
-    <owl:Class rdf:about="&motion;PerpendicularityConstraint_1S3SyRuv">
+    <owl:Class rdf:about="&motion;PerpendicularityConstraint_SoYmvFF5">
         <rdfs:label rdf:datatype="&xsd;string">bla 4</rdfs:label>
         <rdfs:subClassOf rdf:resource="&constr;PerpendicularityConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-axis"/>
+                <owl:someValuesFrom rdf:resource="&motion;bottle-axis"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -464,25 +446,19 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+                <owl:onProperty rdf:resource="&constr;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;oven-center"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_5nNg9Ao4 -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_UbAE8yUz -->
 
-    <owl:Class rdf:about="&motion;PerpendicularityConstraint_5nNg9Ao4">
+    <owl:Class rdf:about="&motion;PerpendicularityConstraint_UbAE8yUz">
         <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
         <rdfs:subClassOf rdf:resource="&constr;PerpendicularityConstraint"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
@@ -491,8 +467,47 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;oven-center"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.95</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-axis"/>
+                <owl:someValuesFrom rdf:resource="&motion;bottle-axis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_iiprrB8P -->
+
+    <owl:Class rdf:about="&motion;PerpendicularityConstraint_iiprrB8P">
+        <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&constr;PerpendicularityConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;bottle-axis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;oven-center"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.2</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -505,50 +520,11 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_qKgPGMc4 -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PointingAtConstraint_fo5VpFyF -->
 
-    <owl:Class rdf:about="&motion;PerpendicularityConstraint_qKgPGMc4">
-        <rdfs:label rdf:datatype="&xsd;string">bla 1</rdfs:label>
-        <rdfs:subClassOf rdf:resource="&constr;PerpendicularityConstraint"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">1.2</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-axis"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.95</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PointingAtConstraint_DSbqrQn8 -->
-
-    <owl:Class rdf:about="&motion;PointingAtConstraint_DSbqrQn8">
+    <owl:Class rdf:about="&motion;PointingAtConstraint_fo5VpFyF">
         <rdfs:label rdf:datatype="&xsd;string">bla 3</rdfs:label>
         <rdfs:subClassOf rdf:resource="&constr;PointingAtConstraint"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
@@ -557,14 +533,20 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;oven-center"/>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;bottle-axis"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&constr;bottle-axis"/>
+                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&motion;oven-center"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -575,6 +557,18 @@
 
     <owl:Class rdf:about="&motion;PouringSomething">
         <rdfs:label rdf:datatype="&xsd;string">test pouring task</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="&motion;MoveAbovePan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
+                <owl:hasValue rdf:resource="&motion;PouringSomething02_3KERYjv8"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;subAction"/>
@@ -590,25 +584,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-                <owl:hasValue rdf:resource="&motion;PouringSomething12_esBw7F4a"/>
+                <owl:hasValue rdf:resource="&motion;PouringSomething12_TE30rh36"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-                <owl:hasValue rdf:resource="&motion;PouringSomething01_rnGHeAus"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;subAction"/>
-                <owl:someValuesFrom rdf:resource="&motion;MoveAbovePan"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-                <owl:hasValue rdf:resource="&motion;PouringSomething02_QuI6ZEXM"/>
+                <owl:hasValue rdf:resource="&motion;PouringSomething01_h0t7dyZY"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -623,19 +605,19 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;PerpendicularityConstraint_5nNg9Ao4"/>
+                <owl:someValuesFrom rdf:resource="&motion;DistanceConstraint_DZoe7tXt"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;HeightConstraint_dtpYFEP7"/>
+                <owl:someValuesFrom rdf:resource="&motion;HeightConstraint_OZjsDs1E"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;DistanceConstraint_SMsa4N2t"/>
+                <owl:someValuesFrom rdf:resource="&motion;PerpendicularityConstraint_UbAE8yUz"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -650,28 +632,46 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;HeightConstraint_FExBgIPp"/>
+                <owl:someValuesFrom rdf:resource="&motion;DistanceConstraint_aePJVzGM"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;DistanceConstraint_OK0jMMir"/>
+                <owl:someValuesFrom rdf:resource="&motion;PointingAtConstraint_fo5VpFyF"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;PointingAtConstraint_DSbqrQn8"/>
+                <owl:someValuesFrom rdf:resource="&motion;HeightConstraint_ouGDWJ2K"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&motion;PerpendicularityConstraint_1S3SyRuv"/>
+                <owl:someValuesFrom rdf:resource="&motion;PerpendicularityConstraint_SoYmvFF5"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#bottle-axis -->
+
+    <owl:Class rdf:about="&motion;bottle-axis"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#bottle-top -->
+
+    <owl:Class rdf:about="&motion;bottle-top"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#oven-center -->
+
+    <owl:Class rdf:about="&motion;oven-center"/>
     
 
 
@@ -694,9 +694,9 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething01_rnGHeAus -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething01_h0t7dyZY -->
 
-    <owl:NamedIndividual rdf:about="&motion;PouringSomething01_rnGHeAus">
+    <owl:NamedIndividual rdf:about="&motion;PouringSomething01_h0t7dyZY">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
         <knowrob:occursBeforeInOrdering rdf:resource="&motion;MoveAbovePan"/>
         <knowrob:occursAfterInOrdering rdf:resource="&motion;TiltBottle"/>
@@ -704,9 +704,9 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething02_QuI6ZEXM -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething02_3KERYjv8 -->
 
-    <owl:NamedIndividual rdf:about="&motion;PouringSomething02_QuI6ZEXM">
+    <owl:NamedIndividual rdf:about="&motion;PouringSomething02_3KERYjv8">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
         <knowrob:occursBeforeInOrdering rdf:resource="&motion;MoveAbovePan"/>
         <knowrob:occursAfterInOrdering rdf:resource="&motion;TiltBack"/>
@@ -714,9 +714,9 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething12_esBw7F4a -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething12_TE30rh36 -->
 
-    <owl:NamedIndividual rdf:about="&motion;PouringSomething12_esBw7F4a">
+    <owl:NamedIndividual rdf:about="&motion;PouringSomething12_TE30rh36">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
         <knowrob:occursAfterInOrdering rdf:resource="&motion;TiltBack"/>
         <knowrob:occursBeforeInOrdering rdf:resource="&motion;TiltBottle"/>
