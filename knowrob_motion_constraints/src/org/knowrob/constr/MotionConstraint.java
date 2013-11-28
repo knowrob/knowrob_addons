@@ -165,9 +165,8 @@ public class MotionConstraint {
 		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, worldFeatureRestr))); 
 
 		if(reference!=null && !reference.isEmpty()) {
-			OWLObjectProperty refFeatureProp = factory.getOWLObjectProperty(IRI.create(MotionTask.CONSTR + "refFeature"));
-			OWLClassExpression refCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.reference));
-			OWLClassExpression refFeatureRestr = factory.getOWLObjectSomeValuesFrom(refFeatureProp, refCls);
+			OWLDataProperty refFeatureProp = factory.getOWLDataProperty(IRI.create(MotionTask.CONSTR + "refFeature"));
+			OWLClassExpression refFeatureRestr = factory.getOWLDataHasValue(refFeatureProp, factory.getOWLLiteral(this.reference));
 			manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, refFeatureRestr))); 
 		}
 		
