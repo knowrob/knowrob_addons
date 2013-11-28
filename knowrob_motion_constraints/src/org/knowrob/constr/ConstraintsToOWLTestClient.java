@@ -142,7 +142,7 @@ public class ConstraintsToOWLTestClient {
 		// Motion phase 3
 		
 		MotionPhase phase3 = new MotionPhase();
-		phase3.name = "MoveAbovePan";
+		phase3.name = "TiltBack";
 		phase3.label = "test label phase 3";
 
 		phase3.constraints.add(top_distance_constraint);
