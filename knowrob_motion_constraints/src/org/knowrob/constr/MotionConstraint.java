@@ -154,13 +154,13 @@ public class MotionConstraint {
 
 		// annotate subclass with feature values
 		OWLObjectProperty toolFeatureProp = factory.getOWLObjectProperty(IRI.create(MotionTask.CONSTR + "toolFeature"));
-		OWLClassExpression toolCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.toolFeature));
+		OWLClassExpression toolCls = factory.getOWLClass(IRI.create(MotionTask.MOTION + this.toolFeature));
 		OWLClassExpression toolFeatureRestr = factory.getOWLObjectSomeValuesFrom(toolFeatureProp, toolCls);
 		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, toolFeatureRestr))); 
 
 
 		OWLObjectProperty worldFeatureProp = factory.getOWLObjectProperty(IRI.create(MotionTask.CONSTR + "worldFeature"));
-		OWLClassExpression worldCls = factory.getOWLClass(IRI.create(MotionTask.CONSTR + this.worldFeature));
+		OWLClassExpression worldCls = factory.getOWLClass(IRI.create(MotionTask.MOTION + this.worldFeature));
 		OWLClassExpression worldFeatureRestr = factory.getOWLObjectSomeValuesFrom(worldFeatureProp, worldCls);
 		manager.applyChange(new AddAxiom(ontology, factory.getOWLSubClassOfAxiom(constrCls, worldFeatureRestr))); 
 
