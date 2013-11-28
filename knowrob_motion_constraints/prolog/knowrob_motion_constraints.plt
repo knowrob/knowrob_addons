@@ -78,10 +78,9 @@ test(constraint_properties) :-
         'http://ias.cs.tum.edu/kb/motion-constraints.owl#DistanceConstraint',
         'http://ias.cs.tum.edu/kb/spatula-features.owl#Handle_z3rLFrlP',
         'http://ias.cs.tum.edu/kb/spatula-features.owl#FlatPhysicalSurface_DQoI3DXH',
-        1.0,
+        A,
         0.15,
-        0.17,
-        0.1),!.
+        0.17),!.
 
 
 test(feature_properties_line) :-
@@ -90,8 +89,7 @@ test(feature_properties_line) :-
                      'left spatula: main axis',
                      'map',
                      [0.0,0.0,0.0],
-                     [0.0,0.0,0.125],
-                     [0,0,0]),!.
+                     [0.0,0.0,0.125]),!.
 
 test(feature_properties_plane) :-
   feature_properties('http://ias.cs.tum.edu/kb/spatula-features.owl#FlatPhysicalSurface_DQoI3DXH',
@@ -99,8 +97,7 @@ test(feature_properties_plane) :-
                      'pancake plane',
                      'map',
                      [0.0,0.0,0.0],
-                     [0.0,0.0,0.1],
-                     [0,0,0]),!.
+                     [0.0,0.0,0.1]),!.
 
                      
 :- end_tests(knowrob_motion_constraints).

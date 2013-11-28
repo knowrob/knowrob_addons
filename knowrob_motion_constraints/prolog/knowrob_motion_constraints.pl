@@ -26,11 +26,10 @@
       object_feature/4,
       motion_constraint/2,
       motion_constraint/3,
-      constraint_properties/8,
+      constraint_properties/7,
       plan_constraints_of_type/3,
       features_in_constraints/2,
-      plan_constraint_templates/2,
-      feature_properties/7
+      feature_properties/6
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -54,9 +53,8 @@
     features_in_constraints(r,r),
     motion_constraint(r, r),
     motion_constraint(r, r, r),
-    constraint_properties(r, r, r, r, -, -, -, -),
-    feature_properties(r, -, -, -, -, -, -),
-    plan_constraint_templates(r,r).
+    constraint_properties(r, r, r, r, -, -, -),
+    feature_properties(r, -, -, -, -, -).
 
 
 
@@ -108,12 +106,11 @@ motion_constraint(Motion, Tool, Constr) :-
 % @param Type           OWL class describing the type of constraint (e.g. distance, height)
 % @param ToolFeature    OWL identifier of the tool feature (i.e. spatial part of the tool to be controlled)
 % @param WorldFeature   OWL identifier of the world feature (i.e. spatial part of the world)
-% @param Weight         Weight describing the hardness of the constraints
+% @param ReferenceFrame Tf frame for the reference frame
 % @param Lower          Lower limit for the controlled values
 % @param Upper          Upper limit for the controlled values
-% @param MaxVel         Maximum velocity to be used
 %
-constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Upper, MaxVel) :-
+constraint_properties(Constr, Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper) :-
 
     owl_subclass_of(Constr, Type),
     owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),!,
@@ -124,17 +121,13 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
     class_properties(Constr, constr:worldFeature, WorldFeatureClass),
     owl_individual_of(WorldFeature, WorldFeatureClass),!,
 
-    class_properties(Constr, constr:constrWeight, literal(type(_, W))),
-    term_to_atom(Weight, W),
+    class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame))),
 
     class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))),
     term_to_atom(Lower, L),
 
     class_properties(Constr, constr:constrUpperLimit, literal(type(_, U))),
-    term_to_atom(Upper, U),
-
-    class_properties(Constr, constr:constrMaxVelocity, literal(type(_, Mv))),
-    term_to_atom(MaxVel, Mv),!.
+    term_to_atom(Upper, U),!.
 
 
 
@@ -153,7 +146,7 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, Weight, Lower, Up
 %
 
 % read properties of 'real' features (manually defined)
-feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
   rdf_has(Feature, rdf:type, Type),
   owl_subclass_of(Type, knowrob:'ToolFeature'),
@@ -170,17 +163,11 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
   owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
   owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
-  Direction = [DX, DY, DZ],
-
-  owl_has(Feature, knowrob:contactDirection, Cont),
-  owl_has(Cont, knowrob:vectorX, literal(type(_,Cx))), term_to_atom(CX, Cx),
-  owl_has(Cont, knowrob:vectorY, literal(type(_,Cy))), term_to_atom(CY, Cy),
-  owl_has(Cont, knowrob:vectorZ, literal(type(_,Cz))), term_to_atom(CZ, Cz),
-  ContactDirection = [CX, CY, CZ].
+  Direction = [DX, DY, DZ].
 
 
 % read cylinders as line features
-feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
 %   owl_individual_of(Feature, FeatureClassDef),
 
@@ -199,13 +186,11 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
   owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
   owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
-  Direction = [DX, DY, DZ],
-
-  ContactDirection = [0, 0, 0].
+  Direction = [DX, DY, DZ].
 
 
 % read planes as plane features
-feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) :-
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
 %   owl_individual_of(Feature, FeatureClassDef),
 
@@ -224,10 +209,7 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDi
   owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
   owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
   owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
-  Direction = [DX, DY, DZ],
-
-  % TODO: how to determine contact direction?
-  ContactDirection = [0, 0, 0].
+  Direction = [DX, DY, DZ].
 
 
 
@@ -248,17 +230,6 @@ features_in_constraints(Plan, O) :-
    class_properties(Motion, knowrob:constrainedBy, C),
    (class_properties(C, constr:toolFeature, O);
     class_properties(C, constr:worldFeature, O)).
-
-
-% set of all constraint templates in the task
-
-plan_constraint_templates(Plan, ClsUnique) :-
-  findall(Cl, (plan_subevents(Plan, Sub),
-     member(Motion, Sub),
-     class_properties(Motion, knowrob:constrainedBy, C),
-     owl_direct_subclass_of(C, Cl),
-     rdf_has(Cl, rdf:type, owl:'Class')), Cls),
-  sort(Cls, ClsUnique).
 
 % all properties of that constraint
 constraint_property(C, P, O) :-
