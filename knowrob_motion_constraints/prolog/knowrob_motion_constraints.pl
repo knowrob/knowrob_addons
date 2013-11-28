@@ -25,7 +25,7 @@
       generate_obj_parts/2,
       object_feature/4,
       motion_constraint/2,
-      motion_constraint/3,
+%       motion_constraint/3,
       constraint_properties/7,
       plan_constraints_of_type/3,
       features_in_constraints/2,
@@ -52,7 +52,7 @@
     plan_constraints_of_type(r,r,r),
     features_in_constraints(r,r),
     motion_constraint(r, r),
-    motion_constraint(r, r, r),
+%     motion_constraint(r, r, r),
     constraint_properties(r, r, r, r, -, -, -),
     feature_properties(r, -, -, -, -, -).
 
@@ -87,11 +87,13 @@ motion_constraint(Motion, Constr) :-
 % @param Tool   OWL identifier for a tool, e.g. an instance of a spatula
 % @param Constr OWL identifier of the constraint
 %
-motion_constraint(Motion, Tool, Constr) :-
-    class_properties(Motion, knowrob:constrainedBy, Constr),
-    class_properties(Constr, constr:toolFeature, Tf),
-    once(owl_individual_of(ToolPart, Tf)),
-    owl_has(Tool, knowrob:properPhysicalParts, ToolPart).
+%TODO: ADAPT THIS TO THE FINAL FEATURE REPRESENTATION
+% 
+% motion_constraint(Motion, Tool, Constr) :-
+%     class_properties(Motion, knowrob:constrainedBy, Constr),
+%     class_properties(Constr, constr:toolFeature, Tf),
+%     once(owl_individual_of(ToolPart, Tf)),
+%     owl_has(Tool, knowrob:properPhysicalParts, ToolPart).
 
 
 
@@ -113,15 +115,15 @@ motion_constraint(Motion, Tool, Constr) :-
 constraint_properties(Constr, Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper) :-
 
     owl_subclass_of(Constr, Type),
-    owl_direct_subclass_of(Type, constr:'MotionConstraintByType'),!,
+    once(owl_direct_subclass_of(Type, constr:'MotionConstraintByType')),
 
     class_properties(Constr, constr:toolFeature, ToolFeatureClass),
-    owl_individual_of(ToolFeature, ToolFeatureClass),!,
+    once(owl_individual_of(ToolFeature, ToolFeatureClass)),
 
     class_properties(Constr, constr:worldFeature, WorldFeatureClass),
-    owl_individual_of(WorldFeature, WorldFeatureClass),!,
+    once(owl_individual_of(WorldFeature, WorldFeatureClass)),
 
-    class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame))),
+    once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));true),
 
     class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))),
     term_to_atom(Lower, L),
