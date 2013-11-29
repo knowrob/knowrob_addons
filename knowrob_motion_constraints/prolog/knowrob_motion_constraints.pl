@@ -115,7 +115,7 @@ motion_constraint(Motion, Constr) :-
 constraint_properties(Constr, Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper) :-
 
     owl_subclass_of(Constr, Type),
-    once(owl_direct_subclass_of(Type, constr:'MotionConstraintByType')),
+    once(owl_direct_subclass_of(Type, constr:'MotionConstraint')),
 
     class_properties(Constr, constr:toolFeature, ToolFeatureClass),
     once(owl_individual_of(ToolFeature, ToolFeatureClass)),
