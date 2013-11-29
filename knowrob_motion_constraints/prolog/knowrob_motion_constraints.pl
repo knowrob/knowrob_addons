@@ -20,13 +20,14 @@
 
 :- module(knowrob_motion_constraints,
     [
-      plane_annotation_side_vector/3,
-      print_annotation_normal_vectors/1,
-      generate_obj_parts/2,
-      object_feature/4,
+%       plane_annotation_side_vector/3,
+%       print_annotation_normal_vectors/1,
+%       generate_obj_parts/2,
+%       object_feature/4,
       motion_constraint/2,
 %       motion_constraint/3,
-      constraint_properties/7,
+%       constraint_properties/7,
+      constraint_properties/9,
       plan_constraints_of_type/3,
       features_in_constraints/2,
       feature_properties/6
@@ -54,6 +55,7 @@
     motion_constraint(r, r),
 %     motion_constraint(r, r, r),
     constraint_properties(r, r, r, r, -, -, -),
+    constraint_properties(r, r, r, r, r, r, -, -, -),
     feature_properties(r, -, -, -, -, -).
 
 
@@ -112,16 +114,18 @@ motion_constraint(Motion, Constr) :-
 % @param Lower          Lower limit for the controlled values
 % @param Upper          Upper limit for the controlled values
 %
-constraint_properties(Constr, Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper) :-
+
+% new version: take objectActedOn/deviceUsed from motion spec into account
+constraint_properties(ToolObjClass, WorldObjClass, Constr, Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper) :-
 
     owl_subclass_of(Constr, Type),
     once(owl_direct_subclass_of(Type, constr:'MotionConstraint')),
 
     class_properties(Constr, constr:toolFeature, ToolFeatureClass),
-    once(owl_individual_of(ToolFeature, ToolFeatureClass)),
+    once(object_feature(ToolFeatureClass, ToolObjClass, ToolFeature)),
 
     class_properties(Constr, constr:worldFeature, WorldFeatureClass),
-    once(owl_individual_of(WorldFeature, WorldFeatureClass)),
+    once(object_feature(WorldFeatureClass, WorldObjClass, WorldFeature)),
 
     once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));true),
 
@@ -132,7 +136,41 @@ constraint_properties(Constr, Type, ToolFeature, WorldFeature, ReferenceFrame, L
     term_to_atom(Upper, U),!.
 
 
+% infer most suitable toolFeature given object description
 
+% case: all types already inferred
+object_feature(FeatureClass, ObjClass, FeatureInst) :-
+    owl_individual_of(ObjInst, ObjClass),
+    owl_has(ObjInst, knowrob:properPhysicalParts, FeatureInst),
+    owl_individual_of(FeatureInst, FeatureClass).
+
+% compute object main axis
+object_feature(FeatureClass, ObjClass, FeatureInst) :-
+    rdf_equal(FeatureClass, knowrob:'ObjectMainAxis'),
+    owl_individual_of(ObjInst, ObjClass),
+    object_main_cone(ObjInst, FeatureInst).
+
+% compute object center: return object instance itself
+object_feature(FeatureClass, ObjClass, FeatureInst) :-
+    rdf_equal(FeatureClass, knowrob:'CenterOfObject'),
+    owl_individual_of(ObjInst, ObjClass),
+    FeatureInst = ObjInst.
+
+% compute main supporting plane
+object_feature(FeatureClass, ObjClass, FeatureInst) :-
+    rdf_equal(FeatureClass, knowrob:'SupportingPlane'),
+    owl_individual_of(ObjInst, ObjClass),
+    object_main_plane(ObjInst, FeatureInst).
+
+% compute bottle cap
+object_feature(FeatureClass, ObjClass, FeatureInst) :-
+    rdf_equal(FeatureClass, knowrob:'BottleCap'),
+    owl_individual_of(ObjInst, ObjClass),
+    bottle_cap(ObjInst, FeatureInst).
+
+
+
+    
 
 %% feature_properties(Feature, Type, Label, TfFrame, Position, Direction, ContactDirection) is nondet.
 %
@@ -245,173 +283,173 @@ constraint_property(C, P, O) :-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % local object poses
 
-object_feature(ObjClass, FeatureType, FeaturePos, FeatureDir) :-
-
-    ( (owl_individual_of(ObjInst, ObjClass),!);
-      (rdf_instance_from_class(ObjClass, ObjInst))),
-
-    rdf_triple(knowrob:properPhysicalParts, ObjInst, PartInst),
-
-    (
-     (sphere_annotation_position(PartInst, FeaturePos, FeatureDir),
-       FeatureType = 2) ; % POINT
-     (cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir),
-       FeatureType = 0) ; % LINE
-     (plane_annotation_side_vector(PartInst, FeaturePos, FeatureDir),
-       FeatureType = 0) ; % LINE
-     (plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir),
-       FeatureType = 1) % PLANE
-    ).
-
-
-
-% point features for center point of sphere annotations
-sphere_annotation_position(PartInst, FeaturePos, FeatureDir) :-
-    owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Sphere'),
-    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
-    FeaturePos = [X,Y,Z],
-    FeatureDir = [0,0,0].
-
-% line feature for center line of cone annotations
-cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir) :-
-
-    owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone'),
-    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
-    FeaturePos = [X,Y,Z],
-
-    annotation_cone_direction(PartInst, Direction),
-    rdf_has(Direction, knowrob:vectorX, literal(type(xsd:'float',DirX))),
-    rdf_has(Direction, knowrob:vectorY, literal(type(xsd:'float',DirY))),
-    rdf_has(Direction, knowrob:vectorZ, literal(type(xsd:'float',DirZ))),
-    FeatureDir = [DirX, DirY, DirZ].
-
-
-
-% plane annotation: center point and normal vector
-plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir) :-
-
-    owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface'),
-    annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
-    FeaturePos = [X,Y,Z],
-
-    annotation_plane_normal(PartInst, Direction),
-    rdf_has(Direction, knowrob:vectorX, literal(type(xsd:'float',DirX))),
-    rdf_has(Direction, knowrob:vectorY, literal(type(xsd:'float',DirY))),
-    rdf_has(Direction, knowrob:vectorZ, literal(type(xsd:'float',DirZ))),
-    FeatureDir = [DirX, DirY, DirZ].
-
-
-
-
-% direction vectors for all edges of a plane annotation
-
-% short edges
-plane_annotation_side_vector(PartInst, SidePosList, SideDirList) :-
-
-    % read direction of short side and long side of the part
-    annotation_plane_longside(PartInst, LongSideInst),
-    rdf_has(LongSideInst, knowrob:vectorX, literal(type(xsd:'float',LongSideX))),
-    rdf_has(LongSideInst, knowrob:vectorY, literal(type(xsd:'float',LongSideY))),
-    rdf_has(LongSideInst, knowrob:vectorZ, literal(type(xsd:'float',LongSideZ))),
-    knowrob_coordinates:list_to_vector3d([LongSideX,LongSideY,LongSideZ], LongSideVec),
-
-    annotation_plane_shortside(PartInst, ShortSideInst),
-    rdf_has(ShortSideInst, knowrob:vectorX, literal(type(xsd:'float',ShortSideX))),
-    rdf_has(ShortSideInst, knowrob:vectorY, literal(type(xsd:'float',ShortSideY))),
-    rdf_has(ShortSideInst, knowrob:vectorZ, literal(type(xsd:'float',ShortSideZ))),
-    knowrob_coordinates:list_to_vector3d([ShortSideX,ShortSideY,ShortSideZ], ShortSideVec),
-
-    % read pose of object part and transform to global coordinates
-    knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J),
-    annotation_pose_list(J, PartPose1),
-    PartPose1 = [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_],
-    PartPose = [X,Y,Z],
-    knowrob_coordinates:list_to_vector3d(PartPose, PartPoseVec),
-
-    compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList).
-
-
-
-% compute front edge
-compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
-
-    jpl_new('javax.vecmath.Vector3d', [LongSideVec], SidePosVec),
-    jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
-
-    knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList),
-    knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
-
-% compute rear edge
-compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
-
-    jpl_new('javax.vecmath.Vector3d', [LongSideVec], SidePosVec),
-    jpl_call(SidePosVec, negate, [], _),
-    jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
-
-    knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList),
-    knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
-
-
-% compute right edge
-compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
-
-    jpl_new('javax.vecmath.Vector3d', [ShortSideVec], SidePosVec),
-    jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
-
-    knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList),
-    knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
-
-% compute left edge
-compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
-
-    jpl_new('javax.vecmath.Vector3d', [ShortSideVec], SidePosVec),
-    jpl_call(SidePosVec, negate, [], _),
-    jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
-
-    knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList),
-    knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
-
-
-
-
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-% global position stuff
-
-
-generate_obj_parts(Obj, Parts) :-
-  findall(Part, comp_physical_parts(Obj, Part), Parts).
-
-
-% comp_physical_parts(knowrob:'Spatula_OdhJed', Parts).
-
-% current_object_pose(knowrob:'Spatula_OdhJed', ObjPose).
-
-% add_object(knowrob:'Spatula_OdhJed',_).
-
-
-
-
-print_annotation_normal_vectors(Obj) :-
-
-    current_object_pose(Obj, ObjPose),
-
-    % get all normal vectors
-    annotation_plane_normal(PartInst, NormalVec),
-
-    % read relative poses, and transform to global coordinates
-    knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J),
-    annotation_pose_list(J, Pose),
-    pose_into_global_coord(ObjPose, Pose, PoseGl),
-    PoseGl=[_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_],
-
-    % create a cylinder instance for visualization in direction of the
-    % normal vector
-    create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder',
-                             [1,0,0,X,0,1,0,Y,0,0,1,Z,0,0,0,1],
-                             ['VisualPerception'], Cyl),
-    rdf_assert(Cyl, knowrob:longitudinalDirection, NormalVec),
-    add_object(Cyl, _), highlight_object(Cyl, _).
+% object_feature(ObjClass, FeatureType, FeaturePos, FeatureDir) :-
+% 
+%     ( (owl_individual_of(ObjInst, ObjClass),!);
+%       (rdf_instance_from_class(ObjClass, ObjInst))),
+% 
+%     rdf_triple(knowrob:properPhysicalParts, ObjInst, PartInst),
+% 
+%     (
+%      (sphere_annotation_position(PartInst, FeaturePos, FeatureDir),
+%        FeatureType = 2) ; % POINT
+%      (cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir),
+%        FeatureType = 0) ; % LINE
+%      (plane_annotation_side_vector(PartInst, FeaturePos, FeatureDir),
+%        FeatureType = 0) ; % LINE
+%      (plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir),
+%        FeatureType = 1) % PLANE
+%     ).
+% 
+% 
+% 
+% % point features for center point of sphere annotations
+% sphere_annotation_position(PartInst, FeaturePos, FeatureDir) :-
+%     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Sphere'),
+%     annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
+%     FeaturePos = [X,Y,Z],
+%     FeatureDir = [0,0,0].
+% 
+% % line feature for center line of cone annotations
+% cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir) :-
+% 
+%     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone'),
+%     annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
+%     FeaturePos = [X,Y,Z],
+% 
+%     annotation_cone_direction(PartInst, Direction),
+%     rdf_has(Direction, knowrob:vectorX, literal(type(xsd:'float',DirX))),
+%     rdf_has(Direction, knowrob:vectorY, literal(type(xsd:'float',DirY))),
+%     rdf_has(Direction, knowrob:vectorZ, literal(type(xsd:'float',DirZ))),
+%     FeatureDir = [DirX, DirY, DirZ].
+% 
+% 
+% 
+% % plane annotation: center point and normal vector
+% plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir) :-
+% 
+%     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface'),
+%     annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
+%     FeaturePos = [X,Y,Z],
+% 
+%     annotation_plane_normal(PartInst, Direction),
+%     rdf_has(Direction, knowrob:vectorX, literal(type(xsd:'float',DirX))),
+%     rdf_has(Direction, knowrob:vectorY, literal(type(xsd:'float',DirY))),
+%     rdf_has(Direction, knowrob:vectorZ, literal(type(xsd:'float',DirZ))),
+%     FeatureDir = [DirX, DirY, DirZ].
+% 
+% 
+% 
+% 
+% % direction vectors for all edges of a plane annotation
+% 
+% % short edges
+% plane_annotation_side_vector(PartInst, SidePosList, SideDirList) :-
+% 
+%     % read direction of short side and long side of the part
+%     annotation_plane_longside(PartInst, LongSideInst),
+%     rdf_has(LongSideInst, knowrob:vectorX, literal(type(xsd:'float',LongSideX))),
+%     rdf_has(LongSideInst, knowrob:vectorY, literal(type(xsd:'float',LongSideY))),
+%     rdf_has(LongSideInst, knowrob:vectorZ, literal(type(xsd:'float',LongSideZ))),
+%     knowrob_coordinates:list_to_vector3d([LongSideX,LongSideY,LongSideZ], LongSideVec),
+% 
+%     annotation_plane_shortside(PartInst, ShortSideInst),
+%     rdf_has(ShortSideInst, knowrob:vectorX, literal(type(xsd:'float',ShortSideX))),
+%     rdf_has(ShortSideInst, knowrob:vectorY, literal(type(xsd:'float',ShortSideY))),
+%     rdf_has(ShortSideInst, knowrob:vectorZ, literal(type(xsd:'float',ShortSideZ))),
+%     knowrob_coordinates:list_to_vector3d([ShortSideX,ShortSideY,ShortSideZ], ShortSideVec),
+% 
+%     % read pose of object part and transform to global coordinates
+%     knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J),
+%     annotation_pose_list(J, PartPose1),
+%     PartPose1 = [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_],
+%     PartPose = [X,Y,Z],
+%     knowrob_coordinates:list_to_vector3d(PartPose, PartPoseVec),
+% 
+%     compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList).
+% 
+% 
+% 
+% % compute front edge
+% compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
+% 
+%     jpl_new('javax.vecmath.Vector3d', [LongSideVec], SidePosVec),
+%     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
+% 
+%     knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList),
+%     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
+% 
+% % compute rear edge
+% compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
+% 
+%     jpl_new('javax.vecmath.Vector3d', [LongSideVec], SidePosVec),
+%     jpl_call(SidePosVec, negate, [], _),
+%     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
+% 
+%     knowrob_coordinates:vector3d_to_list(ShortSideVec, SideDirList),
+%     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
+% 
+% 
+% % compute right edge
+% compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
+% 
+%     jpl_new('javax.vecmath.Vector3d', [ShortSideVec], SidePosVec),
+%     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
+% 
+%     knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList),
+%     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
+% 
+% % compute left edge
+% compute_edge_vector(PartPoseVec, LongSideVec, ShortSideVec, SidePosList, SideDirList) :-
+% 
+%     jpl_new('javax.vecmath.Vector3d', [ShortSideVec], SidePosVec),
+%     jpl_call(SidePosVec, negate, [], _),
+%     jpl_call(SidePosVec, scaleAdd, [0.5, PartPoseVec], _),
+% 
+%     knowrob_coordinates:vector3d_to_list(LongSideVec, SideDirList),
+%     knowrob_coordinates:vector3d_to_list(SidePosVec, SidePosList).
+% 
+% 
+% 
+% 
+% 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % global position stuff
+% 
+% 
+% generate_obj_parts(Obj, Parts) :-
+%   findall(Part, comp_physical_parts(Obj, Part), Parts).
+% 
+% 
+% % comp_physical_parts(knowrob:'Spatula_OdhJed', Parts).
+% 
+% % current_object_pose(knowrob:'Spatula_OdhJed', ObjPose).
+% 
+% % add_object(knowrob:'Spatula_OdhJed',_).
+% 
+% 
+% 
+% 
+% print_annotation_normal_vectors(Obj) :-
+% 
+%     current_object_pose(Obj, ObjPose),
+% 
+%     % get all normal vectors
+%     annotation_plane_normal(PartInst, NormalVec),
+% 
+%     % read relative poses, and transform to global coordinates
+%     knowrob_mesh_reasoning:mesh_annotation_java_obj(PartInst, J),
+%     annotation_pose_list(J, Pose),
+%     pose_into_global_coord(ObjPose, Pose, PoseGl),
+%     PoseGl=[_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_],
+% 
+%     % create a cylinder instance for visualization in direction of the
+%     % normal vector
+%     create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder',
+%                              [1,0,0,X,0,1,0,Y,0,0,1,Z,0,0,0,1],
+%                              ['VisualPerception'], Cyl),
+%     rdf_assert(Cyl, knowrob:longitudinalDirection, NormalVec),
+%     add_object(Cyl, _), highlight_object(Cyl, _).
 
 
 
