@@ -1,0 +1,2713 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY local_path 'file://@OWL_PATH_PREFIX@/owl/'>
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY cad "http://ias.cs.tum.edu/kb/knowrob-cad.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
+     xml:base="http://ias.cs.tum.edu/kb/knowrob-cad.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob-cad="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
+     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="&cad;">
+        <owl:imports rdf:resource="&local_path;knowrob.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#longitudinalDirection -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;longitudinalDirection"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#normalDirection -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;normalDirection"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#objectLongSide -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectLongSide"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#objectShortSide -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;objectShortSide"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#orientation -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;orientation"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#properPhysicalParts -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;properPhysicalParts"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#relativeTo -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;relativeTo"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#areaCoverage -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;areaCoverage"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#areaOfObject -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;areaOfObject"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#lengthOfObject -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;lengthOfObject"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m00 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m00"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m01 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m01"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m02 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m02"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m03 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m03"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m10 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m10"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m11 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m11"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m12 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m12"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m13 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m13"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m20 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m20"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m21 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m21"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m22 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m22"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m23 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m23"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m30 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m30"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m31 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m31"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m32 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m32"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m33 -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;m33"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#maxRadius -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;maxRadius"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#minRadius -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;minRadius"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#radius -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;radius"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#vectorX -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorX"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#vectorY -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorY"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#vectorZ -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorZ"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#volumeOfObject -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob;volumeOfObject"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#ConcaveTangibleObject -->
+
+    <owl:Class rdf:about="&knowrob;ConcaveTangibleObject"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone -->
+
+    <owl:Class rdf:about="&knowrob;Cone"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container -->
+
+    <owl:Class rdf:about="&knowrob;Container"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface -->
+
+    <owl:Class rdf:about="&knowrob;FlatPhysicalSurface"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle -->
+
+    <owl:Class rdf:about="&knowrob;Handle"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#HumanScaleObject -->
+
+    <owl:Class rdf:about="&knowrob;HumanScaleObject"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D -->
+
+    <owl:Class rdf:about="&knowrob;RotationMatrix3D"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere -->
+
+    <owl:Class rdf:about="&knowrob;Sphere"/>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector -->
+
+    <owl:Class rdf:about="&knowrob;Vector"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob-cad.owl#pancake-maker_Rghsuz9x -->
+
+    <owl:NamedIndividual rdf:about="&cad;pancake-maker_Rghsuz9x">
+        <rdf:type rdf:resource="&knowrob;PancakeMaker"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_4uQRLbAu"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_5IFzUOcg"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_5b85gxmN"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_5h1t06OI"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_9ITsRigl"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_BtrY1ax2"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_DQe2nQhH"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_DSSREgSX"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_LGez0ilZ"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_LfztqzYq"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_MUgwcrmN"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_R4evtt0I"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_V3Xc32vP"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_XQUzyml2"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_XWNWqUNW"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_ZzJyDKnn"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_hhssk90W"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_qEt4HfSH"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_u9erh1wf"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_vMFjQOOE"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Container_Fl23r9kd"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Container_TfiO15Zz"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Container_k0uM02G8"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_0pHtWGiG"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_G7Bu8xbv"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_JL7SxlZU"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_Kowu9ahh"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_bkPqADEM"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_eahzF3N1"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_na1RhzM0"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_pDGhzM2K"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;FlatPhysicalSurface_zRekkSBF"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Handle_66tgK18W"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Handle_Hy3l1K04"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Handle_OThQJTbP"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Handle_USGEBShY"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Handle_n4PibYgg"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Handle_vXHfTXOt"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_3nbHLcwB"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_5G6ndkOl"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_Fz4Zugl2"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_NYmuvX3L"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_SyxUjIcZ"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_WS6RpKIe"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_mtJSOd3R"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_sr9qHc9X"/>
+        <knowrob:properPhysicalParts rdf:resource="&knowrob;Sphere_tSPwsVww"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_4uQRLbAu -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_4uQRLbAu">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0019131586</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.0019131998</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.001913241</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.017009353</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.57971513</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.7691922E-6</knowrob:volumeOfObject>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">3.5649296E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_quJjRbHT"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_Voe8g07q"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_5IFzUOcg -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_5IFzUOcg">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0026290768</knowrob:areaOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.009999938</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.010000033</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.010000128</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.016999995</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.81839854</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.8307906E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_IlcXoSoh"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_ohG3kzS3"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_5b85gxmN -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_5b85gxmN">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0032349888</knowrob:volumeOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.03364274</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.03412064</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.034598544</knowrob:maxRadius>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.08972973</knowrob:areaOfObject>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.097778514</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">1.4232026</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_V6xmJvTK"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_sMroVkMA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_5h1t06OI -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_5h1t06OI">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0011611718</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">Infinity</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_rfTVf4U7"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_sSiNPRev"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_9ITsRigl -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_9ITsRigl">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0029620924</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.003035082</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.0031080714</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.017019978</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.59341013</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.4560506E-6</knowrob:volumeOfObject>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">5.7928E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_vGMUXhlJ"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_AS27smdS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_BtrY1ax2 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_BtrY1ax2">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.01045354</knowrob:areaOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.02355773</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.02576988</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.027982028</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.037896425</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.56263244</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">7.168941E-4</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_xr98K9NZ"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_2nFV09ez"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_DQe2nQhH -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_DQe2nQhH">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.011498881</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.022534007</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.022845594</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.02315718</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.043895528</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.60673755</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">6.5105635E-4</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_x3zXkX6o"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_71pEXWgY"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_DSSREgSX -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_DSSREgSX">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0025399681</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.010000013</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.010000048</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.010000084</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.016999997</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7906588</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.8308062E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_1AvjLe1l"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_sd7uG400"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_LGez0ilZ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_LGez0ilZ">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0026290712</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.009999892</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.009999907</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.009999922</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.016999997</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.818407</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.830669E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_KXPonrTJ"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_aP4mumBg"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_LfztqzYq -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_LfztqzYq">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.0056541893</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.0080415765</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.010428963</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.01619214</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.26055738</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">3.0628707E-5</knowrob:volumeOfObject>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">6.6841004E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_trVcOGJX"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_Yns3bDau"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_MUgwcrmN -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_MUgwcrmN">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.009284799</knowrob:areaOfObject>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.012097705</knowrob:volumeOfObject>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.021354966</knowrob:lengthOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.1403719</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.14119403</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.14201616</knowrob:maxRadius>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.1624746</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_BxK9deB2"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_6thZAb1z"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_R4evtt0I -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_R4evtt0I">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0028518632</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.009999925</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.009999927</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.009999928</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.016999999</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.8877583</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.830689E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_e39Zzrh8"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_HdgSaxeo"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_V3Xc32vP -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_V3Xc32vP">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0011611757</knowrob:areaOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.0047272886</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.0048456904</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0049640923</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.02319992</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.54656893</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.5482845E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_zFvAuPHQ"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_8FigaOQq"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_XQUzyml2 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_XQUzyml2">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.0029620477</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.0030349945</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0031079415</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.017019972</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5934099</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.4557914E-6</knowrob:volumeOfObject>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">5.792629E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_UMQhGkO4"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_oIl96ifA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_XWNWqUNW -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_XWNWqUNW">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0010451871</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0050701806</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.0060051926</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.0069402047</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.021150658</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.43377468</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">2.1849408E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_7DNwyLyn"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_BzklVIZX"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_ZzJyDKnn -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_ZzJyDKnn">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0037850905</knowrob:volumeOfObject>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.012544215</knowrob:areaOfObject>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.044437826</knowrob:lengthOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.04739184</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.054591276</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.061790716</knowrob:minRadius>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.26031542</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_dQArEUJj"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_HM5i2R9S"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_hhssk90W -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_hhssk90W">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0014858093</knowrob:volumeOfObject>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.009408224</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.034140013</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.034720905</knowrob:lengthOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.038716298</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.04329258</knowrob:minRadius>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.3581351</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_9bQLN6FT"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_FphfEbod"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_qEt4HfSH -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_qEt4HfSH">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0011611748</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0059162616</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.007992293</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.010068323</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.02243483</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.3369785</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.163815E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ixRlac0F"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_FxKPgdg4"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_u9erh1wf -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_u9erh1wf">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0011611627</knowrob:areaOfObject>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.013458875</knowrob:maxRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.014209617</knowrob:radius>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.014960359</knowrob:minRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.022634862</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.19063</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.2999093E-4</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_G9bFPZyr"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_clSbG8hK"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_vMFjQOOE -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Cone_vMFjQOOE">
+        <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0011611874</knowrob:areaOfObject>
+        <knowrob:minRadius rdf:datatype="&xsd;float">0.005173781</knowrob:minRadius>
+        <knowrob:radius rdf:datatype="&xsd;float">0.006289228</knowrob:radius>
+        <knowrob:maxRadius rdf:datatype="&xsd;float">0.0074046752</knowrob:maxRadius>
+        <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.023814723</knowrob:lengthOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.40848303</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">2.70481E-5</knowrob:volumeOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_rImsBM5S"/>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_JDW4rKsZ"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container_Fl23r9kd -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Container_Fl23r9kd">
+        <rdf:type rdf:resource="&knowrob;Container"/>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.3400877E-5</knowrob:volumeOfObject>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_whplW6Tb"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container_TfiO15Zz -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Container_TfiO15Zz">
+        <rdf:type rdf:resource="&knowrob;Container"/>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.3401655E-5</knowrob:volumeOfObject>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_xSPduUbA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container_k0uM02G8 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Container_k0uM02G8">
+        <rdf:type rdf:resource="&knowrob;Container"/>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">5.3208787E-6</knowrob:volumeOfObject>
+        <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_f6dVTZW5"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_0pHtWGiG -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_0pHtWGiG">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7874152</knowrob:areaCoverage>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">9.4002363E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_2l6LrEOE"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_Qt8Q7IVj"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_tveo1KOV"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_yxwfgKxX"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_G7Bu8xbv -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_G7Bu8xbv">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.78740096</knowrob:areaCoverage>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">9.400363E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_R7xIGwdI"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_1a8qbzHL"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_9hJ9IBaP"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_U1SeHtNS"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_JL7SxlZU -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_JL7SxlZU">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.21559802</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.77160615</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_1qKzVb4u"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_FcfiD3po"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_Jgy0U60q"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_w8DA81Wk"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_Kowu9ahh -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Kowu9ahh">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.11105916</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.41071352</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_GmdDR9xh"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_Rao6B5GE"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_bgX2F6cR"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_xgBVl67d"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_bkPqADEM -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_bkPqADEM">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7874001</knowrob:areaCoverage>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">9.4003667E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ykHREDMb"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_HoizbFfd"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_PvUhIIIh"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_Uxb9YKqj"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_eahzF3N1 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_eahzF3N1">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.013746086</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.050834868</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_cpVmTbmK"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_HWQ3QW6H"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_Hkqcg9Nk"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_wWTOhV3w"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_na1RhzM0 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_na1RhzM0">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7873987</knowrob:areaCoverage>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">9.4004936E-4</knowrob:areaOfObject>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_gQNnzoLn"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_EYD0Ts2E"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_KLibYmcW"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_QWznsr7Q"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_pDGhzM2K -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_pDGhzM2K">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.10531052</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.37689695</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_lznrjKhH"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_SLzQmPbO"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_fLIpgR6p"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_go7hOFoO"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_zRekkSBF -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_zRekkSBF">
+        <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.18506081</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7852613</knowrob:areaCoverage>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_x7S0v1ao"/>
+        <knowrob:normalDirection rdf:resource="&knowrob;Vector_33n1UYBW"/>
+        <knowrob:objectShortSide rdf:resource="&knowrob;Vector_3DNQtMTl"/>
+        <knowrob:objectLongSide rdf:resource="&knowrob;Vector_p1gr2YGk"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_66tgK18W -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Handle_66tgK18W">
+        <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_s4mKQ1dk"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_Hy3l1K04 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Handle_Hy3l1K04">
+        <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_5yVN7Jhs"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_OThQJTbP -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Handle_OThQJTbP">
+        <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_bT0kPTie"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_USGEBShY -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Handle_USGEBShY">
+        <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_QOoNkQxW"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_n4PibYgg -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Handle_n4PibYgg">
+        <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_4Xim8UK1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_vXHfTXOt -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Handle_vXHfTXOt">
+        <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_EEHNYOAU"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_1AvjLe1l -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_1AvjLe1l">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09022568166255951</knowrob:m13>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.27067700028419495</knowrob:m23>
+        <knowrob:m22 rdf:datatype="&xsd;double">-8.719252946320921E-6</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">-8.719252946320921E-6</knowrob:m20>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3120303452014923</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.9999998807907104</knowrob:m21>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9999999403953552</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.9999999403953552</knowrob:m02>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m00 rdf:datatype="&xsd;double">7.0154210334294476E-6</knowrob:m00>
+        <knowrob:m12 rdf:datatype="&xsd;double">7.0154210334294476E-6</knowrob:m12>
+        <knowrob:m01 rdf:datatype="&xsd;double">8.7191911006812E-6</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">8.7191911006812E-6</knowrob:m11>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_1EOwWi5j -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_1EOwWi5j">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.0030075092799961567</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.006874293088912964</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.007085420191287994</knowrob:m23>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_1qKzVb4u -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_1qKzVb4u">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.0646616742014885</knowrob:m13>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.5712695121765137</knowrob:m00>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.5712695121765137</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.8207626342773438</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-1.0</knowrob:m12>
+        <knowrob:m23 rdf:datatype="&xsd;double">-3.501772880554199E-7</knowrob:m23>
+        <knowrob:m22 rdf:datatype="&xsd;double">-3.893747269057002E-10</knowrob:m22>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.041353657841682434</knowrob:m03>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.8207626342773438</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m02 rdf:datatype="&xsd;double">3.8976000205082073E-10</knowrob:m02>
+        <knowrob:m11 rdf:datatype="&xsd;double">5.423383409031146E-10</knowrob:m11>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_2l6LrEOE -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_2l6LrEOE">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11578948050737381</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.22932328283786774</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.5736170411109924</knowrob:m21>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.5736170411109924</knowrob:m00>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.8191236853599548</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-1.0</knowrob:m12>
+        <knowrob:m11 rdf:datatype="&xsd;double">-1.263985183186378E-8</knowrob:m11>
+        <knowrob:m02 rdf:datatype="&xsd;double">-2.0388013055594456E-8</knowrob:m02>
+        <knowrob:m22 rdf:datatype="&xsd;double">-7.078683861294621E-9</knowrob:m22>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2706766724586487</knowrob:m23>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.8191236853599548</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_4Xim8UK1 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_4Xim8UK1">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.0019895497243851423</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.0019895497243851423</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.06301732361316681</knowrob:m11>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.06301732361316681</knowrob:m01>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11527036130428314</knowrob:m13>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.06301732361316681</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.06301732361316681</knowrob:m22>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.27047842741012573</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.31247851252555847</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.9960209131240845</knowrob:m21>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9980104565620422</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.9980104565620422</knowrob:m02>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_5yVN7Jhs -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_5yVN7Jhs">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.028082814067602158</knowrob:m13>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.02825051359832287</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.02825051359832287</knowrob:m21>
+        <knowrob:m11 rdf:datatype="&xsd;double">-3.9920510607771575E-4</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">-3.9920510607771575E-4</knowrob:m00>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.02825051359832287</knowrob:m02>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.02825051359832287</knowrob:m12>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.05049952492117882</knowrob:m03>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.9992015957832336</knowrob:m22>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9996007680892944</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.9996007680892944</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m23 rdf:datatype="&xsd;double">7.160961395129561E-4</knowrob:m23>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_7DNwyLyn -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_7DNwyLyn">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.005292095709592104</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.005292095709592104</knowrob:m10>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.9894158244132996</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.08525202423334122</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.10126280784606934</knowrob:m13>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.10260691493749619</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.10260691493749619</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.10260691493749619</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.10260691493749619</knowrob:m20>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.45493945479393005</knowrob:m23>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.9947078824043274</knowrob:m00>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.9947078824043274</knowrob:m12>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_9bQLN6FT -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_9bQLN6FT">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.15564589202404022</knowrob:m03>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.43139806389808655</knowrob:m22>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.6379246711730957</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.6379246711730957</knowrob:m20>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.7156990170478821</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.7156990170478821</knowrob:m00>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.0010827106889337301</knowrob:m13>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.2843009829521179</knowrob:m01>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.2843009829521179</knowrob:m10>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.3091315031051636</knowrob:m23>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.6379246711730957</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.6379246711730957</knowrob:m02>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_AMaJxRLJ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_AMaJxRLJ">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.14209213852882385</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3065059185028076</knowrob:m03>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m13 rdf:datatype="&xsd;double">6.223106756806374E-4</knowrob:m13>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_BxK9deB2 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_BxK9deB2">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.002182333031669259</knowrob:m22>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.002182333031669259</knowrob:m01>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.002182333031669259</knowrob:m20>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.002182333031669259</knowrob:m11>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.999997615814209</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.999997615814209</knowrob:m02>
+        <knowrob:m23 rdf:datatype="&xsd;double">-3.9980386645765975E-6</knowrob:m23>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.03784019127488136</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.10262254625558853</knowrob:m13>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.999995231628418</knowrob:m21>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m12 rdf:datatype="&xsd;double">2.381294507358689E-6</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">2.381294507358689E-6</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_EEHNYOAU -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_EEHNYOAU">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.011167326010763645</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.011167326010763645</knowrob:m20>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11586393415927887</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.22892506420612335</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.27069345116615295</knowrob:m23>
+        <knowrob:m00 rdf:datatype="&xsd;double">-6.235847104107961E-5</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">-6.235847831703722E-5</knowrob:m11>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.011167326010763645</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.011167326010763645</knowrob:m02>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.9998753070831299</knowrob:m22>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9999376535415649</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.9999376535415649</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_G9bFPZyr -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_G9bFPZyr">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.07041232287883759</knowrob:m22>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.11631035059690475</knowrob:m23>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.4647938311100006</knowrob:m01>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.4647938311100006</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.08774766325950623</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.44054532051086426</knowrob:m03>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.535206139087677</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.535206139087677</knowrob:m00>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.705351710319519</knowrob:m21>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.705351710319519</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.705351710319519</knowrob:m20>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.705351710319519</knowrob:m02>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_GmdDR9xh -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_GmdDR9xh">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.0010062739020213485</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.0037866595666855574</knowrob:m10>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.9601293802261353</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.999992847442627</knowrob:m12>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.0036509199999272823</knowrob:m22>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.04164254665374756</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.08731129765510559</knowrob:m13>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.2795303165912628</knowrob:m00>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.27953213453292847</knowrob:m21>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.960136353969574</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m11 rdf:datatype="&xsd;double">5.438964581117034E-5</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">7.725507020950317E-5</knowrob:m23>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_IlcXoSoh -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_IlcXoSoh">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.0902252346277237</knowrob:m13>
+        <knowrob:m20 rdf:datatype="&xsd;double">-3.322574411868118E-5</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">-3.322574411868118E-5</knowrob:m22>
+        <knowrob:m12 rdf:datatype="&xsd;double">-8.710971997061279E-6</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-8.710971997061279E-6</knowrob:m00>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2706775963306427</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3120303452014923</knowrob:m03>
+        <knowrob:m02 rdf:datatype="&xsd;double">1.0</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">1.0</knowrob:m10>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m21 rdf:datatype="&xsd;double">1.0</knowrob:m21>
+        <knowrob:m11 rdf:datatype="&xsd;double">3.3226035156985745E-5</knowrob:m11>
+        <knowrob:m01 rdf:datatype="&xsd;double">3.3226035156985745E-5</knowrob:m01>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_KXPonrTJ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_KXPonrTJ">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09022561460733414</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.22932352125644684</knowrob:m03>
+        <knowrob:m12 rdf:datatype="&xsd;double">-2.0902020878565963E-6</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-2.0902020878565963E-6</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">-5.358554062695475E-6</knowrob:m11>
+        <knowrob:m01 rdf:datatype="&xsd;double">-5.358554062695475E-6</knowrob:m01>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2706770598888397</knowrob:m23>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.9999998807907104</knowrob:m21>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.9999999403953552</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9999999403953552</knowrob:m10>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m20 rdf:datatype="&xsd;double">5.358543148759054E-6</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">5.358543148759054E-6</knowrob:m22>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_QOoNkQxW -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_QOoNkQxW">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.005472464952617884</knowrob:m23>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.02230311743915081</knowrob:m22>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.02230311743915081</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.02230311743915081</knowrob:m11>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.02230311743915081</knowrob:m20>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.9997512102127075</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.9997512102127075</knowrob:m10>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.026323571801185608</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.09273373335599899</knowrob:m13>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.999502420425415</knowrob:m21>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m00 rdf:datatype="&xsd;double">2.4877642863430083E-4</knowrob:m00>
+        <knowrob:m12 rdf:datatype="&xsd;double">2.4877642863430083E-4</knowrob:m12>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_R7xIGwdI -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_R7xIGwdI">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11578945815563202</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.22932326793670654</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.27067670226097107</knowrob:m23>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.8191107511520386</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-1.0</knowrob:m12>
+        <knowrob:m11 rdf:datatype="&xsd;double">-4.813207166165512E-9</knowrob:m11>
+        <knowrob:m02 rdf:datatype="&xsd;double">-6.9809842351276075E-9</knowrob:m02>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.5736353993415833</knowrob:m21>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.5736353993415833</knowrob:m00>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.8191107511520386</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.5776435713377168E-9</knowrob:m22>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_SxcOrgBh -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_SxcOrgBh">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.006095223128795624</knowrob:m23>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.004482509568333626</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.08798015117645264</knowrob:m03>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_UMQhGkO4 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_UMQhGkO4">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.01657993718981743</knowrob:m02>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.01657993718981743</knowrob:m21>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.016579939052462578</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.016579939052462578</knowrob:m20>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09023335576057434</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.24154424667358398</knowrob:m03>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.999862551689148</knowrob:m01>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.999862551689148</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2941431701183319</knowrob:m23>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.9997250437736511</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.374660641886294E-4</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.3746607874054462E-4</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_V6xmJvTK -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_V6xmJvTK">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.025623878464102745</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.410025030374527</knowrob:m03>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.4508698582649231</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.4508698582649231</knowrob:m00>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.70368492603302</knowrob:m02>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.70368492603302</knowrob:m12>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.09826026856899261</knowrob:m22>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.5491301417350769</knowrob:m01>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.5491301417350769</knowrob:m10>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.70368492603302</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.70368492603302</knowrob:m21>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m23 rdf:datatype="&xsd;double">9.917407296597958E-4</knowrob:m23>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_YWiI4Y5Y -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_YWiI4Y5Y">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-3.707408905029297E-5</knowrob:m23>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.041355639696121216</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.09831282496452332</knowrob:m13>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_YlSQu0Mz -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_YlSQu0Mz">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.09432181715965271</knowrob:m23>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.005267842672765255</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.043345630168914795</knowrob:m03>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_bT0kPTie -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_bT0kPTie">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.02795969694852829</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.02795969694852829</knowrob:m00>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11588767915964127</knowrob:m13>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.23314352333545685</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.23314352333545685</knowrob:m22>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.2704157829284668</knowrob:m23>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.23314352333545685</knowrob:m11>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.23314352333545685</knowrob:m01>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3122507333755493</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.9440805912017822</knowrob:m21>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.9720402956008911</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9720402956008911</knowrob:m10>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_cpVmTbmK -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_cpVmTbmK">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.9357178807258606</knowrob:m21>
+        <knowrob:m11 rdf:datatype="&xsd;double">-1.0657215387954722E-10</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">-1.1388811421708667E-10</knowrob:m22>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.04124867916107178</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.11578948050737381</knowrob:m13>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.352749228477478</knowrob:m01>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.352749228477478</knowrob:m20>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.9357178807258606</knowrob:m00>
+        <knowrob:m12 rdf:datatype="&xsd;double">1.0</knowrob:m12>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m02 rdf:datatype="&xsd;double">1.4198401636811471E-14</knowrob:m02>
+        <knowrob:m23 rdf:datatype="&xsd;double">2.7951598167419434E-4</knowrob:m23>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_dQArEUJj -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_dQArEUJj">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.10856972634792328</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.27700409293174744</knowrob:m23>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.4285566508769989</knowrob:m21>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.638881504535675</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.638881504535675</knowrob:m11>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.7142783403396606</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.7142783403396606</knowrob:m00>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.009171487763524055</knowrob:m13>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.28572165966033936</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.28572165966033936</knowrob:m10>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.638881504535675</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.638881504535675</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_e39Zzrh8 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_e39Zzrh8">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09022556245326996</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.22932331264019012</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.2706766724586487</knowrob:m23>
+        <knowrob:m12 rdf:datatype="&xsd;double">-1.5303193379168079E-7</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-1.5303193379168079E-7</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">-6.530045766339754E-7</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">-6.530045766339754E-7</knowrob:m20>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.9999998807907104</knowrob:m21>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.9999999403953552</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9999999403953552</knowrob:m10>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m01 rdf:datatype="&xsd;double">6.530046334773942E-7</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">6.530046334773942E-7</knowrob:m11>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_gQNnzoLn -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_gQNnzoLn">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11578948050737381</knowrob:m13>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.27067670226097107</knowrob:m23>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.7071053385734558</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-1.0</knowrob:m12>
+        <knowrob:m11 rdf:datatype="&xsd;double">-2.118638953163554E-8</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">-2.3569411311541444E-8</knowrob:m22>
+        <knowrob:m02 rdf:datatype="&xsd;double">-6.392629980922493E-9</knowrob:m02>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3120300769805908</knowrob:m03>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.7071053385734558</knowrob:m01>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.7071083188056946</knowrob:m00>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.7071083188056946</knowrob:m21>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_ixRlac0F -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_ixRlac0F">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.06229695677757263</knowrob:m03>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.09085750579833984</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.09085750579833984</knowrob:m01>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.8182849884033203</knowrob:m22>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.10201134532690048</knowrob:m13>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.4064539968967438</knowrob:m21>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.4064539968967438</knowrob:m12>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.4064539968967438</knowrob:m20>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.4064539968967438</knowrob:m02>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.4547208845615387</knowrob:m23>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.9091424942016602</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.9091424942016602</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_jSWjtKQD -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_jSWjtKQD">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.11069643497467041</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.1843186318874359</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.003007677849382162</knowrob:m13>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_lznrjKhH -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_lznrjKhH">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.5712687373161316</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">-1.921265711357211E-14</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">-3.9805520533377214E-14</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">-4.6193599700927734E-7</knowrob:m23>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.04135419428348541</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.07067671418190002</knowrob:m13>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.5712687373161316</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.820763111114502</knowrob:m20>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.820763111114502</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m12 rdf:datatype="&xsd;double">1.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">6.187060683660733E-14</knowrob:m02>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_mDtoEiXF -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_mDtoEiXF">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.041353415697813034</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.11807470768690109</knowrob:m13>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="&xsd;double">2.5918112100953294E-10</knowrob:m23>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_quJjRbHT -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_quJjRbHT">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.019858185201883316</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.019858185201883316</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.019858187064528465</knowrob:m02>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.019858187064528465</knowrob:m21>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09022556245326996</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.2433813065290451</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.2950282394886017</knowrob:m23>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.9998027682304382</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.9998027682304382</knowrob:m01>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.9996055960655212</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.9721266289707273E-4</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.9721267744898796E-4</knowrob:m11>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_r9qlD25g -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_r9qlD25g">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.004886281676590443</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.043338511139154434</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.06828287243843079</knowrob:m23>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_rImsBM5S -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_rImsBM5S">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.12308806926012039</knowrob:m22>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.4384559690952301</knowrob:m01>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.4384559690952301</knowrob:m10>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.7017297744750977</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.7017297744750977</knowrob:m02>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.7017297744750977</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.7017297744750977</knowrob:m21>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.1007680594921112</knowrob:m13>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.17958061397075653</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.46190503239631653</knowrob:m03>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.5615440607070923</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.5615440607070923</knowrob:m00>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_rfTVf4U7 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_rfTVf4U7">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.0</knowrob:m13>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.0</knowrob:m23>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.0</knowrob:m03>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m00 rdf:datatype="&xsd;double">NaN</knowrob:m00>
+        <knowrob:m21 rdf:datatype="&xsd;double">NaN</knowrob:m21>
+        <knowrob:m22 rdf:datatype="&xsd;double">NaN</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">NaN</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">NaN</knowrob:m12>
+        <knowrob:m11 rdf:datatype="&xsd;double">NaN</knowrob:m11>
+        <knowrob:m02 rdf:datatype="&xsd;double">NaN</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">NaN</knowrob:m10>
+        <knowrob:m01 rdf:datatype="&xsd;double">NaN</knowrob:m01>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_s4mKQ1dk -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_s4mKQ1dk">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.003131153294816613</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.003131153294816613</knowrob:m20>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11626389622688293</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.22924627363681793</knowrob:m03>
+        <knowrob:m12 rdf:datatype="&xsd;double">-4.902084583591204E-6</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-4.902085038338555E-6</knowrob:m00>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.003131153294816613</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.003131153294816613</knowrob:m11>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2707844376564026</knowrob:m23>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.9999902248382568</knowrob:m21>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.9999951124191284</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.9999951124191284</knowrob:m10>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_trVcOGJX -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_trVcOGJX">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09675733745098114</knowrob:m13>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.3064192831516266</knowrob:m23>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.9728807806968689</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.9728807806968689</knowrob:m02>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.027119236066937447</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.027119236066937447</knowrob:m00>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.22971192002296448</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.22971192002296448</knowrob:m20>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.22971192002296448</knowrob:m11>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.22971192002296448</knowrob:m01>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.34455975890159607</knowrob:m03>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.945761501789093</knowrob:m21>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_vGMUXhlJ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_vGMUXhlJ">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.09021775424480438</knowrob:m13>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.9999566078186035</knowrob:m01>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.9999566078186035</knowrob:m10>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.009313663467764854</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.009313663467764854</knowrob:m21>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.009313663467764854</knowrob:m12>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.009313663467764854</knowrob:m02>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2959088981151581</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3199903666973114</knowrob:m03>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.9999132752418518</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m11 rdf:datatype="&xsd;double">4.337404607213102E-5</knowrob:m11>
+        <knowrob:m00 rdf:datatype="&xsd;double">4.337404607213102E-5</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_x3zXkX6o -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_x3zXkX6o">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-0.3439269959926605</knowrob:m23>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.574832558631897</knowrob:m21>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.5786049962043762</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.5786049962043762</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.7874162793159485</knowrob:m00>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.7874162793159485</knowrob:m12>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.0031047379598021507</knowrob:m13>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.21258370578289032</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.21258370578289032</knowrob:m10>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.34656745195388794</knowrob:m03>
+        <knowrob:m11 rdf:datatype="&xsd;double">0.5786049962043762</knowrob:m11>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.5786049962043762</knowrob:m01>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_x7S0v1ao -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_x7S0v1ao">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.7633825540542603</knowrob:m21>
+        <knowrob:m23 rdf:datatype="&xsd;double">-1.1022761464118958E-4</knowrob:m23>
+        <knowrob:m22 rdf:datatype="&xsd;double">-1.45227673442605E-7</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">-1.5881320791777398E-7</knowrob:m11>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.04144652187824249</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.1007518619298935</knowrob:m13>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.645946741104126</knowrob:m20>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.645946741104126</knowrob:m01>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.7633825540542603</knowrob:m00>
+        <knowrob:m12 rdf:datatype="&xsd;double">1.0</knowrob:m12>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m10 rdf:datatype="&xsd;double">3.539639337191147E-8</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">7.42304777645586E-8</knowrob:m02>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_xr98K9NZ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_xr98K9NZ">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m10 rdf:datatype="&xsd;double">-0.047303587198257446</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">-0.047303587198257446</knowrob:m02>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.3002197742462158</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.3002197742462158</knowrob:m11>
+        <knowrob:m22 rdf:datatype="&xsd;double">-0.3002197742462158</knowrob:m22>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.3002197742462158</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">-0.9053928256034851</knowrob:m21>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.002692184178158641</knowrob:m13>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.31817469000816345</knowrob:m03>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.32494765520095825</knowrob:m23>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.9526963829994202</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.9526963829994202</knowrob:m00>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_ykHREDMb -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_ykHREDMb">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m13 rdf:datatype="&xsd;double">-0.11578945815563202</knowrob:m13>
+        <knowrob:m20 rdf:datatype="&xsd;double">-0.5736396312713623</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">-1.0</knowrob:m12>
+        <knowrob:m22 rdf:datatype="&xsd;double">-2.0821710577934027E-8</knowrob:m22>
+        <knowrob:m11 rdf:datatype="&xsd;double">-4.330276581754333E-9</knowrob:m11>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.2706766724586487</knowrob:m23>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.3120301067829132</knowrob:m03>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.5736396312713623</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.819107711315155</knowrob:m21>
+        <knowrob:m00 rdf:datatype="&xsd;double">0.819107711315155</knowrob:m00>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m02 rdf:datatype="&xsd;double">2.2182822689842396E-8</knowrob:m02>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_ytESmc63 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_ytESmc63">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m23 rdf:datatype="&xsd;double">-3.692944261501907E-8</knowrob:m23>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m03 rdf:datatype="&xsd;double">0.04135345667600632</knowrob:m03>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.07822500914335251</knowrob:m13>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_zFvAuPHQ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_zFvAuPHQ">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m03 rdf:datatype="&xsd;double">-0.40807613730430603</knowrob:m03>
+        <knowrob:m12 rdf:datatype="&xsd;double">-0.4805687367916107</knowrob:m12>
+        <knowrob:m00 rdf:datatype="&xsd;double">-0.4805687367916107</knowrob:m00>
+        <knowrob:m01 rdf:datatype="&xsd;double">-0.7065725922584534</knowrob:m01>
+        <knowrob:m11 rdf:datatype="&xsd;double">-0.7065725922584534</knowrob:m11>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.00775980856269598</knowrob:m23>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.038862500339746475</knowrob:m21>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.1015421450138092</knowrob:m13>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.5194312334060669</knowrob:m10>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.5194312334060669</knowrob:m02>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.7065725922584534</knowrob:m20>
+        <knowrob:m22 rdf:datatype="&xsd;double">0.7065725922584534</knowrob:m22>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+        <knowrob:relativeTo rdf:resource="&cad;pancake-maker_Rghsuz9x"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_3nbHLcwB -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_3nbHLcwB">
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.01568029</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.026816554</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.05468471</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.12438455</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_YlSQu0Mz"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_5G6ndkOl -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_5G6ndkOl">
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.020906977</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.026966004</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.08349324</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.14322811</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_1EOwWi5j"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_Fz4Zugl2 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_Fz4Zugl2">
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0198617</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.027006138</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.07713833</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.13949797</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_SxcOrgBh"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_NYmuvX3L -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_NYmuvX3L">
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.008592699</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.010094784</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.09604794</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.15007459</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_YWiI4Y5Y"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_SyxUjIcZ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_SyxUjIcZ">
+        <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.00522676</knowrob:areaOfObject>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.005684914</knowrob:volumeOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.040430535</knowrob:areaCoverage>
+        <knowrob:radius rdf:datatype="&xsd;float">0.05848607</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_AMaJxRLJ"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_WS6RpKIe -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_WS6RpKIe">
+        <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.006272171</knowrob:areaOfObject>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.011435312</knowrob:volumeOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.03044706</knowrob:areaCoverage>
+        <knowrob:radius rdf:datatype="&xsd;float">0.073829025</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_jSWjtKQD"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_mtJSOd3R -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_mtJSOd3R">
+        <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.010386921</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.022701712</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.037851375</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.11002846</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ytESmc63"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_sr9qHc9X -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_sr9qHc9X">
+        <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0118847685</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.015088465</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.08549835</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.14436561</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_mDtoEiXF"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_tSPwsVww -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Sphere_tSPwsVww">
+        <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:areaOfObject rdf:datatype="&xsd;float">0.017770965</knowrob:areaOfObject>
+        <knowrob:areaCoverage rdf:datatype="&xsd;float">0.02669415</knowrob:areaCoverage>
+        <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.066432655</knowrob:volumeOfObject>
+        <knowrob:radius rdf:datatype="&xsd;float">0.1327206</knowrob:radius>
+        <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_r9qlD25g"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_1a8qbzHL -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_1a8qbzHL">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.005714365281164646</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.00815971102565527</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_2nFV09ez -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_2nFV09ez">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.006029355805367231</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.017961980774998665</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">2.211495884694159E-4</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_33n1UYBW -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_33n1UYBW">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-1.45227673442605E-7</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">1.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">7.42304777645586E-8</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_3DNQtMTl -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_3DNQtMTl">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.0904015600681305</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.10683692991733551</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">2.229586293367447E-8</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_6thZAb1z -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_6thZAb1z">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.0011939947726204991</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.010610483586788177</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-2.5761424694792368E-5</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_71pEXWgY -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_71pEXWgY">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.01549797598272562</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.015540709719061852</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">5.858965596416965E-5</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_8FigaOQq -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_8FigaOQq">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.011588415130972862</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">1.390082761645317E-4</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">4.983710823580623E-4</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_9hJ9IBaP -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_9hJ9IBaP">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.00816001370549202</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.005714578554034233</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_AS27smdS -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_AS27smdS">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.008501246571540833</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-3.766748995985836E-4</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">8.269315003417432E-5</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_BzklVIZX -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_BzklVIZX">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.00110813626088202</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.010515740141272545</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">1.697726984275505E-4</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_EYD0Ts2E -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_EYD0Ts2E">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.007044140249490738</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.007044170051813126</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_FcfiD3po -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_FcfiD3po">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.08711841702461243</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.12516604363918304</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_FphfEbod -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_FphfEbod">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.009775078855454922</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.014346699230372906</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">7.309029751922935E-5</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_FxKPgdg4 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_FxKPgdg4">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.005098474211990833</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.009987969882786274</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">2.7642588247545063E-4</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_HM5i2R9S -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_HM5i2R9S">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.0011569468770176172</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.011551184579730034</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.018944963812828064</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_HWQ3QW6H -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_HWQ3QW6H">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.05287722498178482</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.14026440680027008</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_HdgSaxeo -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_HdgSaxeo">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-1.3007713794976894E-9</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-5.550538695331397E-9</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.008499999530613422</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Hkqcg9Nk -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Hkqcg9Nk">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-1.1388811421708667E-10</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">1.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">1.4198401636811471E-14</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_HoizbFfd -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_HoizbFfd">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.005714404862374067</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.00815968681126833</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_JDW4rKsZ -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_JDW4rKsZ">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.011729217134416103</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.0020519995596259832</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">5.383240022638347E-6</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Jgy0U60q -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Jgy0U60q">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-1.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-3.893747269057002E-10</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">3.8976000205082073E-10</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_KLibYmcW -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_KLibYmcW">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-1.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-2.3569411311541444E-8</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-6.392629980922493E-9</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_PvUhIIIh -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_PvUhIIIh">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.005714627914130688</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.008159993216395378</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_QWznsr7Q -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_QWznsr7Q">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.0070441351272165775</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.007044170051813126</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Qt8Q7IVj -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Qt8Q7IVj">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.005714194383472204</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.008159861899912357</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Rao6B5GE -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Rao6B5GE">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.041902001947164536</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.14392495155334473</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-8.151615475071594E-6</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_SLzQmPbO -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_SLzQmPbO">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.08711831271648407</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.1251661330461502</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_U1SeHtNS -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_U1SeHtNS">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-1.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-6.9809842351276075E-9</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">1.5776435713377168E-9</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Uxb9YKqj -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Uxb9YKqj">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-1.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-2.0821710577934027E-8</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">2.2182822689842396E-8</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Voe8g07q -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Voe8g07q">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.008498412556946278</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-1.6321534349117428E-4</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">2.826091949827969E-4</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Yns3bDau -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_Yns3bDau">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.0011171371443197131</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.007725632283836603</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.002147782128304243</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_aP4mumBg -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_aP4mumBg">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-1.7766716098321922E-8</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.008499998599290848</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">4.5547611904339647E-8</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_bgX2F6cR -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_bgX2F6cR">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.1439705491065979</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-5.678062443621457E-4</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.041915327310562134</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_clSbG8hK -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_clSbG8hK">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.0028794838581234217</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.0039003470446914434</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.01022644154727459</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_f6dVTZW5 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_f6dVTZW5">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-8.499523974023759E-4</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.025559134781360626</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">4.908731789328158E-4</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_fLIpgR6p -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_fLIpgR6p">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-1.921265711357211E-14</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">1.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">6.187060683660733E-14</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_go7hOFoO -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_go7hOFoO">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.08700661361217499</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.12500564754009247</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_oIl96ifA -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_oIl96ifA">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.008501246571540833</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-1.4690132229588926E-4</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-3.565029182936996E-4</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_ohG3kzS3 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_ohG3kzS3">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-2.824187390615407E-7</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-7.40432355428311E-8</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.008499997667968273</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_p1gr2YGk -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_p1gr2YGk">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.09041687101125717</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.10685503482818604</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">4.954636256826461E-9</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_sMroVkMA -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_sMroVkMA">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-7.266281500051264E-6</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.006768266670405865</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.04841848835349083</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_sSiNPRev -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_sSiNPRev">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.0</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.0</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_sd7uG400 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_sd7uG400">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-7.411363611709021E-8</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.008499998599290848</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">5.96310769651609E-8</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_tveo1KOV -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_tveo1KOV">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.005714199505746365</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.008159861899912357</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_w8DA81Wk -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_w8DA81Wk">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.08700672537088394</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.1250055581331253</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_wWTOhV3w -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_wWTOhV3w">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.0</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.052894748747348785</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.14031089842319489</knowrob:vectorX>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_whplW6Tb -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_whplW6Tb">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.0010721891885623336</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.025567658245563507</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">4.418084863573313E-4</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_xSPduUbA -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_xSPduUbA">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-2.4870119523257017E-4</knowrob:vectorZ>
+        <knowrob:vectorX rdf:datatype="&xsd;double">0.001132856821641326</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">0.025567658245563507</knowrob:vectorY>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_xgBVl67d -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_xgBVl67d">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-0.0010062739020213485</knowrob:vectorX>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-0.999992847442627</knowrob:vectorY>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.0036509199999272823</knowrob:vectorZ>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_yxwfgKxX -->
+
+    <owl:NamedIndividual rdf:about="&knowrob;Vector_yxwfgKxX">
+        <rdf:type rdf:resource="&knowrob;Vector"/>
+        <knowrob:vectorY rdf:datatype="&xsd;double">-1.0</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-2.0388013055594456E-8</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">-7.078683861294621E-9</knowrob:vectorZ>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 1.3.4.992) http://owlapi.sourceforge.net -->
+
