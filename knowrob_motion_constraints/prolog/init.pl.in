@@ -34,3 +34,6 @@
 
 :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/spatula-features.owl', false, false, true).
 :- rdf_db:rdf_register_ns(spatula, 'http://ias.cs.tum.edu/kb/spatula-features.owl#', [keep(true)]).
+
+:- rdf_db:rdf_register_ns(motion, 'http://ias.cs.tum.edu/kb/motion-def.owl#', [keep(true)]).
+
