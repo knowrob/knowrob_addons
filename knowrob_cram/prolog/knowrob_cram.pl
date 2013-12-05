@@ -87,7 +87,7 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 
 
 
-%% cram_finish_action(+ActionInst, +EndTime, NextAction) is det.
+%% cram_finish_action(+ActionInst, +EndTime) is det.
 %
 % Finish an action, i.e. set the end time.
 %
@@ -162,7 +162,7 @@ cram_add_failure_to_action(ActionInst, FailureType, FailureLabel, FailureTime, F
 % Designator handling
 %
 
-%% cram_add_desig_to_action(+ActionInst, -DesigInst) is det.
+%% cram_create_desig(+DesigType, -DesigInst) is det.
 %
 % Create a new designator instance of type DesigType
 %
