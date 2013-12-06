@@ -1,4 +1,4 @@
 <launch>
   <!-- KnowRob json_prolog server -->
-  <!--node name="knowrob" pkg="rosprolog" type="run_with_prolog_env" args="mod_execution_trace $(find json_prolog)/bin/json_prolog" /-->
+  <node name="knowrob" pkg="rosprolog" type="run_with_prolog_env" args="mod_execution_trace $(find json_prolog)/bin/json_prolog" />
 </launch>
