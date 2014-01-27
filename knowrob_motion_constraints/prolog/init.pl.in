@@ -28,6 +28,8 @@
 :- use_module(library(knowrob_motion_constraints)).
 
 :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/pancake-making-constr.owl', false, false, true).
+:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/spatula-test.owl', false, false, true).
+
 
 :- rdf_db:rdf_register_ns(constr, 'http://ias.cs.tum.edu/kb/motion-constraints.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).

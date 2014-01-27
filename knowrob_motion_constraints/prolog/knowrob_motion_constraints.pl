@@ -42,8 +42,6 @@
 :- use_module(library('knowrob_perception')).
 :- use_module(library('knowrob_mesh_reasoning')).
 
-:- owl_parser:owl_parse('../owl/spatula-test.owl', false, false, true).
-
 
 :-  rdf_meta
     print_annotation_normal_vectors(r),
@@ -145,25 +143,25 @@ object_feature(FeatureClass, ObjClass, FeatureInst) :-
     owl_individual_of(FeatureInst, FeatureClass).
 
 % compute object main axis
-object_feature(FeatureClass, ObjClass, FeatureInst) :-
+object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object instance as parameter -> case of multiple spatulas
     rdf_equal(FeatureClass, knowrob:'ObjectMainAxis'),
-    owl_individual_of(ObjInst, ObjClass),
-    object_main_cone(ObjInst, FeatureInst).
+    object_main_cone(ObjInst, FeatureInst),
+    owl_individual_of(ObjInst, ObjClass).
 
 % compute object center: return object instance itself
-object_feature(FeatureClass, ObjClass, FeatureInst) :-
+object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object instance as parameter -> case of multiple spatulas
     rdf_equal(FeatureClass, knowrob:'CenterOfObject'),
     owl_individual_of(ObjInst, ObjClass),
     FeatureInst = ObjInst.
 
 % compute main supporting plane
-object_feature(FeatureClass, ObjClass, FeatureInst) :-
+object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object instance as parameter -> case of multiple spatulas
     rdf_equal(FeatureClass, knowrob:'SupportingPlane'),
     owl_individual_of(ObjInst, ObjClass),
     object_main_plane(ObjInst, FeatureInst).
 
 % compute bottle cap
-object_feature(FeatureClass, ObjClass, FeatureInst) :-
+object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object instance as parameter -> case of multiple spatulas
     rdf_equal(FeatureClass, knowrob:'BottleCap'),
     owl_individual_of(ObjInst, ObjClass),
     bottle_cap(ObjInst, FeatureInst).
