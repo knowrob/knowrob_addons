@@ -9,6 +9,11 @@
     <!ENTITY cad "http://ias.cs.tum.edu/kb/knowrob-cad.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+
+    <!ENTITY pr2 "http://ias.cs.tum.edu/kb/PR2.owl#" >
+    <!ENTITY srdl2 "http://ias.cs.tum.edu/kb/srdl2.owl#" >
+    <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
+    <!ENTITY srdl2-cap "http://ias.cs.tum.edu/kb/srdl2-cap.owl#" >
 ]>
 
 <rdf:RDF xmlns="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
@@ -18,6 +23,7 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:knowrob-cad="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
+     xmlns:srdl2-comp="http://ias.cs.tum.edu/kb/srdl2-comp.owl#"
      xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
     <owl:Ontology rdf:about="&cad;">
         <owl:imports rdf:resource="&local_path;knowrob.owl"/>

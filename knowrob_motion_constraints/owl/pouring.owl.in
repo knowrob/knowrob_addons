@@ -11,6 +11,10 @@
     <!ENTITY motion-def "http://ias.cs.tum.edu/kb/motion-def.owl#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY motion-constraints "http://ias.cs.tum.edu/kb/motion-constraints.owl#" >
+
+    <!ENTITY srdl2 "http://ias.cs.tum.edu/kb/srdl2.owl#" >
+    <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
+    <!ENTITY srdl2-cap "http://ias.cs.tum.edu/kb/srdl2-cap.owl#" >
 ]>
 
 <rdf:RDF xmlns="http://ias.cs.tum.edu/kb/motion-def.owl#"
@@ -27,7 +31,7 @@
         <owl:imports rdf:resource="&srdl_path;srdl2-cap.owl"/>
         <owl:imports rdf:resource="&local_path;hold-at-angle.owl"/>
         <owl:imports rdf:resource="&local_path;hold-upright.owl"/>
-        <owl:imports rdf:resource="&local_path;keep-upright.owl"/>
+        <owl:imports rdf:resource="&local_path;keep-above.owl"/>
         <owl:imports rdf:resource="&local_path;point-at.owl"/>
     </owl:Ontology>
     

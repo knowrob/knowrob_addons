@@ -12,14 +12,14 @@
 ]>
 
 
-<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/motion-constraints.owl#"
-     xml:base="http://ias.cs.tum.edu/kb/motion-constraints.owl"
+<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/keep-above.owl#"
+     xml:base="http://ias.cs.tum.edu/kb/keep-above.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
-    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/motion-constraints.owl">
+    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/keep-above.owl">
         <owl:imports rdf:resource="&local_path;motion-constraints.owl"/>
     </owl:Ontology>
 
