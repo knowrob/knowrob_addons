@@ -330,6 +330,7 @@
 
     <owl:NamedIndividual rdf:about="&cad;mondamin-pancake-mix_SjoS2wAt">
         <rdf:type rdf:resource="&knowrob;PancakeMix"/>
+        <srdl2-comp:predecessorInKinematicChain rdf:resource="&pr2;pr2_r_gripper_palm_link"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_2Pmv7gn6"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_5t5SoAAv"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_HKNA3cRQ"/>
