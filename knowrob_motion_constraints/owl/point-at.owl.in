@@ -37,18 +37,17 @@
     </owl:Class>
 
     <owl:Class rdf:about="&constr;PointingAtConstraint_f5BvdFyF">
-      <rdfs:label rdf:datatype="&xsd;string">bla 3</rdfs:label>
       <rdfs:subClassOf rdf:resource="&constr;PointingAtConstraint"/>
-      <rdfs:subClassOf>
-          <owl:Restriction>
-              <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-              <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
-          </owl:Restriction>
-      </rdfs:subClassOf>
       <rdfs:subClassOf>
           <owl:Restriction>
               <owl:onProperty rdf:resource="&constr;toolFeature"/>
               <owl:someValuesFrom rdf:resource="&knowrob;ObjectMainAxis"/>
+          </owl:Restriction>
+      </rdfs:subClassOf>
+      <rdfs:subClassOf>
+          <owl:Restriction>
+              <owl:onProperty rdf:resource="&constr;worldFeature"/>
+              <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
           </owl:Restriction>
       </rdfs:subClassOf>
       <rdfs:subClassOf>
@@ -59,8 +58,8 @@
       </rdfs:subClassOf>
       <rdfs:subClassOf>
           <owl:Restriction>
-              <owl:onProperty rdf:resource="&constr;worldFeature"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
+              <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+              <owl:hasValue rdf:datatype="&xsd;double">0.1</owl:hasValue>
           </owl:Restriction>
       </rdfs:subClassOf>
     </owl:Class>
