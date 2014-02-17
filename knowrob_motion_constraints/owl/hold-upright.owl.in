@@ -48,7 +48,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&knowrob;CenterOfObject"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>

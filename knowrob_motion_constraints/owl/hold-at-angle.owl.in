@@ -42,14 +42,14 @@
         <rdfs:subClassOf rdf:resource="&constr;PerpendicularityConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;ObjectMainAxis"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;worldFeature"/>
-                <owl:someValuesFrom rdf:resource="&knowrob;CenterOfObject"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -60,8 +60,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&constr;toolFeature"/>
-                <owl:someValuesFrom rdf:resource="&knowrob;ObjectMainAxis"/>
+                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
