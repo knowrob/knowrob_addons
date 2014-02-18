@@ -186,8 +186,8 @@ object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object in
 % read properties of 'real' features (manually defined)
 feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
-  rdf_has(Feature, rdf:type, Type),
-  owl_subclass_of(Type, knowrob:'ToolFeature'),
+  once((rdf_has(Feature, rdf:type, Type),
+        owl_subclass_of(Type, knowrob:'ToolFeature'))),
   rdf_has(Feature, rdfs:label, literal(type(_,Label))),
   rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),
 
@@ -207,14 +207,12 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 % read cylinders as line features
 feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
-%   owl_individual_of(Feature, FeatureClassDef),
-
-  rdf_has(Feature, rdf:type, T),
-  owl_subclass_of(T, knowrob:'Cone'),
+  once((rdf_has(Feature, rdf:type, T),
+       owl_subclass_of(T, knowrob:'Cone'))),
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
 
-  (rdf_has(Feature, rdfs:label, literal(type(_,Label))),!; Label=''),
-  (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!; TfFrame = 'map'),
+  ((rdf_has(Feature, rdfs:label, literal(type(_,Label))),!); (Label='')),
+  ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
 
   % todo: use relative pose instead?
   current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
@@ -230,14 +228,12 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 % read planes as plane features
 feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
-%   owl_individual_of(Feature, FeatureClassDef),
-
-  rdf_has(Feature, rdf:type, T),
-  owl_subclass_of(T, knowrob:'FlatPhysicalSurface'),
+  once((rdf_has(Feature, rdf:type, T),
+        owl_subclass_of(T, knowrob:'FlatPhysicalSurface'))),
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
 
-  (rdf_has(Feature, rdfs:label, literal(type(_,Label))),!; Label=''),
-  (rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!; TfFrame = 'map'),
+  ((rdf_has(Feature, rdfs:label, literal(type(_,Label))),!); (Label='')),
+  ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
 
   % todo: use relative pose instead?
   current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
@@ -248,6 +244,30 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
   owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
   owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
   Direction = [DX, DY, DZ].
+
+
+% read object instances as point features
+feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
+
+  once((rdf_has(Feature, rdf:type, T),
+        owl_subclass_of(T, knowrob:'HumanScaleObject'))),
+  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PointFeature',
+
+  ((rdf_has(Feature, rdfs:label, literal(type(_,Label))),!); (Label='')),
+  ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
+
+  % read object pose or, if not given, default to zero
+  ((current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
+    Position = [PX, PY, PZ],!) ;
+   (Position = [0,0,0])),
+
+  % read object direction or, if not given, default to zero
+  ((rdf_triple(knowrob:normalDirection, Feature, Dir),
+    owl_has(Dir, knowrob:vectorX, literal(type(_,Dx))), term_to_atom(DX, Dx),
+    owl_has(Dir, knowrob:vectorY, literal(type(_,Dy))), term_to_atom(DY, Dy),
+    owl_has(Dir, knowrob:vectorZ, literal(type(_,Dz))), term_to_atom(DZ, Dz),
+    Direction = [DX, DY, DZ]);
+   (Direction = [0,0,0])).
 
 
 
