@@ -258,7 +258,7 @@ javarun_perception_object_instances(Time, ObjectList) :-
 
 failure_class(Error, Class) :-
 	rdf_has(Error, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
+	rdf_reachable(Class, rdfs:subClassOf, knowrob:'genericPlanFailure').
 
 failure_task(Error, Task) :-
 	task(Task),
