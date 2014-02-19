@@ -31,7 +31,7 @@
  * 
  */
 
-package org.knowrob.interfaces.mongo;
+package org.knowrob.tfmemory;
 
 import ros.communication.*;
 
@@ -87,7 +87,7 @@ import java.util.LinkedList;
 public class TFMemory {
 
 	/** Maximum buffer storage time */
-	public static final long MAX_STORAGE_TIME = (new Duration(10, 0)).totalNsecs(); 
+	public static final long MAX_STORAGE_TIME = (new Duration(3, 0)).totalNsecs(); 
 
 	/** The singleton instance */
 	protected static TFMemory instance;
@@ -96,7 +96,7 @@ public class TFMemory {
 	protected HashMap<String, Frame> frames;
 
 	// duration through which transforms are to be kept in the buffer
-	protected final static float BUFFER_SIZE = 2f;
+	protected final static float BUFFER_SIZE = 1f;
 
 	MongoClient mongoClient;
 	DB db;

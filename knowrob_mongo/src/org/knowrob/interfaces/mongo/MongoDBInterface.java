@@ -17,15 +17,14 @@ import javax.vecmath.Matrix4d;
 import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.interfaces.mongo.types.ISODate;
 import org.knowrob.interfaces.mongo.types.PoseStamped;
+import org.knowrob.tfmemory.TFMemory;
 
 import ros.communication.Time;
 import tfjava.Stamped;
 import tfjava.StampedTransform;
 
-public class MongoDBInterface {
 
-	// duration through which transforms are to be kept in the buffer
-	protected final static int BUFFER_SIZE = 5;
+public class MongoDBInterface {
 
 	MongoClient mongoClient;
 	DB db;
@@ -275,16 +274,19 @@ public class MongoDBInterface {
 
 //		Timestamp timestamp = Timestamp.valueOf("2013-07-26 14:27:22.0");
 //		Time t = new Time(1377766521);
-		Time t = new Time(1383143712); // no
+//		Time t = new Time(1383143712); // no
 //		Time t = new Time(1383144279);  //1
 
+
+		Time t_st  = new Time(1392799357);
+		Time t_end = new Time(1392799364);
 		
 		long t0 = System.nanoTime();
-		TFMemory tf = new TFMemory();
-		StampedTransform trans  = tf.lookupTransform("/base_bellow_link", "/head_mount_kinect_ir_link", t);
+		TFMemory tf = TFMemory.getInstance();
+		StampedTransform trans  = tf.lookupTransform("/base_link", "/l_gripper_palm_link", t_end);
 		System.out.println(trans);
 		long t1 = System.nanoTime();
-		StampedTransform trans2 = tf.lookupTransform("/base_link", "/head_mount_kinect_ir_link", t);
+		StampedTransform trans2 = tf.lookupTransform("/base_link", "/l_gripper_palm_link", t_st);
 		System.out.println(trans2);
 		long t2 = System.nanoTime();
 
@@ -295,8 +297,8 @@ public class MongoDBInterface {
 		System.out.println("Time to look up second transform in same time slice: " + second + "ms");
 
 		// test lookupTransform wrapper
-		trans = m.lookupTransform("/map", "/head_mount_kinect_ir_link", 1377766521);
-		System.out.println(trans);
+//		trans = m.lookupTransform("/map", "/head_mount_kinect_ir_link", 1377766521);
+//		System.out.println(trans);
 
 //		// test UIMA result interface
 //		Designator d = m.latestUIMAPerceptionBefore(1377766521);
