@@ -1,10 +1,10 @@
-/* 
+/*
  * Copyright (c) 2011, Sjoerd van den Dries
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright
  *       notice, this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -13,7 +13,7 @@
  *     * Neither the name of the Technische Universiteit Eindhoven nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -33,25 +33,27 @@ package org.knowrob.tfmemory;
 import java.util.Date;
 import java.util.TreeMap;
 
+
 /**
- * Buffer in which transformations from one specific frame to another are stored, ordered in time. 
- * 
+ * Buffer in which transformations from one specific frame to another are stored, ordered in time.
+ *
  * @author Sjoerd van den Dries, Moritz Tenorth
  * @version Feb 19, 2014
  */
 public class TimeCache {
-    
+
     /** Map containing the transformations, ordered in time */
     protected TreeMap<Long, TransformStorage> storage;
+
     /** Maximum storage time, in nanoseconds */
     protected long maxStorageTime;
 
     /** Buffer for time of last garbage collection */
     protected long lastGarbageCollection = 0;
-    
+
     /** garbage collection interval in seconds */
-    protected long GARBAGE_COLLECTION_INTERVAL = 5;
-    
+    protected long GARBAGE_COLLECTION_INTERVAL = 10;
+
     /**
      * Class Constructor.
      */
@@ -59,103 +61,120 @@ public class TimeCache {
         this.maxStorageTime = maxStorageTime;
         this.storage = new TreeMap<Long, TransformStorage>();
     }
-    
+
     /**
-     * Inserts transformation newData in the buffer, while maintaining the time ordering. 
+     * Inserts transformation newData in the buffer, while maintaining the time ordering.
      */
-    public boolean insertData(TransformStorage newData) {  
-        // check if data is older than first frame in STORAGE - maxStorageTime
-    	
-// TODO: use garbage collection instead
-    	
+    public boolean insertData(TransformStorage newData) {
+
 // MT: disabled since this does not allow to add data that is older than data already in the buffer
 //     which is something we want to do
 //        if (!storage.isEmpty() && storage.firstKey() - maxStorageTime > newData.getTimeStamp()) {
-//            return false;                              
+//            return false;
 //        }
-        
-        storage.put(newData.getTimeStamp(), newData);       
-        
-        removeOldData(); // same as pruneList in time_cache.h        
+
+        storage.put(newData.getTimeStamp(), newData);
+
+        removeOldData();
         return true;
     }
 
     /**
      * Returns the transformation in this buffer at time point time (in nanoseconds);
      * Uses interpolation or (forward or backward) extrapolation.
-     * 
+     *
      * If only one transformation is available, this transformation is returned, regardless
      * of how far back or ahead the queried time point is compared to the time stamp of this transformation.
-     * 
+     *
      */
-    public TransformStorage getData(long time) {       
-        
+	public TransformStorage getData(long time) {
+
         if (storage.isEmpty()) {
             // TODO: throw error: "Cache for frame " + parentFrame.getFrameID() + " to " + childFrame.getFrameID() + " is empty";
             return null;
         } else if (storage.size() == 1) {
             // only one transform in cache, so return that one
-            return storage.firstEntry().getValue();
-        }        
-        
-        TransformStorage low, high;        
-        
+            return (TransformStorage) storage.firstEntry().getValue();
+        }
+
+        TransformStorage low, high;
+
         if (time < storage.firstKey()) {
+
+        	// do not extrapolate more than maxStorageTime
+        	if(storage.firstKey() - time > maxStorageTime)
+        		return null;
+
             // extrapolate back: low = oldest transform
-            //                   high = oldest but one 
-            low = storage.firstEntry().getValue();                     // O(1) (I guess?)
-            high = storage.higherEntry(storage.firstKey()).getValue(); // O(log n) --> can be done in O(1), but how?
+            //                   high = oldest but one
+            low = (TransformStorage) storage.firstEntry().getValue();                     // O(1) (I guess?)
+            high = (TransformStorage) storage.higherEntry(storage.firstKey()).getValue(); // O(log n) --> can be done in O(1), but how?
+
+
         } else if (time > storage.lastKey()) {
+
+        	// do not extrapolate more than maxStorageTime
+        	if(time - storage.lastKey() > maxStorageTime)
+        		return null;
+
             // extrapolate forward: low = newest but one
-            //                      high = newest transform        
-            low = storage.lowerEntry(storage.lastKey()).getValue();    // O(log n) --> can be done in O(1), but how?
-            high = storage.lastEntry().getValue();                     // O(1) (I guess?)
+            //                      high = newest transform
+            low = (TransformStorage) storage.lowerEntry(storage.lastKey()).getValue();    // O(log n) --> can be done in O(1), but how?
+            high = (TransformStorage) storage.lastEntry().getValue();                     // O(1) (I guess?)
+
         } else {
+
             // interpolate: low = newest transform older than time,
             //              high = oldest transform newer than time
-            low = storage.ceilingEntry(time).getValue();
-            high = storage.floorEntry(time).getValue();
-        } 
+            low = (TransformStorage) storage.ceilingEntry(time).getValue();
+            high = (TransformStorage) storage.floorEntry(time).getValue();
+
+        	// only interpolate if both the smaller and larger time point are closer than maxStorageTime
+        	if((storage.ceilingEntry(time).getKey() - time > maxStorageTime) &&
+    		   (time - storage.floorEntry(time).getKey() > maxStorageTime))
+        		return null;
+
+        }
 
         return TransformStorage.interpolate(low, high, time);
-    
-    } 
-    
+
+    }
+
     /**
      * Returns the absolute time difference to the nearest transform from the given
      * time point, in nanoseconds.
      */
-    public long timeToNearestTransform(long time) {    
+    public long timeToNearestTransform(long time) {
         Long floor = storage.floorKey(time);
         Long ceiling = storage.ceilingKey(time);
-        
+
         if (floor == null) return (ceiling - time);
         if (ceiling == null) return (time - floor);
         return Math.min(ceiling - time, time - floor);
     }
-    
+
     /**
      * Removes all transforms that have not been accessed in the last maxStorageTime seconds
      */
-    protected void removeOldData() {
-    	
-    	long now = new Date().getTime();
-        if (!storage.isEmpty() && (lastGarbageCollection < now - GARBAGE_COLLECTION_INTERVAL)) {
-        	
-            long timeLowerbound = now - maxStorageTime * 1000;
-            
+	protected void removeOldData() {
+
+    	long now = new Date().getTime() * 1000000;
+        if (!storage.isEmpty() && (lastGarbageCollection < now - (GARBAGE_COLLECTION_INTERVAL * 1000000000))) {
+
+            long timeLowerbound = now - maxStorageTime;
+
             for(TransformStorage t : storage.values()) {
-            	if(t.getLastAccessed() < timeLowerbound) 
+            	if((t instanceof TransformStorage) && (((TransformStorage) t).getLastAccessed() < timeLowerbound))
             		storage.remove(t.getTimeStamp());
             }
-            
+
             lastGarbageCollection = now;
         }
     }
-    
+
     /**
      * Check whether timepoint 'time' is between the oldest and newest entries in tbe buffer.
-     * 
+     *
      * @param time Time point to be checked
      * @return true if 'time' is between the oldest and newest buffer entry
      */
@@ -166,5 +185,4 @@ public class TimeCache {
         }
     	return false;
     }
-    
 }
