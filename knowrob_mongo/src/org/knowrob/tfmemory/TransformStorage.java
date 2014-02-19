@@ -30,9 +30,10 @@
 
 package org.knowrob.tfmemory;
 
+import java.util.Date;
+
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Matrix4d;
 
 /**
  * Transformation stamped with time, frame ID and child frame ID, as it is stored in the buffer.
@@ -49,14 +50,21 @@ public class TransformStorage {
        
     /** Reference to the parent frame (source frame) */
     protected Frame parentFrame;
+    
     /** Reference to the child frame (source frame) */
     protected Frame childFrame;
+    
     /** Time stamp in nanoseconds */
     protected long timeStamp;
+    
     /** Translation vector */
     protected Vector3d translation;
+    
     /** Rotation quaternion */
     protected Quat4d rotation; 
+    
+    /** Time stamp of last access to this datastructure in nanoseconds */
+    protected long lastAccessed;
 
     /**
      * Class constructor.
@@ -67,6 +75,8 @@ public class TransformStorage {
         this.timeStamp = timeStamp;
         this.translation = translation;
         this.rotation = rotation;
+        
+        this.lastAccessed = new Date().getTime();
     }   
    
     /**
@@ -102,6 +112,7 @@ public class TransformStorage {
      * Returns a reference to the child (i.e., target) frame
      */    
     public Frame getChildFrame() {
+    	this.lastAccessed = new Date().getTime();
         return childFrame;
     }
     
@@ -109,6 +120,7 @@ public class TransformStorage {
      * Returns a reference to the parent (i.e., source) frame
      */    
     public Frame getParentFrame() {
+    	this.lastAccessed = new Date().getTime();
         return parentFrame;
     }
     
@@ -116,6 +128,7 @@ public class TransformStorage {
      * Returns the time stamp of this transform, in nanoseconds.
      */
     public long getTimeStamp() {
+    	this.lastAccessed = new Date().getTime();
         return timeStamp;
     }
     
@@ -123,20 +136,30 @@ public class TransformStorage {
      * Returns the translation vector
      */
     public Vector3d getTranslation() {
+    	this.lastAccessed = new Date().getTime();
         return translation;
     }
     
     /**
      * Returns the rotation quaternion
      */    
-    public Quat4d getRotation() {        
+    public Quat4d getRotation() {    
+    	this.lastAccessed = new Date().getTime();
         return rotation;
     }   
+
     
+    /**
+     * Returns the time stamp of the last access to this transform, in milliseconds.
+     */
+    public long getLastAccessed() {
+        return lastAccessed;
+    }
     /**
      * Returns a string representation of this transform
      */
     public String toString() {
+    	this.lastAccessed = new Date().getTime();
         return "[" + parentFrame.getFrameID() + " -> " + childFrame.getFrameID() + ", "
                    + ((double)timeStamp / 1E9) + ", " + getTranslation() + ", " + getRotation() + "]";
     } 
