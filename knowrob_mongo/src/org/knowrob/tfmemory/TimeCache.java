@@ -30,13 +30,14 @@
 
 package org.knowrob.tfmemory;
 
+import java.util.Date;
 import java.util.TreeMap;
 
 /**
  * Buffer in which transformations from one specific frame to another are stored, ordered in time. 
  * 
- * @author Sjoerd van den Dries
- * @version Feb 28, 2011
+ * @author Sjoerd van den Dries, Moritz Tenorth
+ * @version Feb 19, 2014
  */
 public class TimeCache {
     
@@ -44,6 +45,12 @@ public class TimeCache {
     protected TreeMap<Long, TransformStorage> storage;
     /** Maximum storage time, in nanoseconds */
     protected long maxStorageTime;
+
+    /** Buffer for time of last garbage collection */
+    protected long lastGarbageCollection = 0;
+    
+    /** garbage collection interval in seconds */
+    protected long GARBAGE_COLLECTION_INTERVAL = 5;
     
     /**
      * Class Constructor.
@@ -128,14 +135,21 @@ public class TimeCache {
     }
     
     /**
-     * Removes all transforms that are more than maxStorageTime older than the newest transform.
+     * Removes all transforms that have not been accessed in the last maxStorageTime seconds
      */
     protected void removeOldData() {
-        if (!storage.isEmpty()) {
-            long timeLowerbound = storage.lastKey() - maxStorageTime;
-            while (!storage.isEmpty() && storage.firstKey() < timeLowerbound) {
-                storage.pollFirstEntry();
-            }       
+    	
+    	long now = new Date().getTime();
+        if (!storage.isEmpty() && (lastGarbageCollection < now - GARBAGE_COLLECTION_INTERVAL)) {
+        	
+            long timeLowerbound = now - maxStorageTime * 1000;
+            
+            for(TransformStorage t : storage.values()) {
+            	if(t.getLastAccessed() < timeLowerbound) 
+            		storage.remove(t.getTimeStamp());
+            }
+            
+            lastGarbageCollection = now;
         }
     }
     
