@@ -30,7 +30,9 @@
 
 package org.knowrob.tfmemory;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 
@@ -60,6 +62,7 @@ public class TimeCache {
     public TimeCache(long maxStorageTime, Frame parentFrame, Frame childFrame) {
         this.maxStorageTime = maxStorageTime;
         this.storage = new TreeMap<Long, TransformStorage>();
+        this.lastGarbageCollection = new Date().getTime() * 1000000;
     }
 
     /**
@@ -161,12 +164,21 @@ public class TimeCache {
     	long now = new Date().getTime() * 1000000;
         if (!storage.isEmpty() && (lastGarbageCollection < now - (GARBAGE_COLLECTION_INTERVAL * 1000000000))) {
 
-            long timeLowerbound = now - maxStorageTime;
+        	long timeLowerbound = now - maxStorageTime;
 
-            for(TransformStorage t : storage.values()) {
-            	if((t instanceof TransformStorage) && (((TransformStorage) t).getLastAccessed() < timeLowerbound))
-            		storage.remove(t.getTimeStamp());
-            }
+        	Collection<TransformStorage> values = storage.values();
+        	synchronized(storage) {
+        		Iterator<TransformStorage> i = values.iterator(); // Must be in synchronized block
+        		while (i.hasNext()) {
+        			TransformStorage t = i.next();
+
+        			if((t instanceof TransformStorage) && (((TransformStorage) t).getLastAccessed() < timeLowerbound)) {
+        				i.remove();
+        				//storage.remove(t.getTimeStamp());
+        			}
+        		}
+
+        	}
 
             lastGarbageCollection = now;
         }
