@@ -166,7 +166,7 @@ public class MongoDBInterface {
 	 */
 	public List<Date> getUIMAPerceptionTimes(String object) {
 
-		List<Date> times = new ArrayList<Date>();	
+		List<Date> times = new ArrayList<Date>();
 		DBCollection coll = db.getCollection("logged_designators");
 
 		// TODO: This will always return a single result since the ID is unique
@@ -208,7 +208,7 @@ public class MongoDBInterface {
 		Date start = new ISODate((long) 1000 * (posix_ts - 30) ).getDate();
 		Date end   = new ISODate((long) 1000 * (posix_ts + 30) ).getDate();
 
-		List<String> objects = new ArrayList<String>();	
+		List<String> objects = new ArrayList<String>();
 		DBCollection coll = db.getCollection("logged_designators");
 
 		DBObject query = QueryBuilder
@@ -271,7 +271,7 @@ public class MongoDBInterface {
 
 	public static void main(String[] args) {
 
-		MongoDBInterface m = new MongoDBInterface();
+//		MongoDBInterface m = new MongoDBInterface();
 
 
 		// test transformation lookup based on DB information

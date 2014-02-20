@@ -174,7 +174,6 @@ public class TimeCache {
 
         			if((t instanceof TransformStorage) && (((TransformStorage) t).getLastAccessed() < timeLowerbound)) {
         				i.remove();
-        				//storage.remove(t.getTimeStamp());
         			}
         		}
 
