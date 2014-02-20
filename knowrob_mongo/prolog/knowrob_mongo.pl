@@ -218,7 +218,7 @@ mng_transform_pose(PoseListIn, SourceFrame, TargetFrame, TimePoint, PoseListOut)
 
   jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
   jpl_call(DB, 'transformPose', [TargetFrame, StampedIn, StampedOut], @(true)),
-
+  
   jpl_call(StampedOut, 'getData', [], MatrixOut2),
   knowrob_coordinates:matrix4d_to_list(MatrixOut2, PoseListOut).
 
@@ -301,9 +301,12 @@ mng_comp_pose_at_time(RobotPart, TargetFrame, TimePoint, Pose) :-
 mng_obj_pose_at_time(Obj, SourceFrame, TargetFrame, TimePoint, Pose) :-
 
   % read object pose in original coordinates at TimePoint
-  (object_pose_at_time(Obj, TimePoint, PoseListIn)
-     -> true ;
-        PoseListIn = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),
+  % MT: deactivated since, when called the second time, this will return different
+  %     results because the pose is asserted below
+%   (object_pose_at_time(Obj, TimePoint, PoseListIn)
+%      -> true ;
+        PoseListIn = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+%         ),
 
   mng_transform_pose(PoseListIn, SourceFrame, TargetFrame, TimePoint, PoseListOut),
   create_pose(PoseListOut, Pose),
