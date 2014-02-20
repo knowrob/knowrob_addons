@@ -1,13 +1,13 @@
-/* 
+/*
  * Copyright (c) 2013 Moritz Tenorth, Sjoerd van den Dries
- * 
+ *
  * Based on the TFListener class by Sjoerd v.d. Dries in tfjava
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright
  *       notice, this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -16,7 +16,7 @@
  *     * Neither the name of the Technische Universiteit Eindhoven nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,26 +28,29 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  */
 
-package org.knowrob.interfaces.mongo;
+package org.knowrob.tfmemory;
 
-import ros.communication.*;
+import java.net.UnknownHostException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
 
-import ros.pkg.geometry_msgs.msg.TransformStamped;
-import tfjava.Frame;
-import tfjava.Stamped;
-import tfjava.StampedTransform;
-import tfjava.TimeCache;
-import tfjava.TransformStorage;
-
+import javax.vecmath.Matrix4d;
+import javax.vecmath.Point3d;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Point3d;
-import javax.vecmath.Matrix4d;
 
 import org.knowrob.interfaces.mongo.types.ISODate;
+
+import ros.communication.Duration;
+import ros.communication.Time;
+import ros.pkg.geometry_msgs.msg.TransformStamped;
+import tfjava.Stamped;
+import tfjava.StampedTransform;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -58,56 +61,50 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.QueryBuilder;
 
-import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.LinkedList;
-
 /**
  * A client that reads transforms from the DB, stores them in a buffer and allows transformation
  * lookups from one frame to another.
- * 
+ *
  * All tf messages published on the /tf topic are stored in
  * a buffer, first sorted by child frame, then by parent frame, then by time stamp. This allows fast
  * lookup of transformations. Tf's that are MAX_STORAGE_TIME older than the newest tf in the corresponding
  * time cache are ignored.
- * 
+ *
  * To calculate a transformation from some source frame S to a target frame T at time t, TFListener uses a graph
  * search to find the best path from S to T. At the moment, 'best' means that the largest difference between
  * the time stamps of the transformations on the path and time t is minimized. If the tf graph is a tree, as is
  * the case with original C++-implementation of tf, the graph will simply return the only path available (if any).
- * 
+ *
  * TFlistener is implemented as a singleton, which guarantees that at any time at most one client per system is
  * listening to the /tf topic.
- * 
+ *
  * @author Sjoerd van den Dries, Moritz Tenorth
  * @version March 4, 2011
  */
 public class TFMemory {
 
 	/** Maximum buffer storage time */
-	public static final long MAX_STORAGE_TIME = (new Duration(10, 0)).totalNsecs(); 
+	public static final long MAX_STORAGE_TIME = (new Duration(10, 0)).totalNsecs();
 
 	/** The singleton instance */
 	protected static TFMemory instance;
 
-	/** Map that maps frame IDs (names) to frames */    
+	/** Map that maps frame IDs (names) to frames */
 	protected HashMap<String, Frame> frames;
 
 	// duration through which transforms are to be kept in the buffer
-	protected final static float BUFFER_SIZE = 2f;
+	protected final static float BUFFER_SIZE = 1f;
 
 	MongoClient mongoClient;
 	DB db;
 
 	/* **********************************************************************
 	 * *                           INITIALIZATION                           *
-	 * ********************************************************************** */ 
+	 * ********************************************************************** */
 
 	/**
 	 * Returns the TFListener instance.
-	 */    
+	 */
 	public synchronized static TFMemory getInstance() {
 
 		if (instance == null) {
@@ -118,7 +115,7 @@ public class TFMemory {
 
 	/**
 	 * Class constructor.
-	 */    
+	 */
 	protected TFMemory() {
 
 		try {
@@ -128,14 +125,14 @@ public class TFMemory {
 			e.printStackTrace();
 		}
 
-		frames = new HashMap<String, Frame>();    
+		frames = new HashMap<String, Frame>();
 
-	}	
+	}
 
 
 	/* **********************************************************************
 	 * *                            TF LISTENER                             *
-	 * ********************************************************************** */	
+	 * ********************************************************************** */
 
 	protected boolean setTransforms(BasicDBList transforms) {
 
@@ -147,7 +144,7 @@ public class TFMemory {
 
 	/**
 	 * Converts transform (a geometry msg) to a TransformStorage object and adds it to the buffer.
-	 */    
+	 */
 	protected boolean setTransform(BasicDBObject db_transform) {
 
 		// resolve the frame ID's
@@ -171,7 +168,7 @@ public class TFMemory {
 			errorExists = true;
 		}
 
-		if (errorExists) return false;	    
+		if (errorExists) return false;
 
 
 		// add frames to map
@@ -179,15 +176,7 @@ public class TFMemory {
 		Frame parentFrame = lookupOrInsertFrame(frameID);
 
 
-		org.knowrob.interfaces.mongo.types.TransformStorage tf = 
-				new org.knowrob.interfaces.mongo.types.TransformStorage().
-				readFromDBObject(db_transform, childFrame, parentFrame);
-
-
-		//		new Vector3d(trans_x, trans_y, trans_z),
-//				new Quat4d(rot_x, rot_y, rot_z, rot_w),
-////				timestamp.getNanoSeconds(),
-//				parentFrame, childFrame);
+		TransformStorage tf = new TransformStorage().readFromDBObject(db_transform, childFrame, parentFrame);
 
 
 		// try to insert tf in corresponding time cache. If result is FALSE, the tf contains old data.
@@ -202,24 +191,24 @@ public class TFMemory {
 	/**
 	 * Looks up and returns the frame belonging to the given frame ID.
 	 * If the frame does not exist yet, it is first added to the map.
-	 */    
+	 */
 	protected Frame lookupOrInsertFrame(String frameID) {
 		Frame frame = frames.get(frameID);
 		if (frame == null) {
 			frame = new Frame(frameID, MAX_STORAGE_TIME);
 			frames.put(frameID, frame);
-		}	    
+		}
 		return frame;
 	}
 
 
 	/* **********************************************************************
 	 * *                         TRANSFORM METHODS                          *
-	 * ********************************************************************** */ 
+	 * ********************************************************************** */
 
 	/**
 	 * Transforms a stamped point to the given target frame, and returns the result in stampedOut.
-	 */	
+	 */
 	public void transformPoint(String targetFrameID, Stamped<Point3d> stampedIn, Stamped<Point3d> stampedOut) {
 		StampedTransform transform = lookupTransform(targetFrameID, stampedIn.frameID, stampedIn.timeStamp);
 		transform.transformPoint(stampedIn.getData(), stampedOut.getData());
@@ -230,21 +219,21 @@ public class TFMemory {
 	/**
 	 * Transforms a stamped point to the given target frame and time, based on a given fixed frame, and
 	 * returns the result in stampedOut.
-	 */	
+	 */
 	public void transformPoint(String targetFrameID, Time targetTime, Stamped<Point3d> stampedIn,
 			String fixedFrameID, Stamped<Point3d> stampedOut) {
 		StampedTransform transform = lookupTransform(targetFrameID, targetTime, stampedIn.frameID, stampedIn.timeStamp, fixedFrameID);
-		transform.transformPoint(stampedIn.getData(), stampedOut.getData()); 
+		transform.transformPoint(stampedIn.getData(), stampedOut.getData());
 		stampedOut.frameID = targetFrameID;
 		stampedOut.timeStamp = stampedIn.timeStamp;
 	}
 	/**
 	 * Transforms a stamped pose to the given target frame, and returns the result in stampedOut.
-	 */ 	
+	 */
 	public boolean transformPose(String targetFrameID, Stamped<Matrix4d> stampedIn, Stamped<Matrix4d> stampedOut) {
 		StampedTransform transform = lookupTransform(targetFrameID, stampedIn.frameID, stampedIn.timeStamp);
 		if(transform!=null) {
-			transform.transformPose(stampedIn.getData(), stampedOut.getData());	  
+			transform.transformPose(stampedIn.getData(), stampedOut.getData());
 			stampedOut.frameID = targetFrameID;
 			stampedOut.timeStamp = stampedIn.timeStamp;
 			return true;
@@ -255,7 +244,7 @@ public class TFMemory {
 	/**
 	 * Transforms a stamped pose to the given target frame and time, based on a given fixed frame, and
 	 * returns the result in stampedOut.
-	 */ 	
+	 */
 	public void transformPose(String targetFrameID, Time targetTime, Stamped<Matrix4d> stampedIn,
 			String fixedFrameID, Stamped<Matrix4d> stampedOut) {
 		StampedTransform transform = lookupTransform(targetFrameID, targetTime, stampedIn.frameID, stampedIn.timeStamp, fixedFrameID);
@@ -266,7 +255,7 @@ public class TFMemory {
 
 	/* **********************************************************************
 	 * *                          LOOKUP METHODS                            *
-	 * ********************************************************************** */    
+	 * ********************************************************************** */
 
 	/**
 	 * Returns the transform from the specified source frame to the target frame at a given time; returns
@@ -283,7 +272,7 @@ public class TFMemory {
 			StampedTransform out = StampedTransform.getIdentity();
 			out.timeStamp = time;
 			out.frameID = resolvedSourceID;
-			out.childFrameID = resolvedTargetID;            
+			out.childFrameID = resolvedTargetID;
 			return out;
 		}
 
@@ -294,15 +283,15 @@ public class TFMemory {
 		if(sourceFrame==null) {
 			System.err.println("Cannot transform: source frame \"" + resolvedSourceID + "\" does not exist.");
 			return null;
-		} 
+		}
 
 		Frame targetFrame = verifyDataAvailable(time, resolvedTargetID);
 		if(targetFrame==null) {
 			System.err.println("Cannot transform: target frame \"" + resolvedTargetID + "\" does not exist.");
 			return null;
 		}
-		
-		// list that will contain transformations from source frame to some frame F        
+
+		// list that will contain transformations from source frame to some frame F
 		LinkedList<TransformStorage> inverseTransforms = new LinkedList<TransformStorage>();
 		// list that will contain transformations from frame F to target frame
 		LinkedList<TransformStorage> forwardTransforms = new LinkedList<TransformStorage>();
@@ -313,38 +302,38 @@ public class TFMemory {
 					+ resolvedTargetID + "\" are not connected.");
 			return null;
 		}
-		
+
 		// create an identity transform with the correct time stamp
-		StampedTransform out = StampedTransform.getIdentity();	    
+		StampedTransform out = StampedTransform.getIdentity();
 		out.timeStamp = time;
 
 		out.frameID = resolvedTargetID;
-		out.childFrameID = resolvedSourceID;      
-		
+		out.childFrameID = resolvedSourceID;
+
 		// multiply all transforms from source frame to frame F
-		for(TransformStorage t : inverseTransforms) {           
+		for(TransformStorage t : inverseTransforms) {
 			out.mul(StorageToStampedTransform(t));
 		}
 
 		// multiply all transforms from frame F to target frame
-		for(TransformStorage t : forwardTransforms) {	        
+		for(TransformStorage t : forwardTransforms) {
 			out.mul(StorageToStampedTransform(t).invert(), out);
-		}	    
+		}
 
 		// return transform
 		return out;
 	}
 
-	
+
 	/**
 	 * Check if there are transforms for this time and this frame in the buffer,
 	 * try to load from DB otherwise (-> use DB only when needed)
-	 * 
+	 *
 	 * @param time
 	 * @param sourceFrame
 	 */
 	private Frame verifyDataAvailable(Time time, String frameID) {
-		
+
 		// lookup frame
 		Frame frame = frames.get(frameID);
 
@@ -357,8 +346,8 @@ public class TFMemory {
 				}
 			}
 
-		} 
-			
+		}
+
 		// load data from DB if frame is unknown or time not buffered yet
 		loadTransformFromDB(frameID, new ISODate(time).getDate());
 		frame = frames.get(frameID);
@@ -369,7 +358,7 @@ public class TFMemory {
 
 	/**
 	 * Load transforms from the DB and add them to the local tf buffer
-	 * 
+	 *
 	 * @param childFrameID
 	 * @param date
 	 * @return
@@ -383,26 +372,26 @@ public class TFMemory {
 		Date start = new Date((long) (date.getTime() - ((int) (BUFFER_SIZE * 1000) ) ));
 		Date end   = new Date((long) (date.getTime() + 500));
 
-		// read all frames in time slice 
+		// read all frames in time slice
 		query = QueryBuilder.start("__recorded").greaterThanEquals( start )
 							.and("__recorded").lessThan( end )
 							.get();
-		
+
 		// TODO: check if we can read only the latest transforms for the child frame
 		// -> should be feasible since verifyDataAvailable should load data when needed,
 		//    maybe needs to be made recursive
-		// query = QueryBuilder.start("transforms")  
+		// query = QueryBuilder.start("transforms")
 		// 		.elemMatch(new BasicDBObject("child_frame_id", childFrameID))
 		// 		.and("__recorded").greaterThanEquals( start )
 		// 		.and("__recorded").lessThan( end )
 		// 		.get();
-		
-		
+
+
 		// read only transforms and time stamp
 		DBObject cols  = new BasicDBObject();
 		cols.put("transforms",  1 );
 		cols.put("__recorded",  1 );
-		
+
 		DBCursor cursor = coll.find(query, cols );
 
 		StampedTransform res = null;
@@ -424,14 +413,14 @@ public class TFMemory {
 	 * Returns the transform from the specified source frame at sourceTime to the target frame at a given
 	 * targetTime, based on a given fixed frame; returns null if no transformation could be found.
 	 */
-	public StampedTransform lookupTransform(String targetID, Time targetTime, String sourceID, Time sourceTime, String fixedID) {	    
+	public StampedTransform lookupTransform(String targetID, Time targetTime, String sourceID, Time sourceTime, String fixedID) {
 		// lookup transform from source to fixed frame, at sourceTime
 		StampedTransform t1 = lookupTransform(fixedID, sourceID, sourceTime);
 		// lookup transform from fixed frame to target frame, at targetTime
 		StampedTransform t2 = lookupTransform(targetID, fixedID, targetTime);
 
 		// if either of the two transformations did not succeed, return null
-		if (t1 == null || t2 == null) return null;	    
+		if (t1 == null || t2 == null) return null;
 
 		// multiply transformation t2 with t1, and return
 		t2.mul(t1);
@@ -444,15 +433,15 @@ public class TFMemory {
 	 * (from both directions, ordered descending by their potential of contributing to a good solution). At
 	 * the moment, the cost of the path from A to B is defined as the largest absolute difference between the
 	 * time stamps of the transforms from A to B and the given time point. This corresponds to searching for a
-	 * transform path that needs the least amount of inter- and extrapolation.  
-	 * 
+	 * transform path that needs the least amount of inter- and extrapolation.
+	 *
 	 * Note: often in search, if we talk about expanding a search node, we say that the node expands and its
 	 * _children_ are added to the queue. Yet, the tf graph is stored by linking child frames to their _parent_
 	 * frames, not the other way around. So, if a search node is expanded, the _parent_ frames are added to the
 	 * queue. This may be a bit confusing.
-	 */	
+	 */
 	protected boolean lookupLists(Frame targetFrame, Frame sourceFrame, long time,
-			LinkedList<tfjava.TransformStorage> inverseTransforms, LinkedList<tfjava.TransformStorage> forwardTransforms) {
+			LinkedList<TransformStorage> inverseTransforms, LinkedList<TransformStorage> forwardTransforms) {
 
 		// wrap the source and target frames in search nodes
 		SearchNode<Frame> sourceNode = new SearchNode<Frame>(sourceFrame);
@@ -461,7 +450,7 @@ public class TFMemory {
 		// set beginning of forward path (from source)
 		sourceNode.backwardStep = sourceNode;
 		// set beginning of backward path (form target)
-		targetNode.forwardStep = targetNode;        
+		targetNode.forwardStep = targetNode;
 
 		// create a hash map that map frames to search nodes. This is necessary to keep track of
 		// which frames have already been visited (and from which direction).
@@ -475,7 +464,7 @@ public class TFMemory {
 		PriorityQueue<SearchNode<Frame>> Q = new PriorityQueue<SearchNode<Frame>>();
 
 		// at the source and target search nodes to the queue
-		Q.add(sourceNode); 
+		Q.add(sourceNode);
 		Q.add(targetNode);
 
 		// perform the search
@@ -489,29 +478,41 @@ public class TFMemory {
 				// found the best path from source to target through FRAME.
 
 				// create inverse list (from source to FRAME)
-				SearchNode<Frame> node = frameNode;                
-				while(node.content != sourceNode.content) {                    
-					inverseTransforms.addLast(node.backwardStep.content.getData(time, node.content));
-					node = node.backwardStep;
+				SearchNode<Frame> node = frameNode;
+				while(node.content != sourceNode.content) {
+
+					TransformStorage st = node.backwardStep.content.getData(time, node.content);
+					if(st==null) {
+						return false;
+					} else {
+						inverseTransforms.addLast(st);
+						node = node.backwardStep;
+					}
 				}
 
 				// create forward list (from FRAME to target)
 				node = frameNode;
 				while(node.content != targetNode.content) {
-					forwardTransforms.addLast(node.forwardStep.content.getData(time, node.content));
-					node = node.forwardStep;
+
+					TransformStorage st = node.forwardStep.content.getData(time, node.content);
+					if(st==null) {
+						return false;
+					} else {
+						forwardTransforms.addLast(st);
+						node = node.forwardStep;
+					}
 				}
 				return true;
 			}
 
 			// expand search node
-			for(Frame parentFrame : frame.getParentFrames()) {                
+			for(Frame parentFrame : frame.getParentFrames()) {
 				SearchNode<Frame> parentFrameNode = frameToNode.get(parentFrame);
 
 				boolean addToQueue = false;
 				if (parentFrameNode == null) {
 					// node was not yet visited
-					parentFrameNode = new SearchNode<Frame>(parentFrame);                    
+					parentFrameNode = new SearchNode<Frame>(parentFrame);
 					frameToNode.put(parentFrame, parentFrameNode);
 					addToQueue = true;
 				} else {
@@ -520,19 +521,19 @@ public class TFMemory {
 							|| (parentFrameNode.forwardStep == null && frameNode.backwardStep == null)) {
 						// node was visited, but from other direction.
 						// create new search node that represents this frame, visited from both sides
-						// this allows the other search node of this frame to still be expanded first                        
+						// this allows the other search node of this frame to still be expanded first
 						parentFrameNode = new SearchNode<Frame>(parentFrameNode);
-						addToQueue = true;                        
+						addToQueue = true;
 					}
-				}                
+				}
 
 				// add search node belonging to parent frame to the queue
 				if (addToQueue) {
-					// determine cost (based on max absolute difference in time stamp) 
+					// determine cost (based on max absolute difference in time stamp)
 					TimeCache cache = frame.getTimeCache(parentFrame);
 					parentFrameNode.cost = Math.max((double)cache.timeToNearestTransform(time),
 							Math.max(parentFrameNode.cost, frameNode.cost));
-					// if visiting forward (from source), set backward step to remember path 
+					// if visiting forward (from source), set backward step to remember path
 					if (frameNode.backwardStep != null) parentFrameNode.backwardStep = frameNode;
 					// if visiting backward (from target), set forward step to remember path
 					if (frameNode.forwardStep != null) parentFrameNode.forwardStep = frameNode;
@@ -542,19 +543,19 @@ public class TFMemory {
 			}
 		}
 
-		// target and source frames are not connected.        
+		// target and source frames are not connected.
 		return false;
 	}
 
 	/**
-	 * Wrapper search node that can be used for bi-directional best-first search. 
+	 * Wrapper search node that can be used for bi-directional best-first search.
 	 * Keeps track of search path by maintaining links to parent nodes, in both directions
 	 * (i.e., from source and from target node).
-	 * 
+	 *
 	 * @author Sjoerd van den Dries
 	 * @param <V> Content type of the search node
-	 */    
-	protected class SearchNode<V> implements Comparable<SearchNode<V>> {        
+	 */
+	protected class SearchNode<V> implements Comparable<SearchNode<V>> {
 		/** Content of search node */
 		V content;
 		/** Cost of path up and until this search node */
@@ -562,7 +563,7 @@ public class TFMemory {
 		/** Refers to parent node in forward path */
 		SearchNode<V> backwardStep;
 		/** Refers to parent node in backward path */
-		SearchNode<V> forwardStep;        
+		SearchNode<V> forwardStep;
 
 		/** Default constructor; sets specified content and cost to 0, steps to null. */
 		SearchNode(V content) {
@@ -585,25 +586,25 @@ public class TFMemory {
 			if (this.cost < other.cost) return -1;
 			if (this.cost > other.cost) return 1;
 			return 0;
-		}        
+		}
 
 	}
 
 	/* **********************************************************************
 	 * *                          HELPER METHODS                            *
-	 * ********************************************************************** */	
+	 * ********************************************************************** */
 
 	//	/**
 	//	 * Converts the given TransformStamped message to the TransformStorage datastructure
-	//	 */	
+	//	 */
 	//	protected TransformStorage transformStampedMsgToTF(TransformStamped msg) {
 	//	    ros.pkg.geometry_msgs.msg.Vector3 tMsg = msg.transform.translation;
-	//	    ros.pkg.geometry_msgs.msg.Quaternion rMsg = msg.transform.rotation;	
-	//	    
+	//	    ros.pkg.geometry_msgs.msg.Quaternion rMsg = msg.transform.rotation;
+	//
 	//	    // add frames to map
 	//	    Frame childFrame = lookupOrInsertFrame(msg.child_frame_id);
 	//	    Frame parentFrame = lookupOrInsertFrame(msg.header.frame_id);
-	//	    
+	//
 	//	    return new TransformStorage(new Vector3d(tMsg.x, tMsg.y, tMsg.z),
 	//	                                new Quat4d(rMsg.x, rMsg.y, rMsg.z, rMsg.w),
 	//	                                msg.header.stamp.totalNsecs(),
@@ -612,7 +613,7 @@ public class TFMemory {
 
 	/**
 	 * Converts the given TransformStorage datastructure to a TransformStamped message
-	 */ 	
+	 */
 	protected TransformStamped TFToTransformStampedMsg(TransformStorage tf) {
 		Vector3d tTF = tf.getTranslation();
 		Quat4d rTF = tf.getRotation();
@@ -624,7 +625,7 @@ public class TFMemory {
 		rMsg.x = rTF.x; rMsg.y = rTF.y; rMsg.z = rTF.z; rMsg.w = rTF.w;
 
 		// create TransformStamped message
-		TransformStamped msg = new TransformStamped();	    
+		TransformStamped msg = new TransformStamped();
 		msg.header.frame_id = tf.getParentFrame().getFrameID();
 		msg.header.stamp = new Time(tf.getTimeStamp());
 		msg.child_frame_id = tf.getChildFrame().getFrameID();
@@ -639,27 +640,27 @@ public class TFMemory {
 	 * the StampedTransform datastructure (represented by a 4x4 matrix)
 	 */
 	protected StampedTransform StorageToStampedTransform(TransformStorage ts) {
-		return new StampedTransform(ts.getTranslation(), ts.getRotation(), new Time(ts.getTimeStamp()), 
+		return new StampedTransform(ts.getTranslation(), ts.getRotation(), new Time(ts.getTimeStamp()),
 				ts.getParentFrame().getFrameID(), ts.getChildFrame().getFrameID());
 	}
 
 	/**
 	 * Returns the resolved version of the given frame ID, and asserts a debug message if the name
 	 * was not fully resolved.
-	 */ 	
+	 */
 	private String assertResolved(String prefix, String frameID) {
-		if (!frameID.startsWith("/"))	    
+		if (!frameID.startsWith("/"))
 			System.err.println("TF operating on not fully resolved frame id " + frameID +", resolving using local prefix " + prefix);
 		return resolve(prefix, frameID);
 	}
 
 	/**
 	 * Returns the resolves version of the given frame ID.
-	 */	
-	private static String resolve(String prefix, String frameID)	{			    
+	 */
+	private static String resolve(String prefix, String frameID)	{
 		if (frameID.startsWith("/")) {
-			return frameID;			
-		}	  
+			return frameID;
+		}
 
 		if (prefix.length() > 0) {
 			if (prefix.startsWith("/")) {
@@ -667,8 +668,8 @@ public class TFMemory {
 			} else {
 				return "/" + prefix + "/" + frameID;
 			}
-		}  else {		    
-			return "/" + frameID;			
+		}  else {
+			return "/" + frameID;
 		}
 	}
 }
