@@ -135,7 +135,8 @@ belief_at(loc(Obj,Loc), Time) :-
 	task(Task),
 	task_end(Task, Time),
 	returned_value(Task, Obj),
-	rdf_has(Task, knowrob:'perceptionResult', Designator),
+	rdf_has(Task, knowrob:'detectedObject', Obj), 
+	rdf_has(Obj, knowrob:'designator',Designator),
 	javarun_designator(Designator, Loc))).
 
 occurs(loc_change(Obj),T) :-
@@ -144,7 +145,8 @@ occurs(loc_change(Obj),T) :-
 	task_class(Task, knowrob:'VisualPerception'),
 	returned_value(Task, Obj),
         task_start(Task, T),
-	rdf_has(Task, knowrob:'perceptionResult', Designator),
+	rdf_has(Task, knowrob:'detectedObject', Obj), 
+	rdf_has(Obj, knowrob:'designator',Designator),
 	javarun_loc_change(Designator, T).
 
 occurs(object_perceived(Obj),T) :-
