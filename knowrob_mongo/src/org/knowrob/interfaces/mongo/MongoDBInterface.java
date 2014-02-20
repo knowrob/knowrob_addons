@@ -166,11 +166,12 @@ public class MongoDBInterface {
 	 */
 	public List<Date> getUIMAPerceptionTimes(String object) {
 		List<Date> times = new ArrayList<Date>();	
-		DBCollection coll = db.getCollection("uima_uima_results");
+		DBCollection coll = db.getCollection("logged_designators");
 
 		// TODO: This will always return a single result since the ID is unique
 		DBObject query = QueryBuilder
-				.start("designator.__id").is(object).get();
+				.start("designator._id").is(object)
+				.and("designator.POSE").notEquals(null).get();
 
 		DBObject cols  = new BasicDBObject();
 		cols.put("__recorded", 1 );				
@@ -207,11 +208,12 @@ public class MongoDBInterface {
 		Date end   = new ISODate((long) 1000 * (posix_ts + 30) ).getDate();
 
 		List<String> objects = new ArrayList<String>();	
-		DBCollection coll = db.getCollection("uima_uima_results");
+		DBCollection coll = db.getCollection("logged_designators");
 
 		DBObject query = QueryBuilder
 				.start("__recorded").greaterThanEquals( start )
-				.and("__recorded").lessThan( end ).get();
+				.and("__recorded").lessThan( end )
+				.and("designator.POSE").notEquals(null).get();
 
 
 		DBObject cols  = new BasicDBObject();
