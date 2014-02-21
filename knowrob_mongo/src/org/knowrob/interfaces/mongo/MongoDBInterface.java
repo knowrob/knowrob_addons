@@ -227,7 +227,7 @@ public class MongoDBInterface {
 
 				DBObject row = cursor.next();
 				res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
-				objects.add((String)res.get("__id"));
+				objects.add((String)res.get("_id"));
 
 			}
 		} catch(Exception e){
@@ -243,7 +243,7 @@ public class MongoDBInterface {
 		Matrix4d poseMatrix = null;
 		DBCollection coll = db.getCollection("logged_designators");
 		DBObject query = QueryBuilder
-				.start("designator.__ID").is(id).get();
+				.start("designator._id").is(id).get();
 
 		DBObject cols  = new BasicDBObject();
 		cols.put("__recorded", 1 );
