@@ -147,7 +147,7 @@ occurs(loc_change(Obj),T) :-
         task_start(Task, T),
 	rdf_has(Task, knowrob:'detectedObject', Obj), 
 	rdf_has(Obj, knowrob:'designator',Designator),
-	javarun_loc_change(Designator, T).
+	javarun_loc_change(Obj, Designator, T).
 
 occurs(object_perceived(Obj),T) :-
 	nonvar(Obj),
@@ -214,7 +214,7 @@ javarun_designator(Designator, Loc) :-
     atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D').
 
-javarun_loc_change(Designator, Time) :-
+javarun_loc_change(Obj, Designator, Time) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
@@ -223,7 +223,9 @@ javarun_loc_change(Designator, Time) :-
     jpl_array_to_list(Result, ResultList),
 
     [Compare_Result] = ResultList,
-    ((Compare_Result is -1) -> (true);(false)).
+    ((Compare_Result is -1) -> (false);(
+		rdf_has(Compare_Result, rdf:type, knowrob:'HumanScaleObject')
+    ).
 
 
 javarun_time_check(Time1, Time2, Compare_Result) :-

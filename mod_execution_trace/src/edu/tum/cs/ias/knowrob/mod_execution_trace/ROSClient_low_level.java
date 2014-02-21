@@ -218,11 +218,16 @@ public class ROSClient_low_level
 		return 0;	
 	}
 
-	public int checkLocationChange(String designator, String time)
+	public String checkLocationChange(String object, String designator, String time)
 	{
 		StringTokenizer s1 = new StringTokenizer(time, "_");
 		s1.nextToken();
-		System.out.println(s1.nextToken());
+
+		StringTokenizer s2 = new StringTokenizer(object, "_");
+		s2.nextToken();
+		s2.nextToken();
+
+		int id = Integer.parseInt(s2.nextToken());
 		int time_l = Integer.parseInt(s1.nextToken()) -61;
 		Designator des = mdb.latestUIMAPerceptionBefore(time_l);
 		PoseStamped pose_stamped = null;
@@ -255,8 +260,8 @@ public class ROSClient_low_level
 
 		double[] m_old = getBeliefByDesignator(designator);
 		if(poseMatrix != null && Math.abs(dummy[12] - m_old[12]) < 0.1 && Math.abs(dummy[13] - m_old[13]) < 0.1 && Math.abs(dummy[14] - m_old[14]) < 0.1)
-			return 0;
-		else return -1;
+			return "http://ias.cs.tum.edu/kb/cram_log.owl#VisualPerception_" + ((String)des.get("_id")).substring(9) + "_object_" + id;
+		else return "-1";
 
 	}
 

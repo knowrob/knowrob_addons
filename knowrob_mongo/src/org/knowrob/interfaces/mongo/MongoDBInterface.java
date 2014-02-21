@@ -128,7 +128,7 @@ public class MongoDBInterface {
 	public Designator latestUIMAPerceptionBefore(int posix_ts) {
 
 		Designator desig = null;
-		DBCollection coll = db.getCollection("uima_uima_results");
+		DBCollection coll = db.getCollection("logged_designators");
 
 		// read all events up to one minute before the time
 		Date start = new ISODate((long) 1000 * (posix_ts - 60) ).getDate();
@@ -136,7 +136,8 @@ public class MongoDBInterface {
 
 		DBObject query = QueryBuilder
 				.start("__recorded").greaterThanEquals( start )
-				.and("__recorded").lessThan( end ).get();
+				.and("__recorded").lessThan( end )
+				.and("designator.POSE").notEquals(null).get();
 
 		DBObject cols  = new BasicDBObject();
 		cols.put("designator", 1 );
