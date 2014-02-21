@@ -81,9 +81,9 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
   create_timepoint(StartTime, StTime),
   rdf_assert(ActionInst, knowrob:startTime, StTime),
 
-  nonvar(PrevAction) -> (
+  (nonvar(PrevAction) -> (
       rdf_assert(ActionInst, knowrob:previousEvent, PrevAction),
-      rdf_assert(PrevAction, knowrob:nextEvent, ActionInst)) ; (true).
+      rdf_assert(PrevAction, knowrob:nextEvent, ActionInst)) ; (true)).
 
 
 
