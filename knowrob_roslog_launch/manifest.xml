@@ -1,0 +1,21 @@
+<package>
+  <description brief="knowrob_roslog_launch">
+
+     knowrob_roslog_launch
+
+     Package containing launch files and a basic KnowRob package to be
+     used for launching a KnowRob system including logging and visualization.
+
+  </description>
+  <author>Moritz Tenorth</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/knowrob_roslog_launch</url>
+
+  <depend package="mod_execution_trace"/>
+  <depend package="iai_maps"/>
+  <depend package="knowrob_vis"/>
+
+</package>
+
+
