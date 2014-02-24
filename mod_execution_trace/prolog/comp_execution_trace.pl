@@ -16,7 +16,7 @@
 	javarun_location_check/3,
 	javarun_perception_time_instances/2,
 	javarun_perception_object_instances/2,
-	javarun_loc_change/2,
+	javarun_loc_change/3,
 	failure_class/2,
 	failure_task/2,
 	failure_attribute/3
@@ -62,7 +62,7 @@
     javarun_location_check(r,r,r),
     javarun_perception_time_instance(r,r),
     javarun_perception_object_instance(r,r),
-    javarun_loc_change(r,r),
+    javarun_loc_change(r,r,r),
     failure_class(r,r),
     failure_task(r,r),
     failure_attribute(r,r,r).
@@ -218,14 +218,12 @@ javarun_loc_change(Obj, Designator, Time) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
-    jpl_call(Client, 'checkLocationChange', [Designator, Time], Result),
+    jpl_call(Client, 'checkLocationChange', [Obj, Designator, Time], Result),
 
     jpl_array_to_list(Result, ResultList),
 
     [Compare_Result] = ResultList,
-    ((Compare_Result is -1) -> (false);(
-		rdf_has(Compare_Result, rdf:type, knowrob:'HumanScaleObject')
-    ).
+    ((Compare_Result is -1) -> (false);((rdf_has(Compare_Result, rdf:type, knowrob:'HumanScaleObject')) -> (true);(false))).
 
 
 javarun_time_check(Time1, Time2, Compare_Result) :-
