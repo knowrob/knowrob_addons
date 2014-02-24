@@ -1,6 +1,6 @@
 <launch>
 
-  <!--include file="$(find knowrob_roslog_launch)/launch/knowrob-no-roslog.launch" /-->
+  <include file="$(find knowrob_roslog_launch)/launch/knowrob-no-roslog.launch" />
   
   <!-- MongoDB logging node -->
   <node name="mongodb_log" pkg="mongodb_log" type="mongodb_log" args="/tf /logged_designators /logged_metadata" output="screen" />
