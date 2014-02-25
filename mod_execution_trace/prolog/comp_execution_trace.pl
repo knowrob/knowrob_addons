@@ -73,13 +73,9 @@ task(Task) :-
 	rdf_has(Task, rdf:type, A),
 	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent');
 
-	rdf_has(Task, rdf:type, knowrob:'VisualPerception').
 task_class(Task, Class) :-
 	rdf_has(Task, rdf:type, Class),
 	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent');
-
-	rdf_has(Task, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, knowrob:'VisualPerception').
 
 subtask(Task, Subtask) :-
 	task(Task),
@@ -139,20 +135,21 @@ belief_at(loc(Obj,Loc), Time) :-
 	rdf_has(Obj, knowrob:'designator',Designator),
 	javarun_designator(Designator, Loc))).
 
+%it is not possible to extract that kind of information from current logs
 occurs(loc_change(Obj),T) :-
 	nonvar(Obj),
 	nonvar(T),
-	task_class(Task, knowrob:'VisualPerception'),
+	task_class(Task, knowrob:'UIMAPerception'),
 	returned_value(Task, Obj),
         task_start(Task, T),
-	rdf_has(Task, knowrob:'detectedObject', Obj), 
+	rdf_has(Task, knowrob:'objectActedOn', Obj), 
 	rdf_has(Obj, knowrob:'designator',Designator),
 	javarun_loc_change(Obj, Designator, T).
 
 occurs(object_perceived(Obj),T) :-
 	nonvar(Obj),
 	nonvar(T),
-	task_class(Task, knowrob:'VisualPerception'),
+	task_class(Task, knowrob:'UIMAPerception'),
 	returned_value(Task, Obj),
 	task_start(Task, T).
 
@@ -192,8 +189,8 @@ cram_holds(object_placed_at(Object, Loc), T):-
 	((r is 0) -> (true);(false)).
 
 returned_value(Task, Obj) :-
-	rdf_has(Task, rdf:type, knowrob:'VisualPerception'),
-	rdf_has(Task, knowrob:'detectedObject', Obj);
+	rdf_has(Task, rdf:type, knowrob:'UIMAPerception'),
+	rdf_has(Task, knowrob:'objectActedOn', Obj);
 
 	task(Task),
 	failure_task(Obj, Task).
@@ -260,7 +257,7 @@ javarun_perception_object_instances(Time, ObjectList) :-
 
 failure_class(Error, Class) :-
 	rdf_has(Error, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, knowrob:'genericPlanFailure').
+	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
 
 failure_task(Error, Task) :-
 	task(Task),

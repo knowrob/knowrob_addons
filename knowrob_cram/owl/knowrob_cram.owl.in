@@ -216,6 +216,14 @@
 
     <owl:Class rdf:about="&knowrob;CRAMPerceive">
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
+    </owl:Class>
+
+
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CRAMPerceive -->
+
+    <owl:Class rdf:about="&knowrob;UIMAPerception">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
         <rdfs:subClassOf rdf:resource="&knowrob;VisualPerception"/>
     </owl:Class>
 
