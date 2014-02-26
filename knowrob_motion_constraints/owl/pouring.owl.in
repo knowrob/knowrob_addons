@@ -38,6 +38,7 @@
 
 
 
+
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -60,12 +61,30 @@
                 <owl:someValuesFrom rdf:resource="&knowrob;PancakeMaker"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-         <rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
                 <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+
+
+
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PancakeMixInRightHand -->
+
+    <owl:Class rdf:about="&motion-def;PancakeMixInRightHand">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob;PancakeMix"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
+                        <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
 
 
@@ -78,13 +97,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-                <owl:hasValue rdf:resource="&motion-def;PouringSomething02_3KERYjv8"/>
+                <owl:hasValue rdf:resource="&motion-def;PouringSomething12_TE30rh36"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;subAction"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;MoveAbovePanInherited"/>
+                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
+                <owl:hasValue rdf:resource="&motion-def;PouringSomething01_h0t7dyZY"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -96,13 +115,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-                <owl:hasValue rdf:resource="&motion-def;PouringSomething12_TE30rh36"/>
+                <owl:hasValue rdf:resource="&motion-def;PouringSomething02_3KERYjv8"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-                <owl:hasValue rdf:resource="&motion-def;PouringSomething01_h0t7dyZY"/>
+                <owl:onProperty rdf:resource="&knowrob;subAction"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;MoveAbovePanInherited"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -120,7 +139,7 @@
     <owl:Class rdf:about="&motion-def;TiltBackInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectUpright"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;KeepObjectAbove"/>
-         <rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
                 <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
@@ -142,33 +161,22 @@
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectAtAngle"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;KeepObjectAbove"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;PointObjectAt"/>
-         <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
                 <owl:someValuesFrom rdf:resource="&knowrob;PancakeMaker"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </owl:Class>
-
-
-
-
-    <owl:Class rdf:about="&motion-def;PancakeMixInRightHand">
-      <rdfs:subClassOf rdf:resource="&knowrob;PancakeMix"/>
-      <rdfs:subClassOf>
+        <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;predecessorInKinematicChain"/>
-                <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
+                <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
-    
+
+
+
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
     //
