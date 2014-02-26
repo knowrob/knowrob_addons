@@ -125,7 +125,7 @@ constraint_properties(ToolObjClass, WorldObjClass, Constr, Type, ToolFeature, Wo
     class_properties(Constr, constr:worldFeature, WorldFeatureClass),
     once(object_feature(WorldFeatureClass, WorldObjClass, WorldFeature)),
 
-    once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));true),
+    once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));ReferenceFrame='/torso_lift_link'),
 
     class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))),
     term_to_atom(Lower, L),
