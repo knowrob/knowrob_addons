@@ -2457,9 +2457,9 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_s5mc4nZg">
         <rdf:type rdf:resource="&knowrob;Vector"/>
-        <knowrob:vectorZ rdf:datatype="&xsd;double">-0.04523719474673271</knowrob:vectorZ>
-        <knowrob:vectorY rdf:datatype="&xsd;double">-1.4852565982437227E-5</knowrob:vectorY>
-        <knowrob:vectorX rdf:datatype="&xsd;double">1.9538449123501778E-5</knowrob:vectorX>
+        <knowrob:vectorZ rdf:datatype="&xsd;double">0.04523719474673271</knowrob:vectorZ>
+        <knowrob:vectorY rdf:datatype="&xsd;double">1.4852565982437227E-5</knowrob:vectorY>
+        <knowrob:vectorX rdf:datatype="&xsd;double">-1.9538449123501778E-5</knowrob:vectorX>
     </owl:NamedIndividual>
     
 
