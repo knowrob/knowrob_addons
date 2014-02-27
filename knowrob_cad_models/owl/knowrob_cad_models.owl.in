@@ -229,14 +229,14 @@
       </rdfs:subClassOf>
     </rdf:Description>
 
-<!--    <rdf:Description rdf:about="&knowrob;DrinkingBottle">
+    <rdf:Description rdf:about="&knowrob;DrinkingBottle">
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/drinking-vessels/Green_Bottle.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/food-drinks/Coke-Bottle.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
-    </rdf:Description>-->
+    </rdf:Description>
 
 
     <rdf:Description rdf:about="&knowrob;DrinkingMug">
