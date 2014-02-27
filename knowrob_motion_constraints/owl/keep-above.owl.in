@@ -31,7 +31,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&constr;DistanceConstraint_mjJk8Pzr"/>
+                <owl:someValuesFrom rdf:resource="&constr;HeightConstraint_OZjsDn3E"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
