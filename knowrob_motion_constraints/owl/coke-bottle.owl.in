@@ -337,6 +337,7 @@
     <owl:NamedIndividual rdf:about="&cad;Coke-Bottle_yPvMrOrc">
         <rdf:type rdf:resource="&knowrob;Bottle"/>
         <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
+        <srdl2-comp:predecessorInKinematicChain rdf:resource="&pr2;pr2_r_gripper_palm_link"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_0E5NqgO1"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_0ZnKEqqD"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_2BU4WoG6"/>
