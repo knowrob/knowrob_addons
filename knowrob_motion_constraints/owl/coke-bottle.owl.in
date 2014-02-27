@@ -335,7 +335,8 @@
     <!-- http://ias.cs.tum.edu/kb/knowrob-cad.owl#Coke-Bottle_yPvMrOrc -->
 
     <owl:NamedIndividual rdf:about="&cad;Coke-Bottle_yPvMrOrc">
-        <rdf:type rdf:resource="&knowrob;HumanScaleObject"/>
+        <rdf:type rdf:resource="&knowrob;Bottle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_0E5NqgO1"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_0ZnKEqqD"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_2BU4WoG6"/>
@@ -514,6 +515,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_0E5NqgO1">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -531,6 +533,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_0ZnKEqqD">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -548,6 +551,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_2BU4WoG6">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
@@ -565,6 +569,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_2ZQYtUEw">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
@@ -582,6 +587,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_4iy6u3Ig">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -599,6 +605,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_5Q4iMwbS">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -616,6 +623,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_5VuHGUiF">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.007917163</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.027775815</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.028411204</knowrob:radius>
@@ -633,6 +641,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_AsEW3GfG">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -650,6 +659,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_E807tv64">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -667,6 +677,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_E9A6tGqb">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -684,6 +695,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_EGu2ILHv">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0026786285</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.00281507</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0029515116</knowrob:minRadius>
@@ -701,6 +713,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_EXpkFr9c">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -718,6 +731,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_GvJzrcBG">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
@@ -735,6 +749,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_IABiScSB">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -752,6 +767,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_IlZ09SwR">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
@@ -769,6 +785,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_JWSz8o2j">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -786,6 +803,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_JzORgc9E">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -803,6 +821,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_My2MeHaI">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.002133593</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.002426102</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0027186114</knowrob:minRadius>
@@ -820,6 +839,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_NO0EylQu">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -837,6 +857,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_SqAbb9NV">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
@@ -854,6 +875,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_TJvw8MgF">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.010396153</knowrob:lengthOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.01252078</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0131532485</knowrob:radius>
@@ -871,6 +893,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_TNoT2kJz">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -888,6 +911,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_TbaSRwEe">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0011640283</knowrob:areaOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.00710998</knowrob:lengthOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.015344703</knowrob:maxRadius>
@@ -905,6 +929,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_Th4ZM470">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
@@ -922,6 +947,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_Ts6WNc6Y">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -939,6 +965,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_VFDuKJDK">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
@@ -956,6 +983,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_WegSHy9c">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -973,6 +1001,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_Wiz6VBcc">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
@@ -990,6 +1019,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_Y5wsqX5n">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
@@ -1007,6 +1037,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_YwoN4cPY">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -1024,6 +1055,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_ZFm9hhYR">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -1041,6 +1073,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_cp8xDkOs">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.009191554</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.033145837</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.033151485</knowrob:radius>
@@ -1058,6 +1091,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_e4bnxurF">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -1075,6 +1109,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_iheYSz8y">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0070385295</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.024658449</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.024867946</knowrob:radius>
@@ -1092,6 +1127,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_iiFYDLsF">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
@@ -1109,6 +1145,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_nieEFyMA">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
@@ -1126,6 +1163,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_qHYrEr0n">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
@@ -1143,6 +1181,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_rBsPReXk">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.002471319</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0025147314</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0025581438</knowrob:minRadius>
@@ -1160,6 +1199,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_rZFwISd7">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
@@ -1177,6 +1217,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_td6gQ4uL">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0</knowrob:volumeOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
@@ -1194,6 +1235,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_tnP1E9pS">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
@@ -1211,6 +1253,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_vPIHPR1d">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0</knowrob:radius>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
@@ -1228,6 +1271,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_wzwSSTMA">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0047111935</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.005734489</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.006757784</knowrob:minRadius>
@@ -1245,6 +1289,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_y7r7nuVW">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0</knowrob:minRadius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0</knowrob:maxRadius>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.0</knowrob:lengthOfObject>
@@ -1262,6 +1307,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_ztRoEQoJ">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0027587116</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0030267884</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0032948656</knowrob:minRadius>
@@ -1279,6 +1325,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Container_kvHfamhu">
         <rdf:type rdf:resource="&knowrob;Container"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.041514E-4</knowrob:volumeOfObject>
         <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_wvDtHlkH"/>
     </owl:NamedIndividual>
@@ -1289,6 +1336,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_0Sub3ffE">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97528183</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366467E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_kSpozfhS"/>
@@ -1303,6 +1351,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_0vS47Ed7">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96361023</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323175E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_6rjcQBt7"/>
@@ -1317,6 +1366,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_2Y91XkYt">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.233197E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.582362</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_XWR0Gier"/>
@@ -1331,6 +1381,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_2hQLt1db">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.083575E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.7237453</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_HdiOqXHW"/>
@@ -1345,6 +1396,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_2pjl614Z">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97528654</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366491E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_Xl1uPZkZ"/>
@@ -1359,6 +1411,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_3NANyfgH">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.94966406</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323224E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_s4oV7oEP"/>
@@ -1373,6 +1426,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_3xYEOESX">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636253</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3231906E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_VcL06uQb"/>
@@ -1387,6 +1441,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_43dWgSFr">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.2331795E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.5823574</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_YYW62QWp"/>
@@ -1401,6 +1456,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_5htEpESl">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.34960693</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.3077515E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_3w8rDKa6"/>
@@ -1415,6 +1471,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_60oQUX1m">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636236</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3232095E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_W6O9oTxi"/>
@@ -1429,6 +1486,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_6R76or9M">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.64908314</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.1924764E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_JuGuSfkN"/>
@@ -1443,6 +1501,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_6tTmx6R3">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96362287</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323223E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_4KwbLcpJ"/>
@@ -1457,6 +1516,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_8F6tTMX1">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.48711175</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.1719436E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_5BZb5Mr1"/>
@@ -1471,6 +1531,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_8IWF8GHQ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97527957</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.36648E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_vGQ8dHNf"/>
@@ -1485,6 +1546,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_8o2jb3e9">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.0835636E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.7237115</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_joYxI2jj"/>
@@ -1499,6 +1561,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_9tygvJgb">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5179143</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">5.938733E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_1nWyYHN0"/>
@@ -1513,6 +1576,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_AFukFP3t">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.48243725</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.6551536E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_tlePWE2F"/>
@@ -1527,6 +1591,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_AMcWMeee">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.2331908E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.5823345</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_uZwSIl3W"/>
@@ -1541,6 +1606,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_AkbnqFoQ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.44260684</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.1387015E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_Xi5QxFue"/>
@@ -1555,6 +1621,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_BoglMc5N">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.33427337</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.5406294E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_xkXuvakL"/>
@@ -1569,6 +1636,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_D13YslE4">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636208</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3232124E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_vVsgVhbY"/>
@@ -1583,6 +1651,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_DRKcDq6k">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0028807577</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.78991437</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_sueOEfkx"/>
@@ -1597,6 +1666,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_DadIfyUZ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.34960616</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.3077744E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_z9WR2ycZ"/>
@@ -1611,6 +1681,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_EPWL4qio">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.45993096</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.6453185E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ANDUNozm"/>
@@ -1625,6 +1696,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Exzr6Auw">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636099</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3231986E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_vt1JBy2s"/>
@@ -1639,6 +1711,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_FHyMlGSp">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7899162</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">9.517098E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_lB2QfE7a"/>
@@ -1653,6 +1726,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_GDT9xM9z">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.48511985</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.585736E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_xxjq3JFx"/>
@@ -1667,6 +1741,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_GpgZPbJP">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.45992184</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.6453277E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_EEUO1hhx"/>
@@ -1681,6 +1756,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_I4Zo8vWf">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.19358262</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.767546E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_U4VSGwZq"/>
@@ -1695,6 +1771,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_I6EZTps4">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636301</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.32319E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_BiYXRvhK"/>
@@ -1709,6 +1786,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_JL0PNLqp">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636306</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3232E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_BHx8gHXl"/>
@@ -1723,6 +1801,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_LDQoxkHI">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.6587493</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.5309502E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_9BIPBkN8"/>
@@ -1737,6 +1816,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_MjGSZu7T">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9497338</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3231964E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_YhDQww07"/>
@@ -1751,6 +1831,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_MtsoNA2K">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.083574E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.723813</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_VbsWUqOb"/>
@@ -1765,6 +1846,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Nyxk98II">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.233157E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.5824194</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_wKV6weuc"/>
@@ -1779,6 +1861,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_O751v2he">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7298522</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.4937717E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_Z72e32mp"/>
@@ -1793,6 +1876,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_OfOzBrt1">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.2331955E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.582358</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_bdI2HsBo"/>
@@ -1807,6 +1891,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_P9AK86zh">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5529053</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.605009E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_G313B29d"/>
@@ -1821,6 +1906,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_PW9P5Nfk">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0023830512</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7899139</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_cUZgaNlJ"/>
@@ -1835,6 +1921,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_PWxN5XAs">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.65872633</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.5310572E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_cUqgbXGO"/>
@@ -1849,6 +1936,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_RWy0Drrs">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.442591</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.1385835E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_IPWr7pXq"/>
@@ -1863,6 +1951,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_T9Aqa3ej">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.6490684</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.1924134E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_g7tRg3mH"/>
@@ -1877,6 +1966,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_TZHQyT4l">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96361667</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323194E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_6ZE76S7w"/>
@@ -1891,6 +1981,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Te4P6ql7">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97529626</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366496E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_P0KYOqS5"/>
@@ -1905,6 +1996,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_TmEnbbf8">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.48710987</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.1719892E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_6kzAKaij"/>
@@ -1919,6 +2011,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Ty3KNaFM">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96362066</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323218E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_MLnIKguu"/>
@@ -1933,6 +2026,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Uyt6kLPU">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.3728891</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.212146E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_DNRPISBq"/>
@@ -1947,6 +2041,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_V80MGnKb">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.2331957E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.5823483</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_o8yDsnME"/>
@@ -1961,6 +2056,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_VKdR0QLK">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5526699</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.6051584E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ynMfBEYJ"/>
@@ -1975,6 +2071,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_WEHfmDAF">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.2331864E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.582416</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_SSqo7BQF"/>
@@ -1989,6 +2086,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_XDVOLENJ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.78922176</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">5.1797443E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_RPeMIKBp"/>
@@ -2003,6 +2101,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_YH2L5bsF">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96362025</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323177E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_lHSdaaA4"/>
@@ -2017,6 +2116,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_YyH1hgTY">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.3938864</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.86066E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_Rdtty6Sc"/>
@@ -2031,6 +2131,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_Z5r2lxWu">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.6304665</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.5519907E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_m4kvrx5T"/>
@@ -2045,6 +2146,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_ZpKZzHA8">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.36108887</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.6261747E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_mpBqGFFv"/>
@@ -2059,6 +2161,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_aj6PIzuk">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96361464</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3232E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_xhYjOxSI"/>
@@ -2073,6 +2176,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_bBVKyNRb">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5179084</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">5.938626E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_6NgGvTFR"/>
@@ -2087,6 +2191,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_bERoQ8GX">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.0350275E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.6494756</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ySKPW8Mj"/>
@@ -2101,6 +2206,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_bj1oS0or">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.48512396</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.5857404E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_yhTSJ0vQ"/>
@@ -2115,6 +2221,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_cQG7ZKgJ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97528327</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366515E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_a8jTbQPt"/>
@@ -2129,6 +2236,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_d1npHn6F">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636141</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323209E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_0Y5yrnnS"/>
@@ -2143,6 +2251,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_dfZyrZuo">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96363044</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3232095E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_AdT2xYBN"/>
@@ -2157,6 +2266,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_ey0DvhTe">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.52549684</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.9672214E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_rxisrhbt"/>
@@ -2171,6 +2281,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_fTV0SQ4Q">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9497044</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323201E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_6El9TKsV"/>
@@ -2185,6 +2296,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_gEnNv0DZ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.2331544E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.582407</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_WAQSr78M"/>
@@ -2199,6 +2311,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_gSMBOFd5">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.963623</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323177E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_cAuKyDu5"/>
@@ -2213,6 +2326,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_hTdvEKdN">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.083566E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.723731</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ER6XKKlc"/>
@@ -2227,6 +2341,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_hbyPAA2F">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.4935044</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.0643059E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_d0fYjyiD"/>
@@ -2241,6 +2356,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_i6s26TsE">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97528094</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366474E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_gO9xlcyQ"/>
@@ -2255,6 +2371,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_iRq53KrQ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0013439368</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5261259</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_I9ecBTQY"/>
@@ -2269,6 +2386,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_iSS54UOX">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.52549994</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.9671779E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_tSMiSVR9"/>
@@ -2283,6 +2401,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_iXjrXiVL">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9752799</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366492E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_YRKwTgpw"/>
@@ -2297,6 +2416,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_ikSBptBm">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.27325135</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.4949352E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_dizK9tRk"/>
@@ -2311,6 +2431,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_loXTfv8l">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9752831</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.366494E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_2jqWbsB7"/>
@@ -2325,6 +2446,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_nOu8Ppg7">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.11317447</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">9.51178E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_jMbgzoz5"/>
@@ -2339,6 +2461,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_neVssuIA">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636306</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323202E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_gTIVJkHO"/>
@@ -2353,6 +2476,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_pRmEzNQZ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9497358</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323199E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_NRe6DLWn"/>
@@ -2367,6 +2491,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_pmOlB0Jy">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.4935094</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.0643165E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ODSt0i8I"/>
@@ -2381,6 +2506,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_qaQabVFE">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.4205214</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3913154E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ortZn4go"/>
@@ -2395,6 +2521,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_qgJx7taz">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.96362054</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323208E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ha8PzqGx"/>
@@ -2409,6 +2536,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_sTAJbVD7">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.39389604</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.860745E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_oPhSXTU7"/>
@@ -2423,6 +2551,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_tqGcR19s">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.97528</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.36648E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_lk7ukYFq"/>
@@ -2437,6 +2566,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_u8ZrkmSN">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.0835572E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.723716</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_q4GA4k0L"/>
@@ -2451,6 +2581,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_vuiVMS6s">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636342</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.32322E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_rsZ6ySmq"/>
@@ -2465,6 +2596,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_wGgrKkYo">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.630503</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">6.552156E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_qSBnFrN7"/>
@@ -2479,6 +2611,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_wZXcfYe5">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.33575544</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.560782E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_pEKFwOdi"/>
@@ -2493,6 +2626,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_wrciZyex">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.0350237E-4</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">4.649367</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_Up6L6zmV"/>
@@ -2507,6 +2641,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_y897T5zZ">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.48244524</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.6553305E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_u6RfD3PX"/>
@@ -2521,6 +2656,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_yHkclfVj">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636135</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.3232044E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_tF2l6dbh"/>
@@ -2535,6 +2671,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_ykK5U2dG">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.9636058</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">8.323208E-5</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_eec8Q1Hr"/>
@@ -2549,6 +2686,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_z2KiTXE4">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.72981673</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.4936983E-6</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_WZELZXLs"/>
@@ -2563,6 +2701,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_A1pRk7ed">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_ye3GvfMX"/>
     </owl:NamedIndividual>
     
@@ -2572,6 +2711,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_VeT8SdSm">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_B9ncycm7"/>
     </owl:NamedIndividual>
     
@@ -2581,6 +2721,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_WPkZa2cL">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_NLIhFZJH"/>
     </owl:NamedIndividual>
     
@@ -2590,6 +2731,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_srkStlBF">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_I71zP0Hh"/>
     </owl:NamedIndividual>
     
@@ -6824,6 +6966,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_3Y6zRURA">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.011230048</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.02936284</knowrob:radius>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.0276877E-4</knowrob:areaOfObject>
@@ -6837,6 +6980,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_4jRgI7Ne">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.006016128</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.034615014</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.4730474</knowrob:areaCoverage>
@@ -6850,6 +6994,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_5k4P971g">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0052975127</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.031708613</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.4964027</knowrob:areaCoverage>
@@ -6864,6 +7009,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_7GTSvMKV">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.021456981</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.13793732</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">2.2141283E-5</knowrob:volumeOfObject>
@@ -6878,6 +7024,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_9GSe2gBX">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.016790824</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.018828848</knowrob:radius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.4961263E-5</knowrob:volumeOfObject>
@@ -6891,6 +7038,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_9oWS7S9d">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.010483561</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.03227856</knowrob:radius>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.159366E-4</knowrob:areaOfObject>
@@ -6905,6 +7053,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_JS74ugaE">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0022773347</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.029385123</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.24847828</knowrob:areaCoverage>
@@ -6918,6 +7067,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_KNFzpPIs">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.016408784</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.02082484</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">5.9513834E-5</knowrob:areaOfObject>
@@ -6932,6 +7082,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_NxglSHnK">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.015327454</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.034195315</knowrob:radius>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.9023333E-4</knowrob:areaOfObject>
@@ -6945,6 +7096,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_OohkV75T">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.011253504</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.014405048</knowrob:radius>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.4785668E-5</knowrob:areaOfObject>
@@ -6958,6 +7110,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_PuFsrHOR">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.019084675</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.025068901</knowrob:radius>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">1.2730304E-4</knowrob:areaOfObject>
@@ -6971,6 +7124,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_S3ehDsul">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.00414419</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.03505591</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.3177121</knowrob:areaCoverage>
@@ -6985,6 +7139,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_S5RALZa4">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.023711799</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.12535541</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">2.9880679E-5</knowrob:volumeOfObject>
@@ -6999,6 +7154,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_SDau1fMs">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.02983549</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.06457441</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">5.952461E-5</knowrob:volumeOfObject>
@@ -7013,6 +7169,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_U86Z6sNg">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.027286964</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.058042582</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.5536814E-5</knowrob:volumeOfObject>
@@ -7026,6 +7183,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_Wt7gjGWY">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.015185074</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.16316348</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">3.993376E-4</knowrob:areaOfObject>
@@ -7040,6 +7198,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_XLOnnP1F">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.008078321</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.039238855</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.49431634</knowrob:areaCoverage>
@@ -7053,6 +7212,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_ejNuh8Qr">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.034249235</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.07238554</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">9.004293E-5</knowrob:volumeOfObject>
@@ -7067,6 +7227,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_gxhLOR1n">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.020750888</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.16456832</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">2.0026593E-5</knowrob:volumeOfObject>
@@ -7080,6 +7241,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_hWdGloYQ">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.011423937</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.015723914</knowrob:radius>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.9979232E-5</knowrob:areaOfObject>
@@ -7093,6 +7255,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_iblBI5DS">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0032239363</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.03211777</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.29445052</knowrob:areaCoverage>
@@ -7107,6 +7270,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_kw4GLcHk">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0028665494</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.02210851</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.5525315</knowrob:areaCoverage>
@@ -7121,6 +7285,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_nXXHrq0X">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.027206885</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.069003545</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">4.5137072E-5</knowrob:volumeOfObject>
@@ -7135,6 +7300,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_o7l1FFDX">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.0035077806</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.031703107</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">4.140474E-6</knowrob:areaOfObject>
@@ -7149,6 +7315,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_roPG8EAA">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0025270807</knowrob:areaOfObject>
         <knowrob:radius rdf:datatype="&xsd;float">0.03217147</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.230035</knowrob:areaCoverage>
@@ -7163,6 +7330,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_sMqa6k8d">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.029864987</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.054529525</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">5.1622593E-4</knowrob:areaOfObject>
@@ -7176,6 +7344,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_w8qMR15U">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.031192688</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.08046442</knowrob:areaCoverage>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">6.8022935E-5</knowrob:volumeOfObject>
@@ -7189,6 +7358,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_xlfuZBGJ">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:radius rdf:datatype="&xsd;float">0.015164705</knowrob:radius>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.09621616</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">2.3485477E-4</knowrob:areaOfObject>
@@ -7203,6 +7373,7 @@
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_ycivi3nQ">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
         <rdf:type rdf:resource="&knowrob;Sphere"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.013425979</knowrob:areaCoverage>
         <knowrob:radius rdf:datatype="&xsd;float">0.017375719</knowrob:radius>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.1757779E-5</knowrob:volumeOfObject>
