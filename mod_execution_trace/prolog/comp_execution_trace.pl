@@ -71,11 +71,11 @@
 
 task(Task) :-
 	rdf_has(Task, rdf:type, A),
-	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent');
+	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
 
 task_class(Task, Class) :-
 	rdf_has(Task, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent');
+	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
 
 subtask(Task, Subtask) :-
 	task(Task),
