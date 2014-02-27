@@ -87,7 +87,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;refFeature"/>
-                <owl:hasValue rdf:datatype="&xsd;string">/map</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;string">/torso_lift_link</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
