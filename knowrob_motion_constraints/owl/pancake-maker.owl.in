@@ -335,7 +335,7 @@
     <!-- http://ias.cs.tum.edu/kb/knowrob-cad.owl#pancake-maker_zvH1ax5o -->
 
     <owl:NamedIndividual rdf:about="&cad;pancake-maker_zvH1ax5o">
-        <rdf:type rdf:resource="&knowrob;HumanScaleObject"/>
+        <rdf:type rdf:resource="&knowrob;PancakeMaker"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_16EdNYTo"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_9beVh3mq"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_G27hHXn9"/>
