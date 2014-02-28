@@ -148,6 +148,12 @@ object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object in
     owl_individual_of(ObjInst, ObjClass),
     object_main_cone(ObjInst, FeatureInst).
 
+% compute object main axis
+object_feature(FeatureClass, ObjClass, ObjInst) :-
+    rdf_equal(FeatureClass, knowrob:'ObjectMainAxis'),
+    owl_individual_of(ObjInst, ObjClass),
+    owl_individual_of(ObjInst, knowrob:'Cone').
+
 % compute object center: return object instance itself
 object_feature(FeatureClass, ObjClass, FeatureInst) :- % TODO: specify object instance as parameter -> case of multiple spatulas
     rdf_equal(FeatureClass, knowrob:'CenterOfObject'),
