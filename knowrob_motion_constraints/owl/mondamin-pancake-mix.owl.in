@@ -425,6 +425,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_7c7Sqyie">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <rdf:type rdf:resource="&knowrob;BottleCap"/>
         <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_bottle</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.013330897</knowrob:areaOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.017999992</knowrob:lengthOfObject>
