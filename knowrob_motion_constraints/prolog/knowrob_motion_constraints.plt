@@ -35,6 +35,9 @@
 
 :- owl_parser:owl_parse('../owl/spatula-features.owl', false, false, true).
 :- owl_parser:owl_parse('../owl/pouring.owl', false, false, true).
+:- owl_parser:owl_parse('../owl/mondamin-pancake-mix.owl', false, false, true).
+:- owl_parser:owl_parse('../owl/pancake-maker.owl', false, false, true).
+:- owl_parser:owl_parse('../owl/coke-bottle.owl', false, false, true).
 
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -53,52 +56,54 @@ test(plan_subevents) :-
             'http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottle',
             'http://ias.cs.tum.edu/kb/motion-def.owl#TiltBack'].
 
-% Test if motion constraints for a phase are correctly retrieved
-test(motion_constraint_plain) :-
-    findall(C, motion_constraint('http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottle', C), Cs),
-    Cs = ['http://ias.cs.tum.edu/kb/motion-def.owl#DistanceConstraint_aePJVzGM',
-          'http://ias.cs.tum.edu/kb/motion-def.owl#PointingAtConstraint_fo5VpFyF',
-          'http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_ouGDWJ2K',
-          'http://ias.cs.tum.edu/kb/motion-def.owl#PerpendicularityConstraint_SoYmvFF5'].
 
-   
-% Test if motion constraints for a phase and a tool are correctly retrieved
-%
-% DEACTIVATED TILL FEATURE REPRESENTATION HAS STABILIZED
-% 
-% test(motion_constraint_tool) :-
-%     findall(C, motion_constraint('http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottle', 
-%                                  'http://ias.cs.tum.edu/kb/motion-def.owl#bottle-top', C), Cs),
-%     member('http://ias.cs.tum.edu/kb/pancake-making-constr.owl#DistanceLeftSpatulaAxisPancake_aneXbLGX', Cs),!.
+% Test if motion constraints for a phase are correctly retrieved
+test(motion_constraint) :-
+    findall(C, motion_constraint('http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottle', C), Cs),
+    Cs = ['http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint_E8ysUdzg',
+          'http://ias.cs.tum.edu/kb/motion-constraints.owl#HeightConstraint_OZjsDn3E',
+          'http://ias.cs.tum.edu/kb/motion-constraints.owl#RightOfConstraint_fePCJFEB',
+          'http://ias.cs.tum.edu/kb/motion-constraints.owl#InFrontOfConstraint_Sv4UGtRm',
+          'http://ias.cs.tum.edu/kb/motion-constraints.owl#PointingAtConstraint_f5BvdFyF'].
+
 
 
 % Test if constraint properties are correctly determined
 test(constraint_properties) :-
+
      constraint_properties(
-        'http://ias.cs.tum.edu/kb/motion-def.owl#HeightConstraint_ouGDWJ2K', 
-        'http://ias.cs.tum.edu/kb/motion-constraints.owl#DistanceConstraint',
-        'http://ias.cs.tum.edu/kb/spatula-features.owl#Handle_z3rLFrlP',
-        'http://ias.cs.tum.edu/kb/spatula-features.owl#FlatPhysicalSurface_DQoI3DXH',
-        A,
-        0.15,
-        0.17),!.
+       'http://ias.cs.tum.edu/kb/motion-def.owl#PancakeMixInRightHand',
+       'http://ias.cs.tum.edu/kb/knowrob.owl#PancakeMaker',
+       'http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint_qpdE8yUz',
+        Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper),
+        
+        Type = 'http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint',
+        ToolFeature = 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone_7c7Sqyie',
+        WorldFeature = 'http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_AEFloDeh',
+        ReferenceFrame = '/torso_lift_link',
+        Lower = 0.95,
+        Upper = 1.2.
 
 
+% test if feature_properties can be read
 test(feature_properties_line) :-
-  feature_properties('http://ias.cs.tum.edu/kb/spatula-features.owl#Handle_z3rLFrlP',
-                     'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
-                     'left spatula: main axis',
-                     'map',
-                     [0.0,0.0,0.0],
-                     [0.0,0.0,0.125]),!.
+  once(feature_properties('http://ias.cs.tum.edu/kb/knowrob.owl#Cone_7c7Sqyie',
+                      Type, Label, TfFrame, Position, Direction)),
+  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
+  Label = '',
+  TfFrame = '/pancake_bottle',
+  Position = [-9.733001888889703e-7,1.062735805135162e-6,0.4575471878051758],
+  Direction = [-9.538994594215922e-11,4.656713209483243e-11,-0.00899999588727951].
 
+                     
 test(feature_properties_plane) :-
-  feature_properties('http://ias.cs.tum.edu/kb/spatula-features.owl#FlatPhysicalSurface_DQoI3DXH',
-                     'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
-                     'pancake plane',
-                     'map',
-                     [0.0,0.0,0.0],
-                     [0.0,0.0,0.1]),!.
+  once(feature_properties('http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_AEFloDeh',
+                      Type, Label, TfFrame, Position, Direction)),
+  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
+  Label = '',
+  TfFrame = '/pancake_maker',
+  Position = [0.04166119545698166,-6.67572021484375e-6,-0.06330671906471252],
+  Direction = [-0.00821682345122099,-0.0047430298291146755,0.9999549984931946].
 
                      
 :- end_tests(knowrob_motion_constraints).
