@@ -131,7 +131,7 @@ belief_at(loc(Obj,Loc), Time) :-
 	task(Task),
 	task_end(Task, Time),
 	returned_value(Task, Obj),
-	rdf_has(Task, knowrob:'detectedObject', Obj), 
+	rdf_has(Task, knowrob:'objectActedOn', Obj), 
 	rdf_has(Obj, knowrob:'designator',Designator),
 	javarun_designator(Designator, Loc))).
 
