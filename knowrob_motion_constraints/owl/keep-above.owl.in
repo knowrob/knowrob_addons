@@ -31,19 +31,25 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&constr;DistanceConstraint_mjJk8Pzr"/>
+                <owl:someValuesFrom rdf:resource="&constr;HeightConstraint_OZjsDn3E"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
-                <owl:someValuesFrom rdf:resource="&constr;HeightConstraint_OZjsDn3E"/>
+                <owl:someValuesFrom rdf:resource="&constr;RightOfConstraint_fePCJFEB"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;constrainedBy"/>
+                <owl:someValuesFrom rdf:resource="&constr;InFrontOfConstraint_Sv4UGtRm"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
 
-    <owl:Class rdf:about="&constr;DistanceConstraint_mjJk8Pzr">
-        <rdfs:subClassOf rdf:resource="&constr;DistanceConstraint"/>
+    <owl:Class rdf:about="&constr;RightOfConstraint_fePCJFEB">
+        <rdfs:subClassOf rdf:resource="&constr;RightOfConstraint"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;toolFeature"/>
@@ -59,13 +65,41 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.03</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.03</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">0.07</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;double">0.03</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+
+    <owl:Class rdf:about="&constr;InFrontOfConstraint_Sv4UGtRm">
+        <rdfs:subClassOf rdf:resource="&constr;InFrontOfConstraint"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;toolFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;CenterOfObject"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;worldFeature"/>
+                <owl:someValuesFrom rdf:resource="&knowrob;SupportingPlane"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.03</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
+                <owl:hasValue rdf:datatype="&xsd;double">0.03</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>

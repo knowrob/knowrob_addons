@@ -50,9 +50,9 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#MoveAbovePan -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#MoveAbovePanInherited -->
 
-    <owl:Class rdf:about="&motion-def;MoveAbovePan">
+    <owl:Class rdf:about="&motion-def;MoveAbovePanInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectUpright"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;KeepObjectAbove"/>
         <rdfs:subClassOf>
@@ -64,33 +64,23 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;BottleInRightHand"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PancakeMixInRightHand -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#BottleInRightHand -->
 
-    <owl:Class rdf:about="&motion-def;PancakeMixInRightHand">
+    <owl:Class rdf:about="&motion-def;BottleInRightHand">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&knowrob;BottleCap"/>
+                    <rdf:Description rdf:about="&knowrob;DrinkingBottle"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&knowrob;physicalPartOf"/>
-                        <owl:someValuesFrom>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&knowrob;PancakeMix"/>
-                                    <owl:Restriction>
-                                        <owl:onProperty rdf:resource="http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
-                                        <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
-                                    </owl:Restriction>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:someValuesFrom>
+                        <owl:onProperty rdf:resource="http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
+                        <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -101,7 +91,7 @@
 
     <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething -->
 
-    <owl:Class rdf:about="&motion-def;PouringSomething">
+    <owl:Class rdf:about="&motion-def;PouringSomethingFromBottle">
         <rdfs:label rdf:datatype="&xsd;string">test pouring task</rdfs:label>
         <rdfs:subClassOf rdf:resource="&knowrob;Pouring"/>
         <rdfs:subClassOf>
@@ -119,7 +109,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;subAction"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;TiltBack"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;TiltBackInherited"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -131,28 +121,28 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;subAction"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;MoveAbovePan"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;MoveAbovePanInherited"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;subAction"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;TiltBottle"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;TiltBottleInherited"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBack -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBackInherited -->
 
-    <owl:Class rdf:about="&motion-def;TiltBack">
+    <owl:Class rdf:about="&motion-def;TiltBackInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectUpright"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;KeepObjectAbove"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;BottleInRightHand"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -165,9 +155,9 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottle -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottleInherited -->
 
-    <owl:Class rdf:about="&motion-def;TiltBottle">
+    <owl:Class rdf:about="&motion-def;TiltBottleInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectAtAngle"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;KeepObjectAbove"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;PointObjectAt"/>
@@ -180,7 +170,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-                <owl:someValuesFrom rdf:resource="&motion-def;PancakeMixInRightHand"/>
+                <owl:someValuesFrom rdf:resource="&motion-def;BottleInRightHand"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -198,9 +188,9 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#MoveAbovePan -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#MoveAbovePanInherited -->
 
-    <owl:NamedIndividual rdf:about="&motion-def;MoveAbovePan"/>
+    <owl:NamedIndividual rdf:about="&motion-def;MoveAbovePanInherited"/>
 
 
 
@@ -208,8 +198,8 @@
 
     <owl:NamedIndividual rdf:about="&motion-def;PouringSomething01_h0t7dyZY">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
-        <knowrob:occursBeforeInOrdering rdf:resource="&motion-def;MoveAbovePan"/>
-        <knowrob:occursAfterInOrdering rdf:resource="&motion-def;TiltBottle"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="&motion-def;MoveAbovePanInherited"/>
+        <knowrob:occursAfterInOrdering rdf:resource="&motion-def;TiltBottleInherited"/>
     </owl:NamedIndividual>
 
 
@@ -218,8 +208,8 @@
 
     <owl:NamedIndividual rdf:about="&motion-def;PouringSomething02_3KERYjv8">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
-        <knowrob:occursBeforeInOrdering rdf:resource="&motion-def;MoveAbovePan"/>
-        <knowrob:occursAfterInOrdering rdf:resource="&motion-def;TiltBack"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="&motion-def;MoveAbovePanInherited"/>
+        <knowrob:occursAfterInOrdering rdf:resource="&motion-def;TiltBackInherited"/>
     </owl:NamedIndividual>
 
 
@@ -228,21 +218,21 @@
 
     <owl:NamedIndividual rdf:about="&motion-def;PouringSomething12_TE30rh36">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
-        <knowrob:occursAfterInOrdering rdf:resource="&motion-def;TiltBack"/>
-        <knowrob:occursBeforeInOrdering rdf:resource="&motion-def;TiltBottle"/>
+        <knowrob:occursAfterInOrdering rdf:resource="&motion-def;TiltBackInherited"/>
+        <knowrob:occursBeforeInOrdering rdf:resource="&motion-def;TiltBottleInherited"/>
     </owl:NamedIndividual>
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBack -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBackInherited -->
 
-    <owl:NamedIndividual rdf:about="&motion-def;TiltBack"/>
+    <owl:NamedIndividual rdf:about="&motion-def;TiltBackInherited"/>
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottle -->
+    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottleInherited -->
 
-    <owl:NamedIndividual rdf:about="&motion-def;TiltBottle"/>
+    <owl:NamedIndividual rdf:about="&motion-def;TiltBottleInherited"/>
 </rdf:RDF>
 
 

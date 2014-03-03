@@ -335,7 +335,8 @@
     <!-- http://ias.cs.tum.edu/kb/knowrob-cad.owl#pancake-maker_zvH1ax5o -->
 
     <owl:NamedIndividual rdf:about="&cad;pancake-maker_zvH1ax5o">
-        <rdf:type rdf:resource="&knowrob;HumanScaleObject"/>
+        <rdf:type rdf:resource="&knowrob;PancakeMaker"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_16EdNYTo"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_9beVh3mq"/>
         <knowrob:properPhysicalParts rdf:resource="&knowrob;Cone_G27hHXn9"/>
@@ -382,6 +383,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_16EdNYTo">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0032267987</knowrob:volumeOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.03385208</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.03405401</knowrob:radius>
@@ -399,6 +401,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_9beVh3mq">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0024977254</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0025813626</knowrob:radius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0026649998</knowrob:maxRadius>
@@ -416,6 +419,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_G27hHXn9">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0023184835</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.010001347</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.010001672</knowrob:radius>
@@ -433,6 +437,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_IZFBffR2">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0028535447</knowrob:areaOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.009999924</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.009999925</knowrob:radius>
@@ -450,6 +455,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_JGWQIBDl">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0104597</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.023022925</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.025259143</knowrob:radius>
@@ -467,6 +473,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_LP0KkHYh">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.0010310055</knowrob:volumeOfObject>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.012551605</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.024289088</knowrob:minRadius>
@@ -484,6 +491,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_LZTwaKV6">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.010459688</knowrob:areaOfObject>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.023383448</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.024956467</knowrob:radius>
@@ -501,6 +509,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_SREwybMl">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.007885443</knowrob:volumeOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.012747592</knowrob:areaCoverage>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.01625754</knowrob:lengthOfObject>
@@ -518,6 +527,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_Sk72SVWR">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.013303478</knowrob:volumeOfObject>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.021082427</knowrob:areaOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.022986205</knowrob:lengthOfObject>
@@ -535,6 +545,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_fwtq1boc">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.0019131833</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0019132129</knowrob:radius>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0019132426</knowrob:minRadius>
@@ -552,6 +563,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_kMB2pQH1">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0025414678</knowrob:areaOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.010000056</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.010000084</knowrob:radius>
@@ -569,6 +581,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_nR4IQGFO">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.014633571</knowrob:volumeOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.023010084</knowrob:lengthOfObject>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.028349517</knowrob:areaOfObject>
@@ -586,6 +599,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_vSzUIKSk">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:minRadius rdf:datatype="&xsd;float">0.0034078564</knowrob:minRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.0034843837</knowrob:radius>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.003560911</knowrob:maxRadius>
@@ -603,6 +617,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_wokw8swq">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">0.004230322</knowrob:volumeOfObject>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.012551605</knowrob:areaOfObject>
         <knowrob:lengthOfObject rdf:datatype="&xsd;float">0.04724563</knowrob:lengthOfObject>
@@ -620,6 +635,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_zA1o5fUr">
         <rdf:type rdf:resource="&knowrob;Cone"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.0027198112</knowrob:areaOfObject>
         <knowrob:maxRadius rdf:datatype="&xsd;float">0.010000004</knowrob:maxRadius>
         <knowrob:radius rdf:datatype="&xsd;float">0.010000009</knowrob:radius>
@@ -637,6 +653,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Container_0SV23MKY">
         <rdf:type rdf:resource="&knowrob;Container"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">9.713196E-6</knowrob:volumeOfObject>
         <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_8RwOeSiI"/>
     </owl:NamedIndividual>
@@ -657,6 +674,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Container_ZolYhE84">
         <rdf:type rdf:resource="&knowrob;Container"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:volumeOfObject rdf:datatype="&xsd;float">1.7693117E-5</knowrob:volumeOfObject>
         <knowrob:longitudinalDirection rdf:resource="&knowrob;Vector_Vm382Sn2"/>
     </owl:NamedIndividual>
@@ -667,6 +685,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_2yG5D3xM">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.78739756</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">9.4060315E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_dwAia2AZ"/>
@@ -681,6 +700,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_94Dlbitp">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7874067</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">9.405903E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_7hgamo28"/>
@@ -695,6 +715,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_AEFloDeh">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.22095492</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7903495</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_EbZUGQwL"/>
@@ -709,6 +730,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_GzMX4wgq">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.18512902</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7850882</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_5xFo0woO"/>
@@ -723,6 +745,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_OlGzxqFK">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.105372526</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.3768975</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_MAjmKydu"/>
@@ -737,6 +760,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_mSP0rGsL">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.013894661</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.051354166</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_hOwibEIL"/>
@@ -751,6 +775,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_nylXj3p9">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.7874001</knowrob:areaCoverage>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">9.4059086E-4</knowrob:areaOfObject>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_4rM2fZTT"/>
@@ -765,6 +790,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_o0LPTPKx">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.09822789</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.36304668</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_k8sYDO1v"/>
@@ -779,6 +805,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_xMT14a34">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:areaOfObject rdf:datatype="&xsd;float">0.001297291</knowrob:areaOfObject>
         <knowrob:areaCoverage rdf:datatype="&xsd;float">0.85867053</knowrob:areaCoverage>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_JMPeD06e"/>
@@ -793,6 +820,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_L8u5ivM7">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_S2SmMsj5"/>
     </owl:NamedIndividual>
     
@@ -802,6 +830,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_YfpD4zZa">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_Tb7MNxfa"/>
     </owl:NamedIndividual>
     
@@ -811,6 +840,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_aRKJbnkN">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_7OrSVkAK"/>
     </owl:NamedIndividual>
     
@@ -820,6 +850,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_ikVz8Svq">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_cwfx6Jk8"/>
     </owl:NamedIndividual>
     
@@ -829,6 +860,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_usQ9UHIu">
         <rdf:type rdf:resource="&knowrob;Handle"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">/pancake_maker</knowrob:tfFrame>
         <knowrob:orientation rdf:resource="&knowrob;RotationMatrix3D_o8BDcwHI"/>
     </owl:NamedIndividual>
     
