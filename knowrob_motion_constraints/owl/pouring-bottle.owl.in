@@ -160,7 +160,6 @@
     <owl:Class rdf:about="&motion-def;TiltBottleInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectAtAngle"/>
         <rdfs:subClassOf rdf:resource="&motion-constraints;KeepObjectAbove"/>
-        <rdfs:subClassOf rdf:resource="&motion-constraints;PointObjectAt"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
