@@ -77,10 +77,20 @@
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&knowrob;DrinkingBottle"/>
+                    <rdf:Description rdf:about="&knowrob;BottleCap"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
-                        <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
+                        <owl:onProperty rdf:resource="&knowrob;physicalPartOf"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&knowrob;DrinkingBottle"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
+                                        <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
