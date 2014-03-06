@@ -78,7 +78,7 @@ test(constraint_properties) :-
         Type, ToolFeature, WorldFeature, ReferenceFrame, Lower, Upper),
         
         Type = 'http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint',
-        ToolFeature = 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone_7c7Sqyie',
+        ToolFeature = 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone_L1Xfg6eB',
         WorldFeature = 'http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_AEFloDeh',
         ReferenceFrame = '/torso_lift_link',
         Lower = 0.95,
@@ -87,13 +87,13 @@ test(constraint_properties) :-
 
 % test if feature_properties can be read
 test(feature_properties_line) :-
-  once(feature_properties('http://ias.cs.tum.edu/kb/knowrob.owl#Cone_7c7Sqyie',
+  once(feature_properties('http://ias.cs.tum.edu/kb/knowrob.owl#Cone_L1Xfg6eB',
                       Type, Label, TfFrame, Position, Direction)),
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
   Label = '',
   TfFrame = '/pancake_bottle',
-  Position = [-9.733001888889703e-7,1.062735805135162e-6,0.4575471878051758],
-  Direction = [-9.538994594215922e-11,4.656713209483243e-11,-0.00899999588727951].
+  Position = [-2.0630949393307674e-7,2.253400595009225e-7,0.09699999541044235],
+  Direction = [6.524104173566414e-11,-8.663848111156724e-11,0.00899999588727951].
 
                      
 test(feature_properties_plane) :-
