@@ -420,6 +420,13 @@
     </owl:Class>
 
 
+    <!-- http://ias.cs.tum.edu/kb/pancake-making.owl#HeadMovement -->
+
+    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making.owl#BaseMovement">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerform"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
+    </owl:Class>
+
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making.owl#ManipulationFailed -->
 

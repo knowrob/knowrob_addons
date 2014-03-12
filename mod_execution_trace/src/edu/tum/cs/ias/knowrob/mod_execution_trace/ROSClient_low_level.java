@@ -98,6 +98,8 @@ public class ROSClient_low_level
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
 		designatorId= s1.nextToken();
+
+		System.out.println(designatorId);
 		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
 
 		/*double o_x, o_y, o_z, o_w;
@@ -190,6 +192,46 @@ public class ROSClient_low_level
 			return 1; 
 
 		return -2;	
+	}
+
+	public String timeComparison2(String[] timeList, String time)
+	{
+		time = time.replace("'", "");
+		StringTokenizer s1 = new StringTokenizer(time, "_");
+		String time_value1 = "0";
+
+		while (s1.hasMoreTokens())
+			time_value1 = s1.nextToken();
+		int time_value_integer_1 = Integer.parseInt(time_value1);		
+
+		String latestTime = "";
+		int min = 0;
+		int count = 0;
+		for(int x = 0; x < timeList.length; x++)
+		{
+			timeList[x] = timeList[x].replace("'", "");			
+			StringTokenizer s2 = new StringTokenizer(timeList[x], "_");
+			String time_value2 = "0";
+
+			while (s2.hasMoreTokens())
+				time_value2 = s2.nextToken();
+
+			int time_value_integer_2 = Integer.parseInt(time_value2);
+
+			if( count == 0 && time_value_integer_1 >= time_value_integer_2)
+			{
+				min = time_value_integer_1 - time_value_integer_2;
+				count++;
+				latestTime = timeList[x]; 
+			}
+			else if( time_value_integer_1 - time_value_integer_2 < min && time_value_integer_1 >= time_value_integer_2)
+			{
+				min = time_value_integer_1 - time_value_integer_2;
+				count++;
+				latestTime = timeList[x]; 
+			} 
+		}
+		return latestTime;	
 	}
 
 	public int locationComparison(String location1, String location2)

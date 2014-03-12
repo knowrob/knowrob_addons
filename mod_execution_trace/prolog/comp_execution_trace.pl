@@ -13,6 +13,7 @@
 	occurs/2,
 	javarun_designator/2,
 	javarun_time_check/3,
+	javarun_time_check2/3,
 	javarun_location_check/3,
 	javarun_perception_time_instances/2,
 	javarun_perception_object_instances/2,
@@ -59,6 +60,7 @@
     returned_value(r,r),
     javarun_designator(r,r),
     javarun_time_check(r,r,r),
+    javarun_time_check2(r,r,r),
     javarun_location_check(r,r,r),
     javarun_perception_time_instance(r,r),
     javarun_perception_object_instance(r,r),
@@ -112,28 +114,35 @@ task_goal(Task, Goal) :-
 
 task_start(Task, Start) :-
 	task(Task),
-	rdf_has(Task, knowrob:'startTime', Start).%,
-% 	rdf_split_url(_, TimePointLocal, StT),
-% 	atom_concat('timepoint_', TimeAtom, TimePointLocal),
-% 	term_to_atom(Start, TimeAtom).
+	rdf_has(Task, knowrob:'startTime', Start).
 
 task_end(Task, End) :-
 	task(Task),
-	rdf_has(Task, knowrob:'endTime', End).%,
-%         rdf_split_url(_, TimePointLocal, EndT),
-%         atom_concat('timepoint_', TimeAtom, TimePointLocal),
-%         term_to_atom(End, TimeAtom).
+	rdf_has(Task, knowrob:'endTime', End).
 
 belief_at(loc(Obj,Loc), Time) :-
-	var(Loc),
-	nonvar(Time),
-	rdf_transaction((
-	task(Task),
-	task_end(Task, Time),
-	returned_value(Task, Obj),
-	rdf_has(Task, knowrob:'objectActedOn', Obj), 
-	rdf_has(Obj, knowrob:'designator',Designator),
-	javarun_designator(Designator, Loc))).
+		findall(
+        		BeliefTime,
+        		(   
+			   task_class(Tsk, knowrob:'UIMAPerception'), 
+			   task_end(Tsk, Bt), 
+			   returned_value(Tsk, Obj),
+			   term_to_atom(Bt, BeliefTime)     
+        		),
+        		BeliefTimes
+    		),
+
+		jpl_new( '[Ljava.lang.String;', BeliefTimes, Bts),
+		term_to_atom(Time, TConverted),
+		javarun_time_check2(Bts, TConverted, LastPerception),
+
+		task_class(T, knowrob:'UIMAPerception'), 
+		task_end(T, LastPerception), 
+		returned_value(T, Obj),
+ 
+		rdf_has(Obj, knowrob:'designator',Designator), 
+		javarun_designator(Designator, Loc).
+
 
 %it is not possible to extract that kind of information from current logs
 occurs(loc_change(Obj),T) :-
@@ -229,6 +238,13 @@ javarun_time_check(Time1, Time2, Compare_Result) :-
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
 
     jpl_call(Client, 'timeComparison', [Time1, Time2], Compare_Result).
+
+javarun_time_check2(TimeList, Time2, Compare_Result) :-
+
+    % create ROS client object
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+
+    jpl_call(Client, 'timeComparison2', [TimeList, Time2], Compare_Result).
 
 
 javarun_location_check(L1, L2, Compare_Result) :-
