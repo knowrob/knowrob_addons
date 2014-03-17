@@ -396,7 +396,7 @@
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making.owl#ArmMovement -->
 
-    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making.owl#ArmMovement">
+    <owl:Class rdf:about="&knowrob;ArmMovement">
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerform"/>
         <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
     </owl:Class>
@@ -405,7 +405,7 @@
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making.owl#CollisionFreeArmMovement -->
 
-    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making.owl#CollisionFreeArmMovement">
+    <owl:Class rdf:about="&knowrob;CollisionFreeArmMovement">
         <rdfs:subClassOf rdf:resource="&knowrob;AvoidingArmCollisions"/>
         <rdfs:subClassOf rdf:resource="http://ias.cs.tum.edu/kb/pancake-making.owl#ArmMovement"/>
     </owl:Class>
@@ -414,7 +414,7 @@
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making.owl#HeadMovement -->
 
-    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making.owl#HeadMovement">
+    <owl:Class rdf:about="&knowrob;HeadMovement">
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerform"/>
         <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
     </owl:Class>
@@ -422,7 +422,7 @@
 
     <!-- http://ias.cs.tum.edu/kb/pancake-making.owl#HeadMovement -->
 
-    <owl:Class rdf:about="http://ias.cs.tum.edu/kb/pancake-making.owl#BaseMovement">
+    <owl:Class rdf:about="&knowrob;BaseMovement">
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerform"/>
         <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
     </owl:Class>

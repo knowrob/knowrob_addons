@@ -55,6 +55,7 @@
     task_start(r,r),
     task_end(r,r),
     belief_at(r,r),
+    belief_at(r,r),
     occurs(r,r),
     cram_holds(r,r),
     returned_value(r,r),
@@ -141,6 +142,27 @@ belief_at(loc(Obj,Loc), Time) :-
 		returned_value(T, Obj),
  
 		rdf_has(Obj, knowrob:'designator',Designator), 
+		javarun_designator(Designator, Loc).
+
+belief_at(robot(Part,Loc), Time) :-
+		findall(
+        		EndTime,
+        		(   
+			   task_class(Tsk, Part), 
+			   task_end(Tsk, Et),
+			   term_to_atom(Et, EndTime)     
+        		),
+        		EndTimes
+    		),
+
+		jpl_new( '[Ljava.lang.String;', EndTimes, Ets),
+		term_to_atom(Time, TConverted),
+		javarun_time_check2(Ets, TConverted, LastLocation),
+
+		task_class(T, Part), 
+		task_end(T, LastLocation), 
+		subtask(ParentTask, T),
+		rdf_has(ParentTask, knowrob:'goalPose',Designator), 
 		javarun_designator(Designator, Loc).
 
 
