@@ -15,6 +15,7 @@
   <depend package="mod_execution_trace"/>
   <depend package="iai_maps"/>
   <depend package="json_prolog"/>
+  <depend package="knowrob_vis"/>
   <depend package="mjpeg_server"/>
   <depend package="rosbridge_server"/>
   <depend package="beliefstate"/>
