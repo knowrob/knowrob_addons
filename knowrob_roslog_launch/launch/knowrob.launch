@@ -2,9 +2,6 @@
   <!-- KnowRob json_prolog server -->
   <node name="json_prolog" pkg="rosprolog" type="run_with_prolog_env" args="knowrob_roslog_launch $(find json_prolog)/bin/json_prolog"  output="screen" />
 
-  <!-- Belief state logging node -->
-  <node name="beliefstate_ros" pkg="beliefstate" type="beliefstate"  output="screen" />
-  
   <!-- rosbridge for websocket visualization -->
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
   
