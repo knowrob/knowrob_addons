@@ -25,6 +25,7 @@
       cram_create_desig/2,
       cram_equate_designators/3,
       cram_add_desig_to_action/2,
+      cram_add_desig_to_action/3,
       cram_set_object_acted_on/2,
       cram_set_detected_object/3,
       cram_set_perception_request/2,
@@ -46,6 +47,7 @@
     cram_create_desig(r, r),
     cram_equate_designators(r, r, +),
     cram_add_desig_to_action(r, r),
+    cram_add_desig_to_action(r, r, r),
     cram_set_object_acted_on(r, r),
     cram_set_detected_object(r, r, r),
     cram_set_perception_request(r, r),
@@ -195,7 +197,20 @@ cram_equate_designators(PreDesig, SuccDesig, EquationTime) :-
 % @param DesigInst  Designator instance to be added
 %
 cram_add_desig_to_action(ActionInst, DesigInst) :-
-  rdf_assert(ActionInst, knowrob:designator, DesigInst).
+  cram_add_desig_to_action(ActionInst, knowrob:designator, DesigInst).
+
+
+%% cram_add_desig_to_action(+ActionInst, +Property, +DesigInst) is det.
+%
+% Add designator instance to the given action instance using the given
+% property.
+%
+% @param ActionInst Action instance to which the information is to be added
+% @param Property   Property identifier to be used for linking the designator (e.g. knowrob:goalPose)
+% @param DesigInst  Designator instance to be added
+%
+cram_add_desig_to_action(ActionInst, Property, DesigInst) :-
+  rdf_assert(ActionInst, Property, DesigInst).
 
 
 %% cram_set_object_acted_on(ActionInst, ObjectInst) is det.
