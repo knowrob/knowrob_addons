@@ -170,7 +170,7 @@ cram_add_failure_to_action(ActionInst, FailureType, FailureLabel, FailureTime, F
 % @param DesigInst  Returned reference to the created designator instance
 %
 cram_create_desig(DesigType, DesigInst) :-
-  rdf_instance_from_class(DesigType, DesigInst).
+  rdf_assert(DesigInst, rdf:type, DesigType).
 
 
 %% cram_equate_designators(+PreDesig, +SuccDesig, +EquationTime) is det.
