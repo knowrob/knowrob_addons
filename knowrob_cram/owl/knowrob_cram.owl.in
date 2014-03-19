@@ -179,6 +179,20 @@
     <owl:Class rdf:about="&knowrob;CRAMDesignator"/>
 
 
+    <owl:Class rdf:about="&knowrob;CRAMActionDesignator">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMDesignator"/>
+    </owl:Class>
+
+
+    <owl:Class rdf:about="&knowrob;CRAMObjectDesignator">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMDesignator"/>
+    </owl:Class>
+
+
+    <owl:Class rdf:about="&knowrob;CRAMLocationDesignator">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMDesignator"/>
+    </owl:Class>
+
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CRAMEvent -->
 
