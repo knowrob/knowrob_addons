@@ -63,8 +63,7 @@ test(motion_constraint) :-
     Cs = ['http://ias.cs.tum.edu/kb/motion-constraints.owl#PerpendicularityConstraint_E8ysUdzg',
           'http://ias.cs.tum.edu/kb/motion-constraints.owl#HeightConstraint_OZjsDn3E',
           'http://ias.cs.tum.edu/kb/motion-constraints.owl#RightOfConstraint_fePCJFEB',
-          'http://ias.cs.tum.edu/kb/motion-constraints.owl#InFrontOfConstraint_Sv4UGtRm',
-          'http://ias.cs.tum.edu/kb/motion-constraints.owl#PointingAtConstraint_f5BvdFyF'].
+          'http://ias.cs.tum.edu/kb/motion-constraints.owl#InFrontOfConstraint_Sv4UGtRm'].
 
 
 
