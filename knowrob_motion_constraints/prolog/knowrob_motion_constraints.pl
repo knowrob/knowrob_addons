@@ -99,15 +99,18 @@ motion_constraint(Motion, Constr) :-
 
 
 
-%% constraint_properties(+Constr, -Type, -ToolFeature, -WorldFeature, -Weight, -Lower, -Upper, -MaxVel) is nondet.
+%% constraint_properties(+ToolObjClass, +WorldObjClass, +Constr, -Type, ?ToolFeature, ?WorldFeature, ?ReferenceFrame, ?Lower, ?Upper) is nondet.
 %
-% Convenience predicate: read all properties of a motion constraint with
-% one predicate call
+% Read all properties of a motion constraint with one predicate call
 %
+% If the optional arguments marked '?' are passed as bound, these values will be used instead of the default ones in the OWL description.
+%
+% @param ToolObjClass   OWL identifier of the class of the tool to be controlled
+% @param WorldObjClass  OWL identifier of the class of the object in the world w.r.t. which the action is described
 % @param Constr         OWL identifier of the constraint to be read
 % @param Type           OWL class describing the type of constraint (e.g. distance, height)
-% @param ToolFeature    OWL identifier of the tool feature (i.e. spatial part of the tool to be controlled)
-% @param WorldFeature   OWL identifier of the world feature (i.e. spatial part of the world)
+% @param ToolFeature    OWL individual describing the part of the tool used in the motion description
+% @param WorldFeature   OWL individual describing the part of the world used in the motion description
 % @param ReferenceFrame Tf frame for the reference frame
 % @param Lower          Lower limit for the controlled values
 % @param Upper          Upper limit for the controlled values
@@ -119,19 +122,16 @@ constraint_properties(ToolObjClass, WorldObjClass, Constr, Type, ToolFeature, Wo
     owl_subclass_of(Constr, Type),
     once(owl_direct_subclass_of(Type, constr:'MotionConstraint')),
 
-    class_properties(Constr, constr:toolFeature, ToolFeatureClass),
-    once(object_feature(ToolFeatureClass, ToolObjClass, ToolFeature)),
+    (var(ToolFeatureClass)  -> (class_properties(Constr, constr:toolFeature, ToolFeatureClass)) ; true),
+    (var(ToolFeature)       -> (once(object_feature(ToolFeatureClass, ToolObjClass, ToolFeature))) ; true),
 
-    class_properties(Constr, constr:worldFeature, WorldFeatureClass),
-    once(object_feature(WorldFeatureClass, WorldObjClass, WorldFeature)),
+    (var(WorldFeatureClass) -> (class_properties(Constr, constr:worldFeature, WorldFeatureClass)) ; true),
+    (var(WorldFeature)      -> (once(object_feature(WorldFeatureClass, WorldObjClass, WorldFeature))) ; true),
 
-    once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));ReferenceFrame='/torso_lift_link'),
+    (var(ReferenceFrame)    -> (once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));ReferenceFrame='/torso_lift_link')) ; true),
 
-    class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))),
-    term_to_atom(Lower, L),
-
-    class_properties(Constr, constr:constrUpperLimit, literal(type(_, U))),
-    term_to_atom(Upper, U),!.
+    (var(Lower) -> (class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))), term_to_atom(Lower, L)) ; true),
+    (var(Upper) -> (class_properties(Constr, constr:constrUpperLimit, literal(type(_, U))), term_to_atom(Upper, U)) ; true),!.
 
 
 % infer most suitable toolFeature given object description
