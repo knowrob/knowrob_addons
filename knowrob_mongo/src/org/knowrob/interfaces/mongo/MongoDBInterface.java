@@ -86,35 +86,23 @@ public class MongoDBInterface {
 	 * @return Instance of a Designator
 	 */
 	public Designator getDesignatorByID(String designator) {
+		DBCollection coll = db.getCollection("logged_designators");
+		DBObject query = QueryBuilder
+				.start("designator._id").is(designator).get();
 
-		for(String db_name : new String[]{"uima_uima_results", "logged_designators"}) {
+		DBObject cols  = new BasicDBObject();
+		cols.put("__recorded", 1 );		
+		cols.put("designator", 1 );
 
-			DBCollection coll = db.getCollection(db_name);
-			DBObject query = new QueryBuilder()
-								.or(QueryBuilder.start("designator.__id").is(designator).get(),
-									QueryBuilder.start("designator.__ID").is(designator).get()).get();
+		DBCursor cursor = coll.find(query, cols);
 
-			DBObject cols  = new BasicDBObject();
-			cols.put("designator", 1 );
-
-			DBCursor cursor = coll.find(query, cols);
-
-			while(cursor.hasNext()) {
-				DBObject row = cursor.next();
-
-				Designator desig = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
-
-				// set the event type (i.e. perception, sth else) to store
-				// which kind of information is described in the designator
-				if(db_name.equals("uima_uima_results"))
-					desig.setDetectionType("VisualPerception");
-				else
-					desig.setDetectionType("MentalEvent");
-
-				return desig;
-			}
-			cursor.close();
+		while(cursor.hasNext()) {
+			DBObject row = cursor.next();
+			Designator desig = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
+			return desig;
 		}
+		cursor.close();
+		
 		return null;
 	}
 

@@ -13,6 +13,8 @@
   <depend package="rosjava_jni"/>
   <depend package="knowrob_cram"/>
   <depend package="knowrob_mongo"/>
+  <depend package="std_msgs"/>
+  <depend package="designator_integration_msgs"/>
 
 
 
