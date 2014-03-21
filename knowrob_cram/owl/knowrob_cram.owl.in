@@ -400,6 +400,13 @@
 
 
 
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#WithFailureHandling -->
+
+    <owl:Class rdf:about="&knowrob;WithFailureHandling">
+        <rdfs:subClassOf rdf:resource="&knowrob;DesignatorInteraction"/>
+    </owl:Class>
+
+
     <!-- http://ias.cs.tum.edu/kb/knowrob_cram.owl#DeclarativeGoal -->
 
     <owl:Class rdf:about="&cram;DeclarativeGoal">
