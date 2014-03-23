@@ -114,6 +114,13 @@ public class ROSClient_low_level
                
         }
 
+	public int getDuration (int start, int end)
+	{
+		int duration = end - start;
+
+		return duration;		
+	} 
+
 	public boolean publishImage(String image_path)
 	{
 		BufferedImage image = null;

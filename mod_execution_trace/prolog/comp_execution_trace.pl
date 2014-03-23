@@ -11,6 +11,7 @@
 	returned_value/2,
 	belief_at/2,
 	occurs/2,
+	duration_of_a_task/2,
 	javarun_designator/2,
 	javarun_time_check/3,
 	javarun_time_check2/3,
@@ -59,6 +60,7 @@
     belief_at(r,r),
     belief_at(r,r),
     occurs(r,r),
+    duration_of_a_task(r,r),
     cram_holds(r,r),
     returned_value(r,r),
     javarun_designator(r,r),
@@ -342,3 +344,17 @@ image_of_percepted_scene(T) :-
 	rdf_has(T, knowrob:'capturedImage', Img),
 	rdf_has(Img, knowrob:'linkToImageFile', Path),
 	show_image(Path).
+
+duration_of_a_task(T, Duration) :-
+	task(T),
+	task_start(T,S),
+	task_end(T,E),
+	rdf_split_url(_, StartPointLocal, S),
+  	atom_concat('timepoint_', StartAtom, StartPointLocal),
+  	term_to_atom(Start, StartAtom),
+	rdf_split_url(_, EndPointLocal, E),
+  	atom_concat('timepoint_', EndAtom, EndPointLocal),
+  	term_to_atom(End, EndAtom),
+
+  	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+        jpl_call(Client, 'getDuration', [Start, End], Duration).
