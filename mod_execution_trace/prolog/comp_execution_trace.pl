@@ -20,7 +20,9 @@
 	javarun_loc_change/3,
 	failure_class/2,
 	failure_task/2,
-	failure_attribute/3
+	failure_attribute/3,
+	show_image/1,
+	image_of_percepted_scene/1
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -68,7 +70,9 @@
     javarun_loc_change(r,r,r),
     failure_class(r,r),
     failure_task(r,r),
-    failure_attribute(r,r,r).
+    failure_attribute(r,r,r),
+    show_image(r),
+    image_of_percepted_scene(r).
 
 
 
@@ -140,6 +144,7 @@ belief_at(loc(Obj,Loc), Time) :-
 		task_class(T, knowrob:'UIMAPerception'), 
 		task_end(T, LastPerception), 
 		returned_value(T, Obj),
+		image_of_percepted_scene(T),
  
 		rdf_has(Obj, knowrob:'designator',Designator), 
 		javarun_designator(Designator, Loc).
@@ -324,3 +329,16 @@ failure_task(Error, Task) :-
 failure_attribute(Error,AttributeName,Value) :-
 	%failure_class(Error, Class),
 	rdf_has(Error, AttributeName, Value).
+
+show_image(Path) :-
+	Path = literal(type(A, B)),
+	term_to_atom(B, PathNative),
+	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+        jpl_call(Client, 'publishImage', [PathNative], R).
+
+image_of_percepted_scene(T) :-
+	task(T),
+	task_class(T, knowrob:'UIMAPerception'),
+	rdf_has(T, knowrob:'capturedImage', Img),
+	rdf_has(Img, knowrob:'linkToImageFile', Path),
+	show_image(Path).

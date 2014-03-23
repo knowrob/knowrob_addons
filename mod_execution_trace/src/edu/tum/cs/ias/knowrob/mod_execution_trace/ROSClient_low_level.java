@@ -40,16 +40,24 @@ import java.util.Map.*;
 import java.lang.Integer;
 import java.sql.Timestamp;
 import java.lang.*;
-
+import java.awt.image.BufferedImage;
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
+import java.util.Date;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.io.ByteArrayOutputStream;
 
 import ros.*;
 import ros.communication.*;
 import org.knowrob.interfaces.mongo.*;
 import org.knowrob.interfaces.mongo.types.*;
 import ros.pkg.designator_integration_msgs.msg.*;
+import ros.pkg.sensor_msgs.msg.Image;
 
 public class ROSClient_low_level 
 {
@@ -58,6 +66,7 @@ public class ROSClient_low_level
         static Ros ros;
         static NodeHandle n;
 	static Publisher<ros.pkg.designator_integration_msgs.msg.Designator> pub;
+	static Publisher<ros.pkg.sensor_msgs.msg.Image> pub_image;
 
 	MongoDBInterface mdb;
 
@@ -87,18 +96,68 @@ public class ROSClient_low_level
 
                 ros = Ros.getInstance();
 
-                if(!Ros.getInstance().isInitialized()) {
+                if(!Ros.getInstance().isInitialized()) 
+		{
                         ros.init(node_name);
                 }
                 n = ros.createNodeHandle();
-		try { pub = n.advertise("/logged_designators", new ros.pkg.designator_integration_msgs.msg.Designator(), 100); }
+		try 
+		{ 
+			pub = n.advertise("/logged_designators", new ros.pkg.designator_integration_msgs.msg.Designator(), 100);
+			pub_image = n.advertise("/logged_images", new ros.pkg.sensor_msgs.msg.Image(), 100); 
+		}
 		catch (ros.RosException r1)
 		{
-			System.out.println("EXception thrown");
+			System.out.println("Exception thrown");
 		}
                 n.spinOnce();
                
         }
+
+	public boolean publishImage(String image_path)
+	{
+		BufferedImage image = null;
+		try 
+		{
+    			image = ImageIO.read(new File("/home/asil/Desktop/exp-2014-03-20_12-46-32/" + image_path.replace("'", "")));
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Exception thrown");
+		}
+		
+		ros.pkg.sensor_msgs.msg.Image image_msg = new ros.pkg.sensor_msgs.msg.Image();	
+		image_msg.header.stamp = Time.now(); 
+		image_msg.encoding = "bmp";
+		image_msg.height = image.getHeight();
+		image_msg.width = image.getWidth();
+		image_msg.step = image_msg.width * 3;
+    		image_msg.data = new short[(int)image_msg.height * (int)image_msg.step];
+
+		byte[] imageInByte = new byte[(int)image_msg.height * (int)image_msg.step];
+
+
+		try
+		{
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write( image, "bmp", baos );
+			imageInByte = baos.toByteArray();
+		}
+		catch(IOException e)
+		{
+			System.out.println(e.getMessage());
+		}
+
+
+		System.out.println(imageInByte.length);
+		System.out.println(image_msg.data.length);
+		ByteBuffer.wrap(imageInByte).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(image_msg.data, 0, (int)imageInByte.length / 2 -1);
+		
+
+		pub_image.publish(image_msg);
+		return true;
+
+	}
 
 	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator)
 	{
