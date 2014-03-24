@@ -340,7 +340,6 @@ show_image(Path) :-
 
 image_of_percepted_scene(T) :-
 	task(T),
-	task_class(T, knowrob:'UIMAPerception'),
 	rdf_has(T, knowrob:'capturedImage', Img),
 	rdf_has(Img, knowrob:'linkToImageFile', Path),
 	show_image(Path).
