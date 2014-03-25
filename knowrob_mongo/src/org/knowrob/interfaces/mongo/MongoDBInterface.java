@@ -59,9 +59,10 @@ public class MongoDBInterface {
 	 * @param posix_ts POSIX timestamp (seconds since 1.1.1970)
 	 * @return
 	 */
-	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, int posix_ts) {
+	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, double posix_ts) {
 		Time t = new Time();
-		t.secs = posix_ts;
+		t.secs = (int)posix_ts;
+		t.nsecs = (int) (1E6 * (posix_ts - ((int) posix_ts)));
 		return(mem.lookupTransform(targetFrameId, sourceFrameId, t));
 	}
 
