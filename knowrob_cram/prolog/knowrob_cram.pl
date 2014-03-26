@@ -60,7 +60,7 @@
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
 
 
-%% cram_start_action(+Type, +TaskContext, +StartTime, +PrevAction, -ActionInst) is det.
+%% cram_start_action(+Type, +TaskContext, +StartTime, ?PrevAction, -ActionInst) is det.
 %
 % Create an action instance, set properties like start time and task context.
 % Returns identifier of the generated instance.
