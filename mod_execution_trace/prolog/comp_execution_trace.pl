@@ -23,13 +23,15 @@
 	failure_task/2,
 	failure_attribute/3,
 	show_image/1,
-	image_of_percepted_scene/1
+	image_of_percepted_scene/1,
+	avg_task_duration/2
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs_computable')).
 :- use_module(library('thea/owl_parser')).
+:- use_module(library('comp_temporal')).
 
 
 :- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
@@ -74,7 +76,8 @@
     failure_task(r,r),
     failure_attribute(r,r,r),
     show_image(r),
-    image_of_percepted_scene(r).
+    image_of_percepted_scene(r),
+    avg_task_duration(r,-).
 
 
 
@@ -357,3 +360,17 @@ duration_of_a_task(T, Duration) :-
 
   	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
         jpl_call(Client, 'getDuration', [Start, End], Duration).
+
+
+
+avg_task_duration(ActionType, AvgDuration) :-
+
+  findall(D, (owl_individual_of(A, ActionType),
+              rdf_triple(knowrob:duration, A, D)), Ds),
+
+  sumlist(Ds, Sum),
+  length(Ds, Len),
+  Len \= 0,
+  AvgDuration is Sum/Len.
+
+

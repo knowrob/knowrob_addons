@@ -11,6 +11,7 @@
   <depend package="knowrob_common"/>
 <!--   <depend package="mod_vis"/> -->
   <depend package="rosjava_jni"/>
+  <depend package="comp_temporal"/>
   <depend package="knowrob_cram"/>
   <depend package="knowrob_mongo"/>
   <depend package="std_msgs"/>
