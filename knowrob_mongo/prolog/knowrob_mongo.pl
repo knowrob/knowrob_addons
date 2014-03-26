@@ -84,11 +84,12 @@ mng_latest_designator_before_time(TimePoint, Type, PoseList) :-
 
   jpl_new('org.knowrob.interfaces.mongo.MongoDBInterface', [], DB),
   jpl_call(DB, 'latestUIMAPerceptionBefore', [Time], Designator),
-
-  jpl_call(Designator, 'get', ['type'], Type),
-
-  jpl_call(Designator, 'get', ['pose'], StampedPose),
-  jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),
+  jpl_call(Designator, 'get', ['_designator_type'], Type),
+  jpl_call(Designator, 'get', ['POSE-ON-PLANE'], StampedPoseString),
+  jpl_call('com.mongodb.util.JSON', parse, [StampedPoseString], StampedPoseParsed), 
+  jpl_new('org.knowrob.interfaces.mongo.types.PoseStamped', [], StampedPose), 
+  jpl_call(StampedPose, readFromDBObject, [StampedPoseParsed], StampedPose), 
+  jpl_call(StampedPose, 'getMatrix4d', [], PoseMatrix4d),  
   knowrob_coordinates:matrix4d_to_list(PoseMatrix4d, PoseList).
 
 
@@ -358,7 +359,7 @@ obj_visible_in_camera(Obj, Camera, TimePoint) :-
   atom_concat('/', CamFrameID, CamFrame),
 
 
-  object_pose_at_time(Obj, TimePoint, PoseListObj),
+  (object_pose_at_time(Obj, TimePoint, PoseListObj); mng_latest_designator_before_time(TimePoint, 'object', PoseListObj)),
   mng_transform_pose(PoseListObj, '/map', CamFrame, TimePoint, RelObjPose),
 
   RelObjPose = [_,_,_,ObjX,_,_,_,ObjY,_,_,_,ObjZ,_,_,_,_],
@@ -384,7 +385,7 @@ obj_blocked_by_in_camera(Obj, Blocker, Camera, TimePoint) :-
 
 
   % Read object pose w.r.t. camera
-  object_pose_at_time(Obj, TimePoint, PoseListObj),
+  (object_pose_at_time(Obj, TimePoint, PoseListObj); mng_latest_designator_before_time(TimePoint, 'object', PoseListObj)),
   mng_transform_pose(PoseListObj, '/map', CamFrame, TimePoint, ObjPoseInCamFrame),
   ObjPoseInCamFrame = [_,_,_,ObjX,_,_,_,ObjY,_,_,_,ObjZ,_,_,_,_],
   ObjBearingX is atan2(ObjY, ObjX),

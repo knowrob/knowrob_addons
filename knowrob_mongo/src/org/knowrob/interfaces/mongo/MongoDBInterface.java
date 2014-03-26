@@ -121,7 +121,7 @@ public class MongoDBInterface {
 
 		// read all events up to one minute before the time
 		Date start = new ISODate((long) 1000 * (posix_ts - 60) ).getDate();
-		Date end   = new ISODate((long) 1000 * (posix_ts + 60) ).getDate();
+		Date end   = new ISODate((long) 1000 * posix_ts ).getDate();
 
 		DBObject query = QueryBuilder
 				.start("__recorded").greaterThanEquals( start )
