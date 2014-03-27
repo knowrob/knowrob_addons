@@ -155,7 +155,7 @@ belief_at(loc(Obj,Loc), Time) :-
 		javarun_designator(Designator, Loc).
 
 belief_at(robot(Part,Loc), Time) :-
-		mng_lookup_transform('/map', Part, TimePoint, Loc).
+		mng_lookup_transform('/map', Part, Time, Loc).
 
 
 %it is not possible to extract that kind of information from current logs
@@ -321,10 +321,10 @@ failure_attribute(Error,AttributeName,Value) :-
 	rdf_has(Error, AttributeName, Value).
 
 show_image(Path) :-
-	Path = literal(type(A, B)),
+	Path = literal(type(_A, B)),
 	term_to_atom(B, PathNative),
 	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-        jpl_call(Client, 'publishImage', [PathNative], R).
+        jpl_call(Client, 'publishImage', [PathNative], _R).
 
 image_of_percepted_scene(T) :-
 	task(T),
