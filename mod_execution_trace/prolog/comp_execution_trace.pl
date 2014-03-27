@@ -32,6 +32,7 @@
 :- use_module(library('semweb/rdfs_computable')).
 :- use_module(library('thea/owl_parser')).
 :- use_module(library('comp_temporal')).
+:- use_module(library('knowrob_mongo')).
 
 
 :- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
@@ -59,18 +60,17 @@
     task_goal(r,r),
     task_start(r,r),
     task_end(r,r),
-    belief_at(r,r),
-    belief_at(r,r),
-    occurs(r,r),
-    duration_of_a_task(r,r),
-    cram_holds(r,r),
+    belief_at(r,+),
+    occurs(r,+),
+    duration_of_a_task(r,-),
+    cram_holds(r,+),
     returned_value(r,r),
-    javarun_designator(r,r),
-    javarun_time_check(r,r,r),
-    javarun_time_check2(r,r,r),
-    javarun_location_check(r,r,r),
-    javarun_perception_time_instance(r,r),
-    javarun_perception_object_instance(r,r),
+    javarun_designator(+,-),
+    javarun_time_check(+,+,-),
+    javarun_time_check2(+,+,-),
+    javarun_location_check(+,+,-),
+    javarun_perception_time_instance(+,-),
+    javarun_perception_object_instance(+,-),
     javarun_loc_change(r,r,r),
     failure_class(r,r),
     failure_task(r,r),
@@ -155,25 +155,7 @@ belief_at(loc(Obj,Loc), Time) :-
 		javarun_designator(Designator, Loc).
 
 belief_at(robot(Part,Loc), Time) :-
-		findall(
-        		EndTime,
-        		(   
-			   task_class(Tsk, Part), 
-			   task_end(Tsk, Et),
-			   term_to_atom(Et, EndTime)     
-        		),
-        		EndTimes
-    		),
-
-		jpl_new( '[Ljava.lang.String;', EndTimes, Ets),
-		term_to_atom(Time, TConverted),
-		javarun_time_check2(Ets, TConverted, LastLocation),
-
-		task_class(T, Part), 
-		task_end(T, LastLocation), 
-		subtask(ParentTask, T),
-		rdf_has(ParentTask, knowrob:'goalPose',Designator), 
-		javarun_designator(Designator, Loc).
+		mng_lookup_transform('/map', Part, TimePoint, Loc).
 
 
 %it is not possible to extract that kind of information from current logs
@@ -271,6 +253,7 @@ javarun_designator(Designator, Loc) :-
     %rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m32',literal(type(xsd:float, M32))),
     %rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m33',literal(type(xsd:float, M33))).
 
+%Check whether given objec
 javarun_loc_change(Obj, Designator, Time) :-
     % create ROS client object
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
@@ -282,7 +265,7 @@ javarun_loc_change(Obj, Designator, Time) :-
     [Compare_Result] = ResultList,
     ((Compare_Result is -1) -> (false);((rdf_has(Compare_Result, rdf:type, knowrob:'HumanScaleObject')) -> (true);(false))).
 
-
+%Check which time instance is earlier
 javarun_time_check(Time1, Time2, Compare_Result) :-
 
     % create ROS client object
@@ -290,6 +273,7 @@ javarun_time_check(Time1, Time2, Compare_Result) :-
 
     jpl_call(Client, 'timeComparison', [Time1, Time2], Compare_Result).
 
+%Check which time instance in the timelist is the latest but just before the time2 instance
 javarun_time_check2(TimeList, Time2, Compare_Result) :-
 
     % create ROS client object
@@ -297,7 +281,7 @@ javarun_time_check2(TimeList, Time2, Compare_Result) :-
 
     jpl_call(Client, 'timeComparison2', [TimeList, Time2], Compare_Result).
 
-
+%Check whether two location matrices are identical
 javarun_location_check(L1, L2, Compare_Result) :-
 
     % create ROS client object
@@ -305,6 +289,7 @@ javarun_location_check(L1, L2, Compare_Result) :-
 
     jpl_call(Client, 'locationComparison', [L1, L2], Compare_Result).
 
+%Get the perception designators time stamps as a list
 javarun_perception_time_instances(Object, TimeList) :-
 
     % create ROS client object
