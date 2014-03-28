@@ -126,7 +126,7 @@ public class ROSClient_low_level
 		BufferedImage image = null;
 		try 
 		{
-    			image = ImageIO.read(new File("/home/asil/Desktop/exp-2014-03-20_12-46-32/" + image_path.replace("'", "")));
+    			image = ImageIO.read(new File("/var/roslog/exp-2014-03-24_13-18-34/" + image_path.replace("'", "")));
 		} 
 		catch (IOException e) 
 		{
@@ -135,13 +135,13 @@ public class ROSClient_low_level
 		
 		ros.pkg.sensor_msgs.msg.Image image_msg = new ros.pkg.sensor_msgs.msg.Image();	
 		image_msg.header.stamp = Time.now(); 
-		image_msg.encoding = "bmp";
-		image_msg.height = image.getHeight();
-		image_msg.width = image.getWidth();
+		image_msg.encoding = "rgb8";
+		image_msg.height = image.getHeight() / 2;
+		image_msg.width = image.getWidth() / 2;
 		image_msg.step = image_msg.width * 3;
     		image_msg.data = new short[(int)image_msg.height * (int)image_msg.step];
 
-		byte[] imageInByte = new byte[(int)image_msg.height * (int)image_msg.step];
+		byte[] imageInByte = new byte[(int) image_msg.height * (int)image_msg.step];
 
 
 		try
@@ -158,7 +158,7 @@ public class ROSClient_low_level
 
 		System.out.println(imageInByte.length);
 		System.out.println(image_msg.data.length);
-		ByteBuffer.wrap(imageInByte).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(image_msg.data, 0, (int)imageInByte.length / 2 -1);
+		ByteBuffer.wrap(imageInByte).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(image_msg.data);
 		
 
 		pub_image.publish(image_msg);
@@ -247,7 +247,6 @@ public class ROSClient_low_level
 		s1.nextToken();
 		designatorId= s1.nextToken();
 		
-		System.out.println(designatorId);
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID("designator_asZLqhrODhOHId");
 		publishDesignator(d1);
 		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
