@@ -51,6 +51,10 @@ import javax.imageio.ImageIO;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.io.ByteArrayOutputStream;
+import java.awt.image.DataBufferByte;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import ros.*;
 import ros.communication.*;
@@ -126,40 +130,33 @@ public class ROSClient_low_level
 		BufferedImage image = null;
 		try 
 		{
-    			image = ImageIO.read(new File("/var/roslog/exp-2014-03-24_13-18-34/" + image_path.replace("'", "")));
+    			image = ImageIO.read(new File("/var/roslog/current-experiment/" + image_path.replace("'", "")));
 		} 
 		catch (IOException e) 
 		{
 			System.out.println("Exception thrown");
 		}
+
+		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D g = newImage.createGraphics();
+		g.drawImage(image, 0, 0, null);
+		g.dispose();
+
 		
 		ros.pkg.sensor_msgs.msg.Image image_msg = new ros.pkg.sensor_msgs.msg.Image();	
 		image_msg.header.stamp = Time.now(); 
-		image_msg.encoding = "rgb8";
-		image_msg.height = image.getHeight() / 2;
-		image_msg.width = image.getWidth() / 2;
+		image_msg.encoding = "bgr8";
+		image_msg.height = image.getHeight();
+		image_msg.width = image.getWidth();
 		image_msg.step = image_msg.width * 3;
     		image_msg.data = new short[(int)image_msg.height * (int)image_msg.step];
-
-		byte[] imageInByte = new byte[(int) image_msg.height * (int)image_msg.step];
-
-
-		try
+		byte[] bytes = ((DataBufferByte)newImage.getRaster().getDataBuffer()).getData();
+		for(int x = 0; x < image_msg.height * (int)image_msg.width; x = x + 1)
 		{
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write( image, "bmp", baos );
-			imageInByte = baos.toByteArray();
+			image_msg.data[3 * x] = (short) bytes[3 * x];
+			image_msg.data[3 * x + 1] = (short) bytes[3 * x + 1];
+			image_msg.data[3 * x + 2] = (short) bytes[3 * x + 2];
 		}
-		catch(IOException e)
-		{
-			System.out.println(e.getMessage());
-		}
-
-
-		System.out.println(imageInByte.length);
-		System.out.println(image_msg.data.length);
-		ByteBuffer.wrap(imageInByte).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(image_msg.data);
-		
 
 		pub_image.publish(image_msg);
 		return true;
@@ -195,7 +192,6 @@ public class ROSClient_low_level
 			
 			designator_msg.description.get(x).id = x;
 			designator_msg.description.get(x).key = currentEntry.getKey();
-
 			if (currentEntry.getValue().getClass().equals(Double.TYPE)) 
 			{
         			designator_msg.description.get(x).type = 1;
@@ -224,8 +220,9 @@ public class ROSClient_low_level
 				else if(inner_designator.getType().toString().toLowerCase() == "location")
 					designator_msg.description.get(x).type = 8;	
    			}
-			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class)) 
+			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class) || currentEntry.getKey().equals("POSE-ON-PLANE")) 
 			{
+				designator_msg.description.get(x).type = 4;
        				ros.pkg.geometry_msgs.msg.PoseStamped pose = (org.knowrob.interfaces.mongo.types.PoseStamped)currentEntry.getValue();
 				designator_msg.description.get(x).value_posestamped = pose;
    			}
@@ -247,7 +244,7 @@ public class ROSClient_low_level
 		s1.nextToken();
 		designatorId= s1.nextToken();
 		
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID("designator_asZLqhrODhOHId");
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
 		publishDesignator(d1);
 		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
 
