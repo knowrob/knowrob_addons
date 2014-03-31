@@ -79,7 +79,7 @@
     show_image(r),
     image_of_percepted_scene(r),
     avg_task_duration(r,-),
-    add_object_as_semantic_instance(+,+,+,+).
+    add_object_as_semantic_instance(+,+,+,-).
 
 
 
@@ -154,8 +154,7 @@ belief_at(loc(Obj,Loc), Time) :-
 		image_of_percepted_scene(T),
  
 		rdf_has(Obj, knowrob:'designator',Designator), !,
-		javarun_designator(Designator, Loc),
-		add_object_as_semantic_instance(Obj, 'http://ias.cs.tum.edu/kb/knowrob.owl#Thing', Loc, LastPerception).
+		javarun_designator(Designator, Loc).
 
 belief_at(robot(Part,Loc), Time) :-
 		mng_lookup_transform('/map', Part, Time, Loc).
@@ -355,8 +354,8 @@ avg_task_duration(ActionType, AvgDuration) :-
   Len \= 0,
   AvgDuration is Sum/Len.
 
-add_object_as_semantic_instance(Obj, Type, Matrix, Time) :-
-    rdf_assert(Obj, rdf:type, Type),
+add_object_as_semantic_instance(Obj, Matrix, Time, SemanticMapInstance) :-
+    rdf_assert(Obj, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SpatialThing-Localized'),
     rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#depthOfObject',literal(type(xsd:float, 0.00311422))),
     rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, 0.0037514))),
     rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, 0.133733))),
