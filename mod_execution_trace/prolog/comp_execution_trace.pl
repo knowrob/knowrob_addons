@@ -153,8 +153,8 @@ belief_at(loc(Obj,Loc), Time) :-
 		returned_value(T, Obj),
 		image_of_percepted_scene(T),
  
-		rdf_has(Obj, knowrob:'designator',Designator), 
-		javarun_designator(Designator, Loc), !,
+		rdf_has(Obj, knowrob:'designator',Designator), !,
+		javarun_designator(Designator, Loc),
 		add_object_as_semantic_instance(Obj, 'http://ias.cs.tum.edu/kb/knowrob.owl#Thing', Loc, LastPerception).
 
 belief_at(robot(Part,Loc), Time) :-
@@ -228,7 +228,7 @@ javarun_designator(Designator, Loc) :-
     [M00, M01, M02, M03, M10, M11, M12, M13, M20, M21, M22, M23, M30, M31, M32, M33] = LocList,
     atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M03,'_',M10,'_',M11,'_',M12,'_',M13,'_',M20,'_',M21,'_',M22,'_',M23,'_',M30,'_',M31,'_',M32,'_',M33], LocIdentifier),
 
-    atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc), !,
+    atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D'),
     rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m00',literal(type(xsd:float, M00))),
     rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m01',literal(type(xsd:float, M01))),
@@ -361,7 +361,7 @@ add_object_as_semantic_instance(Obj, Type, Matrix, Time) :-
     rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, 0.0037514))),
     rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, 0.133733))),
 
-    rdf_split_url(_, ObjLocal, Obj), !,
+    rdf_split_url(_, ObjLocal, Obj),
     atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#SemanticMapPerception_', ObjLocal, SemanticMapInstance),
     rdf_assert(SemanticMapInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SemanticMapPerception'),
     rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#objectActedOn', Obj),
