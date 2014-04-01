@@ -10,7 +10,7 @@
   <url>http://ros.org/wiki/knowrob_motion_constraints</url>
 
   <depend package="rosjava_jni"/>
-  <depend package="mod_vis"/>
+<!--   <depend package="mod_vis"/> -->
   <depend package="ias_semantic_map"/>
   <depend package="rospy"/>
   <depend package="knowrob_mesh_reasoning"/>
