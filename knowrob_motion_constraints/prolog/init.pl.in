@@ -18,7 +18,6 @@
 %% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %%
 
-:- register_ros_package(mod_vis).
 :- register_ros_package(mod_srdl).
 :- register_ros_package(ias_semantic_map).
 :- register_ros_package(knowrob_mesh_reasoning).
