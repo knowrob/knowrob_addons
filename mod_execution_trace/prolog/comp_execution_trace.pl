@@ -151,10 +151,8 @@ belief_at(loc(Obj,Loc), Time) :-
 		task_class(T, knowrob:'UIMAPerception'), 
 		task_end(T, LastPerception), 
 		returned_value(T, Obj),
-		image_of_percepted_scene(T),
- 
-		rdf_has(Obj, knowrob:'designator',Designator), !,
-		javarun_designator(Designator, Loc).
+		image_of_percepted_scene(T), !,
+		javarun_designator(Obj, Loc).
 
 belief_at(robot(Part,Loc), Time) :-
 		mng_lookup_transform('/map', Part, Time, Loc).
@@ -215,7 +213,7 @@ cram_holds(object_placed_at(Object, Loc), T):-
 
 returned_value(Task, Obj) :-
 	rdf_has(Task, rdf:type, knowrob:'UIMAPerception'),
-	rdf_has(Task, knowrob:'objectActedOn', Obj);
+	rdf_has(Task, knowrob:'perceptionResult', Obj);
 
 	task(Task),
 	failure_task(Obj, Task).
