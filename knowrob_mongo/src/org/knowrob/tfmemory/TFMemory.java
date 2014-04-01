@@ -84,7 +84,7 @@ import com.mongodb.QueryBuilder;
 public class TFMemory {
 
 	/** Maximum buffer storage time */
-	public static final long MAX_STORAGE_TIME = (new Duration(1, 0)).totalNsecs();
+	public static final long MAX_STORAGE_TIME = (new Duration(10, 0)).totalNsecs();
 
 	/** The singleton instance */
 	protected static TFMemory instance;

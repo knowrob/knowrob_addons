@@ -54,7 +54,7 @@ public class TimeCache {
     protected long lastGarbageCollection = 0;
 
     /** garbage collection interval in seconds */
-    protected long GARBAGE_COLLECTION_INTERVAL = 10;
+    protected long GARBAGE_COLLECTION_INTERVAL = 300;
 
     /**
      * Class Constructor.
