@@ -246,7 +246,7 @@ public class MongoDBInterface {
 
 				DBObject row = cursor.next();
 				Designator res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
-				PoseStamped pose_stamped = (PoseStamped)res.get("AT.POSE");
+				PoseStamped pose_stamped = (PoseStamped)res.get("AT.POSE.pose");
 				poseMatrix = pose_stamped.getMatrix4d();
 				break;
 
