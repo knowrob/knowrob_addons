@@ -20,6 +20,7 @@
   <depend package="rosbridge_server"/>
   <depend package="beliefstate"/>
   <depend package="mongodb_log"/>
+  <depend package="knowrob_motion_constraints"/>
 
 </package>
 
