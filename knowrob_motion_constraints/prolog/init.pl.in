@@ -43,5 +43,5 @@
 
 :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/mondamin-pancake-mix.owl', false, false, true).
 :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/pancake-maker.owl', false, false, true).
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/coke-bottle.owl', false, false, true).
+% :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/coke-bottle.owl', false, false, true).
 
