@@ -122,7 +122,10 @@ subtask_all(Task, Subtask) :-
 
 task_goal(Task, Goal) :-
 	task(Task),
-	rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal))).
+	rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal)));
+	
+	task(Task),
+	rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
 task_start(Task, Start) :-
 	task(Task),
@@ -151,6 +154,7 @@ belief_at(loc(Obj,Loc), Time) :-
 		task_class(T, knowrob:'UIMAPerception'), 
 		task_end(T, LastPerception), 
 		returned_value(T, Obj),
+		image_of_percepted_scene(T),
 		image_of_percepted_scene(T), !,
 		javarun_designator(Obj, Loc).
 
@@ -352,16 +356,18 @@ avg_task_duration(ActionType, AvgDuration) :-
   Len \= 0,
   AvgDuration is Sum/Len.
 
-add_object_as_semantic_instance(Obj, Matrix, Time, SemanticMapInstance) :-
-    rdf_assert(Obj, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SpatialThing-Localized'),
-    rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#depthOfObject',literal(type(xsd:float, 0.00311422))),
-    rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, 0.0037514))),
-    rdf_assert(Obj,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, 0.133733))),
-
+add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
     rdf_split_url(_, ObjLocal, Obj),
+    atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
+    rdf_assert(ObjInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SpatialThing-Localized'),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#depthOfObject',literal(type(xsd:float, 0.2))),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, 0.2))),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, 0.2))),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#describedInMap','http://ias.cs.tum.edu/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'),
+
     atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#SemanticMapPerception_', ObjLocal, SemanticMapInstance),
     rdf_assert(SemanticMapInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SemanticMapPerception'),
-    rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#objectActedOn', Obj),
+    rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#objectActedOn', ObjInstance),
     rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#eventOccursAt', Matrix),
     rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#startTime', Time).
 
