@@ -9,6 +9,4 @@
 :- register_ros_package(mod_srdl).
 :- register_ros_package(knowrob_motion_constraints).
 
-:- visualisation_canvas.
-:- diagram_canvas.
 
