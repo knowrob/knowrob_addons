@@ -244,7 +244,9 @@ public class ROSClient_low_level
 		
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
 		publishDesignator(d1);
+		System.out.println("here");
 		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
+		System.out.println("here2");
 		/*double o_x, o_y, o_z, o_w;
 		o_x = Double.parseDouble((String)d.get("pose.pose.orientation.x"));
 		o_y = Double.parseDouble((String)d.get("pose.pose.orientation.y"));
