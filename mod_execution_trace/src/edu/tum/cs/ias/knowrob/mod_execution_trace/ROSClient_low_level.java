@@ -450,6 +450,21 @@ public class ROSClient_low_level
 
 	}
 
+        public String getArmLink(String designatorId) 
+	{
+		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
+		s1.nextToken();
+		designatorId= s1.nextToken();
+		
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+		
+		String link_name = (String)d1.get("LINK");
+		link_name = "/" + link_name;
+		return	link_name;	
+
+
+	}
+
 	public static void main(String[] args) {
 
 		ROSClient_low_level deneme = new ROSClient_low_level("deneme");

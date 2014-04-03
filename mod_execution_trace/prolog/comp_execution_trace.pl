@@ -25,7 +25,8 @@
 	show_image/1,
 	image_of_percepted_scene/1,
 	avg_task_duration/2,
-	add_object_as_semantic_instance/4
+	add_object_as_semantic_instance/4,
+	arm_used_for_manipulation/2
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -79,7 +80,8 @@
     show_image(r),
     image_of_percepted_scene(r),
     avg_task_duration(r,-),
-    add_object_as_semantic_instance(+,+,+,-).
+    add_object_as_semantic_instance(+,+,+,-),
+    arm_used_for_manipulation(+,-).
 
 
 
@@ -370,4 +372,14 @@ add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
     rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#objectActedOn', ObjInstance),
     rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#eventOccursAt', Matrix),
     rdf_assert(SemanticMapInstance, 'http://ias.cs.tum.edu/kb/knowrob.owl#startTime', Time).
+
+arm_used_for_manipulation(Task, Link) :-
+    subtask_all(Task, Movement),
+    task_class(Movement, knowrob:'ArmMovement'),
+    rdf_has(Movement, knowrob:'voluntaryMovementDetails', Designator),
+
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    jpl_call(Client, 'getArmLink', [Designator], Link).
+
+    
 
