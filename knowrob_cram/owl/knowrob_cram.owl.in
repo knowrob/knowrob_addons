@@ -216,6 +216,12 @@
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
     </owl:Class>
 
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CRAMMaintain -->
+
+    <owl:Class rdf:about="&knowrob;CRAMAchieve">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
+    </owl:Class>
+
 
 
     <!-- http://ias.cs.tum.edu/kb/knowrob.owl#CRAMMonitor -->
