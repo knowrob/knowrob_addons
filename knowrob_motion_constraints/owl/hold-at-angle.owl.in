@@ -55,13 +55,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrLowerLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">-0.2</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.6</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&constr;constrUpperLimit"/>
-                <owl:hasValue rdf:datatype="&xsd;double">-0.1</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;double">-0.5</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
