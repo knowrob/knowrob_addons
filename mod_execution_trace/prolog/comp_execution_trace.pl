@@ -389,6 +389,6 @@ arm_used_for_manipulation(Task, Link) :-
 
 successful_instances_of_given_goal(Goal, Tasks) :-	
      findall(T, (task_goal(T, Goal)), Ts),
-     findall(FT, ((subtask(FT, S), task_goal(FT, Goal), rdf_has(S, knowrob:'caughtFailure', _F))), FTs),
+     findall(FT, ((task_goal(FT, Goal), rdf_has(FT, knowrob:'caughtFailure', _F))), FTs),
      subtract(Ts, FTs, Tasks).	      
 
