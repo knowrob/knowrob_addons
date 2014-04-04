@@ -26,7 +26,9 @@
 	image_of_percepted_scene/1,
 	avg_task_duration/2,
 	add_object_as_semantic_instance/4,
-	arm_used_for_manipulation/2
+	arm_used_for_manipulation/2,
+	add_robot_as_basic_semantic_instance/3,
+	add_object_to_semantic_map/7
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -81,7 +83,9 @@
     image_of_percepted_scene(r),
     avg_task_duration(r,-),
     add_object_as_semantic_instance(+,+,+,-),
-    arm_used_for_manipulation(+,-).
+    arm_used_for_manipulation(+,-),
+    add_object_as_semantic_instance(+,+,-),
+    add_object_to_semantic_map(+,+,+,-,+,+,+).
 
 
 
@@ -353,12 +357,18 @@ avg_task_duration(ActionType, AvgDuration) :-
   AvgDuration is Sum/Len.
 
 add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
+    add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, 0.2, 0.2, 0.2).
+
+add_robot_as_basic_semantic_instance(Matrix, Time, ObjInstance) :-
+    add_object_to_semantic_map(Time, Matrix, Time, ObjInstance, 0.5, 0.2, 0.2).
+
+add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_split_url(_, ObjLocal, Obj),
     atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
     rdf_assert(ObjInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SpatialThing-Localized'),
-    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#depthOfObject',literal(type(xsd:float, 0.2))),
-    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, 0.2))),
-    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, 0.2))),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#depthOfObject',literal(type(xsd:float, D))),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, W))),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, H))),
     rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#describedInMap','http://ias.cs.tum.edu/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'),
 
     atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#SemanticMapPerception_', ObjLocal, SemanticMapInstance),
