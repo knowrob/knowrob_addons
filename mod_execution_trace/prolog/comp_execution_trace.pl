@@ -28,7 +28,8 @@
 	add_object_as_semantic_instance/4,
 	arm_used_for_manipulation/2,
 	add_robot_as_basic_semantic_instance/3,
-	add_object_to_semantic_map/7
+	add_object_to_semantic_map/7,
+	successful_instances_of_given_goal/2
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -85,7 +86,8 @@
     add_object_as_semantic_instance(+,+,+,-),
     arm_used_for_manipulation(+,-),
     add_object_as_semantic_instance(+,+,-),
-    add_object_to_semantic_map(+,+,+,-,+,+,+).
+    add_object_to_semantic_map(+,+,+,-,+,+,+),
+    successful_instances_of_given_goal(+,-).
 
 
 
@@ -385,5 +387,8 @@ arm_used_for_manipulation(Task, Link) :-
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
     jpl_call(Client, 'getArmLink', [Designator], Link).
 
-    
+successful_instances_of_given_goal(Goal, Tasks) :-	
+     findall(T, (task_goal(T, Goal)), Ts),
+     findall(FT, ((subtask(FT, S), task_goal(FT, Goal), rdf_has(S, knowrob:'caughtFailure', _F))), FTs),
+     subtract(Ts, FTs, Tasks).	      
 
