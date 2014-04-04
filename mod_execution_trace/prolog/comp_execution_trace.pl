@@ -29,7 +29,8 @@
 	arm_used_for_manipulation/2,
 	add_robot_as_basic_semantic_instance/3,
 	add_object_to_semantic_map/7,
-	successful_instances_of_given_goal/2
+	successful_instances_of_given_goal/2,
+	load_experiment/1
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -87,7 +88,8 @@
     arm_used_for_manipulation(+,-),
     add_object_as_semantic_instance(+,+,-),
     add_object_to_semantic_map(+,+,+,-,+,+,+),
-    successful_instances_of_given_goal(+,-).
+    successful_instances_of_given_goal(+,-),
+    load_experiment(+).
 
 
 
@@ -321,16 +323,19 @@ failure_attribute(Error,AttributeName,Value) :-
 	rdf_has(Error, AttributeName, Value).
 
 show_image(Path) :-
-	Path = literal(type(_A, B)),
-	term_to_atom(B, PathNative),
 	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-        jpl_call(Client, 'publishImage', [PathNative], _R).
+        jpl_call(Client, 'publishImage', [Path], _R).
 
 image_of_percepted_scene(T) :-
 	task(T),
 	rdf_has(T, knowrob:'capturedImage', Img),
-	rdf_has(Img, knowrob:'linkToImageFile', Path),
-	show_image(Path).
+	rdf_has(Img, knowrob:'linkToImageFile', PathName),
+	PathName = literal(type(_A, Path)),
+	
+	rdf_has(Directory, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#DirectoryName'),
+	atomic_list_concat([_Prefix, Dir], '#', Directory),
+	atomic_list_concat(['', 'var', 'roslog', Dir, Path], '/', CompletePath),
+	show_image(CompletePath).
 
 duration_of_a_task(T, Duration) :-
 	task(T),
@@ -392,3 +397,8 @@ successful_instances_of_given_goal(Goal, Tasks) :-
      findall(FT, ((task_goal(FT, Goal), rdf_has(FT, knowrob:'caughtFailure', _F))), FTs),
      subtract(Ts, FTs, Tasks).	      
 
+load_experiment(Path) :-
+    owl_parse(Path, false, false, true),
+    atomic_list_concat([_Empty, _Var, _Roslog, Dir, _File],'/', Path),
+    atomic_list_concat(['http://ias.cs.tum.edu/kb/knowrob.owl', Dir], '#', NameInstance),
+    rdf_assert(NameInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#DirectoryName').
