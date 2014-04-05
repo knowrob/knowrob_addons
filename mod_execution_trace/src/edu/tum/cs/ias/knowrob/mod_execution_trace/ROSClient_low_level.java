@@ -130,7 +130,7 @@ public class ROSClient_low_level
 		BufferedImage image = null;
 		try 
 		{
-    			image = ImageIO.read(new File("/var/roslog/current-experiment/" + image_path.replace("'", "")));
+    			image = ImageIO.read(new File(image_path.replace("'", "")));
 		} 
 		catch (IOException e) 
 		{
@@ -165,73 +165,118 @@ public class ROSClient_low_level
 
 	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator)
 	{
-
 		ros.pkg.designator_integration_msgs.msg.Designator designator_msg = new ros.pkg.designator_integration_msgs.msg.Designator();
-		// designator_msg.type = designator.getType();
-
-
-		if(designator.getType().toString().toLowerCase() == "action")
-			designator_msg.type = 1;
-		else if(designator.getType().toString().toLowerCase() == "object")
-			designator_msg.type = 2;
-		else if(designator.getType().toString().toLowerCase() == "location")
+		
+		try
+		{
+			if(designator.getType().toString().toLowerCase() == "action")
+				designator_msg.type = 1;
+			else if(designator.getType().toString().toLowerCase() == "object")
+				designator_msg.type = 2;
+			else if(designator.getType().toString().toLowerCase() == "location")
+				designator_msg.type = 0;			
+		}
+		catch (java.lang.NullPointerException exc)
+		{
 			designator_msg.type = 0;
+		}
+		designator_msg.description = new ArrayList<ros.pkg.designator_integration_msgs.msg.KeyValuePair>();
+	
+		this.publishDesignator2(designator, designator_msg, 0, 0);
+		
+		return true;
 
+	}
+
+	public boolean publishDesignator2(org.knowrob.interfaces.mongo.types.Designator designator, ros.pkg.designator_integration_msgs.msg.Designator designator_msg, 
+		int parentId, int length)
+	{
+		
 		Set<Entry<String, Object>> values = designator.entrySet();
 		Object[] pairs = values.toArray();
 
-		designator_msg.description = new ArrayList<ros.pkg.designator_integration_msgs.msg.KeyValuePair>();
-
-		String id = designator.get("_id").toString();
-
-		for(int x = 0; x < pairs.length; x++)
+		
+		for(int x = length; x < pairs.length + length; x++)
 		{
 			KeyValuePair k1 = new KeyValuePair();
 			designator_msg.description.add(k1);
-			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x];
+			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - length];
 			
-			designator_msg.description.get(x).id = x;
-			designator_msg.description.get(x).key = currentEntry.getKey();
+			System.out.println(x + "-"+ designator_msg.description.size());
+			System.out.println(currentEntry.getKey());
+			int c = designator_msg.description.size()-1;
+
+			designator_msg.description.get(c).id = x;
+			designator_msg.description.get(c).key = currentEntry.getKey();
+			designator_msg.description.get(c).parent = parentId;
 			if (currentEntry.getValue().getClass().equals(Double.TYPE)) 
 			{
-        			designator_msg.description.get(x).type = 1;
+        			designator_msg.description.get(c).type = 1;
 				Double current_value = (Double)currentEntry.getValue();
-				designator_msg.description.get(x).value_float = (float)current_value.doubleValue();						
+				designator_msg.description.get(c).value_float = (float)current_value.doubleValue();						
     			}
 			else if (currentEntry.getValue().getClass().equals(Integer.TYPE)) 
 			{
-        			designator_msg.description.get(x).type = 1;
+        			designator_msg.description.get(c).type = 1;
 				Double current_value = (Double)currentEntry.getValue();
-				designator_msg.description.get(x).value_float = (float)current_value.doubleValue();
+				designator_msg.description.get(c).value_float = (float)current_value.doubleValue();
     			}
 			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.ISODate.class)) 
 			{
-       				designator_msg.description.get(x).type = 0;
+       				designator_msg.description.get(c).type = 0;
 				org.knowrob.interfaces.mongo.types.ISODate date = (ISODate)currentEntry.getValue();
-				designator_msg.description.get(x).value_string = date.toString();
+				designator_msg.description.get(c).value_string = date.toString();
    			}
 			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Designator.class)) 
 			{
-       				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();			
+       				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();					
+				try
+				{
+					if(inner_designator.getType().toString().toLowerCase() == "action")
+						designator_msg.description.get(c).type = 6;
+					else if(inner_designator.getType().toString().toLowerCase() == "object")
+						designator_msg.description.get(c).type = 7;
+					else if(inner_designator.getType().toString().toLowerCase() == "location")
+						designator_msg.description.get(c).type = 8;				
+				}
+				catch (java.lang.NullPointerException exc)
+				{
+					designator_msg.description.get(c).type = 6;
+				}
 				
-				designator_msg.description.get(x).type = 7;
-				
-					
+				//this.publishDesignator2(inner_designator, designator_msg, x);
    			}
-			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class) || currentEntry.getKey().equals("POSE-ON-PLANE")) 
+			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class)) 
 			{
-				designator_msg.description.get(x).type = 4;
+				designator_msg.description.get(c).type = 4;
        				ros.pkg.geometry_msgs.msg.PoseStamped pose = (org.knowrob.interfaces.mongo.types.PoseStamped)currentEntry.getValue();
-				designator_msg.description.get(x).value_posestamped = pose;
+				designator_msg.description.get(c).value_posestamped = pose;
    			}
 			else if (currentEntry.getValue().getClass().equals(String.class)) 
 			{
-       				designator_msg.description.get(x).type = 0;
-				designator_msg.description.get(x).value_string = (String)currentEntry.getValue();
+       				designator_msg.description.get(c).type = 0;
+				designator_msg.description.get(c).value_string = (String)currentEntry.getValue();
    			}
 			
 		}
-		pub.publish(designator_msg);
+
+		for(int x = length; x < pairs.length + length; x++)
+		{
+			System.out.println(x + "--"+ designator_msg.description.size());
+			if(designator_msg.description.get(x).type == 6 || designator_msg.description.get(x).type == 7 || designator_msg.description.get(x).type == 8)
+			{
+				Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - length];
+				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();
+				this.publishDesignator2(inner_designator, designator_msg, x, pairs.length + length);
+			}
+
+		}
+	
+		if(parentId == 0)
+		{
+			System.out.println("here");	
+			pub.publish(designator_msg);
+		}
 		return true;
 
 	}
@@ -467,9 +512,11 @@ public class ROSClient_low_level
 
 	public static void main(String[] args) {
 
-		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
-		deneme.getBeliefByDesignator("http://ias.cs.tum.edu/kb/cram_log.owl#designator_8nJi5DLRqeV0rR");
+		MongoDBInterface mdb2 = new MongoDBInterface();
 
+		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb2.getDesignatorByID("designator_d1QZprbsST3yO6");
+		deneme.publishDesignator(d1);
 		/*Timestamp timestamp = Timestamp.valueOf("2013-08-05 15:32:35.0");
 		long d = timestamp.getTime();
 		System.out.println(d);
