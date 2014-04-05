@@ -259,13 +259,13 @@ public class ROSClient_low_level
    			}
 			
 		}
-
-		for(int x = length; x < pairs.length + length; x++)
+		int previousLength = length;
+		for(int x = previousLength; x < pairs.length + previousLength; x++)
 		{
 			System.out.println(x + "--"+ designator_msg.description.size());
 			if(designator_msg.description.get(x).type == 6 || designator_msg.description.get(x).type == 7 || designator_msg.description.get(x).type == 8)
 			{
-				Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - length];
+				Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - previousLength];
 				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();
 				length += this.publishDesignator2(inner_designator, designator_msg, x, pairs.length + length);
 			}
