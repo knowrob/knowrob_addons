@@ -142,7 +142,7 @@ public class ROSClient_low_level
 		g.drawImage(image, 0, 0, null);
 		g.dispose();
 
-		
+
 		ros.pkg.sensor_msgs.msg.Image image_msg = new ros.pkg.sensor_msgs.msg.Image();	
 		image_msg.header.stamp = Time.now(); 
 		image_msg.encoding = "bgr8";
@@ -166,7 +166,7 @@ public class ROSClient_low_level
 	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator)
 	{
 		ros.pkg.designator_integration_msgs.msg.Designator designator_msg = new ros.pkg.designator_integration_msgs.msg.Designator();
-		
+
 		try
 		{
 			if(designator.getType().toString().toLowerCase() == "action")
@@ -181,105 +181,108 @@ public class ROSClient_low_level
 			designator_msg.type = 0;
 		}
 		designator_msg.description = new ArrayList<ros.pkg.designator_integration_msgs.msg.KeyValuePair>();
-	
-		this.publishDesignator2(designator, designator_msg, 0, 0);
-		
+
+		this.publishDesignator2(designator, designator_msg, 0);
+
 		return true;
 
 	}
 
 	public int publishDesignator2(org.knowrob.interfaces.mongo.types.Designator designator, ros.pkg.designator_integration_msgs.msg.Designator designator_msg, 
-		int parentId, int length)
+		int parentId)
 	{
-		
+
 		Set<Entry<String, Object>> values = designator.entrySet();
 		Object[] pairs = values.toArray();
 
-		
-		for(int x = length; x < pairs.length + length; x++)
+		int difference_in_x = 0;
+		for(int x = parentId; x < pairs.length + parentId + difference_in_x; x++)
 		{
-			KeyValuePair k1 = new KeyValuePair();
-			designator_msg.description.add(k1);
-			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - length];
-			
-			int c = designator_msg.description.size()-1;
 
-			designator_msg.description.get(c).id = x;
-			designator_msg.description.get(c).key = currentEntry.getKey();
-			designator_msg.description.get(c).parent = parentId;
-			if (currentEntry.getValue().getClass().equals(Double.TYPE)) 
+			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - parentId - difference_in_x];
+			String key = currentEntry.getKey();
+			if( !(key.substring(0,1).equals("_"))) // check if publishable key
 			{
-        			designator_msg.description.get(c).type = 1;
-				Double current_value = (Double)currentEntry.getValue();
-				designator_msg.description.get(c).value_float = (float)current_value.doubleValue();						
-    			}
-			else if (currentEntry.getValue().getClass().equals(Integer.TYPE)) 
-			{
-        			designator_msg.description.get(c).type = 1;
-				Double current_value = (Double)currentEntry.getValue();
-				designator_msg.description.get(c).value_float = (float)current_value.doubleValue();
-    			}
-			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.ISODate.class)) 
-			{
-       				designator_msg.description.get(c).type = 0;
-				org.knowrob.interfaces.mongo.types.ISODate date = (ISODate)currentEntry.getValue();
-				designator_msg.description.get(c).value_string = date.toString();
-   			}
-			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Designator.class)) 
-			{
-       				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();					
-				try
-				{
-					if(inner_designator.getType().toString().toLowerCase() == "action")
-						designator_msg.description.get(c).type = 6;
-					else if(inner_designator.getType().toString().toLowerCase() == "object")
-						designator_msg.description.get(c).type = 7;
-					else if(inner_designator.getType().toString().toLowerCase() == "location")
-						designator_msg.description.get(c).type = 8;				
-				}
-				catch (java.lang.NullPointerException exc)
-				{
-					designator_msg.description.get(c).type = 6;
-				}
+				KeyValuePair k1 = new KeyValuePair();
+				designator_msg.description.add(k1);
 				
-				//this.publishDesignator2(inner_designator, designator_msg, x);
-   			}
-			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class)) 
-			{
-				designator_msg.description.get(c).type = 4;
-       				ros.pkg.geometry_msgs.msg.PoseStamped pose = (org.knowrob.interfaces.mongo.types.PoseStamped)currentEntry.getValue();
-				designator_msg.description.get(c).value_posestamped = pose;
-   			}
-			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Pose.class)) 
-			{
-				designator_msg.description.get(c).type = 4;
-       				ros.pkg.geometry_msgs.msg.Pose pose = (org.knowrob.interfaces.mongo.types.Pose)currentEntry.getValue();
-				designator_msg.description.get(c).value_pose = pose;
-   			}
-			else if (currentEntry.getValue().getClass().equals(String.class)) 
-			{
-       				designator_msg.description.get(c).type = 0;
-				designator_msg.description.get(c).value_string = (String)currentEntry.getValue();
-   			}
-			
-		}
-		int previousLength = length;
-		for(int x = previousLength; x < pairs.length + previousLength; x++)
-		{
-			if(designator_msg.description.get(x).type == 6 || designator_msg.description.get(x).type == 7 || designator_msg.description.get(x).type == 8)
-			{
-				Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - previousLength];
-				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();
-				length += this.publishDesignator2(inner_designator, designator_msg, x, pairs.length + length);
-			}
+				int c = designator_msg.description.size()-1;
 
+				designator_msg.description.get(c).id = x + 1;
+				designator_msg.description.get(c).key = key;
+				if(parentId == 0)
+				{
+					designator_msg.description.get(c).parent = parentId;
+				}
+				else 
+				{
+					designator_msg.description.get(c).parent = parentId +1;
+				}
+			
+
+				if (currentEntry.getValue().getClass().equals(Double.TYPE)) 
+				{
+					designator_msg.description.get(c).type = 1;
+					Double current_value = (Double)currentEntry.getValue();
+					designator_msg.description.get(c).value_float = (float)current_value.doubleValue();						
+	    			}
+				else if (currentEntry.getValue().getClass().equals(Integer.TYPE)) 
+				{
+					designator_msg.description.get(c).type = 1;
+					Double current_value = (Double)currentEntry.getValue();
+					designator_msg.description.get(c).value_float = (float)current_value.doubleValue();
+	    			}
+				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.ISODate.class)) 
+				{
+	       				designator_msg.description.get(c).type = 0;
+					org.knowrob.interfaces.mongo.types.ISODate date = (ISODate)currentEntry.getValue();
+					designator_msg.description.get(c).value_string = date.toString();
+	   			}
+				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Designator.class)) 
+				{
+	       				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();					
+					try
+					{
+						if(inner_designator.getType().toString().toLowerCase() == "action")
+							designator_msg.description.get(c).type = 6;
+						else if(inner_designator.getType().toString().toLowerCase() == "object")
+							designator_msg.description.get(c).type = 7;
+						else if(inner_designator.getType().toString().toLowerCase() == "location")
+							designator_msg.description.get(c).type = 8;				
+					}
+					catch (java.lang.NullPointerException exc)
+					{
+						designator_msg.description.get(c).type = 6;
+					}
+					int inner_size = this.publishDesignator2(inner_designator, designator_msg, x);
+					x += inner_size;
+					difference_in_x += inner_size;
+	   			}
+				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class)) 
+				{
+					designator_msg.description.get(c).type = 4;
+	       				ros.pkg.geometry_msgs.msg.PoseStamped pose = (org.knowrob.interfaces.mongo.types.PoseStamped)currentEntry.getValue();
+					designator_msg.description.get(c).value_posestamped = pose;
+	   			}
+				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Pose.class)) 
+				{
+					designator_msg.description.get(c).type = 5;
+	       				ros.pkg.geometry_msgs.msg.Pose pose = (org.knowrob.interfaces.mongo.types.Pose)currentEntry.getValue();
+					designator_msg.description.get(c).value_pose = pose;
+	   			}
+				else if (currentEntry.getValue().getClass().equals(String.class)) 
+				{
+	       				designator_msg.description.get(c).type = 0;
+					designator_msg.description.get(c).value_string = (String)currentEntry.getValue();
+	   			}
+			}
 		}
-	
+		
 		if(parentId == 0)
 		{
 			pub.publish(designator_msg);
 		}
-		return pairs.length;
+		return pairs.length + difference_in_x;
 
 	}
 
@@ -288,7 +291,7 @@ public class ROSClient_low_level
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
 		designatorId= s1.nextToken();
-		
+
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
 		publishDesignator(d1);
 		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
@@ -325,9 +328,9 @@ public class ROSClient_low_level
 			dummy[15] = poseMatrix.getElement(3, 3);
 		}
 		else dummy[15] = -1;
-		
+
 		return dummy;
-		
+
 	}
 
         public long[] getPerceptionTimeStamps(String object) 
@@ -370,7 +373,7 @@ public class ROSClient_low_level
                 	time_value1 = s1.nextToken();
                 	time_value2 = s2.nextToken();
             	}
-		
+
 		int time_value_integer_1 = Integer.parseInt(time_value1);
 		int time_value_integer_2 = Integer.parseInt(time_value2);
 
@@ -446,7 +449,7 @@ public class ROSClient_low_level
 				return 1;
 
             	}
-		
+
 		return 0;	
 	}
 
@@ -502,9 +505,9 @@ public class ROSClient_low_level
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
 		designatorId= s1.nextToken();
-		
+
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
-		
+		publishDesignator(d1);
 		String link_name = (String)d1.get("LINK");
 		link_name = "/" + link_name;
 		return	link_name;	
@@ -517,7 +520,7 @@ public class ROSClient_low_level
 		MongoDBInterface mdb2 = new MongoDBInterface();
 
 		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb2.getDesignatorByID("designator_838lHbzajYtqpF");
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb2.getDesignatorByID("designator_d1QZprbsST3yO6");
 		deneme.publishDesignator(d1);
 		/*Timestamp timestamp = Timestamp.valueOf("2013-08-05 15:32:35.0");
 		long d = timestamp.getTime();
