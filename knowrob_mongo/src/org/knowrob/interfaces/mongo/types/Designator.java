@@ -102,7 +102,7 @@ public class Designator {
 			Object val = null;
 			
 			// Pose properties
-			if(key.equalsIgnoreCase("pose")) {
+			if(key.equalsIgnoreCase("pose") || key.equalsIgnoreCase("goal-pose")) {
 				val = new PoseStamped().readFromDBObject((BasicDBObject) row.get(key));
 				if(val == null)
 					val = new Pose().readFromDBObject((BasicDBObject) row.get(key));
