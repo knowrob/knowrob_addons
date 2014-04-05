@@ -99,12 +99,14 @@ public class Designator {
 	public Designator readFromDBObject(BasicDBObject row) {
 
 		for(String key : row.keySet()) {
-
+			System.out.println(key);
 			Object val = null;
 			
 			// Pose properties
 			if(key.equalsIgnoreCase("pose")) {
 				val = new PoseStamped().readFromDBObject((BasicDBObject) row.get(key));
+				if(val == null)
+					val = new Pose().readFromDBObject((BasicDBObject) row.get(key));
 
 			// Dimension properties
 			} else if(key.equalsIgnoreCase("dimensions")) {

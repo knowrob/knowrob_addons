@@ -202,8 +202,6 @@ public class ROSClient_low_level
 			designator_msg.description.add(k1);
 			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - length];
 			
-			System.out.println(x + "-"+ designator_msg.description.size());
-			System.out.println(currentEntry.getKey());
 			int c = designator_msg.description.size()-1;
 
 			designator_msg.description.get(c).id = x;
@@ -252,6 +250,12 @@ public class ROSClient_low_level
        				ros.pkg.geometry_msgs.msg.PoseStamped pose = (org.knowrob.interfaces.mongo.types.PoseStamped)currentEntry.getValue();
 				designator_msg.description.get(c).value_posestamped = pose;
    			}
+			else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Pose.class)) 
+			{
+				designator_msg.description.get(c).type = 4;
+       				ros.pkg.geometry_msgs.msg.Pose pose = (org.knowrob.interfaces.mongo.types.Pose)currentEntry.getValue();
+				designator_msg.description.get(c).value_pose = pose;
+   			}
 			else if (currentEntry.getValue().getClass().equals(String.class)) 
 			{
        				designator_msg.description.get(c).type = 0;
@@ -262,7 +266,6 @@ public class ROSClient_low_level
 		int previousLength = length;
 		for(int x = previousLength; x < pairs.length + previousLength; x++)
 		{
-			System.out.println(x + "--"+ designator_msg.description.size());
 			if(designator_msg.description.get(x).type == 6 || designator_msg.description.get(x).type == 7 || designator_msg.description.get(x).type == 8)
 			{
 				Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - previousLength];
@@ -274,7 +277,6 @@ public class ROSClient_low_level
 	
 		if(parentId == 0)
 		{
-			System.out.println("here");	
 			pub.publish(designator_msg);
 		}
 		return pairs.length;
@@ -515,7 +517,7 @@ public class ROSClient_low_level
 		MongoDBInterface mdb2 = new MongoDBInterface();
 
 		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb2.getDesignatorByID("designator_d1QZprbsST3yO6");
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb2.getDesignatorByID("designator_838lHbzajYtqpF");
 		deneme.publishDesignator(d1);
 		/*Timestamp timestamp = Timestamp.valueOf("2013-08-05 15:32:35.0");
 		long d = timestamp.getTime();

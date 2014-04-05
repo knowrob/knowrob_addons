@@ -30,15 +30,12 @@ public class PoseStamped extends ros.pkg.geometry_msgs.msg.PoseStamped {
 		BasicDBObject pose   = (BasicDBObject) row.get("pose");
 
 		// return null for empty poses
-		if(pose == null)
+		if(header==null || pose == null)
 			return null;
 		
-		if(header != null)
-		{
-			this.header.frame_id = header.getString("frame_id");
-			this.header.seq= header.getLong("seq");
-			this.header.stamp = new ISODate((Date) header.get("stamp")).toROSTime();
-		}
+		this.header.frame_id = header.getString("frame_id");
+		this.header.seq= header.getLong("seq");
+		this.header.stamp = new ISODate((Date) header.get("stamp")).toROSTime();
 		
 		this.pose.position.x = ((BasicDBObject) pose.get("position")).getDouble("x");
 		this.pose.position.y = ((BasicDBObject) pose.get("position")).getDouble("y");
