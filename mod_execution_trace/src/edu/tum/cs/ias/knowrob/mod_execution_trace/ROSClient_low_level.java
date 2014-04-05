@@ -188,7 +188,7 @@ public class ROSClient_low_level
 
 	}
 
-	public boolean publishDesignator2(org.knowrob.interfaces.mongo.types.Designator designator, ros.pkg.designator_integration_msgs.msg.Designator designator_msg, 
+	public int publishDesignator2(org.knowrob.interfaces.mongo.types.Designator designator, ros.pkg.designator_integration_msgs.msg.Designator designator_msg, 
 		int parentId, int length)
 	{
 		
@@ -267,7 +267,7 @@ public class ROSClient_low_level
 			{
 				Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - length];
 				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();
-				this.publishDesignator2(inner_designator, designator_msg, x, pairs.length + length);
+				length += this.publishDesignator2(inner_designator, designator_msg, x, pairs.length + length);
 			}
 
 		}
@@ -277,7 +277,7 @@ public class ROSClient_low_level
 			System.out.println("here");	
 			pub.publish(designator_msg);
 		}
-		return true;
+		return pairs.length;
 
 	}
 
