@@ -123,7 +123,8 @@ public class Designator {
 			// Designator properties
 			} else if(key.equalsIgnoreCase("at") || 
 					  key.equalsIgnoreCase("handle") || 
-					  key.equalsIgnoreCase("obj")) {
+					  key.equalsIgnoreCase("obj") || 
+					  key.equalsIgnoreCase("phases")) {
 				val = new Designator().readFromDBObject((BasicDBObject) row.get(key));
 				
 				// Numerical properties

@@ -286,6 +286,17 @@ public class ROSClient_low_level
 
 	}
 
+	public boolean publishDesignator(String designatorId) 
+	{
+		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
+		s1.nextToken();
+		designatorId= s1.nextToken();
+
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+		publishDesignator(d1);
+		return true;
+	}
+
 	public double[] getBeliefByDesignator(String designatorId) 
 	{
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
@@ -294,7 +305,15 @@ public class ROSClient_low_level
 
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
 		publishDesignator(d1);
-		Matrix4d poseMatrix = mdb.getDesignatorLocation(designatorId);
+		Matrix4d poseMatrix;
+		try 
+		{
+			poseMatrix = mdb.getDesignatorLocation(designatorId);
+		}
+		catch (java.lang.NullPointerException e)
+		{
+			poseMatrix = null;
+		}
 		/*double o_x, o_y, o_z, o_w;
 		o_x = Double.parseDouble((String)d.get("pose.pose.orientation.x"));
 		o_y = Double.parseDouble((String)d.get("pose.pose.orientation.y"));

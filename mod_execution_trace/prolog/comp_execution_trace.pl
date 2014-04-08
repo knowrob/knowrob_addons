@@ -30,7 +30,8 @@
 	add_robot_as_basic_semantic_instance/3,
 	add_object_to_semantic_map/7,
 	successful_instances_of_given_goal/2,
-	load_experiment/1
+	load_experiment/1,
+	publish_designator/1
     ]).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
@@ -53,7 +54,7 @@
 :- discontiguous occurs/2.
 
 :- meta_predicate belief_at(0, ?, ?).
-:- discontiguous belief_at/2.
+:- discontiguous belief_at/1.
 
 
 % define predicates as rdf_meta predicates
@@ -89,7 +90,8 @@
     add_object_as_semantic_instance(+,+,-),
     add_object_to_semantic_map(+,+,+,-,+,+,+),
     successful_instances_of_given_goal(+,-),
-    load_experiment(+).
+    load_experiment(+),
+    publish_designator(+).
 
 
 
@@ -402,3 +404,11 @@ load_experiment(Path) :-
     atomic_list_concat([_Empty, _Var, _Roslog, Dir, _File],'/', Path),
     atomic_list_concat(['http://ias.cs.tum.edu/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#DirectoryName').
+
+publish_designator(Task) :-
+    subtask(Task, Subtask),
+    rdf_has(Subtask, knowrob:'designator', D),
+    rdf_has(D, knowrob:'successorDesignator', D1),
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    jpl_call(Client, 'publishDesignator', [D1], _R).
+
