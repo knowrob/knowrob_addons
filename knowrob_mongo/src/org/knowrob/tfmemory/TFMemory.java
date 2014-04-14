@@ -83,17 +83,17 @@ import com.mongodb.QueryBuilder;
  */
 public class TFMemory {
 
-	/** Maximum buffer storage time */
-	public static final long MAX_STORAGE_TIME = (new Duration(10, 0)).totalNsecs();
-
 	/** The singleton instance */
 	protected static TFMemory instance;
 
 	/** Map that maps frame IDs (names) to frames */
 	protected HashMap<String, Frame> frames;
 
-	// duration through which transforms are to be kept in the buffer
+	/** size of the local buffer of transforms (equiv. of the 10s buffer of common tf) */
 	protected final static float BUFFER_SIZE = 1f;
+
+	/** Maximum buffer storage time considered during garbage collection */
+	public static final long MAX_EXTRAPOLATION_TIME = (new Duration(10, 0)).totalNsecs();
 
 	MongoClient mongoClient;
 	DB db;
@@ -195,7 +195,7 @@ public class TFMemory {
 	protected Frame lookupOrInsertFrame(String frameID) {
 		Frame frame = frames.get(frameID);
 		if (frame == null) {
-			frame = new Frame(frameID, MAX_STORAGE_TIME);
+			frame = new Frame(frameID, MAX_EXTRAPOLATION_TIME);
 			frames.put(frameID, frame);
 		}
 		return frame;
@@ -368,7 +368,7 @@ public class TFMemory {
 		DBCollection coll = db.getCollection("tf");
 		DBObject query = new BasicDBObject();
 
-		// select time slice from BUFFER_SIZE seconds before to one second after given time
+		// select time slice from BUFFER_SIZE seconds before to half a second after given time
 		Date start = new Date((long) (date.getTime() - ((int) (BUFFER_SIZE * 1000) ) ));
 		Date end   = new Date((long) (date.getTime() + 500));
 

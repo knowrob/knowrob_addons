@@ -48,7 +48,7 @@ public class TimeCache {
     protected TreeMap<Long, TransformStorage> storage;
 
     /** Maximum storage time, in nanoseconds */
-    protected long maxStorageTime;
+    protected long maxExtrapolationTime;
 
     /** Buffer for time of last garbage collection */
     protected long lastGarbageCollection = 0;
@@ -60,7 +60,7 @@ public class TimeCache {
      * Class Constructor.
      */
     public TimeCache(long maxStorageTime, Frame parentFrame, Frame childFrame) {
-        this.maxStorageTime = maxStorageTime;
+        this.maxExtrapolationTime = maxStorageTime;
         this.storage = new TreeMap<Long, TransformStorage>();
         this.lastGarbageCollection = new Date().getTime() * 1000000;
     }
@@ -105,7 +105,7 @@ public class TimeCache {
         if (time < storage.firstKey()) {
 
         	// do not extrapolate more than maxStorageTime
-        	if(storage.firstKey() - time > maxStorageTime)
+        	if(storage.firstKey() - time > maxExtrapolationTime)
         		return null;
 
             // extrapolate back: low = oldest transform
@@ -117,7 +117,7 @@ public class TimeCache {
         } else if (time > storage.lastKey()) {
 
         	// do not extrapolate more than maxStorageTime
-        	if(time - storage.lastKey() > maxStorageTime)
+        	if(time - storage.lastKey() > maxExtrapolationTime)
         		return null;
 
             // extrapolate forward: low = newest but one
@@ -127,15 +127,18 @@ public class TimeCache {
 
         } else {
 
+            // TODO: this causes the gaps in the trajectories -- do we need this?
+        	// only interpolate if both the smaller and larger time point are closer than maxStorageTime
+        	if((storage.ceilingEntry(time).getKey() - time > maxExtrapolationTime) &&
+    		   (time - storage.floorEntry(time).getKey() > maxExtrapolationTime))
+        		return null;
+        	
+        	
             // interpolate: low = newest transform older than time,
             //              high = oldest transform newer than time
-            low = (TransformStorage) storage.ceilingEntry(time).getValue();
-            high = (TransformStorage) storage.floorEntry(time).getValue();
+            high = (TransformStorage) storage.ceilingEntry(time).getValue();
+            low = (TransformStorage) storage.floorEntry(time).getValue();
 
-        	// only interpolate if both the smaller and larger time point are closer than maxStorageTime
-        	if((storage.ceilingEntry(time).getKey() - time > maxStorageTime) &&
-    		   (time - storage.floorEntry(time).getKey() > maxStorageTime))
-        		return null;
 
         }
 
@@ -164,7 +167,7 @@ public class TimeCache {
     	long now = new Date().getTime() * 1000000;
         if (!storage.isEmpty() && (lastGarbageCollection < now - (GARBAGE_COLLECTION_INTERVAL * 1000000000))) {
 
-        	long timeLowerbound = now - maxStorageTime;
+        	long timeLowerbound = now - maxExtrapolationTime;
 
         	Collection<TransformStorage> values = storage.values();
         	synchronized(storage) {

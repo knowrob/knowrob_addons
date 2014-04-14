@@ -47,15 +47,15 @@ public class Frame {
 	protected String frameID;
     /** Map containing parent frames of this frame with corresponding time caches.*/
     protected HashMap<Frame, TimeCache> parentMap;
-    /** Maximum storage time of time caches in nanoseconds.*/
-    protected long maxStorageTime;
+    /** Maximum time the time cache extrapolates beyond the known transforms (in nanoseconds).*/
+    protected long maxExtrapolationTime;
 
     /**
      * Class constructor.
      */
-    public Frame(String frameID, long maxStorageTime) {
+    public Frame(String frameID, long maxExtrapolationTime) {
         this.frameID = frameID;
-        this.maxStorageTime = maxStorageTime;
+        this.maxExtrapolationTime = maxExtrapolationTime;
         parentMap = new HashMap<Frame, TimeCache>();
     }
 
@@ -74,7 +74,7 @@ public class Frame {
         TimeCache cache = parentMap.get(parentFrame);
 
         if (cache == null) {
-            cache = new TimeCache(maxStorageTime, parentFrame, childFrame);
+            cache = new TimeCache(maxExtrapolationTime, parentFrame, childFrame);
             parentMap.put(parentFrame, cache);
         }
 
