@@ -62,7 +62,7 @@ public class MongoDBInterface {
 	public StampedTransform lookupTransform(String targetFrameId, String sourceFrameId, double posix_ts) {
 		Time t = new Time();
 		t.secs = (int)posix_ts;
-		t.nsecs = (int) (1E6 * (posix_ts - ((int) posix_ts)));
+		t.nsecs = (int) (1E9 * (posix_ts - ((int) posix_ts)));
 		return(mem.lookupTransform(targetFrameId, sourceFrameId, t));
 	}
 
