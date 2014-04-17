@@ -286,10 +286,10 @@ public class MongoDBInterface {
 		System.out.println(tf.lookupTransform("/base_link", "/l_gripper_palm_link", t_st));
 		long t3 = System.nanoTime();
 
-		double first  = (t1-t0)/ 1E6;
-		double second = (t2-t1)/ 1E6;
-		double third  = (t3-t2)/ 1E6;
-
+		double first  = (t1-t0)/ 1E9;
+		double second = (t2-t1)/ 1E9;
+		double third  = (t3-t2)/ 1E9;
+		
 		System.out.println("Time to look up first transform: " + first + "ms");
 		System.out.println("Time to look up second transform: " + second + "ms");
 		System.out.println("Time to look up second transform: " + third + "ms");
