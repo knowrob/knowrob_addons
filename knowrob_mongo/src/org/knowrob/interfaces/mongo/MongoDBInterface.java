@@ -186,49 +186,6 @@ public class MongoDBInterface {
 	}
 
 
-	/**
-	 *
-	 * @param posix_ts
-	 * @return
-	 */
-	public List<String> getUIMAPerceptionObjects(int posix_ts) {
-
-		Designator res = null;
-
-		Date start = new ISODate((long) 1000 * (posix_ts - 30) ).getDate();
-		Date end   = new ISODate((long) 1000 * (posix_ts + 30) ).getDate();
-
-		List<String> objects = new ArrayList<String>();
-		DBCollection coll = db.getCollection("logged_designators");
-
-		DBObject query = QueryBuilder
-				.start("__recorded").greaterThanEquals( start )
-				.and("__recorded").lessThan( end )
-				.and("designator.POSE").notEquals(null).get();
-
-
-		DBObject cols  = new BasicDBObject();
-		cols.put("designator", 1 );
-
-		DBCursor cursor = coll.find(query, cols);
-		cursor.sort(new BasicDBObject("__recorded", -1));
-		try {
-			while(cursor.hasNext()) {
-
-				DBObject row = cursor.next();
-				res = new Designator().readFromDBObject((BasicDBObject) row.get("designator"));
-				objects.add((String)res.get("_id"));
-
-			}
-		} catch(Exception e){
-			e.printStackTrace();
-		} finally {
-			cursor.close();
-		}
-		return objects;
-	}
-
-
 	public Matrix4d getDesignatorLocation(String id) {
 		Matrix4d poseMatrix = null;
 		DBCollection coll = db.getCollection("logged_designators");

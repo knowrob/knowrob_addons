@@ -352,33 +352,6 @@ public class ROSClient_low_level
 
 	}
 
-        public long[] getPerceptionTimeStamps(String object) 
-	{
-		List<Date> listOfTimes = mdb.getUIMAPerceptionTimes(object);
-
-		long[] timeStamps = new long[listOfTimes.size()];
-
-		for(int i = 0; i < listOfTimes.size(); i++)		
-			timeStamps[i] = listOfTimes.get(i).getTime();
-
-		return timeStamps;
-
-	}
-
-	public String[] getPerceptionObjects(String date) 
-	{
-		int date_converted = Integer.parseInt(date);
-		List<String> listOfObjects = mdb.getUIMAPerceptionObjects(date_converted);
-
-		String[] objects = new String[listOfObjects.size()];
-
-		for(int i = 0; i < listOfObjects.size(); i++)		
-			objects[i] = listOfObjects.get(i);
-
-		return objects;
-
-	}
-
 	public int timeComparison(String time1, String time2)
 	{
 		StringTokenizer s1 = new StringTokenizer(time1, "_");
@@ -470,53 +443,6 @@ public class ROSClient_low_level
             	}
 
 		return 0;	
-	}
-
-	public String checkLocationChange(String object, String designator, String time)
-	{
-		StringTokenizer s1 = new StringTokenizer(time, "_");
-		s1.nextToken();
-
-		StringTokenizer s2 = new StringTokenizer(object, "_");
-		s2.nextToken();
-		s2.nextToken();
-
-		int id = Integer.parseInt(s2.nextToken());
-		int time_l = Integer.parseInt(s1.nextToken()) -61;
-		org.knowrob.interfaces.mongo.types.Designator des = mdb.latestUIMAPerceptionBefore(time_l);
-		PoseStamped pose_stamped = null;
-		Matrix4d poseMatrix = null;
-		if(des != null) 
-		{
-			pose_stamped = (PoseStamped)des.get("AT.POSE.pose");
-			poseMatrix = pose_stamped.getMatrix4d();
-		}
-		double[] dummy = new double[16];
-		if(poseMatrix != null)
-		{
-			dummy[0] = poseMatrix.getElement(0, 0); 
-			dummy[1] = poseMatrix.getElement(0, 1);
-			dummy[2] = poseMatrix.getElement(0, 2);
-			dummy[3] = poseMatrix.getElement(0, 3);
-			dummy[4] = poseMatrix.getElement(1, 0);
-			dummy[5] = poseMatrix.getElement(1, 1);
-			dummy[6] = poseMatrix.getElement(1, 2);
-			dummy[7] = poseMatrix.getElement(1, 3);
-			dummy[8] = poseMatrix.getElement(2, 0); 
-			dummy[9] = poseMatrix.getElement(2, 1);
-			dummy[10] = poseMatrix.getElement(2, 2);
-			dummy[11] = poseMatrix.getElement(2, 3);
-			dummy[12] = poseMatrix.getElement(3, 0);
-			dummy[13] = poseMatrix.getElement(3, 1);
-			dummy[14] = poseMatrix.getElement(3, 2);
-			dummy[15] = poseMatrix.getElement(3, 3);
-		}
-
-		double[] m_old = getBeliefByDesignator(designator);
-		if(poseMatrix != null && Math.abs(dummy[12] - m_old[12]) < 0.1 && Math.abs(dummy[13] - m_old[13]) < 0.1 && Math.abs(dummy[14] - m_old[14]) < 0.1)
-			return "http://ias.cs.tum.edu/kb/cram_log.owl#VisualPerception_" + ((String)des.get("_id")).substring(9) + "_object_" + id;
-		else return "-1";
-
 	}
 
         public String getArmLink(String designatorId) 
