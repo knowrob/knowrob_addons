@@ -101,7 +101,7 @@ test(feature_properties_plane) :-
   Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
   Label = '',
   TfFrame = '/pancake_maker',
-  Position = [0.04166119545698166,-6.67572021484375e-6,-0.06330671906471252],
+  Position = [0.0,-6.67572021484375e-6,0.0],
   Direction = [-0.00821682345122099,-0.0047430298291146755,0.9999549984931946].
 
                      
