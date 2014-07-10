@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(mod_probcog)
 
+find_package(catkin REQUIRED COMPONENTS comp_temporal comp_spatial)
 
-rosbuild_init()
-
+catkin_package(
+    DEPENDS comp_temporal comp_spatial
+)

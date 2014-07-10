@@ -1,0 +1,33 @@
+<package>
+  <name>mod_execution_trace</name>
+  <version>1.0.0</version>
+  <description>mod_execution_trace</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/mod_execution_trace</url>
+
+  <author>asil</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>knowrob_common</build_depend>
+  <build_depend>rosjava_jni</build_depend>
+  <build_depend>comp_temporal</build_depend>
+  <build_depend>knowrob_cram</build_depend>
+  <build_depend>knowrob_mongo</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>designator_integration_msgs</build_depend>
+
+  <run_depend>knowrob_common</run_depend>
+  <run_depend>rosjava_jni</run_depend>
+  <run_depend>comp_temporal</run_depend>
+  <run_depend>knowrob_cram</run_depend>
+  <run_depend>knowrob_mongo</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>designator_integration_msgs</run_depend>
+
+</package>

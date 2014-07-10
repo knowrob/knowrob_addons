@@ -1,8 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % dependencies
 
-% :- register_ros_package(mod_vis).
-% :- register_ros_package(ias_semantic_map).
 :- register_ros_package(comp_temporal).
 :- register_ros_package(knowrob_cram).
 :- register_ros_package(mod_execution_trace).
@@ -12,8 +10,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
-
-:- owl_parser:owl_parse('@KNOWROB_CRAM_PATH_PREFIX@/owl/knowrob_cram.owl', false, false, true).
+:- owl_parser:owl_parse('package://mod_execution_trace/owl/knowrob_cram.owl').
 :- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#', [keep(true)]).
 
