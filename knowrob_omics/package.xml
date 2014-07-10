@@ -1,0 +1,19 @@
+<package>
+  <name>knowrob_omics</name>
+  <version>1.0.0</version>
+  <description>knowrob_omics</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/knowrob_omics</url>
+
+  <author>Lars Kunze</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>ias_knowledge_base</build_depend>
+
+  <run_depend>ias_knowledge_base</run_depend>
+
+</package>
