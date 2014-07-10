@@ -28,10 +28,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/comp_germandeli.owl', false, false, true).
+:- owl_parser:owl_parse('package://comp_germandeli/owl/comp_germandeli.owl').
 :- rdf_db:rdf_register_ns(comp_germandeli, 'http://ias.cs.tum.edu/kb/comp_germandeli.owl#', [keep(true)]).
 
 
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/germandeli.owl', false, false, true).
+:- owl_parser:owl_parse('package://comp_germandeli/owl/germandeli.owl').
 :- rdf_db:rdf_register_ns(germandeli, 'http://ias.cs.tum.edu/kb/germandeli.owl#', [keep(true)]).
 

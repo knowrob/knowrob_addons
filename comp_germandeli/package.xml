@@ -1,0 +1,28 @@
+<package>
+  <name>comp_germandeli</name>
+  <version>1.0.0</version>
+  <description>Interface between KnowRob and the ODUfinder perception system
+     for recognizing objects from the GermanDeli online shop. The
+     package further provides information about these objects in
+     form of an OWL ontology and utilities for generating the OWL
+     representation given the XML log file created by the GermanDeli
+     crawler.</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+
+  <license>GPL</license>
+
+  <url type="website">http://www.ros.org/wiki/comp_germandeli</url>
+
+  <author>Moritz Tenorth</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rosjava_jni</build_depend>
+  <build_depend>ias_knowledge_base</build_depend>
+  <build_depend>jpl</build_depend>
+
+  <run_depend>rosjava_jni</run_depend>
+  <run_depend>ias_knowledge_base</run_depend>
+  <run_depend>jpl</run_depend>
+
+</package>
