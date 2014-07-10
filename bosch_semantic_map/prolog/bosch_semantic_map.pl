@@ -15,15 +15,16 @@
 %% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %%
 
-:- register_ros_package(comp_spatial).
-:- use_module(library('comp_spatial')).
+:- use_module(library('semweb/rdfs_computable')).
+:- use_module(library('semweb/rdf_db')).
+:- use_module(library('semweb/rdfs')).
+:- use_module(library('thea/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/rdf_edit')).
+:- use_module(library('semweb/actionmodel')).
 
-%:- consult('semRoom_semantic_map').
-% :- consult('ias_semantic_map').
-:- consult('bosch_semantic_map').
-:- consult('semantic_map_utils').
 
- :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/bosch_semantic_map_addons.owl', false, false, true).
- :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/kitchenobjects.owl', false, false, true).
-%% :- rdf_db:rdf_register_ns(map_addons, 'http://ias.cs.tum.edu/kb/map_addons.owl#', [keep(true)]).
+:- owl_parser:owl_parse('package://bosch_semantic_map/owl/bosch_semantic_map.owl').
 
+:- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(ias_map, 'http://ias.cs.tum.edu/kb/bosch_semantic_map.owl#', [keep(true)]).
