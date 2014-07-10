@@ -11,6 +11,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
-:- owl_parser:owl_parse('/home/asil/asil-ros-pkg/knowrob/mod_action_visualization/owl/action_visualization.owl', false, false, true).
+:- owl_parser:owl_parse('package://mod_action_visualization/owl/action_visualization.owl').
 :- rdf_db:rdf_register_ns(self_info, 'http://ias.cs.tum.edu/kb/action_visualization.owl#', [keep(true)]).
 

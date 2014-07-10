@@ -8,7 +8,7 @@
 :- register_ros_package(rosprac).
 
 % test objects for CAD segmentation
-:- owl_parser:owl_parse('../owl/test-objects.owl', false, false, true).
+:- owl_parser:owl_parse('package://flowchart_vis/owl/test-objects.owl').
 
 % pancake instructions:
 %:- owl_parser:owl_parse('@COMP_EHOW_PACKAGE_PATH@/make_pancakes.owl', false, false, true).
@@ -16,13 +16,13 @@
 
 
 % motion constraint specs:
-:- owl_parser:owl_parse('@KNOWROB_MOTION_CONSTRAINTS_PACKAGE_PATH@/owl/pancake-making-constr.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pancake-making-constr.owl').
 
 :- rdf_db:rdf_register_ns(constr, 'http://ias.cs.tum.edu/kb/motion-constraints.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).
 
 % spatula properties
-:- owl_parser:owl_parse('@KNOWROB_MOTION_CONSTRAINTS_PACKAGE_PATH@/owl/spatula-features.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/spatula-features.owl').
 :- rdf_db:rdf_register_ns(spatula, 'http://ias.cs.tum.edu/kb/spatula-features.owl#', [keep(true)]).
 
 

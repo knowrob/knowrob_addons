@@ -40,8 +40,9 @@
 :- use_module(library('semweb/rdf_db')).
 
 :- rdf_db:rdf_register_ns(knowrob,'http://ias.cs.tum.edu/kb/knowrob.owl#',[keep(true)]).
-:- rdf_load('@LOCAL_PACKAGE_PATH@/rdf/locations.rdf',omics).
-:- rdf_load('@LOCAL_PACKAGE_PATH@/rdf/roboearth.rdf',roboearth).
+
+:- owl_parser:owl_parse('package://knowrob_omics/rdf/locations.rdf').
+:- owl_parser:owl_parse('package://knowrob_omics/rdf/roboearth.rdf').
 
 :- register_ros_package(knowrob_omics).
 :- use_module(library('omics')).

@@ -22,6 +22,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
 
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/knowrob_cad_models.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_cad_models/owl/knowrob_cad_models.owl').
 :- rdf_db:rdf_register_ns(cad, 'http://ias.cs.tum.edu/kb/knowrob_cad_models.owl#', [keep(true)]).
 

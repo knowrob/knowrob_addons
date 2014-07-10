@@ -19,7 +19,6 @@
 %%
 
 :- register_ros_package(mod_srdl).
-% :- register_ros_package(ias_semantic_map).
 :- register_ros_package(knowrob_mesh_reasoning).
 :- register_ros_package(knowrob_cad_models).
 :- register_ros_package(knowrob_motion_constraints).
@@ -30,18 +29,17 @@
 :- rdf_db:rdf_register_ns(constr, 'http://ias.cs.tum.edu/kb/motion-constraints.owl#', [keep(true)]).
 
 % pancake making task definition
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/pancake-making-constr.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pancake-making-constr.owl').
 :- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).
 
 % pouring task definition
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/pouring.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pouring.owl').
 :- rdf_db:rdf_register_ns(motion, 'http://ias.cs.tum.edu/kb/motion-def.owl#', [keep(true)]).
 
 % object models
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/spatula-features.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/spatula-features.owl').
 :- rdf_db:rdf_register_ns(spatula, 'http://ias.cs.tum.edu/kb/spatula-features.owl#', [keep(true)]).
 
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/mondamin-pancake-mix.owl', false, false, true).
-:- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/pancake-maker.owl', false, false, true).
-% :- owl_parser:owl_parse('@LOCAL_PACKAGE_PATH@/owl/coke-bottle.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/mondamin-pancake-mix.owl').
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pancake-maker.owl').
 
