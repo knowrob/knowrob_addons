@@ -17,12 +17,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>rosjava_jni</build_depend>
-  <build_depend>ias_knowledge_base</build_depend>
-  <build_depend>jpl</build_depend>
+  <build_depend>knowrob_common</build_depend>
 
-  <run_depend>rosjava_jni</run_depend>
-  <run_depend>ias_knowledge_base</run_depend>
-  <run_depend>jpl</run_depend>
+  <run_depend>knowrob_common</run_depend>
 
 </package>

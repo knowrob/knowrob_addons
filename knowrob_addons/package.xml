@@ -1,5 +1,5 @@
 <package>
-  <name>.</name>
+  <name>knowrob_addons</name>
   <version>1.0.0</version>
   <description>KnowRob is a knowledge processing framework for robots. It has originally
     been developed in the IAS group at Technische Universitaet Muenchen,
@@ -7,15 +7,12 @@
     for Artificial Intelligence in Bremen, Germany.
 
     This repository contains different add-on packages.</description>
-  <maintainer email="">Maintained by Moritz Tenorth</maintainer>
+  <maintainer email="tenorth@cs.uni-bremen.de">Maintained by Moritz Tenorth</maintainer>
 
-  <license>GPL</license>
-  <license>BSD</license>
+  <license>LGPL</license>
 
   <url type="website">http://www.knowrob.org</url>
   <url type="bugtracker">https://github.com/knowrob/knowrob/issues</url>
-
-  <author>Maintained by Moritz Tenorth</author>
 
   <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>
