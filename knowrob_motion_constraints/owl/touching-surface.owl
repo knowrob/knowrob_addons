@@ -2,7 +2,6 @@
 
 
 <!DOCTYPE rdf:RDF [
-    <!ENTITY local_path 'file://@LOCAL_PACKAGE_PATH@/owl/'>
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
@@ -20,7 +19,7 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/touching-surface.owl">
-        <owl:imports rdf:resource="&local_path;motion-constraints.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/motion-constraints.owl"/>
     </owl:Ontology>
 
 

@@ -2,7 +2,6 @@
 
 
 <!DOCTYPE rdf:RDF [
-    <!ENTITY local_path 'file://@OWL_PATH_PREFIX@/owl/'>
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
@@ -20,7 +19,7 @@
      xmlns:knowrob-cad="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
      xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
     <owl:Ontology rdf:about="&cad;">
-        <owl:imports rdf:resource="&local_path;knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
     
 

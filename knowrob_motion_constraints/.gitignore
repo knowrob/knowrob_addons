@@ -1,9 +1,0 @@
-build
-owl/catalog-v001.xml
-.classpath
-.project
-bin
-msg_gen
-srv_gen
-prolog/init.pl
-src/knowrob_motion_constraints

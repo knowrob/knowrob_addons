@@ -3,9 +3,6 @@
 
 <!DOCTYPE rdf:RDF [
 
-    <!ENTITY local_path 'file://@LOCAL_PACKAGE_PATH@/owl/'>
-    <!ENTITY srdl_path 'file://@SRDL_PATH_PREFIX@/owl/'>
-    
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
@@ -26,21 +23,21 @@
      xmlns:srdl2-comp="http://ias.cs.tum.edu/kb/srdl2-comp.owl#"
      xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/pancake-making-constr.owl">
-        <owl:imports rdf:resource="&local_path;motion-constraints.owl"/>
-        <owl:imports rdf:resource="&srdl_path;srdl2-cap.owl"/>
-        <owl:imports rdf:resource="&srdl_path;PR2.owl"/>
-        <owl:imports rdf:resource="&local_path;hold-at-angle.owl"/>
-        <owl:imports rdf:resource="&local_path;hold-upright.owl"/>
-        <owl:imports rdf:resource="&local_path;in-center-of-plane.owl"/>
-        <owl:imports rdf:resource="&local_path;keep-above.owl"/>
-        <owl:imports rdf:resource="&local_path;keep-to-the-right-of.owl"/>
-        <owl:imports rdf:resource="&local_path;keep-to-the-left-of.owl"/>
-        <owl:imports rdf:resource="&local_path;point-at.owl"/>
-        <owl:imports rdf:resource="&local_path;keep-above.owl"/>
-        <owl:imports rdf:resource="&local_path;plane-aligned.owl"/>
-        <owl:imports rdf:resource="&local_path;plane-perpendicular.owl"/>
-        <owl:imports rdf:resource="&local_path;point-at.owl"/>
-        <owl:imports rdf:resource="&local_path;touching-surface.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/motion-constraints.owl"/>
+        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-cap.owl"/>
+        <owl:imports rdf:resource="package://knowrob_srdl/owl/PR2.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/hold-at-angle.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/hold-upright.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/in-center-of-plane.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/keep-above.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/keep-to-the-right-of.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/keep-to-the-left-of.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/point-at.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/keep-above.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/plane-aligned.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/plane-perpendicular.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/point-at.owl"/>
+        <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/touching-surface.owl"/>
     </owl:Ontology>
 
 
