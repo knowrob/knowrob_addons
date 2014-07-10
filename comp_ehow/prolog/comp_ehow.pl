@@ -52,7 +52,7 @@
 :- use_module(library('knowrob_actions')).
 :- jpl_set_default_jvm_opts(['-Xmx2048M']).
 
-:- owl_parser:owl_parse('../owl/comp_ehow.owl', false, false, true).
+:- owl_parser:owl_parse('package://comp_ehow/owl/comp_ehow.owl').
 
 :-  rdf_meta
       comp_forCommand(r, r),
