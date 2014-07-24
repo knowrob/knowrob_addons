@@ -24,87 +24,11 @@
     </owl:Ontology>
 
 
-    <computable:PrologProperty rdf:about="#computeCadModelXDim">
-        <computable:command rdf:datatype="&xsd;string"
-            >cad_model_xdim</computable:command>
-        <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
-        <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
-        <computable:target rdf:resource="&knowrob;widthOfObject"/>
-    </computable:PrologProperty>
-
-    <computable:PrologProperty rdf:about="#computeCadModelYDim">
-        <computable:command rdf:datatype="&xsd;string"
-            >cad_model_ydim</computable:command>
-        <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
-        <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
-        <computable:target rdf:resource="&knowrob;depthOfObject"/>
-    </computable:PrologProperty>
-
-    <computable:PrologProperty rdf:about="#computeCadModelZDim">
-        <computable:command rdf:datatype="&xsd;string"
-            >cad_model_zdim</computable:command>
-        <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
-        <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
-        <computable:target rdf:resource="&knowrob;heightOfObject"/>
-    </computable:PrologProperty>
-
-
-    <!--
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    <owl:AnnotationProperty rdf:about="&knowrob;pathToCadModel"/>
-
-
-
-    <!--
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Datatypes
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-
-
-    <!--
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Data properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-
-
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#pathToCadModel -->
-
-    <owl:DatatypeProperty rdf:about="&knowrob;pathToCadModel"/>
-
-
-
-    <!--
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Classes
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-
-
     <rdf:Description rdf:about="&knowrob;IkeaExpedit2x4">
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-                <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/expedit-2x4.kmz</owl:hasValue>
+                <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/furniture/expedit-2x4.kmz</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </rdf:Description>
@@ -113,7 +37,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/expedit-2x4.kmz</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/furniture/expedit-2x4.kmz</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -121,7 +45,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/expedit-door.kmz</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/furniture/expedit-door.kmz</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -129,7 +53,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/expedit-door.kmz</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/furniture/expedit-door.kmz</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -138,92 +62,27 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/hospital_bed.kmz</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/furniture/hospital_bed.kmz</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
 
-
-
-    <rdf:Description rdf:about="&knowrob;Tea-Beverage">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/food-drinks/green-tea.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
-
-    <rdf:Description rdf:about="&knowrob;Sushi">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/food-drinks/bento.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
 
     <rdf:Description rdf:about="&knowrob;ShelfInABuilding">
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/supermarket-shelf.kmz</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/furniture/supermarket-shelf.kmz</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
 
-
-
-    <rdf:Description rdf:about="&knowrob;Computer">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/desktop-computer.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
-
-    <rdf:Description rdf:about="&knowrob;CashRegister">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/cash-register.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
-
-    <rdf:Description rdf:about="&knowrob;Desk">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/desk.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
-
-    <rdf:Description rdf:about="&knowrob;Whiteboard">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/furniture/whiteboard.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
-
-    <rdf:Description rdf:about="&knowrob;Robot">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/robot.kmz</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
 
     <rdf:Description rdf:about="&knowrob;StoveTopCookingPot">
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/cooking-vessels/pot-ww.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/cooking-vessels/cookingpot.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -232,7 +91,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/food-drinks/Coke-Bottle.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/food-drinks/coke-bottle.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -242,27 +101,18 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/drinking-vessels/d75af64aa166c24eacbe2257d0988c9c.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/drinking-vessels/cup2.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
 
-
-    <rdf:Description rdf:about="&knowrob;FlatIron">
-      <rdfs:subClassOf>
-        <owl:Restriction>
-          <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/iron_2.dae</owl:hasValue>
-        </owl:Restriction>
-      </rdfs:subClassOf>
-    </rdf:Description>
 
 
     <rdf:Description rdf:about="&knowrob;PancakeMix">
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/food-drinks/mondamin-pancake-mix.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/food-drinks/mondamin-pancake-mix.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -272,7 +122,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/electric-devices/pancake-maker.dae</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/electric-devices/pancake-maker.dae</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
@@ -282,7 +132,7 @@
       <rdfs:subClassOf>
         <owl:Restriction>
           <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
-          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen-tools/spatula.kmz</owl:hasValue>
+          <owl:hasValue rdf:datatype="&xsd;string">package://knowrob_cad_models/models/kitchen/hand-tools/spatula.kmz</owl:hasValue>
         </owl:Restriction>
       </rdfs:subClassOf>
     </rdf:Description>
