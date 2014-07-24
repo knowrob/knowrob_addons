@@ -32,12 +32,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % dependencies
 
-%:- register_ros_package(ias_knowledge_base).
-%:- register_ros_package(ias_prolog_addons).
-
-:- register_ros_package(semweb).
+:- register_ros_package(knowrob_common).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
+
 
 :- rdf_db:rdf_register_ns(knowrob,'http://ias.cs.tum.edu/kb/knowrob.owl#',[keep(true)]).
 
