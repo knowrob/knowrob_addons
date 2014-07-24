@@ -19,7 +19,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % dependencies
 
-:- register_ros_package(ias_knowledge_base).
+:- register_ros_package(knowrob_common).
 :- register_ros_package(comp_temporal).
 :- register_ros_package(comp_spatial).
 :- register_ros_package(mod_probcog).
