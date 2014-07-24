@@ -17,7 +17,6 @@
 
 :- register_ros_package(knowrob_common).
 
-:- register_ros_package(knowrob_cad_models).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
