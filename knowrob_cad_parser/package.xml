@@ -1,19 +1,21 @@
-<package>
-  <name>knowrob_cad_parser</name>
+<?xml version="1.0"?>
+ <package>
+   <name>knowrob_cad_parser</name>
   <version>1.0.0</version>
-  <description>a package which contains Java code for parsing CAD Models (3D Models)</description>
+  <description>A package which contains Java code for parsing CAD Models (3D Models)</description>
   <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
 
   <license>GPL</license>
-
   <url type="website">http://ros.org/wiki/knowrob_cad_parser</url>
 
   <author>Stefan Profanter</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-
+  
+  <build_depend>rosjava_build_tools</build_depend>
   <build_depend>knowrob_common</build_depend>
 
   <run_depend>knowrob_common</run_depend>
 
 </package>
+
