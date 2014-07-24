@@ -41,7 +41,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % visualisation canvas
-:- use_module(library('mod_vis')).
+% :- use_module(library('mod_vis')).
 
 
 

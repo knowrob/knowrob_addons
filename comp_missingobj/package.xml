@@ -15,11 +15,9 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>mod_probcog</build_depend>
-  <build_depend>mod_vis</build_depend>
   <build_depend>json_prolog</build_depend>
 
   <run_depend>mod_probcog</run_depend>
-  <run_depend>mod_vis</run_depend>
   <run_depend>json_prolog</run_depend>
 
 

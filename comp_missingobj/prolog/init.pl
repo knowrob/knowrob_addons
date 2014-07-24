@@ -20,11 +20,8 @@
 % dependencies
 
 :- register_ros_package(comp_spatial).
-:- register_ros_package(mod_vis).
-:- register_ros_package(prolog_perception).
 :- register_ros_package(mod_probcog).
 :- register_ros_package(comp_missingobj).
-
 
 
 :- use_module(library('comp_missingobj')).
