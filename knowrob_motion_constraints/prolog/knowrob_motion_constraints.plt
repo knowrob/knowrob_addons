@@ -23,9 +23,9 @@
 
 :- use_module(library('knowrob_motion_constraints')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('thea/owl_parser')).
-:- use_module(library('semweb/owl')).
-:- use_module(library('semweb/rdfs_computable')).
+:- use_module(library('owl_parser')).
+:- use_module(library('owl')).
+:- use_module(library('rdfs_computable')).
 :- use_module(library('jpl')).
 :- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_actions')).
@@ -33,11 +33,11 @@
 :- use_module(library('knowrob_mesh_reasoning')).
 
 
-:- owl_parser:owl_parse('../owl/spatula-features.owl', false, false, true).
-:- owl_parser:owl_parse('../owl/pouring.owl', false, false, true).
-:- owl_parser:owl_parse('../owl/mondamin-pancake-mix.owl', false, false, true).
-:- owl_parser:owl_parse('../owl/pancake-maker.owl', false, false, true).
-:- owl_parser:owl_parse('../owl/coke-bottle.owl', false, false, true).
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/spatula-features.owl').
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pouring.owl').
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/mondamin-pancake-mix.owl').
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pancake-maker.owl').
+:- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/coke-bottle.owl').
 
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).

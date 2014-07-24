@@ -18,11 +18,12 @@
 %% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %%
 
-:- register_ros_package(mod_srdl).
+:- register_ros_package(knowrob_srdl).
+:- register_ros_package(knowrob_actions).
+:- register_ros_package(knowrob_objects).
 :- register_ros_package(knowrob_mesh_reasoning).
-:- register_ros_package(knowrob_cad_models).
-:- register_ros_package(knowrob_motion_constraints).
 
+:- register_ros_package(knowrob_motion_constraints).
 :- use_module(library(knowrob_motion_constraints)).
 
 % namespace for general motion constraint ontology
