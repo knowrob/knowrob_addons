@@ -19,18 +19,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % dependencies
 
-:- register_ros_package(ias_knowledge_base).
-:- register_ros_package(comp_cop).
-:- register_ros_package(comp_germandeli).
+:- register_ros_package(knowrob_common).
 
-:- use_module(library('comp_germandeli')).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % parse OWL files, register name spaces
-
-:- owl_parser:owl_parse('package://comp_germandeli/owl/comp_germandeli.owl').
-:- rdf_db:rdf_register_ns(comp_germandeli, 'http://ias.cs.tum.edu/kb/comp_germandeli.owl#', [keep(true)]).
-
 
 :- owl_parser:owl_parse('package://comp_germandeli/owl/germandeli.owl').
 :- rdf_db:rdf_register_ns(germandeli, 'http://ias.cs.tum.edu/kb/germandeli.owl#', [keep(true)]).
