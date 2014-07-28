@@ -164,22 +164,8 @@ subtask(Task, Subtask) :-
 %  @param Task Identifier of given Task
 %  @param Subtask Identifier of given Subtask
 subtask_all(Task, Subtask) :-
-    subtask(Task, Subtask);
-
-    nonvar(Task),
-    subtask(Task, A),
-    subtask_all(A, Subtask);
-
-
-    nonvar(Subtask),
-    subtask(A, Subtask),
-    subtask_all(Task, A);
-
-
-    var(Task),
-    var(Subtask),
-    subtask(Task, A),
-    subtask_all(A, Subtask).
+%     task(Task),
+    owl_has(Task, knowrob:subAction,  Subtask).
 
 
 %% task_goal(?Task, ?Goal) is nondet.
