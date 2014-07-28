@@ -17,8 +17,10 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
+:- register_ros_package(comp_temporal).
 
 :- register_ros_package(knowrob_cram).
 :- use_module(library('knowrob_cram')).
+:- use_module(library('comp_execution_trace')).
 
 :- owl_parser:owl_parse('package://knowrob_cram/owl/knowrob_cram.owl').

@@ -53,16 +53,13 @@
 	add_object_to_semantic_map/7,
 	successful_instances_of_given_goal/2,
 	publish_designator/1,
-	get_designator/2,
-	perform_time_check/3,
-	perform_time_check2/3,
-	perform_location_check/3
+	get_designator/2
     ]).
-:- use_module(library('semweb/rdfs')).
-:- use_module(library('semweb/owl')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('semweb/rdfs_computable')).
-:- use_module(library('thea/owl_parser')).
+:- use_module(library('semweb/rdfs')).
+:- use_module(library('owl')).
+:- use_module(library('rdfs_computable')).
+:- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 
@@ -110,10 +107,7 @@
     add_object_to_semantic_map(+,+,+,-,+,+,+),
     successful_instances_of_given_goal(+,-),
     publish_designator(+),
-    get_designator(+,-),
-    perform_time_check(+,+,-),
-    perform_time_check2(+,+,-),
-    perform_location_check(+,+,-).
+    get_designator(+,-).
 
 
 %% load_experiment(+Path) is nondet.
@@ -136,8 +130,8 @@ load_experiment(Path) :-
 %
 %  @param Task Identifier of given Task
 task(Task) :-
-	rdf_has(Task, rdf:type, A),
-	rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
+    rdf_has(Task, rdf:type, A),
+    rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
 
 
 %% task_class(?Task, ?Class) is nondet.
@@ -147,8 +141,8 @@ task(Task) :-
 %  @param Task Identifier of given Task
 %  @param Class Identifier of given Class
 task_class(Task, Class) :-
-	rdf_has(Task, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
+    rdf_has(Task, rdf:type, Class),
+    rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
 
 
 %% subtask(?Task, ?Subtask) is nondet.
@@ -158,9 +152,9 @@ task_class(Task, Class) :-
 %  @param Task Identifier of given Task
 %  @param Subtask Identifier of given Subtask
 subtask(Task, Subtask) :-
-	task(Task),
-	task(Subtask),
-	rdf_has(Task, knowrob:'subAction', Subtask).
+    task(Task),
+    task(Subtask),
+    rdf_has(Task, knowrob:'subAction', Subtask).
 
 
 %% subtask_all(?Task, ?Subtask) is nondet.
@@ -170,22 +164,22 @@ subtask(Task, Subtask) :-
 %  @param Task Identifier of given Task
 %  @param Subtask Identifier of given Subtask
 subtask_all(Task, Subtask) :-
-	subtask(Task, Subtask);
+    subtask(Task, Subtask);
 
-	nonvar(Task),
-	subtask(Task, A),
-	subtask_all(A, Subtask);
-
-
-	nonvar(Subtask),
-	subtask(A, Subtask),
-	subtask_all(Task, A);
+    nonvar(Task),
+    subtask(Task, A),
+    subtask_all(A, Subtask);
 
 
-	var(Task),
-	var(Subtask),
-	subtask(Task, A),
-	subtask_all(A, Subtask).
+    nonvar(Subtask),
+    subtask(A, Subtask),
+    subtask_all(Task, A);
+
+
+    var(Task),
+    var(Subtask),
+    subtask(Task, A),
+    subtask_all(A, Subtask).
 
 
 %% task_goal(?Task, ?Goal) is nondet.
@@ -195,11 +189,11 @@ subtask_all(Task, Subtask) :-
 %  @param Task Identifier of given Task
 %  @param Goal Identifier of given Goal
 task_goal(Task, Goal) :-
-	task(Task),
-	rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal)));
-	
-	task(Task),
-	rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
+    task(Task),
+    rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal)));
+
+    task(Task),
+    rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
 
 %% task_start(?Task, ?Start) is nondet.
@@ -209,8 +203,8 @@ task_goal(Task, Goal) :-
 %  @param Task Identifier of given Task
 %  @param Start Identifier of given Start
 task_start(Task, Start) :-
-	task(Task),
-	rdf_has(Task, knowrob:'startTime', Start).
+    task(Task),
+    rdf_has(Task, knowrob:'startTime', Start).
 
 
 %% task_end(?Task, ?End) is nondet.
@@ -220,8 +214,8 @@ task_start(Task, Start) :-
 %  @param Task Identifier of given Task
 %  @param End Identifier of given End
 task_end(Task, End) :-
-	task(Task),
-	rdf_has(Task, knowrob:'endTime', End).
+    task(Task),
+    rdf_has(Task, knowrob:'endTime', End).
 
 
 %% belief_at(?locPredObj, -locPredLoc, +Time) is nondet.
@@ -232,27 +226,27 @@ task_end(Task, End) :-
 % @param Location Pose matrix identifier
 % @param Time   TimePoint
 belief_at(loc(Obj,Loc), Time) :-
-		findall(
-        		BeliefTime,
-        		(   
-			   task_class(Tsk, knowrob:'UIMAPerception'), 
-			   task_end(Tsk, Bt), 
-			   returned_value(Tsk, Obj),
-			   term_to_atom(Bt, BeliefTime)     
-        		),
-        		BeliefTimes
-    		),
+    findall(
+            BeliefTime,
+            (
+                task_class(Tsk, knowrob:'UIMAPerception'),
+                task_end(Tsk, Bt),
+                returned_value(Tsk, Obj),
+                term_to_atom(Bt, BeliefTime)
+            ),
+            BeliefTimes
+    ),
 
-		jpl_new( '[Ljava.lang.String;', BeliefTimes, Bts),
-		term_to_atom(Time, TConverted),
-		perform_time_check2(Bts, TConverted, LastPerception),
+    jpl_new( '[Ljava.lang.String;', BeliefTimes, Bts),
+    term_to_atom(Time, TConverted),
+    perform_time_check2(Bts, TConverted, LastPerception),
 
-		task_class(T, knowrob:'UIMAPerception'), 
-		task_end(T, LastPerception), 
-		returned_value(T, Obj),
-		image_of_percepted_scene(T),
-		image_of_percepted_scene(T), !,
-		get_designator(Obj, Loc).
+    task_class(T, knowrob:'UIMAPerception'),
+    task_end(T, LastPerception),
+    returned_value(T, Obj),
+    image_of_percepted_scene(T),
+    image_of_percepted_scene(T), !,
+    get_designator(Obj, Loc).
 
 
 %% belief_at(?robotPredPart, -robotPredLoc, +Time) is nondet.
@@ -263,7 +257,7 @@ belief_at(loc(Obj,Loc), Time) :-
 % @param Location Pose matrix identifier
 % @param Time   TimePoint
 belief_at(robot(Part,Loc), Time) :-
-		mng_lookup_transform('/map', Part, Time, Loc).
+    mng_lookup_transform('/map', Part, Time, Loc).
 
 
 %% occurs(?objectPredObj, ?Time) is nondet.
@@ -273,11 +267,11 @@ belief_at(robot(Part,Loc), Time) :-
 % @param Obj    Identifier of the Object
 % @param Time   TimePoint
 occurs(object_perceived(Obj),T) :-
-	nonvar(Obj),
-	nonvar(T),
-	task_class(Task, knowrob:'UIMAPerception'),
-	returned_value(Task, Obj),
-	task_start(Task, T).
+    nonvar(Obj),
+    nonvar(T),
+    task_class(Task, knowrob:'UIMAPerception'),
+    returned_value(Task, Obj),
+    task_start(Task, T).
 
 
 %% cram_holds(+taskPredObj, +taskPredStatus, -T) is nondet.
@@ -288,15 +282,15 @@ occurs(object_perceived(Obj),T) :-
 % @param Status Returned status
 % @param T   TimePoint
 cram_holds(task_status(Task, Status), T):-
-	nonvar(Task),
-	task(Task),
-	task_start(Task, Start),
-	task_end(Task, End),
-	perform_time_check(Start, T, Compare_Result1),
-	perform_time_check(T, End, Compare_Result2),
-	term_to_atom(Compare_Result1, c1),
-	term_to_atom(Compare_Result2, c2),
-	((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted'])))).
+    nonvar(Task),
+    task(Task),
+    task_start(Task, Start),
+    task_end(Task, End),
+    perform_time_check(Start, T, Compare_Result1),
+    perform_time_check(T, End, Compare_Result2),
+    term_to_atom(Compare_Result1, c1),
+    term_to_atom(Compare_Result2, c2),
+    ((c1 is 1) -> (((c2 is 1) -> (Status = ['Continue']);(Status = ['Done'])));(((c2 is 1) -> (Status = ['Error']); (Status = ['NotStarted'])))).
 
 
 %% cram_holds(+objectPlacedPredObj, +objectPlacedPredLoc, -T) is nondet.
@@ -307,10 +301,10 @@ cram_holds(task_status(Task, Status), T):-
 % @param Loc Identifier of given Location
 % @param T   TimePoint
 cram_holds(object_placed_at(Object, Loc), T):-
-	perform_belief(Object, T, Actual_Loc),
-	perform_time_check(Loc, Actual_Loc, Compare_Result),
-	term_to_atom(Compare_Result, r),
-	((r is 0) -> (true);(false)).
+    perform_belief(Object, T, Actual_Loc),
+    perform_time_check(Loc, Actual_Loc, Compare_Result),
+    term_to_atom(Compare_Result, r),
+    ((r is 0) -> (true);(false)).
 
 
 %% returned_value(+Task, +Obj) is nondet.
@@ -320,11 +314,11 @@ cram_holds(object_placed_at(Object, Loc), T):-
 % @param Task Identifier of given Task
 % @param Obj Identifier of the result
 returned_value(Task, Obj) :-
-	rdf_has(Task, rdf:type, knowrob:'UIMAPerception'),
-	rdf_has(Task, knowrob:'perceptionResult', Obj);
+    rdf_has(Task, rdf:type, knowrob:'UIMAPerception'),
+    rdf_has(Task, knowrob:'perceptionResult', Obj);
 
-	task(Task),
-	failure_task(Obj, Task).
+    task(Task),
+    failure_task(Obj, Task).
 
 
 %% failure_class(?Error, ?Class) is nondet.
@@ -334,8 +328,8 @@ returned_value(Task, Obj) :-
 %  @param Error Identifier of given Error
 %  @param Class Identifier of given Class
 failure_class(Error, Class) :-
-	rdf_has(Error, rdf:type, Class),
-	rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
+    rdf_has(Error, rdf:type, Class),
+    rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
 
 
 %% failure_task(?Error, ?Task) is nondet.
@@ -345,9 +339,9 @@ failure_class(Error, Class) :-
 %  @param Error Identifier of given Error
 %  @param Task Identifier of given Task
 failure_task(Error, Task) :-
-	task(Task),
-	%failure_class(Error, Class),
-	rdf_has(Task, knowrob:'eventFailure', Error).
+    task(Task),
+    %failure_class(Error, Class),
+    rdf_has(Task, knowrob:'eventFailure', Error).
 
 
 %% failure_attribute(?Error, ?AttributeName, ?Value) is nondet.
@@ -357,42 +351,32 @@ failure_task(Error, Task) :-
 %  @param Error Identifier of given Error
 %  @param Task Identifier of given Task
 failure_attribute(Error,AttributeName,Value) :-
-	%failure_class(Error, Class),
-	rdf_has(Error, AttributeName, Value).
+    %failure_class(Error, Class),
+    rdf_has(Error, AttributeName, Value).
 
 
 %%% Utility functions %%%
 
 % publish the image to Knowrob Web tool's topic
 show_image(Path) :-
-	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-        jpl_call(Client, 'publishImage', [Path], _R).
+    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    jpl_call(Client, 'publishImage', [Path], _R).
 
 % Get the path of percepted image from the given perception task
 image_of_percepted_scene(T) :-
-	task(T),
-	rdf_has(T, knowrob:'capturedImage', Img),
-	rdf_has(Img, knowrob:'linkToImageFile', PathName),
-	PathName = literal(type(_A, Path)),
-	
-	rdf_has(Directory, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#DirectoryName'),
-	atomic_list_concat([_Prefix, Dir], '#', Directory),
-	atomic_list_concat(['', 'var', 'roslog', Dir, Path], '/', CompletePath),
-	show_image(CompletePath).
+    task(T),
+    rdf_has(T, knowrob:'capturedImage', Img),
+    rdf_has(Img, knowrob:'linkToImageFile', PathName),
+    PathName = literal(type(_A, Path)),
 
-duration_of_a_task(T, Duration) :-
-	task(T),
-	task_start(T,S),
-	task_end(T,E),
-	rdf_split_url(_, StartPointLocal, S),
-  	atom_concat('timepoint_', StartAtom, StartPointLocal),
-  	term_to_atom(Start, StartAtom),
-	rdf_split_url(_, EndPointLocal, E),
-  	atom_concat('timepoint_', EndAtom, EndPointLocal),
-  	term_to_atom(End, EndAtom),
+    rdf_has(Directory, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#DirectoryName'),
+    atomic_list_concat([_Prefix, Dir], '#', Directory),
+    atomic_list_concat(['', 'var', 'roslog', Dir, Path], '/', CompletePath),
+    show_image(CompletePath).
 
-  	jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-        jpl_call(Client, 'getDuration', [Start, End], Duration).
+duration_of_a_task(T, Dur) :-
+    task(T),
+    rdf_triple(knowrob:duration, T, Dur).
 
 avg_task_duration(ActionType, AvgDuration) :-
 
@@ -417,7 +401,7 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#depthOfObject',literal(type(xsd:float, D))),
     rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#widthOfObject',literal(type(xsd:float, W))),
     rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#heightOfObject',literal(type(xsd:float, H))),
-    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#describedInMap','http://ias.cs.tum.edu/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'),
+    rdf_assert(ObjInstance,'http://ias.cs.tum.edu/kb/knowrob.owl#describedInMap','http://ias.cs.tum.edu/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'), % TODO: give map as parameter
 
     atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#SemanticMapPerception_', ObjLocal, SemanticMapInstance),
     rdf_assert(SemanticMapInstance, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#SemanticMapPerception'),
@@ -449,53 +433,6 @@ get_designator(Designator, Loc) :-
     jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
     jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
     jpl_array_to_list(Localization_Array, LocList),
-    [M00, M01, M02, M03, M10, M11, M12, M13, M20, M21, M22, M23, M30, M31, M32, M33] = LocList,
-    atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M03,'_',M10,'_',M11,'_',M12,'_',M13,'_',M20,'_',M21,'_',M22,'_',M23,'_',M30,'_',M31,'_',M32,'_',M33], LocIdentifier),
-
-    atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
-    rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D'),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m00',literal(type(xsd:float, M00))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m01',literal(type(xsd:float, M01))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m02',literal(type(xsd:float, M02))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m03',literal(type(xsd:float, M03))),
- 
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m10',literal(type(xsd:float, M10))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m11',literal(type(xsd:float, M11))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m12',literal(type(xsd:float, M12))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m13',literal(type(xsd:float, M13))),
- 
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m20',literal(type(xsd:float, M20))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m21',literal(type(xsd:float, M21))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m22',literal(type(xsd:float, M22))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m23',literal(type(xsd:float, M23))),
- 
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m30',literal(type(xsd:float, M30))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m31',literal(type(xsd:float, M31))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m32',literal(type(xsd:float, M32))),
-    rdf_assert(Loc,'http://ias.cs.tum.edu/kb/knowrob.owl#m33',literal(type(xsd:float, M33))).
-
-%Check which time instance is earlier
-perform_time_check(Time1, Time2, Compare_Result) :-
-
-    % create ROS client object
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-
-    jpl_call(Client, 'timeComparison', [Time1, Time2], Compare_Result).
-
-%Check which time instance in the timelist is the latest but just before the time2 instance
-perform_time_check2(TimeList, Time2, Compare_Result) :-
-
-    % create ROS client object
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-
-    jpl_call(Client, 'timeComparison2', [TimeList, Time2], Compare_Result).
-
-%Check whether two location matrices are identical
-perform_location_check(L1, L2, Compare_Result) :-
-
-    % create ROS client object
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
-
-    jpl_call(Client, 'locationComparison', [L1, L2], Compare_Result).
+    create_pose(LocList, Loc).
 
 
