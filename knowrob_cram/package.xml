@@ -1,6 +1,6 @@
 <package>
   <name>knowrob_cram</name>
-  <version>1.0.0</version>
+  <version>0.1.0</version>
   <description>knowrob_cram
 
      Ontologies, definitions and computables for the integration of the
@@ -15,8 +15,20 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>knowrob_common</build_depend>
+  <build_depend>comp_temporal</build_depend>
   <build_depend>knowrob_mongo</build_depend>
+  <build_depend>designator_integration_msgs</build_depend>
+  <build_depend>rosjava_build_tools</build_depend>
+  <build_depend>rosjava_bootstrap</build_depend>
+  <build_depend>rosjava_messages</build_depend>
 
+  <run_depend>knowrob_common</run_depend>
+  <run_depend>comp_temporal</run_depend>
   <run_depend>knowrob_mongo</run_depend>
+  <run_depend>designator_integration_msgs</run_depend>
+  <run_depend>rosjava_bootstrap</run_depend>
+  <run_depend>rosjava_messages</run_depend>
 
 </package>
+

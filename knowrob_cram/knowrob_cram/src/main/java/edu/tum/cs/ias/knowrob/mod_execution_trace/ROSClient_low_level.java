@@ -35,88 +35,77 @@
 
 package edu.tum.cs.ias.knowrob.mod_execution_trace;
 
+import geometry_msgs.PoseStamped;
+
 import java.util.*;
 import java.util.Map.*;
 import java.lang.Integer;
-import java.sql.Timestamp;
-import java.lang.*;
 import java.awt.image.BufferedImage;
 import javax.vecmath.Matrix4d;
-import javax.vecmath.Quat4d;
-import javax.vecmath.Vector3d;
-import java.util.Date;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.io.ByteArrayOutputStream;
 import java.awt.image.DataBufferByte;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import ros.*;
-import ros.communication.*;
+import org.jboss.netty.buffer.ChannelBuffers;
 import org.knowrob.interfaces.mongo.*;
 import org.knowrob.interfaces.mongo.types.*;
-import ros.pkg.designator_integration_msgs.msg.*;
-import ros.pkg.sensor_msgs.msg.Image;
+import org.ros.namespace.GraphName;
+import org.ros.node.AbstractNodeMain;
+import org.ros.node.ConnectedNode;
+import org.ros.node.topic.Publisher;
 
-public class ROSClient_low_level 
-{
+import designator_integration_msgs.KeyValuePair;
 
-        static Boolean rosInitialized = false;
-        static Ros ros;
-        static NodeHandle n;
-	static Publisher<ros.pkg.designator_integration_msgs.msg.Designator> pub;
-	static Publisher<ros.pkg.sensor_msgs.msg.Image> pub_image;
+
+public class ROSClient_low_level extends AbstractNodeMain {
 
 	MongoDBInterface mdb;
+	
+	ConnectedNode node;
+	Publisher<designator_integration_msgs.Designator> pub;
+	Publisher<sensor_msgs.Image> pub_image;
+	
+	
+	@Override
+	public GraphName getDefaultNodeName() {
+		return GraphName.of("rosjava_tutorial_pubsub/talker");
+	}
 
+	@Override
+	public void onStart(final ConnectedNode connectedNode) {
 
-
-	/**
-         * Constructor: initializes the ROS environment
-         *
-         * @param node_name A unique node name
-         */
-        public ROSClient_low_level(String node_name) 
-	{
-                initRos(node_name);
-
+		node = connectedNode;
 		mdb = new MongoDBInterface();
-        }
-
-
-
-	/**
-         * Initialize the ROS environment if it has not yet been initialized
-         *
-         * @param node_name A unique node name
-         */
-        protected static void initRos(String node_name) 
-	{
-
-                ros = Ros.getInstance();
-
-                if(!Ros.getInstance().isInitialized()) 
-		{
-                        ros.init(node_name);
-                }
-                n = ros.createNodeHandle();
-		try 
-		{ 
-			pub = n.advertise("/logged_designators", new ros.pkg.designator_integration_msgs.msg.Designator(), 100);
-			pub_image = n.advertise("/logged_images", new ros.pkg.sensor_msgs.msg.Image(), 100); 
-		}
-		catch (ros.RosException r1)
-		{
-			System.out.println("Exception thrown");
-		}
-                n.spinOnce();
-               
-        }
+		
+		pub = connectedNode.newPublisher("logged_designators", designator_integration_msgs.Designator._TYPE);
+		pub_image = connectedNode.newPublisher("logged_images", sensor_msgs.Image._TYPE); 
+		
+		
+//		final Publisher<std_msgs.String> publisher =
+//				connectedNode.newPublisher("chatter", std_msgs.String._TYPE);
+//		// This CancellableLoop will be canceled automatically when the node shuts
+//		// down.
+//		connectedNode.executeCancellableLoop(new CancellableLoop() {
+//			private int sequenceNumber;
+//
+//			@Override
+//			protected void setup() {
+//				sequenceNumber = 0;
+//			}
+//
+//			@Override
+//			protected void loop() throws InterruptedException {
+//				std_msgs.String str = publisher.newMessage();
+//				str.setData("Hello world! " + sequenceNumber);
+//				publisher.publish(str);
+//				sequenceNumber++;
+//				Thread.sleep(1000);
+//			}
+//		});
+	}
+	
 
 	public int getDuration (int start, int end)
 	{
@@ -125,12 +114,14 @@ public class ROSClient_low_level
 		return duration;		
 	} 
 
+
+
 	public boolean publishImage(String image_path)
 	{
 		BufferedImage image = null;
 		try 
 		{
-    			image = ImageIO.read(new File(image_path.replace("'", "")));
+			image = ImageIO.read(new File(image_path.replace("'", "")));
 		} 
 		catch (IOException e) 
 		{
@@ -142,21 +133,23 @@ public class ROSClient_low_level
 		g.drawImage(image, 0, 0, null);
 		g.dispose();
 
+		sensor_msgs.Image image_msg = pub_image.newMessage();
 
-		ros.pkg.sensor_msgs.msg.Image image_msg = new ros.pkg.sensor_msgs.msg.Image();	
-		image_msg.header.stamp = Time.now(); 
-		image_msg.encoding = "bgr8";
-		image_msg.height = image.getHeight();
-		image_msg.width = image.getWidth();
-		image_msg.step = image_msg.width * 3;
-    		image_msg.data = new short[(int)image_msg.height * (int)image_msg.step];
+		image_msg.getHeader().setStamp(node.getCurrentTime()); 
+		image_msg.setEncoding("bgr8");
+		image_msg.setHeight(image.getHeight());
+		image_msg.setWidth(image.getWidth());
+		image_msg.setStep(image_msg.getWidth() * 3);
+		
 		byte[] bytes = ((DataBufferByte)newImage.getRaster().getDataBuffer()).getData();
-		for(int x = 0; x < image_msg.height * (int)image_msg.width; x = x + 1)
-		{
-			image_msg.data[3 * x] = (short) bytes[3 * x];
-			image_msg.data[3 * x + 1] = (short) bytes[3 * x + 1];
-			image_msg.data[3 * x + 2] = (short) bytes[3 * x + 2];
-		}
+//		for(int x = 0; x < image_msg.getHeight() * (int)image_msg.getWidth(); x = x + 1)
+//		{
+//			image_msg.data[3 * x] = (short) bytes[3 * x];
+//			image_msg.data[3 * x + 1] = (short) bytes[3 * x + 1];
+//			image_msg.data[3 * x + 2] = (short) bytes[3 * x + 2];
+//		}
+		
+		image_msg.setData(ChannelBuffers.copiedBuffer(bytes));
 
 		pub_image.publish(image_msg);
 		return true;
@@ -165,22 +158,22 @@ public class ROSClient_low_level
 
 	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator)
 	{
-		ros.pkg.designator_integration_msgs.msg.Designator designator_msg = new ros.pkg.designator_integration_msgs.msg.Designator();
+		designator_integration_msgs.Designator designator_msg = pub.newMessage();
 
 		try
 		{
 			if(designator.getType().toString().toLowerCase() == "action")
-				designator_msg.type = 1;
+				designator_msg.setType(1);
 			else if(designator.getType().toString().toLowerCase() == "object")
-				designator_msg.type = 2;
+				designator_msg.setType(2);
 			else if(designator.getType().toString().toLowerCase() == "location")
-				designator_msg.type = 0;			
+				designator_msg.setType(0);			
 		}
 		catch (java.lang.NullPointerException exc)
 		{
-			designator_msg.type = 0;
+			designator_msg.setType(0);
 		}
-		designator_msg.description = new ArrayList<ros.pkg.designator_integration_msgs.msg.KeyValuePair>();
+//		designator_msg.setDescription(new ArrayList<ros.pkg.designator_integration_msgs.msg.KeyValuePair>());
 
 		this.publishDesignator2(designator, designator_msg, 0);
 
@@ -188,8 +181,8 @@ public class ROSClient_low_level
 
 	}
 
-	public int publishDesignator2(org.knowrob.interfaces.mongo.types.Designator designator, ros.pkg.designator_integration_msgs.msg.Designator designator_msg, 
-		int parentId)
+	public int publishDesignator2(Designator designator, designator_integration_msgs.Designator designator_msg, 
+			int parentId)
 	{
 
 		Set<Entry<String, Object>> values = designator.entrySet();
@@ -203,81 +196,81 @@ public class ROSClient_low_level
 			String key = currentEntry.getKey();
 			if( !(key.substring(0,1).equals("_"))) // check if publishable key
 			{
-				KeyValuePair k1 = new KeyValuePair();
-				designator_msg.description.add(k1);
-				
-				int c = designator_msg.description.size()-1;
+				KeyValuePair k1 = node.getTopicMessageFactory().newFromType(designator_integration_msgs.KeyValuePair._TYPE);
+				designator_msg.getDescription().add(k1);
 
-				designator_msg.description.get(c).id = x + 1;
-				designator_msg.description.get(c).key = key;
+				int c = designator_msg.getDescription().size()-1;
+
+				designator_msg.getDescription().get(c).setId(x + 1);
+				designator_msg.getDescription().get(c).setKey(key);
 				if(parentId == 0)
 				{
-					designator_msg.description.get(c).parent = parentId;
+					designator_msg.getDescription().get(c).setParent(parentId);
 				}
 				else 
 				{
-					designator_msg.description.get(c).parent = parentId +1;
+					designator_msg.getDescription().get(c).setParent(parentId +1);
 				}
-			
 
-				if (currentEntry.getValue().getClass().equals(Double.TYPE)) 
+
+				if (currentEntry.getValue() instanceof Double) 
 				{
-					designator_msg.description.get(c).type = 1;
+					designator_msg.getDescription().get(c).setType(1);
 					Double current_value = (Double)currentEntry.getValue();
-					designator_msg.description.get(c).value_float = (float)current_value.doubleValue();						
-	    			}
-				else if (currentEntry.getValue().getClass().equals(Integer.TYPE)) 
+					designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());						
+				}
+				else if (currentEntry.getValue() instanceof Integer) 
 				{
-					designator_msg.description.get(c).type = 1;
+					designator_msg.getDescription().get(c).setType(1);
 					Double current_value = (Double)currentEntry.getValue();
-					designator_msg.description.get(c).value_float = (float)current_value.doubleValue();
-	    			}
-				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.ISODate.class)) 
+					designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());
+				}
+				else if (currentEntry.getValue() instanceof ISODate) 
 				{
-	       				designator_msg.description.get(c).type = 0;
-					org.knowrob.interfaces.mongo.types.ISODate date = (ISODate)currentEntry.getValue();
-					designator_msg.description.get(c).value_string = date.toString();
-	   			}
-				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Designator.class)) 
+					designator_msg.getDescription().get(c).setType(0);
+					ISODate date = (ISODate)currentEntry.getValue();
+					designator_msg.getDescription().get(c).setValueString(date.toString());
+				}
+				else if (currentEntry.getValue() instanceof Designator) 
 				{
-	       				org.knowrob.interfaces.mongo.types.Designator inner_designator = (org.knowrob.interfaces.mongo.types.Designator)currentEntry.getValue();					
+					Designator inner_designator = (Designator)currentEntry.getValue();					
 					try
 					{
 						if(inner_designator.getType().toString().toLowerCase() == "action")
-							designator_msg.description.get(c).type = 6;
+							designator_msg.getDescription().get(c).setType(6);
 						else if(inner_designator.getType().toString().toLowerCase() == "object")
-							designator_msg.description.get(c).type = 7;
+							designator_msg.getDescription().get(c).setType(7);
 						else if(inner_designator.getType().toString().toLowerCase() == "location")
-							designator_msg.description.get(c).type = 8;				
+							designator_msg.getDescription().get(c).setType(8);				
 					}
 					catch (java.lang.NullPointerException exc)
 					{
-						designator_msg.description.get(c).type = 6;
+						designator_msg.getDescription().get(c).setType(6);
 					}
 					int inner_size = this.publishDesignator2(inner_designator, designator_msg, x);
 					x += inner_size;
 					difference_in_x += inner_size;
-	   			}
-				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.PoseStamped.class)) 
+				}
+				else if (currentEntry.getValue() instanceof PoseStamped) 
 				{
-					designator_msg.description.get(c).type = 4;
-	       				ros.pkg.geometry_msgs.msg.PoseStamped pose = (org.knowrob.interfaces.mongo.types.PoseStamped)currentEntry.getValue();
-					designator_msg.description.get(c).value_posestamped = pose;
-	   			}
-				else if (currentEntry.getValue().getClass().equals(org.knowrob.interfaces.mongo.types.Pose.class)) 
+					designator_msg.getDescription().get(c).setType(4);
+					PoseStamped pose = (PoseStamped) currentEntry.getValue();
+					designator_msg.getDescription().get(c).setValuePosestamped(pose);
+				}
+				else if (currentEntry.getValue() instanceof geometry_msgs.Pose) 
 				{
-					designator_msg.description.get(c).type = 5;
-	       				ros.pkg.geometry_msgs.msg.Pose pose = (org.knowrob.interfaces.mongo.types.Pose)currentEntry.getValue();
-					designator_msg.description.get(c).value_pose = pose;
-	   			}
+					designator_msg.getDescription().get(c).setType(5);
+					geometry_msgs.Pose pose = (geometry_msgs.Pose) currentEntry.getValue();
+					designator_msg.getDescription().get(c).setValuePose(pose);
+				}
 				else if (currentEntry.getValue().getClass().equals(String.class)) 
 				{
-	       				designator_msg.description.get(c).type = 0;
-					designator_msg.description.get(c).value_string = (String)currentEntry.getValue();
-	   			}
+					designator_msg.getDescription().get(c).setType(0);
+					designator_msg.getDescription().get(c).setValueString((String)currentEntry.getValue());
+				}
 			}
 		}
-		
+
 		if(parentId == 0)
 		{
 			pub.publish(designator_msg);
@@ -319,7 +312,7 @@ public class ROSClient_low_level
 		o_y = Double.parseDouble((String)d.get("pose.pose.orientation.y"));
 		o_z = Double.parseDouble((String)d.get("pose.pose.orientation.z"));
 		o_w = Double.parseDouble((String)d.get("pose.pose.orientation.w"));
-		
+
 		double x, y, z, w;
 		x = Double.parseDouble((String)d.get("pose.pose.position.x"));
 		y = Double.parseDouble((String)d.get("pose.pose.position.y"));
@@ -362,9 +355,9 @@ public class ROSClient_low_level
 
 		while (s1.hasMoreTokens())
 		{
-                	time_value1 = s1.nextToken();
-                	time_value2 = s2.nextToken();
-            	}
+			time_value1 = s1.nextToken();
+			time_value2 = s2.nextToken();
+		}
 
 		int time_value_integer_1 = Integer.parseInt(time_value1);
 		int time_value_integer_2 = Integer.parseInt(time_value2);
@@ -431,8 +424,8 @@ public class ROSClient_low_level
 		double element_value_d2;
 		while (s1.hasMoreTokens())
 		{
-                	element_value1 = s1.nextToken();
-                	element_value2 = s2.nextToken();
+			element_value1 = s1.nextToken();
+			element_value2 = s2.nextToken();
 
 			element_value_d1 = Double.parseDouble(element_value1);
 			element_value_d2 = Double.parseDouble(element_value2);
@@ -440,12 +433,12 @@ public class ROSClient_low_level
 			if(element_value_d1 != element_value_d2)
 				return 1;
 
-            	}
+		}
 
 		return 0;	
 	}
 
-        public String getArmLink(String designatorId) 
+	public String getArmLink(String designatorId) 
 	{
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
@@ -458,18 +451,5 @@ public class ROSClient_low_level
 		return	link_name;	
 
 
-	}
-
-	public static void main(String[] args) {
-
-		MongoDBInterface mdb2 = new MongoDBInterface();
-
-		ROSClient_low_level deneme = new ROSClient_low_level("deneme");
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb2.getDesignatorByID("designator_d1QZprbsST3yO6");
-		deneme.publishDesignator(d1);
-		/*Timestamp timestamp = Timestamp.valueOf("2013-08-05 15:32:35.0");
-		long d = timestamp.getTime();
-		System.out.println(d);
-		deneme.getBelief("51ffa963106a029da6b91a32", "" + d/1000);*/
 	}
 }

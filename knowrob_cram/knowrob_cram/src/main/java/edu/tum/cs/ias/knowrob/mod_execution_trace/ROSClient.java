@@ -1,41 +1,20 @@
 package edu.tum.cs.ias.knowrob.mod_execution_trace;
 
-// java staff
-import java.io.*;
+// java stuff
 import java.io.File;
-import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.*;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-import java.util.Vector;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-//import org.xml.sax.helpers.InputSource;
 
 // owl stuff
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
-//import edu.tum.cs.ias.labeling.labels.readers.LabelsDatFileReader;
-//import edu.tum.cs.ias.labeling.labels.readers.YamlConfigReader;
-
-//ros stuff
-import ros.*;
-import ros.communication.*;
-import ros.pkg.geometry_msgs.msg.Point;
-import ros.pkg.geometry_msgs.msg.Quaternion;
-
-//knowrob stuff
-import edu.tum.cs.ias.knowrob.utils.ros.RosUtilities;
-import edu.tum.cs.ias.knowrob.prolog.PrologInterface;
-import edu.tum.cs.ias.knowrob.owl.OWLIndividual;
 
 
 /**
@@ -92,49 +71,31 @@ public class ROSClient
 
 
 
-        static Boolean rosInitialized = false;
-        static Ros ros;
-        static NodeHandle n1;
+	static Boolean rosInitialized = false;
 	static double r;
-        public ArrayList store;	
 
 
 	OWLDataFactory factory;
 	OWLOntologyManager manager;
 	DefaultPrefixManager pm;
-        OWLOntology ontology;
+	OWLOntology ontology;
 
 	ArrayList<Node> listOfAddedGoalContext;
-        
+
 	public ROSClient(String node_name) 
 	{
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
 
-	        initRos(node_name);
-		store = new ArrayList();
-
 		ontology = null;
 
 		listOfAddedGoalContext = new ArrayList<Node>();
-        }
+	}
 
-        protected static void initRos(String node_name) 
-	{
-
-		ros = Ros.getInstance();
-
-                if(!Ros.getInstance().isInitialized()) {
-                        ros.init(node_name);
-                }
-                n1 = ros.createNodeHandle();
-		             
-        }
-
-        public void getTrace(String inputFileName, String outputFileName) 
+	public void getTrace(String inputFileName, String outputFileName) 
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				
+
 		DocumentBuilder dBuilder = null; // new DocumentBuilder();
 		try
 		{		
@@ -144,7 +105,7 @@ public class ROSClient
 		{
 			System.out.println("Parsing failed!!!");
 		}
-		
+
 		File inputFile = new File(inputFileName/*"/home/asil/Desktop/exec-trace.xml"*/);
 		//InputSource newSource = new InputSource(inputFile); 		
 
@@ -152,21 +113,21 @@ public class ROSClient
 		try
 		{
 			doc = dBuilder.parse(inputFile);
- 		}
+		}
 		catch(Exception e)
 		{
 			System.out.println("Parsing failed!!!");
 		}
 
 		doc.getDocumentElement().normalize();
-		
+
 		// OWL PART
 		try
 		{
 			// Create ontology manager and data factory
 			manager = OWLManager.createOWLOntologyManager();
 			factory = manager.getOWLDataFactory();
-	
+
 			// Get prefix manager using the base IRI as default namespace
 			pm = PREFIX_MANAGER;
 
@@ -178,14 +139,6 @@ public class ROSClient
 			OWLImportsDeclaration oid = factory.getOWLImportsDeclaration(IRI.create("knowrob"));
 			AddImport addImp = new AddImport(ontology,oid);
 			manager.applyChange(addImp);
-
-			// Action instances 
-			OWLNamedIndividual action_inst = null;
-			OWLNamedIndividual prev_action_inst = null;
-
-			//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
- 			//NodeList nList = doc.getElementsByTagName("goal-context");
-			//NodeList nList = doc.getDocumentElement();
 
 			NodeList nList = doc.getElementsByTagName("task");
 
@@ -221,26 +174,26 @@ public class ROSClient
 				for(int x = 0; x < nList.getLength(); x++)
 				{				
 					if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
-						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
+							taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("CREATED"))
 					{
 						created = taskChildNodes.item(x).getTextContent();
 					}
 					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
-						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
+							taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("RUNNING"))
 					{
 						running = taskChildNodes.item(x).getTextContent();
 					}
 					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null && 
-						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
+							taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("FAILED"))
 					{
 						failed = taskChildNodes.item(x).getTextContent();
 					}
 					else if(taskChildNodes != null && taskChildNodes.item(x) != null && taskChildNodes.item(x).getAttributes().getNamedItem("name") != null &&
-						taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("SUCCEEDED"))
+							taskChildNodes.item(x).getAttributes().getNamedItem("name").getNodeValue().equals("SUCCEEDED"))
 					{
 						succeeded = taskChildNodes.item(x).getTextContent();						
 					}
-		
+
 				}
 
 				OWLNamedIndividual timestamp_created = factory.getOWLNamedIndividual("executiontrace:timepoint_"+created, pm);
@@ -252,11 +205,11 @@ public class ROSClient
 
 				OWLObjectProperty createdTime = factory.getOWLObjectProperty("modexecutiontrace:creationTime", pm);
 				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(createdTime, task_inst, timestamp_created));
-				
+
 				OWLObjectProperty runningTime = factory.getOWLObjectProperty("modexecutiontrace:runningTime", pm);
 				manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(runningTime, task_inst, timestamp_running));
 
-				
+
 				if (failed != null)
 				{
 					OWLNamedIndividual timestamp_failed = factory.getOWLNamedIndividual("executiontrace:timepoint_"+failed, pm);
@@ -265,7 +218,7 @@ public class ROSClient
 					OWLObjectProperty failedTime = factory.getOWLObjectProperty("modexecutiontrace:failedTime", pm);
 					manager.addAxiom(ontology, factory.getOWLObjectPropertyAssertionAxiom(failedTime, task_inst, timestamp_failed));
 				}
-				
+
 				if (succeeded != null)
 				{
 					OWLNamedIndividual timestamp_succeeded = factory.getOWLNamedIndividual("executiontrace:timepoint_"+succeeded, pm);
@@ -314,13 +267,13 @@ public class ROSClient
 			OWLNamedIndividual goal_context_inst = factory.getOWLNamedIndividual("executiontrace:" + goal_context_name, pm);
 			OWLClass goal_context_class = factory.getOWLClass("modexecutiontrace:GoalContext", pm);
 			manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(goal_context_class, goal_context_inst));
-			
+
 			Node parentDummy = currentDummy.getParentNode(); 
 			if(parentDummy!= null && !(parentDummy.getNodeName().equals("#document")))
 			{
-				
+
 				listOfAddedGoalContext.add(parentDummy);
-				
+
 				String parent_goal_context_name = parentDummy.getAttributes().getNamedItem("name").getNodeValue().toLowerCase().replaceAll(" ", "_");
 				parent_goal_context_name = parent_goal_context_name.replaceAll("'", "");
 
@@ -334,24 +287,24 @@ public class ROSClient
 			}			
 		}
 	}
-       
-        public static void main(String[] args) 
-        {
+
+	public static void main(String[] args) 
+	{
 		if(args.length >= 2)
 		{
-		
-		    	ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
+
+			ROSClient d = new ROSClient("knowrob_execution_trace_test_123");
 			int i = 1;
 			while (i == 1)
 			{
 				/*Reply answer = */ d.getTrace(args[0], args[1]);
 				//String res = answer.result;
-		        	//System.out.println(x);
+				//System.out.println(x);
 				i++;
-		        }
+			}
 		}
 		else System.out.println("Insufficient number of parameters. Usage: ./ROSClient [input_file] [output_file]");
-        }
+	}
 
 }
 
