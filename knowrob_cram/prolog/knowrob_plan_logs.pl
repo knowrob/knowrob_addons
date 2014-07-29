@@ -1,10 +1,5 @@
 
-/** <module> comp_spatial
-
-  This module contains all computables that calculate qualitative spatial relations
-  between objects to allow for spatial reasoning. In addition, there are computables
-  to extract components of a matrix or position vector.
-
+/** <module> knowrob_plan_logs
 
   Copyright (C) 2013 by Asil Kaan Bozcuoglu and Moritz Tenorth
 
@@ -26,7 +21,7 @@
 */
 
 
-:- module(comp_execution_trace,
+:- module(knowrob_plan_logs,
     [
         load_experiment/1,
      	task/1,
@@ -65,7 +60,7 @@
 
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(modexecutiontrace, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob_cram, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
 
 % define holds as meta-predicate and allow the definitions
 % to be in different parts of the source file
