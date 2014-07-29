@@ -33,13 +33,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.tum.cs.ias.knowrob.mod_execution_trace;
+package org.knowrob.cram;
 
 import geometry_msgs.PoseStamped;
 
 import java.util.*;
 import java.util.Map.*;
 import java.lang.Integer;
+import java.nio.ByteOrder;
 import java.awt.image.BufferedImage;
 import javax.vecmath.Matrix4d;
 import java.io.File;
@@ -48,9 +49,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.DataBufferByte;
 import java.awt.Graphics2D;
 
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBufferOutputStream;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.knowrob.interfaces.mongo.*;
 import org.knowrob.interfaces.mongo.types.*;
+import org.ros.internal.message.MessageBuffers;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
@@ -59,7 +63,7 @@ import org.ros.node.topic.Publisher;
 import designator_integration_msgs.KeyValuePair;
 
 
-public class ROSClient_low_level extends AbstractNodeMain {
+public class LogdataPublisher extends AbstractNodeMain {
 
 	MongoDBInterface mdb;
 	
@@ -70,7 +74,7 @@ public class ROSClient_low_level extends AbstractNodeMain {
 	
 	@Override
 	public GraphName getDefaultNodeName() {
-		return GraphName.of("rosjava_tutorial_pubsub/talker");
+		return GraphName.of("knowrob_log_publisher");
 	}
 
 	@Override
@@ -82,98 +86,69 @@ public class ROSClient_low_level extends AbstractNodeMain {
 		pub = connectedNode.newPublisher("logged_designators", designator_integration_msgs.Designator._TYPE);
 		pub_image = connectedNode.newPublisher("logged_images", sensor_msgs.Image._TYPE); 
 		
-		
-//		final Publisher<std_msgs.String> publisher =
-//				connectedNode.newPublisher("chatter", std_msgs.String._TYPE);
-//		// This CancellableLoop will be canceled automatically when the node shuts
-//		// down.
-//		connectedNode.executeCancellableLoop(new CancellableLoop() {
-//			private int sequenceNumber;
-//
-//			@Override
-//			protected void setup() {
-//				sequenceNumber = 0;
-//			}
-//
-//			@Override
-//			protected void loop() throws InterruptedException {
-//				std_msgs.String str = publisher.newMessage();
-//				str.setData("Hello world! " + sequenceNumber);
-//				publisher.publish(str);
-//				sequenceNumber++;
-//				Thread.sleep(1000);
-//			}
-//		});
 	}
-	
-
-	public int getDuration (int start, int end)
-	{
-		int duration = end - start;
-
-		return duration;		
-	} 
-
 
 
 	public boolean publishImage(String image_path)
 	{
 		BufferedImage image = null;
-		try 
-		{
+		try {
 			image = ImageIO.read(new File(image_path.replace("'", "")));
-		} 
-		catch (IOException e) 
-		{
-			System.out.println("Exception thrown");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-		Graphics2D g = newImage.createGraphics();
-		g.drawImage(image, 0, 0, null);
-		g.dispose();
-
+		
+		// wait for publisher to be ready
+		try {
+			while(pub_image ==null) {
+				Thread.sleep(200);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		// create image message from file
 		sensor_msgs.Image image_msg = pub_image.newMessage();
 
-		image_msg.getHeader().setStamp(node.getCurrentTime()); 
+		image_msg.getHeader().setStamp(node.getCurrentTime());
 		image_msg.setEncoding("bgr8");
 		image_msg.setHeight(image.getHeight());
 		image_msg.setWidth(image.getWidth());
 		image_msg.setStep(image_msg.getWidth() * 3);
 		
-		byte[] bytes = ((DataBufferByte)newImage.getRaster().getDataBuffer()).getData();
-//		for(int x = 0; x < image_msg.getHeight() * (int)image_msg.getWidth(); x = x + 1)
-//		{
-//			image_msg.data[3 * x] = (short) bytes[3 * x];
-//			image_msg.data[3 * x + 1] = (short) bytes[3 * x + 1];
-//			image_msg.data[3 * x + 2] = (short) bytes[3 * x + 2];
-//		}
-		
-		image_msg.setData(ChannelBuffers.copiedBuffer(bytes));
 
+		byte[] bytes = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
+		ChannelBuffer cb = ChannelBuffers.copiedBuffer(ByteOrder.LITTLE_ENDIAN, bytes);
+
+		image_msg.setData(cb);
 		pub_image.publish(image_msg);
 		return true;
 
 	}
 
-	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator)
-	{
+	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator) {
+
+		// wait for publisher to be ready
+		try {
+			while(pub ==null) {
+				Thread.sleep(200);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		designator_integration_msgs.Designator designator_msg = pub.newMessage();
 
-		try
-		{
+		try {
 			if(designator.getType().toString().toLowerCase() == "action")
 				designator_msg.setType(1);
 			else if(designator.getType().toString().toLowerCase() == "object")
 				designator_msg.setType(2);
 			else if(designator.getType().toString().toLowerCase() == "location")
 				designator_msg.setType(0);			
-		}
-		catch (java.lang.NullPointerException exc)
-		{
+		} catch (java.lang.NullPointerException exc) {
 			designator_msg.setType(0);
 		}
-//		designator_msg.setDescription(new ArrayList<ros.pkg.designator_integration_msgs.msg.KeyValuePair>());
 
 		this.publishDesignator2(designator, designator_msg, 0);
 
@@ -181,10 +156,8 @@ public class ROSClient_low_level extends AbstractNodeMain {
 
 	}
 
-	public int publishDesignator2(Designator designator, designator_integration_msgs.Designator designator_msg, 
-			int parentId)
-	{
-
+	public int publishDesignator2(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
+		
 		Set<Entry<String, Object>> values = designator.entrySet();
 		Object[] pairs = values.toArray();
 
@@ -196,6 +169,7 @@ public class ROSClient_low_level extends AbstractNodeMain {
 			String key = currentEntry.getKey();
 			if( !(key.substring(0,1).equals("_"))) // check if publishable key
 			{
+				
 				KeyValuePair k1 = node.getTopicMessageFactory().newFromType(designator_integration_msgs.KeyValuePair._TYPE);
 				designator_msg.getDescription().add(k1);
 
@@ -292,12 +266,16 @@ public class ROSClient_low_level extends AbstractNodeMain {
 
 	public double[] getBeliefByDesignator(String designatorId) 
 	{
+
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
 		designatorId= s1.nextToken();
 
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+
+		if(d1!=null) {
 		publishDesignator(d1);
+
 		Matrix4d poseMatrix;
 		try 
 		{
@@ -307,17 +285,6 @@ public class ROSClient_low_level extends AbstractNodeMain {
 		{
 			poseMatrix = null;
 		}
-		/*double o_x, o_y, o_z, o_w;
-		o_x = Double.parseDouble((String)d.get("pose.pose.orientation.x"));
-		o_y = Double.parseDouble((String)d.get("pose.pose.orientation.y"));
-		o_z = Double.parseDouble((String)d.get("pose.pose.orientation.z"));
-		o_w = Double.parseDouble((String)d.get("pose.pose.orientation.w"));
-
-		double x, y, z, w;
-		x = Double.parseDouble((String)d.get("pose.pose.position.x"));
-		y = Double.parseDouble((String)d.get("pose.pose.position.y"));
-		z = Double.parseDouble((String)d.get("pose.pose.position.z"));
-		w = Double.parseDouble((String)d.get("pose.pose.position.w"));*/
 
 		double[] dummy = new double[16];
 		if(poseMatrix != null)
@@ -342,100 +309,7 @@ public class ROSClient_low_level extends AbstractNodeMain {
 		else dummy[15] = -1;
 
 		return dummy;
-
-	}
-
-	public int timeComparison(String time1, String time2)
-	{
-		StringTokenizer s1 = new StringTokenizer(time1, "_");
-		StringTokenizer s2 = new StringTokenizer(time2, "_");
-
-		String time_value1 = "0";
-		String time_value2 = "0";
-
-		while (s1.hasMoreTokens())
-		{
-			time_value1 = s1.nextToken();
-			time_value2 = s2.nextToken();
-		}
-
-		int time_value_integer_1 = Integer.parseInt(time_value1);
-		int time_value_integer_2 = Integer.parseInt(time_value2);
-
-		if( time_value_integer_1 > time_value_integer_2)
-			return 2;
-		else if( time_value_integer_1 == time_value_integer_2)
-			return 0;
-		else if( time_value_integer_1 < time_value_integer_2)
-			return 1; 
-
-		return -2;	
-	}
-
-	public String timeComparison2(String[] timeList, String time)
-	{
-		time = time.replace("'", "");
-		StringTokenizer s1 = new StringTokenizer(time, "_");
-		String time_value1 = "0";
-
-		while (s1.hasMoreTokens())
-			time_value1 = s1.nextToken();
-		int time_value_integer_1 = Integer.parseInt(time_value1);		
-
-		String latestTime = "";
-		int min = 0;
-		int count = 0;
-		for(int x = 0; x < timeList.length; x++)
-		{
-			timeList[x] = timeList[x].replace("'", "");			
-			StringTokenizer s2 = new StringTokenizer(timeList[x], "_");
-			String time_value2 = "0";
-
-			while (s2.hasMoreTokens())
-				time_value2 = s2.nextToken();
-
-			int time_value_integer_2 = Integer.parseInt(time_value2);
-
-			if( count == 0 && time_value_integer_1 >= time_value_integer_2)
-			{
-				min = time_value_integer_1 - time_value_integer_2;
-				count++;
-				latestTime = timeList[x]; 
-			}
-			else if( time_value_integer_1 - time_value_integer_2 < min && time_value_integer_1 >= time_value_integer_2)
-			{
-				min = time_value_integer_1 - time_value_integer_2;
-				count++;
-				latestTime = timeList[x]; 
-			} 
-		}
-		return latestTime;	
-	}
-
-	public int locationComparison(String location1, String location2)
-	{
-		StringTokenizer s1 = new StringTokenizer(location1, "_");
-		StringTokenizer s2 = new StringTokenizer(location2, "_");
-
-		String element_value1 = s1.nextToken();
-		String element_value2 = s2.nextToken();
-
-		double element_value_d1;
-		double element_value_d2;
-		while (s1.hasMoreTokens())
-		{
-			element_value1 = s1.nextToken();
-			element_value2 = s2.nextToken();
-
-			element_value_d1 = Double.parseDouble(element_value1);
-			element_value_d2 = Double.parseDouble(element_value2);
-
-			if(element_value_d1 != element_value_d2)
-				return 1;
-
-		}
-
-		return 0;	
+		} else return new double[16];
 	}
 
 	public String getArmLink(String designatorId) 
