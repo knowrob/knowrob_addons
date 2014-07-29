@@ -362,6 +362,7 @@ belief_at(loc(Obj,Loc), Time) :-
     last(TsksSorted, _-T),
     
     task_returned_value(T, Obj),
+
     image_of_perceived_scene(T), !,
     get_designator(Obj, Loc).
 
@@ -395,7 +396,9 @@ arm_used_for_manipulation(Task, Link) :-
     task_class(Movement, knowrob:'ArmMovement'),
     rdf_has(Movement, knowrob:'voluntaryMovementDetails', Designator),
 
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    jpl_new('org.knowrob.cram.LogdataPublisher', [], Client),
+    jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
+    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Client, Arr], _),
     jpl_call(Client, 'getArmLink', [Designator], Link).
 
 
@@ -407,16 +410,27 @@ arm_used_for_manipulation(Task, Link) :-
 % Designator stuff
 % 
 
-     
+:- assert(log_pbl(fail)).
+log_publisher(Pbl) :-
+    log_pbl(fail),
+    jpl_new('org.knowrob.cram.LogdataPublisher', [], Pbl),
+    jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
+    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Pbl, Arr], _),
+    retract(log_pbl(fail)),
+    assert(log_pbl(Pbl)),!.
+log_publisher(Pbl) :-
+    log_pbl(Pbl).
+
+
 publish_designator(Task) :-
     subtask(Task, Subtask),
     rdf_has(Subtask, knowrob:'designator', D),
     rdf_has(D, knowrob:'successorDesignator', D1),
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    log_publisher(Client),
     jpl_call(Client, 'publishDesignator', [D1], _R).
 
 get_designator(Designator, Loc) :-
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    log_publisher(Client),
     jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
     jpl_array_to_list(Localization_Array, LocList),
     create_pose(LocList, Loc).
@@ -452,7 +466,7 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
 
 % publish the image to Knowrob Web tool's topic
 show_image(Path) :-
-    jpl_new('edu.tum.cs.ias.knowrob.mod_execution_trace.ROSClient_low_level', ['my_low_level'], Client),
+    log_publisher(Client),
     jpl_call(Client, 'publishImage', [Path], _R).
 
 % Get the path of percepted image from the given perception task
