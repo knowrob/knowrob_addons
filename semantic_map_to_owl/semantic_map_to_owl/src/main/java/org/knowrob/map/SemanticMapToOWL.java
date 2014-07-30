@@ -1,4 +1,4 @@
-package edu.tum.cs.ias.knowrob.map;
+package org.knowrob.map;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

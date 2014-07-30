@@ -1,4 +1,4 @@
-package edu.tum.cs.ias.knowrob.map;
+package org.knowrob.map;
 
 import org.ros.exception.RemoteException;
 import org.ros.exception.RosRuntimeException;
@@ -29,7 +29,7 @@ public class SemanticMapToOWLTestClient extends AbstractNodeMain {
 		ServiceClient<semantic_map_to_owl.GenerateSemanticMapOWLRequest, semantic_map_to_owl.GenerateSemanticMapOWLResponse> serviceClient;
 		
 		try {
-			serviceClient = connectedNode.newServiceClient("semantic_map_to_owl", semantic_map_to_owl.GenerateSemanticMapOWL._TYPE);
+			serviceClient = connectedNode.newServiceClient("knowrob_semantic_map_to_owl/generate_owl_map", semantic_map_to_owl.GenerateSemanticMapOWL._TYPE);
 			
 		} catch (ServiceNotFoundException e) {
 			throw new RosRuntimeException(e);
