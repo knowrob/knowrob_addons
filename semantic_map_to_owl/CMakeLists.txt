@@ -7,21 +7,11 @@ find_package(catkin REQUIRED rosjava_build_tools geometry_msgs knowrob_common)
 catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository)
 
 add_message_files(
-  FILES
-  # TODO: List your msg files here
+  FILES SemMap.msg SemMapObject.msg
 )
 add_service_files(
-  FILES
-  # TODO: List your msg files here
+  FILES GenerateSemanticMapOWL.srv
 )
-
-
-# generate launch script
-# rospack_add_java_executable(SemanticMapToOWL edu.tum.cs.ias.knowrob.map.SemanticMapToOWL)
-# rospack_add_java_executable(SemanticMapToOWLTestClient edu.tum.cs.ias.knowrob.map.SemanticMapToOWLTestClient)
-# rospack_add_java_executable(SemanticMapEditor edu.tum.cs.ias.knowrob.map.SemanticMapEditor)
-
-
 catkin_package(
     DEPENDS geometry_msgs knowrob_common
 )

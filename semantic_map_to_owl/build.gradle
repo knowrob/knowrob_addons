@@ -40,8 +40,6 @@ buildscript {
 apply plugin: 'catkin'
 project.catkin.tree.generate()
 
-project.catkin.tree.generate()
-
 
 allprojects {
     /*
