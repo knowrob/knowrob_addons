@@ -22,3 +22,8 @@
 
 :- owl_parser:owl_parse('../owl/knowrob_sim.owl', false, false, true).
 :- rdf_db:rdf_register_ns(sim, 'http://ias.cs.tum.edu/kb/knowrob_sim.owl#', [keep(true)]).
+
+
+:- owl_parser:owl_parse('../owl/simulation_map.owl', false, false, true).
+:- rdf_db:rdf_register_ns(sim_map, 'http://ias.cs.tum.edu/kb/simulation_map.owl#', [keep(true)]).
+
