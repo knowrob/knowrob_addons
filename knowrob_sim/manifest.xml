@@ -1,0 +1,20 @@
+<package>
+  <description brief="knowrob_sim">
+
+     knowrob_sim
+
+     Ontologies, definitions and computables for the integration of the
+     KnowRob knowledge base and the simulation-based observation system.
+
+  </description>
+  <author>Moritz Tenorth</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/knowrob_sim</url>
+
+  <depend package="knowrob_objects"/>
+  <depend package="knowrob_actions"/>
+
+</package>
+
+

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+
+          <!ENTITY local_path 'file://@IAS_KB_PACKAGE_PATH@/owl/'>
+          <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+          <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+          <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+          <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+          <!ENTITY knowrob 'http://ias.cs.tum.edu/kb/knowrob.owl#'>
+          <!ENTITY sim 'http://ias.cs.tum.edu/kb/knowrob_sim.owl#'>
+
+          ]>
+
+<rdf:RDF
+   xmlns:computable="http://ias.cs.tum.edu/kb/computable.owl#"
+   xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:knowrob="&knowrob;"
+   xmlns:sim="http://ias.cs.tum.edu/kb/knowrob_sim.owl#"
+   xml:base="http://ias.cs.tum.edu/kb/knowrob_sim.owl">
+  <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/knowrob_sim.owl">
+        <owl:imports rdf:resource="&local_path;knowrob.owl"/>
+  </owl:Ontology>
+
+
+  <owl:namedIndividual rdf:about="&sim;HoldingAnObject_Rsdjj4sj">
+      <rdf:type rdf:resource="&knowrob;HoldingAnObject"/>
+      <knowrob:startTime rdf:resource="&sim;timepoint_1377766200"/>
+      <knowrob:endTime rdf:resource="&sim;timepoint_1377766305"/>
+      <knowrob:objectActedOn rdf:resource="&sim;cup1"/>
+  </owl:namedIndividual>
+  
+  <owl:namedIndividual rdf:about="&sim;FluidFlow_Rsdjj4sj">
+      <rdf:type rdf:resource="&knowrob;FluidFlow-Translation"/>
+      <knowrob:startTime rdf:resource="&sim;timepoint_1377766205"/>
+      <knowrob:endTime rdf:resource="&sim;timepoint_1377766300"/>
+  </owl:namedIndividual>
+
+  <owl:namedIndividual rdf:about="&sim;cup1">
+      <rdf:type rdf:resource="&knowrob;Cup"/>
+  </owl:namedIndividual>
+  
+
+  <owl:NamedIndividual rdf:about="&sim;timepoint_1377766200">
+      <rdf:type rdf:resource="&knowrob;TimePoint"/>
+      <knowrob:timeValue >1377766200</knowrob:timeValue>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&sim;timepoint_1377766205">
+      <rdf:type rdf:resource="&knowrob;TimePoint"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&sim;timepoint_1377766300">
+      <rdf:type rdf:resource="&knowrob;TimePoint"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&sim;timepoint_1377766305">
+      <rdf:type rdf:resource="&knowrob;TimePoint"/>
+  </owl:NamedIndividual>
+  
+
+
+  
+</rdf:RDF>
+
