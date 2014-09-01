@@ -24,31 +24,31 @@
 :- module(knowrob_plan_logs,
     [
         load_experiment/1,
-     	task/1,
-	task_class/2,
-	subtask/2,
-	subtask_all/2,
-      	task_goal/2,
-	task_start/2,
-	task_end/2,
-	cram_holds/2,
-	task_returned_value/2,
-	belief_at/2,
-	occurs/2,
-	duration_of_a_task/2,
-	failure_type/2,
-	task_failure/2,
-	failure_attribute/3,
-	show_image/1,
-	image_of_perceived_scene/1,
-	avg_task_duration/2,
-	add_object_as_semantic_instance/4,
-	arm_used_for_manipulation/2,
-	add_robot_as_basic_semantic_instance/3,
-	add_object_to_semantic_map/7,
-	successful_instances_of_given_goal/2,
-	publish_designator/1,
-	get_designator/2
+        task/1,
+        task_class/2,
+        subtask/2,
+        subtask_all/2,
+        task_goal/2,
+        task_start/2,
+        task_end/2,
+        cram_holds/2,
+        task_returned_value/2,
+        belief_at/2,
+        occurs/2,
+        duration_of_a_task/2,
+        failure_type/2,
+        task_failure/2,
+        failure_attribute/3,
+        show_image/1,
+        image_of_perceived_scene/1,
+        avg_task_duration/2,
+        add_object_as_semantic_instance/4,
+        arm_used_for_manipulation/2,
+        add_robot_as_basic_semantic_instance/3,
+        add_object_to_semantic_map/7,
+        successful_instances_of_given_goal/2,
+        publish_designator/1,
+        get_designator/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -102,7 +102,7 @@
     add_object_to_semantic_map(+,+,+,-,+,+,+),
     successful_instances_of_given_goal(+,-),
     publish_designator(+),
-    get_designator(+,-).
+    get_designator(r,-).
 
 
 
@@ -340,26 +340,29 @@ cram_holds(task_status(Task, Status), T):-
 %
 % Check what the belief of the robot for location of Object at given Time .
 %
-% @param Obj    Identifier of the Object
+% @param Desig    Identifier of an object designator
 % @param Location Pose matrix identifier
-% @param Time   TimePoint
+% @param Time     TimePoint
 % 
-belief_at(loc(Obj,Loc), Time) :-
+belief_at(loc(Desig,Loc), _Time) :-
 
-    findall(End-Tsk, (
-                task_class(Tsk, knowrob:'UIMAPerception'),
-                task_end(Tsk, EndTp),
-                rdf_triple(knowrob:after, EndTp, Time), % only consider tasks that end before Time
-                time_point_value(EndTp, End)
-            ), Tsks),
+% MT: commented this -- would maybe be relevant for objects, but since we
+%     directly give designators as values, this is redundant.
+% 
+%     findall(End-Tsk, (
+%                 task_class(Tsk, knowrob:'UIMAPerception'),
+%                 task_end(Tsk, EndTp),
+%                 rdf_triple(knowrob:after, EndTp, Time), % only consider tasks that end before Time
+%                 time_point_value(EndTp, End)
+%             ), Tsks),
+% 
+%     keysort(Tsks, TsksSorted),
+%     last(TsksSorted, _-T),
 
-    keysort(Tsks, TsksSorted),
-    last(TsksSorted, _-T),
-    
-    task_returned_value(T, Obj),
+    task_returned_value(T, Desig),
 
-    image_of_perceived_scene(T), !,
-    get_designator(Obj, Loc).
+    (image_of_perceived_scene(T);true), !,
+    get_designator(Desig, Loc).
 
 
 %% belief_at(?robotPredPart, -robotPredLoc, +Time) is nondet.
@@ -386,7 +389,15 @@ occurs(object_perceived(Obj),T) :-
     task_returned_value(Task, Obj),
     task_start(Task, T).
 
+
+%% arm_used_for_manipulation(+Task, -Link) is nondet.
+%
+%
+% @param Task Instance of an Action for which the arm is to be determined
+% @param Link Identifier of a tf link denoting the arm
+% 
 arm_used_for_manipulation(Task, Link) :-
+
     subtask_all(Task, Movement),
     task_class(Movement, knowrob:'ArmMovement'),
     rdf_has(Movement, knowrob:'voluntaryMovementDetails', Designator),

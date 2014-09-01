@@ -66,12 +66,12 @@ import designator_integration_msgs.KeyValuePair;
 public class LogdataPublisher extends AbstractNodeMain {
 
 	MongoDBInterface mdb;
-	
+
 	ConnectedNode node;
 	Publisher<designator_integration_msgs.Designator> pub;
 	Publisher<sensor_msgs.Image> pub_image;
-	
-	
+
+
 	@Override
 	public GraphName getDefaultNodeName() {
 		return GraphName.of("knowrob_log_publisher");
@@ -82,10 +82,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 		node = connectedNode;
 		mdb = new MongoDBInterface();
-		
+
 		pub = connectedNode.newPublisher("logged_designators", designator_integration_msgs.Designator._TYPE);
 		pub_image = connectedNode.newPublisher("logged_images", sensor_msgs.Image._TYPE); 
-		
+
 	}
 
 
@@ -97,7 +97,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		// wait for publisher to be ready
 		try {
 			while(pub_image ==null) {
@@ -106,7 +106,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		// create image message from file
 		sensor_msgs.Image image_msg = pub_image.newMessage();
 
@@ -115,7 +115,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 		image_msg.setHeight(image.getHeight());
 		image_msg.setWidth(image.getWidth());
 		image_msg.setStep(image_msg.getWidth() * 3);
-		
+
 
 		byte[] bytes = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
 		ChannelBuffer cb = ChannelBuffers.copiedBuffer(ByteOrder.LITTLE_ENDIAN, bytes);
@@ -136,7 +136,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		designator_integration_msgs.Designator designator_msg = pub.newMessage();
 
 		try {
@@ -157,7 +157,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 	}
 
 	public int publishDesignator2(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
-		
+
 		Set<Entry<String, Object>> values = designator.entrySet();
 		Object[] pairs = values.toArray();
 
@@ -169,7 +169,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 			String key = currentEntry.getKey();
 			if( !(key.substring(0,1).equals("_"))) // check if publishable key
 			{
-				
+
 				KeyValuePair k1 = node.getTopicMessageFactory().newFromType(designator_integration_msgs.KeyValuePair._TYPE);
 				designator_msg.getDescription().add(k1);
 
@@ -271,44 +271,52 @@ public class LogdataPublisher extends AbstractNodeMain {
 		s1.nextToken();
 		designatorId= s1.nextToken();
 
+		// wait for node to be ready
+		try {
+			while(mdb == null) {
+				Thread.sleep(200);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
 
 		if(d1!=null) {
-		publishDesignator(d1);
+			publishDesignator(d1);
+			Matrix4d poseMatrix;
+			try 
+			{
+				poseMatrix = mdb.getDesignatorLocation(designatorId);
+			}
+			catch (java.lang.NullPointerException e)
+			{
+				poseMatrix = null;
+			}
 
-		Matrix4d poseMatrix;
-		try 
-		{
-			poseMatrix = mdb.getDesignatorLocation(designatorId);
-		}
-		catch (java.lang.NullPointerException e)
-		{
-			poseMatrix = null;
-		}
+			double[] dummy = new double[16];
+			if(poseMatrix != null)
+			{
+				dummy[0] = poseMatrix.getElement(0, 0); 
+				dummy[1] = poseMatrix.getElement(0, 1);
+				dummy[2] = poseMatrix.getElement(0, 2);
+				dummy[3] = poseMatrix.getElement(0, 3);
+				dummy[4] = poseMatrix.getElement(1, 0);
+				dummy[5] = poseMatrix.getElement(1, 1);
+				dummy[6] = poseMatrix.getElement(1, 2);
+				dummy[7] = poseMatrix.getElement(1, 3);
+				dummy[8] = poseMatrix.getElement(2, 0); 
+				dummy[9] = poseMatrix.getElement(2, 1);
+				dummy[10] = poseMatrix.getElement(2, 2);
+				dummy[11] = poseMatrix.getElement(2, 3);
+				dummy[12] = poseMatrix.getElement(3, 0);
+				dummy[13] = poseMatrix.getElement(3, 1);
+				dummy[14] = poseMatrix.getElement(3, 2);
+				dummy[15] = poseMatrix.getElement(3, 3);
+			}
+			else dummy[15] = -1;
 
-		double[] dummy = new double[16];
-		if(poseMatrix != null)
-		{
-			dummy[0] = poseMatrix.getElement(0, 0); 
-			dummy[1] = poseMatrix.getElement(0, 1);
-			dummy[2] = poseMatrix.getElement(0, 2);
-			dummy[3] = poseMatrix.getElement(0, 3);
-			dummy[4] = poseMatrix.getElement(1, 0);
-			dummy[5] = poseMatrix.getElement(1, 1);
-			dummy[6] = poseMatrix.getElement(1, 2);
-			dummy[7] = poseMatrix.getElement(1, 3);
-			dummy[8] = poseMatrix.getElement(2, 0); 
-			dummy[9] = poseMatrix.getElement(2, 1);
-			dummy[10] = poseMatrix.getElement(2, 2);
-			dummy[11] = poseMatrix.getElement(2, 3);
-			dummy[12] = poseMatrix.getElement(3, 0);
-			dummy[13] = poseMatrix.getElement(3, 1);
-			dummy[14] = poseMatrix.getElement(3, 2);
-			dummy[15] = poseMatrix.getElement(3, 3);
-		}
-		else dummy[15] = -1;
-
-		return dummy;
+			return dummy;
 		} else return new double[16];
 	}
 
@@ -318,12 +326,23 @@ public class LogdataPublisher extends AbstractNodeMain {
 		s1.nextToken();
 		designatorId= s1.nextToken();
 
+		// wait for node to be ready
+		try {
+			while(mdb == null) {
+				Thread.sleep(200);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
-		publishDesignator(d1);
-		String link_name = (String)d1.get("LINK");
-		link_name = "/" + link_name;
-		return	link_name;	
 
-
+		if(d1 != null) {
+			publishDesignator(d1);
+			String link_name = (String)d1.get("LINK");
+			link_name = "/" + link_name;
+			return	link_name;
+		}
+		return "";
 	}
 }
