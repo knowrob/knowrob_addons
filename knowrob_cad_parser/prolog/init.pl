@@ -16,6 +16,4 @@
 %%
 
 :- register_ros_package(knowrob_common).
-:- register_ros_package(knowrob_cad_parser).
-:- use_module(library('knowrob_cad_parser')).
 
