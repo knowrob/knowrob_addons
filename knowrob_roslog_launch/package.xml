@@ -15,24 +15,26 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>mod_execution_trace</build_depend>
+  <build_depend>knowrob_cram</build_depend>
+  <build_depend>knowrob_mongo</build_depend>
 <!--   <build_depend>iai_maps</build_depend> -->
   <build_depend>json_prolog</build_depend>
   <build_depend>knowrob_vis</build_depend>
   <build_depend>mjpeg_server</build_depend>
   <build_depend>rosbridge_server</build_depend>
 <!--   <build_depend>beliefstate</build_depend> -->
-  <build_depend>mongodb_log</build_depend>
+<!--   <build_depend>mongodb_log</build_depend> -->
   <build_depend>knowrob_motion_constraints</build_depend>
 
-  <run_depend>mod_execution_trace</run_depend>
+  <run_depend>knowrob_cram</run_depend>
+  <run_depend>knowrob_mongo</run_depend>
 <!--   <run_depend>iai_maps</run_depend> -->
   <run_depend>json_prolog</run_depend>
   <run_depend>knowrob_vis</run_depend>
   <run_depend>mjpeg_server</run_depend>
   <run_depend>rosbridge_server</run_depend>
 <!--   <run_depend>beliefstate</run_depend> -->
-  <run_depend>mongodb_log</run_depend>
+<!--   <run_depend>mongodb_log</run_depend> -->
   <run_depend>knowrob_motion_constraints</run_depend>
 
 </package>
