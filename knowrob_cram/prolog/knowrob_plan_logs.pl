@@ -162,9 +162,9 @@ task_class(Task, Class) :-
 %  @param Task Identifier of given Task
 %  @param Subtask Identifier of given Subtask
 subtask(Task, Subtask) :-
+    rdf_has(Task, knowrob:'subAction', Subtask),
     task(Task),
-    task(Subtask),
-    rdf_has(Task, knowrob:'subAction', Subtask).
+    task(Subtask).
 
 
 %% subtask_all(?Task, ?Subtask) is nondet.
@@ -190,8 +190,8 @@ subtask_all(Task, Subtask) :-
 %  @param Task Identifier of given Task
 %  @param Start Identifier of given Start
 task_start(Task, Start) :-
-    task(Task),
-    rdf_has(Task, knowrob:'startTime', Start).
+    rdf_has(Task, knowrob:'startTime', Start),
+    task(Task).
 
 
 %% task_end(?Task, ?End) is nondet.
@@ -201,8 +201,8 @@ task_start(Task, Start) :-
 %  @param Task Identifier of given Task
 %  @param End Identifier of given End
 task_end(Task, End) :-
-    task(Task),
-    rdf_has(Task, knowrob:'endTime', End).
+    rdf_has(Task, knowrob:'endTime', End),
+    task(Task).
 
 duration_of_a_task(T, Dur) :-
     task(T),
@@ -444,10 +444,17 @@ get_designator(Designator, Loc) :-
 add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
     add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, 0.2, 0.2, 0.2).
 
-add_robot_as_basic_semantic_instance(Matrix, Time, ObjInstance) :-
-    add_object_to_semantic_map(Time, Matrix, Time, ObjInstance, 0.5, 0.2, 0.2).
+add_robot_as_basic_semantic_instance(PoseList, Time, ObjInstance) :-
+    add_object_to_semantic_map(Time, PoseList, Time, ObjInstance, 0.5, 0.2, 0.2).
+
+
+add_object_to_semantic_map(Obj, PoseList, Time, ObjInstance, H, W, D) :-
+    is_list(PoseList),
+    create_pose(PoseList, Matrix),
+    add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D).
 
 add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
+    atom(Matrix),
     rdf_split_url(_, ObjLocal, Obj),
     atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
     rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
@@ -461,8 +468,7 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
 
     set_object_perception(ObjInstance, Perception).
-
-
+    
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
