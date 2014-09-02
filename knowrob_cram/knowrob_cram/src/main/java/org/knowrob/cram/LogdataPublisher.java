@@ -47,14 +47,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.DataBufferByte;
-import java.awt.Graphics2D;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBufferOutputStream;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.knowrob.interfaces.mongo.*;
 import org.knowrob.interfaces.mongo.types.*;
-import org.ros.internal.message.MessageBuffers;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
