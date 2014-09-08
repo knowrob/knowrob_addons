@@ -29,7 +29,7 @@ public class GermanDeliQuery extends SimpleTopLevelQuery {
 
 			dialog_module.setVoice("dfki-prudence");
 			
-			String res = "A = 'http://ias.cs.tum.edu/kb/knowrob.owl#MakePancakesUsingPancakeMix'.\n";
+			String res = "A = 'http://knowrob.org/kb/knowrob.owl#MakePancakesUsingPancakeMix'.\n";
 			
 			dialog_module.ehow_window.setVisible( true );
 			
@@ -50,7 +50,7 @@ public class GermanDeliQuery extends SimpleTopLevelQuery {
 			dialog_module.setVoice("dfki-prudence");
 			
 			
-			String query = "latest_perception_of_type('http://ias.cs.tum.edu/kb/germandeli.owl#GermanDeliObject', A), " +
+			String query = "latest_perception_of_type('http://knowrob.org/kb/germandeli.owl#GermanDeliObject', A), " +
 					"rdf_has(A, knowrob:objectActedOn, Obj), rdf_has(Obj, rdf:type, ObjT)";
 	        CommunicationVisApplet.visualizeCommunication(query, null, "", "rosie.png");
 	        
@@ -100,10 +100,10 @@ public class GermanDeliQuery extends SimpleTopLevelQuery {
 			// visualize communication
 			
 			String obj = "Mondamin_Pfannkuchen_Teig_Mix_200g_Pancake_Mix";
-			String query = "owl_direct_subclass_of('http://ias.cs.tum.edu/kb/germandeli.owl#"+obj+"', R)," +
+			String query = "owl_direct_subclass_of('http://knowrob.org/kb/germandeli.owl#"+obj+"', R)," +
 					"owl_has(R, owl:onProperty, germandeli:productID)," +
 					"owl_has(R, owl:hasValue, literal(type(xsd:string, ID)))";
-			String printquery = "owl_direct_subclass_of(http://ias.cs.tum.edu/kb/germandeli.owl#"+obj+", R), \n" +
+			String printquery = "owl_direct_subclass_of(http://knowrob.org/kb/germandeli.owl#"+obj+", R), \n" +
 			"owl_has(R, owl:onProperty, germandeli:productID), \n" +
 			"owl_has(R, owl:hasValue, literal(type(xsd:string, ID))).";
 	        CommunicationVisApplet.visualizeCommunication(printquery, null, null, "rosie.png");
@@ -139,10 +139,10 @@ public class GermanDeliQuery extends SimpleTopLevelQuery {
 			// visualize communication
 			
 			String obj = "Mondamin_Pfannkuchen_Teig_Mix_200g_Pancake_Mix";
-			String query = "owl_direct_subclass_of('http://ias.cs.tum.edu/kb/germandeli.owl#"+obj+"', R)," +
+			String query = "owl_direct_subclass_of('http://knowrob.org/kb/germandeli.owl#"+obj+"', R)," +
 			"owl_has(R, owl:onProperty, germandeli:productID)," +
 			"owl_has(R, owl:hasValue, literal(type(xsd:string, ID)))";
-			String printquery = "owl_direct_subclass_of(http://ias.cs.tum.edu/kb/germandeli.owl#"+obj+", R), \n" +
+			String printquery = "owl_direct_subclass_of(http://knowrob.org/kb/germandeli.owl#"+obj+", R), \n" +
 			"owl_has(R, owl:onProperty, germandeli:productID), \n" +
 			"owl_has(R, owl:hasValue, literal(type(xsd:string, ID))).";
 	        CommunicationVisApplet.visualizeCommunication(printquery, null, null, "rosie.png");

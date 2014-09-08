@@ -51,7 +51,7 @@ public class MotionTask {
 	//
 
 	// Base IRI for KnowRob ontology
-	public final static String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
+	public final static String KNOWROB = "http://knowrob.org/kb/knowrob.owl#";
 
 	// Base IRI for OWL ontology
 	public final static String OWL = "http://www.w3.org/2002/07/owl#";
@@ -60,10 +60,10 @@ public class MotionTask {
 	public final static String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
 
 	// Base IRI for motion constraints ontology	
-	public final static String CONSTR = "http://ias.cs.tum.edu/kb/motion-constraints.owl#";
+	public final static String CONSTR = "http://knowrob.org/kb/motion-constraints.owl#";
 
 	// Base IRI for new ontology
-	public final static String MOTION = "http://ias.cs.tum.edu/kb/motion-def.owl#";
+	public final static String MOTION = "http://knowrob.org/kb/motion-def.owl#";
 
 
 	// Prefix manager

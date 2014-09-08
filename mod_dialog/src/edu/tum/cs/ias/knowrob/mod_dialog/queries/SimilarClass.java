@@ -22,7 +22,7 @@ public class SimilarClass extends SimpleTopLevelQuery {
 			q=matcher.group(2);
 			dialog_module.setCurrentObject(DialogModule.toProlog(q));
 			
-//			String query = "comp_similarity:rdf_most_similar('http://ias.cs.tum.edu/kb/knowrob.owl#Cup', 'http://ias.cs.tum.edu/kb/knowrob.owl#HumanScaleObject', 4, NMostSim)";
+//			String query = "comp_similarity:rdf_most_similar('http://knowrob.org/kb/knowrob.owl#Cup', 'http://knowrob.org/kb/knowrob.owl#HumanScaleObject', 4, NMostSim)";
 			String query = "comp_similarity:rdf_most_similar("+DialogModule.toProlog(q)+", knowrob:'HumanScaleObject', 4, NMostSim)";
 
 			HashMap<String, Vector<PrologValue>> res = DialogModule.executeJSONPrologQuery(query);

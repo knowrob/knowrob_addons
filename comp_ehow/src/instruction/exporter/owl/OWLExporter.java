@@ -245,7 +245,7 @@ public class OWLExporter {
 			Instruction title, String howtoName) throws InstructionException {
 
 		try {
-			OWLModel owlModel = ProtegeOWL.createJenaOWLModelFromURI("http://ias.cs.tum.edu/kb/ehow_input.owl");
+			OWLModel owlModel = ProtegeOWL.createJenaOWLModelFromURI("http://knowrob.org/kb/ehow_input.owl");
 
 			int actionCounter = 1;
 

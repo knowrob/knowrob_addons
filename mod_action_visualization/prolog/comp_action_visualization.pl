@@ -11,8 +11,8 @@
 :- use_module(library('thea/owl_parser')).
 
 
-:- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(execution_trace, 'http://ias.cs.tum.edu/kb/action_visulization.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(execution_trace, 'http://knowrob.org/kb/action_visulization.owl#', [keep(true)]).
 
 
 ctask(Start, End) :-

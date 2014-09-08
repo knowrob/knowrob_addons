@@ -70,10 +70,10 @@ class ITasCFeature():
         self.pos = pos
         self.dir = dir
 
-concept_map = {'plate.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#DinnerPlate'",
-               'spatula.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#Spatula'",
-               'pancake.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#Pancake'",
-               'mixer.obj': "'http://ias.cs.tum.edu/kb/knowrob.owl#PancakeMaker'"}
+concept_map = {'plate.obj': "'http://knowrob.org/kb/knowrob.owl#DinnerPlate'",
+               'spatula.obj': "'http://knowrob.org/kb/knowrob.owl#Spatula'",
+               'pancake.obj': "'http://knowrob.org/kb/knowrob.owl#Pancake'",
+               'mixer.obj': "'http://knowrob.org/kb/knowrob.owl#PancakeMaker'"}
 
 if __name__ == '__main__':
     # extract frames

@@ -12,5 +12,5 @@
 % parse OWL files, register name spaces
 
 :- owl_parser:owl_parse('package://mod_self_info/owl/self_info.owl', false, false, true).
-:- rdf_db:rdf_register_ns(self_info, 'http://ias.cs.tum.edu/kb/self_info.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(self_info, 'http://knowrob.org/kb/self_info.owl#', [keep(true)]).
 

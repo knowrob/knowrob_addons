@@ -4,20 +4,20 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
-    <!ENTITY cad "http://ias.cs.tum.edu/kb/knowrob-cad.owl#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY cad "http://knowrob.org/kb/knowrob-cad.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
 ]>
 
-<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
-     xml:base="http://ias.cs.tum.edu/kb/knowrob-cad.owl"
+<rdf:RDF xmlns="http://knowrob.org/kb/knowrob-cad.owl#"
+     xml:base="http://knowrob.org/kb/knowrob-cad.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:knowrob-cad="http://ias.cs.tum.edu/kb/knowrob-cad.owl#"
-     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+     xmlns:knowrob-cad="http://knowrob.org/kb/knowrob-cad.owl#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about="&cad;">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
@@ -46,43 +46,43 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#longitudinalDirection -->
+    <!-- http://knowrob.org/kb/knowrob.owl#longitudinalDirection -->
 
     <owl:ObjectProperty rdf:about="&knowrob;longitudinalDirection"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#normalDirection -->
+    <!-- http://knowrob.org/kb/knowrob.owl#normalDirection -->
 
     <owl:ObjectProperty rdf:about="&knowrob;normalDirection"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#objectLongSide -->
+    <!-- http://knowrob.org/kb/knowrob.owl#objectLongSide -->
 
     <owl:ObjectProperty rdf:about="&knowrob;objectLongSide"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#objectShortSide -->
+    <!-- http://knowrob.org/kb/knowrob.owl#objectShortSide -->
 
     <owl:ObjectProperty rdf:about="&knowrob;objectShortSide"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#orientation -->
+    <!-- http://knowrob.org/kb/knowrob.owl#orientation -->
 
     <owl:ObjectProperty rdf:about="&knowrob;orientation"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#properPhysicalParts -->
+    <!-- http://knowrob.org/kb/knowrob.owl#properPhysicalParts -->
 
     <owl:ObjectProperty rdf:about="&knowrob;properPhysicalParts"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#relativeTo -->
+    <!-- http://knowrob.org/kb/knowrob.owl#relativeTo -->
 
     <owl:ObjectProperty rdf:about="&knowrob;relativeTo"/>
     
@@ -99,157 +99,157 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#areaCoverage -->
+    <!-- http://knowrob.org/kb/knowrob.owl#areaCoverage -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;areaCoverage"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#areaOfObject -->
+    <!-- http://knowrob.org/kb/knowrob.owl#areaOfObject -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;areaOfObject"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#lengthOfObject -->
+    <!-- http://knowrob.org/kb/knowrob.owl#lengthOfObject -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;lengthOfObject"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m00 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m00 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m00"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m01 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m01 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m01"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m02 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m02 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m02"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m03 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m03 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m03"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m10 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m10 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m10"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m11 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m11 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m11"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m12 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m12 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m12"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m13 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m13 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m13"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m20 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m20 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m20"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m21 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m21 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m21"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m22 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m22 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m22"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m23 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m23 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m23"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m30 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m30 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m30"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m31 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m31 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m31"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m32 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m32 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m32"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#m33 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#m33 -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;m33"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#maxRadius -->
+    <!-- http://knowrob.org/kb/knowrob.owl#maxRadius -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;maxRadius"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#minRadius -->
+    <!-- http://knowrob.org/kb/knowrob.owl#minRadius -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;minRadius"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#radius -->
+    <!-- http://knowrob.org/kb/knowrob.owl#radius -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;radius"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#vectorX -->
+    <!-- http://knowrob.org/kb/knowrob.owl#vectorX -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;vectorX"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#vectorY -->
+    <!-- http://knowrob.org/kb/knowrob.owl#vectorY -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;vectorY"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#vectorZ -->
+    <!-- http://knowrob.org/kb/knowrob.owl#vectorZ -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;vectorZ"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#volumeOfObject -->
+    <!-- http://knowrob.org/kb/knowrob.owl#volumeOfObject -->
 
     <owl:DatatypeProperty rdf:about="&knowrob;volumeOfObject"/>
     
@@ -266,55 +266,55 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#ConcaveTangibleObject -->
+    <!-- http://knowrob.org/kb/knowrob.owl#ConcaveTangibleObject -->
 
     <owl:Class rdf:about="&knowrob;ConcaveTangibleObject"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone -->
 
     <owl:Class rdf:about="&knowrob;Cone"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Container -->
 
     <owl:Class rdf:about="&knowrob;Container"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface -->
 
     <owl:Class rdf:about="&knowrob;FlatPhysicalSurface"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle -->
 
     <owl:Class rdf:about="&knowrob;Handle"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#HumanScaleObject -->
+    <!-- http://knowrob.org/kb/knowrob.owl#HumanScaleObject -->
 
     <owl:Class rdf:about="&knowrob;HumanScaleObject"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D -->
 
     <owl:Class rdf:about="&knowrob;RotationMatrix3D"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere -->
 
     <owl:Class rdf:about="&knowrob;Sphere"/>
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector -->
 
     <owl:Class rdf:about="&knowrob;Vector"/>
     
@@ -331,7 +331,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob-cad.owl#pancake-maker_zvH1ax5o -->
+    <!-- http://knowrob.org/kb/knowrob-cad.owl#pancake-maker_zvH1ax5o -->
 
     <owl:NamedIndividual rdf:about="&cad;pancake-maker_zvH1ax5o">
         <rdf:type rdf:resource="&knowrob;PancakeMaker"/>
@@ -378,7 +378,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_16EdNYTo -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_16EdNYTo -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_16EdNYTo">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -396,7 +396,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_9beVh3mq -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_9beVh3mq -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_9beVh3mq">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -414,7 +414,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_G27hHXn9 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_G27hHXn9 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_G27hHXn9">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -432,7 +432,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_IZFBffR2 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_IZFBffR2 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_IZFBffR2">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -450,7 +450,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_JGWQIBDl -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_JGWQIBDl -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_JGWQIBDl">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -468,7 +468,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_LP0KkHYh -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_LP0KkHYh -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_LP0KkHYh">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -486,7 +486,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_LZTwaKV6 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_LZTwaKV6 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_LZTwaKV6">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -504,7 +504,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_SREwybMl -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_SREwybMl -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_SREwybMl">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -522,7 +522,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_Sk72SVWR -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_Sk72SVWR -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_Sk72SVWR">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -540,7 +540,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_fwtq1boc -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_fwtq1boc -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_fwtq1boc">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -558,7 +558,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_kMB2pQH1 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_kMB2pQH1 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_kMB2pQH1">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -576,7 +576,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_nR4IQGFO -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_nR4IQGFO -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_nR4IQGFO">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -594,7 +594,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_vSzUIKSk -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_vSzUIKSk -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_vSzUIKSk">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -612,7 +612,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_wokw8swq -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_wokw8swq -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_wokw8swq">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -630,7 +630,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Cone_zA1o5fUr -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Cone_zA1o5fUr -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Cone_zA1o5fUr">
         <rdf:type rdf:resource="&knowrob;Cone"/>
@@ -648,7 +648,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container_0SV23MKY -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Container_0SV23MKY -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Container_0SV23MKY">
         <rdf:type rdf:resource="&knowrob;Container"/>
@@ -659,7 +659,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container_YNW7JQPE -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Container_YNW7JQPE -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Container_YNW7JQPE">
         <rdf:type rdf:resource="&knowrob;Container"/>
@@ -669,7 +669,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Container_ZolYhE84 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Container_ZolYhE84 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Container_ZolYhE84">
         <rdf:type rdf:resource="&knowrob;Container"/>
@@ -680,7 +680,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_2yG5D3xM -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_2yG5D3xM -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_2yG5D3xM">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -695,7 +695,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_94Dlbitp -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_94Dlbitp -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_94Dlbitp">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -710,7 +710,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_AEFloDeh -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_AEFloDeh -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_AEFloDeh">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -725,7 +725,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_GzMX4wgq -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_GzMX4wgq -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_GzMX4wgq">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -740,7 +740,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_OlGzxqFK -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_OlGzxqFK -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_OlGzxqFK">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -755,7 +755,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_mSP0rGsL -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_mSP0rGsL -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_mSP0rGsL">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -770,7 +770,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_nylXj3p9 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_nylXj3p9 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_nylXj3p9">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -785,7 +785,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_o0LPTPKx -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_o0LPTPKx -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_o0LPTPKx">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -800,7 +800,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface_xMT14a34 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface_xMT14a34 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;FlatPhysicalSurface_xMT14a34">
         <rdf:type rdf:resource="&knowrob;FlatPhysicalSurface"/>
@@ -815,7 +815,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_L8u5ivM7 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle_L8u5ivM7 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_L8u5ivM7">
         <rdf:type rdf:resource="&knowrob;Handle"/>
@@ -825,7 +825,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_YfpD4zZa -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle_YfpD4zZa -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_YfpD4zZa">
         <rdf:type rdf:resource="&knowrob;Handle"/>
@@ -835,7 +835,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_aRKJbnkN -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle_aRKJbnkN -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_aRKJbnkN">
         <rdf:type rdf:resource="&knowrob;Handle"/>
@@ -845,7 +845,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_ikVz8Svq -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle_ikVz8Svq -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_ikVz8Svq">
         <rdf:type rdf:resource="&knowrob;Handle"/>
@@ -855,7 +855,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Handle_usQ9UHIu -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Handle_usQ9UHIu -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Handle_usQ9UHIu">
         <rdf:type rdf:resource="&knowrob;Handle"/>
@@ -865,7 +865,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_4rM2fZTT -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_4rM2fZTT -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_4rM2fZTT">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -890,7 +890,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_5xFo0woO -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_5xFo0woO -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_5xFo0woO">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -915,7 +915,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_7GQiOSJK -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_7GQiOSJK -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_7GQiOSJK">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -940,7 +940,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_7OrSVkAK -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_7OrSVkAK -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_7OrSVkAK">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -965,7 +965,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_7hgamo28 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_7hgamo28 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_7hgamo28">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -990,7 +990,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_BXNrsVE7 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_BXNrsVE7 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_BXNrsVE7">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1015,7 +1015,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_EbZUGQwL -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_EbZUGQwL -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_EbZUGQwL">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1040,7 +1040,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_HLQT7Ffe -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_HLQT7Ffe -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_HLQT7Ffe">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1065,7 +1065,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_HVAFTKb4 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_HVAFTKb4 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_HVAFTKb4">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1090,7 +1090,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_Ih3Vb6FS -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_Ih3Vb6FS -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_Ih3Vb6FS">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1115,7 +1115,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_JMPeD06e -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_JMPeD06e -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_JMPeD06e">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1140,7 +1140,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_JdujlStP -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_JdujlStP -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_JdujlStP">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1165,7 +1165,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_MAjmKydu -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_MAjmKydu -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_MAjmKydu">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1190,7 +1190,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_ONlFh03j -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_ONlFh03j -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_ONlFh03j">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1215,7 +1215,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_QoSDF89U -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_QoSDF89U -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_QoSDF89U">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1240,7 +1240,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_S2SmMsj5 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_S2SmMsj5 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_S2SmMsj5">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1265,7 +1265,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_Tb7MNxfa -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_Tb7MNxfa -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_Tb7MNxfa">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1290,7 +1290,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_ZaR2gmN8 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_ZaR2gmN8 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_ZaR2gmN8">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1315,7 +1315,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_asazLbEa -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_asazLbEa -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_asazLbEa">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1340,7 +1340,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_b6BrkZWz -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_b6BrkZWz -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_b6BrkZWz">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1365,7 +1365,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_ckMA2q1b -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_ckMA2q1b -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_ckMA2q1b">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1390,7 +1390,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_cwfx6Jk8 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_cwfx6Jk8 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_cwfx6Jk8">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1415,7 +1415,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_dwAia2AZ -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_dwAia2AZ -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_dwAia2AZ">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1440,7 +1440,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_eBGgvziX -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_eBGgvziX -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_eBGgvziX">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1465,7 +1465,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_eKr1jEcM -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_eKr1jEcM -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_eKr1jEcM">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1490,7 +1490,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_gTSWXHzH -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_gTSWXHzH -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_gTSWXHzH">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1515,7 +1515,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_hJvJzOb3 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_hJvJzOb3 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_hJvJzOb3">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1540,7 +1540,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_hOwibEIL -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_hOwibEIL -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_hOwibEIL">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1565,7 +1565,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_jkimfVLi -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_jkimfVLi -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_jkimfVLi">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1590,7 +1590,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_k8sYDO1v -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_k8sYDO1v -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_k8sYDO1v">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1615,7 +1615,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_o8BDcwHI -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_o8BDcwHI -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_o8BDcwHI">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1640,7 +1640,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_oV0G0elL -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_oV0G0elL -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_oV0G0elL">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1665,7 +1665,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_qAg4tKTi -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_qAg4tKTi -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_qAg4tKTi">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1690,7 +1690,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_qc4mDnSx -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_qc4mDnSx -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_qc4mDnSx">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1715,7 +1715,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D_s4iUkMxJ -->
+    <!-- http://knowrob.org/kb/knowrob.owl#RotationMatrix3D_s4iUkMxJ -->
 
     <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_s4iUkMxJ">
         <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
@@ -1740,7 +1740,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_7u7yZxOT -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere_7u7yZxOT -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_7u7yZxOT">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
@@ -1753,7 +1753,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_B8USRQ1L -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere_B8USRQ1L -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_B8USRQ1L">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
@@ -1766,7 +1766,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_DqOijYhx -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere_DqOijYhx -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_DqOijYhx">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
@@ -1780,7 +1780,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_KiBhHq0N -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere_KiBhHq0N -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_KiBhHq0N">
         <rdf:type rdf:resource="&knowrob;ConcaveTangibleObject"/>
@@ -1794,7 +1794,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_i8rE7k0t -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere_i8rE7k0t -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_i8rE7k0t">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
@@ -1807,7 +1807,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Sphere_nHiY1BJZ -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Sphere_nHiY1BJZ -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Sphere_nHiY1BJZ">
         <rdf:type rdf:resource="&knowrob;Sphere"/>
@@ -1820,7 +1820,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_0or52uo3 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_0or52uo3 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_0or52uo3">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1831,7 +1831,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_1RagJIxr -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_1RagJIxr -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_1RagJIxr">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1842,7 +1842,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_1yrve3kK -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_1yrve3kK -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_1yrve3kK">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1853,7 +1853,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_60iP9lTg -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_60iP9lTg -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_60iP9lTg">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1864,7 +1864,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_7SkfPS6G -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_7SkfPS6G -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_7SkfPS6G">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1875,7 +1875,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_8RwOeSiI -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_8RwOeSiI -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_8RwOeSiI">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1886,7 +1886,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_8r1WctXX -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_8r1WctXX -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_8r1WctXX">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1897,7 +1897,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_AGfw78Sc -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_AGfw78Sc -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_AGfw78Sc">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1908,7 +1908,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_BEs8u8Qf -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_BEs8u8Qf -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_BEs8u8Qf">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1919,7 +1919,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_BnxLzrov -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_BnxLzrov -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_BnxLzrov">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1930,7 +1930,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_D43zsNmS -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_D43zsNmS -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_D43zsNmS">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1941,7 +1941,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_DIbSfM6m -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_DIbSfM6m -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_DIbSfM6m">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1952,7 +1952,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Fbdt8QJN -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_Fbdt8QJN -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_Fbdt8QJN">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1963,7 +1963,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_GSuIAcw6 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_GSuIAcw6 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_GSuIAcw6">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1974,7 +1974,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_HGB6Ahnt -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_HGB6Ahnt -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_HGB6Ahnt">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1985,7 +1985,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Iwd5SwHv -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_Iwd5SwHv -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_Iwd5SwHv">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -1996,7 +1996,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_KL3O20jj -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_KL3O20jj -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_KL3O20jj">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2007,7 +2007,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Ksl2ut6B -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_Ksl2ut6B -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_Ksl2ut6B">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2018,7 +2018,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_LE2xWLSA -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_LE2xWLSA -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_LE2xWLSA">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2029,7 +2029,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Lbnrb3f2 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_Lbnrb3f2 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_Lbnrb3f2">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2040,7 +2040,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_MK40yD0j -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_MK40yD0j -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_MK40yD0j">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2051,7 +2051,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_MdIejnvR -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_MdIejnvR -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_MdIejnvR">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2062,7 +2062,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_NntZ9qrI -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_NntZ9qrI -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_NntZ9qrI">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2073,7 +2073,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_PEoFAAJs -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_PEoFAAJs -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_PEoFAAJs">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2084,7 +2084,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_SwAYVdgN -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_SwAYVdgN -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_SwAYVdgN">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2095,7 +2095,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_TSO9W41z -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_TSO9W41z -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_TSO9W41z">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2106,7 +2106,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_Vm382Sn2 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_Vm382Sn2 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_Vm382Sn2">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2117,7 +2117,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_WYBbiLKe -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_WYBbiLKe -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_WYBbiLKe">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2128,7 +2128,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_XE8Zc6KB -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_XE8Zc6KB -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_XE8Zc6KB">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2139,7 +2139,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_XMIxiQBS -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_XMIxiQBS -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_XMIxiQBS">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2150,7 +2150,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_YEjyB6XD -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_YEjyB6XD -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_YEjyB6XD">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2161,7 +2161,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_ZHowWDDB -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_ZHowWDDB -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_ZHowWDDB">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2172,7 +2172,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_ZSYHlIkn -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_ZSYHlIkn -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_ZSYHlIkn">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2183,7 +2183,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_aLRmgPSR -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_aLRmgPSR -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_aLRmgPSR">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2194,7 +2194,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_bXXTbf6y -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_bXXTbf6y -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_bXXTbf6y">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2205,7 +2205,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_gZgKsfOy -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_gZgKsfOy -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_gZgKsfOy">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2216,7 +2216,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_gqXQcYc9 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_gqXQcYc9 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_gqXQcYc9">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2227,7 +2227,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_gwOd8wE3 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_gwOd8wE3 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_gwOd8wE3">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2238,7 +2238,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_h8f4GkWr -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_h8f4GkWr -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_h8f4GkWr">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2249,7 +2249,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_jYuDpJQS -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_jYuDpJQS -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_jYuDpJQS">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2260,7 +2260,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_l2Ma0hLS -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_l2Ma0hLS -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_l2Ma0hLS">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2271,7 +2271,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_lj0u56xu -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_lj0u56xu -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_lj0u56xu">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2282,7 +2282,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_pdQLcmpv -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_pdQLcmpv -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_pdQLcmpv">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2293,7 +2293,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_qlN7qszm -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_qlN7qszm -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_qlN7qszm">
         <rdf:type rdf:resource="&knowrob;Vector"/>
@@ -2304,7 +2304,7 @@
     
 
 
-    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector_sGwduAB5 -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Vector_sGwduAB5 -->
 
     <owl:NamedIndividual rdf:about="&knowrob;Vector_sGwduAB5">
         <rdf:type rdf:resource="&knowrob;Vector"/>

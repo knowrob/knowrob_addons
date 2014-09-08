@@ -11,8 +11,8 @@
 :- use_module(library('thea/owl_parser')).
 
 
-:- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(self_info, 'http://ias.cs.tum.edu/kb/self_info.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(self_info, 'http://knowrob.org/kb/self_info.owl#', [keep(true)]).
 
 
 
@@ -48,7 +48,7 @@ clocalization(Robot, Loc) :-
 
     atomic_list_concat(['rotMat3D_',M00,'_',M01,'_',M02,'_',M03,'_',M10,'_',M11,'_',M12,'_',M13,'_',M20,'_',M21,'_',M22,'_',M23,'_',M30,'_',M31,'_',M32,'_',M33], LocIdentifier),
 
-    atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocIdentifier, Loc),
+    atom_concat('http://knowrob.org/kb/knowrob.owl#', LocIdentifier, Loc),
     rdf_assert(Loc, rdf:type, knowrob:'RotationMatrix3D'),
 
     ((rdf_has(pr2, self_info:latestLocalizationInstance, Prev)) -> (

@@ -229,32 +229,32 @@ bayes_probability_given(Type, Obj, Subj, P):-
 
 % locations db
 % :-rdf_assert(entry1, rdf:type,knowrob:'OmicsLocations',omics).
-% :-rdf_assert(entry1,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Cup',omics).
-% :-rdf_assert(entry1,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#Kitchen',omics).
+% :-rdf_assert(entry1,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Cup',omics).
+% :-rdf_assert(entry1,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#Kitchen',omics).
 
-% :-rdf_assert(entry2,rdf:type,'http://ias.cs.tum.edu/kb/knowrob.owl#OmicsLocations',omics).
-% :-rdf_assert(entry2,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Cup',omics).
-% :-rdf_assert(entry2,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#Kitchen',omics).
+% :-rdf_assert(entry2,rdf:type,'http://knowrob.org/kb/knowrob.owl#OmicsLocations',omics).
+% :-rdf_assert(entry2,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Cup',omics).
+% :-rdf_assert(entry2,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#Kitchen',omics).
 
-% :-rdf_assert(entry3,rdf:type,'http://ias.cs.tum.edu/kb/knowrob.owl#OmicsLocations',omics).
-% :-rdf_assert(entry3,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Sandwich',omics).
-% :-rdf_assert(entry3,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#Kitchen',omics).
+% :-rdf_assert(entry3,rdf:type,'http://knowrob.org/kb/knowrob.owl#OmicsLocations',omics).
+% :-rdf_assert(entry3,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Sandwich',omics).
+% :-rdf_assert(entry3,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#Kitchen',omics).
 
-% :-rdf_assert(entry4,rdf:type,'http://ias.cs.tum.edu/kb/knowrob.owl#OmicsLocations',omics).
-% :-rdf_assert(entry4,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Sandwich',omics).
-% :-rdf_assert(entry4,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#Restaurant',omics).
+% :-rdf_assert(entry4,rdf:type,'http://knowrob.org/kb/knowrob.owl#OmicsLocations',omics).
+% :-rdf_assert(entry4,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Sandwich',omics).
+% :-rdf_assert(entry4,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#Restaurant',omics).
 
-% :-rdf_assert(entry5,rdf:type,'http://ias.cs.tum.edu/kb/knowrob.owl#OmicsLocations',omics).
-% :-rdf_assert(entry5,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Sandwich',omics).
-% :-rdf_assert(entry5,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#Restaurant',omics).
+% :-rdf_assert(entry5,rdf:type,'http://knowrob.org/kb/knowrob.owl#OmicsLocations',omics).
+% :-rdf_assert(entry5,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Sandwich',omics).
+% :-rdf_assert(entry5,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#Restaurant',omics).
 
-% :-rdf_assert(entry6,rdf:type,'http://ias.cs.tum.edu/kb/knowrob.owl#OmicsLocations',omics).
-% :-rdf_assert(entry6,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Plate',omics).
-% :-rdf_assert(entry6,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#Restaurant',omics).
+% :-rdf_assert(entry6,rdf:type,'http://knowrob.org/kb/knowrob.owl#OmicsLocations',omics).
+% :-rdf_assert(entry6,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Plate',omics).
+% :-rdf_assert(entry6,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#Restaurant',omics).
 
-% :-rdf_assert(entry7,rdf:type,'http://ias.cs.tum.edu/kb/knowrob.owl#OmicsLocations',omics).
-% :-rdf_assert(entry7,'http://ias.cs.tum.edu/kb/knowrob.owl#subject','http://ias.cs.tum.edu/kb/knowrob.owl#Saucer',omics).
-% :-rdf_assert(entry7,'http://ias.cs.tum.edu/kb/knowrob.owl#object','http://ias.cs.tum.edu/kb/knowrob.owl#DiningRoom',omics).
+% :-rdf_assert(entry7,rdf:type,'http://knowrob.org/kb/knowrob.owl#OmicsLocations',omics).
+% :-rdf_assert(entry7,'http://knowrob.org/kb/knowrob.owl#subject','http://knowrob.org/kb/knowrob.owl#Saucer',omics).
+% :-rdf_assert(entry7,'http://knowrob.org/kb/knowrob.owl#object','http://knowrob.org/kb/knowrob.owl#DiningRoom',omics).
 
 
 

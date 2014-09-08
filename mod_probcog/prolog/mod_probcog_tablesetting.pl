@@ -180,10 +180,10 @@ timeT(M, T) :-
 %
 % @param Obj  Objects required at this place
 %
-:- assert(table_to_complete('http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable0')).
+:- assert(table_to_complete('http://knowrob.org/kb/knowrob.owl#KitchenTable0')).
 
 required_objects(Instances) :-
-  required_objects('http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable0', Instances).
+  required_objects('http://knowrob.org/kb/knowrob.owl#KitchenTable0', Instances).
 
 required_objects(Table, Instances) :-
 
@@ -216,9 +216,9 @@ create_instances([], _, []).
 create_instance([Type|Prob], Time, Inst) :-
 
   % create inference object
-  rdf_instance_from_class('http://ias.cs.tum.edu/kb/knowrob.owl#TableSettingModelInference', Perception),
+  rdf_instance_from_class('http://knowrob.org/kb/knowrob.owl#TableSettingModelInference', Perception),
 
-  atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#timepoint_', Time, TimePoint),
+  atom_concat('http://knowrob.org/kb/knowrob.owl#timepoint_', Time, TimePoint),
   rdf_assert(TimePoint, rdf:type, knowrob:'TimePoint'),
   rdf_assert(Perception, knowrob:startTime, TimePoint),
 
@@ -262,32 +262,32 @@ next_default_pose(Pose):-
   % retrieve global index
   default_pose_nr(Index),
 
-  Poses = ['http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.75_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.55_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.35_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.15_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-0.95_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.75_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.55_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.35_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.15_0_0_1_1.00_0_0_0_1',
-           'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-0.95_0_0_1_1.00_0_0_0_1'],
+  Poses = ['http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.75_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.55_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.35_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.15_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-0.95_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.75_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.55_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.35_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-1.15_0_0_1_1.00_0_0_0_1',
+           'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.9_0_1_0_-0.95_0_0_1_1.00_0_0_0_1'],
 
-%   Poses = ['http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-0.95_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.15_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.35_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.55_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.75_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-0.95_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.15_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.35_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.55_0_0_1_0.90_0_0_0_1',
-%            'http://ias.cs.tum.edu/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.75_0_0_1_0.90_0_0_0_1'],
+%   Poses = ['http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-0.95_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.15_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.35_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.55_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.5_0_1_0_-1.75_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-0.95_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.15_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.35_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.55_0_0_1_0.90_0_0_0_1',
+%            'http://knowrob.org/kb/knowrob.owl#rotMat3D_1_0_0_2.7_0_1_0_-1.75_0_0_1_0.90_0_0_0_1'],
 
 
   nth0(Index, Poses, Pose),
 
-  rdf_assert(Pose, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#RotationMatrix3D'),
+  rdf_assert(Pose, rdf:type, 'http://knowrob.org/kb/knowrob.owl#RotationMatrix3D'),
 
   % update index
   retract(default_pose_nr(_)),

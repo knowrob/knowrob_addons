@@ -27,19 +27,19 @@
 :- use_module(library(knowrob_motion_constraints)).
 
 % namespace for general motion constraint ontology
-:- rdf_db:rdf_register_ns(constr, 'http://ias.cs.tum.edu/kb/motion-constraints.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(constr, 'http://knowrob.org/kb/motion-constraints.owl#', [keep(true)]).
 
 % pancake making task definition
 :- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pancake-making-constr.owl').
-:- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(pancake_constr, 'http://knowrob.org/kb/pancake-making-constr.owl#', [keep(true)]).
 
 % pouring task definition
 :- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pouring.owl').
-:- rdf_db:rdf_register_ns(motion, 'http://ias.cs.tum.edu/kb/motion-def.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(motion, 'http://knowrob.org/kb/motion-def.owl#', [keep(true)]).
 
 % object models
 :- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/spatula-features.owl').
-:- rdf_db:rdf_register_ns(spatula, 'http://ias.cs.tum.edu/kb/spatula-features.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(spatula, 'http://knowrob.org/kb/spatula-features.owl#', [keep(true)]).
 
 :- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/mondamin-pancake-mix.owl').
 :- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/pancake-maker.owl').

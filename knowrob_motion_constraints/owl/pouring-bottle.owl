@@ -3,27 +3,27 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY motion-def "http://ias.cs.tum.edu/kb/motion-def.owl#" >
+    <!ENTITY motion-def "http://knowrob.org/kb/motion-def.owl#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY motion-constraints "http://ias.cs.tum.edu/kb/motion-constraints.owl#" >
+    <!ENTITY motion-constraints "http://knowrob.org/kb/motion-constraints.owl#" >
 
-    <!ENTITY srdl2 "http://ias.cs.tum.edu/kb/srdl2.owl#" >
-    <!ENTITY srdl2-comp "http://ias.cs.tum.edu/kb/srdl2-comp.owl#" >
-    <!ENTITY srdl2-cap "http://ias.cs.tum.edu/kb/srdl2-cap.owl#" >
+    <!ENTITY srdl2 "http://knowrob.org/kb/srdl2.owl#" >
+    <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
+    <!ENTITY srdl2-cap "http://knowrob.org/kb/srdl2-cap.owl#" >
 ]>
 
-<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/motion-def.owl#"
-     xml:base="http://ias.cs.tum.edu/kb/motion-def.owl"
+<rdf:RDF xmlns="http://knowrob.org/kb/motion-def.owl#"
+     xml:base="http://knowrob.org/kb/motion-def.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:motion-def="http://ias.cs.tum.edu/kb/motion-def.owl#"
+     xmlns:motion-def="http://knowrob.org/kb/motion-def.owl#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:motion-constraints="http://ias.cs.tum.edu/kb/motion-constraints.owl#"
+     xmlns:motion-constraints="http://knowrob.org/kb/motion-constraints.owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
-    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/motion-def.owl">
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/motion-def.owl">
         <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/motion-constraints.owl"/>
         <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-cap.owl"/>
         <owl:imports rdf:resource="package://knowrob_motion_constraints/owl/hold-at-angle.owl"/>
@@ -47,7 +47,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#MoveAbovePanInherited -->
+    <!-- http://knowrob.org/kb/motion-def.owl#MoveAbovePanInherited -->
 
     <owl:Class rdf:about="&motion-def;MoveAbovePanInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectUpright"/>
@@ -68,7 +68,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#BottleInRightHand -->
+    <!-- http://knowrob.org/kb/motion-def.owl#BottleInRightHand -->
 
     <owl:Class rdf:about="&motion-def;BottleInRightHand">
         <owl:equivalentClass>
@@ -82,7 +82,7 @@
                                 <owl:intersectionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="&knowrob;DrinkingBottle"/>
                                     <owl:Restriction>
-                                        <owl:onProperty rdf:resource="http://ias.cs.tum.edu/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
+                                        <owl:onProperty rdf:resource="http://knowrob.org/kb/srdl2-comp.owl#predecessorInKinematicChain"/>
                                         <owl:someValuesFrom rdf:resource="&knowrob;RightArm"/>
                                     </owl:Restriction>
                                 </owl:intersectionOf>
@@ -96,7 +96,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething -->
+    <!-- http://knowrob.org/kb/motion-def.owl#PouringSomething -->
 
     <owl:Class rdf:about="&motion-def;PouringSomethingFromBottle">
         <rdfs:label rdf:datatype="&xsd;string">test pouring task</rdfs:label>
@@ -141,7 +141,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBackInherited -->
+    <!-- http://knowrob.org/kb/motion-def.owl#TiltBackInherited -->
 
     <owl:Class rdf:about="&motion-def;TiltBackInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectUpright"/>
@@ -162,7 +162,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottleInherited -->
+    <!-- http://knowrob.org/kb/motion-def.owl#TiltBottleInherited -->
 
     <owl:Class rdf:about="&motion-def;TiltBottleInherited">
         <rdfs:subClassOf rdf:resource="&motion-constraints;HoldObjectAtAngle"/>
@@ -194,13 +194,13 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#MoveAbovePanInherited -->
+    <!-- http://knowrob.org/kb/motion-def.owl#MoveAbovePanInherited -->
 
     <owl:NamedIndividual rdf:about="&motion-def;MoveAbovePanInherited"/>
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething01_h0t7dyZY -->
+    <!-- http://knowrob.org/kb/motion-def.owl#PouringSomething01_h0t7dyZY -->
 
     <owl:NamedIndividual rdf:about="&motion-def;PouringSomething01_h0t7dyZY">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
@@ -210,7 +210,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething02_3KERYjv8 -->
+    <!-- http://knowrob.org/kb/motion-def.owl#PouringSomething02_3KERYjv8 -->
 
     <owl:NamedIndividual rdf:about="&motion-def;PouringSomething02_3KERYjv8">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
@@ -220,7 +220,7 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#PouringSomething12_TE30rh36 -->
+    <!-- http://knowrob.org/kb/motion-def.owl#PouringSomething12_TE30rh36 -->
 
     <owl:NamedIndividual rdf:about="&motion-def;PouringSomething12_TE30rh36">
         <rdf:type rdf:resource="&knowrob;PartialOrdering-Strict"/>
@@ -230,13 +230,13 @@
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBackInherited -->
+    <!-- http://knowrob.org/kb/motion-def.owl#TiltBackInherited -->
 
     <owl:NamedIndividual rdf:about="&motion-def;TiltBackInherited"/>
 
 
 
-    <!-- http://ias.cs.tum.edu/kb/motion-def.owl#TiltBottleInherited -->
+    <!-- http://knowrob.org/kb/motion-def.owl#TiltBottleInherited -->
 
     <owl:NamedIndividual rdf:about="&motion-def;TiltBottleInherited"/>
 </rdf:RDF>

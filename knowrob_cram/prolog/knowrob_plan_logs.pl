@@ -59,8 +59,8 @@
 :- use_module(library('knowrob_mongo')).
 
 
-:- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(knowrob_cram, 'http://ias.cs.tum.edu/kb/knowrob_cram.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 
 % define holds as meta-predicate and allow the definitions
 % to be in different parts of the source file
@@ -122,7 +122,7 @@
 load_experiment(Path) :-
     owl_parse(Path),
     atomic_list_concat([_Empty, _Var, _Roslog, Dir, _File],'/', Path),
-    atomic_list_concat(['http://ias.cs.tum.edu/kb/knowrob.owl', Dir], '#', NameInstance),
+    atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
 
 
@@ -456,12 +456,12 @@ add_object_to_semantic_map(Obj, PoseList, Time, ObjInstance, H, W, D) :-
 add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     atom(Matrix),
     rdf_split_url(_, ObjLocal, Obj),
-    atom_concat('http://ias.cs.tum.edu/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
+    atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
     rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
     rdf_assert(ObjInstance,knowrob:'depthOfObject',literal(type(xsd:float, D))),
     rdf_assert(ObjInstance,knowrob:'widthOfObject',literal(type(xsd:float, W))),
     rdf_assert(ObjInstance,knowrob:'heightOfObject',literal(type(xsd:float, H))),
-    rdf_assert(ObjInstance,knowrob:'describedInMap','http://ias.cs.tum.edu/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'), % TODO: give map as parameter
+    rdf_assert(ObjInstance,knowrob:'describedInMap','http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'), % TODO: give map as parameter
 
     rdf_instance_from_class(knowrob:'SemanticMapPerception', Perception),
     rdf_assert(Perception, knowrob:'startTime', Time),

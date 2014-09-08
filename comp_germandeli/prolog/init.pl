@@ -26,5 +26,5 @@
 % parse OWL files, register name spaces
 
 :- owl_parser:owl_parse('package://comp_germandeli/owl/germandeli.owl').
-:- rdf_db:rdf_register_ns(germandeli, 'http://ias.cs.tum.edu/kb/germandeli.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(germandeli, 'http://knowrob.org/kb/germandeli.owl#', [keep(true)]).
 

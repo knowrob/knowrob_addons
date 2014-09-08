@@ -137,7 +137,7 @@ create_instance([Type|Prob], Inst, Index, Index1) :-
 
       Index1 is Index+1,
 
-      atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', Type, T),
+      atom_concat('http://knowrob.org/kb/knowrob.owl#', Type, T),
       atom_concat(T, Index, Inst),
 
       rdf_assert(Inst, rdf:type, T),
@@ -203,13 +203,13 @@ create_tables(LongList, [Table|Tables]) :-
   append([ID, Xt, Yt, _, _, _, _, _], Rest, LongList),
 
   % create instance if there is none of the same name yet
-  atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable', ID, Inst),
+  atom_concat('http://knowrob.org/kb/knowrob.owl#KitchenTable', ID, Inst),
 
   (
-    (\+ rdf_has(Inst, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable')) ->
+    (\+ rdf_has(Inst, rdf:type, 'http://knowrob.org/kb/knowrob.owl#KitchenTable')) ->
 
     Table=Inst,
-    (rdf_assert(Table, rdf:type, 'http://ias.cs.tum.edu/kb/knowrob.owl#KitchenTable'),
+    (rdf_assert(Table, rdf:type, 'http://knowrob.org/kb/knowrob.owl#KitchenTable'),
 
     % set the pose
     atomic_list_concat(['rotMat3D_1_0_0_',Xt,'_0_1_0_',Yt,'_0_0_1_',Zt,'_0_0_0_1'], Loc),
@@ -232,7 +232,7 @@ create_object_instances_from_ros_list(LongList, [Obj|Objs], Index) :-
 
   % create instance
   string_to_atom(Type, TypeAtom),
-  atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', TypeAtom, T),
+  atom_concat('http://knowrob.org/kb/knowrob.owl#', TypeAtom, T),
   atom_concat(T, Index, Obj),
   rdf_assert(Obj, rdf:type, T),
 
@@ -314,17 +314,17 @@ show_missing_objects([], [], _).
 % just read one of a set of predefined poses where the (inferred) objects are to be put on the table
 %
 pose_number(Id, Pose) :-
-  Poses = ['http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_0',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_1',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_2',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_3',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_4',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_5',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_6',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_7',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_8',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_9',
-         'http://ias.cs.tum.edu/kb/comp_missingobj.owl#rotmat3d_ontable_10'],
+  Poses = ['http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_0',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_1',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_2',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_3',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_4',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_5',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_6',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_7',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_8',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_9',
+         'http://knowrob.org/kb/comp_missingobj.owl#rotmat3d_ontable_10'],
   nth0(Id, Poses, Pose).
 
 
