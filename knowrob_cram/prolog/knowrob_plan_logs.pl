@@ -24,31 +24,30 @@
 :- module(knowrob_plan_logs,
     [
         load_experiment/1,
+        belief_at/2,
+        cram_holds/2,
+        occurs/2,
         task/1,
-        task_class/2,
-        subtask/2,
-        subtask_all/2,
+        task_type/2,
         task_goal/2,
         task_start/2,
         task_end/2,
-        cram_holds/2,
-        task_returned_value/2,
-        belief_at/2,
-        occurs/2,
-        duration_of_a_task/2,
-        failure_type/2,
+        subtask/2,
+        subtask_all/2,
+        task_outcome/2,
         task_failure/2,
+        failure_type/2,
         failure_attribute/3,
+        successful_tasks_for_goal/2,
+        avg_task_duration/2,
+        task_used_gripper/2,
         show_image/1,
         image_of_perceived_scene/1,
-        avg_task_duration/2,
-        add_object_as_semantic_instance/4,
-        arm_used_for_manipulation/2,
-        add_robot_as_basic_semantic_instance/3,
         add_object_to_semantic_map/7,
-        successful_instances_of_given_goal/2,
-        publish_designator/1,
-        get_designator/2
+        add_object_as_semantic_instance/4,
+        add_robot_as_basic_semantic_instance/3,
+        get_designator/2,
+        publish_designator/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -79,7 +78,7 @@
 :-  rdf_meta
     load_experiment(+),
     task(r),
-    task_class(r,r),
+    task_type(r,r),
     subtask(r,r),
     subtask_all(r,r),
     task_goal(r,r),
@@ -87,20 +86,19 @@
     task_end(r,r),
     belief_at(?,r),
     occurs(+,r),
-    duration_of_a_task(r,-),
     cram_holds(r,+),
-    task_returned_value(r,r),
+    task_outcome(r,r),
     failure_type(r,r),
     task_failure(r,r),
     failure_attribute(r,r,r),
+    task_used_gripper(+,-),
     show_image(r),
     image_of_perceived_scene(r),
     avg_task_duration(r,-),
     add_object_as_semantic_instance(+,+,+,-),
-    arm_used_for_manipulation(+,-),
     add_object_as_semantic_instance(+,+,-),
     add_object_to_semantic_map(+,+,+,-,+,+,+),
-    successful_instances_of_given_goal(+,-),
+    successful_tasks_for_goal(+,-),
     publish_designator(+),
     get_designator(r,-).
 
@@ -119,6 +117,7 @@
 %  from the directory that the logfile resides.
 %
 %  @param Path file path of the logfile
+% 
 load_experiment(Path) :-
     owl_parse(Path),
     atomic_list_concat([_Empty, _Var, _Roslog, Dir, _File],'/', Path),
@@ -139,18 +138,20 @@ load_experiment(Path) :-
 %  Check if  class of Task is a subclass of CRAMEvent
 %
 %  @param Task Identifier of given Task
+% 
 task(Task) :-
     rdf_has(Task, rdf:type, A),
     rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
 
 
-%% task_class(?Task, ?Class) is nondet.
+%% task_type(?Task, ?Class) is nondet.
 %
 %  Check if Task is an instance of Class
 %
 %  @param Task Identifier of given Task
 %  @param Class Identifier of given Class
-task_class(Task, Class) :-
+% 
+task_type(Task, Class) :-
     rdf_has(Task, rdf:type, Class),
     rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
 
@@ -161,6 +162,7 @@ task_class(Task, Class) :-
 %
 %  @param Task Identifier of given Task
 %  @param Subtask Identifier of given Subtask
+% 
 subtask(Task, Subtask) :-
     rdf_has(Task, knowrob:'subAction', Subtask),
     task(Task),
@@ -173,6 +175,7 @@ subtask(Task, Subtask) :-
 %
 %  @param Task Identifier of given Task
 %  @param Subtask Identifier of given Subtask
+% 
 subtask_all(Task, Subtask) :-
     owl_has(Task, knowrob:subAction,  Subtask).
 
@@ -189,6 +192,7 @@ subtask_all(Task, Subtask) :-
 %
 %  @param Task Identifier of given Task
 %  @param Start Identifier of given Start
+% 
 task_start(Task, Start) :-
     rdf_has(Task, knowrob:'startTime', Start),
     task(Task).
@@ -200,23 +204,10 @@ task_start(Task, Start) :-
 %
 %  @param Task Identifier of given Task
 %  @param End Identifier of given End
+% 
 task_end(Task, End) :-
     rdf_has(Task, knowrob:'endTime', End),
     task(Task).
-
-duration_of_a_task(T, Dur) :-
-    task(T),
-    rdf_triple(knowrob:duration, T, Dur).
-
-avg_task_duration(ActionType, AvgDuration) :-
-
-  findall(D, (owl_individual_of(A, ActionType),
-              rdf_triple(knowrob:duration, A, D)), Ds),
-
-  sumlist(Ds, Sum),
-  length(Ds, Len),
-  Len \= 0,
-  AvgDuration is Sum/Len.
 
 
 
@@ -231,6 +222,7 @@ avg_task_duration(ActionType, AvgDuration) :-
 %
 %  @param Task Identifier of given Task
 %  @param Goal Identifier of given Goal
+% 
 task_goal(Task, Goal) :-
     task(Task),
     rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal)));
@@ -239,35 +231,38 @@ task_goal(Task, Goal) :-
     rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
 
-%% task_failure(?Task, ?Error) is nondet.
+%% task_failure(?Task, ?Failure) is nondet.
 %
-%  Check if Error has occurred in the context of Task
+%  Check if Failure has occurred in the context of Task
 %
-%  @param Error Identifier of given Error
+%  @param Failure Identifier of given Failure
 %  @param Task Identifier of given Task
-task_failure(Task, Error) :-
+% 
+task_failure(Task, Failure) :-
     task(Task),
-    rdf_has(Task, knowrob:'eventFailure', Error).
+    rdf_has(Task, knowrob:'eventFailure', Failure).
 
 
-%% failure_type(?Error, ?Class) is nondet.
+%% failure_type(?Failure, ?Class) is nondet.
 %
-%  Check if Error is an instance of Class
+%  Check if Failure is an instance of Class
 %
-%  @param Error Identifier of given Error
+%  @param Failure Identifier of given Failure
 %  @param Class Identifier of given Class
-failure_type(Error, Class) :-
-    rdf_has(Error, rdf:type, Class),
+% 
+failure_type(Failure, Class) :-
+    rdf_has(Failure, rdf:type, Class),
     rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMFailure').
 
 
-%% task_returned_value(+Task, +Obj) is nondet.
+%% task_outcome(?Task, ?Obj) is nondet.
 %
 % Returns the result of the given task.
 %
 % @param Task Identifier of given Task
 % @param Obj Identifier of the result
-task_returned_value(Task, Obj) :-
+% 
+task_outcome(Task, Obj) :-
     rdf_has(Task, rdf:type, knowrob:'UIMAPerception'),
     rdf_has(Task, knowrob:'perceptionResult', Obj);
 
@@ -275,37 +270,39 @@ task_returned_value(Task, Obj) :-
     task_failure(Obj, Task).
 
 
-%% failure_attribute(?Error, ?AttributeName, ?Value) is nondet.
+%% failure_attribute(?Failure, ?AttributeName, ?Value) is nondet.
 %
-%  Check if Error has the given attribute with the given value
+%  Check if Failure has the given attribute with the given value
 %
-%  @param Error Identifier of given Error
+%  @param Failure Identifier of given Failure
 %  @param Task Identifier of given Task
-failure_attribute(Error,AttributeName,Value) :-
-    rdf_has(Error, AttributeName, Value).
+% 
+failure_attribute(Failure,AttributeName,Value) :-
+    rdf_has(Failure, AttributeName, Value).
 
 
-%% successful_instances_of_given_goal(Goal, Tasks) is nondet.
+%% successful_tasks_for_goal(+Goal, -Tasks) is nondet.
 %
 % Finds all Tasks that successsfully achieved Goal, i.e. without failure.
 % 
 % @param Goal  Identifier of the goal to be searched for
 % @param Tasks List of tasks that successfully accomplished the Goal 
 % 
-successful_instances_of_given_goal(Goal, Tasks) :-
+successful_tasks_for_goal(Goal, Tasks) :-
      findall(T, (task_goal(T, Goal)), Ts),
      findall(FT, ((task_goal(FT, Goal), rdf_has(FT, knowrob:'caughtFailure', _F))), FTs),
      subtract(Ts, FTs, Tasks).
 
 
 
-%% cram_holds(+taskPredObj, +taskPredStatus, -T) is nondet.
+%% cram_holds(+taskPredObj, -taskPredStatus, +T) is nondet.
 %
 % Check whether the given task was being continued, done, failed or not yet started at the given time point.
 %
 % @param Task Identifier of given Task
 % @param Status Returned status
 % @param T   TimePoint
+% 
 cram_holds(task_status(Task, Status), T):-
     nonvar(Task),
     task(Task),
@@ -350,7 +347,7 @@ belief_at(loc(Desig,Loc), _Time) :-
 %     directly give designators as values, this is redundant.
 % 
 %     findall(End-Tsk, (
-%                 task_class(Tsk, knowrob:'UIMAPerception'),
+%                 task_type(Tsk, knowrob:'UIMAPerception'),
 %                 task_end(Tsk, EndTp),
 %                 rdf_triple(knowrob:after, EndTp, Time), % only consider tasks that end before Time
 %                 time_point_value(EndTp, End)
@@ -359,7 +356,7 @@ belief_at(loc(Desig,Loc), _Time) :-
 %     keysort(Tsks, TsksSorted),
 %     last(TsksSorted, _-T),
 
-    task_returned_value(T, Desig),
+    task_outcome(T, Desig),
 
     (image_of_perceived_scene(T);true), !,
     get_designator(Desig, Loc).
@@ -385,21 +382,21 @@ belief_at(robot(Part,Loc), Time) :-
 occurs(object_perceived(Obj),T) :-
     nonvar(Obj),
     nonvar(T),
-    task_class(Task, knowrob:'UIMAPerception'),
-    task_returned_value(Task, Obj),
+    task_type(Task, knowrob:'UIMAPerception'),
+    task_outcome(Task, Obj),
     task_start(Task, T).
 
 
-%% arm_used_for_manipulation(+Task, -Link) is nondet.
+%% task_used_gripper(+Task, -Link) is nondet.
 %
 %
 % @param Task Instance of an Action for which the arm is to be determined
 % @param Link Identifier of a tf link denoting the arm
 % 
-arm_used_for_manipulation(Task, Link) :-
+task_used_gripper(Task, Link) :-
 
     subtask_all(Task, Movement),
-    task_class(Movement, knowrob:'ArmMovement'),
+    task_type(Movement, knowrob:'ArmMovement'),
     rdf_has(Movement, knowrob:'voluntaryMovementDetails', Designator),
 
     jpl_new('org.knowrob.cram.LogdataPublisher', [], Client),
@@ -440,6 +437,8 @@ get_designator(Designator, Loc) :-
     jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
     jpl_array_to_list(Localization_Array, LocList),
     create_pose(LocList, Loc).
+
+
 
 add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
     add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, 0.2, 0.2, 0.2).
