@@ -31,6 +31,7 @@
         simact_contact_specific/4,
         simlift/3,
         simlift_specific/3,
+        simlift_liftonly/5,
         supported_during/3,
         simact_start/2,
         simact_end/2,
@@ -75,6 +76,7 @@
     simact_contact_specific(r,r,r,r),
     simlift(r,r,r),
     simlift_specific(r,r,r),
+    simlift_liftonly(r,r,r,r,r),
     supported_during(r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -177,7 +179,7 @@ simlift(EventID, EventClass, ObjectClass) :-
     simact(EventID, EventClass),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
-    not(supported_during(EventID, _, ObjectInstance)). %check that this specific object is not in a contact relation with a supporting object for at least part of the interval (the interval will overlap at least with some contact intervals, because for example when you lift the mug, it will still be in contact with the table while the hand initiates contact). 
+    not(supported_during(EventID, _, _, ObjectInstance)). %check that this specific object is not in a contact relation with a supporting object for at least part of the interval (the interval will overlap at least with some contact intervals, because for example when you lift the mug, it will still be in contact with the table while the hand initiates contact). 
     %TODO: could define a new interval that only gives the path from where the object leaves the supporting surface until it touches it again.
 
 %% Find event interval during which a specific object is lifted
@@ -185,17 +187,73 @@ simlift(EventID, EventClass, ObjectClass) :-
 simlift_specific(EventID, EventClass, ObjectInstance) :-
     simact(EventID, EventClass),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance),
-    not(supported_during(EventID, _, ObjectInstance)).
+    not(supported_during(EventID, _,ObjectInstance)).
 
+%% Gives a new interval (start and endtimes) during which the specified object is lifted
+%% Differs from simlift because simlift can only return existing event intervals, and some
+%% overlap with supportedby intervals are inevitable, while simlift_liftonly "defines" a new
+%% interval by looking for the difference between grasping intervals and all supportedby 
+%%intervals.
+%%
+%% TODO: I'm not sure whether it only returns one liftInterval now, or whether it only doesn't
+%% backtrack into interval_setdifference, which was my intention because it shouldn't go back.
+%% It should give multiple results if more than one EventID is found however, and I think the
+%% cut prevents that too.
+simlift_liftonly(EventID, EventClass, ObjectClass, Start, End) :-
+    simact(EventID, EventClass),
+    simact_start(EventID, TempStart),
+    simact_end(EventID, TempEnd),
+    rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
+    rdf_has(ObjectInstance, rdf:type, ObjectClass),
+    findall(EventID2, (simsupported(EventID2, ObjectInstance), not(comp_temporallySubsumes(EventID2, EventID))), Candidates),
+    writeln(Candidates),
+    interval_setdifference(TempStart, TempEnd, Candidates, Start, End),!.
+
+%Bottom case; unify temporary start and end with the result
+interval_setdifference(Start, End, [], Start, End).    
+%If the head overlaps at the beginning
+interval_setdifference(Start, End, [EventID2|Tail], ResStart, ResEnd) :-
+    simact_start(EventID2, Start2),
+    simact_end(EventID2, End2),
+    sim_timepoints_overlap(Start, End, Start2, End2),
+    interval_setdifference(End2, End, Tail, ResStart, ResEnd).
+%If the head overlaps at the end
+interval_setdifference(Start, End, [EventID2|Tail], ResStart, ResEnd) :-
+    simact_start(EventID2, Start2),
+    simact_end(EventID2, End2),
+    sim_timepoints_overlap_inv(Start, End, Start2, End2),
+    interval_setdifference(Start, Start2, Tail, ResStart, ResEnd).
+%if there is no overlap, so we don't care about the current head
+interval_setdifference(Start, End, [_|Tail], ResStart, ResEnd) :-
+    interval_setdifference(Start, End, Tail, ResStart, ResEnd).
+
+%% Similar to the comp_overlapsI predicate but works with separate timepoints 
+%% True if I2 overlaps with I1 at the beginning
+%% Called by: interval_setdifference
+sim_timepoints_overlap(Start1, End1, Start2, End2) :-
+    time_point_value(Start1, SVal1),
+    time_point_value(End1, EVal1),
+    time_point_value(Start2, SVal2),
+    time_point_value(End2, EVal2),
+    SVal2 < SVal1, %Start2 is before Start1
+    EVal2 > SVal1, %End2 is after Start1
+    EVal2 < EVal1. %End2 ends before End1
+sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
+    sim_timepoints_overlap(Start2, End2, Start1, End1).
+
+%% Returns the EventID of the events in which ObjectInstance was supported by supporting Object-SupportingFurniture
+%% Assumes that supportedby is a TouchingSituation.
+simsupported(EventID, ObjectInstance) :-
+    simact(EventID, knowrob_sim:'TouchingSituation'),
+    rdf_has(EventID, knowrob:'objectInContact', ObjectInstance),
+    rdf_has(EventID, knowrob:'objectInContact', ObjectInstance2),
+    rdf_has(ObjectInstance2, rdf:type, Obj2Class),
+    rdf_reachable(Obj2Class, rdfs:subClassOf, knowrob:'Object-SupportingFurniture').
 
 %% returns true if Object in Event1 was supported by another object in Event2, and
 %% Event1 is entirely contained in Event2 (e.g. Object was supported by something during Event1)
 supported_during(EventID, EventID2, ObjectInstance) :-
-    simact(EventID2),  
-    rdf_has(EventID2, knowrob:'objectInContact', ObjectInstance),
-    rdf_has(EventID2, knowrob:'objectInContact', ObjectInstance2),
-    rdf_has(ObjectInstance2, rdf:type, Obj2Class),
-    rdf_reachable(Obj2Class, rdfs:subClassOf, knowrob:'Object-SupportingFurniture'),
+    simsupported(EventID2, ObjectInstance),
     comp_temporallySubsumes(EventID2, EventID). 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
