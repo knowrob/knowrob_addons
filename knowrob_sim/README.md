@@ -1,6 +1,6 @@
-###################################
-# EXAMPLE CALLS FOR KNOWROB/WEBROB 
-###################################
+########################################
+# Example calls for knowrob_sim/webrob #
+########################################
 
 NOTE: calls to add_trajectory_sim only work when visualization (web server) is running. The other calls also work in the prolog shell alone
 
