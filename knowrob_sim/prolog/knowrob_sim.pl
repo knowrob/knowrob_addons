@@ -29,9 +29,9 @@
         simact_contact/4,
         simact_contact_specific/3,
         simact_contact_specific/4,
-        simlift/3,
-        simlift_specific/3,
-        simlift_liftonly/5,
+        simlift/2,
+        simlift_specific/2,
+        simlift_liftonly/4,
         supported_during/3,
         simact_start/2,
         simact_end/2,
@@ -74,9 +74,9 @@
     simact_contact(r,r,r,r),
     simact_contact_specific(r,r,r),
     simact_contact_specific(r,r,r,r),
-    simlift(r,r,r),
-    simlift_specific(r,r,r),
-    simlift_liftonly(r,r,r,r,r),
+    simlift(r,r),
+    simlift_specific(r,r),
+    simlift_liftonly(r,r,r,r),
     supported_during(r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -141,6 +141,8 @@ simact_contact_specific(Event, EventClass, ObjectInstance1, ObjectInstance2) :-
     rdf_has(Event, knowrob:'objectInContact', ObjectInstance1),
     rdf_has(Event, knowrob:'objectInContact', ObjectInstance2).
 
+
+%% ignore these predicates for now, tried to change color of successive calls, doesn't work right now but is also not so important
 add_count :- 
     nb_getval(counter, C), CNew is C + 0.1, nb_setval(counter, CNew).
 
@@ -175,17 +177,17 @@ subact_all(Event, SubEvent) :-
 
 %% Find event interval during which a specific object type is lifted
 %% Example: simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
-simlift(EventID, EventClass, ObjectClass) :-
-    simact(EventID, EventClass),
+simlift(EventID, ObjectClass) :-
+    simact(EventID, knowrob_sim:'TouchingSituation'),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
-    not(supported_during(EventID, _, _, ObjectInstance)). %check that this specific object is not in a contact relation with a supporting object for at least part of the interval (the interval will overlap at least with some contact intervals, because for example when you lift the mug, it will still be in contact with the table while the hand initiates contact). 
+    not(supported_during(EventID, _, ObjectInstance)). %check that this specific object is not in a contact relation with a supporting object for at least part of the interval (the interval will overlap at least with some contact intervals, because for example when you lift the mug, it will still be in contact with the table while the hand initiates contact). 
     %TODO: could define a new interval that only gives the path from where the object leaves the supporting surface until it touches it again.
 
 %% Find event interval during which a specific object is lifted
 %% Example: simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
-simlift_specific(EventID, EventClass, ObjectInstance) :-
-    simact(EventID, EventClass),
+simlift_specific(EventID, ObjectInstance) :-
+    simact(EventID, knowrob_sim:'TouchingSituation'),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance),
     not(supported_during(EventID, _,ObjectInstance)).
 
@@ -199,8 +201,8 @@ simlift_specific(EventID, EventClass, ObjectInstance) :-
 %% backtrack into interval_setdifference, which was my intention because it shouldn't go back.
 %% It should give multiple results if more than one EventID is found however, and I think the
 %% cut prevents that too.
-simlift_liftonly(EventID, EventClass, ObjectClass, Start, End) :-
-    simact(EventID, EventClass),
+simlift_liftonly(EventID, ObjectClass, Start, End) :-
+    simact(EventID, knowrob_sim:'TouchingSituation'),
     simact_start(EventID, TempStart),
     simact_end(EventID, TempEnd),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
