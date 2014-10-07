@@ -281,22 +281,22 @@
 
     <owl:namedIndividual rdf:about="&knowrob;Hand_object_Ih7qsEWB95Th3U">
         <knowrob:designator rdf:resource="&log;object_Ih7qsEWB95Th3U"/>
-        <rdf:type rdf:resource="&knowrob_sim;Hand"/>
+        <rdf:type rdf:resource="&knowrob;Hand"/>
     </owl:namedIndividual>
 
     <owl:namedIndividual rdf:about="&knowrob;Cup_object_xdKUZq37qZSkYI">
         <knowrob:designator rdf:resource="&log;object_xdKUZq37qZSkYI"/>
-        <rdf:type rdf:resource="&knowrob_sim;Cup"/>
+        <rdf:type rdf:resource="&knowrob;Cup"/>
     </owl:namedIndividual>
 
     <owl:namedIndividual rdf:about="&knowrob;PancakeMaker_object_p10cVlTmR6WDl6">
         <knowrob:designator rdf:resource="&log;object_p10cVlTmR6WDl6"/>
-        <rdf:type rdf:resource="&knowrob_sim;PancakeMaker"/>
+        <rdf:type rdf:resource="&knowrob;PancakeMaker"/>
     </owl:namedIndividual>
 
     <owl:namedIndividual rdf:about="&knowrob;Spatula_object_L5cor9K9jqQWyk">
         <knowrob:designator rdf:resource="&log;object_L5cor9K9jqQWyk"/>
-        <rdf:type rdf:resource="&knowrob_sim;Spatula"/>
+        <rdf:type rdf:resource="&knowrob;Spatula"/>
     </owl:namedIndividual>
 
     <owl:namedIndividual rdf:about="&knowrob;LiquidTangibleThing_object_tBfIq4LVxpgohO">
