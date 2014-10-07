@@ -1,0 +1,12 @@
+.classpath
+.project
+bin
+build
+logs
+checkedout
+msg_gen
+srv_gen
+prolog/init.pl
+protege.properties
+lib
+owl/comp_ehow.owl

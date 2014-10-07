@@ -1,0 +1,24 @@
+<package>
+  <name>comp_missingobj</name>
+  <version>1.0.0</version>
+  <description>comp_missingobj
+
+     files for a demo on 'objects missing on the table'</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+
+  <license>GPL</license>
+
+  <url type="website">http://ias.in.tum.de/kb/wiki/index.php/comp_missingobj</url>
+
+  <author>Moritz Tenorth</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>mod_probcog</build_depend>
+  <build_depend>json_prolog</build_depend>
+
+  <run_depend>mod_probcog</run_depend>
+  <run_depend>json_prolog</run_depend>
+
+
+</package>

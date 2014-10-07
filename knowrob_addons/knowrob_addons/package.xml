@@ -1,0 +1,45 @@
+<package>
+  <name>knowrob_addons</name>
+  <version>1.0.0</version>
+  <description>KnowRob is a knowledge processing framework for robots. It has originally
+    been developed in the IAS group at Technische Universitaet Muenchen,
+    Germany and is currently maintained by Moritz Tenorth at the Institute
+    for Artificial Intelligence in Bremen, Germany.
+
+    This repository contains different add-on packages.</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Maintained by Moritz Tenorth</maintainer>
+
+  <license>LGPL</license>
+
+  <url type="website">http://www.knowrob.org</url>
+  <url type="bugtracker">https://github.com/knowrob/knowrob/issues</url>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed to compile this package. -->
+
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>bosch_semantic_map</run_depend>
+  <run_depend>comp_germandeli</run_depend>
+  <run_depend>comp_missingobj</run_depend>
+  <run_depend>knowrob_cad_models</run_depend>
+  <run_depend>knowrob_cad_parser</run_depend>
+  <run_depend>knowrob_cram</run_depend>
+  <run_depend>knowrob_motion_constraints</run_depend>
+  <run_depend>knowrob_omics</run_depend>
+  <run_depend>knowrob_roslog_launch</run_depend>
+  <run_depend>mod_execution_trace</run_depend>
+  <run_depend>mod_probcog</run_depend>
+  <run_depend>semantic_map_to_owl</run_depend>
+
+  <!-- Dependencies needed only for running tests. -->
+
+
+
+
+
+
+
+</package>
