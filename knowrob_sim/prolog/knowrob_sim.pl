@@ -25,8 +25,10 @@
     [
         simact/1,
         simact/2,
-        simact/3,
-        simact/4,
+        simact_contact/3,
+        simact_contact/4,
+        simact_contact_specific/3,
+        simact_contact_specific/4,
         simlift/3,
         simlift_specific/3,
         supported_during/3,
@@ -67,8 +69,10 @@
 :-  rdf_meta
     simact(r),
     simact(r,r),
-    simact(r,r,r),
-    simact(r,r,r,r),
+    simact_contact(r,r,r),
+    simact_contact(r,r,r,r),
+    simact_contact_specific(r,r,r),
+    simact_contact_specific(r,r,r,r),
     simlift(r,r,r),
     simlift_specific(r,r,r),
     supported_during(r,r,r),
@@ -110,17 +114,17 @@ simact(EventID, EventClass) :-
 
 
 %% Find a certain event involving a certain object type
-simact(Event, EventClass, ObjectClass) :-
+simact_contact(Event, EventClass, ObjectClass) :-
     simact(Event, EventClass),
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
     rdf_has(Event, knowrob:'objectInContact', ObjectInstance).
 
-simact_specific(Event, EventClass, ObjectInstance) :-
+simact_contact_specific(Event, EventClass, ObjectInstance) :-
     simact(Event, EventClass),
     rdf_has(Event, knowrob:'objectInContact', ObjectInstance).
 
 %% Find a certain event involving only certain object types
-simact(Event, EventClass, Object1Class, Object2Class) :-
+simact_contact(Event, EventClass, Object1Class, Object2Class) :-
     simact(Event, EventClass),
     rdf_has(ObjectInstance1, rdf:type, Object1Class),
     rdf_has(ObjectInstance2, rdf:type, Object2Class),
@@ -129,7 +133,7 @@ simact(Event, EventClass, Object1Class, Object2Class) :-
     rdf_has(Event, knowrob:'objectInContact', ObjectInstance2).
 
 %% Find a certain event involving only certain objects
-simact_specific(Event, EventClass, ObjectInstance1, ObjectInstance2) :-
+simact_contact_specific(Event, EventClass, ObjectInstance1, ObjectInstance2) :-
     simact(Event, EventClass),
     ObjectInstance1\=ObjectInstance2,
     rdf_has(Event, knowrob:'objectInContact', ObjectInstance1),
@@ -170,8 +174,8 @@ subact_all(Event, SubEvent) :-
 %% Find event interval during which a specific object type is lifted
 %% Example: simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
 simlift(EventID, EventClass, ObjectClass) :-
-    simact(EventID, EventClass, ObjectClass),
-    simact(EventID, EventClass, knowrob:'Hand'), %for a lift to occur, the event in which the object participates, must also involve the handling
+    simact(EventID, EventClass),
+    rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
     not(supported_during(EventID, _, ObjectInstance)). %check that this specific object is not in a contact relation with a supporting object for at least part of the interval (the interval will overlap at least with some contact intervals, because for example when you lift the mug, it will still be in contact with the table while the hand initiates contact). 
     %TODO: could define a new interval that only gives the path from where the object leaves the supporting surface until it touches it again.
@@ -179,8 +183,8 @@ simlift(EventID, EventClass, ObjectClass) :-
 %% Find event interval during which a specific object is lifted
 %% Example: simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
 simlift_specific(EventID, EventClass, ObjectInstance) :-
-    simact_specific(EventID, EventClass, ObjectInstance),
-    simact(EventID, EventClass, knowrob:'Hand'),
+    simact(EventID, EventClass),
+    rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance),
     not(supported_during(EventID, _, ObjectInstance)).
 
 

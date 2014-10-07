@@ -99,7 +99,7 @@
         <knowrob:objectInContact rdf:resource="&knowrob;Hand_object_Ih7qsEWB95Th3U"/>
     </owl:namedIndividual>
 
-    <owl:namedIndividual rdf:about="&log;TouchingSituations_wSccRjqY">
+    <owl:namedIndividual rdf:about="&log;TouchingSituation_wSccRjqY">
         <rdf:type rdf:resource="&knowrob_sim;TouchingSituation"/>
         <knowrob:taskContext rdf:datatype="&xsd;string">contact_KitchenTable_Hand</knowrob:taskContext>
         <knowrob:taskSuccess rdf:datatype="&xsd;boolean">true</knowrob:taskSuccess>
