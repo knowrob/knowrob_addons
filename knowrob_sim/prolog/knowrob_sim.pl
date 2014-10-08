@@ -31,7 +31,9 @@
         simact_contact_specific/4,
         simlift/2,
         simlift_specific/2,
-        simlift_liftonly/4,
+        simlift_liftonly/3,
+        simflip_full/5,
+        simflip_fliponly/5,
         supported_during/3,
         simact_start/2,
         simact_end/2,
@@ -76,7 +78,9 @@
     simact_contact_specific(r,r,r,r),
     simlift(r,r),
     simlift_specific(r,r),
-    simlift_liftonly(r,r,r,r),
+    simlift_liftonly(r,r,r),
+    simflip_full(r,r,r,r,r),
+    simflip_fliponly(r,r,r,r,r),
     supported_during(r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -176,7 +180,9 @@ subact_all(Event, SubEvent) :-
     owl_has(Event, knowrob:subAction,  SubEvent).
 
 %% Find event interval during which a specific object type is lifted
-%% Example: simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
+%% 
+%% Example call: 
+%% > simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
 simlift(EventID, ObjectClass) :-
     simact(EventID, knowrob_sim:'TouchingSituation'),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
@@ -185,7 +191,9 @@ simlift(EventID, ObjectClass) :-
     %TODO: could define a new interval that only gives the path from where the object leaves the supporting surface until it touches it again.
 
 %% Find event interval during which a specific object is lifted
-%% Example: simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
+%% 
+%% Example callsim: 
+%% > simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup_object_xdKUZq37qZSkYI').
 simlift_specific(EventID, ObjectInstance) :-
     simact(EventID, knowrob_sim:'TouchingSituation'),
     rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance),
@@ -195,13 +203,16 @@ simlift_specific(EventID, ObjectInstance) :-
 %% Differs from simlift because simlift can only return existing event intervals, and some
 %% overlap with supportedby intervals are inevitable, while simlift_liftonly "defines" a new
 %% interval by looking for the difference between grasping intervals and all supportedby 
-%%intervals.
+%% intervals.
+%%
+%% Example call:
+%% > simlift_liftonly(knowrob:'Cup', Start, End).
 %%
 %% TODO: I'm not sure whether it only returns one liftInterval now, or whether it only doesn't
 %% backtrack into interval_setdifference, which was my intention because it shouldn't go back.
 %% It should give multiple results if more than one EventID is found however, and I think the
 %% cut prevents that too.
-simlift_liftonly(EventID, ObjectClass, Start, End) :-
+simlift_liftonly(ObjectClass, Start, End) :-
     simact(EventID, knowrob_sim:'TouchingSituation'),
     simact_start(EventID, TempStart),
     simact_end(EventID, TempEnd),
@@ -210,6 +221,35 @@ simlift_liftonly(EventID, ObjectClass, Start, End) :-
     findall(EventID2, (simsupported(EventID2, ObjectInstance), not(comp_temporallySubsumes(EventID2, EventID))), Candidates),
     writeln(Candidates),
     interval_setdifference(TempStart, TempEnd, Candidates, Start, End),!.
+
+
+%% Gives a new interval, which is the union of contactPancake-Spatula and contactSpatula-Liquid.
+%% These two events should be overlapping in order to be a full flipping interval 
+%% Finds a flip given the class of the object to be flipped and the tool with which this is done
+%% Note that maybe the most important thing, whether or not the object was turned, cannot be deducted from the owl file
+simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
+    % get contactInterval spatula-pancakemaker
+    simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass),
+    % get contactInterval spatula-liquid
+    simact_contact(EventID2, knowrob_sim:'TouchingSituation', ObjectClass, ToolClass),
+    % these two should overlap, with the spatula-pancakemaker coming first
+    comp_overlapsI(EventID, EventID2),
+    % select start and end as union
+    simact_start(EventID, Start),
+    simact_end(EventID2, End).
+
+%% Gives a new interval, which is a subset of contactSpatula-Liquid. This is only the time during
+%% which the liquid is in contact with the spatula and not in contact with the pancakemaker (Note: pancakemaker is not a object-supportingFurniture in the ontology so can't use supportedby here).
+simflip_fliponly(ObjectClass, ToolClass, LocationClass, Start, End) :-
+    % get contactInterval spatula-pancakemaker
+    simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass),
+    % get contactInterval spatula-liquid
+    simact_contact(EventID2, knowrob_sim:'TouchingSituation', ObjectClass, ToolClass),
+    % these two should overlap, with the spatula-pancakemaker coming first
+    comp_overlapsI(EventID, EventID2),
+    % select start and end as intersection
+    simact_end(EventID, Start),
+    simact_end(EventID2, End).
 
 %Bottom case; unify temporary start and end with the result
 interval_setdifference(Start, End, [], Start, End).    
