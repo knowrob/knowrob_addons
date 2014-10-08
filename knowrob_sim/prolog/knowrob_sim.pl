@@ -25,11 +25,11 @@
     [
         simact/1,
         simact/2,
-        simact_contact/3,
         simact_contact/4,
+        simact_contact/6,
         simact_contact_specific/3,
         simact_contact_specific/4,
-        simlift/2,
+        simlift/3,
         simlift_specific/2,
         simlift_liftonly/3,
         simflip_full/5,
@@ -72,11 +72,11 @@
 :-  rdf_meta
     simact(r),
     simact(r,r),
-    simact_contact(r,r,r),
     simact_contact(r,r,r,r),
+    simact_contact(r,r,r,r,r,r),
     simact_contact_specific(r,r,r),
     simact_contact_specific(r,r,r,r),
-    simlift(r,r),
+    simlift(r,r,r),
     simlift_specific(r,r),
     simlift_liftonly(r,r,r),
     simflip_full(r,r,r,r,r),
@@ -106,10 +106,10 @@ simact(Event) :-
     rdf_reachable(EventClass, rdfs:subClassOf, knowrob_sim:'SimulationEvent').
 
 
-%% simact_type(?Event, ?EventClass) is nondet.
+%% simact(?Event, ?EventClass) is nondet.
 %
-%  Check if Task is an instance of Class or looks for Tasks of Class that are subclass of SimulationEvent
-%  For example: simact_type(T, knowrob_sim:'TouchingSituation').
+%  Finds EventIDs of EventClass that are subclass of SimulationEvent
+%  For example: simact(E, knowrob_sim:'TouchingSituation').
 %
 %  @param Event Identifier of given Event
 %  @param EventClass Identifier of given EventClass
@@ -119,31 +119,37 @@ simact(EventID, EventClass) :-
     rdf_reachable(EventClass, rdfs:subClassOf, knowrob_sim:'SimulationEvent').
 
 
-%% Find a certain event involving a certain object type
-simact_contact(Event, EventClass, ObjectClass) :-
+%%  simact_contact(?Event, ?EventClass, ?ObjectClass) 
+%
+%   Find a certain event involving a certain object type(s) or certain object(s)
+%
+%   Example calls:
+%   > simact_contact(E, knowrob_sim:'TouchingSituation', knowrob_sim:'Cup', O).
+%   > simact_contact_specific(E, knowrob_sim:'TouchingSituation',knowrob_sim:'Cup_object_hkm6glYmRQ0BWF').
+%   > simact_contact(T, knowrob_sim:'TouchingSituation', knowrob_sim:'Cup', knowrob_sim:'KitchenTable', O1, O2).
+%   > simact_contact_specific(T, knowrob_sim:'TouchingSituation', knowrob_sim:'Cup_object_hkm6glYmRQ0BWF', knowrob_sim:'KitchenTable_object_50SJX00eStoIfD').
+simact_contact(Event, EventClass, ObjectClass, ObjectInstance) :-
     simact(Event, EventClass),
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
-    rdf_has(Event, knowrob:'objectInContact', ObjectInstance).
-
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance).
+ %% Find a certain event involving a certain object
 simact_contact_specific(Event, EventClass, ObjectInstance) :-
     simact(Event, EventClass),
-    rdf_has(Event, knowrob:'objectInContact', ObjectInstance).
-
-%% Find a certain event involving only certain object types
-simact_contact(Event, EventClass, Object1Class, Object2Class) :-
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance).
+%% Find a certain event involving certain object types
+simact_contact(Event, EventClass, Object1Class, Object2Class, ObjectInstance1, ObjectInstance2) :-
     simact(Event, EventClass),
     rdf_has(ObjectInstance1, rdf:type, Object1Class),
     rdf_has(ObjectInstance2, rdf:type, Object2Class),
     ObjectInstance1\=ObjectInstance2,
-    rdf_has(Event, knowrob:'objectInContact', ObjectInstance1),
-    rdf_has(Event, knowrob:'objectInContact', ObjectInstance2).
-
-%% Find a certain event involving only certain objects
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+%% Find a certain event involving certain objects
 simact_contact_specific(Event, EventClass, ObjectInstance1, ObjectInstance2) :-
     simact(Event, EventClass),
     ObjectInstance1\=ObjectInstance2,
-    rdf_has(Event, knowrob:'objectInContact', ObjectInstance1),
-    rdf_has(Event, knowrob:'objectInContact', ObjectInstance2).
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
 
 
 %% ignore these predicates for now, tried to change color of successive calls, doesn't work right now but is also not so important
@@ -182,21 +188,20 @@ subact_all(Event, SubEvent) :-
 %% Find event interval during which a specific object type is lifted
 %% 
 %% Example call: 
-%% > simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup').
-simlift(EventID, ObjectClass) :-
-    simact(EventID, knowrob_sim:'TouchingSituation'),
-    rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
+%% > simlift(E, knowrob_sim:'Cup').
+simlift(EventID, ObjectClass, ObjectInstance) :-
+    simact(EventID, knowrob:'GraspingSomething'),
+    rdf_has(EventID, knowrob:'objectActedOn', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
     not(supported_during(EventID, _, ObjectInstance)). %check that this specific object is not in a contact relation with a supporting object for at least part of the interval (the interval will overlap at least with some contact intervals, because for example when you lift the mug, it will still be in contact with the table while the hand initiates contact). 
-    %TODO: could define a new interval that only gives the path from where the object leaves the supporting surface until it touches it again.
 
 %% Find event interval during which a specific object is lifted
 %% 
-%% Example callsim: 
-%% > simlift(E, knowrob_sim:'TouchingSituation',knowrob:'Cup_object_xdKUZq37qZSkYI').
+%% Example call: 
+%% > simlift_specific(E, knowrob_sim:'Cup_object_hkm6glYmRQ0BWF').
 simlift_specific(EventID, ObjectInstance) :-
-    simact(EventID, knowrob_sim:'TouchingSituation'),
-    rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance),
+    simact(EventID, knowrob:'GraspingSomething'),
+    rdf_has(EventID, knowrob:'objectActedOn', ObjectInstance),
     not(supported_during(EventID, _,ObjectInstance)).
 
 %% Gives a new interval (start and endtimes) during which the specified object is lifted
@@ -213,10 +218,10 @@ simlift_specific(EventID, ObjectInstance) :-
 %% It should give multiple results if more than one EventID is found however, and I think the
 %% cut prevents that too.
 simlift_liftonly(ObjectClass, Start, End) :-
-    simact(EventID, knowrob_sim:'TouchingSituation'),
+    simact(EventID, knowrob:'GraspingSomething'),
     simact_start(EventID, TempStart),
     simact_end(EventID, TempEnd),
-    rdf_has(EventID, knowrob:'GraspingSomething', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
+    rdf_has(EventID, knowrob:'objectActedOn', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
     findall(EventID2, (simsupported(EventID2, ObjectInstance), not(comp_temporallySubsumes(EventID2, EventID))), Candidates),
     writeln(Candidates),
@@ -227,6 +232,9 @@ simlift_liftonly(ObjectClass, Start, End) :-
 %% These two events should be overlapping in order to be a full flipping interval 
 %% Finds a flip given the class of the object to be flipped and the tool with which this is done
 %% Note that maybe the most important thing, whether or not the object was turned, cannot be deducted from the owl file
+%% 
+%% Example call: 
+%% > simflip_full(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End).
 simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
     % get contactInterval spatula-pancakemaker
     simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass),
@@ -240,6 +248,9 @@ simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
 
 %% Gives a new interval, which is a subset of contactSpatula-Liquid. This is only the time during
 %% which the liquid is in contact with the spatula and not in contact with the pancakemaker (Note: pancakemaker is not a object-supportingFurniture in the ontology so can't use supportedby here).
+%% 
+%% Example call:
+%% > simflip_fliponly(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End).
 simflip_fliponly(ObjectClass, ToolClass, LocationClass, Start, End) :-
     % get contactInterval spatula-pancakemaker
     simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass),
@@ -287,8 +298,8 @@ sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
 %% Assumes that supportedby is a TouchingSituation.
 simsupported(EventID, ObjectInstance) :-
     simact(EventID, knowrob_sim:'TouchingSituation'),
-    rdf_has(EventID, knowrob:'objectInContact', ObjectInstance),
-    rdf_has(EventID, knowrob:'objectInContact', ObjectInstance2),
+    rdf_has(EventID, knowrob_sim:'inContact', ObjectInstance),
+    rdf_has(EventID, knowrob_sim:'inContact', ObjectInstance2),
     rdf_has(ObjectInstance2, rdf:type, Obj2Class),
     rdf_reachable(Obj2Class, rdfs:subClassOf, knowrob:'Object-SupportingFurniture').
 
