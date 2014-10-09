@@ -6,21 +6,21 @@
     <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY log "http://ias.cs.tum.edu/kb/cram_log.owl#" >
+    <!ENTITY log "http://knowrob.org/kb/cram_log.owl#" >
     <!ENTITY knowrob_sim "http://knowrob.org/kb/knowrob_sim.owl#" >
 ]>
 
-<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/cram_log.owl#"
-     xml:base="http://ias.cs.tum.edu/kb/cram_log.owl"
+<rdf:RDF xmlns="http://knowrob.org/kb/cram_log.owl#"
+     xml:base="http://knowrob.org/kb/cram_log.owl"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:log="http://ias.cs.tum.edu/kb/cram_log.owl#"
+     xmlns:log="http://knowrob.org/kb/cram_log.owl#"
      xmlns:knowrob_sim="http://knowrob.org/kb/knowrob_sim.owl#">
 
-    <owl:Ontology rdf:about="http://ias.cs.tum.edu/kb/cram_log.owl">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/cram_log.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
 

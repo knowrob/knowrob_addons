@@ -32,8 +32,8 @@
         simlift/3,
         simlift_specific/2,
         simlift_liftonly/3,
-        simflip_full/5,
-        simflip_fliponly/5,
+        simflip_full/8,
+        simflip_fliponly/8,
         supported_during/3,
         simact_start/2,
         simact_end/2,
@@ -79,8 +79,8 @@
     simlift(r,r,r),
     simlift_specific(r,r),
     simlift_liftonly(r,r,r),
-    simflip_full(r,r,r,r,r),
-    simflip_fliponly(r,r,r,r,r),
+    simflip_full(r,r,r,r,r,r,r,r),
+    simflip_fliponly(r,r,r,r,r,r,r,r),
     supported_during(r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -136,7 +136,10 @@ simact_contact(Event, EventClass, ObjectClass, ObjectInstance) :-
 simact_contact_specific(Event, EventClass, ObjectInstance) :-
     simact(Event, EventClass),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance).
-%% Find a certain event involving certain object types
+%%  simact_contact(?Event, ?EventClass, +Object1Class, +Object2Class, -ObjectInstance1, -ObjectInstance2)
+%   
+%   Find a certain event involving certain object types
+%
 simact_contact(Event, EventClass, Object1Class, Object2Class, ObjectInstance1, ObjectInstance2) :-
     simact(Event, EventClass),
     rdf_has(ObjectInstance1, rdf:type, Object1Class),
@@ -144,7 +147,10 @@ simact_contact(Event, EventClass, Object1Class, Object2Class, ObjectInstance1, O
     ObjectInstance1\=ObjectInstance2,
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
-%% Find a certain event involving certain objects
+%%  simact_contact(?Event, ?EventClass, +ObjectInstance1, +ObjectInstance2)
+%   
+%   Find a certain event involving certain objects
+%
 simact_contact_specific(Event, EventClass, ObjectInstance1, ObjectInstance2) :-
     simact(Event, EventClass),
     ObjectInstance1\=ObjectInstance2,
@@ -211,7 +217,7 @@ simlift_specific(EventID, ObjectInstance) :-
 %% intervals.
 %%
 %% Example call:
-%% > simlift_liftonly(knowrob:'Cup', Start, End).
+%% > simlift_liftonly(knowrob_sim:'Cup', Start, End).
 %%
 %% TODO: I'm not sure whether it only returns one liftInterval now, or whether it only doesn't
 %% backtrack into interval_setdifference, which was my intention because it shouldn't go back.
@@ -234,8 +240,8 @@ simlift_liftonly(ObjectClass, Start, End) :-
 %% Note that maybe the most important thing, whether or not the object was turned, cannot be deducted from the owl file
 %% 
 %% Example call: 
-%% > simflip_full(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End).
-simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
+%% > simflip_full(knowrob_sim:'LiquidTangibleThing', knowrob_sim:'Spatula', knowrob_sim:'PancakeMaker', Start, End, OObj, TObj, LObj).
+simflip_full(ObjectClass, ToolClass, LocationClass, Start, End, OObj, TObj, LObj) :-
     % get contactInterval spatula-pancakemaker
     simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass, TObj, LObj),
     % get contactInterval spatula-liquid
@@ -250,8 +256,8 @@ simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
 %% which the liquid is in contact with the spatula and not in contact with the pancakemaker (Note: pancakemaker is not a object-supportingFurniture in the ontology so can't use supportedby here).
 %% 
 %% Example call:
-%% > simflip_fliponly(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End).
-simflip_fliponly(ObjectClass, ToolClass, LocationClass, Start, End) :-
+%% > simflip_fliponly(knowrob_sim:'LiquidTangibleThing', knowrob_sim:'Spatula', knowrob_sim:'PancakeMaker', Start, End, OObj, TObj, LObj).
+simflip_fliponly(ObjectClass, ToolClass, LocationClass, Start, End, OObj, TObj, LObj) :-
     % get contactInterval spatula-pancakemaker
     simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass, TObj, LObj),
     % get contactInterval spatula-liquid
