@@ -237,9 +237,9 @@ simlift_liftonly(ObjectClass, Start, End) :-
 %% > simflip_full(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End).
 simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
     % get contactInterval spatula-pancakemaker
-    simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass),
+    simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass, TObj, LObj),
     % get contactInterval spatula-liquid
-    simact_contact(EventID2, knowrob_sim:'TouchingSituation', ObjectClass, ToolClass),
+    simact_contact(EventID2, knowrob_sim:'TouchingSituation', ObjectClass, ToolClass, OObj, TObj),
     % these two should overlap, with the spatula-pancakemaker coming first
     comp_overlapsI(EventID, EventID2),
     % select start and end as union
@@ -253,9 +253,9 @@ simflip_full(ObjectClass, ToolClass, LocationClass, Start, End) :-
 %% > simflip_fliponly(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End).
 simflip_fliponly(ObjectClass, ToolClass, LocationClass, Start, End) :-
     % get contactInterval spatula-pancakemaker
-    simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass),
+    simact_contact(EventID, knowrob_sim:'TouchingSituation', ToolClass, LocationClass, TObj, LObj),
     % get contactInterval spatula-liquid
-    simact_contact(EventID2, knowrob_sim:'TouchingSituation', ObjectClass, ToolClass),
+    simact_contact(EventID2, knowrob_sim:'TouchingSituation', ObjectClass, ToolClass, OObj, TObj),
     % these two should overlap, with the spatula-pancakemaker coming first
     comp_overlapsI(EventID, EventID2),
     % select start and end as intersection
