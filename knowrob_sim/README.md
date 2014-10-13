@@ -30,14 +30,18 @@ Visualize the trajectory of a certain event interval:
 >simact(T, knowrob_sim:'TouchingSituation'), simact_start(T,Start), simact_end(T, End), add_trajectory_sim('Hand', Start, End, 100,0,0.8).
 
 # Warning: there is some unexpected behavior from webrob in that it seems to only return one result at a time, but the predicates are actually called with all possible solutions. This gives problems for the visualization because instead of visualizing 1 segment, it will visualize all matching segments at once #
-Select an event interval involving a certain objecttype:
+Select a contact interval involving a certain objecttype:
 >simact_contact(T, knowrob_sim:'TouchingSituation', knowrob_sim:'Cup', Obj), simact_start(T,Start), simact_end(T, End).
 
-Select an event interval involving two certain objecttypes:
->simact(T, knowrob_sim:'TouchingSituation', knowrob_sim:'Cup', knowrob_sim:'KitchenTable', Obj1, Obj2), simact_start(T,Start), simact_end(T, End).
+Select a contact interval involving two certain objecttypes:
+>simact_contact(T, knowrob_sim:'TouchingSituation', knowrob_sim:'Cup', knowrob_sim:'KitchenTable', Obj1, Obj2), simact_start(T,Start), simact_end(T, End).
+Select an interval during which Cup is grasped:
+>simact(T, knowrob:'GraspingSomething'), rdf_has(T, knowrob:'objectActedOn', Obj), rdf_has(Obj, rdf:type, knowrob_sim:'Cup').
+Visualize interval during which Cup is grasped:
+>simact(T, knowrob:'GraspingSomething'), rdf_has(T, knowrob:'objectActedOn', Obj), rdf_has(Obj, rdf:type, knowrob_sim:'Cup'), simact_start(T, Start), simact_end(T, End), add_trajectory_sim('Cup', Start, End, 1,3,0.8).
 
 Ask for an event interval during which a specific object type was lifted
->simlift(E, knowrob_sim:'Cup'), simact_start(E, Start), simact_end(E, End).
+>simlift(E, knowrob_sim:'Cup', Obj), simact_start(E, Start), simact_end(E, End).
 Ask for an event interval during which a specific object was lifted
 >simlift_specific(E, knowrob_sim:'Cup_object_hkm6glYmRQ0BWF').
 Ask when the liftonly part of lifting started and stopped
@@ -48,7 +52,7 @@ Ask when the flipping started and stopped
 Ask when the fliponly part of the flipping started and stopped
 >simflip_fliponly(knowrob_sim:'LiquidTangibleThing', knowrob_sim:'Spatula', knowrob_sim:'PancakeMaker', Start, End, OObj, TObj, LObj).
 Visualize flipping
->simflip_full(knowrob_sim:'LiquidTangibleThing', knowrob_sim:'Spatula', knowrob_sim:'PancakeMaker', Start, End, _, _, _), add_trajectory_sim('Spatula', Start, End, 100,0,0.5).
+>simflip_full(knowrob_sim:'LiquidTangibleThing', knowrob_sim:'Spatula', knowrob_sim:'PancakeMaker', Start, End, _, _, _), add_trajectory_sim('Spatula', Start, End, 100,3,0.5).
 
 
 Ask for an event that involves an object that is a subclass of "Object-SupportingFurniture" 
