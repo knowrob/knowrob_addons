@@ -1,7 +1,0 @@
-#
-# converter service that accepts a constraint configuration and
-# generates an OWL description from it
-#
-knowrob_motion_constraints/MotionTask task
----
-string owl_data

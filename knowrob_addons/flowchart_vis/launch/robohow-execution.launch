@@ -1,6 +1,0 @@
-<launch>
-
-  <!-- Flowchart visualization -->
-  <node name="flowchart_vis" pkg="flowchart_vis" type="flowchart_vis" args="../img/block-diagram-execution.svg" cwd="node"/>
-
-</launch>

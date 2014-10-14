@@ -1,4 +1,0 @@
-<launch>
-  <include file="$(find dyn_obj_store)/table_pipeline.launch"/>
-	<node name="missing_obj_prolog" pkg="rosprolog" type="run_with_prolog_env" args="comp_missingobj $(find json_prolog)/bin/json_prolog" />
-</launch>

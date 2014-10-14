@@ -1,8 +1,0 @@
-<launch>
-  
-  <!-- Belief state logging node -->
-  <node name="beliefstate_ros" pkg="beliefstate" type="beliefstate"  output="screen" />
-  
-  <!-- MongoDB logging node -->
-  <node name="mongodb_log" pkg="mongodb_log" type="mongodb_log" args="/tf /logged_designators /logged_metadata" output="screen" />
-</launch>
