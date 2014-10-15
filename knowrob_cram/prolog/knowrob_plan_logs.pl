@@ -117,8 +117,11 @@
 %  @param Path file path of the logfile
 % 
 load_experiment(Path) :-
+
     owl_parse(Path),
-    atomic_list_concat([_Empty, _Var, _Roslog, Dir, _File],'/', Path),
+    
+%     atom_concat('/home/ros/knowrob_data/', Dir, Path),
+    atom_concat('/home/tenorth/docker-training/', Dir, Path),
     atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
 
@@ -487,5 +490,5 @@ image_of_perceived_scene(T) :-
 
     rdf_has(Directory, rdf:type, knowrob:'DirectoryName'),
     atomic_list_concat([_Prefix, Dir], '#', Directory),
-    atomic_list_concat(['', 'var', 'roslog', Dir, Path], '/', CompletePath),
+    atomic_list_concat([Dir, Path], '/', CompletePath),
     show_image(CompletePath).
