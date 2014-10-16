@@ -97,7 +97,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 			e.printStackTrace();
 		}
 
-		System.err.println("Publishing image " + image_path);
+		System.err.println("\n\nPublishing image " + image_path + "\n\n");
 		
 		// create image message from file
 		std_msgs.String image_msg = pub_image.newMessage();
