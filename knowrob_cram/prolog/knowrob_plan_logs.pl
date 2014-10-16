@@ -120,9 +120,8 @@ load_experiment(Path) :-
 
     owl_parse(Path),
 
-    % extract directory from
-%     atom_concat('/home/ros/knowrob_data/', Dir, Path),
-    atom_concat('/home/tenorth/docker-training/', LocalPath, Path),
+    % save directory in which the dataset is stored
+    atom_concat('/home/ros/knowrob_data/', Dir, Path),
     file_directory_name(LocalPath, Dir),
     atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
