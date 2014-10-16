@@ -41,7 +41,9 @@
         subact/2,
         subact_all/2,
         simact_outcome/2,
-        successful_simacts_for_goal/2
+        successful_simacts_for_goal/2,
+        simflipping/8,
+        simgrasped/3
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -89,6 +91,8 @@
     simact_start(r,r),
     simact_end(r,r),
     simact_outcome(r,r),
+    simflipping(r,r,r,r,r,r,r,r),
+    simgrasped(r,r,r),
     successful_simacts_for_goal(+,-).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -197,6 +201,11 @@ subact(Event, SubEvent) :-
 subact_all(Event, SubEvent) :-
     owl_has(Event, knowrob:subAction,  SubEvent).
 
+simgrasped(EventID, ObjectClass, ObjectInstance) :-
+    simact(EventID, knowrob:'GraspingSomething'),
+    rdf_has(EventID, knowrob:'objectActedOn', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
+    rdf_has(ObjectInstance, rdf:type, ObjectClass).
+
 %% Find event interval during which a specific object type is lifted
 %% 
 %% Example call: 
@@ -239,6 +248,27 @@ simlift_liftonly(ObjectClass, Start, End) :-
     %% writeln(Candidates),
     interval_setdifference(TempStart, TempEnd, Candidates, Start, End),!.
 
+%% Flipping: grasping start until object entirely on tool, start contact tool and target, start object on tool until object back on pancakemaker, start still grasping tool until tool put down.
+simflipping(ObjectO, ToolO, TargetO, GraspS, ToolCTargetS, ObjectLiftS, PutbackS, PutbackE) :-
+    % start of GraspSpatula
+    simgrasped(Event1ID, _,ToolO),
+    simact_start(Event1ID, GraspS),
+    simact_end(Event1ID, PutbackE), %this end is the very end of the flipping
+    % Object and target should have a contact interval overlapping with the beginning of GraspSpatula
+    simact_contact(Event0ID, knowrob_sim:'TouchingSituation', knowrob:'LiquidTangibleThing', _, ObjectO, TargetO),
+    comp_overlapsI(Event0ID, Event1ID),
+    ToolO\=ObjectO,
+    ObjectO\=TargetO,
+    ToolO\=TargetO,
+    %% Tool is in contact with the Object but Object has not left Target yet
+    simact_contact(Event2ID, knowrob_sim:'TouchingSituation', _, _, ToolO, ObjectO),
+    simact_start(Event2ID, ToolCTargetS),
+    %% Tool is no longer in contact with the Target, but it is in contact with the Object. There is a small overlapping issue because the pancake leaves the pancakemaker a few miliseconds after the spatula does, so ObjectLiftS starts a bit before simact_end(Event0ID, End0) ends.
+    simflip_fliponly(_,_,_,ObjectLiftS, _, ObjectO, ToolO, TargetO),
+    %% Object touches the target again
+    simact_contact(Event3ID, knowrob_sim:'TouchingSituation', _, _, ObjectO, TargetO),
+    comp_beforeI(Event2ID, Event3ID), %touches target after leaving tool
+    simact_start(Event3ID, PutbackS),!. %need to cut because jsonquery backend returns all solutions
 
 %% Gives a new interval, which is the union of contactPancake-Spatula and contactSpatula-Liquid.
 %% These two events should be overlapping in order to be a full flipping interval 
