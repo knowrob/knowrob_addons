@@ -39,7 +39,6 @@
         failure_type/2,
         failure_attribute/3,
         successful_tasks_for_goal/2,
-        avg_task_duration/2,
         task_used_gripper/2,
         show_image/1,
         image_of_perceived_scene/1,
@@ -94,7 +93,6 @@
     task_used_gripper(+,-),
     show_image(r),
     image_of_perceived_scene(r),
-    avg_task_duration(r,-),
     add_object_as_semantic_instance(+,+,+,-),
     add_object_as_semantic_instance(+,+,-),
     add_object_to_semantic_map(+,+,+,-,+,+,+),
@@ -119,8 +117,11 @@
 %  @param Path file path of the logfile
 % 
 load_experiment(Path) :-
+
     owl_parse(Path),
-    atomic_list_concat([_Empty, _Var, _Roslog, Dir, _File],'/', Path),
+
+    atom_concat('/home/ros/', LocalPath, Path),
+    file_directory_name(LocalPath, Dir),
     atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
 
@@ -489,5 +490,5 @@ image_of_perceived_scene(T) :-
 
     rdf_has(Directory, rdf:type, knowrob:'DirectoryName'),
     atomic_list_concat([_Prefix, Dir], '#', Directory),
-    atomic_list_concat(['', 'var', 'roslog', Dir, Path], '/', CompletePath),
+    atomic_list_concat([Dir, Path], '/', CompletePath),
     show_image(CompletePath).

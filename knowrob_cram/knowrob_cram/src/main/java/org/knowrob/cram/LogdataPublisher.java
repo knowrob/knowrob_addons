@@ -66,7 +66,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 	ConnectedNode node;
 	Publisher<designator_integration_msgs.Designator> pub;
-	Publisher<sensor_msgs.Image> pub_image;
+	Publisher<std_msgs.String> pub_image;
 
 
 	@Override
@@ -81,20 +81,13 @@ public class LogdataPublisher extends AbstractNodeMain {
 		mdb = new MongoDBInterface();
 
 		pub = connectedNode.newPublisher("logged_designators", designator_integration_msgs.Designator._TYPE);
-		pub_image = connectedNode.newPublisher("logged_images", sensor_msgs.Image._TYPE); 
+		pub_image = connectedNode.newPublisher("logged_images", std_msgs.String._TYPE); 
 
 	}
 
 
-	public boolean publishImage(String image_path)
-	{
-		BufferedImage image = null;
-		try {
-			image = ImageIO.read(new File(image_path.replace("'", "")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	public boolean publishImage(String image_path) {
+		
 		// wait for publisher to be ready
 		try {
 			while(pub_image ==null) {
@@ -105,19 +98,9 @@ public class LogdataPublisher extends AbstractNodeMain {
 		}
 
 		// create image message from file
-		sensor_msgs.Image image_msg = pub_image.newMessage();
+		std_msgs.String image_msg = pub_image.newMessage();
 
-		image_msg.getHeader().setStamp(node.getCurrentTime());
-		image_msg.setEncoding("bgr8");
-		image_msg.setHeight(image.getHeight());
-		image_msg.setWidth(image.getWidth());
-		image_msg.setStep(image_msg.getWidth() * 3);
-
-
-		byte[] bytes = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
-		ChannelBuffer cb = ChannelBuffers.copiedBuffer(ByteOrder.LITTLE_ENDIAN, bytes);
-
-		image_msg.setData(cb);
+		image_msg.setData(image_path);
 		pub_image.publish(image_msg);
 		return true;
 
