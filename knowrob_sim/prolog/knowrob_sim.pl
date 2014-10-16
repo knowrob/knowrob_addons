@@ -37,6 +37,7 @@
         supported_during/3,
         simact_start/2,
         simact_end/2,
+        sim_timeline_val/2,
         subact/2,
         subact_all/2,
         simact_outcome/2,
@@ -81,6 +82,7 @@
     simlift_liftonly(r,r,r),
     simflip_full(r,r,r,r,r,r,r,r),
     simflip_fliponly(r,r,r,r,r,r,r,r),
+    sim_timeline_val(r,r),
     supported_during(r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -157,6 +159,10 @@ simact_contact_specific(Event, EventClass, ObjectInstance1, ObjectInstance2) :-
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
 
+%% Function returns a range for each event in the list during which that event is true
+% Not done yet!
+sim_timeline_val(EventList, vals).
+
 
 %% ignore these predicates for now, tried to change color of successive calls, doesn't work right now but is also not so important
 add_count :- 
@@ -230,7 +236,7 @@ simlift_liftonly(ObjectClass, Start, End) :-
     rdf_has(EventID, knowrob:'objectActedOn', ObjectInstance), %for a lift to occur, the event in which the object participates must involve GraspingSomething (lift can only happen while the object is grasped)
     rdf_has(ObjectInstance, rdf:type, ObjectClass),
     findall(EventID2, (simsupported(EventID2, ObjectInstance), not(comp_temporallySubsumes(EventID2, EventID))), Candidates),
-    writeln(Candidates),
+    %% writeln(Candidates),
     interval_setdifference(TempStart, TempEnd, Candidates, Start, End),!.
 
 

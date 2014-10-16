@@ -54,6 +54,9 @@ Ask when the fliponly part of the flipping started and stopped
 Visualize flipping
 >simflip_full(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End, _, _, _), add_trajectory_sim('Spatula', Start, End, 100,3,0.5).
 
+Add timeline to diagram canvas
+>diagram_canvas.
+>rdf_has(_, knowrob:'experimentName', literal(type(_, Expname))), string_concat(Exp, ' Timeline', Title), findall(Type, (simact(T), rdf_split_url(_,Type,T)), X), sim_timeline_val(X, Times), add_diagram(diagram_id2, Title, timeline, 'Time', 'Events', 300, 300, '12px', [[X,Times]]). 
 
 Ask for an event that involves an object that is a subclass of "Object-SupportingFurniture" 
 //Useful for detecting support (?) (Could assume that all contacts with those kind of objects are supported-by relations, in lieu of a real detection of such things):

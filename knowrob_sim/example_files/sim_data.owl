@@ -402,7 +402,7 @@
         <knowrob:subAction rdf:resource="&log;GraspingSomething_0La8obMa"/>
         <knowrob:subAction rdf:resource="&log;GraspingSomething_uo70aVeV"/>
         <knowrob:subAction rdf:resource="&log;PancakeEpisode_4EpcGCy5"/>
-        <knowrob:experimentName rdf:datatype="&xsd;string">exp-2014-10-14_13-05-42</knowrob:experimentName>
+        <knowrob:experimentName rdf:datatype="&xsd;string">PancakeEpisode</knowrob:experimentName>
         <knowrob:owlExporterVersion rdf:datatype="&xsd;string">0.93</knowrob:owlExporterVersion>
         <knowrob:timeEnd rdf:datatype="&xsd;string">1413284858</knowrob:timeEnd>
         <knowrob:timeStart rdf:datatype="&xsd;string">1413284742</knowrob:timeStart>
