@@ -10,11 +10,8 @@ NOTE: calls to add_trajectory_sim only work when visualization (web server) is r
 - To start a local server: 
 >roslaunch knowrob_roslog_launch knowrob.launch 
 
-! Make sure a mongo docker container with the right tf data is running
-
-
-Jan pick-and-place experiment file:
->load_experiment('/home/yfang/hydro_workspace/sandbox/catkin_ws/src/knowrob_data/logs/robots/cram/pick-and-place/cram_log.owl').
+Load our sim experiment example owl file (change the path appropriately):
+>load_experiment('[...]/catkin_ws/src/knowrob_addons/knowrob_sim/example_files/sim_data.owl').
 
 Have a look which timepoints exist:
 >owl_individual_of(A, 'http://knowrob.org/kb/knowrob.owl#TimePoint').
@@ -23,8 +20,6 @@ Visualize a trajectory by manually inputting start and end times
 add_trajectory_sim(linkname, start, end, timesteps, markertype, color) 
 >add_trajectory_sim('Hand', 'http://knowrob.org/kb/cram_log.owl#timepoint_21590', 'http://knowrob.org/kb/cram_log.owl#timepoint_35487', 100, 0,0.5).
 
-Load our sim experiment example owl file:
->load_experiment('/home/yfang/hydro_workspace/sandbox/catkin_ws/src/knowrob_addons/knowrob_sim/example_files/sim_data.owl').
 
 Visualize the trajectory of a certain event interval:
 >simact(T, knowrob_sim:'TouchingSituation'), simact_start(T,Start), simact_end(T, End), add_trajectory_sim('Hand', Start, End, 100,0,0.8).
@@ -54,9 +49,14 @@ Ask when the fliponly part of the flipping started and stopped
 Visualize flipping
 >simflip_full(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End, _, _, _), add_trajectory_sim('Spatula', Start, End, 100,3,0.5).
 
-Add timeline to diagram canvas
+Did flipping occur in this episode?
+>simflipping(O,T,S,ToolGrasped, ToolContactObject, ObjectLifted, ObjectFlipped, ToolReleased).
+Visualize flipping first 3 steps
+>simflipping(O,T,S,ToolGrasped, ToolContactObject, ObjectLifted, ObjectFlipped, ToolReleased), add_trajectory_sim('Spatula', ToolGrasped, ToolContactObject, 0.05,2,'fuchsia'), add_trajectory_sim('Spatula', ToolContactObject, ObjectLifted, 0.05,2,'red'), add_trajectory_sim('Spatula', ObjectLifted, ObjectFlipped, 0.05,2,'maroon').
+
+Add timeline to diagram canvas (add_diagram not working yet for timelines in general)
 >diagram_canvas.
->rdf_has(_, knowrob:'experimentName', literal(type(_, Expname))), string_concat(Exp, ' Timeline', Title), findall(Type, (simact(T), rdf_split_url(_,Type,T)), X), sim_timeline_val(X, Times), add_diagram(diagram_id2, Title, timeline, 'Time', 'Events', 300, 300, '12px', [[X,Times]]). 
+>rdf_has(_, knowrob:'experimentName', literal(type(_, Expname))), string_concat(Exp, ' Timeline', Title), findall(Type, (simact(T), rdf_split_url(_,Type,T)), X), sim_timeline_val(X, Times), add_diagram(diagram_id2, 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[['X'],['Times']]]). 
 
 Ask for an event that involves an object that is a subclass of "Object-SupportingFurniture" 
 //Useful for detecting support (?) (Could assume that all contacts with those kind of objects are supported-by relations, in lieu of a real detection of such things):
