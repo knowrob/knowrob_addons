@@ -33,6 +33,11 @@
         task_start/2,
         task_end/2,
         task_action/2,
+        task_action/3,
+        task_action_exp/2,
+        task_action_exp/3,
+        action_designator_exp/2,
+        action_designator_exp/3,
         subtask/2,
         subtask_all/2,
         task_outcome/2,
@@ -85,6 +90,11 @@
     task_start(r,r),
     task_end(r,r),
     task_action(r,r),
+    task_action(r,r,r),
+    task_action_exp(r,r),
+    task_action_exp(r,r,r),
+    action_designator_exp(r,r),
+    action_designator_exp(r,r,r),
     belief_at(?,r),
     occurs(+,r),
     cram_holds(r,+),
@@ -301,6 +311,7 @@ action_designator_exp(Action, QueryPattern, DesiredType) :-
     % Query for action that references given designator
     rdf_has(Action, knowrob:'designator', D),
     % Make sure this action is a subaction of an action with matching type
+    % XXX: task_action may processed multiple times if user calls task_action
     task_action(_, Action, DesiredType).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
