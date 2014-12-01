@@ -11,7 +11,7 @@ import numpy
 from numpy.linalg import inv
 import roslib
 roslib.load_manifest('knowrob_motion_constraints')
-import json_prolog
+from json_prolog import json_prolog
 import rospy
 import tf
 
