@@ -32,6 +32,12 @@
         task_goal/2,
         task_start/2,
         task_end/2,
+        task_action/2,
+        task_action/3,
+        task_action_exp/2,
+        task_action_exp/3,
+        action_designator_exp/2,
+        action_designator_exp/3,
         subtask/2,
         subtask_all/2,
         task_outcome/2,
@@ -83,6 +89,12 @@
     task_goal(r,r),
     task_start(r,r),
     task_end(r,r),
+    task_action(r,r),
+    task_action(r,r,r),
+    task_action_exp(r,r),
+    task_action_exp(r,r,r),
+    action_designator_exp(r,r),
+    action_designator_exp(r,r,r),
     belief_at(?,r),
     occurs(+,r),
     cram_holds(r,+),
@@ -211,6 +223,96 @@ task_end(Task, End) :-
     task(Task).
 
 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Task actions
+%
+
+%% task_action_exp(?Task, ?Query) is nondet.
+%
+% Returns the task of the given action query.
+%
+% @param Task Identifier of the result
+% @param Query Identifier of given Action query
+% @param DesiredType Identifier of the task type
+% 
+
+task_action_exp(Action, [perform, QueryPattern]) :-
+    task_action_exp(Action, QueryPattern, knowrob:'CRAMPerform').
+
+task_action_exp(Action, [achieve, QueryPattern]) :-
+    task_action_exp(Action, QueryPattern, knowrob:'CRAMAchieve').
+
+task_action_exp(Action, [peceive, QueryPattern]) :-
+    task_action_exp(Action, QueryPattern, knowrob:'CRAMPerceive').
+
+task_action_exp(Action, [failure, QueryPattern]) :-
+    task_action_exp(Action, QueryPattern, knowrob:'CRAMFailure').
+
+task_action_exp(Action, [maintain, QueryPattern]) :-
+    task_action_exp(Action, QueryPattern, knowrob:'CRAMMaintain').
+
+task_action_exp(Action, [monitor, QueryPattern]) :-
+    task_action_exp(Action, QueryPattern, knowrob:'CRAMMonitor').
+
+task_action_exp(Task, Query, DesiredType) :-
+    action_designator_exp(Action, Query, DesiredType),
+    task_action(Task, Action, DesiredType).
+    
+%% task_action(?Task, ?Action) is nondet.
+%
+% Returns the task of the given action.
+%
+% @param Task Identifier of the result
+% @param Action Identifier of given Action
+% @param DesiredType Identifier of the task type
+% 
+
+task_action(Task, Action) :-
+    task_action(Task, Action, knowrob:'CRAMAction').
+    
+task_action(Task, Action, DesiredType) :-
+    subtask(Parent, Action),
+    rdf_has(Parent, rdf:type, Type),
+    ( rdf_reachable(Type, rdfs:subClassOf, DesiredType) ->
+      true ; task_action(Task, Parent)
+    ).
+
+%% action_designator_exp(?Task, ?Query, ?DesiredType) is nondet.
+%
+% Returns the task of the given action query.
+%
+% @param Task Identifier of the result
+% @param Query Identifier of given Action query
+% @param DesiredType Identifier of the task type
+% 
+
+action_designator_exp(Action, [perform, QueryPattern]) :-
+    action_designator_exp(Action, QueryPattern, knowrob:'CRAMPerform').
+
+action_designator_exp(Action, [achieve, QueryPattern]) :-
+    action_designator_exp(Action, QueryPattern, knowrob:'CRAMAchieve').
+
+action_designator_exp(Action, [peceive, QueryPattern]) :-
+    action_designator_exp(Action, QueryPattern, knowrob:'CRAMPerceive').
+
+action_designator_exp(Action, [failure, QueryPattern]) :-
+    action_designator_exp(Action, QueryPattern, knowrob:'CRAMFailure').
+
+action_designator_exp(Action, [maintain, QueryPattern]) :-
+    action_designator_exp(Action, QueryPattern, knowrob:'CRAMMaintain').
+
+action_designator_exp(Action, [monitor, QueryPattern]) :-
+    action_designator_exp(Action, QueryPattern, knowrob:'CRAMMonitor').
+
+action_designator_exp(Action, QueryPattern, DesiredType) :-
+    % Query mongo for matching designators
+    mng_desig_matches(D, QueryPattern),
+    % Query for action that references given designator
+    rdf_has(Action, knowrob:'designator', D),
+    % Make sure this action is a subaction of an action with matching type
+    % XXX: task_action may processed multiple times if user calls task_action
+    task_action(_, Action, DesiredType).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -269,7 +371,6 @@ task_outcome(Task, Obj) :-
 
     task(Task),
     task_failure(Obj, Task).
-
 
 %% failure_attribute(?Failure, ?AttributeName, ?Value) is nondet.
 %
