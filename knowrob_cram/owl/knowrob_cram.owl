@@ -414,7 +414,7 @@
 
     <!-- http://knowrob.org/kb/knowrob_cram.owl#DeclarativeGoal -->
 
-    <owl:Class rdf:about="&cram;DeclarativeGoal">
+    <owl:Class rdf:about="&knowrob;DeclarativeGoal">
         <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
     </owl:Class>
 
