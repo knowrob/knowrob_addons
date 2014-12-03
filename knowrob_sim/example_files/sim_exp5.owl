@@ -64,8 +64,6 @@
 
     <owl:Class rdf:about="&knowrob;FluidFlow-Translation"/>
 
-    <owl:Class rdf:about="GraspingSomethingobjectActedOn"/>
-
     <owl:Class rdf:about="&knowrob;GraspingSomething"/>
 
     <owl:Class rdf:about="&knowrob_sim;PancakeEpisode"/>
@@ -236,11 +234,11 @@
         <knowrob:startTime rdf:resource="&log;timepoint_411.928"/>
         <knowrob:endTime rdf:resource="&log;timepoint_413.634"/>
         <knowrob:previousAction rdf:resource="&log;TouchingSituation_cSphfEXA"/>
-        <knowrob:nextAction rdf:resource="&log;objectActedOn_ChrT0Teg"/>
+        <knowrob:nextAction rdf:resource="&log;GraspingSomething_ChrT0Teg"/>
     </owl:namedIndividual>
 
-    <owl:namedIndividual rdf:about="&log;objectActedOn_ChrT0Teg">
-        <rdf:type rdf:resource="GraspingSomethingobjectActedOn"/>
+    <owl:namedIndividual rdf:about="&log;GraspingSomething_ChrT0Teg">
+        <rdf:type rdf:resource="&knowrob;GraspingSomething"/>
         <knowrob:taskContext rdf:datatype="&xsd;string">GraspCup</knowrob:taskContext>
         <knowrob:taskSuccess rdf:datatype="&xsd;boolean">true</knowrob:taskSuccess>
         <knowrob:startTime rdf:resource="&log;timepoint_408.952"/>
@@ -256,7 +254,7 @@
         <knowrob:taskSuccess rdf:datatype="&xsd;boolean">true</knowrob:taskSuccess>
         <knowrob:startTime rdf:resource="&log;timepoint_419.860"/>
         <knowrob:endTime rdf:resource="&log;timepoint_426.618"/>
-        <knowrob:previousAction rdf:resource="&log;objectActedOn_ChrT0Teg"/>
+        <knowrob:previousAction rdf:resource="&log;GraspingSomething_ChrT0Teg"/>
         <knowrob:nextAction rdf:resource="&log;PancakeEpisode_dUM11DUQ"/>
         <knowrob:objectActedOn rdf:resource="&knowrob;Spatula_object_AOob67l9HAWBCs"/>
     </owl:namedIndividual>
@@ -464,7 +462,7 @@
         <knowrob:subAction rdf:resource="&log;TouchingSituation_6ImnUpKx"/>
         <knowrob:subAction rdf:resource="&log;TouchingSituation_cSphfEXA"/>
         <knowrob:subAction rdf:resource="&log;FluidFlow-Translation_EpksBAhu"/>
-        <knowrob:subAction rdf:resource="&log;objectActedOn_ChrT0Teg"/>
+        <knowrob:subAction rdf:resource="&log;GraspingSomething_ChrT0Teg"/>
         <knowrob:subAction rdf:resource="&log;GraspingSomething_RkzVFPBU"/>
         <knowrob:subAction rdf:resource="&log;PancakeEpisode_dUM11DUQ"/>
         <knowrob:experiment rdf:datatype="&xsd;string">Pancake5</knowrob:experiment>
