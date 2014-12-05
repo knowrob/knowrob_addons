@@ -11,7 +11,8 @@ NOTE: calls to add_trajectory_sim only work when visualization (web server) is r
 >roslaunch knowrob_roslog_launch knowrob.launch 
 
 Load our sim experiment example owl file (change the path appropriately):
-experiment files for knowrob_sim can be found in knowrob_data/logs/simulation/
+
+*experiment files for knowrob_sim can be found in knowrob_data/logs/simulation/*
 >load_experiment('[...]/sim_exp1.owl').
 
 Have a look which timepoints exist:
@@ -21,7 +22,7 @@ Visualize the trajectory of a certain event interval for a certain object:
 add_trajectory_sim(linkname, start, end, timesteps, markertype) 
 >simact(T, knowrob_sim:'TouchingSituation'), simact_start(T,Start), simact_end(T, End), add_trajectory('Hand', Start, End, 0.5,3).
 
-# Warning: there is some unexpected behavior because all solutions to are query are requested upon processing a query. This gives problems for the visualization because instead of visualizing 1 segment, it will visualize all matching segments at once #
+** Warning: there is some unexpected behavior because all solutions to are query are requested upon processing a query. This gives problems for the visualization because instead of visualizing 1 segment, it will visualize all matching segments at once **
 Select a contact interval involving a certain objecttype:
 >simact_contact(Exp, Event, knowrob:'Cup', Obj), simact_start(Exp, Event, Start), simact_end(Exp, Event, End).
 Select a contact interval involving two certain objecttypes:
