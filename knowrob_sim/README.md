@@ -26,10 +26,13 @@ add_trajectory_sim(linkname, start, end, timesteps, markertype)
 
 Select a contact interval involving a certain objecttype:
 >simact_contact(Exp, Event, knowrob:'Cup', Obj), simact_start(Exp, Event, Start), simact_end(Exp, Event, End).
+
 Select a contact interval involving two certain objecttypes:
 >simact_contact(Exp, Event, knowrob:'Cup', knowrob:'KitchenTable', Obj1, Obj2), simact_start(Exp, Event,Start), simact_end(Exp, Event, End).
+
 Select an interval during which Cup is grasped:
 >simgrasped(Exp, Event, knowrob:'Cup', ObjectInstance)., simact_start(Exp, Event, Start), simact_end(Exp, Event, End).
+
 Visualize interval during which Cup is grasped:
 >simgrasped(Exp, Event, knowrob:'Cup', ObjectInstance)., simact_start(Exp, Event, Start), simact_end(Exp, Event, End), add_trajectory_sim('Cup', Start, End, 0.5, 3).
 
@@ -38,20 +41,25 @@ Visualize the trajectories of a specific object being lifted for all available e
 
 Ask for an event interval during which a specific object type was lifted
 >simlift(Exp, Event, knowrob:'Cup', Obj), simact_start(Exp, Event, Start), simact_end(Exp, Event, End).
+
 Ask for an event interval during which a specific object was lifted
 >simlift_specific(Exp, Event, knowrob:'Cup_object_yYXWRWQpelZIFK').
+
 Ask when the liftonly part of lifting started and stopped
 >simlift_liftonly(Exp, knowrob:'Cup', Start, End).
 
 Ask when the flipping started and stopped
 >simflip_full(Exp, knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End, OObj, TObj, LObj).
+
 Ask when the fliponly part of the flipping started and stopped
 >simflip_fliponly(Exp, knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End, OObj, TObj, LObj).
+
 Visualize flipping
 >simflip_full(knowrob:'LiquidTangibleThing', knowrob:'Spatula', knowrob:'PancakeMaker', Start, End, _, _, _), add_trajectory_sim('Spatula', Start, End, 0.5, 3).
 
 Did flipping occur in this episode?
 >simflipping(Exp, O,T,S,ToolGrasped, ToolContactObject, ObjectLifted, ObjectFlipped, ToolReleased).
+
 Visualize flipping first 3 steps
 >simflipping(Exp, O,T,S,ToolGrasped, ToolContactObject, ObjectLifted, ObjectFlipped, ToolReleased), add_trajectory_sim('Spatula', ToolGrasped, ToolContactObject, 0.5, 3), add_trajectory_sim('Spatula', ToolContactObject, ObjectLifted, 0.5, 3), add_trajectory_sim('Spatula', ObjectLifted, ObjectFlipped, 0.5, 3).
 
