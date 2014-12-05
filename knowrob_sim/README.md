@@ -11,7 +11,8 @@ NOTE: calls to add_trajectory_sim only work when visualization (web server) is r
 >roslaunch knowrob_roslog_launch knowrob.launch 
 
 Load our sim experiment example owl file (change the path appropriately):
->load_experiment('[...]/catkin_ws/src/knowrob_addons/knowrob_sim/example_files/sim_exp1.owl').
+experiment files for knowrob_sim can be found in knowrob_data/logs/simulation/
+>load_experiment('[...]/sim_exp1.owl').
 
 Have a look which timepoints exist:
 >owl_individual_of(A, 'http://knowrob.org/kb/knowrob.owl#TimePoint').
