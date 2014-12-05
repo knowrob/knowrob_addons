@@ -4,6 +4,7 @@
 
 NOTE: calls to add_trajectory_sim only work when visualization (web server) is running. The other calls also work in the prolog shell alone
 
+#### Getting started ####
 - To start a shell: 
 >rosrun rosprolog rosprolog knowrob_roslog_launch
 
@@ -14,6 +15,8 @@ Load our sim experiment example owl file (change the path appropriately):
 
 *experiment files for knowrob_sim can be found in knowrob_data/logs/simulation/*
 >load_experiment('[...]/sim_exp1.owl').
+
+#### Basics ####
 
 Have a look which timepoints exist:
 >owl_individual_of(A, 'http://knowrob.org/kb/knowrob.owl#TimePoint').
@@ -30,6 +33,7 @@ Select a contact interval involving a certain objecttype:
 Select a contact interval involving two certain objecttypes:
 >simact_contact(Exp, Event, knowrob:'Cup', knowrob:'KitchenTable', Obj1, Obj2), simact_start(Exp, Event,Start), simact_end(Exp, Event, End).
 
+#### Example queries ####
 Select an interval during which Cup is grasped:
 >simgrasped(Exp, Event, knowrob:'Cup', ObjectInstance)., simact_start(Exp, Event, Start), simact_end(Exp, Event, End).
 
