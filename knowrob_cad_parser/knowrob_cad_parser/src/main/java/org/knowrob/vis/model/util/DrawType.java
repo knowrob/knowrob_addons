@@ -13,7 +13,7 @@ package org.knowrob.vis.model.util;
  * 
  * @author Stefan Profanter
  * 
- * @see edu.tum.cs.vis.model.util.DrawSettings
+ * @see org.knowrob.vis.model.util.DrawSettings
  * 
  */
 public enum DrawType {
