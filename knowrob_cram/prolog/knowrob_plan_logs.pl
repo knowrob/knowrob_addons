@@ -30,13 +30,14 @@
         task/1,
         task_type/2,
         task_goal/2,
+        task_goal_inherited/3,
         task_start/2,
         task_end/2,
         task_designator_exp/2,
         action_designator_exp/2,
-        task_of_action/3,
         subtask/2,
         subtask_all/2,
+        subtask_typed/3,
         task_outcome/2,
         task_failure/2,
         failure_type/2,
@@ -83,12 +84,13 @@
     task_type(r,r),
     subtask(r,r),
     subtask_all(r,r),
+    subtask_typed(r,r,r),
     task_goal(r,r),
+    task_goal_inherited(r,r,r),
     task_start(r,r),
     task_end(r,r),
     task_designator_exp(r,r),
     action_designator_exp(r,r),
-    task_of_action(r,r,r),
     belief_at(?,r),
     occurs(+,r),
     cram_holds(r,+),
@@ -175,6 +177,39 @@ subtask(Task, Subtask) :-
     task(Task),
     task(Subtask).
 
+%% subtask_typed(?Task, ?Subtask, &Type) is nondet.
+%
+%  Check if there is a parent task with given type.
+%
+%  @param Task Identifier of given Task
+%  @param Subtask Identifier of given Subtask
+%  @param Type Identifier of given subtask type
+% 
+
+subtask_typed(Task, Subtask, perform) :-
+    subtask_typed(Task, Subtask, 'http://knowrob.org/kb/knowrob.owl#CRAMPerform').
+
+subtask_typed(Task, Subtask, achieve) :-
+    subtask_typed(Task, Subtask, 'http://knowrob.org/kb/knowrob.owl#CRAMAchieve').
+
+subtask_typed(Task, Subtask, perceive) :-
+    subtask_typed(Task, Subtask, 'http://knowrob.org/kb/knowrob.owl#CRAMPerceive').
+
+subtask_typed(Task, Subtask, failure) :-
+    subtask_typed(Task, Subtask, 'http://knowrob.org/kb/knowrob.owl#CRAMFailure').
+
+subtask_typed(Task, Subtask, maintain) :-
+    subtask_typed(Task, Subtask, 'http://knowrob.org/kb/knowrob.owl#CRAMMaintain').
+
+subtask_typed(Task, Subtask, monitor) :-
+    subtask_typed(Task, Subtask, 'http://knowrob.org/kb/knowrob.owl#CRAMMonitor').
+    
+subtask_typed(Task, Subtask, Type) :-
+    rdf_has(X, knowrob:'subAction', Subtask),
+    (  rdf_has(X, rdf:type, Type)
+    -> Task = X
+    ;  subtask_typed(Task, X, Type)
+    ).
 
 %% subtask_all(?Task, ?Subtask) is nondet.
 %
@@ -219,43 +254,35 @@ task_end(Task, End) :-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
-% Task, actions and designators
+% Designator expressions
 %
-    
-task_of_action_recursive(Task, Action, DesiredType) :-
-    rdf_has(X, knowrob:'subAction', Action),
-    (  rdf_has(X, rdf:type, DesiredType)
-    -> Task = X
-    ;  task_of_action_recursive(Task, X, DesiredType)
-    ).
 
-task_of_action(Task, Action, [perform]) :-
-    task_of_action_recursive(Task, Action, knowrob:'CRAMPerform').
-
-task_of_action(Task, Action, [achieve]) :-
-    task_of_action_recursive(Task, Action, knowrob:'CRAMAchieve').
-
-task_of_action(Task, Action, [perceive]) :-
-    task_of_action_recursive(Task, Action, knowrob:'CRAMPerceive').
-
-task_of_action(Task, Action, [failure]) :-
-    task_of_action_recursive(Task, Action, knowrob:'CRAMFailure').
-
-task_of_action(Task, Action, [maintain]) :-
-    task_of_action_recursive(Task, Action, knowrob:'CRAMMaintain').
-
-task_of_action(Task, Action, [monitor]) :-
-    task_of_action_recursive(Task, Action, knowrob:'CRAMMonitor').
-
+%% action_designator_exp(?Task, [?Mode, ?QueryPattern]) is nondet.
+%
+%  Find a Designator for given expression.
+%
+%  @param Action Returned Action
+%  @param QueryPattern Identifier of given Designator pattern
+%
+%  Example: ?- action_designator_exp(A, [an, action, [to, grasp]]).
+% 
 action_designator_exp(Action, QueryPattern) :-
-    % Query mongo for matching designators
     mng_desig_matches(Designator, QueryPattern),
-    % Query for action that references given designator
     rdf_has(Action, knowrob:'designator', Designator).
 
-task_designator_exp(Task, [mode, QueryPattern]) :-
+%% task_designator_exp(?Task, [?Mode, ?QueryPattern]) is nondet.
+%
+%  Find a Task for given type and designator expression.
+%
+%  @param Task Returned Task
+%  @param Mode Identifier of given Task type
+%  @param QueryPattern Identifier of given Designator pattern
+%
+%  Example: ?- task_designator_exp(T, [perform, [an, action, [to, grasp]]]).
+% 
+task_designator_exp(Task, [Mode, QueryPattern]) :-
     action_designator_exp(Action, QueryPattern),
-    task_of_action(Task, Action, mode).
+    subtask_typed(Task, Action, Mode).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -276,6 +303,21 @@ task_goal(Task, Goal) :-
     task(Task),
     rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
+%% task_goal_inherited(?X, ?Task, ?Goal) is nondet.
+%
+%  Find goal and task of given action.
+%
+%  @param Action Task individual.
+%  @param Task Identifier of given Task
+%  @param Goal Identifier of given Goal
+% 
+task_goal_inherited(Action, Task, Goal) :-
+    (  ( rdf_has(Action, knowrob:'taskContext', Task),
+         rdf_has(Action, knowrob:'goalContext', Goal) )
+    -> true
+    ;  rdf_has(Parent, knowrob:'subAction', Action),
+       task_goal_inherited(Parent, Task, Goal)
+    ).
 
 %% task_failure(?Task, ?Failure) is nondet.
 %
