@@ -66,13 +66,13 @@
 
 % define holds as meta-predicate and allow the definitions
 % to be in different parts of the source file
-:- meta_predicate cram_holds(0, ?, ?).
+% :- meta_predicate cram_holds(0, ?, ?).
 :- discontiguous cram_holds/2.
 
-:- meta_predicate occurs(0, ?, ?).
+% :- meta_predicate occurs(0, ?, ?).
 :- discontiguous occurs/2.
 
-:- meta_predicate belief_at(0, ?, ?).
+% :- meta_predicate belief_at(0, ?, ?).
 :- discontiguous belief_at/1.
 
 
@@ -382,9 +382,10 @@ successful_tasks_for_goal(Goal, Tasks) :-
 
 
 
-%% cram_holds(+taskPredObj, -taskPredStatus, +T) is nondet.
+%% cram_holds(task_status(+Task, -Status), +T) is nondet.
 %
-% Check whether the given task was being continued, done, failed or not yet started at the given time point.
+% Check whether the given task was being continued, done, failed or not
+% yet started at the given time point.
 %
 % @param Task Identifier of given Task
 % @param Status Returned status
@@ -420,7 +421,7 @@ cram_holds(task_status(Task, Status), T):-
 
 
 
-%% belief_at(?locPredObj, -locPredLoc, +Time) is nondet.
+%% belief_at(loc(+Desig,-Loc), ?Time) is nondet.
 %
 % Check what the belief of the robot for location of Object at given Time .
 %
@@ -449,23 +450,25 @@ belief_at(loc(Desig,Loc), _Time) :-
     get_designator(Desig, Loc).
 
 
-%% belief_at(?robotPredPart, -robotPredLoc, +Time) is nondet.
+%% belief_at(robot(+Part,-Loc), +Time) is nondet.
 %
 % Check what the belief of the robot for location of Robot part at given Time .
 %
-% @param Part    Identifier of the Part
-% @param Location Pose matrix identifier
-% @param Time   TimePoint
+% @param Part  Identifier of the Part
+% @param Loc   Pose matrix identifier
+% @param Time  TimePoint
+% 
 belief_at(robot(Part,Loc), Time) :-
     mng_lookup_transform('/map', Part, Time, Loc).
 
 
-%% occurs(?objectPredObj, ?Time) is nondet.
+%% occurs(object_perceived(?Obj),?T) is nondet.
 %
 % Check whether Object was perceived at given Time .
 %
 % @param Obj    Identifier of the Object
 % @param Time   TimePoint
+% 
 occurs(object_perceived(Obj),T) :-
     nonvar(Obj),
     nonvar(T),
