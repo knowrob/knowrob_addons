@@ -43,7 +43,9 @@
         successful_simacts_for_goal/2,
         simflipping/9,
         simgrasped/4,
-        add_count/1
+        add_count/1,
+        experiment_file/1,
+        load_experiments/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -79,12 +81,39 @@
     simact_end(r,r),
     simflipping(r,r,r,r,r,r,r,r,r),
     simgrasped(r,r,r,r),
+    experiment_file(r),
+    load_experiments(r,r),
     successful_simacts_for_goal(+,-).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of available experiments
+
+exp_list_new(['pf_10.owl','pf_13.owl','pf_16.owl','pf_19.owl','pf_2.owl','pf_5.owl','pf_8.owl','sim_exp2.owl','sim_exp5.owl','pf_11.owl','pf_14.owl','pf_17.owl','pf_1.owl','pf_3.owl','pf_6.owl','pf_9.owl','sim_exp3.owl','sim_exp6.owl','pf_12.owl','pf_15.owl','pf_18.owl','pf_20.owl','pf_4.owl','pf_7.owl','sim_exp1.owl','sim_exp4.owl']).
+exp_list(['sim_exp1.owl','sim_exp2.owl','sim_exp4.owl','sim_exp6.owl']).
+
+experiment_file(X):-
+    exp_list(List),
+    member(X,List).
+
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Basic simact handling
 % 
+
+%% load_experiment(+ExpOwlPath, +ExpFiles) is nondet.
+%
+%  Loads the owl logfiles of a list of experiments, located on ExpOwlPath using
+%  repeated calls to load_experiment in knowrob_cram
+%
+%  @param ExpOwlPath path where the logfiles are located
+%  @param ExpFiles list of logfile names to be loaded
+% 
+load_experiments(ExpOwlPath, []).
+load_experiments(ExpOwlPath, [ExpFile|T]) :-
+    atom_concat(ExpOwlPath, ExpFile, Path),
+    (load_experiment(Path) -> load_experiments(ExpOwlPath, T); load_experiments(ExpOwlPath, T)).
+
 
 %% simact(?Task) is nondet.
 %
@@ -195,7 +224,6 @@ subact(Experiment, Event, SubEvent) :-
     simact(Experiment, Event),
     simact(Experiment, SubEvent).
 
-
 %% subsimact_all(?Task, ?Subsimact) is nondet.
 %
 %  Check if Task is an ancestor of Subsimact in the simact tree
@@ -205,6 +233,12 @@ subact(Experiment, Event, SubEvent) :-
 % 
 subact_all(Event, SubEvent) :-
     owl_has(Event, knowrob:subAction,  SubEvent).
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Simact specific actions handling
+% 
 
 simgrasped(Experiment, EventID, ObjectClass, ObjectInstance) :-
     simact(Experiment, EventID, knowrob:'GraspingSomething'),
@@ -308,6 +342,31 @@ simflip_fliponly(Experiment, ObjectClass, ToolClass, LocationClass, Start, End, 
     simact_end(Experiment,EventID, Start),
     simact_end(Experiment,EventID2, End).
 
+%%  simsupported(?Experiment, ?EventID, ?ObjectInstance) is 
+%   Body of the function for supported_during
+%
+%   Returns the EventID of the events in which ObjectInstance was supported by supporting Object-SupportingFurniture
+%   Assumes that supportedby is a TouchingSituation.
+%
+simsupported(Experiment, EventID, ObjectInstance) :-
+    simact(Experiment, EventID, knowrob_sim:'TouchingSituation'),
+    rdf_has(EventID, knowrob_sim:'inContact', ObjectInstance),
+    rdf_has(EventID, knowrob_sim:'inContact', ObjectInstance2),
+    ObjectInstance \= ObjectInstance2,
+    sim_class_individual(Obj2Class, ObjectInstance2),
+    rdf_reachable(Obj2Class, rdfs:subClassOf, knowrob:'Object-SupportingFurniture').
+
+test(Arr) :-
+    jpl_new('org.knowrob.vis.MarkerVisualization', [], Canvas),
+    jpl_list_to_array(['1','2','3','4'], Arr),
+    jpl_call(Canvas, 'showAverageTrajectory', [bla, Arr, Arr, 1, 1], _).
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Interval handling
+% 
+
 %% 
 %   Given a start/endtime value, looks at given list of time intervals and subtracts
 %   these if they overlap with the given start/endtime interval. Returns start/endtime values
@@ -344,20 +403,6 @@ sim_timepoints_overlap(Start1, End1, Start2, End2) :-
     EVal2 < EVal1. %End2 ends before End1
 sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
     sim_timepoints_overlap(Start2, End2, Start1, End1).
-
-%%  simsupported(?Experiment, ?EventID, ?ObjectInstance) is 
-%   Body of the function for supported_during
-%
-%   Returns the EventID of the events in which ObjectInstance was supported by supporting Object-SupportingFurniture
-%   Assumes that supportedby is a TouchingSituation.
-%
-simsupported(Experiment, EventID, ObjectInstance) :-
-    simact(Experiment, EventID, knowrob_sim:'TouchingSituation'),
-    rdf_has(EventID, knowrob_sim:'inContact', ObjectInstance),
-    rdf_has(EventID, knowrob_sim:'inContact', ObjectInstance2),
-    ObjectInstance \= ObjectInstance2,
-    sim_class_individual(Obj2Class, ObjectInstance2),
-    rdf_reachable(Obj2Class, rdfs:subClassOf, knowrob:'Object-SupportingFurniture').
 
 %%  supported_during(?Experiment, +EventID, ?EventID2, ?ObjectInstance)
 %
