@@ -44,6 +44,7 @@
         failure_attribute/3,
         successful_tasks_for_goal/2,
         task_used_gripper/2,
+	grasping_hand/2,
         show_image/1,
         image_of_perceived_scene/1,
         add_object_to_semantic_map/7,
@@ -99,6 +100,7 @@
     task_failure(r,r),
     failure_attribute(r,r,r),
     task_used_gripper(+,-),
+    grasping_hand(+,-),
     show_image(r),
     image_of_perceived_scene(r),
     add_object_as_semantic_instance(+,+,+,-),
@@ -493,6 +495,14 @@ task_used_gripper(Task, Link) :-
     jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
     jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Client, Arr], _),
     jpl_call(Client, 'getArmLink', [Designator], Link).
+
+
+grasping_hand(GraspDesignator, Link) :-
+
+    jpl_new('org.knowrob.cram.LogdataPublisher', [], Client),
+    jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
+    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Client, Arr], _),
+    jpl_call(Client, 'getGraspSide', [GraspDesignator], Link).
 
 
 

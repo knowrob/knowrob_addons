@@ -302,6 +302,17 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 	public String getArmLink(String designatorId) 
 	{
+		return "/" + getDesignatorProperty(designatorId, "LINK");
+	}
+
+
+	public String getGraspSide(String designatorId)
+	{
+		return getDesignatorProperty(designatorId, "SIDE");
+	}
+
+	public String getDesignatorProperty(String designatorId, String field)
+	{
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
 		designatorId= s1.nextToken();
@@ -319,8 +330,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 		if(d1 != null) {
 			publishDesignator(d1);
-			String link_name = (String)d1.get("LINK");
-			link_name = "/" + link_name;
+			String link_name = (String)d1.get(field);
 			return	link_name;
 		}
 		return "";
