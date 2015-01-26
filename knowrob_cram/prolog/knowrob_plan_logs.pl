@@ -28,9 +28,11 @@
         cram_holds/2,
         occurs/2,
         task/1,
+        task/2,
+        task/3,
         task_type/2,
         task_goal/2,
-        task_goal_inherited/3,
+        task_goal_inherited/2,
         task_start/2,
         task_end/2,
         task_designator_exp/2,
@@ -82,12 +84,14 @@
 :-  rdf_meta
     load_experiment(+),
     task(r),
+    task(r,r),
+    task(r,r,r),
     task_type(r,r),
     subtask(r,r),
     subtask_all(r,r),
     subtask_typed(r,r,r),
     task_goal(r,r),
-    task_goal_inherited(r,r,r),
+    task_goal_inherited(r,r),
     task_start(r,r),
     task_end(r,r),
     task_designator_exp(r,r),
@@ -127,16 +131,12 @@
 %  @param Path file path of the logfile
 % 
 load_experiment(Path) :-
-
     owl_parse(Path),
 
     atom_concat('/home/ros/', LocalPath, Path),
     file_directory_name(LocalPath, Dir),
     atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
-
-
-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -154,6 +154,37 @@ task(Task) :-
     rdf_has(Task, rdf:type, A),
     rdf_reachable(A, rdfs:subClassOf, knowrob:'CRAMEvent').
 
+%% task(?Task, ?Timepoint) is nondet.
+%
+%  Check if  class of Task is a subclass of CRAMEvent
+%  and that the task is active at given time.
+%
+%  @param Task Identifier of given Task
+%  @param Timepoint Identifier of given timepoint
+% 
+task(Task, Timepoint) :-
+    task(Task),
+    task_start(Task,TimepointStart),
+    task_end(Task,TimepointEnd),
+    time_term(Timepoint, Time),
+    time_term(TimepointStart, Start),
+    time_term(TimepointEnd, End),
+    Start=<Time, Time=<End.
+
+%% task(?Task, ?Timepoint, ?SuperClass) is nondet.
+%
+%  Check if  class of Task is a subclass of CRAMEvent,
+%  that the task is active at given time
+%  and that the class of Task is a specialization of given super class.
+%
+%  @param Task Identifier of given Task
+%  @param Timepoint Identifier of given timepoint
+%  @param SuperClass Identifier of given super class
+% 
+task(Task, Timepoint, SuperClass) :-
+    task(Task, Timepoint),
+    task_type(Task, TaskClass),
+    rdf_reachable(TaskClass, rdfs:subClassOf, SuperClass).
 
 %% task_type(?Task, ?Class) is nondet.
 %
@@ -305,20 +336,18 @@ task_goal(Task, Goal) :-
     task(Task),
     rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
-%% task_goal_inherited(?X, ?Task, ?Goal) is nondet.
+%% task_goal_inherited(?Action, ?Goal) is nondet.
 %
 %  Find goal and task of given action.
 %
 %  @param Action Task individual.
-%  @param Task Identifier of given Task
 %  @param Goal Identifier of given Goal
 % 
-task_goal_inherited(Action, Task, Goal) :-
-    (  ( rdf_has(Action, knowrob:'taskContext', Task),
-         rdf_has(Action, knowrob:'goalContext', Goal) )
+task_goal_inherited(Action, Goal) :-
+    (  rdf_has(Action, knowrob:'goalContext', Goal)
     -> true
     ;  rdf_has(Parent, knowrob:'subAction', Action),
-       task_goal_inherited(Parent, Task, Goal)
+       task_goal_inherited(Parent, Goal)
     ).
 
 %% task_failure(?Task, ?Failure) is nondet.
