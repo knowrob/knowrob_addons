@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="User Entered Import Resolution" name="package://knowrob_common/owl/knowrob.owl" uri="file:/home/danielb/hydro_catkin/src/knowrob/knowrob_common/owl/knowrob.owl"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1422373471991" name="http://knowrob.org/kb/knowrob_saphari.owl" uri="knowrob_saphari.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1422373471991" name="http://knowrob.org/kb/semantic_map_saphari.owl" uri="semantic_map_saphari.owl"/>
+    </group>
+</catalog>
