@@ -46,7 +46,7 @@
         failure_attribute/3,
         successful_tasks_for_goal/2,
         task_used_gripper/2,
-	grasping_hand/2,
+        grasping_hand/2,
         show_image/1,
         image_of_perceived_scene/1,
         add_object_to_semantic_map/7,
