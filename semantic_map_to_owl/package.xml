@@ -27,5 +27,4 @@
   <run_depend>message_runtime</run_depend>
   <run_depend>knowrob_common</run_depend>
 
-<build_depend>semantic_map_to_owl_msgs</build_depend>
 </package>
