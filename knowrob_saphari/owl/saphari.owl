@@ -8,14 +8,14 @@
     <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY computable "http://knowrob.org/kb/computable.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY saphari "http://knowrob.org/kb/knowrob_saphari.owl#" >
+    <!ENTITY saphari "http://knowrob.org/kb/saphari.owl#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
 ]>
 
 
-<rdf:RDF xmlns="http://knowrob.org/kb/knowrob_saphari.owl#"
-     xml:base="http://knowrob.org/kb/knowrob_saphari.owl"
-     xmlns:saphari="http://knowrob.org/kb/knowrob_saphari.owl#"
+<rdf:RDF xmlns="http://knowrob.org/kb/saphari.owl#"
+     xml:base="http://knowrob.org/kb/saphari.owl"
+     xmlns:saphari="http://knowrob.org/kb/saphari.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:computable="http://knowrob.org/kb/computable.owl#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
@@ -23,8 +23,9 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
-    <owl:Ontology rdf:about="http://knowrob.org/kb/knowrob_saphari.owl">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/saphari.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_cram/owl/knowrob_cram.owl"/>
     </owl:Ontology>
     
 
@@ -40,7 +41,7 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_saphari.owl#collisionType -->
+    <!-- http://knowrob.org/kb/saphari.owl#collisionType -->
 
     <owl:DatatypeProperty rdf:about="&saphari;collisionType">
         <rdfs:domain rdf:resource="&knowrob;Situation"/>
@@ -49,7 +50,7 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_saphari.owl#reactionType -->
+    <!-- http://knowrob.org/kb/saphari.owl#reactionType -->
 
     <owl:DatatypeProperty rdf:about="&saphari;reactionType">
         <rdfs:domain rdf:resource="&knowrob;Situation"/>
@@ -69,7 +70,7 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_saphari.owl#ConfigurationEvent -->
+    <!-- http://knowrob.org/kb/saphari.owl#ConfigurationEvent -->
 
     <owl:Class rdf:about="&saphari;ConfigurationEvent">
         <rdfs:subClassOf rdf:resource="&knowrob;Action"/>
@@ -77,11 +78,11 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_saphari.owl#HumanIntrusion -->
+    <!-- http://knowrob.org/kb/saphari.owl#HumanIntrusion -->
 
     <owl:Class rdf:about="&saphari;HumanIntrusion">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerceive"/>
         <rdfs:subClassOf rdf:resource="&knowrob;Intrusion"/>
-        <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
     </owl:Class>
 </rdf:RDF>
 

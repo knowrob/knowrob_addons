@@ -22,9 +22,17 @@
 :- register_ros_package(knowrob_saphari).
 :- use_module(library('knowrob_saphari')).
 
-%Extended ontology
-:- owl_parser:owl_parse('package://knowrob_saphari/owl/knowrob_saphari.owl').
-:- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/knowrob_saphari.owl#', [keep(true)]).
+:- mng_db('saphari').
 
-% :- owl_parser:owl_parse('package://knowrob_saphari/owl/semantic_map_saphari.owl').
+%Extended ontology
+:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
+:- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
+
+:- owl_parser:owl_parse('package://knowrob_srdl/owl/openni_human1.owl').
+:- rdf_db:rdf_register_ns(openni_human, 'http://knowrob.org/kb/openni_human1.owl#', [keep(true)]).
+
+:- owl_parser:owl_parse('package://knowrob_srdl/owl/Boxy.owl').
+:- rdf_db:rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
+
 :- rdf_db:rdf_register_ns(saphari_map, 'http://knowrob.org/kb/semantic_map_saphari.owl#', [keep(true)]).
+

@@ -33,9 +33,9 @@
 :- use_module(library('knowrob_mongo')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(knowrob_saphari, 'http://knowrob.org/kb/knowrob_saphari.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 
 % define predicates as rdf_meta predicates
 % (i.e. rdf namespaces are automatically expanded)
-:-  rdf_meta.
+%:-  rdf_meta.
