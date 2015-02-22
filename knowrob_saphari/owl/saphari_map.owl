@@ -267,6 +267,12 @@
         <!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/ClampSmall.dae</knowrob:pathToCadModel> -->
     </owl:NamedIndividual>
 
+    <owl:NamedIndividual rdf:about="&map;Hook_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Hook</knowrob:perceptionResponse>
+        <!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Hook.dae</knowrob:pathToCadModel> -->
+    </owl:NamedIndividual>
+
     <owl:NamedIndividual rdf:about="&map;TablePlane_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TablePlane</knowrob:perceptionResponse>

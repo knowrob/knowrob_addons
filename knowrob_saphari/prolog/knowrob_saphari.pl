@@ -26,6 +26,8 @@
       agent_marker/4,
       agent_connection_marker/5,
       
+      action_designator/3,
+      
       intrusion_link/4,
       intrusion_link/5,
       
@@ -57,9 +59,24 @@
             saphari_visualize_agents(r),
             highlight_intrusions(r,r,r,r),
             agent_marker(r,r,r,r),
+            action_designator(r,r,r),
             intrusion_link(r,r,r,r),
             intrusion_link(r,r,r,r,r),
             agent_connection_marker(r,r,r,r,r).
+
+action_designator(TaskContext, Timepoint, Designator) :-
+  % action with taskContext
+  owl_individual_of(Action, knowrob:'CRAMAction'),
+  once((
+    rdf_has(Action, knowrob:'taskContext', literal(type(_,TaskContext))),
+    % attached designator
+    rdf_has(Action, knowrob:'subAction', WithDesignators),
+    owl_individual_of(WithDesignators, knowrob:'WithDesignators'),
+    rdf_has(WithDesignators, knowrob:'designator', Desig),
+    % finally the equated designator
+    rdf_has(Desig, knowrob:'equatedDesignator', Designator),
+    rdf_has(Designator, knowrob:'equationTime', Timepoint)
+  )).
 
 agent_tf_frame(Link, Prefix, TfFrame) :-
   owl_has(Link, srdl2comp:'urdfName', literal(UrdfName)),
