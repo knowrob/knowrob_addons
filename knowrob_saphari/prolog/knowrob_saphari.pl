@@ -28,7 +28,6 @@
       
       intrusion_link/4,
       intrusion_link/5,
-      active_intrusion/2,
       
       saphari_visualize_agents/1,
       saphari_visualize_human/2,
@@ -60,7 +59,6 @@
             agent_marker(r,r,r,r),
             intrusion_link(r,r,r,r),
             intrusion_link(r,r,r,r,r),
-            active_intrusion(r,r),
             agent_connection_marker(r,r,r,r,r).
 
 agent_tf_frame(Link, Prefix, TfFrame) :-
@@ -88,15 +86,6 @@ intrusion_link(Human, HumanPrefix, Timeppoint, Threshold, HumanLink) :-
   mng_lookup_position('/shoulder_kinect_rgb_frame', HumanTf, Timeppoint, Position),
   nth0(0, Position, XPosition),
   XPosition < Threshold.
-
-active_intrusion(Timepoint, Intrusion) :-
-  owl_individual_of(Intrusion, saphari:'HumanIntrusion'),
-  owl_has(Intrusion, knowrob:'startTime', _T0),
-  owl_has(Intrusion, knowrob:'endTime', _T1),
-  time_term(_T0, T0),
-  time_term(_T1, T1),
-  time_term(Timepoint, Time),
-  T0 =< Time, Time =< T1.
   
 highlight_intrusion_danger(MarkerId) :-
   highlight_object(MarkerId, 255, 0, 0, 255).
@@ -135,7 +124,7 @@ saphari_visualize_human(HumanIdentifier, HumanPrefix, Timeppoint) :-
 saphari_visualize_agents(Timepoint) :-
   add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
   
-  forall(active_intrusion(Timepoint, Intrusion), ((
+  forall(event(Timepoint, saphari:'HumanIntrusion', Intrusion), ((
     owl_has(Intrusion, knowrob:'designator', D),
     mng_designator_props(D, 'TF-PREFIX', Prefix),
     saphari_visualize_human(Prefix, Timepoint)

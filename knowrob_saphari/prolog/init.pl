@@ -34,5 +34,5 @@
 :- owl_parser:owl_parse('package://knowrob_srdl/owl/Boxy.owl').
 :- rdf_db:rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
 
-:- rdf_db:rdf_register_ns(saphari_map, 'http://knowrob.org/kb/semantic_map_saphari.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(saphari_map, 'http://knowrob.org/kb/saphari_map.owl#', [keep(true)]).
 

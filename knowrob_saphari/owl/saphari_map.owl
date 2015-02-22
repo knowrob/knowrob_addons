@@ -165,6 +165,9 @@
 
     <owl:Class rdf:about="&knowrob;Cupboard"/>
 
+    <!-- &knowrob;ObjectTemplate -->
+	
+    <owl:Class rdf:about="&knowrob;ObjectTemplate"/>
 
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -223,6 +226,44 @@
         <knowrob:startTime rdf:resource="&map;timepoint_0"/>
         <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_Cupboard_SAPHARI"/>
         <knowrob:objectActedOn rdf:resource="&knowrob;Cupboard_SAPHARI"/>
+    </owl:NamedIndividual>
+
+    <!-- OBJECT TEMPLATES -->
+
+    <owl:NamedIndividual rdf:about="&map;Scissors_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scissors</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scissors.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&map;Scalpel_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scalpel</knowrob:perceptionResponse>
+        <!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel> -->
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&map;Rake_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Rake</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Rake.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&map;Bowl_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bowl</knowrob:perceptionResponse>
+		<!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Bowl.dae</knowrob:pathToCadModel> -->
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&map;ClampBig_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampBig</knowrob:perceptionResponse>
+        <!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/ClampBig.dae</knowrob:pathToCadModel> -->
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&map;ClampSmall_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampSmall</knowrob:perceptionResponse>
+        <!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/ClampSmall.dae</knowrob:pathToCadModel> -->
     </owl:NamedIndividual>
 
 </rdf:RDF>
