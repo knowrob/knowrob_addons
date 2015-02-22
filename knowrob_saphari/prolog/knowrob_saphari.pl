@@ -124,7 +124,7 @@ saphari_visualize_human(HumanIdentifier, HumanPrefix, Timeppoint) :-
 saphari_visualize_agents(Timepoint) :-
   add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
   
-  forall(event(Timepoint, saphari:'HumanIntrusion', Intrusion), ((
+  forall(event(saphari:'HumanIntrusion', Intrusion, Timepoint), ((
     owl_has(Intrusion, knowrob:'designator', D),
     mng_designator_props(D, 'TF-PREFIX', Prefix),
     saphari_visualize_human(Prefix, Timepoint)
