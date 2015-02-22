@@ -24,9 +24,15 @@
 :- module(knowrob_plan_logs,
     [
         load_experiment/1,
+        load_experiments/1,
+        load_experiments/2,
         belief_at/2,
         cram_holds/2,
         occurs/2,
+        event/3,
+        experiment/2,
+        experiment_map/2,
+        object_template/3,
         task/1,
         task/2,
         task/3,
@@ -83,6 +89,12 @@
 % (i.e. rdf namespaces are automatically expanded)
 :-  rdf_meta
     load_experiment(+),
+    load_experiments(+),
+    load_experiments(+,+),
+    event(r,r,r),
+    experiment(r,r),
+    experiment_map(r,r),
+    object_template(r,?,r),
     task(r),
     task(r,r),
     task(r,r,r),
@@ -115,6 +127,9 @@
     get_designator(r,-).
 
 
+default_map(Map) :-
+  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
+
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % 
@@ -138,11 +153,90 @@ load_experiment(Path) :-
     atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
     rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
 
+%% load_experiments(+Path) is nondet.
+%
+%  Loads the logfiles of the corresponding CRAM plan executions. Also,
+%  asserts new DirectoryName instances for accessing perception images of plans.
+%  It is assumed that Path contains sub directories for each experiment
+%  run where a log file 'cram_log.owl' is located in each of the sub directories.
+%
+%  @param Path Parent directory for experiment logs.
+% 
+load_experiments(Path) :-
+  load_experiments(Path, 'cram_log.owl').
+
+%% load_experiments(+Path, +ExpFileName) is nondet.
+%
+%  Loads the logfiles of the corresponding CRAM plan executions. Also,
+%  asserts new DirectoryName instances for accessing perception images of plans.
+%  It is assumed that Path contains sub directories for each experiment
+%  run where a log file ExpFileName is located in each of the sub directories.
+%
+%  @param Path Parent directory for experiment logs.
+% 
+load_experiments(Path, ExpFileName) :-
+  directory_files(Path, SubDirs),
+  forall( member(SubDir, SubDirs), ((
+    atom_concat(Path, SubDir, ExpDir),
+    atom_concat(ExpDir, '/', ExpDirSlash),
+    atom_concat(ExpDirSlash, ExpFileName, ExpFile),
+    exists_file(ExpFile),
+    load_experiment(ExpFile)
+  ) ; true )).
+
+%% experiment(?Experiment, +Timepoint) is nondet.
+%
+% Yields experiments which were active at Timepoint
+% 
+experiment(Experiment, Timepoint) :-
+  event(knowrob:'RobotExperiment', Experiment, Timepoint).
+
+%% experiment_map(+Experiment, ?Map) is nondet.
+%
+% Find the semantic map instance that corresponds to an experiment
+% 
+experiment_map(Experiment, Map) :-
+  rdf_has(Experiment, knowrob:'performedInMap', Map) ;
+  % Fallback to lab kitchen for backwards compatibiliy
+  default_map(Map).
+
+%% object_template(+Source, ?Response, ?Template) is nondet.
+%
+% Find the object template instances for perception responses.
+% 
+object_template(Map, Response, Template) :-
+  owl_individual_of(Map, knowrob:'SemanticEnvironmentMap'),
+  object_template_in_map(Map, Response, Template).
+
+object_template(Experiment, Response, Template) :-
+  experiment_map(Experiment, Map),
+  object_template_in_map(Map, Response, Template).
+
+object_template_in_map(Map, Response, Template) :-
+  % Find templates
+  owl_individual_of(Template, knowrob:'ObjectTemplate'),
+  
+  % Make sure template instance is defined in Map
+  rdf_split_url(MapUrl, _, Map),
+  rdf_split_url(MapUrl, _, Template),
+  
+  owl_has(Template, knowrob:'perceptionResponse', literal(type(_,Response))).
+  
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Event handling
+% 
+
+event(EventClass, EventInstance, Timepoint) :-
+  owl_individual_of(EventInstance, EventClass),
+  owl_has(EventInstance, knowrob:'startTime', T0),
+  owl_has(EventInstance, knowrob:'endTime', T1),
+  time_between(Timepoint, T0, T1).
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Basic task hierarchy handling
 % 
-
 
 %% task(?Task) is nondet.
 %
@@ -568,20 +662,97 @@ get_designator(Designator, Loc) :-
     create_pose(LocList, Loc).
 
 
-
 add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
-    add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, 0.2, 0.2, 0.2).
+    ((experiment(Experiment, Time), experiment_map(Experiment, Map), !) ;
+     (default_map(Map))),
+    add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance).
+
+add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
+    % Read object designator
+    (mng_designator(Obj, ObjJava), !),
+    atom(Matrix),
+    
+    % Assert the object
+    % TODO:(daniel): Identification of objects is done based on designator ID.
+    %                Would be nicer if logged designator ID could be used.
+    rdf_split_url(_, ObjLocal, Obj),
+    atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
+    
+    % Read perception response
+    once(
+        mng_designator_property(Obj, ObjJava, ['RESPONSE'], Response) ;
+        Response = 'Unknown'
+    ),
+    
+    % Assert object type
+    % TODO(daniel): Check if `Response` corresponds to class in knowrob that extends
+    % SpatialThing-Localized.
+    rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
+    % Assert link to semantic map
+    rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
+    
+    % Search for templates based on perception response and assert knowrob properties
+    once(  (object_template(Map, Response, TemplateInstance) , !)
+    -> (
+        findall([Prop,Value], (
+            rdf_has(TemplateInstance, Prop, Value),
+            % Only handle knowrob properties
+            rdf_split_url('http://knowrob.org/kb/knowrob.owl#', _, Prop)
+        ), Props),
+        
+        forall(
+            member([Prop,Value],Props),
+            rdf_assert(ObjInstance, Prop, Value)
+        )
+    ) ; (
+        true
+    )), !,
+
+    % Read and assert object dimensions
+    once(
+      mng_designator_property(Obj, ObjJava, ['BOUNDINGBOX', 'DIMENSIONS-3D'], [H,W,D]) ;
+      [H,W,D] = [0.2,0.2,0.2]
+    ),
+    rdf_assert(ObjInstance,knowrob:'depthOfObject',literal(type(xsd:float, D))),
+    rdf_assert(ObjInstance,knowrob:'widthOfObject',literal(type(xsd:float, W))),
+    rdf_assert(ObjInstance,knowrob:'heightOfObject',literal(type(xsd:float, H))),
+    
+    % Read and assert object color
+    once(  mng_designator_property(Obj, ObjJava, ['COLOR'], Col)
+    -> (
+       atomic_list_concat(Col, ' ', ColRGB),
+       atom_concat(ColRGB, ' 1.0', ColRGBA),
+       rdf_assert(ObjInstance,knowrob:'mainColorOfObject',literal(type(xsd:string, ColRGBA)))
+    )
+    ;  (
+        true
+    )),
+    
+    rdf_instance_from_class(knowrob:'SemanticMapPerception', Perception),
+    rdf_assert(Perception, knowrob:'startTime', Time),
+    rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
+
+    set_object_perception(ObjInstance, Perception).
+
+
+add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
+    add_object_to_semantic_map(Obj, Matrix, Time, Map, ObjInstance, 0.2, 0.2, 0.2).
+
 
 add_robot_as_basic_semantic_instance(PoseList, Time, ObjInstance) :-
     add_object_to_semantic_map(Time, PoseList, Time, ObjInstance, 0.5, 0.2, 0.2).
 
-
 add_object_to_semantic_map(Obj, PoseList, Time, ObjInstance, H, W, D) :-
+    ((experiment(Experiment, Time), experiment_map(Experiment, Map), !) ;
+     (default_map(Map))),
+    add_object_to_semantic_map(Obj, PoseList, Time, Map, ObjInstance, H, W, D).
+
+add_object_to_semantic_map(Obj, PoseList, Time, Map, ObjInstance, H, W, D) :-
     is_list(PoseList),
     create_pose(PoseList, Matrix),
-    add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D).
+    add_object_to_semantic_map(Obj, Matrix, Time, Map, ObjInstance, H, W, D).
 
-add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
+add_object_to_semantic_map(Obj, Matrix, Time, Map, ObjInstance, H, W, D) :-
     atom(Matrix),
     rdf_split_url(_, ObjLocal, Obj),
     atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
@@ -589,7 +760,7 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(ObjInstance,knowrob:'depthOfObject',literal(type(xsd:float, D))),
     rdf_assert(ObjInstance,knowrob:'widthOfObject',literal(type(xsd:float, W))),
     rdf_assert(ObjInstance,knowrob:'heightOfObject',literal(type(xsd:float, H))),
-    rdf_assert(ObjInstance,knowrob:'describedInMap','http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'), % TODO: give map as parameter
+    rdf_assert(ObjInstance,knowrob:'describedInMap', Map),
 
     rdf_instance_from_class(knowrob:'SemanticMapPerception', Perception),
     rdf_assert(Perception, knowrob:'startTime', Time),

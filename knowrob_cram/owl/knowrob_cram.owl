@@ -6,7 +6,7 @@
           <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
           <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
           <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
-	  <!ENTITY cram 'http://knowrob.org/kb/knowrob_cram.owl#'>
+          <!ENTITY cram 'http://knowrob.org/kb/knowrob_cram.owl#'>
 
           ]>
 

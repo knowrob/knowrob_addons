@@ -246,7 +246,6 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 	public double[] getBeliefByDesignator(String designatorId) 
 	{
-
 		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 		s1.nextToken();
 		designatorId= s1.nextToken();
