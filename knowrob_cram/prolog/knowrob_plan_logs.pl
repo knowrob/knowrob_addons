@@ -196,9 +196,11 @@ experiment(Experiment, Timepoint) :-
 % Find the semantic map instance that corresponds to an experiment
 % 
 experiment_map(Experiment, Map) :-
-  rdf_has(Experiment, knowrob:'performedInMap', Map) ;
-  % Fallback to lab kitchen for backwards compatibiliy
-  default_map(Map).
+  once(
+    rdf_has(Experiment, knowrob:'performedInMap', Map) ;
+    % Fallback to lab kitchen for backwards compatibiliy
+    default_map(Map)
+  ).
 
 %% object_template(+Source, ?Response, ?Template) is nondet.
 %

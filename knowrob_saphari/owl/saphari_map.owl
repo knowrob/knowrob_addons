@@ -184,6 +184,7 @@
 
     <owl:NamedIndividual rdf:about="&map;Map_SAPHARI">
         <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
 
 
@@ -264,6 +265,12 @@
         <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampSmall</knowrob:perceptionResponse>
         <!-- <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/ClampSmall.dae</knowrob:pathToCadModel> -->
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&map;TablePlane_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">TablePlane</knowrob:perceptionResponse>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
 
 </rdf:RDF>
