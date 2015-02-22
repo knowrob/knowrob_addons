@@ -681,10 +681,10 @@ add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
     atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
     
     % Read perception response
-    once(
+    once((
         mng_designator_property(Obj, ObjJava, ['RESPONSE'], Response) ;
         Response = 'Unknown'
-    ),
+    )),
     
     % Assert object type
     % TODO(daniel): Check if `Response` corresponds to class in knowrob that extends
@@ -694,7 +694,7 @@ add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
     rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
     
     % Search for templates based on perception response and assert knowrob properties
-    once(  (object_template(Map, Response, TemplateInstance) , !)
+    once((  (object_template(Map, Response, TemplateInstance) , !)
     -> (
         findall([Prop,Value], (
             rdf_has(TemplateInstance, Prop, Value),
@@ -708,19 +708,19 @@ add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
         )
     ) ; (
         true
-    )), !,
+    ))),
 
     % Read and assert object dimensions
-    once(
+    once((
       mng_designator_property(Obj, ObjJava, ['BOUNDINGBOX', 'DIMENSIONS-3D'], [H,W,D]) ;
       [H,W,D] = [0.2,0.2,0.2]
-    ),
+    )),
     rdf_assert(ObjInstance,knowrob:'depthOfObject',literal(type(xsd:float, D))),
     rdf_assert(ObjInstance,knowrob:'widthOfObject',literal(type(xsd:float, W))),
     rdf_assert(ObjInstance,knowrob:'heightOfObject',literal(type(xsd:float, H))),
     
     % Read and assert object color
-    once(  mng_designator_property(Obj, ObjJava, ['COLOR'], Col)
+    once((  mng_designator_property(Obj, ObjJava, ['COLOR'], Col)
     -> (
        atomic_list_concat(Col, ' ', ColRGB),
        atom_concat(ColRGB, ' 1.0', ColRGBA),
@@ -728,7 +728,7 @@ add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
     )
     ;  (
         true
-    )),
+    ))),
     
     rdf_instance_from_class(knowrob:'SemanticMapPerception', Perception),
     rdf_assert(Perception, knowrob:'startTime', Time),
