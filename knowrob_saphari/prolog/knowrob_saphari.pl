@@ -162,8 +162,8 @@ saphari_visualize_agents_new(Timepoint) :-
       atom_concat(PrefixA, '/', Prefix),
       
       mng_latest_designator(Timepoint, [
-        ['__recorded', '>', MinTimepoint],
-        ['designator.USER-ID', '==', UserId]
+        ['__recorded', '>', date(MinTimepoint)],
+        ['designator.USER-ID', '=', UserId]
       ], _)
     )
     -> (
