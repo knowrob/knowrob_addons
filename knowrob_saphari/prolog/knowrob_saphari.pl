@@ -32,6 +32,7 @@
       intrusion_link/5,
       
       saphari_visualize_agents/1,
+      saphari_visualize_agents_new/1,
       saphari_visualize_human/2,
       saphari_visualize_human/3,
       highlight_intrusions/4
@@ -57,6 +58,7 @@
 :- rdf_meta saphari_visualize_human(r,r,r),
             saphari_visualize_human(r,r),
             saphari_visualize_agents(r),
+            saphari_visualize_agents_new(r),
             highlight_intrusions(r,r,r,r),
             agent_marker(r,r,r,r),
             action_designator(r,r,r),
@@ -145,5 +147,29 @@ saphari_visualize_agents(Timepoint) :-
     owl_has(Intrusion, knowrob:'designator', D),
     mng_designator_props(D, 'TF-PREFIX', Prefix),
     saphari_visualize_human(Prefix, Timepoint)
+  ) ; true)).
+
+saphari_visualize_agents_new(Timepoint) :-
+  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
+  
+  time_term(Timepoint, Time),
+  MinTimepoint is Time - 1.0,
+  
+  mng_designator_distinct_values('designator.USER-ID', UserIds),
+  forall(member(UserId, UserIds), ((
+    ((
+      atom_concat('/human', UserId, PrefixA),
+      atom_concat(PrefixA, '/', Prefix),
+      
+      mng_latest_designator(Timepoint, [
+        ['__recorded', '>', MinTimepoint],
+        ['designator.USER-ID', '==', UserId]
+      ], _)
+    )
+    -> (
+      saphari_visualize_human(Prefix, Timepoint)
+    ) ; (
+      remove_agent_visualization(Prefix, openni_human:'iai_human_robot1')
+    ))
   ) ; true)).
 
