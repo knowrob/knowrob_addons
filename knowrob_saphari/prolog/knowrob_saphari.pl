@@ -32,7 +32,6 @@
       intrusion_link/5,
       
       saphari_visualize_agents/1,
-      saphari_visualize_agents_new/1,
       saphari_visualize_human/2,
       saphari_visualize_human/3,
       highlight_intrusions/4
@@ -58,7 +57,6 @@
 :- rdf_meta saphari_visualize_human(r,r,r),
             saphari_visualize_human(r,r),
             saphari_visualize_agents(r),
-            saphari_visualize_agents_new(r),
             highlight_intrusions(r,r,r,r),
             agent_marker(r,r,r,r),
             action_designator(r,r,r),
@@ -140,36 +138,40 @@ saphari_visualize_human(HumanIdentifier, HumanPrefix, Timeppoint) :-
       Timeppoint
   ).
 
+%saphari_visualize_agents(Timepoint) :-
+%  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
+%  
+%  forall(event(saphari:'HumanIntrusion', Intrusion, Timepoint), ((
+%    owl_has(Intrusion, knowrob:'designator', D),
+%    mng_designator_props(D, 'TF-PREFIX', Prefix),
+%    saphari_visualize_human(Prefix, Timepoint)
+%  ) ; true)).
+
+human_tf_prefix(UserIdJava, Prefix) :-
+  jpl_call(UserIdJava, intValue, [], UserId),
+  atom_concat('/human', UserId, PrefixA),
+  atom_concat(PrefixA, '/', Prefix).
+
 saphari_visualize_agents(Timepoint) :-
   add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
   
-  forall(event(saphari:'HumanIntrusion', Intrusion, Timepoint), ((
-    owl_has(Intrusion, knowrob:'designator', D),
-    mng_designator_props(D, 'TF-PREFIX', Prefix),
-    saphari_visualize_human(Prefix, Timepoint)
-  ) ; true)).
-
-saphari_visualize_agents_new(Timepoint) :-
-  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
-  
   time_term(Timepoint, Time),
-  MinTimepoint is Time - 1.0,
+  MinTimepoint is Time - 0.5,
   
   mng_designator_distinct_values('designator.USER-ID', UserIds),
-  forall(member(UserId, UserIds), ((
+  forall(member(UserIdJava, UserIds), ((
     ((
-      atom_concat('/human', UserId, PrefixA),
-      atom_concat(PrefixA, '/', Prefix),
-      
-      mng_latest_designator(Timepoint, [
-        ['__recorded', '>', date(MinTimepoint)],
-        ['designator.USER-ID', '=', UserId]
+      mng_latest_designator(Time, [
+        ['__recorded', '>=', date(MinTimepoint)],
+        ['designator.USER-ID', '=', UserIdJava]
       ], _)
     )
     -> (
+      human_tf_prefix(UserIdJava, Prefix),
       saphari_visualize_human(Prefix, Timepoint)
     ) ; (
-      true %remove_agent_visualization(Prefix, openni_human:'iai_human_robot1')
+      human_tf_prefix(UserIdJava, Prefix),
+      remove_agent_visualization(Prefix, openni_human:'iai_human_robot1')
     ))
   ) ; true)).
 
