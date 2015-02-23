@@ -169,7 +169,7 @@ saphari_visualize_agents_new(Timepoint) :-
     -> (
       saphari_visualize_human(Prefix, Timepoint)
     ) ; (
-      remove_agent_visualization(Prefix, openni_human:'iai_human_robot1')
+      true %remove_agent_visualization(Prefix, openni_human:'iai_human_robot1')
     ))
   ) ; true)).
 
