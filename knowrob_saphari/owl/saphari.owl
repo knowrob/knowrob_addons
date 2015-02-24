@@ -140,6 +140,26 @@
     <owl:Class rdf:about="&knowrob;Scalpel">
         <rdfs:subClassOf rdf:resource="&knowrob;LabUtensil"/>
     </owl:Class>
+    
+    
+    
+    <owl:ObjectProperty rdf:about="&knowrob;dangerousPart">
+        <rdfs:range rdf:resource="&knowrob;DangerousThing"/>
+        <rdfs:domain rdf:resource="&knowrob;SpatialThing"/>
+    </owl:ObjectProperty>
+    
+    <owl:Class rdf:about="&knowrob;DangerousThing">
+        <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+    </owl:Class>
+    
+    <owl:Class rdf:about="&knowrob;ScalpelBlade">
+        <rdfs:subClassOf rdf:resource="&knowrob;DangerousThing"/>
+    </owl:Class>
+    
+    
+    <owl:Class rdf:about="&knowrob;Scissors">
+        <rdfs:subClassOf rdf:resource="&knowrob;LabUtensil"/>
+    </owl:Class>
 </rdf:RDF>
 
 

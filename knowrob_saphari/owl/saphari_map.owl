@@ -229,6 +229,58 @@
         <knowrob:objectActedOn rdf:resource="&knowrob;Cupboard_SAPHARI"/>
     </owl:NamedIndividual>
 
+    
+        
+    <owl:NamedIndividual rdf:about="&knowrob;Scalpel_SAPHARI">
+        <rdf:type rdf:resource="&knowrob;Scalpel"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
+	<knowrob:dangerousPart rdf:resource="&knowrob;ScalpelBlade_SAPHARI"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAPHARI"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;ScalpelBlade_SAPHARI">
+        <rdf:type rdf:resource="&knowrob;ScalpelBlade"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/ScalpelBlade.dae</knowrob:pathToCadModel>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAPHARI"/>
+    </owl:NamedIndividual>
+    
+    
+    
+    <owl:NamedIndividual rdf:about="&knowrob;RotationMatrix3D_Scalpel_SAPHARI">
+        <rdf:type rdf:resource="&knowrob;RotationMatrix3D"/>
+        <knowrob:m00 rdf:datatype="&xsd;double">1.0</knowrob:m00>
+        <knowrob:m01 rdf:datatype="&xsd;double">0.0</knowrob:m01>
+        <knowrob:m02 rdf:datatype="&xsd;double">0.0</knowrob:m02>
+        <knowrob:m03 rdf:datatype="&xsd;double">1.205</knowrob:m03>
+        <knowrob:m10 rdf:datatype="&xsd;double">0.0</knowrob:m10>
+        <knowrob:m11 rdf:datatype="&xsd;double">1.0</knowrob:m11>
+        <knowrob:m12 rdf:datatype="&xsd;double">0.0</knowrob:m12>
+        <knowrob:m13 rdf:datatype="&xsd;double">0.25</knowrob:m13>
+        <knowrob:m20 rdf:datatype="&xsd;double">0.0</knowrob:m20>
+        <knowrob:m21 rdf:datatype="&xsd;double">0.0</knowrob:m21>
+        <knowrob:m22 rdf:datatype="&xsd;double">1.0</knowrob:m22>
+        <knowrob:m23 rdf:datatype="&xsd;double">0.735</knowrob:m23>
+        <knowrob:m30 rdf:datatype="&xsd;double">0.0</knowrob:m30>
+        <knowrob:m31 rdf:datatype="&xsd;double">0.0</knowrob:m31>
+        <knowrob:m32 rdf:datatype="&xsd;double">0.0</knowrob:m32>
+        <knowrob:m33 rdf:datatype="&xsd;double">1.0</knowrob:m33>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_Scalpel_89sgudstj4">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_Scalpel_SAPHARI"/>
+        <knowrob:objectActedOn rdf:resource="&knowrob;Scalpel_SAPHARI"/>
+    </owl:NamedIndividual>
+    
+
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_ScalpelBlade_89sgudstj4">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&knowrob;RotationMatrix3D_Scalpel_SAPHARI"/>
+        <knowrob:objectActedOn rdf:resource="&knowrob;ScalpelBlade_SAPHARI"/>
+    </owl:NamedIndividual>
+
     <!-- OBJECT TEMPLATES -->
 
     <owl:NamedIndividual rdf:about="&map;Scissors_TEMPLATE">
