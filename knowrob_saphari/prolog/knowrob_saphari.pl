@@ -31,6 +31,7 @@
       intrusion_link/4,
       intrusion_link/5,
       
+      saphari_visualize_experiment/1,
       saphari_visualize_agents/1,
       saphari_visualize_human/2,
       saphari_visualize_human/3,
@@ -57,6 +58,7 @@
 :- rdf_meta saphari_visualize_human(r,r,r),
             saphari_visualize_human(r,r),
             saphari_visualize_agents(r),
+            saphari_visualize_experiment(r),
             highlight_intrusions(r,r,r,r),
             agent_marker(r,r,r,r),
             action_designator(r,r,r),
@@ -152,9 +154,7 @@ human_tf_prefix(UserIdJava, Prefix) :-
   atom_concat('/human', UserId, PrefixA),
   atom_concat(PrefixA, '/', Prefix).
 
-saphari_visualize_agents(Timepoint) :-
-  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
-  
+saphari_visualize_humans(Timepoint) :-
   time_term(Timepoint, Time),
   MinTimepoint is Time - 0.5,
   
@@ -175,3 +175,47 @@ saphari_visualize_agents(Timepoint) :-
     ))
   ) ; true)).
 
+saphari_visualize_agents(Timepoint) :-
+  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
+  saphari_visualize_humans(Timepoint).
+
+unasserted_perceived_object(StartTime, EndTime, Perception, Obj) :-
+  owl_individual_of(Perception, knowrob:'UIMAPerception'),
+  rdf_has(Perception, knowrob:'perceptionResult', Obj),
+  
+  % Only assert once
+  rdf_split_url(_, ObjID, Obj),
+  atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjID, InstanceUrl),
+  not( owl_individual_of(InstanceUrl, knowrob:'SpatialThing-Localized') ),
+  
+  % Assert objects which were perceived between StartTime and EndTime
+  owl_has(Perception, knowrob:'endTime', Time),
+  time_later_then(Time, StartTime),
+  time_earlier_then(Time, EndTime).
+
+assert_perceived_objects(StartTime, EndTime, Map) :-
+  findall([Obj,LocList], (
+     unasserted_perceived_object(StartTime, EndTime, _Perception, Obj),
+     designator_location(Obj,LocList)
+  ), Objects), !,
+  forall( member([Obj,LocList], Objects), (
+    create_pose(LocList, Loc),
+    add_object_as_semantic_instance(Obj, Loc, EndTime, Map, _Instance)
+  )).
+
+saphari_visualize_map(Experiment, Timepoint) :-
+  experiment_map(Experiment, Map),
+  rdf_has(Experiment, knowrob:'startTime', StartTime), !,
+  
+  % XXX: Running into computable error "Would end up in deadlock"
+  % Create_pose causes this maybe also add_object_as_semantic_instance.
+  % Howto fix it?
+  %assert_perceived_objects(StartTime, Timepoint, Map),
+  
+  update_object_with_children(Map, Timepoint).
+
+saphari_visualize_experiment(Timepoint) :-
+  once(experiment(Experiment, Timepoint)),
+  
+  saphari_visualize_map(Experiment, Timepoint),
+  saphari_visualize_agents(Timepoint).
