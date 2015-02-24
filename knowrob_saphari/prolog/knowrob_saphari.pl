@@ -31,6 +31,11 @@
       intrusion_link/4,
       intrusion_link/5,
       
+      saphari_action_events/2,
+      saphari_collision_events/2,
+      saphari_move_down_events/1,
+      saphari_intrusion_events/1,
+      
       saphari_visualize_experiment/1,
       saphari_visualize_agents/1,
       saphari_visualize_human/2,
@@ -58,6 +63,10 @@
 :- rdf_meta saphari_visualize_human(r,r,r),
             saphari_visualize_human(r,r),
             saphari_visualize_agents(r),
+            saphari_collision_events(r,r),
+            saphari_action_events(r,r),
+            saphari_move_down_events(r),
+            saphari_intrusion_events(r),
             saphari_visualize_experiment(r),
             highlight_intrusions(r,r,r,r),
             agent_marker(r,r,r,r),
@@ -139,6 +148,39 @@ saphari_visualize_human(HumanIdentifier, HumanPrefix, Timeppoint) :-
       openni_human:'iai_human_robot1', HumanPrefix,
       Timeppoint
   ).
+
+saphari_collision_events(Type, Events) :-
+  CollisionTypes = ['LIGHT-COLLISION', 'STRONG-COLLISION', 'CONTACT', 'SEVERE-COLLISION'],
+  member(Type, CollisionTypes),
+  findall(Event, (
+    owl_individual_of(Event, knowrob:'CRAMAction'),
+    rdf_has(Event, knowrob:'taskContext', literal(type(_,Type)))
+  ), Events).
+
+saphari_action_events(Type, Events) :-
+  ActionTypes = [
+      'REPLACEABLE-FUNCTION-MOVE-DOWN-UNTIL-TOUCH',
+      'REPLACEABLE-FUNCTION-MOVE-ARM-AWAY',
+      'REPLACEABLE-FUNCTION-SAFELY-PERFORM-ACTION',
+      'REPLACEABLE-FUNCTION-MOVE-OVER-OBJECT'
+  ],
+  member(Type, ActionTypes),
+  findall(Event, (
+    owl_individual_of(Event, knowrob:'CRAMAction'),
+    rdf_has(Event, knowrob:'taskContext', literal(type(_,Type)))
+  ), Events).
+
+saphari_move_down_events(Events) :-
+  findall(Event, (
+    owl_individual_of(Event, knowrob:'CRAMAction'),
+    rdf_has(Event, knowrob:'taskContext', literal(type(_,'REPLACEABLE-FUNCTION-MOVE-DOWN-UNTIL-TOUCH')))
+  ), Events).
+
+saphari_intrusion_events(Events) :-
+  findall(Event, (
+    owl_individual_of(Event, knowrob:'CRAMAction'),
+    rdf_has(Event, knowrob:'taskContext', literal(type(_,'HUMAN-INTRUSION')))
+  ), Events).
 
 %saphari_visualize_agents(Timepoint) :-
 %  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
