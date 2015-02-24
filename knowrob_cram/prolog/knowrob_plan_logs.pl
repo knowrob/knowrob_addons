@@ -43,6 +43,7 @@
         task_end/2,
         task_designator_exp/2,
         action_designator_exp/2,
+        designator_location/2,
         subtask/2,
         subtask_all/2,
         subtask_typed/3,
@@ -108,6 +109,7 @@
     task_end(r,r),
     task_designator_exp(r,r),
     action_designator_exp(r,r),
+    designator_location(r,-),
     belief_at(?,r),
     occurs(+,r),
     cram_holds(r,+),
@@ -576,7 +578,6 @@ belief_at(loc(Desig,Loc), _Time) :-
     (image_of_perceived_scene(T);true), !,
     get_designator(Desig, Loc).
 
-
 %% belief_at(robot(+Part,-Loc), +Time) is nondet.
 %
 % Check what the belief of the robot for location of Robot part at given Time .
@@ -663,6 +664,10 @@ get_designator(Designator, Loc) :-
     jpl_array_to_list(Localization_Array, LocList),
     create_pose(LocList, Loc).
 
+designator_location(Designator, Loc) :-
+    log_publisher(Client),
+    jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
+    jpl_array_to_list(Localization_Array, Loc).
 
 add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
     ((experiment(Experiment, Time), experiment_map(Experiment, Map), !) ;
@@ -683,7 +688,7 @@ add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
     % Read perception response
     once((
         mng_designator_property(Obj, ObjJava, ['RESPONSE'], Response) ;
-        Response = 'Unknown'
+        Response = 'SpatialThing-Localized'
     )),
     
     % Assert object type
