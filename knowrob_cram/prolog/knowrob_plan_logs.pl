@@ -32,7 +32,7 @@
         event/3,
         experiment/2,
         experiment_map/2,
-        object_template/3,
+        experiment_map/3,
         task/1,
         task/2,
         task/3,
@@ -41,9 +41,6 @@
         task_goal_inherited/2,
         task_start/2,
         task_end/2,
-        task_designator_exp/2,
-        action_designator_exp/2,
-        designator_location/2,
         subtask/2,
         subtask_all/2,
         subtask_typed/3,
@@ -52,15 +49,9 @@
         failure_type/2,
         failure_attribute/3,
         successful_tasks_for_goal/2,
-        task_used_gripper/2,
-        grasping_hand/2,
-        show_image/1,
-        image_of_perceived_scene/1,
         add_object_to_semantic_map/7,
         add_object_as_semantic_instance/4,
-        add_robot_as_basic_semantic_instance/3,
-        get_designator/2,
-        publish_designator/1
+        add_robot_as_basic_semantic_instance/3
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -95,7 +86,7 @@
     event(r,r,r),
     experiment(r,r),
     experiment_map(r,r),
-    object_template(r,?,r),
+    experiment_map(r,r,r),
     task(r),
     task(r,r),
     task(r,r,r),
@@ -107,9 +98,6 @@
     task_goal_inherited(r,r),
     task_start(r,r),
     task_end(r,r),
-    task_designator_exp(r,r),
-    action_designator_exp(r,r),
-    designator_location(r,-),
     belief_at(?,r),
     occurs(+,r),
     cram_holds(r,+),
@@ -117,16 +105,10 @@
     failure_type(r,r),
     task_failure(r,r),
     failure_attribute(r,r,r),
-    task_used_gripper(+,-),
-    grasping_hand(+,-),
-    show_image(r),
-    image_of_perceived_scene(r),
     add_object_as_semantic_instance(+,+,+,-),
     add_object_as_semantic_instance(+,+,-),
     add_object_to_semantic_map(+,+,+,-,+,+,+),
-    successful_tasks_for_goal(+,-),
-    publish_designator(+),
-    get_designator(r,-).
+    successful_tasks_for_goal(+,-).
 
 
 default_map(Map) :-
@@ -189,42 +171,41 @@ load_experiments(Path, ExpFileName) :-
 %% experiment(?Experiment, +Timepoint) is nondet.
 %
 % Yields experiments which were active at Timepoint
+%
+%  @param Experiment Experiment identifier
+%  @param Time       Time when experiment was performed
 % 
 experiment(Experiment, Timepoint) :-
   event(knowrob:'RobotExperiment', Experiment, Timepoint).
 
+%% experiment_map(?Experiment, ?Map, +Time) is nondet.
+%
+% Check the semantic map instance that corresponds to an experiment
+%
+%  @param Experiment Experiment identifier
+%  @param Map        Semantic map identifier
+%  @param Time       Time when experiment was performed
+% 
+experiment_map(Experiment, Map, Time) :-
+  experiment(Experiment, Time),
+  experiment_map(Experiment, Map), !.
+
+experiment_map(_, Map, _) :-
+  default_map(Map).
+
 %% experiment_map(+Experiment, ?Map) is nondet.
 %
-% Find the semantic map instance that corresponds to an experiment
+% Check the semantic map instance that corresponds to an experiment
+%
+%  @param Experiment Experiment identifier
+%  @param Map        Semantic map identifier
 % 
 experiment_map(Experiment, Map) :-
-  once(
-    rdf_has(Experiment, knowrob:'performedInMap', Map) ;
-    % Fallback to lab kitchen for backwards compatibiliy
-    default_map(Map)
-  ).
+  rdf_has(Experiment, knowrob:'performedInMap', Map).
 
-%% object_template(+Source, ?Response, ?Template) is nondet.
-%
-% Find the object template instances for perception responses.
-% 
-object_template(Map, Response, Template) :-
-  owl_individual_of(Map, knowrob:'SemanticEnvironmentMap'),
-  object_template_in_map(Map, Response, Template).
-
-object_template(Experiment, Response, Template) :-
-  experiment_map(Experiment, Map),
-  object_template_in_map(Map, Response, Template).
-
-object_template_in_map(Map, Response, Template) :-
-  % Find templates
-  owl_individual_of(Template, knowrob:'ObjectTemplate'),
-  
-  % Make sure template instance is defined in Map
-  rdf_split_url(MapUrl, _, Map),
-  rdf_split_url(MapUrl, _, Template),
-  
-  owl_has(Template, knowrob:'perceptionResponse', literal(type(_,Response))).
+experiment_map(_, Map) :-
+  % Fallback to lab kitchen for backwards compatibiliy
+  default_map(Map).
   
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -382,39 +363,6 @@ task_end(Task, End) :-
     rdf_has(Task, knowrob:'endTime', End),
     task(Task).
 
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-%
-% Designator expressions
-%
-
-%% action_designator_exp(?Task, [?Mode, ?QueryPattern]) is nondet.
-%
-%  Find a Designator for given expression.
-%
-%  @param Action Returned Action
-%  @param QueryPattern Identifier of given Designator pattern
-%
-%  Example: ?- action_designator_exp(A, [an, action, [to, grasp]]).
-% 
-action_designator_exp(Action, QueryPattern) :-
-    mng_desig_matches(Designator, QueryPattern),
-    rdf_has(Action, knowrob:'designator', Designator).
-
-%% task_designator_exp(?Task, [?Mode, ?QueryPattern]) is nondet.
-%
-%  Find a Task for given type and designator expression.
-%
-%  @param Task Returned Task
-%  @param Mode Identifier of given Task type
-%  @param QueryPattern Identifier of given Designator pattern
-%
-%  Example: ?- task_designator_exp(T, [perform, [an, action, [to, grasp]]]).
-% 
-task_designator_exp(Task, [Mode, QueryPattern]) :-
-    action_designator_exp(Action, QueryPattern),
-    subtask_typed(Task, Action, Mode).
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Goals, success, failure
@@ -429,8 +377,9 @@ task_designator_exp(Task, [Mode, QueryPattern]) :-
 % 
 task_goal(Task, Goal) :-
     task(Task),
-    rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal)));
+    rdf_has(Task, knowrob:'taskContext', literal(type(_, Goal))).
 
+task_goal(Task, Goal) :-
     task(Task),
     rdf_has(Task, knowrob:'goalContext', literal(type(_, Goal))).
 
@@ -540,14 +489,10 @@ cram_holds(task_status(Task, Status), T):-
     ).
 
 
-
-
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Objects (and robot parts) and their locations
 %
-
 
 
 %% belief_at(loc(+Desig,-Loc), ?Time) is nondet.
@@ -559,24 +504,7 @@ cram_holds(task_status(Task, Status), T):-
 % @param Time     TimePoint
 % 
 belief_at(loc(Desig,Loc), _Time) :-
-
-% MT: commented this -- would maybe be relevant for objects, but since we
-%     directly give designators as values, this is redundant.
-% 
-%     findall(End-Tsk, (
-%                 task_type(Tsk, knowrob:'UIMAPerception'),
-%                 task_end(Tsk, EndTp),
-%                 rdf_triple(knowrob:after, EndTp, Time), % only consider tasks that end before Time
-%                 time_point_value(EndTp, End)
-%             ), Tsks),
-% 
-%     keysort(Tsks, TsksSorted),
-%     last(TsksSorted, _-T),
-
-    task_outcome(T, Desig),
-
-    (image_of_perceived_scene(T);true), !,
-    get_designator(Desig, Loc).
+  mng_designator_location(Desig, Loc).
 
 %% belief_at(robot(+Part,-Loc), +Time) is nondet.
 %
@@ -587,8 +515,7 @@ belief_at(loc(Desig,Loc), _Time) :-
 % @param Time  TimePoint
 % 
 belief_at(robot(Part,Loc), Time) :-
-    mng_lookup_transform('/map', Part, Time, Loc).
-
+  mng_lookup_transform('/map', Part, Time, Loc).
 
 %% occurs(object_perceived(?Obj),?T) is nondet.
 %
@@ -604,197 +531,30 @@ occurs(object_perceived(Obj),T) :-
     task_outcome(Task, Obj),
     task_start(Task, T).
 
+add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-
+  experiment_map(_Experiment, Map, Time),
+  add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance).
 
-%% task_used_gripper(+Task, -Link) is nondet.
-%
-%
-% @param Task Instance of an Action for which the arm is to be determined
-% @param Link Identifier of a tf link denoting the arm
-% 
-task_used_gripper(Task, Link) :-
+add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
+  designator_assert(ObjInstance, Designator, Map),
+  designator_add_perception(ObjInstance, Designator, Matrix, Time).
 
-    subtask_all(Task, Movement),
-    task_type(Movement, knowrob:'ArmMovement'),
-    rdf_has(Movement, knowrob:'voluntaryMovementDetails', Designator),
-
-    jpl_new('org.knowrob.cram.LogdataPublisher', [], Client),
-    jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
-    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Client, Arr], _),
-    jpl_call(Client, 'getArmLink', [Designator], Link).
+add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
+  add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, 0.2, 0.2, 0.2).
 
 
-grasping_hand(GraspDesignator, Link) :-
-
-    jpl_new('org.knowrob.cram.LogdataPublisher', [], Client),
-    jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
-    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Client, Arr], _),
-    jpl_call(Client, 'getGraspSide', [GraspDesignator], Link).
+add_robot_as_basic_semantic_instance(Matrix, Time, ObjInstance) :-
+  % FIXME(daniel): Seems not a good idea to use time as identifier for robot here!
+  add_object_to_semantic_map(Time, Matrix, Time, ObjInstance, 0.5, 0.5, 0.5).
 
 
+add_object_to_semantic_map(Designator, Matrix, Time, ObjInstance, H, W, D) :-
+  experiment_map(_Experiment, Map, Time),
+  add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D).
 
-     
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-%
-% Designator stuff
-% 
-
-:- assert(log_pbl(fail)).
-log_publisher(Pbl) :-
-    log_pbl(fail),
-    jpl_new('org.knowrob.cram.LogdataPublisher', [], Pbl),
-    jpl_list_to_array(['org.knowrob.cram.LogdataPublisher'], Arr),
-    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Pbl, Arr], _),
-    retract(log_pbl(fail)),
-    assert(log_pbl(Pbl)),!.
-log_publisher(Pbl) :-
-    log_pbl(Pbl).
-
-
-publish_designator(Task) :-
-    subtask(Task, Subtask),
-    rdf_has(Subtask, knowrob:'designator', D),
-    rdf_has(D, knowrob:'successorDesignator', D1),
-    log_publisher(Client),
-    jpl_call(Client, 'publishDesignator', [D1], _R).
-
-get_designator(Designator, Loc) :-
-    log_publisher(Client),
-    jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
-    jpl_array_to_list(Localization_Array, LocList),
-    create_pose(LocList, Loc).
-
-designator_location(Designator, Loc) :-
-    log_publisher(Client),
-    jpl_call(Client, 'getBeliefByDesignator', [Designator], Localization_Array),
-    jpl_array_to_list(Localization_Array, Loc).
-
-add_object_as_semantic_instance(Obj, Matrix, Time, ObjInstance) :-
-    ((experiment(Experiment, Time), experiment_map(Experiment, Map), !) ;
-     (default_map(Map))),
-    add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance).
-
-add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
-    % Read object designator
-    (mng_designator(Obj, ObjJava), !),
-    atom(Matrix),
-    
-    % Assert the object
-    % TODO:(daniel): Identification of objects is done based on designator ID.
-    %                Would be nicer if logged designator ID could be used.
-    rdf_split_url(_, ObjLocal, Obj),
-    atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
-    
-    % Read perception response
-    once((
-        mng_designator_property(Obj, ObjJava, ['RESPONSE'], Response) ;
-        Response = 'SpatialThing-Localized'
-    )),
-    
-    % Assert object type
-    % TODO(daniel): Check if `Response` corresponds to class in knowrob that extends
-    % SpatialThing-Localized.
-    rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
-    % Assert link to semantic map
-    rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
-    
-    % Search for templates based on perception response and assert knowrob properties
-    once((  (object_template(Map, Response, TemplateInstance) , !)
-    -> (
-        findall([Prop,Value], (
-            rdf_has(TemplateInstance, Prop, Value),
-            % Only handle knowrob properties
-            rdf_split_url('http://knowrob.org/kb/knowrob.owl#', _, Prop)
-        ), Props),
-        
-        forall(
-            member([Prop,Value],Props),
-            rdf_assert(ObjInstance, Prop, Value)
-        )
-    ) ; (
-        true
-    ))),
-
-    % Read and assert object dimensions
-    once((
-      mng_designator_property(Obj, ObjJava, ['BOUNDINGBOX', 'DIMENSIONS-3D'], [H,W,D]) ;
-      [H,W,D] = [0.2,0.2,0.2]
-    )),
-    rdf_assert(ObjInstance,knowrob:'depthOfObject',literal(type(xsd:float, D))),
-    rdf_assert(ObjInstance,knowrob:'widthOfObject',literal(type(xsd:float, W))),
-    rdf_assert(ObjInstance,knowrob:'heightOfObject',literal(type(xsd:float, H))),
-    
-    % Read and assert object color
-    once((  mng_designator_property(Obj, ObjJava, ['COLOR'], Col)
-    -> (
-       atomic_list_concat(Col, ' ', ColRGB),
-       atom_concat(ColRGB, ' 1.0', ColRGBA),
-       rdf_assert(ObjInstance,knowrob:'mainColorOfObject',literal(type(xsd:string, ColRGBA)))
-    )
-    ;  (
-        true
-    ))),
-    
-    rdf_instance_from_class(knowrob:'SemanticMapPerception', Perception),
-    rdf_assert(Perception, knowrob:'startTime', Time),
-    rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
-
-    set_object_perception(ObjInstance, Perception).
-
-
-add_object_as_semantic_instance(Obj, Matrix, Time, Map, ObjInstance) :-
-    add_object_to_semantic_map(Obj, Matrix, Time, Map, ObjInstance, 0.2, 0.2, 0.2).
-
-
-add_robot_as_basic_semantic_instance(PoseList, Time, ObjInstance) :-
-    add_object_to_semantic_map(Time, PoseList, Time, ObjInstance, 0.5, 0.2, 0.2).
-
-add_object_to_semantic_map(Obj, PoseList, Time, ObjInstance, H, W, D) :-
-    ((experiment(Experiment, Time), experiment_map(Experiment, Map), !) ;
-     (default_map(Map))),
-    add_object_to_semantic_map(Obj, PoseList, Time, Map, ObjInstance, H, W, D).
-
-add_object_to_semantic_map(Obj, PoseList, Time, Map, ObjInstance, H, W, D) :-
-    is_list(PoseList),
-    create_pose(PoseList, Matrix),
-    add_object_to_semantic_map(Obj, Matrix, Time, Map, ObjInstance, H, W, D).
-
-add_object_to_semantic_map(Obj, Matrix, Time, Map, ObjInstance, H, W, D) :-
-    atom(Matrix),
-    rdf_split_url(_, ObjLocal, Obj),
-    atom_concat('http://knowrob.org/kb/cram_log.owl#Object_', ObjLocal, ObjInstance),
-    rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
-    rdf_assert(ObjInstance,knowrob:'depthOfObject',literal(type(xsd:float, D))),
-    rdf_assert(ObjInstance,knowrob:'widthOfObject',literal(type(xsd:float, W))),
-    rdf_assert(ObjInstance,knowrob:'heightOfObject',literal(type(xsd:float, H))),
-    rdf_assert(ObjInstance,knowrob:'describedInMap', Map),
-
-    rdf_instance_from_class(knowrob:'SemanticMapPerception', Perception),
-    rdf_assert(Perception, knowrob:'startTime', Time),
-    rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
-
-    set_object_perception(ObjInstance, Perception).
-    
-
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-%
-% Image stuff
-%
-
-% publish the image to Knowrob Web tool's topic
-show_image(Path) :-
-    log_publisher(Client),
-    jpl_call(Client, 'publishImage', [Path], _R).
-
-% Get the path of percepted image from the given perception task
-image_of_perceived_scene(T) :-
-    task(T),
-    rdf_has(T, knowrob:'capturedImage', Img),
-    rdf_has(Img, knowrob:'linkToImageFile', PathName),
-    PathName = literal(type(_A, Path)),
-
-    rdf_has(Directory, rdf:type, knowrob:'DirectoryName'),
-    atomic_list_concat([_Prefix, Dir], '#', Directory),
-    atomic_list_concat([Dir, Path], '/', CompletePath),
-    show_image(CompletePath).
+add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D) :-
+  designator_object(Designator, ObjInstance),
+  rdf_instance_from_class(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
+  rdf_assert(ObjInstance,knowrob:'describedInMap', Map),
+  assert_dimensions(ObjInstance, H, W, D),
+  designator_add_perception(ObjInstance, Designator, Matrix, Time).

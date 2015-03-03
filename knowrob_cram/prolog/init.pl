@@ -22,5 +22,6 @@
 :- register_ros_package(knowrob_cram).
 :- use_module(library('knowrob_cram')).
 :- use_module(library('knowrob_plan_logs')).
+:- use_module(library('knowrob_designators')).
 
 :- owl_parser:owl_parse('package://knowrob_cram/owl/knowrob_cram.owl').
