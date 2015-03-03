@@ -247,7 +247,6 @@ assert_perceived_objects(StartTime, EndTime, Map) :-
 
 saphari_visualize_map(Experiment, Timepoint) :-
   experiment_map(Experiment, Map),
-  rdf_has(Experiment, knowrob:'startTime', StartTime), !,
   
   % XXX: Running into computable error "Would end up in deadlock"
   % Create_pose causes this maybe also add_object_as_semantic_instance.
@@ -260,4 +259,4 @@ saphari_visualize_experiment(Timepoint) :-
   once(experiment(Experiment, Timepoint)),
   
   saphari_visualize_map(Experiment, Timepoint),
-  saphari_visualize_agents(Timepoint).
+  saphari_visualize_agents(Timepoint), !.
