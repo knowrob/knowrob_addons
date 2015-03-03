@@ -57,6 +57,9 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 
+import javax.vecmath.Matrix4d;
+import javax.vecmath.Vector3d;
+
 import designator_integration_msgs.KeyValuePair;
 
 
@@ -130,13 +133,13 @@ public class LogdataPublisher extends AbstractNodeMain {
 			designator_msg.setType(0);
 		}
 
-		this.publishDesignator2(designator, designator_msg, 0);
+		publishDesignator(designator, designator_msg, 0);
 
 		return true;
 
 	}
 
-	public int publishDesignator2(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
+	public int publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
 
 		Set<Entry<String, Object>> values = designator.entrySet();
 		Object[] pairs = values.toArray();
@@ -147,90 +150,126 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - parentId - difference_in_x];
 			String key = currentEntry.getKey();
-			if( !(key.substring(0,1).equals("_"))) // check if publishable key
+			
+			// check if publishable key
+			if(key.substring(0,1).equals("_")) continue;
+
+			KeyValuePair k1 = node.getTopicMessageFactory().newFromType(designator_integration_msgs.KeyValuePair._TYPE);
+			designator_msg.getDescription().add(k1);
+
+			int c = designator_msg.getDescription().size()-1;
+
+			designator_msg.getDescription().get(c).setId(x + 1);
+			designator_msg.getDescription().get(c).setKey(key);
+			if(parentId == 0)
 			{
-
-				KeyValuePair k1 = node.getTopicMessageFactory().newFromType(designator_integration_msgs.KeyValuePair._TYPE);
-				designator_msg.getDescription().add(k1);
-
-				int c = designator_msg.getDescription().size()-1;
-
-				designator_msg.getDescription().get(c).setId(x + 1);
-				designator_msg.getDescription().get(c).setKey(key);
-				if(parentId == 0)
-				{
-					designator_msg.getDescription().get(c).setParent(parentId);
-				}
-				else 
-				{
-					designator_msg.getDescription().get(c).setParent(parentId +1);
-				}
+				designator_msg.getDescription().get(c).setParent(parentId);
+			}
+			else 
+			{
+				designator_msg.getDescription().get(c).setParent(parentId +1);
+			}
 
 
-				if (currentEntry.getValue() instanceof Double) 
+			if (currentEntry.getValue() instanceof Double) 
+			{
+				designator_msg.getDescription().get(c).setType(1);
+				Double current_value = (Double)currentEntry.getValue();
+				designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());						
+			}
+			else if (currentEntry.getValue() instanceof Integer) 
+			{
+				designator_msg.getDescription().get(c).setType(1);
+				Double current_value = (Double)currentEntry.getValue();
+				designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());
+			}
+			else if (currentEntry.getValue() instanceof ISODate) 
+			{
+				designator_msg.getDescription().get(c).setType(0);
+				ISODate date = (ISODate)currentEntry.getValue();
+				designator_msg.getDescription().get(c).setValueString(date.toString());
+			}
+			else if (currentEntry.getValue() instanceof Designator) 
+			{
+				Designator inner_designator = (Designator)currentEntry.getValue();					
+				try
 				{
-					designator_msg.getDescription().get(c).setType(1);
-					Double current_value = (Double)currentEntry.getValue();
-					designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());						
-				}
-				else if (currentEntry.getValue() instanceof Integer) 
-				{
-					designator_msg.getDescription().get(c).setType(1);
-					Double current_value = (Double)currentEntry.getValue();
-					designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());
-				}
-				else if (currentEntry.getValue() instanceof ISODate) 
-				{
-					designator_msg.getDescription().get(c).setType(0);
-					ISODate date = (ISODate)currentEntry.getValue();
-					designator_msg.getDescription().get(c).setValueString(date.toString());
-				}
-				else if (currentEntry.getValue() instanceof Designator) 
-				{
-					Designator inner_designator = (Designator)currentEntry.getValue();					
-					try
-					{
-						if(inner_designator.getType().toString().toLowerCase() == "action")
-							designator_msg.getDescription().get(c).setType(6);
-						else if(inner_designator.getType().toString().toLowerCase() == "object")
-							designator_msg.getDescription().get(c).setType(7);
-						else if(inner_designator.getType().toString().toLowerCase() == "location")
-							designator_msg.getDescription().get(c).setType(8);				
-					}
-					catch (java.lang.NullPointerException exc)
-					{
+					if(inner_designator.getType().toString().toLowerCase() == "action")
 						designator_msg.getDescription().get(c).setType(6);
-					}
-					int inner_size = this.publishDesignator2(inner_designator, designator_msg, x);
-					x += inner_size;
-					difference_in_x += inner_size;
+					else if(inner_designator.getType().toString().toLowerCase() == "object")
+						designator_msg.getDescription().get(c).setType(7);
+					else if(inner_designator.getType().toString().toLowerCase() == "location")
+						designator_msg.getDescription().get(c).setType(8);				
 				}
-				else if (currentEntry.getValue() instanceof PoseStamped) 
+				catch (java.lang.NullPointerException exc)
 				{
-					designator_msg.getDescription().get(c).setType(4);
-					PoseStamped pose = (PoseStamped) currentEntry.getValue();
-					designator_msg.getDescription().get(c).setValuePosestamped(pose);
+					designator_msg.getDescription().get(c).setType(6);
 				}
-				else if (currentEntry.getValue() instanceof geometry_msgs.Pose) 
-				{
-					designator_msg.getDescription().get(c).setType(5);
-					geometry_msgs.Pose pose = (geometry_msgs.Pose) currentEntry.getValue();
-					designator_msg.getDescription().get(c).setValuePose(pose);
-				}
-				else if (currentEntry.getValue().getClass().equals(String.class)) 
-				{
-					designator_msg.getDescription().get(c).setType(0);
-					designator_msg.getDescription().get(c).setValueString((String)currentEntry.getValue());
-				}
+				int inner_size = publishDesignator(inner_designator, designator_msg, x);
+				x += inner_size;
+				difference_in_x += inner_size;
+			}
+			else if (currentEntry.getValue() instanceof PoseStamped) 
+			{
+				designator_msg.getDescription().get(c).setType(4);
+				PoseStamped pose = (PoseStamped) currentEntry.getValue();
+				designator_msg.getDescription().get(c).setValuePosestamped(pose);
+			}
+			else if (currentEntry.getValue() instanceof geometry_msgs.Pose) 
+			{
+				designator_msg.getDescription().get(c).setType(5);
+				geometry_msgs.Pose pose = (geometry_msgs.Pose) currentEntry.getValue();
+				designator_msg.getDescription().get(c).setValuePose(pose);
+			}
+			else if (currentEntry.getValue() instanceof Matrix4d)
+			{
+				handleMatrixValue(designator_msg, c, (Matrix4d) currentEntry.getValue());
+			}
+			else if (currentEntry.getValue() instanceof Vector3d)
+			{
+				handleVectorValue(designator_msg, c, (Vector3d) currentEntry.getValue());
+			}
+			else if (currentEntry.getValue() instanceof tfjava.Stamped<?>)
+			{
+				Object innerVal = ((tfjava.Stamped<?>)currentEntry.getValue()).getData();
+				if (innerVal instanceof Matrix4d)
+					handleMatrixValue(designator_msg, c, (Matrix4d) innerVal);
+				else if (innerVal instanceof Vector3d)
+					handleVectorValue(designator_msg, c, (Vector3d) innerVal);
+			}
+			else if (currentEntry.getValue().getClass().equals(String.class)) 
+			{
+				designator_msg.getDescription().get(c).setType(0);
+				designator_msg.getDescription().get(c).setValueString((String)currentEntry.getValue());
 			}
 		}
-
+		
 		if(parentId == 0)
 		{
 			pub.publish(designator_msg);
 		}
+		
 		return pairs.length + difference_in_x;
+	}
 
+	private void handleVectorValue(designator_integration_msgs.Designator designator_msg, int c, Vector3d vec) 
+	{
+		double val[] = new double[3];
+		vec.get(val);
+		designator_msg.getDescription().get(c).setType(13);
+		designator_msg.getDescription().get(c).setValueArray(val);
+	}
+
+	private void handleMatrixValue(designator_integration_msgs.Designator designator_msg, int c, Matrix4d mat) 
+	{
+		double val[] = {
+			mat.m00, mat.m01, mat.m02, mat.m03,
+			mat.m10, mat.m11, mat.m12, mat.m13,
+			mat.m20, mat.m21, mat.m22, mat.m23,
+			mat.m30, mat.m31, mat.m32, mat.m33
+		};
+		designator_msg.getDescription().get(c).setType(12);
+		designator_msg.getDescription().get(c).setValueArray(val);
 	}
 
 	public boolean publishDesignator(String designatorId) 
@@ -244,94 +283,4 @@ public class LogdataPublisher extends AbstractNodeMain {
 		return true;
 	}
 
-	public double[] getBeliefByDesignator(String designatorId) 
-	{
-		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
-		s1.nextToken();
-		designatorId= s1.nextToken();
-
-		// wait for node to be ready
-		try {
-			while(mdb == null) {
-				Thread.sleep(200);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
-
-		if(d1!=null) {
-			publishDesignator(d1);
-			Matrix4d poseMatrix;
-			try 
-			{
-				poseMatrix = mdb.getDesignatorLocation(designatorId);
-			}
-			catch (java.lang.NullPointerException e)
-			{
-				poseMatrix = null;
-			}
-
-			double[] dummy = new double[16];
-			if(poseMatrix != null)
-			{
-				dummy[0] = poseMatrix.getElement(0, 0); 
-				dummy[1] = poseMatrix.getElement(0, 1);
-				dummy[2] = poseMatrix.getElement(0, 2);
-				dummy[3] = poseMatrix.getElement(0, 3);
-				dummy[4] = poseMatrix.getElement(1, 0);
-				dummy[5] = poseMatrix.getElement(1, 1);
-				dummy[6] = poseMatrix.getElement(1, 2);
-				dummy[7] = poseMatrix.getElement(1, 3);
-				dummy[8] = poseMatrix.getElement(2, 0); 
-				dummy[9] = poseMatrix.getElement(2, 1);
-				dummy[10] = poseMatrix.getElement(2, 2);
-				dummy[11] = poseMatrix.getElement(2, 3);
-				dummy[12] = poseMatrix.getElement(3, 0);
-				dummy[13] = poseMatrix.getElement(3, 1);
-				dummy[14] = poseMatrix.getElement(3, 2);
-				dummy[15] = poseMatrix.getElement(3, 3);
-			}
-			else dummy[15] = -1;
-
-			return dummy;
-		} else return new double[16];
-	}
-
-	public String getArmLink(String designatorId) 
-	{
-		return "/" + getDesignatorProperty(designatorId, "LINK");
-	}
-
-
-	public String getGraspSide(String designatorId)
-	{
-		return getDesignatorProperty(designatorId, "SIDE");
-	}
-
-	public String getDesignatorProperty(String designatorId, String field)
-	{
-		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
-		s1.nextToken();
-		designatorId= s1.nextToken();
-
-		// wait for node to be ready
-		try {
-			while(mdb == null) {
-				Thread.sleep(200);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
-
-		if(d1 != null) {
-			publishDesignator(d1);
-			String link_name = (String)d1.get(field);
-			return	link_name;
-		}
-		return "";
-	}
 }
