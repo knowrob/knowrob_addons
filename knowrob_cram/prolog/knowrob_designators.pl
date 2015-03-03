@@ -191,12 +191,12 @@ designator_read_template(ObjInstance, Designator, Map) :-
 % 
 designator_read_template(ObjInstance, Designator, DesignatorJava, Map) :-
   jpl_is_object(DesignatorJava),
-  mng_designator_property(Designator, DesignatorJava, 'RESPONSE', Response),
+  mng_designator_props(Designator, DesignatorJava, 'RESPONSE', Response),
   designator_read_template_from_map(ObjInstance, Map, Response).
 
 designator_read_template(ObjInstance, Designator, DesignatorJava, Map) :-
   jpl_is_object(DesignatorJava),
-  mng_designator_property(Designator, DesignatorJava, 'TYPE', Response),
+  mng_designator_props(Designator, DesignatorJava, 'TYPE', Response),
   designator_read_template_from_map(ObjInstance, Map, Response).
 
 designator_read_template(ObjInstance, _, _, Map) :-
@@ -245,7 +245,7 @@ designator_assert_dimensions(ObjInstance, _, _) :-
 
 designator_assert_dimensions(ObjInstance, Designator, DesignatorJava) :-
   jpl_is_object(DesignatorJava),
-  mng_designator_property(Designator, DesignatorJava, 'BOUNDINGBOX.DIMENSIONS-3D', [H,W,D]),
+  mng_designator_props(Designator, DesignatorJava, 'BOUNDINGBOX.DIMENSIONS-3D', [H,W,D]),
   object_assert_dimensions(ObjInstance, H, W, D).
 
 designator_assert_dimensions(ObjInstance, _, _) :-
@@ -275,7 +275,7 @@ designator_assert_color(ObjInstance, _, _) :-
   rdf_has(ObjInstance, knowrob:'mainColorOfObject', _).
 
 designator_assert_color(ObjInstance, Designator, DesignatorJava) :-
-  mng_designator_property(Designator, DesignatorJava, 'COLOR', Col),
+  mng_designator_props(Designator, DesignatorJava, 'COLOR', Col),
   object_assert_color(ObjInstance, Col).
 
 %% designator_add_perception(+ObjInstance, +Designator, +Time) is nondet.
