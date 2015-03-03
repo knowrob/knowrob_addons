@@ -284,63 +284,63 @@
     <!-- OBJECT TEMPLATES -->
 
     <owl:NamedIndividual rdf:about="&map;Scissors_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scissors</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scissors.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;Scalpel_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scalpel</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;Rake_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Rake</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Rake.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;Bowl_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bowl</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Bowl.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;ClampBig_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampBig</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/BigClamp.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;ClampSmall_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampSmall</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/SmallClamp.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;Pincers_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pincers</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Pincers.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;Hook_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Hook</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Hook.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.7275</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&map;TablePlane_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;ObjectTemplate"/>
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TablePlane</knowrob:perceptionResponse>
         <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
