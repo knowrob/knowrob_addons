@@ -1,12 +1,10 @@
 /*
  * ROSClient_low_level.java
- * Copyright (c) 2013, Asil Kaan Bozcuoglu, Institute for Artifical Intelligence, Universitaet Bremen
- * asil@cs.uni-bremen.de
+ * Copyright (c) 2013 Asil Kaan Bozcuoglu, 2015 Daniel Beßler
  *
  * All rights reserved.
  *
  * Software License Agreement (BSD License)
- *
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,16 +38,9 @@ import geometry_msgs.PoseStamped;
 import java.util.*;
 import java.util.Map.*;
 import java.lang.Integer;
-import java.nio.ByteOrder;
-import java.awt.image.BufferedImage;
-import javax.vecmath.Matrix4d;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import java.awt.image.DataBufferByte;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
+import javax.vecmath.Matrix4d;
+
 import org.knowrob.interfaces.mongo.*;
 import org.knowrob.interfaces.mongo.types.*;
 import org.ros.namespace.GraphName;
@@ -57,20 +48,17 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 
-import javax.vecmath.Matrix4d;
 import javax.vecmath.Vector3d;
 
 import designator_integration_msgs.KeyValuePair;
 
 
 public class LogdataPublisher extends AbstractNodeMain {
-
 	MongoDBInterface mdb;
 
 	ConnectedNode node;
 	Publisher<designator_integration_msgs.Designator> pub;
 	Publisher<std_msgs.String> pub_image;
-
 
 	@Override
 	public GraphName getDefaultNodeName() {
@@ -79,48 +67,52 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
-
 		node = connectedNode;
 		mdb = new MongoDBInterface();
 
 		pub = connectedNode.newPublisher("logged_designators", designator_integration_msgs.Designator._TYPE);
 		pub_image = connectedNode.newPublisher("logged_images", std_msgs.String._TYPE); 
-
 	}
-
-
-	public boolean publishImage(String image_path) {
-		
-		// wait for publisher to be ready
+	
+	public boolean waitOnPublisher() {
 		try {
 			while(pub_image ==null) {
 				Thread.sleep(200);
 			}
+			return true;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			return false;
 		}
+	}
+	
+	public boolean publishImage(String image_path) {
+		// wait for publisher to be ready
+		if(!waitOnPublisher()) return false;
 
 		// create image message from file
-		std_msgs.String image_msg = pub_image.newMessage();
+		final std_msgs.String image_msg = pub_image.newMessage();
 
 		image_msg.setData(image_path);
 		pub_image.publish(image_msg);
 		return true;
+	}
 
+	public boolean publishDesignator(String designatorId) {
+		final StringTokenizer s1 = new StringTokenizer(designatorId, "#");
+		s1.nextToken();
+		designatorId= s1.nextToken();
+
+		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+		publishDesignator(d1);
+		return true;
 	}
 
 	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator) {
-
 		// wait for publisher to be ready
-		try {
-			while(pub ==null) {
-				Thread.sleep(200);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		if(!waitOnPublisher()) return false;
 
-		designator_integration_msgs.Designator designator_msg = pub.newMessage();
+		final designator_integration_msgs.Designator designator_msg = pub.newMessage();
 
 		try {
 			if(designator.getType().toString().toLowerCase() == "action")
@@ -136,7 +128,6 @@ public class LogdataPublisher extends AbstractNodeMain {
 		publishDesignator(designator, designator_msg, 0);
 
 		return true;
-
 	}
 
 	public int publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
@@ -147,7 +138,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 		int difference_in_x = 0;
 		for(int x = parentId; x < pairs.length + parentId + difference_in_x; x++)
 		{
-
+			@SuppressWarnings("unchecked")
 			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - parentId - difference_in_x];
 			String key = currentEntry.getKey();
 			
@@ -252,16 +243,14 @@ public class LogdataPublisher extends AbstractNodeMain {
 		return pairs.length + difference_in_x;
 	}
 
-	private void handleVectorValue(designator_integration_msgs.Designator designator_msg, int c, Vector3d vec) 
-	{
+	private void handleVectorValue(designator_integration_msgs.Designator designator_msg, int c, Vector3d vec) {
 		double val[] = new double[3];
 		vec.get(val);
 		designator_msg.getDescription().get(c).setType(13);
 		designator_msg.getDescription().get(c).setValueArray(val);
 	}
 
-	private void handleMatrixValue(designator_integration_msgs.Designator designator_msg, int c, Matrix4d mat) 
-	{
+	private void handleMatrixValue(designator_integration_msgs.Designator designator_msg, int c, Matrix4d mat) {
 		double val[] = {
 			mat.m00, mat.m01, mat.m02, mat.m03,
 			mat.m10, mat.m11, mat.m12, mat.m13,
@@ -270,17 +259,6 @@ public class LogdataPublisher extends AbstractNodeMain {
 		};
 		designator_msg.getDescription().get(c).setType(12);
 		designator_msg.getDescription().get(c).setValueArray(val);
-	}
-
-	public boolean publishDesignator(String designatorId) 
-	{
-		StringTokenizer s1 = new StringTokenizer(designatorId, "#");
-		s1.nextToken();
-		designatorId= s1.nextToken();
-
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
-		publishDesignator(d1);
-		return true;
 	}
 
 }
