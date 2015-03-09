@@ -167,7 +167,7 @@
 
     <!-- &knowrob;ObjectTemplate -->
 	
-    <owl:Class rdf:about="&knowrob;ObjectTemplate"/>
+    <owl:Class rdf:about="&knowrob;EnduringThing-Localized"/>
 
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
