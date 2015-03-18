@@ -1,4 +1,4 @@
-:- begin_tests(knowrob_robosherlock).
+:- begin_tests(knowrob_rs_components).
 % :- register_ros_package('knowrob_common').
 % :- register_ros_package('knowrob_actions').
 
@@ -9,7 +9,7 @@
 %         assertion(A == 8).
 
 % load test objects
-:- owl_parse('package://knowrob_robosherlock/owl/test_objects.owl').
+:- owl_parse('package://knowrob_rs_components/owl/test_objects.owl').
 
 % Build a Chain for PlaneEstimation and SacModelAnnotator
 test(build_pipeline1):-
@@ -132,4 +132,4 @@ test(build_pipeline_for_object_pancakemaker):-
   'http://knowrob.org/kb/rs_components.owl#Cluster3DGeometryAnnotator',
   'http://knowrob.org/kb/rs_components.owl#LinemodAnnotator',
   'http://knowrob.org/kb/rs_components.owl#ClusterColorHistogramCalculator']).
-:- end_tests(knowrob_robosherlock).
+:- end_tests(knowrob_rs_components).

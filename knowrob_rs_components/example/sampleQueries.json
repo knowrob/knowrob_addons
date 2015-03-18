@@ -2,6 +2,14 @@
     "query": [
         {
             "q":"",
+            "text":"----- Initialize  -----"
+        },
+        {
+            "q":"register_ros_package(knowrob_rs_components).",
+            "text":"----- Initialize context  -----"
+        },
+        {
+            "q":"",
             "text":"----- Query Robot Capabilities -----"
         },
         {
@@ -34,7 +42,7 @@
             "q":"owl_subclass_of(Obj,rs_test_objects:'ObjectsToTest')."
         },
         {
-            "text":"Are there any objects that can be contaioner?",
+            "text":"Are there any objects that can be container?",
             "q":"owl_subclass_of(Obj,rs_test_objects:'ObjectsToTest'),owl_subclass_of(Obj,knowrob:'Container')."
         },
         {
