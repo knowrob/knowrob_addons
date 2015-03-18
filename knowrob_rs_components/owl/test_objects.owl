@@ -24,10 +24,10 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/rs_test_objects.owl">
-        <rdfs:comment rdf:datatype="&xsd;string">Testobjects for evaluation
+        <rdfs:comment rdf:datatype="&xsd;string">Test objects for evaluation
         </rdfs:comment>
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
-        <owl:imports rdf:resource="package://knowrob_robosherlock/owl/rs_components.owl"/>
+        <owl:imports rdf:resource="package://knowrob_rs_components/owl/rs_components.owl"/>
     </owl:Ontology>
     
 
