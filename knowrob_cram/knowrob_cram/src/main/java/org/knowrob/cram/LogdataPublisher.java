@@ -126,11 +126,14 @@ public class LogdataPublisher extends AbstractNodeMain {
 		}
 
 		publishDesignator(designator, designator_msg, 0);
+		
+		pub.publish(designator_msg);
 
 		return true;
 	}
 
-	public int publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
+	private int publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
+	System.err.println("publishDesignator"+parentId);
 
 		Set<Entry<String, Object>> values = designator.entrySet();
 		Object[] pairs = values.toArray();
@@ -138,6 +141,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 		int difference_in_x = 0;
 		for(int x = parentId; x < pairs.length + parentId + difference_in_x; x++)
 		{
+			// TODO(daniel): So nested designators consume entries in the set ?
 			@SuppressWarnings("unchecked")
 			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - parentId - difference_in_x];
 			String key = currentEntry.getKey();
@@ -150,16 +154,19 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 			int c = designator_msg.getDescription().size()-1;
 
+			// TODO(daniel): Why is the ID x+1 ?
 			designator_msg.getDescription().get(c).setId(x + 1);
 			designator_msg.getDescription().get(c).setKey(key);
-			if(parentId == 0)
-			{
+			
+			// TODO(daniel) why so complicated here? Setting "parent" parameter to actual `level` makes life easier.
+			//if(parentId == 0)
+			//{
 				designator_msg.getDescription().get(c).setParent(parentId);
-			}
-			else 
-			{
-				designator_msg.getDescription().get(c).setParent(parentId +1);
-			}
+			//}
+			//else 
+			//{
+			//	designator_msg.getDescription().get(c).setParent(parentId+1);
+			//}
 
 
 			if (currentEntry.getValue() instanceof Double) 
@@ -182,7 +189,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 			}
 			else if (currentEntry.getValue() instanceof Designator) 
 			{
-				Designator inner_designator = (Designator)currentEntry.getValue();					
+				Designator inner_designator = (Designator)currentEntry.getValue();
 				try
 				{
 					if(inner_designator.getType().toString().toLowerCase() == "action")
@@ -190,13 +197,13 @@ public class LogdataPublisher extends AbstractNodeMain {
 					else if(inner_designator.getType().toString().toLowerCase() == "object")
 						designator_msg.getDescription().get(c).setType(7);
 					else if(inner_designator.getType().toString().toLowerCase() == "location")
-						designator_msg.getDescription().get(c).setType(8);				
+						designator_msg.getDescription().get(c).setType(8);
 				}
 				catch (java.lang.NullPointerException exc)
 				{
 					designator_msg.getDescription().get(c).setType(6);
 				}
-				int inner_size = publishDesignator(inner_designator, designator_msg, x);
+				int inner_size = publishDesignator(inner_designator, designator_msg, parentId+1);
 				x += inner_size;
 				difference_in_x += inner_size;
 			}
@@ -233,11 +240,6 @@ public class LogdataPublisher extends AbstractNodeMain {
 				designator_msg.getDescription().get(c).setType(0);
 				designator_msg.getDescription().get(c).setValueString((String)currentEntry.getValue());
 			}
-		}
-		
-		if(parentId == 0)
-		{
-			pub.publish(designator_msg);
 		}
 		
 		return pairs.length + difference_in_x;
