@@ -132,64 +132,42 @@ public class LogdataPublisher extends AbstractNodeMain {
 		return true;
 	}
 
-	private int publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int parentId) {
-	System.err.println("publishDesignator"+parentId);
-
-		Set<Entry<String, Object>> values = designator.entrySet();
-		Object[] pairs = values.toArray();
-
-		int difference_in_x = 0;
-		for(int x = parentId; x < pairs.length + parentId + difference_in_x; x++)
-		{
-			// TODO(daniel): So nested designators consume entries in the set ?
-			@SuppressWarnings("unchecked")
-			Entry<String, Object> currentEntry = (Entry<String, Object>) pairs[x - parentId - difference_in_x];
-			String key = currentEntry.getKey();
-			
+    private void publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int level) {
+    	for(String key : designator.keySet()) {
 			// check if publishable key
 			if(key.substring(0,1).equals("_")) continue;
+			Object value = designator.get(key);
 
-			KeyValuePair k1 = node.getTopicMessageFactory().newFromType(designator_integration_msgs.KeyValuePair._TYPE);
-			designator_msg.getDescription().add(k1);
-
+			KeyValuePair kv = node.getTopicMessageFactory().newFromType(
+					designator_integration_msgs.KeyValuePair._TYPE);
+			designator_msg.getDescription().add(kv);
 			int c = designator_msg.getDescription().size()-1;
-
-			// TODO(daniel): Why is the ID x+1 ?
-			designator_msg.getDescription().get(c).setId(x + 1);
-			designator_msg.getDescription().get(c).setKey(key);
 			
-			// TODO(daniel) why so complicated here? Setting "parent" parameter to actual `level` makes life easier.
-			//if(parentId == 0)
-			//{
-				designator_msg.getDescription().get(c).setParent(parentId);
-			//}
-			//else 
-			//{
-			//	designator_msg.getDescription().get(c).setParent(parentId+1);
-			//}
+			designator_msg.getDescription().get(c).setId(c);
+			designator_msg.getDescription().get(c).setKey(key);
+			designator_msg.getDescription().get(c).setParent(level);
 
-
-			if (currentEntry.getValue() instanceof Double) 
+			if (value instanceof Double) 
 			{
 				designator_msg.getDescription().get(c).setType(1);
-				Double current_value = (Double)currentEntry.getValue();
+				Double current_value = (Double)value;
 				designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());						
 			}
-			else if (currentEntry.getValue() instanceof Integer) 
+			else if (value instanceof Integer) 
 			{
 				designator_msg.getDescription().get(c).setType(1);
-				Double current_value = (Double)currentEntry.getValue();
+				Double current_value = (Double)value;
 				designator_msg.getDescription().get(c).setValueFloat((float)current_value.doubleValue());
 			}
-			else if (currentEntry.getValue() instanceof ISODate) 
+			else if (value instanceof ISODate) 
 			{
 				designator_msg.getDescription().get(c).setType(0);
-				ISODate date = (ISODate)currentEntry.getValue();
+				ISODate date = (ISODate)value;
 				designator_msg.getDescription().get(c).setValueString(date.toString());
 			}
-			else if (currentEntry.getValue() instanceof Designator) 
+			else if (value instanceof Designator) 
 			{
-				Designator inner_designator = (Designator)currentEntry.getValue();
+				Designator inner_designator = (Designator)value;
 				try
 				{
 					if(inner_designator.getType().toString().toLowerCase() == "action")
@@ -203,46 +181,42 @@ public class LogdataPublisher extends AbstractNodeMain {
 				{
 					designator_msg.getDescription().get(c).setType(6);
 				}
-				int inner_size = publishDesignator(inner_designator, designator_msg, parentId+1);
-				x += inner_size;
-				difference_in_x += inner_size;
+				publishDesignator(inner_designator, designator_msg, level+1);
 			}
-			else if (currentEntry.getValue() instanceof PoseStamped) 
+			else if (value instanceof PoseStamped) 
 			{
 				designator_msg.getDescription().get(c).setType(4);
-				PoseStamped pose = (PoseStamped) currentEntry.getValue();
+				PoseStamped pose = (PoseStamped) value;
 				designator_msg.getDescription().get(c).setValuePosestamped(pose);
 			}
-			else if (currentEntry.getValue() instanceof geometry_msgs.Pose) 
+			else if (value instanceof geometry_msgs.Pose) 
 			{
 				designator_msg.getDescription().get(c).setType(5);
-				geometry_msgs.Pose pose = (geometry_msgs.Pose) currentEntry.getValue();
+				geometry_msgs.Pose pose = (geometry_msgs.Pose) value;
 				designator_msg.getDescription().get(c).setValuePose(pose);
 			}
-			else if (currentEntry.getValue() instanceof Matrix4d)
+			else if (value instanceof Matrix4d)
 			{
-				handleMatrixValue(designator_msg, c, (Matrix4d) currentEntry.getValue());
+				handleMatrixValue(designator_msg, c, (Matrix4d) value);
 			}
-			else if (currentEntry.getValue() instanceof Vector3d)
+			else if (value instanceof Vector3d)
 			{
-				handleVectorValue(designator_msg, c, (Vector3d) currentEntry.getValue());
+				handleVectorValue(designator_msg, c, (Vector3d) value);
 			}
-			else if (currentEntry.getValue() instanceof tfjava.Stamped<?>)
+			else if (value instanceof tfjava.Stamped<?>)
 			{
-				Object innerVal = ((tfjava.Stamped<?>)currentEntry.getValue()).getData();
+				Object innerVal = ((tfjava.Stamped<?>)value).getData();
 				if (innerVal instanceof Matrix4d)
 					handleMatrixValue(designator_msg, c, (Matrix4d) innerVal);
 				else if (innerVal instanceof Vector3d)
 					handleVectorValue(designator_msg, c, (Vector3d) innerVal);
 			}
-			else if (currentEntry.getValue().getClass().equals(String.class)) 
+			else
 			{
 				designator_msg.getDescription().get(c).setType(0);
-				designator_msg.getDescription().get(c).setValueString((String)currentEntry.getValue());
+				designator_msg.getDescription().get(c).setValueString(value.toString());
 			}
 		}
-		
-		return pairs.length + difference_in_x;
 	}
 
 	private void handleVectorValue(designator_integration_msgs.Designator designator_msg, int c, Vector3d vec) {
