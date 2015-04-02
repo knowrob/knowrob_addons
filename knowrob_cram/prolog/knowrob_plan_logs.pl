@@ -26,6 +26,7 @@
         load_experiment/1,
         load_experiments/1,
         load_experiments/2,
+        load_experiments/3,
         belief_at/2,
         cram_holds/2,
         occurs/2,
@@ -83,6 +84,7 @@
     load_experiment(+),
     load_experiments(+),
     load_experiments(+,+),
+    load_experiments(+,+,+),
     event(r,r,r),
     experiment(r,r),
     experiment_map(r,r),
@@ -157,9 +159,22 @@ load_experiments(Path) :-
 %  run where a log file ExpFileName is located in each of the sub directories.
 %
 %  @param Path Parent directory for experiment logs.
+%  @param ExpFileName Name of the log file.
 % 
 load_experiments(Path, ExpFileName) :-
   directory_files(Path, SubDirs),
+  load_experiments(Path, SubDirs, ExpFileName).
+
+%% load_experiments(+Path, +SubDirs, +ExpFileName) is nondet.
+%
+%  Loads the logfiles of the corresponding CRAM plan executions. Also,
+%  asserts new DirectoryName instances for accessing perception images of plans.
+%
+%  @param Path Parent directory for experiment logs.
+%  @param SubDirs List of subdirectory names.
+%  @param ExpFileName Name of the log file.
+% 
+load_experiments(Path, SubDirs, ExpFileName) :-
   forall( member(SubDir, SubDirs), ((
     atom_concat(Path, SubDir, ExpDir),
     atom_concat(ExpDir, '/', ExpDirSlash),
@@ -532,11 +547,11 @@ occurs(object_perceived(Obj),T) :-
     task_start(Task, T).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-
-  experiment_map(_Experiment, Map, Time),
+  experiment_map(_Experiment, Map, Time), !,
   add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
-  designator_assert(ObjInstance, Designator, Map),
+  designator_assert(ObjInstance, Designator, Map), !,
   designator_add_perception(ObjInstance, Designator, Matrix, Time).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
@@ -549,12 +564,14 @@ add_robot_as_basic_semantic_instance(Matrix, Time, ObjInstance) :-
 
 
 add_object_to_semantic_map(Designator, Matrix, Time, ObjInstance, H, W, D) :-
-  experiment_map(_Experiment, Map, Time),
+  experiment_map(_Experiment, Map, Time), !,
   add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D).
 
 add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D) :-
-  designator_object(Designator, ObjInstance),
-  rdf_instance_from_class(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
-  rdf_assert(ObjInstance,knowrob:'describedInMap', Map),
-  assert_dimensions(ObjInstance, H, W, D),
-  designator_add_perception(ObjInstance, Designator, Matrix, Time).
+  once((
+    designator_object(Designator, ObjInstance),
+    rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
+    rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
+    object_assert_dimensions(ObjInstance, H, W, D),
+    designator_add_perception(ObjInstance, Designator, Matrix, Time)
+  )).
