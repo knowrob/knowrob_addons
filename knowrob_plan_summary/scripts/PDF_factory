@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$(rospack find knowrob_plan_summary)/knowrob_plan_summary/build/install/knowrob_plan_summary/bin/knowrob_plan_summary org.knowrob.interfaces.PDF_factory.PDF_factory
