@@ -131,9 +131,9 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 		return true;
 	}
-
-    private void publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int level) {
-    	for(String key : designator.keySet()) {
+	
+	private void publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int level) {
+		for(String key : designator.keySet()) {
 			// check if publishable key
 			if(key.substring(0,1).equals("_")) continue;
 			Object value = designator.get(key);

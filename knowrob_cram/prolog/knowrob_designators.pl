@@ -322,7 +322,7 @@ designator_add_perception(ObjInstance, _Designator, Pose, Time) :-
 % @param Designator   Identifier of the designator
 % 
 designator_publish(Designator) :-
-  designator_publish(Designator, _DesignatorJava).
+  once(designator_publish(Designator, _DesignatorJava)).
 
 %% designator_publish(+Designator, +DesignatorJava) is nondet.
 %
