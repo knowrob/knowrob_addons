@@ -21,10 +21,45 @@ import tfjava.StampedTransform;
 public class PDF_factory 
 {
         String path_of_knowrob_plan_summary;
+	String path_for_generated_latex;
 
 	public PDF_factory()
 	{
 		path_of_knowrob_plan_summary = RosUtilities.rospackFind("knowrob_plan_summary");
+	}
+
+	public PDF_factory(String path_for_generated_latex)
+	{
+		this();
+		this.setPathForGeneratedLatex(path_for_generated_latex);
+	}
+
+	public void setPathForGeneratedLatex(String path_for_generated_latex)
+	{
+		this.path_for_generated_latex = path_for_generated_latex;
+	}
+
+	public boolean generatePDF()
+	{
+		String path = null;
+		try {       	
+			String[] parsed_path = path_for_generated_latex.split("/");
+			String path_for_generated_pdf = path_for_generated_latex.replaceAll(".tex", ".pdf");
+
+			String path_without_pdf_name = "";
+			for(int i = 0; i < parsed_path.length -1; i++)
+				path_without_pdf_name += "/" + parsed_path[i];
+
+			Process p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(path_without_pdf_name));
+			p.waitFor();
+		}
+		catch (Exception e)
+		{
+		       e.printStackTrace();
+		       return false;
+			
+		}
+		return true;
 	}
 
         public boolean addPlanTrajectory(String tflink, String starttime, String endtime, double interval)
@@ -55,7 +90,7 @@ public class PDF_factory
 
 			if(sts.size() > 0)
 			{
-				FileReader fr = new FileReader(path_of_knowrob_plan_summary + "/latex/output.tex");  
+				FileReader fr = new FileReader(path_for_generated_latex);  
 				BufferedReader br = new BufferedReader(fr);  
 
 				FileWriter fstream = new FileWriter(path_of_knowrob_plan_summary + "/latex/temp_output.tex");
@@ -97,7 +132,7 @@ public class PDF_factory
 				out.close();
 
 				// Once everything is complete, delete old file..
-	      			File oldFile = new File(path_of_knowrob_plan_summary + "/latex/output.tex");
+	      			File oldFile = new File(path_for_generated_latex);
 	      			oldFile.delete();
 
 	     			// And rename tmp file's name to old file name
@@ -120,7 +155,7 @@ public class PDF_factory
 		try
 		{
 
-			FileReader fr = new FileReader(path_of_knowrob_plan_summary + "/latex/output.tex");  
+			FileReader fr = new FileReader(path_for_generated_latex);  
         		BufferedReader br = new BufferedReader(fr);  
 
 			FileWriter fstream = new FileWriter(path_of_knowrob_plan_summary + "/latex/temp_output.tex");
@@ -155,7 +190,7 @@ public class PDF_factory
 			out.close();
 
 			// Once everything is complete, delete old file..
-      			File oldFile = new File(path_of_knowrob_plan_summary + "/latex/output.tex");
+      			File oldFile = new File(path_for_generated_latex);
       			oldFile.delete();
 
      			// And rename tmp file's name to old file name
@@ -181,7 +216,7 @@ public class PDF_factory
 			FileReader fr = new FileReader(path_of_knowrob_plan_summary + "/latex/base.tex");  
         		BufferedReader br = new BufferedReader(fr);  
 
-			FileWriter fstream = new FileWriter(path_of_knowrob_plan_summary + "/latex/output.tex");
+			FileWriter fstream = new FileWriter(path_for_generated_latex);
         		BufferedWriter out = new BufferedWriter(fstream);
 
 

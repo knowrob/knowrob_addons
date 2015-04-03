@@ -17,8 +17,8 @@
 
 :- module(knowrob_plan_summary,
     [
-	generate_pdf_summary/1,
-      	create_latex_with_semantic_map/0,
+	generate_pdf_summary/2,
+      	create_latex_with_semantic_map/1,
 	add_robot_poses/2,
 	add_plan_trajectory/4	
     ]).
@@ -38,15 +38,30 @@
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#', [keep(true)]).
 
-generate_pdf_summary(GoalsRequireHighlightPose) :-
-	create_latex_with_semantic_map,
-	add_robot_poses('/base_link', GoalsRequireHighlightPose),
-	task_goal(T, 'DEMO'),
-	task_start(T,S),
-	task_end(T,E),
-	add_plan_trajectory('/base_link',S,E,10).
+summary_interface :-
+    summary_interface(_).
 
-create_latex_with_semantic_map :-
+:- assert(sum_interface(fail)).
+summary_interface(PDF) :-
+    sum_interface(fail),
+    jpl_new('org.knowrob.interfaces.PDF_factory.PDF_factory', [], PDF),
+    retract(sum_interface(fail)),
+    assert(sum_interface(PDF)),!.
+
+summary_interface(PDF) :-
+    sum_interface(PDF).
+
+generate_pdf_summary(GoalsRequireHighlightPose, LatexPath) :-
+    create_latex_with_semantic_map(LatexPath),
+    add_robot_poses('/base_link', GoalsRequireHighlightPose),
+    task_goal(T, 'DEMO'),
+    task_start(T,S),
+    task_end(T,E),
+    add_plan_trajectory('/base_link',S,E,10),
+    summary_interface(PDF),
+    jpl_call(PDF, 'generatePDF', [], _R).
+
+create_latex_with_semantic_map(LatexPath) :-
 
     findall(
         ObjectDetail,
@@ -98,7 +113,8 @@ create_latex_with_semantic_map :-
     ),
     jpl_new( '[[Ljava.lang.String;', WallDetails, Walls),
 
-    jpl_new('org.knowrob.interfaces.PDF_factory.PDF_factory', [], PDF),
+    summary_interface(PDF),
+    jpl_call(PDF, 'setPathForGeneratedLatex', [LatexPath], @(void)),
     jpl_call(PDF, 'createLatex', [Objects, Walls], _R).
 
 add_robot_poses(Link, GoalsRequireHighlightPose) :-
@@ -121,10 +137,10 @@ add_robot_poses(Link, GoalsRequireHighlightPose) :-
     ),
 
     jpl_new( '[[Ljava.lang.String;', PositionDetails, Positions),
-    jpl_new('org.knowrob.interfaces.PDF_factory.PDF_factory', [], PDF),
+    summary_interface(PDF),
     jpl_call(PDF, 'locateRobotPositions', [Positions], _R).
 
 add_plan_trajectory(Link,S,E,Interval) :-
-    jpl_new('org.knowrob.interfaces.PDF_factory.PDF_factory', [], PDF),
+    summary_interface(PDF),
     jpl_call(PDF, 'addPlanTrajectory', [Link, S, E, Interval], _R).
 
