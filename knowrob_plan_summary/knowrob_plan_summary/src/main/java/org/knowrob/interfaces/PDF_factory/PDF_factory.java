@@ -41,6 +41,16 @@ public class PDF_factory
 
 	public boolean generatePDF()
 	{
+		return generate(true);
+	}
+
+	public boolean generateHTML()
+	{
+		return generate(false);
+	}
+
+	public boolean generate(boolean isPDF)
+	{
 		String path = null;
 		try {       	
 			String[] parsed_path = path_for_generated_latex.split("/");
@@ -48,8 +58,11 @@ public class PDF_factory
 			String folder_path = "";
 			for(int i = 0; i < parsed_path.length -1; i++)
 				folder_path += "/" + parsed_path[i];
+			Process p = null;
 
-			Process p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(folder_path));
+			if(isPDF) p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(folder_path));
+			else p = Runtime.getRuntime().exec("htlatex " + path_for_generated_latex, null, new File(folder_path));
+
 			p.waitFor();
 		}
 		catch (Exception e)

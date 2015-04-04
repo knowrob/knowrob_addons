@@ -18,6 +18,7 @@
 :- module(knowrob_plan_summary,
     [
 	generate_pdf_summary/2,
+	generate_html_summary/2,
       	create_latex_with_semantic_map/1,
 	add_robot_poses/2,
 	add_plan_trajectory/4	
@@ -52,14 +53,22 @@ summary_interface(PDF) :-
     sum_interface(PDF).
 
 generate_pdf_summary(GoalsRequireHighlightPose, LatexPath) :-
+    generate_summary(GoalsRequireHighlightPose, LatexPath),
+    summary_interface(PDF),
+    jpl_call(PDF, 'generatePDF', [], _R).
+
+generate_html_summary(GoalsRequireHighlightPose, LatexPath) :-
+    generate_summary(GoalsRequireHighlightPose, LatexPath),
+    summary_interface(PDF),
+    jpl_call(PDF, 'generateHTML', [], _R).
+
+generate_summary(GoalsRequireHighlightPose, LatexPath) :-
     create_latex_with_semantic_map(LatexPath),
     add_robot_poses('/base_link', GoalsRequireHighlightPose),
     task_goal(T, 'DEMO'),
     task_start(T,S),
     task_end(T,E),
-    add_plan_trajectory('/base_link',S,E,10),
-    summary_interface(PDF),
-    jpl_call(PDF, 'generatePDF', [], _R).
+    add_plan_trajectory('/base_link',S,E,10).
 
 create_latex_with_semantic_map(LatexPath) :-
 
