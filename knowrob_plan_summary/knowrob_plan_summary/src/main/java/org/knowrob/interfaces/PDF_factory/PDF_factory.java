@@ -44,13 +44,12 @@ public class PDF_factory
 		String path = null;
 		try {       	
 			String[] parsed_path = path_for_generated_latex.split("/");
-			String path_for_generated_pdf = path_for_generated_latex.replaceAll(".tex", ".pdf");
 
-			String path_without_pdf_name = "";
+			String folder_path = "";
 			for(int i = 0; i < parsed_path.length -1; i++)
-				path_without_pdf_name += "/" + parsed_path[i];
+				folder_path += "/" + parsed_path[i];
 
-			Process p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(path_without_pdf_name));
+			Process p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(folder_path));
 			p.waitFor();
 		}
 		catch (Exception e)
