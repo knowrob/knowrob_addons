@@ -19,6 +19,7 @@
     [
 	generate_pdf_summary/2,
 	generate_html_summary/2,
+	generate_jpg_summary/2,
       	create_latex_with_semantic_map/1,
 	add_robot_poses/2,
 	add_plan_trajectory/4	
@@ -61,6 +62,11 @@ generate_html_summary(GoalsRequireHighlightPose, LatexPath) :-
     generate_summary(GoalsRequireHighlightPose, LatexPath),
     summary_interface(PDF),
     jpl_call(PDF, 'generateHTML', [], _R).
+
+generate_jpg_summary(GoalsRequireHighlightPose, LatexPath) :-
+    generate_summary(GoalsRequireHighlightPose, LatexPath),
+    summary_interface(PDF),
+    jpl_call(PDF, 'generateJPG', [], _R).
 
 generate_summary(GoalsRequireHighlightPose, LatexPath) :-
     create_latex_with_semantic_map(LatexPath),

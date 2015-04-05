@@ -23,6 +23,11 @@ public class PDF_factory
         String path_of_knowrob_plan_summary;
 	String path_for_generated_latex;
 
+	public enum GeneratedFileFormat
+	{
+		PDF, HTML, JPEG
+	}
+
 	public PDF_factory()
 	{
 		path_of_knowrob_plan_summary = RosUtilities.rospackFind("knowrob_plan_summary");
@@ -41,15 +46,20 @@ public class PDF_factory
 
 	public boolean generatePDF()
 	{
-		return generate(true);
+		return generate(GeneratedFileFormat.PDF);
 	}
 
 	public boolean generateHTML()
 	{
-		return generate(false);
+		return generate(GeneratedFileFormat.HTML);
 	}
 
-	public boolean generate(boolean isPDF)
+	public boolean generateJPG()
+	{
+		return generate(GeneratedFileFormat.JPEG);
+	}
+
+	public boolean generate(GeneratedFileFormat format)
 	{
 		String path = null;
 		try {       	
@@ -60,10 +70,22 @@ public class PDF_factory
 				folder_path += "/" + parsed_path[i];
 			Process p = null;
 
-			if(isPDF) p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(folder_path));
-			else p = Runtime.getRuntime().exec("htlatex " + path_for_generated_latex, null, new File(folder_path));
-
-			p.waitFor();
+			if(format == GeneratedFileFormat.PDF) p = Runtime.getRuntime().exec("pdflatex " + path_for_generated_latex, null, new File(folder_path));
+			else if(format == GeneratedFileFormat.HTML) p = Runtime.getRuntime().exec("htlatex " + path_for_generated_latex, null, new File(folder_path));
+			else if(format == GeneratedFileFormat.JPEG)
+			{
+				if(generate(GeneratedFileFormat.PDF))
+				{
+					String path_for_pdf = path_for_generated_latex.replaceAll(".tex", ".pdf");
+					String path_for_jpg = path_for_generated_latex.replaceAll(".tex", ".jpg");
+					p = Runtime.getRuntime().exec("convert -density 800 " + path_for_pdf + " " + path_for_jpg, null, new File(folder_path));
+				}
+				else return false;
+			}
+			
+			if(p.waitFor()==127) {
+            			throw new RuntimeException("Latex source is generated but cannot be compiled.");
+            		}
 		}
 		catch (Exception e)
 		{
