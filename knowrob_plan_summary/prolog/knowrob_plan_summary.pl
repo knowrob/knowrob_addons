@@ -38,7 +38,7 @@
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
-:- rdf_db:rdf_register_ns(srdl2comp, 'http://ias.cs.tum.edu/kb/srdl2-comp.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
 summary_interface :-
     summary_interface(_).
@@ -46,7 +46,7 @@ summary_interface :-
 :- assert(sum_interface(fail)).
 summary_interface(PDF) :-
     sum_interface(fail),
-    jpl_new('org.knowrob.interfaces.PDF_factory.PDF_factory', [], PDF),
+    jpl_new('org.knowrob.summary.PDFFactory', [], PDF),
     retract(sum_interface(fail)),
     assert(sum_interface(PDF)),!.
 

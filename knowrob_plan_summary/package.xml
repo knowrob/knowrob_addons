@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <package>
   <name>knowrob_plan_summary</name>
-  <version>1.0.0</version>
+  <version>0.1.0</version>
   <description>knowrob_plan_summary</description>
   <maintainer email="asil@cs.uni-bremen.de">Asil Kaan Bozcuoglu</maintainer>
 

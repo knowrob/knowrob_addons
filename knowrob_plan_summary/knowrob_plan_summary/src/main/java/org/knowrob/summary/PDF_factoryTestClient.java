@@ -1,4 +1,4 @@
-package org.knowrob.interfaces.PDF_factory;
+package org.knowrob.summary;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -124,7 +124,7 @@ public class PDF_factoryTestClient  extends AbstractNodeMain
 		walls[4][3] = "0'1'2'5";
 		walls[5][3] = "0'1'2'6";
 		
-		PDF_factory pdf = new PDF_factory();
+		PDFFactory pdf = new PDFFactory();
 
 		pdf.createLatex(objects, walls);
 

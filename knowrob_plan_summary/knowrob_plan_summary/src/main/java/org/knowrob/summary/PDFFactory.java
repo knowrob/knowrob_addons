@@ -1,4 +1,4 @@
-package org.knowrob.interfaces.PDF_factory;
+package org.knowrob.summary;
 
 import java.io.*;
 import java.util.StringTokenizer;
@@ -18,7 +18,7 @@ import tfjava.StampedTransform;
  * @author asil@cs.uni-bremen.de
  *
  */
-public class PDF_factory 
+public class PDFFactory 
 {
         String path_of_knowrob_plan_summary;
 	String path_for_generated_latex;
@@ -28,12 +28,12 @@ public class PDF_factory
 		PDF, HTML, JPEG
 	}
 
-	public PDF_factory()
+	public PDFFactory()
 	{
 		path_of_knowrob_plan_summary = RosUtilities.rospackFind("knowrob_plan_summary");
 	}
 
-	public PDF_factory(String path_for_generated_latex)
+	public PDFFactory(String path_for_generated_latex)
 	{
 		this();
 		this.setPathForGeneratedLatex(path_for_generated_latex);
@@ -127,7 +127,7 @@ public class PDF_factory
 				FileReader fr = new FileReader(path_for_generated_latex);  
 				BufferedReader br = new BufferedReader(fr);  
 
-				FileWriter fstream = new FileWriter(path_of_knowrob_plan_summary + "/latex/temp_output.tex");
+				FileWriter fstream = new FileWriter(path_for_generated_latex.replaceAll(".tex", ".tmp"));
 				BufferedWriter out = new BufferedWriter(fstream);
 
 				String line = null;
@@ -170,14 +170,15 @@ public class PDF_factory
 	      			oldFile.delete();
 
 	     			// And rename tmp file's name to old file name
-	      			File newFile = new File(path_of_knowrob_plan_summary + "/latex/temp_output.tex");
+	      			File newFile = new File(path_for_generated_latex.replaceAll(".tex", ".tmp"));
 	      			newFile.renameTo(oldFile);
-				}
+			}
 
 		}
 		catch (Exception e)
 		{
-      			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
+      			System.err.println("Error (addPlanTrajectory): " + e.getMessage());
 			return false;
     		}
 		return true;
@@ -192,7 +193,7 @@ public class PDF_factory
 			FileReader fr = new FileReader(path_for_generated_latex);  
         		BufferedReader br = new BufferedReader(fr);  
 
-			FileWriter fstream = new FileWriter(path_of_knowrob_plan_summary + "/latex/temp_output.tex");
+			FileWriter fstream = new FileWriter(path_for_generated_latex.replaceAll(".tex", ".tmp"));
         		BufferedWriter out = new BufferedWriter(fstream);
 
 			String line = null;
@@ -228,13 +229,14 @@ public class PDF_factory
       			oldFile.delete();
 
      			// And rename tmp file's name to old file name
-      			File newFile = new File(path_of_knowrob_plan_summary + "/latex/temp_output.tex");
-      			newFile.renameTo(oldFile);
+      			File newFile = new File(path_for_generated_latex.replaceAll(".tex", ".tmp"));
+      			boolean isSuccess = newFile.renameTo(oldFile);
 
 		}
 		catch (Exception e)
 		{
-      			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
+      			System.err.println("Error (locateRobotPositions): " + e.getMessage());
 			return false;
     		}
 		return true;
@@ -307,7 +309,8 @@ public class PDF_factory
 		}
 		catch (Exception e)
 		{
-      			System.err.println("Error: " + e.getMessage());
+			e.printStackTrace();
+      			System.err.println("Error (createLatex): " + e.getMessage());
 			return false;
     		}
 		return true;
@@ -484,7 +487,7 @@ public class PDF_factory
 		walls[4][3] = "0'1'2'5";
 		walls[5][3] = "0'1'2'6";
 		
-		PDF_factory pdf = new PDF_factory();
+		PDFFactory pdf = new PDFFactory();
 
 		pdf.createLatex(objects, walls);
 
