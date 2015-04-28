@@ -45,7 +45,7 @@
         simgrasped/4,
         add_count/1,
         experiment_file/1,
-        load_experiments/2
+        load_experiments_sim/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -109,10 +109,10 @@ experiment_file(X):-
 %  @param ExpOwlPath path where the logfiles are located
 %  @param ExpFiles list of logfile names to be loaded
 % 
-load_experiments(ExpOwlPath, []).
-load_experiments(ExpOwlPath, [ExpFile|T]) :-
+load_experiments_sim(ExpOwlPath, []).
+load_experiments_sim(ExpOwlPath, [ExpFile|T]) :-
     atom_concat(ExpOwlPath, ExpFile, Path),
-    (load_experiment(Path) -> load_experiments(ExpOwlPath, T); load_experiments(ExpOwlPath, T)).
+    (load_experiment(Path) -> load_experiments_sim(ExpOwlPath, T); load_experiments_sim(ExpOwlPath, T)).
 
 
 %% simact(?Task) is nondet.
