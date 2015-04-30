@@ -47,7 +47,8 @@
         experiment_file/1,
         load_sim_experiments/2,
         visualize_simulation_scene/1,
-        visualize_simulation_object/3
+        visualize_simulation_object/3,
+        visualize_simulation_particles/4
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -87,7 +88,8 @@
     load_sim_experiments(r,r),
     successful_simacts_for_goal(+,-),
     visualize_simulation_scene(r),
-    visualize_simulation_object(+,+,r).
+    visualize_simulation_object(+,+,r),
+    visualize_simulation_particles(+,+,+,r).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % List of available experiments
@@ -539,9 +541,23 @@ visualize_simulation_scene(T) :-
     member(Obj, Objs), ((
     designator_template(Map, Obj, Template),
     owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
-    visualize_simulation_object(Obj, MeshPath, T)) ; true
+    (  owl_has(Template, knowrob:'numParticles', literal(type(_,ParticleCount)))
+    -> (
+      atom_number(ParticleCount, N),
+      visualize_simulation_particles(Obj, MeshPath, N, T)
+    )
+    ;  visualize_simulation_object(Obj, MeshPath, T)
+    )) ; true
   )).
 
+visualize_simulation_particles(Obj, MeshPath, ParticleCount, T) :-
+  Count is ParticleCount - 1,
+  atom_concat(Obj, '_link_', Prefix),
+  forall( between(0, Count, N), (
+    atom_concat(Prefix, N, ObjectFrame),
+    visualize_simulation_object(ObjectFrame, MeshPath, T)
+  )).
+  
 visualize_simulation_object(Obj, MeshPath, T) :-
   % Lookup object pose in mongo
   atom_concat('/', Obj, ObjFrame),
@@ -550,4 +566,4 @@ visualize_simulation_object(Obj, MeshPath, T) :-
   matrix_rotation(Transform, Quaternion),
   matrix_translation(Transform, Translation),
   % Publish mesh marker message
-  add_mesh(MeshPath, Translation, Quaternion).
+  add_mesh(ObjFrame, MeshPath, Translation, Quaternion).

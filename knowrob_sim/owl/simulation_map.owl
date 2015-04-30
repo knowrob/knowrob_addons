@@ -114,6 +114,9 @@
 
     <!-- http://knowrob.org/kb/knowrob.owl#diamaeterOfObject -->
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#diameterOfObject"/>
+    
+    <!-- http://knowrob.org/kb/knowrob.owl#numParticles -->
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#numParticles"/>
 
 
       <!--
@@ -318,6 +321,13 @@
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Cup</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/mug.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&sim;Champignon_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Champignon</knowrob:perceptionResponse>
+        <knowrob:numParticles rdf:datatype="&xsd;int">10</knowrob:numParticles>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://kitchen/food-drinks/pizza-credentials/mushroom.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
 
 </rdf:RDF>
