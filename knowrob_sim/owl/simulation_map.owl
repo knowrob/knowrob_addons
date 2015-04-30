@@ -16,7 +16,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
    xmlns:owl="http://www.w3.org/2002/07/owl#"
-   xmlns:knowrob="&knowrob;"
+   xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
    xmlns:sim="http://knowrob.org/kb/simulation_map.owl#"
    xml:base="http://knowrob.org/kb/simulation_map.owl">
   <owl:Ontology rdf:about="http://knowrob.org/kb/simulation_map.owl">
@@ -287,6 +287,38 @@
         <knowrob:m32 rdf:datatype="&xsd;float">0.00</knowrob:m32>
         <knowrob:m33 rdf:datatype="&xsd;float">1.00</knowrob:m33>
     </knowrob:RotationMatrix3D>
+
+    <!-- OBJECT TEMPLATES -->
+    
+    <owl:NamedIndividual rdf:about="&sim;PizzaBoard_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">PizzaBoard</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/pizza_board.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&sim;Pizza_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pizza</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/pizza_inside.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&sim;CheeseBowl_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">CheeseBowl</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/bowl.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&sim;ChampignonBowl_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">ChampignonBowl</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/bowl.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&sim;Cup_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Cup</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/mug.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
 
 </rdf:RDF>
 

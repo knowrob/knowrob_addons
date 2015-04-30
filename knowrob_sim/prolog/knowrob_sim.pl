@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-@author Asil Kaan Bozcuoglu, Moritz Tenorth
+@author Asil Kaan Bozcuoglu, Moritz Tenorth, Daniel Beßler
 @license GPL
 */
 
@@ -45,7 +45,9 @@
         simgrasped/4,
         add_count/1,
         experiment_file/1,
-        load_experiments_sim/2
+        load_sim_experiments/2,
+        visualize_simulation_scene/1,
+        visualize_simulation_object/3
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -82,8 +84,10 @@
     simflipping(r,r,r,r,r,r,r,r,r),
     simgrasped(r,r,r,r),
     experiment_file(r),
-    load_experiments(r,r),
-    successful_simacts_for_goal(+,-).
+    load_sim_experiments(r,r),
+    successful_simacts_for_goal(+,-),
+    visualize_simulation_scene(r),
+    visualize_simulation_object(+,+,r).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % List of available experiments
@@ -109,10 +113,10 @@ experiment_file(X):-
 %  @param ExpOwlPath path where the logfiles are located
 %  @param ExpFiles list of logfile names to be loaded
 % 
-load_experiments_sim(ExpOwlPath, []).
-load_experiments_sim(ExpOwlPath, [ExpFile|T]) :-
+load_sim_experiments(ExpOwlPath, []).
+load_sim_experiments(ExpOwlPath, [ExpFile|T]) :-
     atom_concat(ExpOwlPath, ExpFile, Path),
-    (load_experiment(Path) -> load_experiments_sim(ExpOwlPath, T); load_experiments_sim(ExpOwlPath, T)).
+    (load_experiment(Path) -> load_sim_experiments(ExpOwlPath, T); load_sim_experiments(ExpOwlPath, T)).
 
 
 %% simact(?Task) is nondet.
@@ -513,3 +517,37 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
 
     set_object_perception(ObjInstance, Perception).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Visualization methods
+%
+
+visualize_simulation_scene(T) :-
+  % Query experiment information
+  experiment(Exp, T),
+  experiment_map(Exp, Map, T),
+  % Query all occuring objects
+  findall(Obj, (
+    owl_has(Exp, knowrob:'occuringObject', ObjUrl),
+    rdf_split_url(_, Obj, ObjUrl)
+  ), Objs),
+  % Show the simulation hand
+  add_agent_visualization('http://knowrob.org/kb/sim-hand.owl#SimulationHand', T),
+  % Show objects
+  forall(
+    member(Obj, Objs), ((
+    designator_template(Map, Obj, Template),
+    owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
+    visualize_simulation_object(Obj, MeshPath, T)) ; true
+  )).
+
+visualize_simulation_object(Obj, MeshPath, T) :-
+  % Lookup object pose in mongo
+  atom_concat('/', Obj, ObjFrame),
+  mng_lookup_transform('/map', ObjFrame, T, Transform),
+  % Extract quaternion and translation vector
+  matrix_rotation(Transform, Quaternion),
+  matrix_translation(Transform, Translation),
+  % Publish mesh marker message
+  add_mesh(MeshPath, Translation, Quaternion).
