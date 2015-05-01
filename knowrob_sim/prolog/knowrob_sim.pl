@@ -117,7 +117,7 @@ experiment_file(X):-
 %% load_experiment(+ExpOwlPath, +ExpFiles) is nondet.
 %
 %  Loads the owl logfiles of a list of experiments, located on ExpOwlPath using
-%  repeatezd calls to load_experiment in knowrob_cram
+%  repeated calls to load_experiment in knowrob_cram
 %
 %  @param ExpOwlPath path where the logfiles are located
 %  @param ExpFiles list of logfile names to be loaded
