@@ -1,8 +1,0 @@
-bin
-build
-msg_gen
-srv_gen
-.classpath
-.project
-prolog/init.pl
-owl/test-objects.owl

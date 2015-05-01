@@ -1,18 +1,16 @@
-cmake_minimum_required(VERSION 2.8.5)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+##############################################################################
+# CMake
+##############################################################################
 
-rosbuild_init()
-rosbuild_include(rosprolog utils)
+cmake_minimum_required(VERSION 2.8.3)
+project(knowrob_sim)
 
+##############################################################################
+# Catkin
+##############################################################################
 
-# replace path to local OWL files
+find_package(catkin REQUIRED knowrob_mongo)
 
-rosbuild_find_ros_package(ias_knowledge_base)
-set( IAS_KB_PACKAGE_PATH ${ias_knowledge_base_PACKAGE_PATH} )
-fix_ros_destination_path(IAS_KB_PACKAGE_PATH)
-
-file(GLOB inputs owl/*.in)
-foreach( _in ${inputs} )
-  string(REPLACE ".in" "" _out ${_in})
-  configure_file( ${_in} ${_out} )
-endforeach( _in )
+catkin_package(
+  DEPENDS knowrob_mongo
+)

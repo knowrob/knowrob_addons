@@ -27,7 +27,7 @@ public class BarcooImporter {
 	//
 	
 	// Base IRI for KnowRob ontology
-	public final static String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
+	public final static String KNOWROB = "http://knowrob.org/kb/knowrob.owl#";
 	
 	// Base IRI for OWL ontology
 	public final static String OWL = "http://www.w3.org/2002/07/owl#";

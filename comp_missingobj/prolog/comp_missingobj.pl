@@ -41,7 +41,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % visualisation canvas
-:- use_module(library('mod_vis')).
+% :- use_module(library('mod_vis')).
 
 
 
@@ -92,7 +92,7 @@ comp_missingObjectTypes(PerceivedObjects, MissingInstances, MissingTypes) :-
 
 % simplified version for the ROS Fall School
 current_objects_on_table(_, Curr) :-
-        latest_perceptions_of_types('http://ias.cs.tum.edu/kb/knowrob.owl#HumanScaleObject', LatestPerceptions),
+        latest_perceptions_of_types('http://knowrob.org/kb/knowrob.owl#HumanScaleObject', LatestPerceptions),
         member(Perc, LatestPerceptions),
         rdf_has(Perc, knowrob:objectActedOn, Curr).
 

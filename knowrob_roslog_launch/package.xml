@@ -1,0 +1,44 @@
+<package>
+  <name>knowrob_roslog_launch</name>
+  <version>1.0.0</version>
+  <description>knowrob_roslog_launch
+
+     Package containing launch files and a basic KnowRob package to be
+     used for launching a KnowRob system including logging and visualization.</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/knowrob_roslog_launch</url>
+
+  <author>Moritz Tenorth</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>knowrob_sim</build_depend>
+  <build_depend>knowrob_cram</build_depend>
+  <build_depend>knowrob_mongo</build_depend>
+<!--   <build_depend>iai_maps</build_depend> -->
+  <build_depend>json_prolog</build_depend>
+  <build_depend>knowrob_vis</build_depend>
+  <build_depend>mjpeg_server</build_depend>
+  <build_depend>rosbridge_server</build_depend>
+<!--   <build_depend>beliefstate</build_depend> -->
+<!--   <build_depend>mongodb_log</build_depend> -->
+  <build_depend>knowrob_motion_constraints</build_depend>
+  <build_depend>knowrob_plan_summary</build_depend>
+
+  <run_depend>knowrob_sim</run_depend>
+  <run_depend>knowrob_cram</run_depend>
+  <run_depend>knowrob_mongo</run_depend>
+<!--   <run_depend>iai_maps</run_depend> -->
+  <run_depend>json_prolog</run_depend>
+  <run_depend>knowrob_vis</run_depend>
+  <run_depend>mjpeg_server</run_depend>
+  <run_depend>rosbridge_server</run_depend>
+<!--   <run_depend>beliefstate</run_depend> -->
+<!--   <run_depend>mongodb_log</run_depend> -->\
+  <run_depend>knowrob_motion_constraints</run_depend>
+  <run_depend>knowrob_plan_summary</run_depend>
+
+</package>

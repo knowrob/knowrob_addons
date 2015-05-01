@@ -1,0 +1,19 @@
+<package>
+  <name>comp_mocap</name>
+  <version>1.0.0</version>
+  <description>Utilities for motion capturing</description>
+  <maintainer email="danielb@informatik.uni-bremen.de">Daniel Beßler</maintainer>
+
+  <license>GPL</license>
+
+  <url type="website">http://www.knowrob.org/</url>
+
+  <author>Daniel Beßler</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>knowrob_common</build_depend>
+
+  <run_depend>knowrob_common</run_depend>
+
+</package>

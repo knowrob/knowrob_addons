@@ -33,7 +33,7 @@
 :- use_module(library('thea/owl_parser')).
 
 
-:- rdf_db:rdf_register_ns(knowrob,  'http://ias.cs.tum.edu/kb/knowrob.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob,  'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(comp_barcoo, 'http://www.barcoo.com/barcoo.owl#', [keep(true)]).
 
 
@@ -49,7 +49,7 @@ odufinder_listener(Listener) :-
 %
 cop_create_model_instance(ModelType, ObjectType) :-
 
-  atom_concat('http://ias.cs.tum.edu/kb/comp_cop.owl#', ModelType, ModelT),
+  atom_concat('http://knowrob.org/kb/comp_cop.owl#', ModelType, ModelT),
   rdf_instance_from_class(ModelT, ModelInst),
 
   rdf_assert(ModelInst, knowrob:providesModelFor, ObjectType).
@@ -60,10 +60,10 @@ cop_create_model_instance(ModelType, ObjectType) :-
 %
 cop_create_perception_instance(ModelTypes, Perception) :-
 
-  rdf_instance_from_class('http://ias.cs.tum.edu/kb/comp_cop.owl#CopPerception', Perception),
+  rdf_instance_from_class('http://knowrob.org/kb/comp_cop.owl#CopPerception', Perception),
 
   findall(MC, (member(MT, ModelTypes),
-               atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', MT, MC),
+               atom_concat('http://knowrob.org/kb/knowrob.owl#', MT, MC),
                rdf_assert(Perception, knowrob:perceivedUsingModel, MC)), _),
 
   % create detection time point
@@ -80,7 +80,7 @@ cop_create_object_instance(ObjTypes, CopID, Obj) :-
 
   member(ObjType, ObjTypes),
   string_to_atom(ObjType, TypeAtom),
-%   atom_concat('http://ias.cs.tum.edu/kb/knowrob.owl#', LocalTypeAtom, TypeAtom),
+%   atom_concat('http://knowrob.org/kb/knowrob.owl#', LocalTypeAtom, TypeAtom),
   atom_concat(TypeAtom, CopID, Obj),
 
   (rdf_has(Obj, rdf:type, TypeAtom),!;

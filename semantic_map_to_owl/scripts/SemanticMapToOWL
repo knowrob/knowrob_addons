@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$(rospack find semantic_map_to_owl)/semantic_map_to_owl/build/install/semantic_map_to_owl/bin/semantic_map_to_owl org.knowrob.map.SemanticMapToOWL

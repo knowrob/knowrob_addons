@@ -1,22 +1,29 @@
-cmake_minimum_required(VERSION 2.8.5)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+##############################################################################
+# CMake
+##############################################################################
 
-rosbuild_init()
-rosbuild_include(rosprolog utils)
+cmake_minimum_required(VERSION 2.8.3)
+project(knowrob_cram)
 
+##############################################################################
+# Catkin
+##############################################################################
 
-# replace path to local OWL files
+find_package(catkin REQUIRED rosjava_build_tools knowrob_mongo designator_integration_msgs)
 
-rosbuild_find_ros_package(ias_knowledge_base)
-set( IAS_KB_PACKAGE_PATH ${ias_knowledge_base_PACKAGE_PATH} )
-fix_ros_destination_path(IAS_KB_PACKAGE_PATH)
+catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
 
-rosbuild_find_ros_package(knowrob_mongo)
-set( LOCAL_PACKAGE_PATH ${knowrob_mongo_PACKAGE_PATH} )
-fix_ros_destination_path(MONGO_PACKAGE_PATH)
+catkin_package(
+  DEPENDS knowrob_mongo designator_integration_msgs
+)
 
-file(GLOB inputs owl/*.in)
-foreach( _in ${inputs} )
-  string(REPLACE ".in" "" _out ${_in})
-  configure_file( ${_in} ${_out} )
-endforeach( _in )
+##############################################################################
+# Installation
+##############################################################################
+
+# Change this to match the maven group name you have specified in the 
+# allprojects closure the root build.gradle
+install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME}/ 
+        DESTINATION ${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME})
+
+        

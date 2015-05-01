@@ -34,9 +34,9 @@
     ]).
 
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('thea/owl_parser')).
-:- use_module(library('semweb/owl')).
-:- use_module(library('semweb/rdfs_computable')).
+:- use_module(library('owl_parser')).
+:- use_module(library('owl')).
+:- use_module(library('rdfs_computable')).
 :- use_module(library('jpl')).
 :- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_perception')).
@@ -60,11 +60,11 @@
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(knowrob, 'http://ias.cs.tum.edu/kb/knowrob.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
 
-:- rdf_db:rdf_register_ns(constr, 'http://ias.cs.tum.edu/kb/motion-constraints.owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(pancake_constr, 'http://ias.cs.tum.edu/kb/pancake-making-constr.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(constr, 'http://knowrob.org/kb/motion-constraints.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(pancake_constr, 'http://knowrob.org/kb/pancake-making-constr.owl#', [keep(true)]).
 
 
 
@@ -215,7 +215,7 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
   once((rdf_has(Feature, rdf:type, T),
        owl_subclass_of(T, knowrob:'Cone'))),
-  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#LineFeature',
+  Type = 'http://knowrob.org/kb/knowrob.owl#LineFeature',
 
   ((rdf_has(Feature, rdfs:label, literal(type(_,Label))),!); (Label='')),
   ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
@@ -236,7 +236,7 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
   once((rdf_has(Feature, rdf:type, T),
         owl_subclass_of(T, knowrob:'FlatPhysicalSurface'))),
-  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PlaneFeature',
+  Type = 'http://knowrob.org/kb/knowrob.owl#PlaneFeature',
 
   ((rdf_has(Feature, rdfs:label, literal(type(_,Label))),!); (Label='')),
   ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
@@ -257,7 +257,7 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 
   once((rdf_has(Feature, rdf:type, T),
         owl_subclass_of(T, knowrob:'HumanScaleObject'))),
-  Type = 'http://ias.cs.tum.edu/kb/knowrob.owl#PointFeature',
+  Type = 'http://knowrob.org/kb/knowrob.owl#PointFeature',
 
   ((rdf_has(Feature, rdfs:label, literal(type(_,Label))),!); (Label='')),
   ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
@@ -329,7 +329,7 @@ constraint_property(C, P, O) :-
 % 
 % % point features for center point of sphere annotations
 % sphere_annotation_position(PartInst, FeaturePos, FeatureDir) :-
-%     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Sphere'),
+%     owl_individual_of(PartInst, 'http://knowrob.org/kb/knowrob.owl#Sphere'),
 %     annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
 %     FeaturePos = [X,Y,Z],
 %     FeatureDir = [0,0,0].
@@ -337,7 +337,7 @@ constraint_property(C, P, O) :-
 % % line feature for center line of cone annotations
 % cone_annotation_dir_vector(PartInst, FeaturePos, FeatureDir) :-
 % 
-%     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#Cone'),
+%     owl_individual_of(PartInst, 'http://knowrob.org/kb/knowrob.owl#Cone'),
 %     annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
 %     FeaturePos = [X,Y,Z],
 % 
@@ -352,7 +352,7 @@ constraint_property(C, P, O) :-
 % % plane annotation: center point and normal vector
 % plane_annotation_normal_vector(PartInst, FeaturePos, FeatureDir) :-
 % 
-%     owl_individual_of(PartInst, 'http://ias.cs.tum.edu/kb/knowrob.owl#FlatPhysicalSurface'),
+%     owl_individual_of(PartInst, 'http://knowrob.org/kb/knowrob.owl#FlatPhysicalSurface'),
 %     annotation_pose_list(PartInst, [_,_,_,X,_,_,_,Y,_,_,_,Z,_,_,_,_]),
 %     FeaturePos = [X,Y,Z],
 % 
@@ -469,7 +469,7 @@ constraint_property(C, P, O) :-
 % 
 %     % create a cylinder instance for visualization in direction of the
 %     % normal vector
-%     create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder',
+%     create_object_perception('http://knowrob.org/kb/knowrob.owl#Cylinder',
 %                              [1,0,0,X,0,1,0,Y,0,0,1,Z,0,0,0,1],
 %                              ['VisualPerception'], Cyl),
 %     rdf_assert(Cyl, knowrob:longitudinalDirection, NormalVec),
@@ -540,7 +540,7 @@ plane_annotation_side_vector(Obj, SideVecPosList, ShortSideGlList) :-
 %     % create cylinder at center of edge
 %     knowrob_coordinates:vector3d_to_list(SideCenterVec, SideVecPosList),
 %     SideVecPosList=[PX,PY,PZ],
-%     create_object_perception('http://ias.cs.tum.edu/kb/knowrob.owl#Cylinder',
+%     create_object_perception('http://knowrob.org/kb/knowrob.owl#Cylinder',
 %                             [1,0,0,PX,0,1,0,PY,0,0,1,PZ,0,0,0,1],
 %                             ['VisualPerception'], Cyl),
 %

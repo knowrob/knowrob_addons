@@ -1,6 +1,10 @@
-cmake_minimum_required(VERSION 2.8.5)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(knowrob_roslog_launch)
 
-rosbuild_init()
-rosbuild_include(rosprolog utils)
+find_package(catkin REQUIRED COMPONENTS knowrob_sim knowrob_cram json_prolog knowrob_vis mjpeg_server rosbridge_server knowrob_motion_constraints knowrob_plan_summary)
 
+
+
+catkin_package(
+    DEPENDS knowrob_sim knowrob_cram json_prolog knowrob_vis mjpeg_server rosbridge_server knowrob_motion_constraints knowrob_plan_summary
+)

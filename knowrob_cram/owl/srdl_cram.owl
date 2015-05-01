@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='US-ASCII'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY computable 'http://knowrob.org/kb/computable.owl#'>
+    <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
+    <!ENTITY dc 'http://purl.org/dc/elements/1.1/'>
+    <!ENTITY roboearth 'http://www.roboearth.org/kb/roboearth.owl#'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+    <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+    <!ENTITY log "http://knowrob.org/kb/cram_log.owl#" >
+]>
+
+<rdf:RDF
+    xmlns:computable="&computable;"
+    xmlns:knowrob="&knowrob;"
+    xmlns:dc="&dc;"
+    xmlns:roboearth="&roboearth;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:xsd="&xsd;"
+    xmlns:owl="&owl;"
+    xmlns:log="http://knowrob.org/kb/cram_log.owl#">
+>
+<rdf:Description rdf:about="OK"/>
+
+<owl:Class rdf:about="&knowrob;Navigate">
+  <rdfs:subClassOf rdf:resource="&knowrob;Translation-LocationChange"/>
+</owl:Class>
+
+<owl:Class rdf:about="&knowrob;PerceiveObject">
+  <rdfs:subClassOf rdf:resource="&knowrob;VisualPerception"/>
+</owl:Class>
+
+<owl:Class rdf:about="&knowrob;ArmMovement">
+  <rdfs:subClassOf>
+    <rdf:Description>
+      <owl:hasValue rdf:resource="&roboearth;robotRightGripper"/>
+      <owl:onProperty rdf:resource="&knowrob;bodyPartUsed"/>
+    </rdf:Description>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf rdf:resource="&knowrob;Reaching"/>
+</owl:Class>
+
+<owl:Class rdf:about="&knowrob;BaseMovement">
+  <rdfs:subClassOf rdf:resource="&knowrob;Translation-LocationChange"/>
+</owl:Class>
+
+</rdf:RDF>

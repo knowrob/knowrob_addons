@@ -7,7 +7,7 @@
     <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY ehow "http://www9.cs.tum.edu/kb/ehow.owl#" >
-    <!ENTITY knowrob "http://ias.cs.tum.edu/kb/knowrob.owl#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY protege "http://protege.stanford.edu/plugins/owl/protege#" >
@@ -15,8 +15,8 @@
 ]>
 
 
-<rdf:RDF xmlns="http://ias.cs.tum.edu/kb/ehow_input.owl#"
-     xml:base="http://ias.cs.tum.edu/kb/ehow_input.owl"
+<rdf:RDF xmlns="http://knowrob.org/kb/ehow_input.owl#"
+     xml:base="http://knowrob.org/kb/ehow_input.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
@@ -26,7 +26,7 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:knowrob="http://ias.cs.tum.edu/kb/knowrob.owl#">
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about=""/>
     <knowrob:PartialOrdering-Strict rdf:ID="PartialOrderConstr8">
         <knowrob:occursBeforeInOrdering rdf:resource="#Waiting2"/>

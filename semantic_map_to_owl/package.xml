@@ -1,0 +1,30 @@
+<package>
+  <name>semantic_map_to_owl</name>
+  <version>1.0.0</version>
+  <description>mod_semantic_map
+
+     Node and tools to generate the OWL description of the semantic map
+     from ROS messages</description>
+  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/mod_semantic_map</url>
+
+  <author>Moritz Tenorth</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rosjava_build_tools</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>rosjava_bootstrap</build_depend>
+  <build_depend>rosjava_messages</build_depend>
+    
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>knowrob_common</build_depend>
+  
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>knowrob_common</run_depend>
+
+</package>

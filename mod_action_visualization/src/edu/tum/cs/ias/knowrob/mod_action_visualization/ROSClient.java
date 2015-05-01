@@ -47,8 +47,8 @@ public class ROSClient
 	//
 	
 	// Base IRI for KnowRob ontology
-	public final static String KNOWROB = "http://ias.cs.tum.edu/kb/knowrob.owl#";
-	public final static String TRACK = "http://ias.cs.tum.edu/kb/track.owl#";
+	public final static String KNOWROB = "http://knowrob.org/kb/knowrob.owl#";
+	public final static String TRACK = "http://knowrob.org/kb/track.owl#";
 	
 	// Base IRI for OWL ontology
 	public final static String OWL = "http://www.w3.org/2002/07/owl#";
@@ -57,7 +57,7 @@ public class ROSClient
 	public final static String RDFS = "http://www.w3.org/2000/01/rdf-schema#";
 	
 	// Base IRI for semantic map ontology	
-	public final static String IAS_MAP = "http://ias.cs.tum.edu/kb/ias_semantic_map.owl#";
+	public final static String IAS_MAP = "http://knowrob.org/kb/ias_semantic_map.owl#";
 	
 	// ROS package name for KnowRob
 	public final static String KNOWROB_PKG = "ias_knowledge_base";
@@ -66,7 +66,7 @@ public class ROSClient
 	public final static String KNOWROB_OWL = "owl/knowrob.owl";
 	
 	// Namespace of OWL File
-	public static String NAMESPACE = "http://ias.cs.tum.edu/kb/knowrob2.owl#";
+	public static String NAMESPACE = "http://knowrob.org/kb/knowrob2.owl#";
 	
 	// Prefix manager
 	public final static DefaultPrefixManager PREFIX_MANAGER = new DefaultPrefixManager(KNOWROB);
