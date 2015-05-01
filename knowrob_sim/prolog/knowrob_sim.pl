@@ -48,6 +48,7 @@
         load_sim_experiments/2,
         visualize_simulation_scene/1,
         visualize_simulation_object/3,
+        visualize_simulation_particles/4,
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4
