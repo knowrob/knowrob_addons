@@ -48,7 +48,10 @@
         load_sim_experiments/2,
         visualize_simulation_scene/1,
         visualize_simulation_object/3,
-        visualize_simulation_particles/4
+        visualize_simulation_particles/4,
+        anyact/3,
+        intersected_uid_event/6,
+        sim_subsumes/4
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -86,10 +89,14 @@
     simgrasped(r,r,r,r),
     experiment_file(r),
     load_sim_experiments(r,r),
+    intersected_uid_event(r,r,r,r,r,r),
     successful_simacts_for_goal(+,-),
     visualize_simulation_scene(r),
     visualize_simulation_object(+,+,r),
-    visualize_simulation_particles(+,+,+,r).
+    visualize_simulation_particles(+,+,+,r),
+    anyact(r,r,r),
+    sim_subsumes(r,r,r,r),
+    successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % List of available experiments
@@ -134,6 +141,27 @@ simact(Experiment, EventID) :-
     rdf_reachable(EventClass, rdfs:subClassOf, knowrob_sim:'SimulationEvent'),
     rdf_has(MetaData, knowrob:'experiment', literal(type(_, Experiment))),
     rdf_has(MetaData, knowrob:'subAction', EventID). %make sure that the event is an subaction of (belongs to) a specific experiment
+
+%%
+% This is the same as simact but does not require eventclasses to be a subclass of
+% simulationEvent (works for events that haven't been added to the ontology yet)
+%
+anyact(Experiment, EventID, EventClass) :-
+    rdf_has(EventID, rdf:type, EventClass), 
+    rdf_has(MetaData, knowrob:'experiment', literal(type(_, Experiment))), 
+    rdf_has(MetaData, knowrob:'subAction', EventID).
+
+%%
+%Checks whether there are any events of type EventClass that are not ID1 or ID2 
+%that happen between Start and End.
+%Solely used to make scooping query shorter
+intersected_uid_event(Exp, ID1, ID2, EventClass, Start, End) :-
+    anyact(Exp, TmpID, EventClass),
+    rdf_has(TmpID, knowrob:'startTime', TmpStart),
+    rdf_has(TmpID, knowrob:'endTime', TmpEnd),
+    ID1\=TmpID,
+    ID2\=TmpID,
+    sim_subsumes(Start, End, TmpStart, TmpEnd).
 
 %% simact(?Event, ?EventClass) is nondet.
 %
@@ -409,6 +437,16 @@ sim_timepoints_overlap(Start1, End1, Start2, End2) :-
     EVal2 < EVal1. %End2 ends before End1
 sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
     sim_timepoints_overlap(Start2, End2, Start1, End1).
+
+sim_subsumes(Start1,End1, Start2, End2):-
+    time_point_value(Start1, SVal1),
+    time_point_value(End1, EVal1),
+    time_point_value(Start2, SVal2),
+    time_point_value(End2, EVal2),
+    SVal1 =< EVal1, %check this interval is ok (start comes before end)
+    SVal2 =< EVal2, %check this interval is ok (start comes before end)
+    SVal2 >= SVal1, %Start2 is after Start1
+    EVal2 =< EVal1. %End2 is before End1
 
 %%  supported_during(?Experiment, +EventID, ?EventID2, ?ObjectInstance)
 %
