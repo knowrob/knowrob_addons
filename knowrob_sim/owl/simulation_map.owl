@@ -323,27 +323,27 @@
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/mug.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&map;Spoon_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&sim;Spoon_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Spoon</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/spoon.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&map;Cheese_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&sim;Cheese_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Cheese</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/cheese_cube.dae</knowrob:pathToCadModel>
         <knowrob:numParticles rdf:datatype="&xsd;int">19</knowrob:numParticles>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&map;Champignon_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&sim;Champignon_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Champignon</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/mushroom.dae</knowrob:pathToCadModel>
         <knowrob:numParticles rdf:datatype="&xsd;int">10</knowrob:numParticles>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&map;Sauce_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&sim;Sauce_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Sauce</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/sauce.dae</knowrob:pathToCadModel>
