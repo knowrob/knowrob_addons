@@ -34,6 +34,8 @@
         designator_add_perception/3,
         designator_add_perception/4,
         
+        designator_between/3,
+        
         task_designator_exp/2,
         action_designator_exp/2,
         
@@ -68,6 +70,7 @@
     designator_assert_color(r,r,+),
     designator_add_perception(r,r,+),
     designator_add_perception(r,r,?,+),
+    designator_between(r,r,r),
     task_designator_exp(r,r),
     action_designator_exp(r,r),
     designator_publish(r),
@@ -314,6 +317,24 @@ designator_add_perception(ObjInstance, _Designator, Pose, Time) :-
   rdf_assert(Perception, knowrob:'startTime', Time),
   rdf_assert(Perception, knowrob:'eventOccursAt', Pose),
   set_object_perception(ObjInstance, Perception).
+
+%% designator_between(?Designator, ?PreAction, ?PostAction) is nondet.
+%
+% Find a designator that was equated after PreAction and before PostAction.
+%
+% @param Designator   Identifier of the designator
+% @param PreAction    Identifier of the action that was performed before the designator was equated
+% @param PostAction   Identifier of the action that was performed after the designator was equated
+% 
+designator_between(Designator, PreAction, PostAction) :-
+  task_end(PreAction, T0),
+  task_start(PostAction, T1),
+  rdfs_individual_of(Designator, knowrob:'CRAMDesignator'),
+  rdf_has(Designator, knowrob:'equationTime', T),
+  time_point_value(T0, T_Val0),
+  time_point_value(T1, T_Val1),
+  time_point_value(T, T_Val),
+  T_Val =< T_Val1, T_Val >= T_Val0.
 
 %% designator_publish(+Designator) is nondet.
 %
