@@ -51,13 +51,13 @@
 %%%%%%% Designator pose estimation based on grasp/put actions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-designator_grasped_pose(T, Action, Position, [QW,QX,QY,QZ]) :-
+designator_grasped_pose(T, Action, Position, Rotation) :-
   rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart),
   % TODO(daniel): What if right and left hand are used?
   rdf_has(BodyPart, srdl2comp:'urdfName', literal(URDF)),
   % TODO(daniel): howto make this more accurate? Might yield in artifacts to just use the body part TF frame
   mng_lookup_transform('/map', URDF, T, Transform),
-  matrix_rotation(Transform, [QX,QY,QZ,QW]),
+  matrix_rotation(Transform, Rotation),
   matrix_translation(Transform, Position).
 
 designator_estimate_pose(ObjId, T, Position, Rotation) :-
@@ -78,8 +78,8 @@ designator_estimate_pose(ObjId, T, Position, Rotation) :-
   % Then the object was put down at timepoint Put_T
   % We just use the pose of the body part that was holding the object
   % at the time when the object was put down
-  designator_grasped_pose(Put_T, Put, Position, Rotation),
-  writeln('PUT POSE').
+  designator_grasped_pose(Put_T, Put, Position, _),
+  designator_perceived_pose(ObjId, T, _, Rotation).
 
 designator_estimate_pose(ObjId, T, Position, Rotation) :-
   % Here we only check if object was grasped before T,
@@ -88,13 +88,15 @@ designator_estimate_pose(ObjId, T, Position, Rotation) :-
   rdf_has(Grasp, knowrob:'objectActedOn', ObjId),
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
   time_earlier_then(Grasp_T, T),
-  designator_grasped_pose(T, Grasp, Position, Rotation),
-  writeln('GRASP POSE').
+  designator_grasped_pose(T, Grasp, _, Rotation),
+  designator_perceived_pose(ObjId, T, _, Rotation).
 
 designator_estimate_pose(ObjId, T, Position, Rotation) :-
   % Finally try to find pose in perception events
   % TODO(daniel): use latest perception of object!
-  writeln('PERCEIVE POSE'),
+  designator_perceived_pose(ObjId, T, Position, Rotation).
+
+designator_perceived_pose(ObjId, T, Position, Rotation) :-
   rdfs_individual_of(Perc, knowrob:'UIMAPerception'),
   rdf_has(Perc, knowrob:'perceptionResult', ObjId),
   rdf_has(Perc, knowrob:'startTime', Perc_T),
@@ -144,8 +146,8 @@ forth_object('http://knowrob.org/kb/labels.owl#pizza_AleMDa28D1Kmvc',
 visualize_forth_objects(T) :-
   forall( forth_object(ObjId, MeshPath, Scale), (
     (
-      once(designator_estimate_pose(ObjId, T, Position, Rotation)),
-      add_mesh(ObjId, MeshPath, Position, Rotation, Scale)
+      once(designator_estimate_pose(ObjId, T, Position, Rot)),
+      add_mesh(ObjId, MeshPath, Position, Rot, Scale)
     ) ; true
   )).
 
