@@ -120,13 +120,13 @@ forth_object('http://knowrob.org/kb/labels.owl#smallRedCup2_feDa5geCRGasVB',
              'package://kitchen/hand-tools/red_cup.dae',
              [1.0,1.0,1.0]).
 forth_object('http://knowrob.org/kb/labels.owl#cheese_Iuad8anDKa27op',
-             'package://unsorted/robohow/cheese_cube.dae',
+             'package://unsorted/robohow/bowl_cheese.dae',
              [1.0,1.0,1.0]).
-%forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
-%             '',
-%             [1.0,1.0,1.0]).
+forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
+             '',
+             [1.0,1.0,1.0]).
 forth_object('http://knowrob.org/kb/labels.owl#tomatoSauce_JameUd81KmdE18',
-             'package://unsorted/robohow/sauce.dae',
+             'package://unsorted/robohow/bowl_sauce.dae',
              [1.0,1.0,1.0]).
 %forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
 %             'package://kitchen/food-drinks/pizza-credentials/bacon_cube.dae',
