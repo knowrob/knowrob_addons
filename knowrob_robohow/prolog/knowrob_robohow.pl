@@ -170,6 +170,10 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
   matrix_translation(Transform, Position).
 
   
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Rolling experiment helper methods
+%%%%%%%%%%%%%%%%%%%%%%%
+  
 get_reach_action(ActionID, ReachID):-
   rdf_has(ActionID, knowrob:'subAction', _WithDesig),
   findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
