@@ -25,7 +25,7 @@
 :- module(knowrob_robohow,
     [
       designator_grasped_pose/4,
-      designator_estimate_pose/4,
+      designator_estimate_pose/5,
       visualize_preparing_experiment/1,
       visualize_rolling_experiment/1,
       visualize_forth_experiment/1,
@@ -51,6 +51,7 @@
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(boxy2, 'http://knowrob.org/kb/BoxyWithRoller.owl#', [keep(true)]).
 
 :-  rdf_meta
   designator_grasped_pose(r,r,r,r),
@@ -75,22 +76,39 @@
 %%%%%%% Designator pose estimation based on grasp/put actions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-designator_grasped_pose(T, Action, Position, Rotation) :-
+designator_grasped_pose(T, Action, [X,Y,Z], Rotation) :-
   rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart),
   % TODO(daniel): What if right and left hand are used?
   rdf_has(BodyPart, srdl2comp:'urdfName', literal(URDF)),
   % TODO(daniel): howto make this more accurate? Might yield in artifacts to just use the body part TF frame
   mng_lookup_transform('/map', URDF, T, Transform),
-  matrix_rotation(Transform, Rotation),
-  matrix_translation(Transform, Position).
+  matrix_translation(Transform, [X,Y,Z]),
+  %matrix_rotation(Transform, Rotation),
+  %matrix_translation(Transform, Position).
+  
+  % Use parent link to find rotation
+  rdf_has(ParentJoint, srdl2comp:'succeedingLink', BodyPart),
+  rdf_has(ParentLink, srdl2comp:'succeedingJoint', ParentJoint),
+  rdf_has(ParentLink, srdl2comp:'urdfName', literal(URDFParent)),
+  mng_lookup_transform('/map', URDFParent, T, TransformParent),
+  matrix_translation(TransformParent, [X_Parent,Y_Parent,Z_Parent]),
+  
+  Dir_X is X - X_Parent,
+  Dir_Y is Y - Y_Parent,
+  Dir_Z is Z - Z_Parent,
+  jpl_list_to_array([Dir_X, Dir_Y, Dir_Z], DirArr),
+  jpl_call('org.knowrob.utils.MathUtil', 'orientationToQuaternion', [DirArr], QuaternionArr),
+  jpl_array_to_list(QuaternionArr, Rotation).
 
-designator_estimate_pose(ObjId, T, Position, Rotation) :-
-  % TODO(daniel): support that objects can be perceived again after putting them down!
+
+designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   % Check if there was a put down action before
   rdfs_individual_of(Put, knowrob:'PuttingSomethingSomewhere'),
   rdf_has(Put, knowrob:'objectActedOn', ObjId),
   rdf_has(Put, knowrob:'endTime', Put_T),
   time_earlier_then(Put_T, T),
+  writeln('PuttingSomethingSomewhere....'),
+  writeln('    '+ObjId),
   % And that there was no grasp action between Put_T and T
   not((
     rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
@@ -99,25 +117,47 @@ designator_estimate_pose(ObjId, T, Position, Rotation) :-
     time_earlier_then(Put_T, Grasp_T),
     time_earlier_then(Grasp_T, T)
   )),
+  writeln('    No Grasping'),
+  % And that there was no perceive action between Put_T and T
+  not((
+    rdfs_individual_of(Perc, knowrob:'UIMAPerception'),
+    rdf_has(Perc, knowrob:'perceptionResult', ObjId),
+    rdf_has(Perc, knowrob:'startTime', Perc_T),
+    time_earlier_then(Put_T, Perc_T),
+    time_earlier_then(Perc_T, T)
+  )),
+  writeln('    No Perception'),
+  writeln('    PUT POSE!'),
   % Then the object was put down at timepoint Put_T
   % We just use the pose of the body part that was holding the object
   % at the time when the object was put down
-  designator_grasped_pose(Put_T, Put, Position, _),
-  designator_perceived_pose(ObjId, T, _, Rotation).
+  designator_grasped_pose(Put_T, Put, Position, Rotation).
+  %designator_perceived_pose(ObjId, T, _, Rotation).
 
-designator_estimate_pose(ObjId, T, Position, Rotation) :-
+designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   % Here we only check if object was grasped before T,
   % if so the human still holds the object
   rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
   rdf_has(Grasp, knowrob:'objectActedOn', ObjId),
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
   time_earlier_then(Grasp_T, T),
-  designator_grasped_pose(T, Grasp, _, Rotation),
-  designator_perceived_pose(ObjId, T, _, Rotation).
+  writeln('GraspingSomething....'),
+  writeln('    '+ObjId),
+  % And that there was no perceive action between Grasp_T and T
+  not((
+    rdfs_individual_of(Perc, knowrob:'UIMAPerception'),
+    rdf_has(Perc, knowrob:'perceptionResult', ObjId),
+    rdf_has(Perc, knowrob:'startTime', Perc_T),
+    time_earlier_then(Grasp_T, Perc_T),
+    time_earlier_then(Perc_T, T)
+  )),
+  writeln('    No Perception'),
+  writeln('    GRASP POSE!'),
+  designator_grasped_pose(T, Grasp, Position, Rotation).
+  %designator_perceived_pose(ObjId, T, _, Rotation).
 
-designator_estimate_pose(ObjId, T, Position, Rotation) :-
+designator_estimate_pose(ObjId, T, _, Position, Rotation) :-
   % Finally try to find pose in perception events
-  % TODO(daniel): use latest perception of object!
   designator_perceived_pose(ObjId, T, Position, Rotation).
 
 designator_perceived_pose(ObjId, T, Position, Rotation) :-
@@ -125,7 +165,20 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
   rdf_has(Perc, knowrob:'perceptionResult', ObjId),
   rdf_has(Perc, knowrob:'startTime', Perc_T),
   time_earlier_then(Perc_T, T),
-  mng_designator_location(ObjId, Transform),
+  writeln('UIMAPerception....'),
+  writeln('    '+ObjId),
+  writeln('    '+Perc_T),
+  % And that there was no perceive action before T and later then Perc_T
+  % -> Use latest perception of object
+  not((
+    rdfs_individual_of(Perc2, knowrob:'UIMAPerception'),
+    rdf_has(Perc2, knowrob:'objectActedOn', ObjId),
+    rdf_has(Perc2, knowrob:'startTime', Perc2_T),
+    time_earlier_then(Perc2_T, T),
+    time_earlier_then(Perc_T, Perc2_T)
+  )),
+  writeln('    No Perception'),
+  mng_designator_location(ObjId, Transform, T),
   matrix_rotation(Transform, Rotation),
   matrix_translation(Transform, Position).
 
@@ -181,47 +234,49 @@ get_dynamics_image_perception(Parent,Perceive):-
 
 forth_object('http://knowrob.org/kb/labels.owl#tray_JKdma8aduNdkOM',
              'package://kitchen/cooking-vessels/tray.dae',
-             [1.0,1.0,1.0]).
+             movable).
 forth_object('http://knowrob.org/kb/labels.owl#spoon_Jdna8auH73bCMC',
              'package://unsorted/robohow/spoon3.dae',
-             [1.0,1.0,1.0]).
+             movable).
 forth_object('http://knowrob.org/kb/labels.owl#smallRedCup1_2ecD3otVRyYGYQ',
              'package://kitchen/hand-tools/red_cup.dae',
-             [1.0,1.0,1.0]).
+             movable).
 forth_object('http://knowrob.org/kb/labels.owl#smallRedCup2_feDa5geCRGasVB',
              'package://kitchen/hand-tools/red_cup.dae',
-             [1.0,1.0,1.0]).
+             movable).
 forth_object('http://knowrob.org/kb/labels.owl#cheese_Iuad8anDKa27op',
              'package://unsorted/robohow/bowl_cheese.dae',
-             [1.0,1.0,1.0]).
-forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
-             '',
-             [1.0,1.0,1.0]).
+             static).
+%forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
+%             '',
+%             static).
 forth_object('http://knowrob.org/kb/labels.owl#tomatoSauce_JameUd81KmdE18',
              'package://unsorted/robohow/bowl_sauce.dae',
-             [1.0,1.0,1.0]).
+             static).
 %forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
 %             'package://kitchen/food-drinks/pizza-credentials/bacon_cube.dae',
-%             [1.0,1.0,1.0]).
+%             static).
 forth_object('http://knowrob.org/kb/labels.owl#yellowBowl_mdJa91KdAoemAN',
              'package://kitchen/cooking-vessels/yellow_bowl.dae',
-             [1.0,1.0,1.0]).
+             movable).
 forth_object('http://knowrob.org/kb/labels.owl#redBowl_Jame81dDNMAkeC',
              'package://kitchen/cooking-vessels/red_bowl.dae',
-             [1.0,1.0,1.0]).
+             movable).
 forth_object('http://knowrob.org/kb/labels.owl#pizza_AleMDa28D1Kmvc',
              'package://kitchen/food-drinks/pizza-credentials/pizza.dae',
-             [1.0,1.0,1.0]).
+             movable).
 
 visualize_forth_objects(T) :-
-  forall( forth_object(ObjId, MeshPath, Scale), (
+  forall( forth_object(ObjId, MeshPath, Mode), (
     (
-      once(designator_estimate_pose(ObjId, T, Position, Rot)),
-      add_mesh(ObjId, MeshPath, Position, Rot, Scale)
+      once(designator_estimate_pose(ObjId, T, Mode, Position, Rot)),
+      add_mesh(ObjId, MeshPath, Position, Rot)
     ) ; true
   )).
 
 visualize_forth_experiment(T) :-
+  % Remove because some links may be missing
+  remove_agent_visualization('forth', forth_human:'forth_human_robot1'),
   add_stickman_visualization('forth', forth_human:'forth_human_robot1', T, '', ''),
   visualize_forth_objects(T).
 
@@ -230,8 +285,10 @@ visualize_forth_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 
 visualize_rolling_experiment(T) :-
-  add_agent_visualization('BOXY', boxy:'boxy_robot2', T, '', ''),
-  mng_latest_designator_with_values(T, ['TYPE'], ['is'], ['TRAY'], Desig),
+  add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
+  mng_latest_designator_with_values(T,
+        ['designator.NAME'], ['is'], ['PERCEIVE-OBJECT'],
+        Desig),
   add_designator_contour_mesh('DOUGH', Desig, [0.0,0.0,0.0], ['DOUGH', 'CONTOUR']).
 
 %%%%%%%%%%%%%%%%%%%%%%%
