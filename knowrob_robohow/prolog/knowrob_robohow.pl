@@ -222,10 +222,8 @@ get_dynamics_image_perception(Parent,Perceive):-
 
 visualize_rolling_experiment(T) :-
   add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
-  mng_latest_designator_with_values(T,
-        ['designator.NAME'], ['is'], ['PERCEIVE-OBJECT'],
-        Desig),
-  add_designator_contour_mesh('DOUGH', Desig, [0.0,0.0,0.0], ['DOUGH', 'CONTOUR']).
+  mng_latest_designator_with_values(T, ['designator.DOUGH'], ['exist'], ['true'], Desig),
+  add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).
   
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -275,7 +273,7 @@ visualize_forth_objects(T) :-
 
 visualize_forth_experiment(T) :-
   % Remove because some links may be missing
-  remove_agent_visualization('forth', forth_human:'forth_human_robot1'),
+  %remove_agent_visualization('forth', forth_human:'forth_human_robot1'),
   add_stickman_visualization('forth', forth_human:'forth_human_robot1', T, '', ''),
   visualize_forth_objects(T).
 
