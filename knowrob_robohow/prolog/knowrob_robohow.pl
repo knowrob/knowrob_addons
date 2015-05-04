@@ -159,10 +159,16 @@ visualize_forth_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
+visualize_rolling_experiment(T) :-
+  add_agent_visualization('BOXY', boxy:'boxy_robot2', T, '', ''),
+  mng_latest_designator_with_values(T, ['TYPE'], ['is'], ['TRAY'], Desig),
+  add_designator_contour_mesh('DOUGH', Desig, [0.0,0.0,0.0], ['DOUGH', 'CONTOUR']).
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
 %add_mesh(MarkerId, MeshPath, Position, Rotation)
 
 visualize_preparing_experiment(T) :-
-  false.
-
-visualize_rolling_experiment(T) :-
   false.
