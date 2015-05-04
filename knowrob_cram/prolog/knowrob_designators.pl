@@ -380,8 +380,7 @@ designator_publish_image(Input) :-
 designator_publish_image(Input) :-
   task(Input),
   rdf_has(Input, knowrob:'capturedImage', Img),
-  rdf_has(Img, knowrob:'linkToImageFile', PathName),
-  PathName = literal(type(_A, Path)),
+  rdf_has(Img, knowrob:'linkToImageFile', literal(type(_, Path))),
 
   rdf_has(Directory, rdf:type, knowrob:'DirectoryName'),
   atomic_list_concat([_Prefix, Dir], '#', Directory),
