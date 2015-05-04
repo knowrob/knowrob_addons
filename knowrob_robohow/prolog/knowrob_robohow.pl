@@ -250,15 +250,15 @@ forth_object('http://knowrob.org/kb/labels.owl#smallRedCup2_feDa5geCRGasVB',
 forth_object('http://knowrob.org/kb/labels.owl#cheese_Iuad8anDKa27op',
              'package://unsorted/robohow/bowl_cheese.dae',
              static).
-%forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
-%             '',
-%             static).
+forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
+             'package://unsorted/robohow/cup_onions.dae',
+             static).
 forth_object('http://knowrob.org/kb/labels.owl#tomatoSauce_JameUd81KmdE18',
              'package://unsorted/robohow/bowl_sauce.dae',
              static).
-%forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
-%             'package://kitchen/food-drinks/pizza-credentials/bacon_cube.dae',
-%             static).
+forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
+             'package://unsorted/robohow/cup_bacon.dae',
+             static).
 forth_object('http://knowrob.org/kb/labels.owl#yellowBowl_mdJa91KdAoemAN',
              'package://kitchen/cooking-vessels/yellow_bowl.dae',
              movable).
