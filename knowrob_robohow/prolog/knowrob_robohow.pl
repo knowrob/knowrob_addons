@@ -194,7 +194,7 @@ show_action_trajectory(ActionID):-
   task_start(ActionID,StAction),
   task_end(ActionID,EAction),
   add_trajectory('right_arm_adapter_kms40_fwk050_frame_out', StAction, EAction,0.2,2),
-  add_agent_visualization('BOXY', boxy:'boxy_robot2', StAction, '', '').
+  add_agent_visualization('BOXY', boxy2:'boxy_robot2', StAction, '', '').
   
   
   
