@@ -107,8 +107,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   rdf_has(Put, knowrob:'objectActedOn', ObjId),
   rdf_has(Put, knowrob:'endTime', Put_T),
   time_earlier_then(Put_T, T),
-  writeln('PuttingSomethingSomewhere....'),
-  writeln('    '+ObjId),
   % And that there was no grasp action between Put_T and T
   not((
     rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
@@ -117,7 +115,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Put_T, Grasp_T),
     time_earlier_then(Grasp_T, T)
   )),
-  writeln('    No Grasping'),
   % And that there was no perceive action between Put_T and T
   not((
     rdfs_individual_of(Perc, knowrob:'UIMAPerception'),
@@ -126,8 +123,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Put_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  writeln('    No Perception'),
-  writeln('    PUT POSE!'),
   % Then the object was put down at timepoint Put_T
   % We just use the pose of the body part that was holding the object
   % at the time when the object was put down
@@ -141,8 +136,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   rdf_has(Grasp, knowrob:'objectActedOn', ObjId),
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
   time_earlier_then(Grasp_T, T),
-  writeln('GraspingSomething....'),
-  writeln('    '+ObjId),
   % And that there was no perceive action between Grasp_T and T
   not((
     rdfs_individual_of(Perc, knowrob:'UIMAPerception'),
@@ -151,8 +144,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Grasp_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  writeln('    No Perception'),
-  writeln('    GRASP POSE!'),
   designator_grasped_pose(T, Grasp, Position, Rotation).
   %designator_perceived_pose(ObjId, T, _, Rotation).
 
@@ -165,9 +156,6 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
   rdf_has(Perc, knowrob:'perceptionResult', ObjId),
   rdf_has(Perc, knowrob:'startTime', Perc_T),
   time_earlier_then(Perc_T, T),
-  writeln('UIMAPerception....'),
-  writeln('    '+ObjId),
-  writeln('    '+Perc_T),
   % And that there was no perceive action before T and later then Perc_T
   % -> Use latest perception of object
   not((
@@ -177,7 +165,6 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
     time_earlier_then(Perc2_T, T),
     time_earlier_then(Perc_T, Perc2_T)
   )),
-  writeln('    No Perception'),
   mng_designator_location(ObjId, Transform, T),
   matrix_rotation(Transform, Rotation),
   matrix_translation(Transform, Position).
