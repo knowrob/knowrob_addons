@@ -99,42 +99,57 @@ public class LogdataPublisher extends AbstractNodeMain {
 	}
 
 	public boolean publishDesignator(String designatorId) {
-		final StringTokenizer s1 = new StringTokenizer(designatorId, "#");
-		s1.nextToken();
-		designatorId= s1.nextToken();
+		try {
+			final StringTokenizer s1 = new StringTokenizer(designatorId, "#");
+			s1.nextToken();
+			designatorId= s1.nextToken();
 
-		org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
-		publishDesignator(d1);
-		return true;
+			org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+			publishDesignator(d1);
+			return true;
+		}
+		catch (Exception e) {
+			System.err.println("Failed to publish designator: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public boolean publishDesignator(org.knowrob.interfaces.mongo.types.Designator designator) {
-		// wait for publisher to be ready
-		if(!waitOnPublisher()) return false;
-
-		final designator_integration_msgs.Designator designator_msg = pub.newMessage();
-
 		try {
-			if(designator.getType().toString().toLowerCase() == "action")
-				designator_msg.setType(1);
-			else if(designator.getType().toString().toLowerCase() == "object")
-				designator_msg.setType(2);
-			else if(designator.getType().toString().toLowerCase() == "location")
-				designator_msg.setType(0);			
-		} catch (java.lang.NullPointerException exc) {
-			designator_msg.setType(0);
+			// wait for publisher to be ready
+			if(!waitOnPublisher()) return false;
+	
+			final designator_integration_msgs.Designator designator_msg = pub.newMessage();
+	
+			try {
+				if(designator.getType().toString().toLowerCase() == "action")
+					designator_msg.setType(1);
+				else if(designator.getType().toString().toLowerCase() == "object")
+					designator_msg.setType(2);
+				else if(designator.getType().toString().toLowerCase() == "location")
+					designator_msg.setType(0);			
+			} catch (java.lang.NullPointerException exc) {
+				designator_msg.setType(0);
+			}
+	
+			publishDesignator(designator, designator_msg, 0);
+			
+			pub.publish(designator_msg);
+	
+			return true;
 		}
-
-		publishDesignator(designator, designator_msg, 0);
-		
-		pub.publish(designator_msg);
-
-		return true;
+		catch (Exception e) {
+			System.err.println("Failed to publish designator: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	private void publishDesignator(Designator designator, designator_integration_msgs.Designator designator_msg, int level) {
 		for(String key : designator.keySet()) {
 			// check if publishable key
+			if(key.isEmpty()) continue;
 			if(key.substring(0,1).equals("_")) continue;
 			Object value = designator.get(key);
 
