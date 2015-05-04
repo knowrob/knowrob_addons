@@ -17,6 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @author Daniel Beßler
+@author Benjamin Brieber
 @license GPL
 */
 
@@ -28,7 +29,14 @@
       visualize_preparing_experiment/1,
       visualize_rolling_experiment/1,
       visualize_forth_experiment/1,
-      visualize_forth_objects/1
+      visualize_forth_objects/1,
+      show_action_trajectory/1,
+      get_image_perception/2,
+      get_dynamics_image_perception/2,
+      get_sherlock_image_perception/2,
+      get_reach_action/2,
+      get_roll_action/2,
+      get_retract_action/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -38,11 +46,27 @@
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('srdl2')).
+:- use_module(library('lists')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
 
+:-  rdf_meta
+  designator_grasped_pose(r,r,r,r),
+  designator_estimate_pose(r,r,r,r),
+  visualize_preparing_experiment(r),
+  visualize_rolling_experiment(r),
+  visualize_forth_experiment(r),
+  visualize_forth_objects(r),
+  show_action_trajectory(r),
+  get_dynamics_image_perception(r,r),
+  get_sherlock_image_perception(r,r),
+  get_reach_action(r,r),
+  get_roll_action(r,r),
+  get_retract_action(r,r).
+  
+  
 % define predicates as rdf_meta predicates
 % (i.e. rdf namespaces are automatically expanded)
 %:- rdf_meta saphari_visualize_human(r,r,r).
@@ -105,6 +129,52 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
   matrix_rotation(Transform, Rotation),
   matrix_translation(Transform, Position).
 
+  
+get_reach_action(ActionID, ReachID):-
+  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
+  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
+  nth0(0, _Subs, ReachID).
+  
+get_roll_action(ActionID, RollID):-
+  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
+  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
+  nth0(1, _Subs, RollID).
+  
+get_retract_action(ActionID, RetractID):-
+  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
+  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
+  nth0(2, _Subs, RetractID).
+  
+show_action_trajectory(ActionID):-
+  clear_trajectories,
+  task_start(ActionID,StAction),
+  task_end(ActionID,EAction),
+  add_trajectory('right_arm_adapter_kms40_fwk050_frame_out', StAction, EAction,0.2,2),
+  add_agent_visualization('BOXY', boxy:'boxy_robot2', StAction, '', '').
+  
+  
+  
+  
+get_sherlock_image_perception(Parent,Perceive):-
+  rdf_has(Parent, knowrob:'subAction', Perceive),
+  rdf_has(Perceive,knowrob:'capturedImage',Image).
+  rdf_has(Image,knowrob:'rosTopic',literal('/RoboSherlock_dough_detection/output_image')).
+
+get_sherlock_image_perception(Parent,Perceive):-
+  rdf_has(Parent, knowrob:'subAction', Sub),
+  get_sherlock_image_perception(Sub,Perceive).
+  
+  
+  
+get_dynamics_image_perception(Parent,Perceive):-
+  rdf_has(Parent, knowrob:'subAction', Perceive),
+  rdf_has(Perceive,knowrob:'capturedImage',Image),
+  rdf_has(Image,knowrob:'rosTopic',literal('/motion_planner/dynamics_image')).
+
+get_dynamics_image_perception(Parent,Perceive):-
+  rdf_has(Parent, knowrob:'subAction', Sub),
+  get_dynamics_image_perception(Sub,Perceive).
+  
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
