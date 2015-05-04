@@ -26,7 +26,7 @@
     [
       designator_grasped_pose/4,
       designator_estimate_pose/5,
-      visualize_preparing_experiment/1,
+      visualize_pnp_experiment/1,
       visualize_rolling_experiment/1,
       visualize_forth_experiment/1,
       visualize_forth_objects/1,
@@ -218,6 +218,14 @@ get_dynamics_image_perception(Parent,Perceive):-
 get_dynamics_image_perception(Parent,Perceive):-
   rdf_has(Parent, knowrob:'subAction', Sub),
   get_dynamics_image_perception(Sub,Perceive).
+
+
+visualize_rolling_experiment(T) :-
+  add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
+  mng_latest_designator_with_values(T,
+        ['designator.NAME'], ['is'], ['PERCEIVE-OBJECT'],
+        Desig),
+  add_designator_contour_mesh('DOUGH', Desig, [0.0,0.0,0.0], ['DOUGH', 'CONTOUR']).
   
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -275,18 +283,7 @@ visualize_forth_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
-visualize_rolling_experiment(T) :-
-  add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
-  mng_latest_designator_with_values(T,
-        ['designator.NAME'], ['is'], ['PERCEIVE-OBJECT'],
-        Desig),
-  add_designator_contour_mesh('DOUGH', Desig, [0.0,0.0,0.0], ['DOUGH', 'CONTOUR']).
-
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-
 %add_mesh(MarkerId, MeshPath, Position, Rotation)
 
-visualize_preparing_experiment(T) :-
+visualize_pnp_experiment(T) :-
   false.
