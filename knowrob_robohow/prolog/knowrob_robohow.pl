@@ -18,6 +18,7 @@
 
 @author Daniel Beßler
 @author Benjamin Brieber
+@author Asil Kaan Bozcuoglu
 @license GPL
 */
 
@@ -36,7 +37,12 @@
       get_sherlock_image_perception/2,
       get_reach_action/2,
       get_roll_action/2,
-      get_retract_action/2
+      get_retract_action/2,
+      experiment/1,
+      experiment_start/2,
+      experiment_end/2,
+      forth_task_start/2,
+      forth_task_end/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -285,3 +291,20 @@ visualize_forth_experiment(T) :-
 
 visualize_pnp_experiment(T) :-
   false.
+
+experiment(E) :-
+  owl_individual_of(E, knowrob:'RobotExperiment').
+
+experiment_start(T,S) :-
+  experiment(T),
+  rdf_has(T, knowrob:'startTime', S).
+
+experiment_end(T,E) :-
+  experiment(T),
+  rdf_has(T, knowrob:'endTime', E).
+
+forth_task_start(T,S) :-
+  rdf_has(T, knowrob:'startTime', S).
+
+forth_task_end(T,E) :-
+  rdf_has(T, knowrob:'endTime', E).
