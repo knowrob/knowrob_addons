@@ -58,6 +58,7 @@
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(boxy2, 'http://knowrob.org/kb/BoxyWithRoller.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(pr2, 'http://knowrob.org/kb/PR2.owl#', [keep(true)]).
 
 :-  rdf_meta
   designator_grasped_pose(r,r,r,r),
@@ -235,6 +236,23 @@ visualize_rolling_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
+experiment(E) :-
+  owl_individual_of(E, knowrob:'RobotExperiment').
+
+experiment_start(T,S) :-
+  experiment(T),
+  rdf_has(T, knowrob:'startTime', S).
+
+experiment_end(T,E) :-
+  experiment(T),
+  rdf_has(T, knowrob:'endTime', E).
+
+forth_task_start(T,S) :-
+  rdf_has(T, knowrob:'startTime', S).
+
+forth_task_end(T,E) :-
+  rdf_has(T, knowrob:'endTime', E).
+
 forth_object('http://knowrob.org/kb/labels.owl#tray_JKdma8aduNdkOM',
              'package://kitchen/cooking-vessels/tray.dae',
              movable).
@@ -287,24 +305,74 @@ visualize_forth_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
-%add_mesh(MarkerId, MeshPath, Position, Rotation)
+pnp_object('SPOON',
+           'package://unsorted/robohow/spoon3.dae',
+            movable).
+pnp_object('TRAY',
+           'package://kitchen/cooking-vessels/tray.dae',
+           movable).
+pnp_object('TOMATO-SAUCE',
+           'package://kitchen/food-drinks/ketchup/ketchup.dae',
+           movable).
+
+pnp_object_pose(ObjType, T, Position, Rotation) :-
+  task_type(Perc,knowrob:'UIMAPerception'),
+  % Is perceive earlier then T?
+  task_end(Perc,_E),
+  time_earlier_then(_E, T),
+  % Is there a designator?
+  rdf_has(Perc, knowrob:'nextAction', PostAction),
+  designator_between(Obj, Perc, PostAction),
+  % Has the designator the correct type?
+  mng_designator(Obj, ObjJava),
+  mng_designator_props(Obj, ObjJava, ['TYPE'], ObjType),
+  
+  mng_designator_location(Obj, Transform, T),
+  matrix_rotation(Transform, Rotation),
+  matrix_translation(Transform, Position).
+
+visualize_pnp_objects(T) :-
+  forall( pnp_object(ObjType, MeshPath, _), (
+    (
+      once(pnp_object_pose(ObjType, T, Position, Rot)),
+      add_mesh(ObjType, MeshPath, Position, Rot)
+    ) ; (
+      remove_object(ObjType)
+    )
+  )).
+  
+visualize_pnp_speech_bubble(Agent, T) :-
+  (
+    rdfs_individual_of(Ev, knowrob:'SpeechAct'),
+    rdf_has(Ev, knowrob:'sender', Agent),
+    rdf_has(Ev, knowrob:'startTime', T0),
+    rdf_has(Ev, knowrob:'endTime', T1),
+    time_earlier_then(T0, T),
+    time_earlier_then(T, T1),
+    % Speech bubble visible
+    rdf_has(Ev, knowrob:'content', literal(type(_,Text))),
+    visualize_pnp_speech_bubble(Sender, Text, T)
+  ) ; (
+    % no speech bubble visible
+    add_speech_bubble(Agent, '', [0,0,0])
+  ).
+
+visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, T) :-
+  mng_lookup_transform('/map', '/head_pan_link', T, Transform),
+  matrix_translation(Transform, [X,Y,Z]),
+  Z_Offset is Z + 0.2,
+  add_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, [X,Y,Z_Offset]).
+
+visualize_pnp_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, T) :-
+  mng_lookup_transform('/map', '/boxy_head_mount_kinect2_rgb_optical_frame', T, Transform),
+  matrix_translation(Transform, [X,Y,Z]),
+  Z_Offset is Z + 0.2,
+  add_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, [2,2,2]).
+  
 
 visualize_pnp_experiment(T) :-
-  false.
-
-experiment(E) :-
-  owl_individual_of(E, knowrob:'RobotExperiment').
-
-experiment_start(T,S) :-
-  experiment(T),
-  rdf_has(T, knowrob:'startTime', S).
-
-experiment_end(T,E) :-
-  experiment(T),
-  rdf_has(T, knowrob:'endTime', E).
-
-forth_task_start(T,S) :-
-  rdf_has(T, knowrob:'startTime', S).
-
-forth_task_end(T,E) :-
-  rdf_has(T, knowrob:'endTime', E).
+  update_object_with_children('http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j', T),
+  add_agent_visualization('PR2', pr2:'PR2Robot1', T, '', ''),
+  visualize_pnp_objects(T),
+  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', T),
+  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#boxy_robot1', T).
