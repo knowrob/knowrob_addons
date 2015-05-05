@@ -32,7 +32,6 @@
       visualize_forth_experiment/1,
       visualize_forth_objects/1,
       show_action_trajectory/1,
-      get_image_perception/2,
       get_dynamics_image_perception/2,
       get_sherlock_image_perception/2,
       get_reach_action/2,
@@ -208,7 +207,7 @@ show_action_trajectory(ActionID):-
   
 get_sherlock_image_perception(Parent,Perceive):-
   rdf_has(Parent, knowrob:'subAction', Perceive),
-  rdf_has(Perceive,knowrob:'capturedImage',Image).
+  rdf_has(Perceive,knowrob:'capturedImage',Image),
   rdf_has(Image,knowrob:'rosTopic',literal('/RoboSherlock_dough_detection/output_image')).
 
 get_sherlock_image_perception(Parent,Perceive):-
@@ -268,15 +267,15 @@ forth_object('http://knowrob.org/kb/labels.owl#smallRedCup2_feDa5geCRGasVB',
 forth_object('http://knowrob.org/kb/labels.owl#cheese_Iuad8anDKa27op',
              'package://unsorted/robohow/bowl_cheese.dae',
              static).
-forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
-             'package://unsorted/robohow/cup_onions.dae',
-             static).
+%forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
+%             'package://unsorted/robohow/cup_onions.dae',
+%             static).
 forth_object('http://knowrob.org/kb/labels.owl#tomatoSauce_JameUd81KmdE18',
              'package://unsorted/robohow/bowl_sauce.dae',
              static).
-forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
-             'package://unsorted/robohow/cup_bacon.dae',
-             static).
+%forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
+%             'package://unsorted/robohow/cup_bacon.dae',
+%             static).
 forth_object('http://knowrob.org/kb/labels.owl#yellowBowl_mdJa91KdAoemAN',
              'package://kitchen/cooking-vessels/yellow_bowl.dae',
              movable).
@@ -364,10 +363,11 @@ visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, T) :-
   add_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, [X,Y,Z_Offset]).
 
 visualize_pnp_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, T) :-
-  mng_lookup_transform('/map', '/boxy_head_mount_kinect2_rgb_optical_frame', T, Transform),
-  matrix_translation(Transform, [X,Y,Z]),
-  Z_Offset is Z + 0.2,
-  add_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, [2,2,2]).
+  true.
+  %mng_lookup_transform('/map', '/boxy_head_mount_kinect2_rgb_optical_frame', T, Transform),
+  %matrix_translation(Transform, [X,Y,Z]),
+  %Z_Offset is Z + 0.2,
+  %add_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, [2,2,2]).
   
 
 visualize_pnp_experiment(T) :-
@@ -375,4 +375,4 @@ visualize_pnp_experiment(T) :-
   add_agent_visualization('PR2', pr2:'PR2Robot1', T, '', ''),
   visualize_pnp_objects(T),
   visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', T),
-  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#boxy_robot1', T).
+  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#boxy_robot1', T), !.
