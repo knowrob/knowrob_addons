@@ -7,9 +7,9 @@
      form of an OWL ontology and utilities for generating the OWL
      representation given the XML log file created by the GermanDeli
      crawler.</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+   <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
-  <license>GPL</license>
+  <license>BSD</license>
 
   <url type="website">http://www.ros.org/wiki/comp_germandeli</url>
 

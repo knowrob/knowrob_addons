@@ -1,3 +1,12 @@
+/** 
+  Copyright (C) 2015 Ferenc Balint-Benczedi
+  All rights reserved.
+
+
+  @author Ferenc Balint-Benczedi
+  @license Apache
+*/
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % dependencies
 :- register_ros_package(knowrob_common).

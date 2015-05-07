@@ -5,7 +5,7 @@
 
      Ontologies, definitions and computables for the integration of the
      KnowRob knowledge base and the CRAM plan-based executive.</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+   <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
   <license>BSD</license>
 

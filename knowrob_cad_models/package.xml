@@ -2,9 +2,9 @@
   <name>knowrob_cad_models</name>
   <version>1.0.0</version>
   <description>a package which contains CAD Models (3D Models) used in mod_vis package.</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+  <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
-  <license>GPL</license>
+  <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/knowrob_cad_models</url>
 

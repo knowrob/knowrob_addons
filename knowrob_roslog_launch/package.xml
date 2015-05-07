@@ -5,7 +5,7 @@
 
      Package containing launch files and a basic KnowRob package to be
      used for launching a KnowRob system including logging and visualization.</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+   <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
   <license>BSD</license>
 

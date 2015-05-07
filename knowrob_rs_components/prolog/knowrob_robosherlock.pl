@@ -1,3 +1,12 @@
+/** 
+  Copyright (C) 2015 Ferenc Balint-Benczedi
+  All rights reserved.
+
+
+  @author Ferenc Balint-Benczedi
+  @license Apache
+*/
+
 :- module(knowrob_rs_components,
     [
         call_robosherlock/1, 

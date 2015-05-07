@@ -3,9 +3,9 @@
    <name>knowrob_cad_parser</name>
   <version>1.0.0</version>
   <description>A package which contains Java code for parsing CAD Models (3D Models)</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+  <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
-  <license>GPL</license>
+  <license>BSD</license>
   <url type="website">http://ros.org/wiki/knowrob_cad_parser</url>
 
   <author>Stefan Profanter</author>

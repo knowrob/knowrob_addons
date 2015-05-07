@@ -5,7 +5,7 @@
 
      Node and tools to generate the OWL description of the semantic map
      from ROS messages</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+   <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
   <license>BSD</license>
 

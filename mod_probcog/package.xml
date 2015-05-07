@@ -2,9 +2,9 @@
   <name>mod_probcog</name>
   <version>1.0.0</version>
   <description>Integration of KnowRob with the ProbCog library providing statistical relational learning and reasoning methods.</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+  <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
-  <license>GPL</license>
+  <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/mod_probcog</url>
 

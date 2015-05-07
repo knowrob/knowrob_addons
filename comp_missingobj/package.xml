@@ -4,9 +4,9 @@
   <description>comp_missingobj
 
      files for a demo on 'objects missing on the table'</description>
-  <maintainer email="tenorth@cs.uni-bremen.de">Moritz Tenorth</maintainer>
+   <maintainer email="knowrob@tenorth.de">Moritz Tenorth</maintainer>
 
-  <license>GPL</license>
+   <license>BSD</license>
 
   <url type="website">http://ias.in.tum.de/kb/wiki/index.php/comp_missingobj</url>
 
