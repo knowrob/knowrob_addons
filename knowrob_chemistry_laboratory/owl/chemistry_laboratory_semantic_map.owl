@@ -116,7 +116,7 @@
     <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elaz">
         <rdf:type rdf:resource="&knowrob;Transformation"/>        
         <knowrob:translation rdf:datatype="&xsd;string">0.500 0.500 0.000</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">0.000 0.000 0.000 1.000</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- optical table mesh location -->
@@ -138,7 +138,7 @@
     <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elaa">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:translation rdf:datatype="&xsd;string">0.750 1.000 0.720</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">0.000 0.000 0.000 1.000</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- bunsen burner mesh location -->
@@ -160,7 +160,7 @@
     <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elab">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:translation rdf:datatype="&xsd;string">0.400 1.000 0.710</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">0.000 0.000 0.000 1.000</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- jar mesh location -->
@@ -182,7 +182,7 @@
     <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elac">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:translation rdf:datatype="&xsd;string">0.700 0.200 0.710</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">0.000 0.000 0.000 1.000</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- tommy centrifuge mesh location -->
@@ -204,7 +204,7 @@
     <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elad">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:translation rdf:datatype="&xsd;string">0.500 0.800 0.710</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">0.000 0.000 0.000 1.000</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- water bottle mesh location -->
