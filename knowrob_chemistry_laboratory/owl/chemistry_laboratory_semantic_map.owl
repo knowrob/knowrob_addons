@@ -192,26 +192,26 @@
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/tommy_centrifuge.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
    
-    <!-- watter bottle individual -->
+    <!-- water bottle individual -->
     <owl:NamedIndividual rdf:about="&sim;SemanticMapPerception_iAFczzSd">
         <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryWatterBottle"/>
+        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryWaterBottle"/>
         <knowrob:startTime rdf:resource="&sim;timepoint_0000000001"/>
         <knowrob:eventOccursAt rdf:resource="&sim;Transformation_t7n0Elad"/>
     </owl:NamedIndividual>
 
-    <!-- watter bottle location -->
+    <!-- water bottle location -->
     <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elad">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:translation rdf:datatype="&xsd;string">0.500 0.800 0.710</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000 0.000 0.000 1.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
-    <!-- watter bottle mesh location -->
-    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryWatterBottle">
+    <!-- water bottle mesh location -->
+    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryWaterBottle">
         <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/watter_bottle.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/water_bottle.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
 </rdf:RDF>
 
