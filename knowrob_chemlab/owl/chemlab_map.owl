@@ -103,42 +103,19 @@
         <rdf:type rdf:resource="&knowrob;TimePoint"/>
     </owl:NamedIndividual>
 
-
-    <!-- optical table individual -->
-    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSR">
-        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryOpticalTable"/>
-        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>        
-        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elaz"/>        
-    </owl:NamedIndividual>
-
-    <!-- optical table location -->
-    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elaz">
-        <rdf:type rdf:resource="&knowrob;Transformation"/>        
-        <knowrob:translation rdf:datatype="&xsd;string">0.500 0.500 0.000</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
-    </owl:NamedIndividual>
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Objects
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
     
     <!-- optical table mesh location -->
     <owl:NamedIndividual rdf:about="&chemlab;ChemistryLaboratoryOpticalTable">
         <knowrob:describedInMap rdf:resource="&chemlab;SemanticEnvironmentMap_SAsdfs"/>
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/optical_table.dae</knowrob:pathToCadModel>        
-    </owl:NamedIndividual>
-
-    <!-- bunsen burner individual -->
-    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSa">
-        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryBunsenBurner"/>
-        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/> 
-        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elaa"/>
-    </owl:NamedIndividual>
-
-    <!-- bunsen burner location -->
-    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elaa">
-        <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">0.750 1.000 0.720</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- bunsen burner mesh location -->
@@ -147,42 +124,12 @@
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/burner_bunsen.dae</knowrob:pathToCadModel>        
     </owl:NamedIndividual>
-
-    <!-- jar individual -->
-    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSb">
-        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryJar"/>
-        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>
-        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elab"/>
-    </owl:NamedIndividual>
-
-    <!-- jar location -->
-    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elab">
-        <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">0.400 1.000 0.710</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
-    </owl:NamedIndividual>
     
     <!-- jar mesh location -->
     <owl:NamedIndividual rdf:about="&chemlab;ChemistryLaboratoryJar">
         <knowrob:describedInMap rdf:resource="&chemlab;SemanticEnvironmentMap_SAsdfs"/>
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/jar.dae</knowrob:pathToCadModel>
-    </owl:NamedIndividual>
-
-    <!-- tommy centrifuge individual -->
-    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSc">
-        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryTommyCentrifuge"/>
-        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>
-        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elac"/>
-    </owl:NamedIndividual>
-
-    <!-- tommy centrifuge location -->
-    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elac">
-        <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">0.700 0.200 0.710</knowrob:translation>
-        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     
     <!-- tommy centrifuge mesh location -->
@@ -191,8 +138,81 @@
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/centrifuge_tommy.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
+    
+    <!--
+    <owl:NamedIndividual rdf:about="&chemlab;ChemistryLaboratoryWaterBottle">
+        <knowrob:describedInMap rdf:resource="&chemlab;SemanticEnvironmentMap_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+    -->
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Perception Events
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- optical table -->
+    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSR">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryOpticalTable"/>
+        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>        
+        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elaz"/>        
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elaz">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>        
+        <knowrob:translation rdf:datatype="&xsd;string">0.500 0.500 0.000</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+
+    <!-- bunsen burner -->
+    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSa">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryBunsenBurner"/>
+        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/> 
+        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elaa"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elaa">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.750 1.000 0.720</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+
+    <!-- jar -->
+    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSb">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryJar"/>
+        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>
+        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elab"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elab">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.400 1.000 0.710</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+
+    <!-- tommy centrifuge -->
+    <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSc">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryTommyCentrifuge"/>
+        <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>
+        <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elac"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elac">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.700 0.200 0.710</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
    
-    <!-- water bottle individual -->
+    <!-- water bottle -->
+    <!--
     <owl:NamedIndividual rdf:about="&chemlab;SemanticMapPerception_iAFczzSd">
         <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
         <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryWaterBottle"/>
@@ -200,18 +220,42 @@
         <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elad"/>
     </owl:NamedIndividual>
 
-    <!-- water bottle location -->
     <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elad">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:translation rdf:datatype="&xsd;string">0.500 0.800 0.710</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
+    -->
     
-    <!-- water bottle mesh location -->
-    <owl:NamedIndividual rdf:about="&chemlab;ChemistryLaboratoryWaterBottle">
-        <knowrob:describedInMap rdf:resource="&chemlab;SemanticEnvironmentMap_SAsdfs"/>
-        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Templates
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+     
+    <owl:NamedIndividual rdf:about="&chemlab;Bottle500ml_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bottle500ml</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">bottle_500ml_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;BottleCap500ml_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">BottleCap500ml</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">bottle_500ml_cap_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml_cap.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;Pipette_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pipette</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">accumax_pipette_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
 </rdf:RDF>
 
