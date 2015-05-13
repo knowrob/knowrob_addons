@@ -33,7 +33,7 @@
 
 :- module(knowrob_robohow,
     [
-      designator_grasped_pose/4,
+      designator_grasped_pose/5,
       designator_estimate_pose/5,
       visualize_pnp_experiment/1,
       visualize_rolling_experiment/1,
@@ -90,30 +90,99 @@
 %%%%%%% Designator pose estimation based on grasp/put actions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-designator_grasped_pose(T, Action, [X,Y,Z], Rotation) :-
-  rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart),
-  % TODO(daniel): What if right and left hand are used?
-  rdf_has(BodyPart, srdl2comp:'urdfName', literal(URDF)),
-  % TODO(daniel): howto make this more accurate? Might yield in artifacts to just use the body part TF frame
-  mng_lookup_transform('/map', URDF, T, Transform),
-  matrix_translation(Transform, [X,Y,Z]),
-  %matrix_rotation(Transform, Rotation),
-  %matrix_translation(Transform, Position).
-  
-  % Use parent link to find rotation
+human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
+  writeln('human_hand_pose0'),
+  writeln(T),
+  % Find parent joint
   rdf_has(ParentJoint, srdl2comp:'succeedingLink', BodyPart),
   rdf_has(ParentLink, srdl2comp:'succeedingJoint', ParentJoint),
+  writeln('human_hand_pose1'),
+  % Read TF frame names
+  rdf_has(BodyPart, srdl2comp:'urdfName', literal(URDF)),
   rdf_has(ParentLink, srdl2comp:'urdfName', literal(URDFParent)),
+  writeln('human_hand_pose2'),
+  writeln(URDF),
+  writeln(URDFParent),
+  % Lookup TF frames
+  mng_lookup_transform('/map', URDF, T, Transform),
   mng_lookup_transform('/map', URDFParent, T, TransformParent),
+  writeln('human_hand_pose3'),
+  % Find the translation of both joints
+  matrix_translation(Transform, [X,Y,Z]),
   matrix_translation(TransformParent, [X_Parent,Y_Parent,Z_Parent]),
-  
+  writeln('human_hand_pose4'),
+  % Estimate rotation based on joint positions
   Dir_X is X - X_Parent,
   Dir_Y is Y - Y_Parent,
   Dir_Z is Z - Z_Parent,
+  writeln('human_hand_pose5'),
   jpl_list_to_array([Dir_X, Dir_Y, Dir_Z], DirArr),
   jpl_call('org.knowrob.utils.MathUtil', 'orientationToQuaternion', [DirArr], QuaternionArr),
+  writeln('human_hand_pose6'),
   jpl_array_to_list(QuaternionArr, Rotation).
+  
 
+designator_grasped_pose(Grasp, ObjId, T, Position, Rotation) :-
+  % TODO(daniel): What if right and left hand are used?
+  %     - Translation: use center of both joints
+  %     - Rotation: ....
+  % TODO(daniel): Object might not be grasped at center of object
+  %     - Use knowledge about graspable object parts
+  %     - Use planner knowledge where the grasp was done
+  once(rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart)),
+  % The time when the object was grasped
+  rdf_has(Grasp, knowrob:'endTime', Grasp_T),
+  writeln('designator_grasped_pose0'),
+  % Find the pose of the object before the grasp
+  designator_perceived_pose(ObjId, Grasp_T, _, Ro_0),
+  writeln('designator_grasped_pose01'),
+  % Find the pose of the hand before the grasp
+  human_hand_pose(BodyPart, Grasp_T, _, Rh_0),
+  writeln('designator_grasped_pose02'),
+  % Find the pose of the hand for current timestamp
+  human_hand_pose(BodyPart, T, Ph_T, Rh_T),
+  
+  writeln('designator_grasped_pose1'),
+  % Just apply the position of the hand for now
+  Position = Ph_T,
+  
+  writeln('designator_grasped_pose2'),
+  % Find rotation difference of hand between Grasp_T and T
+  jpl_list_to_array(Rh_0, Rh_0_Arr),
+  jpl_list_to_array(Rh_T, Rh_T_Arr),
+  jpl_call('org.knowrob.utils.MathUtil', 'quaternionDifference', [Rh_0_Arr, Rh_T_Arr], Rh_Diff_Arr),
+  
+  writeln('designator_grasped_pose3'),
+  % Apply quaternion difference to Ro_0
+  jpl_list_to_array(Ro_0, Ro_0_Arr),
+  jpl_call('org.knowrob.utils.MathUtil', 'quaternionMultiply', [Ro_0_Arr, Rh_Diff_Arr], Rot_Arr),
+  writeln('designator_grasped_pose4'),
+  jpl_array_to_list(Rot_Arr, Rotation).
+
+
+%designator_grasped_pose(T, Action, [X,Y,Z], Rotation) :-
+%  rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart),
+%  % TODO(daniel): What if right and left hand are used?
+%  rdf_has(BodyPart, srdl2comp:'urdfName', literal(URDF)),
+%  % TODO(daniel): howto make this more accurate? Might yield in artifacts to just use the body part TF frame
+%  mng_lookup_transform('/map', URDF, T, Transform),
+%  matrix_translation(Transform, [X,Y,Z]),
+%  %matrix_rotation(Transform, Rotation),
+%  %matrix_translation(Transform, Position).
+%  
+%  % Use parent link to find rotation
+%  rdf_has(ParentJoint, srdl2comp:'succeedingLink', BodyPart),
+%  rdf_has(ParentLink, srdl2comp:'succeedingJoint', ParentJoint),
+%  rdf_has(ParentLink, srdl2comp:'urdfName', literal(URDFParent)),
+%  mng_lookup_transform('/map', URDFParent, T, TransformParent),
+%  matrix_translation(TransformParent, [X_Parent,Y_Parent,Z_Parent]),
+%  
+%  Dir_X is X - X_Parent,
+%  Dir_Y is Y - Y_Parent,
+%  Dir_Z is Z - Z_Parent,
+%  jpl_list_to_array([Dir_X, Dir_Y, Dir_Z], DirArr),
+%  jpl_call('org.knowrob.utils.MathUtil', 'orientationToQuaternion', [DirArr], QuaternionArr),
+%  jpl_array_to_list(QuaternionArr, Rotation).
 
 designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   % Check if there was a put down action before
@@ -121,7 +190,7 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   rdf_has(Put, knowrob:'objectActedOn', ObjId),
   rdf_has(Put, knowrob:'endTime', Put_T),
   time_earlier_then(Put_T, T),
-  % And that there was no grasp action between Put_T and T
+  % And that there was no grasp action between Put_T and T (i.e., object was not grasped again after putdown action)
   not((
     rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
     rdf_has(Grasp, knowrob:'objectActedOn', ObjId),
@@ -129,7 +198,7 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Put_T, Grasp_T),
     time_earlier_then(Grasp_T, T)
   )),
-  % And that there was no perceive action between Put_T and T
+  % And that there was no perceive action between Put_T and T (i.e., object was not perceived after putdown action)
   not((
     rdfs_individual_of(Perc, knowrob:'UIMAPerception'),
     rdf_has(Perc, knowrob:'perceptionResult', ObjId),
@@ -137,11 +206,12 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Put_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  % Then the object was put down at timepoint Put_T
-  % We just use the pose of the body part that was holding the object
-  % at the time when the object was put down
-  designator_grasped_pose(Put_T, Put, Position, Rotation).
-  %designator_perceived_pose(ObjId, T, _, Rotation).
+  writeln('PUTDOWN POSE'),
+  % Find latest grasp that occurred before the PutDown happened
+  designator_latest_grasp(ObjId, Put_T, Grasp),
+  % Then the object was put down at timepoint Put_T.
+  designator_grasped_pose(Grasp, ObjId, Put_T, Position, Rotation).
+  %designator_grasped_pose(Put_T, Put, Position, Rotation).
 
 designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
   % Here we only check if object was grasped before T,
@@ -158,8 +228,9 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Grasp_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  designator_grasped_pose(T, Grasp, Position, Rotation).
-  %designator_perceived_pose(ObjId, T, _, Rotation).
+  writeln('HOLDING POSE'),
+  designator_grasped_pose(Grasp, ObjId, T, Position, Rotation).
+  %designator_grasped_pose(T, Grasp, Position, Rotation).
 
 designator_estimate_pose(ObjId, T, _, Position, Rotation) :-
   % Finally try to find pose in perception events
@@ -182,6 +253,20 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
   mng_designator_location(ObjId, Transform, T),
   matrix_rotation(Transform, Rotation),
   matrix_translation(Transform, Position).
+
+designator_latest_grasp(ObjId, T, Grasp) :-
+  rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
+  rdf_has(Grasp, knowrob:'objectActedOn', ObjId),
+  rdf_has(Grasp, knowrob:'endTime', Grasp_T),
+  time_earlier_then(Grasp_T, T),
+  % Make sure there is no later grasp before T
+  not((
+    rdfs_individual_of(Grasp_2, knowrob:'GraspingSomething'),
+    rdf_has(Grasp_2, knowrob:'objectActedOn', ObjId),
+    rdf_has(Grasp_2, knowrob:'startTime', Grasp_T_2),
+    time_earlier_then(Grasp_T_2, T),
+    time_earlier_then(Grasp_T, Grasp_T_2)
+  )).
 
   
 %%%%%%%%%%%%%%%%%%%%%%%
