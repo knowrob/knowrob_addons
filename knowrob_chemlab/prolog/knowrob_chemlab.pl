@@ -73,13 +73,12 @@ visualize_chemlab_scene(T) :-
     member(Obj, Objs), ((
       designator_template(Map, Obj, Template),
       owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
-      visualize_simulation_object(Obj, MeshPath, T)
+      owl_has(Template, knowrob:'urdfName', literal(type(_,ObjFrame))),
+      visualize_simulation_object(ObjFrame, MeshPath, T)
     ) ; true)
   ).
 
-visualize_chemlab_object(Obj, MeshPath, T) :-
-  % Lookup object pose in mongo
-  atom_concat('/', Obj, ObjFrame),
+visualize_chemlab_object(ObjFrame, MeshPath, T) :-
   mng_lookup_transform('/map', ObjFrame, T, Transform),
   % Extract quaternion and translation vector
   matrix_rotation(Transform, Quaternion),
