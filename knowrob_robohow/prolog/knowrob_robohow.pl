@@ -91,34 +91,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
-  writeln('human_hand_pose0'),
   writeln(T),
   % Find parent joint
   rdf_has(ParentJoint, srdl2comp:'succeedingLink', BodyPart),
   rdf_has(ParentLink, srdl2comp:'succeedingJoint', ParentJoint),
-  writeln('human_hand_pose1'),
   % Read TF frame names
   rdf_has(BodyPart, srdl2comp:'urdfName', literal(URDF)),
   rdf_has(ParentLink, srdl2comp:'urdfName', literal(URDFParent)),
-  writeln('human_hand_pose2'),
-  writeln(URDF),
-  writeln(URDFParent),
   % Lookup TF frames
   mng_lookup_transform('/map', URDF, T, Transform),
   mng_lookup_transform('/map', URDFParent, T, TransformParent),
-  writeln('human_hand_pose3'),
   % Find the translation of both joints
   matrix_translation(Transform, [X,Y,Z]),
   matrix_translation(TransformParent, [X_Parent,Y_Parent,Z_Parent]),
-  writeln('human_hand_pose4'),
   % Estimate rotation based on joint positions
   Dir_X is X - X_Parent,
   Dir_Y is Y - Y_Parent,
   Dir_Z is Z - Z_Parent,
-  writeln('human_hand_pose5'),
   jpl_list_to_array([Dir_X, Dir_Y, Dir_Z], DirArr),
   jpl_call('org.knowrob.utils.MathUtil', 'orientationToQuaternion', [DirArr], QuaternionArr),
-  writeln('human_hand_pose6'),
   jpl_array_to_list(QuaternionArr, Rotation).
   
 
@@ -132,31 +123,24 @@ designator_grasped_pose(Grasp, ObjId, T, Position, Rotation) :-
   once(rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart)),
   % The time when the object was grasped
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
-  writeln('designator_grasped_pose0'),
   % Find the pose of the object before the grasp
   designator_perceived_pose(ObjId, Grasp_T, _, Ro_0),
-  writeln('designator_grasped_pose01'),
   % Find the pose of the hand before the grasp
   human_hand_pose(BodyPart, Grasp_T, _, Rh_0),
-  writeln('designator_grasped_pose02'),
   % Find the pose of the hand for current timestamp
   human_hand_pose(BodyPart, T, Ph_T, Rh_T),
   
-  writeln('designator_grasped_pose1'),
   % Just apply the position of the hand for now
   Position = Ph_T,
   
-  writeln('designator_grasped_pose2'),
   % Find rotation difference of hand between Grasp_T and T
   jpl_list_to_array(Rh_0, Rh_0_Arr),
   jpl_list_to_array(Rh_T, Rh_T_Arr),
   jpl_call('org.knowrob.utils.MathUtil', 'quaternionDifference', [Rh_0_Arr, Rh_T_Arr], Rh_Diff_Arr),
   
-  writeln('designator_grasped_pose3'),
   % Apply quaternion difference to Ro_0
   jpl_list_to_array(Ro_0, Ro_0_Arr),
   jpl_call('org.knowrob.utils.MathUtil', 'quaternionMultiply', [Ro_0_Arr, Rh_Diff_Arr], Rot_Arr),
-  writeln('designator_grasped_pose4'),
   jpl_array_to_list(Rot_Arr, Rotation).
 
 
