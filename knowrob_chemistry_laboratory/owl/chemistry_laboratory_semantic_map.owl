@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+
+          <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+          <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+          <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+          <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+          <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
+          <!ENTITY sim 'http://knowrob.org/kb/simulation_map.owl#'>
+
+          ]>
+
+<rdf:RDF
+   xmlns:computable="http://knowrob.org/kb/computable.owl#"
+   xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+   xmlns:sim="http://knowrob.org/kb/simulation_map.owl#"
+   xml:base="http://knowrob.org/kb/simulation_map.owl">
+  <owl:Ontology rdf:about="http://knowrob.org/kb/simulation_map.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+  </owl:Ontology>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- http://knowrob.org/kb/knowrob.owl#describedInMap -->
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#describedInMap"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#eventOccursAt -->
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#eventOccursAt"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#objectActedOn -->
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#properPhysicalParts -->
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#properPhysicalParts"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#startTime -->
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#startTime"/>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- http://knowrob.org/kb/knowrob.owl#depthOfObject -->
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#depthOfObject"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#heightOfObject -->
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#widthOfObject -->
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#diamaeterOfObject -->
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#diameterOfObject"/>
+    
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- http://knowrob.org/kb/knowrob.owl#SemanticEnvironmentMap -->
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SemanticEnvironmentMap"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#SemanticMapPerception -->
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SemanticMapPerception"/>
+
+    <!-- http://knowrob.org/kb/knowrob.owl#TimePoint -->
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- SemanticEnvironmentMap_SAsdfs -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticEnvironmentMap_SAsdfs">
+        <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+    </owl:NamedIndividual>
+
+    <!-- timepoint_0000000001 -->
+    <owl:NamedIndividual rdf:about="&sim;timepoint_0000000001">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+    </owl:NamedIndividual>
+
+
+    <!-- optical table individual -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticMapPerception_iAFczzSR">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryOpticalTable"/>
+        <knowrob:startTime rdf:resource="&sim;timepoint_0000000001"/>        
+        <knowrob:eventOccursAt rdf:resource="&sim;Transformation_t7n0Elaz"/>        
+    </owl:NamedIndividual>
+
+    <!-- optical table location -->
+    <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elaz">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>        
+        <knowrob:translation rdf:datatype="&xsd;string">0.500 0.500 0.000</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+    
+    <!-- optical table mesh location -->
+    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryOpticalTable">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/optical_table.dae</knowrob:pathToCadModel>        
+    </owl:NamedIndividual>
+
+    <!-- bunsen burner individual -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticMapPerception_iAFczzSa">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryBunsenBurner"/>
+        <knowrob:startTime rdf:resource="&sim;timepoint_0000000001"/> 
+        <knowrob:eventOccursAt rdf:resource="&sim;Transformation_t7n0Elaa"/>
+    </owl:NamedIndividual>
+
+    <!-- bunsen burner location -->
+    <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elaa">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.750 1.000 0.720</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+    
+    <!-- bunsen burner mesh location -->
+    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryBunsenBurner">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/bunsen_burner.dae</knowrob:pathToCadModel>        
+    </owl:NamedIndividual>
+
+    <!-- jar individual -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticMapPerception_iAFczzSb">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryJar"/>
+        <knowrob:startTime rdf:resource="&sim;timepoint_0000000001"/>
+        <knowrob:eventOccursAt rdf:resource="&sim;Transformation_t7n0Elab"/>
+    </owl:NamedIndividual>
+
+    <!-- jar location -->
+    <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elab">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.400 1.000 0.710</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+    
+    <!-- jar mesh location -->
+    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryJar">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/jar.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+
+    <!-- tommy centrifuge individual -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticMapPerception_iAFczzSc">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryTommyCentrifuge"/>
+        <knowrob:startTime rdf:resource="&sim;timepoint_0000000001"/>
+        <knowrob:eventOccursAt rdf:resource="&sim;Transformation_t7n0Elac"/>
+    </owl:NamedIndividual>
+
+    <!-- tommy centrifuge location -->
+    <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elac">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.700 0.200 0.710</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+    
+    <!-- tommy centrifuge mesh location -->
+    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryTommyCentrifuge">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/tommy_centrifuge.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+   
+    <!-- water bottle individual -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticMapPerception_iAFczzSd">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:objectActedOn rdf:resource="&sim;ChemistryLaboratoryWaterBottle"/>
+        <knowrob:startTime rdf:resource="&sim;timepoint_0000000001"/>
+        <knowrob:eventOccursAt rdf:resource="&sim;Transformation_t7n0Elad"/>
+    </owl:NamedIndividual>
+
+    <!-- water bottle location -->
+    <owl:NamedIndividual rdf:about="&sim;Transformation_t7n0Elad">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0.500 0.800 0.710</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+    </owl:NamedIndividual>
+    
+    <!-- water bottle mesh location -->
+    <owl:NamedIndividual rdf:about="&sim;ChemistryLaboratoryWaterBottle">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://meshes/water_bottle.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
