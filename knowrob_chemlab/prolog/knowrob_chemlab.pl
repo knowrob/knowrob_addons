@@ -74,7 +74,7 @@ visualize_chemlab_scene(T) :-
       designator_template(Map, Obj, Template),
       owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
       owl_has(Template, knowrob:'urdfName', literal(type(_,ObjFrame))),
-      visualize_simulation_object(ObjFrame, MeshPath, T)
+      visualize_chemlab_object(ObjFrame, MeshPath, T)
     ) ; true)
   ).
 
