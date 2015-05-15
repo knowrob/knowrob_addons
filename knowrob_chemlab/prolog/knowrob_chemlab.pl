@@ -32,7 +32,9 @@
 :- module(knowrob_chemlab,
     [
         visualize_chemlab_scene/1,
-        visualize_chemlab_object/3
+        visualize_chemlab_object/3,
+        visualize_chemlab_highlight/1,
+        visualize_chemlab_highlights/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -50,12 +52,27 @@
 % (i.e. rdf namespaces are automatically expanded)
 :-  rdf_meta
     visualize_chemlab_scene(r),
-    visualize_chemlab_object(+,+,r).
+    visualize_chemlab_object(+,+,r),
+    visualize_chemlab_highlight(+),
+    visualize_chemlab_highlights(+).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Visualization methods
 %
+
+visualize_chemlab_highlights([ObjFrame|Rest]) :-
+  visualize_chemlab_highlight(ObjFrame),
+  visualize_chemlab_highlights(Rest).
+  
+visualize_chemlab_highlights([]) :-
+  true.
+
+visualize_chemlab_highlight(ObjFrame) :-
+  atom_concat('/', ObjFrame, Buf),
+  atom_concat(Buf, '_frame', MarkerId),
+  write('Add highlight '), writeln(MarkerId),
+  highlight_object_mesh(MarkerId).
 
 visualize_chemlab_scene(T) :-
   % Query experiment information
@@ -66,6 +83,7 @@ visualize_chemlab_scene(T) :-
     owl_has(Exp, knowrob:'occuringObject', ObjUrl),
     rdf_split_url(_, Obj, ObjUrl)
   ), Objs),
+  clear_trajectories,
   % Show the PR2
   add_agent_visualization('PR2', pr2:'PR2Robot1', T, '', ''),
   % Show objects
@@ -79,6 +97,9 @@ visualize_chemlab_scene(T) :-
   ).
 
 visualize_chemlab_object(ObjFrame, MeshPath, T) :-
+  remove_mesh_highlight(ObjFrame),
+  write('Remove highlight '), writeln(ObjFrame),
+  
   mng_lookup_transform('/map', ObjFrame, T, Transform),
   % Extract quaternion and translation vector
   matrix_rotation(Transform, Quaternion),
