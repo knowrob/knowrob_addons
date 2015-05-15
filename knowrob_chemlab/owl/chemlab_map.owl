@@ -260,6 +260,43 @@
         <knowrob:urdfName rdf:datatype="&xsd;string">/accumax_pipette_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;TubesRack_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubesRack</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">/tubes_rack_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tubes_rack.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;Tube0_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube0</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_0_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;Tube1_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube1</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_1_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;TubeCap0_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubeCap0</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_cap_0_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml_cap.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
+     
+    <owl:NamedIndividual rdf:about="&chemlab;TubeCap1_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubeCap1</knowrob:perceptionResponse>
+        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_cap_1_frame</knowrob:urdfName>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml_cap.dae</knowrob:pathToCadModel>
+    </owl:NamedIndividual>
 
+    
+    
 </rdf:RDF>
 
