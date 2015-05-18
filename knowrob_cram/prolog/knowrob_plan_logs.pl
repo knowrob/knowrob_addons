@@ -51,6 +51,7 @@
         task_goal_inherited/2,
         task_start/2,
         task_end/2,
+        task_duration/2,
         subtask/2,
         subtask_all/2,
         subtask_typed/3,
@@ -109,6 +110,7 @@
     task_goal_inherited(r,r),
     task_start(r,r),
     task_end(r,r),
+    task_duration(r,?),
     belief_at(?,r),
     occurs(+,r),
     cram_holds(r,+),
@@ -386,6 +388,20 @@ task_start(Task, Start) :-
 task_end(Task, End) :-
     rdf_has(Task, knowrob:'endTime', End),
     task(Task).
+
+%% task_duration(?Task, ?Duration) is nondet.
+%
+%  Compute duration of given task
+%
+%  @param Task Identifier of given Task
+%  @param Duration Duration value
+% 
+task_duration(Task, Duration) :-
+    task_start(Task, Start),
+    task_end(Task, End),
+    time_term(Start, StartVal),
+    time_term(End, EndVal),
+    Duration is EndVal - StartVal.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
