@@ -71,7 +71,6 @@ visualize_chemlab_highlights([]) :-
 visualize_chemlab_highlight(ObjFrame) :-
   atom_concat('/', ObjFrame, Buf),
   atom_concat(Buf, '_frame', MarkerId),
-  write('Add highlight '), writeln(MarkerId),
   highlight_object_mesh(MarkerId).
 
 visualize_chemlab_scene(T) :-
@@ -98,7 +97,6 @@ visualize_chemlab_scene(T) :-
 
 visualize_chemlab_object(ObjFrame, MeshPath, T) :-
   remove_mesh_highlight(ObjFrame),
-  write('Remove highlight '), writeln(ObjFrame),
   
   mng_lookup_transform('/map', ObjFrame, T, Transform),
   % Extract quaternion and translation vector

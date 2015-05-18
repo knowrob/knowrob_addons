@@ -257,7 +257,7 @@
     <owl:NamedIndividual rdf:about="&chemlab;Pipette_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pipette</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/accumax_pipette_frame</knowrob:urdfName>
+        <knowrob:urdfName rdf:datatype="&xsd;string">/pipette_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
      
