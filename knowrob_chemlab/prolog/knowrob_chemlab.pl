@@ -31,9 +31,11 @@
 
 :- module(knowrob_chemlab,
     [
+        task_screwing_objects/3,
         visualize_chemlab_scene/1,
         visualize_chemlab_object/3,
         visualize_chemlab_highlight/1,
+        visualize_chemlab_highlight/2,
         visualize_chemlab_highlights/1
     ]).
 :- use_module(library('semweb/rdf_db')).
@@ -51,10 +53,39 @@
 % define predicates as rdf_meta predicates
 % (i.e. rdf namespaces are automatically expanded)
 :-  rdf_meta
+    task_screwing_objects(r,?,?),
     visualize_chemlab_scene(r),
     visualize_chemlab_object(+,+,r),
     visualize_chemlab_highlight(+),
+    visualize_chemlab_highlight(+,+),
     visualize_chemlab_highlights(+).
+
+is_screwable_on(CapName, ContName) :-
+  owl_has(CapIndividual, knowrob:'name', literal(type(_,CapName))),
+  owl_has(CapIndividual, knowrob_chemlab:'screwable', ContClass),
+  owl_has(ContIndividual, knowrob:'name', literal(type(_,ContainerName))),
+  owl_has(ContIndividual, rdf:'type', ContClass).
+
+task_screwing_objects(Task, Cap, Container) :-
+  task(Task),
+  % There is a perceive subtask for container and cap
+  findall(Type, (
+    subtask(Task, Sub),
+    rdfs_individual_of(Sub, knowrob:'UIMAPerception'),
+    rdf_has(Sub, knowrob:'perceptionRequest', Desig),
+    mng_designator(Desig, DesigJava),
+    mng_designator_props(Desig, DesigJava, ['TYPE'], Type)
+  ), Types),
+  length(Types, 2),
+  nth0(0, Types, Obj0),
+  nth0(1, Types, Obj1),
+  % Find container and cap
+  (   is_screwable_on(Obj0, Obj1)
+  ->  ( Cap = Obj0, Container = Obj1 )
+  ;   ( Cap = Obj1, Container = Obj0 )
+  ).
+  
+  
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -72,6 +103,11 @@ visualize_chemlab_highlight(ObjFrame) :-
   atom_concat('/', ObjFrame, Buf),
   atom_concat(Buf, '_frame', MarkerId),
   highlight_object_mesh(MarkerId).
+
+visualize_chemlab_highlight(ObjFrame, Color) :-
+  atom_concat('/', ObjFrame, Buf),
+  atom_concat(Buf, '_frame', MarkerId),
+  highlight_object_mesh(MarkerId, Color).
 
 visualize_chemlab_scene(T) :-
   % Query experiment information
