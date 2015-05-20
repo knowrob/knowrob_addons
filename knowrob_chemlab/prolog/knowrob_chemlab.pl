@@ -65,7 +65,7 @@
 is_screwable_on(CapName, ContName) :-
   owl_has(CapIndividual, knowrob:'name', literal(type(_,CapName))),
   owl_has(CapIndividual, knowrob_chemlab:'screwable', ContClass),
-  owl_has(ContIndividual, knowrob:'name', literal(type(_,ContainerName))),
+  owl_has(ContIndividual, knowrob:'name', literal(type(_,ContName))),
   owl_has(ContIndividual, rdf:'type', ContClass).
 
 task_screwing_objects(Task, Cap, Container) :-
