@@ -36,7 +36,8 @@
         visualize_chemlab_object/3,
         visualize_chemlab_highlight/1,
         visualize_chemlab_highlight/2,
-        visualize_chemlab_highlights/1
+        visualize_chemlab_highlights/1,
+        inside_physical/3
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -48,6 +49,7 @@
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_chemlab, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 
 % define predicates as rdf_meta predicates
@@ -140,3 +142,25 @@ visualize_chemlab_object(ObjFrame, MeshPath, T) :-
   matrix_translation(Transform, Translation),
   % Publish mesh marker message
   add_mesh(ObjFrame, MeshPath, Translation, Quaternion).
+
+inside_physical(Frame, Out, T) :-
+  mng_lookup_position('/map', Frame, T, [X_Frame, Y_Frame, Z_Frame]),
+  rdf_has(Out, srdl2comp:'box_size', literal(type(_,BoxSize))),
+  rdf_has(Out, srdl2comp:'aabb_offset', literal(type(_,Offsets))),
+  owl_has(Out, knowrob:'urdfName', literal(type(_,ObjFrame))),
+  mng_lookup_transform('/map', ObjFrame, T, Transform),
+  matrix_translation(Transform, [X_Out, Y_Out, Z_Out]),
+  parse_vector(BoxSize, [X_Box,Y_Box,Z_Box]),
+  parse_vector(Offsets, [X_Off,Y_Off,Z_Off]),
+  X_Positive is X_Out + X_Off + X_Box,
+  X_Negative is X_Out + X_Off - X_Box,
+  Y_Positive is Y_Out + Y_Off + Y_Box,
+  Y_Negative is Y_Out + Y_Off - Y_Box,
+  Z_Positive is Z_Out + Z_Off + Z_Box,
+  Z_Negative is Z_Out + Z_Off - Z_Box,
+  (X_Negative > X_Frame, X_Positive < X_Frame;
+  X_Negative < X_Frame, X_Positive > X_Frame),
+  (Y_Negative > Y_Frame, Y_Positive < Y_Frame;
+  Y_Negative < Y_Frame, Y_Positive > Y_Frame),
+  (Z_Negative > Z_Frame, Z_Positive < Z_Frame;
+  Z_Negative < Z_Frame, Z_Positive > Z_Frame).    

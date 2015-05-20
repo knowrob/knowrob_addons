@@ -8,7 +8,7 @@
           <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
           <!ENTITY knowrob_chemlab "http://knowrob.org/kb/knowrob_chemlab.owl#" >
           <!ENTITY chemlab 'http://knowrob.org/kb/chemlab_map.owl#'>
-
+          <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
           ]>
 
 <rdf:RDF
@@ -20,6 +20,7 @@
    xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
    xmlns:chemlab="http://knowrob.org/kb/chemlab_map.owl#"
    xmlns:knowrob_chemlab="http://knowrob.org/kb/knowrob_chemlab.owl#"
+   xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
    xml:base="http://knowrob.org/kb/chemlab_map.owl">
   <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab_map.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
@@ -206,6 +207,8 @@
         <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryJar"/>
         <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>
         <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elab"/>
+        <srdl2-comp:box_size rdf:datatype="&xsd;string">-7.450580596923828e-09 1.4901161193847656e-08 0.07030153274536133</srdl2-comp:box_size>
+        <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.10037604719400406 0.10037604719400406 0.13990116119384766</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elab">
@@ -221,6 +224,8 @@
         <knowrob:objectActedOn rdf:resource="&chemlab;ChemistryLaboratoryTommyCentrifuge"/>
         <knowrob:startTime rdf:resource="&chemlab;timepoint_0000000001"/>
         <knowrob:eventOccursAt rdf:resource="&chemlab;Transformation_t7n0Elac"/>
+        <srdl2-comp:box_size rdf:datatype="&xsd;string">-0.035426076501607895 -1.769027591080885e-09 0.15480569005012512</srdl2-comp:box_size>
+        <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.2930000126361847 0.2052428126335144 0.31169694662094116</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&chemlab;Transformation_t7n0Elac">
@@ -261,6 +266,8 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bottle500ml</knowrob:perceptionResponse>
         <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_500ml_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml.dae</knowrob:pathToCadModel>
+        <srdl2-comp:box_size rdf:datatype="&xsd;string">-5.369289457490822e-10 -2.9406543866628e-10 0.09391830861568451</srdl2-comp:box_size>
+        <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.0638517439365387 0.0638517439365387 0.18989452719688416</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
     <owl:NamedIndividual rdf:about="&chemlab;BottleCap500ml_PSFMNGIHG">
@@ -286,6 +293,8 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubesRack</knowrob:perceptionResponse>
         <knowrob:urdfName rdf:datatype="&xsd;string">/tubes_rack_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tubes_rack.dae</knowrob:pathToCadModel>
+        <srdl2-comp:box_size rdf:datatype="&xsd;string">0.00020882487297058105 0.0011711748084053397 0.0530637688934803</srdl2-comp:box_size>
+        <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.09224671125411987 0.16477441787719727 0.1000000610947609</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
     <owl:NamedIndividual rdf:about="&chemlab;Tube0_CBSRFNCS">
@@ -294,6 +303,8 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube0</knowrob:perceptionResponse>
         <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_0_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml.dae</knowrob:pathToCadModel>
+        <srdl2-comp:box_size rdf:datatype="&xsd;string">0.01 0.01 0.07146421074867249</srdl2-comp:box_size>
+        <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.009882630556821823 0.009882630556821823 0.14015135169029236</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
     <owl:NamedIndividual rdf:about="&chemlab;Tube1_PDOFJKSDUI">
@@ -302,6 +313,8 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube1</knowrob:perceptionResponse>
         <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_1_frame</knowrob:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml.dae</knowrob:pathToCadModel>
+        <srdl2-comp:box_size rdf:datatype="&xsd;string">0.01 0.01 0.07146421074867249</srdl2-comp:box_size>
+        <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.009882630556821823 0.009882630556821823 0.14015135169029236</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
     <owl:NamedIndividual rdf:about="&chemlab;TubeCap0_VNSZFHZDSA">
