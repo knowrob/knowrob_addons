@@ -44,6 +44,7 @@ public class VideoFactory extends AbstractNodeMain {
 			path_of_exp_video = path_of_video + expName;
 		else
 			path_of_exp_video = path_of_video + "/" + expName;
+		path_of_exp_video = path_of_exp_video.replaceAll("'", "");
 		if(checkExperimentVideoFolderExist(path_of_exp_video))
 		{
 			File folder = new File(path_of_exp_video);
