@@ -11,15 +11,13 @@ import org.ros.node.ConnectedNode;
  * @author asil@cs.uni-bremen.de
  */
 public class VideoFactory extends AbstractNodeMain {
-	private String path_of_video = "/home/ros/summary_data/videos";
+	private String path_of_video = "/home/ros/summary_data/video";
 	private ConnectedNode node;
 
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
 		node = connectedNode;
 		path_of_video = node.getParameterTree().getString("/knowrob/videos/path", path_of_video);
-		System.err.println("---------------------");
-		System.err.println(path_of_video);
 	}
 
 	@Override
