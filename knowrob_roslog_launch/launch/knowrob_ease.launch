@@ -13,5 +13,6 @@
   </include>
   
   <param name="/knowrob/videos/path" type="string" value="/home/ros/summary_data/video" />
+  <param name="/knowrob/videos/absolute/path/prefix" type="string" value="/home/ros" />
   
 </launch>

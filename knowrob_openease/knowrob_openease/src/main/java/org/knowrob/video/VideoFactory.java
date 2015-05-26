@@ -12,12 +12,14 @@ import org.ros.node.ConnectedNode;
  */
 public class VideoFactory extends AbstractNodeMain {
 	private String path_of_video = "/home/ros/summary_data/video";
+	private String absolute_path_prefix = "/home/ros";
 	private ConnectedNode node;
 
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
 		node = connectedNode;
 		path_of_video = node.getParameterTree().getString("/knowrob/videos/path", path_of_video);
+		absolute_path_prefix = node.getParameterTree().getString("/knowrob/videos/absolute/path/prefix", absolute_path_prefix);
 	}
 
 	@Override
@@ -57,7 +59,8 @@ public class VideoFactory extends AbstractNodeMain {
 						extension = fileName.substring(i + 1);
 					if (extension.equals("mp4"))
 					{
-						urls.add(file.getAbsolutePath());
+						String relativePath = file.getAbsolutePath().replaceAll(absolute_path_prefix, "");
+						urls.add(relativePath);
 					}
 				}
 			}
