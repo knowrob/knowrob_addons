@@ -1,12 +1,12 @@
 <package>
-  <name>knowrob_robohow</name>
+  <name>knowrob_openease</name>
   <version>1.0.0</version>
-  <description>knowrob_robohow</description>
+  <description>knowrob_openease</description>
   <maintainer email="danielb@cs.uni-bremen.de">Daniel Beßler</maintainer>
 
   <license>BSD</license>
 
-  <url type="website">http://ros.org/wiki/knowrob_robohow</url>
+  <url type="website">http://ros.org/wiki/knowrob_openease</url>
 
   <author>Daniel Beßler</author>
 
