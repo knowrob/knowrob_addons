@@ -32,7 +32,23 @@
 
 :- module(openease_video,
     [
-      video_play/1
+        show_speech_between_interval/5,
+        show_hud_text_between_interval/4,
+        show_speech_after_time/4,
+        show_hud_text_after_time/3,
+        show_speech_before_time/4,
+        show_hud_text_before_time/3,
+        show_speech_at_time/5,
+        show_hud_text_at_time/4,
+        
+        get_goals_at_time/2,
+        get_contexts_at_time/2,
+        get_perception_at_time/2,
+        get_perception_at_time/3,
+        get_active_designators_at_time/4,
+        
+        experiment_videos/2,
+        video_play/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -47,12 +63,108 @@
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 
+% TODO(daniel): Add meta data for predicates
 :-  rdf_meta
   video_play(+).
-  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%% EXPERIMENT VIDEOS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+:- assert(vid_interface(fail)).
+
+video_interface :- video_interface(_).
+
+video_interface(V) :-
+    vid_interface(fail),
+    jpl_new('org.knowrob.video.VideoFactory', [], V),
+    jpl_list_to_array(['org.knowrob.video.VideoFactory'], Arr),
+    jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [V, Arr], _),
+    retract(vid_interface(fail)),
+    assert(vid_interface(V)),!.
+video_interface(V) :-
+    vid_interface(V).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+show_speech_between_interval(Text, Position, T_Start, T_End, Current_Time) :-
+   time_between(Current_Time, T_Start, T_End),
+   add_speech_bubble(Text, Position).
+
+show_hud_text_between_interval(Text, T_Start, T_End, Current_Time) :-
+   time_between(Current_Time, T_Start, T_End),
+   add_text(Text).
+
+show_speech_after_time(Text, Position, T_After, Current_Time) :-
+   time_earlier_then(T_After, Current_Time),
+   add_speech_bubble(Text, Position).
+
+show_hud_text_after_time(Text, T_After, Current_Time) :-
+   time_earlier_then(T_After, Current_Time),
+   add_text(Text).
+
+show_speech_before_time(Text, Position, T_Before, Current_Time) :-
+   time_earlier_then(Current_Time, T_Before),
+   add_speech_bubble(Text, Position).
+
+show_hud_text_before_time(Text, T_Before, Current_Time) :-
+   time_earlier_then(Current_Time, T_Before),
+   add_text(Text).
+
+show_speech_at_time(Text, Position, Time, Duration, Current_Time) :-
+   is_time_inside_interval_duration(Time, Duration, Current_Time), 
+   add_speech_bubble(Text, Position).
+
+show_hud_text_at_time(Text, Time, Duration, Current_Time) :-
+   is_time_inside_interval_duration(Time, Duration, Current_Time),
+   add_text(Text).
+
+is_time_inside_interval_duration(Time, Duration, Current_Time) :-
+   time_earlier_then(Time, Current_Time),
+   time_term(Time, Time_Term),
+   T_Limit_Term is Time_Term + Duration,
+   time_term(T_Limit, T_Limit_Term),
+   time_earlier_then(Current_Time, T_Limit).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+get_goals_at_time(Time, Goals) :-
+   findall(Goal,
+           (task(Task, Time),
+           rdf_has(Task, knowrob:'goalContext', literal(type(_,Goal)))), Goals).
+
+get_contexts_at_time(Time, Contexts) :-
+   findall(Goal,
+           (task(Task, Time),
+           rdf_has(Task, knowrob:'taskContext', literal(type(_,Goal)))), Contexts).
+
+get_perception_at_time(Time, Perception) :-
+   task(Task, Time),
+   rdf_has(Task, knowrob:'perceptionResult', PercDesig),
+   mng_designator_props(PercDesig, 'TYPE', Perception).
+
+get_perception_at_time(Time, Props, Perception) :-
+   task(Task, Time),
+   rdf_has(Task, knowrob:'perceptionResult', PercDesig),
+   mng_designator_props(PercDesig, Props, Perception).
+
+get_active_designators_at_time(Time, DesignatorFields, Props, Results) :-
+   findall(Result, 
+           (task(Task, Time),
+           member(DesignatorField, DesignatorFields),
+           rdf_has(Task, DesignatorField, Desig),
+           mng_designator_props(Desig, Props, Result)), Results).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+experiment_videos(ExpName, VideaoURLs) :-
+    video_interface(V),
+    term_to_atom( ExpName, ExpAtom),
+    jpl_call(V, 'giveAddressOfVideos', [ExpAtom], AddressJava),
+    jpl_array_to_list(AddressJava, VideaoURLs).
 
 video_play(VideoURL) :-
   designator_publish_image(VideoURL).

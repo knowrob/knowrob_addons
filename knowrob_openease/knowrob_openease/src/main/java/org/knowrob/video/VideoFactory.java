@@ -1,47 +1,30 @@
 package org.knowrob.video;
 
-import java.io.*;
 import java.io.File;
-import java.util.StringTokenizer;
-import java.lang.Double;
 import java.util.ArrayList;
-import java.text.DecimalFormat;
 
-import org.ros.message.Duration;
-import org.ros.message.Time;
-import org.knowrob.utils.ros.RosUtilities;
-import org.knowrob.tfmemory.TFMemory;
-import tfjava.StampedTransform;
+import org.ros.namespace.GraphName;
+import org.ros.node.AbstractNodeMain;
+import org.ros.node.ConnectedNode;
 
 /**
- * 2D latex-based plan summary from log files 
- *
  * @author asil@cs.uni-bremen.de
- *
  */
-public class VideoFactory 
-{
-        String path_of_video;
+public class VideoFactory extends AbstractNodeMain {
+	private String path_of_video = "/home/ros/summary_data/videos";
+	private ConnectedNode node;
 
-	
-	public VideoFactory()
-	{
+	@Override
+	public void onStart(final ConnectedNode connectedNode) {
+		node = connectedNode;
+		path_of_video = node.getParameterTree().getString("/knowrob/videos/path", path_of_video);
+		System.err.println("---------------------");
+		System.err.println(path_of_video);
 	}
 
-	public VideoFactory(String path_of_video)
-	{
-		this.setPathOfVideo(path_of_video);
-	}
-
-	public void setPathOfVideo(String path_of_video)
-	{
-
-		this.path_of_video = path_of_video.replaceAll("'", "");
-	}
-
-	public String getPathOfVideo()
-	{
-		return path_of_video;
+	@Override
+	public GraphName getDefaultNodeName() {
+		return GraphName.of("knowrob_openease/video");
 	}
 
 	public boolean checkExperimentVideoFolderExist(String expPath)

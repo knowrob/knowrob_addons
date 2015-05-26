@@ -14,4 +14,4 @@
  * the License.
  */
 
-include 'knowrob_video'
+include 'knowrob_openease'
