@@ -1,4 +1,4 @@
-/** <module> knowrob_sim
+/*
 
   Copyright (C) 2013 by Asil Kaan Bozcuoglu, Moritz Tenorth, Daniel Beßler
 

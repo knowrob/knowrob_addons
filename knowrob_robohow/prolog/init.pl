@@ -1,4 +1,4 @@
-/** 
+/*
   Copyright (C) 2015 Daniel Beßler
   All rights reserved.
 

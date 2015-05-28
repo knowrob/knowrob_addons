@@ -1,4 +1,4 @@
-/** 
+/*
   Copyright (C) 2012 Nacer Khalil
   All rights reserved.
 

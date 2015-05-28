@@ -1,4 +1,4 @@
-/** 
+/*
   Copyright (C) 2013-15 Moritz Tenorth, Asil Kaan Bozcuoglu, Daniel Beßler
   All rights reserved.
 

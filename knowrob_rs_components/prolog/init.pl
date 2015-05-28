@@ -1,4 +1,4 @@
-/** 
+/*
   Copyright (C) 2015 Ferenc Balint-Benczedi
   All rights reserved.
 

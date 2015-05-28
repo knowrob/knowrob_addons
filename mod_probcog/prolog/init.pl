@@ -1,4 +1,4 @@
-/** 
+/*
 
   Copyright (C) 2010 Daniel Nyga
   All rights reserved.

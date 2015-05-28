@@ -1,4 +1,4 @@
-/** 
+/*
   Copyright (C) 2011-14 Stefan Profanter, Moritz Tenorth
   All rights reserved.
 

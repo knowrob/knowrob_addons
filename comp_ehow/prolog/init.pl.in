@@ -1,4 +1,4 @@
-/** 
+/*
   Copyright (C) 2010 Moritz Tenorth
   All rights reserved.
 

@@ -1,4 +1,4 @@
-/** 
+/*
 
   Copyright (C) 2013 Asil Kaan Bozcuoglu
   All rights reserved.

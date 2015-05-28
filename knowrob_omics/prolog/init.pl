@@ -1,4 +1,4 @@
-/** 
+/*
 
   Copyright (C) 2011 Lars Kunze
   All rights reserved.
