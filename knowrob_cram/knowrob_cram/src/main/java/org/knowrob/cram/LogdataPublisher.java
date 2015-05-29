@@ -59,6 +59,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 	ConnectedNode node;
 	Publisher<designator_integration_msgs.Designator> pub;
 	Publisher<std_msgs.String> pub_image;
+	Publisher<std_msgs.String> pub_background;
 
 	@Override
 	public GraphName getDefaultNodeName() {
@@ -72,6 +73,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 		pub = connectedNode.newPublisher("logged_designators", designator_integration_msgs.Designator._TYPE);
 		pub_image = connectedNode.newPublisher("logged_images", std_msgs.String._TYPE); 
+		pub_background = connectedNode.newPublisher("background_images", std_msgs.String._TYPE); 
 	}
 	
 	public boolean waitOnPublisher() {
@@ -95,6 +97,18 @@ public class LogdataPublisher extends AbstractNodeMain {
 
 		image_msg.setData(image_path);
 		pub_image.publish(image_msg);
+		return true;
+	}
+	
+	public boolean publishBackground(String image_path) {
+		// wait for publisher to be ready
+		if(!waitOnPublisher()) return false;
+
+		// create image message from file
+		final std_msgs.String image_msg = pub_background.newMessage();
+
+		image_msg.setData(image_path);
+		pub_background.publish(image_msg);
 		return true;
 	}
 
