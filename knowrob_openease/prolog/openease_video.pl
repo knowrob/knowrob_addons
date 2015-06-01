@@ -47,6 +47,8 @@
         get_perception_at_time/3,
         get_active_designators_at_time/4,
         
+        publish_background/1,
+        
         experiment_videos/2,
         video_play/1
     ]).
@@ -156,6 +158,14 @@ get_active_designators_at_time(Time, DesignatorFields, Props, Results) :-
            member(DesignatorField, DesignatorFields),
            rdf_has(Task, DesignatorField, Desig),
            mng_designator_props(Desig, Props, Result)), Results).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+publish_background(DBObj) :-
+  jpl_ref_to_type(DBObj,  class([com,mongodb],['BasicDBObject'])),
+  video_interface(V),
+  jpl_call(V, 'publishBackground', [DBObj], _).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

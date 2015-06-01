@@ -52,8 +52,7 @@
         
         designator_publish/1,
         designator_publish/2,
-        designator_publish_image/1,
-        designator_publish_background/1
+        designator_publish_image/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -87,8 +86,7 @@
     action_designator_exp(r,r),
     designator_publish(r),
     designator_publish(r,+),
-    designator_publish_image(r),
-    designator_publish_background(r).
+    designator_publish_image(r).
 
 
 :- assert(log_pbl(fail)).
@@ -404,17 +402,6 @@ designator_publish_image(Input) :-
   atom(Input),
   log_publisher(Client),
   jpl_call(Client, 'publishImage', [Input], _).
-
-%% designator_publish_background(+Input) is nondet.
-%
-% Publish designator background image on ROS topic.
-%
-% @param Input Identifier of the designator, a task or the path to the file
-% 
-designator_publish_background(Input) :-
-  atom(Input),
-  log_publisher(Client),
-  jpl_call(Client, 'publishBackground', [Input], _).
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
