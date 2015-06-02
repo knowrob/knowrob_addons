@@ -162,10 +162,21 @@ get_active_designators_at_time(Time, DesignatorFields, Props, Results) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-publish_background(DBObj) :-
-  jpl_ref_to_type(DBObj,  class([com,mongodb],['BasicDBObject'])),
+publish_background(T) :-
+  atom(T),
+  time_term(T, Time),
+  publish_background(Time).
+
+publish_background(T) :-
+  number(T),
   video_interface(V),
-  jpl_call(V, 'publishBackground', [DBObj], _).
+  jpl_call(V, 'publishBackground', [T], _).
+
+
+%publish_background(DBObj) :-
+%  jpl_ref_to_type(DBObj,  class([com,mongodb],['BasicDBObject'])),
+%  video_interface(V),
+%  jpl_call(V, 'publishBackground', [DBObj], _).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
