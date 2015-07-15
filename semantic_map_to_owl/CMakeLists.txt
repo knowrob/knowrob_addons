@@ -31,3 +31,7 @@ catkin_package(
 # allprojects closure the root build.gradle
 install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME}/
         DESTINATION ${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME})
+
+FILE(GLOB sh_files "scripts/*")
+install(PROGRAMS ${sh_files}
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts/)

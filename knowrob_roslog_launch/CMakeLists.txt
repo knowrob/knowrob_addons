@@ -8,3 +8,10 @@ find_package(catkin REQUIRED COMPONENTS knowrob_sim knowrob_cram json_prolog kno
 catkin_package(
     DEPENDS knowrob_sim knowrob_cram json_prolog knowrob_vis knowrob_meshes mjpeg_server rosbridge_server knowrob_plan_summary
 )
+
+
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+  
+install(DIRECTORY prolog/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/prolog)

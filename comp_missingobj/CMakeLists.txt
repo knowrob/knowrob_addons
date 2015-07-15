@@ -8,3 +8,9 @@ find_package(catkin REQUIRED COMPONENTS mod_probcog)
 catkin_package(
     DEPENDS mod_probcog
 )
+
+install(DIRECTORY owl/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/owl)
+  
+install(DIRECTORY prolog/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/prolog)

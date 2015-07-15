@@ -9,5 +9,14 @@ catkin_package(
     DEPENDS rosprolog knowrob_common knowrob_actions knowrob_srdl
 )
 
-install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME}/ 
-        DESTINATION ${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME})
+install(DIRECTORY example/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/example)
+  
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+
+install(DIRECTORY owl/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/owl)
+  
+install(DIRECTORY prolog/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/prolog)
