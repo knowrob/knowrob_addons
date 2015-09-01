@@ -5,7 +5,9 @@ import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -65,11 +67,13 @@ public class VideoFactory extends AbstractNodeMain {
 			return false;
 		else return true;
 		
-	}	
+	}
+	
+	/*
 	public String[] giveAddressOfVideos(String expName)
 	{
 		ArrayList<String> urls = new ArrayList<String>();
-
+		
 		String path_of_exp_video;
 		if(path_of_video.charAt(path_of_video.length() - 1) == '/')
 			path_of_exp_video = path_of_video + expName;
@@ -100,7 +104,39 @@ public class VideoFactory extends AbstractNodeMain {
 		}
 		return null;
 	}
-
+	*/
+	
+	public String[] collectVideos(String rootPath)
+	{
+		LinkedList<String> vids = new LinkedList<String>();
+		collectVideos(rootPath, vids);
+		return vids.toArray(new String[vids.size()]);
+	}
+	
+	private void collectVideos(String rootPath, LinkedList<String> out)
+	{
+		File f0 = new File(rootPath);
+		if(!f0.canRead()) {
+			System.err.println("Unable to access episode data at " + rootPath + ". Wrong file permissions?");
+			return;
+		}
+		File[] subdirs = f0.listFiles();
+		System.out.println(rootPath);
+		if(subdirs==null) return;
+		for(File f1 : subdirs) {
+			System.out.println(f1.getAbsolutePath());
+			if(f1.getName().equals("videos")) {
+				File[] listOfVids = f1.listFiles();
+				for(File v : listOfVids) {
+					out.add(v.getAbsolutePath().replaceFirst("/episodes", "/knowrob/knowrob_data"));
+				}
+			}
+			else if(f1.isDirectory()) {
+				collectVideos(f1.toString(), out);
+			}
+		}
+	}
+	
 	/*
 	public boolean publishBackground(BasicDBObject mngObj) {
 		// wait for publisher to be ready
