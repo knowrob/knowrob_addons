@@ -25,8 +25,6 @@ import com.mongodb.BasicDBObject;
  * @author asil@cs.uni-bremen.de
  */
 public class VideoFactory extends AbstractNodeMain {
-	private String path_of_video = "/home/ros/summary_data/video";
-	private String absolute_path_prefix = "/home/ros";
 	private ConnectedNode node;
 	
 	//private MongoRosMessage<sensor_msgs.Image> backgroundMessage = null;
@@ -35,9 +33,6 @@ public class VideoFactory extends AbstractNodeMain {
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
 		node = connectedNode;
-		path_of_video = node.getParameterTree().getString("/knowrob/videos/path", path_of_video);
-		absolute_path_prefix = node.getParameterTree().getString("/knowrob/videos/absolute/path/prefix", absolute_path_prefix);
-		
 		//backgroundMessage = new MongoRosMessage<sensor_msgs.Image>(sensor_msgs.Image._TYPE, "background_images");
 		//backgroundMessage.connect(connectedNode);
 		backgroundMessage = connectedNode.newPublisher("background_images", std_msgs.String._TYPE);
@@ -69,45 +64,10 @@ public class VideoFactory extends AbstractNodeMain {
 		
 	}
 	
-	/*
-	public String[] giveAddressOfVideos(String expName)
-	{
-		ArrayList<String> urls = new ArrayList<String>();
-		
-		String path_of_exp_video;
-		if(path_of_video.charAt(path_of_video.length() - 1) == '/')
-			path_of_exp_video = path_of_video + expName;
-		else
-			path_of_exp_video = path_of_video + "/" + expName;
-		path_of_exp_video = path_of_exp_video.replaceAll("'", "");
-		if(checkExperimentVideoFolderExist(path_of_exp_video))
-		{
-			File folder = new File(path_of_exp_video);
-			
-			for (final File file : folder.listFiles())
-			{
-				if(!file.isDirectory())
-				{
-					String fileName = file.getName();
-					String extension = "";
-					int i = fileName.lastIndexOf('.');
-					if(i > 0)
-						extension = fileName.substring(i + 1);
-					if (extension.equals("mp4"))
-					{
-						String relativePath = file.getAbsolutePath().replaceAll(absolute_path_prefix, "");
-						urls.add(relativePath);
-					}
-				}
-			}
-			return urls.toArray(new String[urls.size()]);
-		}
-		return null;
-	}
-	*/
-	
 	public String[] collectVideos(String rootPath)
 	{
+		if (rootPath.startsWith("'")) rootPath = rootPath.substring(1, rootPath.length());
+		if (rootPath.endsWith("'"))   rootPath = rootPath.substring(0, rootPath.length() - 1);
 		LinkedList<String> vids = new LinkedList<String>();
 		collectVideos(rootPath, vids);
 		return vids.toArray(new String[vids.size()]);
@@ -117,7 +77,7 @@ public class VideoFactory extends AbstractNodeMain {
 	{
 		File f0 = new File(rootPath);
 		if(!f0.canRead()) {
-			System.err.println("Unable to access episode data at " + rootPath + ". Wrong file permissions?");
+			System.err.println("Unable to read episode data at " + rootPath + ". Wrong file permissions?");
 			return;
 		}
 		File[] subdirs = f0.listFiles();
@@ -128,7 +88,7 @@ public class VideoFactory extends AbstractNodeMain {
 			if(f1.getName().equals("videos")) {
 				File[] listOfVids = f1.listFiles();
 				for(File v : listOfVids) {
-					out.add(v.getAbsolutePath().replaceFirst("/episodes", "/knowrob/knowrob_data"));
+					out.add(v.getAbsolutePath().replaceFirst("/episodes", "/knowrob_data"));
 				}
 			}
 			else if(f1.isDirectory()) {
