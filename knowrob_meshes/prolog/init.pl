@@ -1,4 +1,4 @@
-/*
+/** 
   Copyright (C) 2015 Daniel Beßler
   All rights reserved.
 
@@ -31,11 +31,11 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
-:- register_ros_package(knowrob_meshes).
+:- register_ros_package(knowrob_vis).
 :- register_ros_package(comp_temporal).
 
-:- register_ros_package(knowrob_robohow).
-:- use_module(library('knowrob_robohow')).
+:- register_ros_package(knowrob_meshes).
+:- use_module(library('knowrob_meshes')).
 
 %Extended ontology
 %:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').

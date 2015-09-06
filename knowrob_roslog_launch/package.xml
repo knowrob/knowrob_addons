@@ -21,6 +21,7 @@
 <!--   <build_depend>iai_maps</build_depend> -->
   <build_depend>json_prolog</build_depend>
   <build_depend>knowrob_vis</build_depend>
+  <build_depend>knowrob_meshes</build_depend>
   <build_depend>mjpeg_server</build_depend>
   <build_depend>rosbridge_server</build_depend>
 <!--   <build_depend>beliefstate</build_depend> -->
@@ -34,6 +35,7 @@
 <!--   <run_depend>iai_maps</run_depend> -->
   <run_depend>json_prolog</run_depend>
   <run_depend>knowrob_vis</run_depend>
+  <run_depend>knowrob_meshes</run_depend>
   <run_depend>mjpeg_server</run_depend>
   <run_depend>rosbridge_server</run_depend>
 <!--   <run_depend>beliefstate</run_depend> -->

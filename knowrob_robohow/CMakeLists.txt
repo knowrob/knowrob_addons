@@ -13,4 +13,5 @@ find_package(catkin REQUIRED knowrob_mongo)
 
 catkin_package(
   DEPENDS knowrob_mongo
+  DEPENDS knowrob_meshes
 )

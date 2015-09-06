@@ -58,6 +58,7 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
+:- use_module(library('knowrob_meshes')).
 :- use_module(library('srdl2')).
 :- use_module(library('lists')).
 
