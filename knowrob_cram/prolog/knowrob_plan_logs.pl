@@ -143,12 +143,19 @@ default_map(Map) :-
 %  @param Path file path of the logfile
 % 
 load_experiment(Path) :-
-    owl_parse(Path),
-
-    atom_concat('/home/ros/', LocalPath, Path),
+  findall( E, rdf_has(E, rdf:type, knowrob:'RobotExperiment'), E0),
+  owl_parse(Path),
+  findall( E, rdf_has(E, rdf:type, knowrob:'RobotExperiment'), E1),
+  member( Experiment, E1 ),
+  
+  ( not( member( Experiment, E0 ) ),
+    % TODO(daniel): Use environment var instead
+    atom_concat('/episodes/', LocalPath, Path),
     file_directory_name(LocalPath, Dir),
     atomic_list_concat(['http://knowrob.org/kb/knowrob.owl', Dir], '#', NameInstance),
-    rdf_assert(NameInstance, rdf:type, knowrob:'DirectoryName').
+    rdf_assert(NameInstance, rdf:type, knowrob:'RobotExperimentDirectory'),
+    rdf_assert(NameInstance, knowrob:experiment, Experiment)
+  ) ; true.
 
 %% load_experiments(+Path) is nondet.
 %
@@ -160,7 +167,7 @@ load_experiment(Path) :-
 %  @param Path Parent directory for experiment logs.
 % 
 load_experiments(Path) :-
-  load_experiments(Path, 'cram_log.owl').
+  load_experiments(Path, 'log.owl').
 
 %% load_experiments(+Path, +ExpFileName) is nondet.
 %

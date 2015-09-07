@@ -181,11 +181,11 @@ publish_background(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-experiment_videos(ExpName, VideaoURLs) :-
+experiment_videos(Path, Videos) :-
     video_interface(V),
-    term_to_atom( ExpName, ExpAtom),
-    jpl_call(V, 'giveAddressOfVideos', [ExpAtom], AddressJava),
-    jpl_array_to_list(AddressJava, VideaoURLs).
+    term_to_atom(Path, PathAtom),
+    jpl_call(V, 'collectVideos', [PathAtom], VideosJava),
+    jpl_array_to_list(VideosJava, Videos).
 
 video_play(VideoURL) :-
   designator_publish_image(VideoURL).
