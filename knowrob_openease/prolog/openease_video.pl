@@ -50,7 +50,11 @@
         publish_background/1,
         
         experiment_videos/2,
-        video_play/1
+        video_play/1,
+
+        openease_video_fps/1,
+        openease_video_start/0,
+        openease_video_stop/0
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
