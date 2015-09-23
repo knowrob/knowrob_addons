@@ -181,11 +181,30 @@ publish_background(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-experiment_videos(Path, Videos) :-
+experiment_videos(ExpName, VideaoURLs) :-
     video_interface(V),
-    term_to_atom(Path, PathAtom),
-    jpl_call(V, 'collectVideos', [PathAtom], VideosJava),
-    jpl_array_to_list(VideosJava, Videos).
+    term_to_atom( ExpName, ExpAtom),
+    jpl_call(V, 'giveAddressOfVideos', [ExpAtom], AddressJava),
+    jpl_array_to_list(AddressJava, VideaoURLs).
 
 video_play(VideoURL) :-
   designator_publish_image(VideoURL).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+openease_video_fps(FPS) :-
+  video_interface(V),
+  jpl_call(V, 'setVideoFPS', [FPS,FPS], _).
+
+openease_video_start :-
+  video_interface(V),
+  jpl_call(V, 'startRecording', [], _).
+
+openease_video_stop :-
+  video_interface(V),
+  jpl_call(V, 'stopRecording', [], _).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
