@@ -70,11 +70,14 @@
         <rdfs:subClassOf rdf:resource="&knowrob_sim;SimulationEvent"/>
     </rdf:Description>
     
+
     <!-- http://knowrob.org/kb/knowrob_sim.owl#ParticleTranslation -->
+    
     <owl:Class rdf:about="&knowrob_sim;ParticleTranslation">
 		<rdfs:subClassOf rdf:resource="&knowrob;Movement-TranslationEvent"/>
 		<rdfs:subClassOf rdf:resource="&knowrob_sim;SimulationEvent"/>
 	</owl:Class>
+
 
     <!-- http://knowrob.org/kb/knowrob_sim.owl#Mondamin -->
 
