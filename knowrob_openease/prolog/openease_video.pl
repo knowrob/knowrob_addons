@@ -50,6 +50,7 @@
         publish_background/1,
         
         experiment_videos/2,
+        experiment_videos/3,
         video_play/1,
 
         openease_video_fps/1,
@@ -184,6 +185,10 @@ publish_background(T) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+experiment_videos(Category, Experiment, VideoURLs) :-
+    jpl_call('org.knowrob.cram.LogdataPublisher', 'getVideoURLs', [Category,Experiment], AddressJava),
+    jpl_array_to_list(AddressJava, VideoURLs).
 
 experiment_videos(ExpName, VideaoURLs) :-
     video_interface(V),
