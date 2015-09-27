@@ -53,6 +53,10 @@ import javax.vecmath.Vector3d;
 import designator_integration_msgs.KeyValuePair;
 
 
+import java.io.File;
+import java.util.LinkedList;
+
+
 public class LogdataPublisher extends AbstractNodeMain {
 	MongoDBInterface mdb;
 
@@ -250,6 +254,28 @@ public class LogdataPublisher extends AbstractNodeMain {
 		};
 		designator_msg.getDescription().get(c).setType(12);
 		designator_msg.getDescription().get(c).setValueArray(val);
+	}
+	
+	// TODO: move to openease package
+	public static String[] getVideoURLs(String cat, String exp)
+	{
+		LinkedList<String> urls = new LinkedList<String>();
+		File expDir = new File("/episodes/"+cat+"/"+exp);
+		if(expDir.exists()) {
+			for (final File episodeDir : expDir.listFiles()) {
+				if(!episodeDir.isDirectory()) continue;
+				File videoDir = new File(episodeDir, "videos");
+				if(videoDir.exists()) {
+					for (final File vidFile : videoDir.listFiles()) {
+						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/videos/"+vidFile.getName());
+					}
+				}
+			}
+		}
+		if(urls.isEmpty())
+			return null;
+		else
+			return urls.toArray(new String[urls.size()]);
 	}
 
 }
