@@ -49,7 +49,7 @@
         subact/3,
         subact_all/2,
         successful_simacts_for_goal/2,
-        simflipping/8,
+        simflipping/9,
         simgrasped/4,
         add_count/1,
         experiment_file/1,
@@ -93,7 +93,7 @@
     subact_all(r,r),
     simact_start(r,r),
     simact_end(r,r),
-    simflipping(r,r,r,r,r,r,r,r),
+    simflipping(r,r,r,r,r,r,r,r,r),
     simgrasped(r,r,r,r),
     experiment_file(r),
     load_sim_experiments(r,r),
@@ -325,7 +325,7 @@ simlift_liftonly(Experiment, ObjectClass, Start, End) :-
     interval_setdifference(Experiment, TempStart, TempEnd, Candidates, Start, End).
 
 %% Flipping: grasping start until object entirely on tool, start contact tool and target, start object on tool until object back on pancakemaker, start still grasping tool until tool put down.
-simflipping(Experiment, ObjectO, ToolO, TargetO, GraspS, ObjectLiftS, PutbackS, PutbackE) :-
+simflipping(Experiment, ObjectO, ToolO, TargetO, GraspS, ToolCTargetS, ObjectLiftS, PutbackS, PutbackE) :-
     % start of GraspSpatula
     simgrasped(Experiment, Event1ID, _,ToolO),
     simact_start(Experiment, Event1ID, GraspS),
@@ -337,10 +337,14 @@ simflipping(Experiment, ObjectO, ToolO, TargetO, GraspS, ObjectLiftS, PutbackS, 
     ObjectO\=TargetO,
     ToolO\=TargetO,
     %% Tool is in contact with the Object but Object has not left Target yet
-    %% simact_contact(Experiment, Event2ID, _, _, ToolO, ObjectO),
-    %% simact_start(Experiment, Event2ID, ToolCTargetS),
+    simact_contact(Experiment, Event2ID, _, _, ToolO, ObjectO),
+    simact_start(Experiment, Event2ID, ToolCTargetS),
     %% Tool is no longer in contact with the Target, but it is in contact with the Object. There is a small overlapping issue because the pancake leaves the pancakemaker a few miliseconds after the spatula does, so ObjectLiftS starts a bit before simact_end(Event0ID, End0) ends.
-    simflip_fliponly(Experiment,knowrob:'LiquidTangibleThing',_,_,ObjectLiftS, PutbackS, ObjectO, ToolO, TargetO).
+    simflip_fliponly(Experiment,_,_,_,ObjectLiftS, _, ObjectO, ToolO, TargetO),
+    %% Object touches the target again
+    simact_contact(Experiment, Event3ID, _, _, ObjectO, TargetO),
+    comp_beforeI(Event2ID, Event3ID), %touches target after leaving tool
+    simact_start(Experiment, Event3ID, PutbackS). %WARNING: in old version need to cut because jsonquery backend returns all solutions, try again?
 
 %% Gives a new interval, which is the union of contactPancake-Spatula and contactSpatula-Liquid.
 %% These two events should be overlapping in order to be a full flipping interval 
@@ -368,16 +372,17 @@ simflip_full(Experiment, ObjectClass, ToolClass, LocationClass, Start, End, OObj
 simflip_fliponly(Experiment, ObjectClass, ToolClass, LocationClass, Start, End, OObj, TObj, LObj) :-
     % get contactInterval spatula-pancakemaker
     simact_contact(Experiment, EventID, ToolClass, LocationClass, TObj, LObj),
+    % get contactInterval spatula-liquid
+    simact_contact(Experiment, EventID2, ObjectClass, ToolClass, OObj, TObj),
     %don't get the owlNamedIndividual classes
+    ObjectClass\=ToolClass,
     ToolClass\=LocationClass,
-    simact_contact(Experiment, EventID2, ObjectClass, LocationClass, OObj, LObj),
-    %% findall(EventID2, (simact_contact(Experiment, EventID2, ObjectClass, LocationClass, OObj, LObj), not(comp_temporallySubsumes(EventID2, EventID))), Candidates),
     LocationClass\=ObjectClass,
-    %% [EventID2a|EventIDs] = Candidates,
+    % these two should overlap, with the spatula-pancakemaker coming first
+    comp_overlapsI(EventID, EventID2),
     % select start and end as intersection
-    comp_beforeI(EventID,EventID2),
     simact_end(Experiment,EventID, Start),
-    simact_start(Experiment,EventID2, End).
+    simact_end(Experiment,EventID2, End).
 
 %%  simsupported(?Experiment, ?EventID, ?ObjectInstance) is 
 %   Body of the function for supported_during
