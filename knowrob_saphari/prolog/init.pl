@@ -32,11 +32,10 @@
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
 :- register_ros_package(comp_temporal).
+:- register_ros_package(knowrob_cram).
 
 :- register_ros_package(knowrob_saphari).
 :- use_module(library('knowrob_saphari')).
-
-:- mng_db('saphari').
 
 %Extended ontology
 :- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
