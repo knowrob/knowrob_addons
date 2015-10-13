@@ -268,3 +268,60 @@ saphari_visualize_experiment(Timepoint) :-
   
   saphari_visualize_map(Experiment, Timepoint),
   saphari_visualize_agents(Timepoint), !.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  FINAL REVIEW
+
+saphari_latest_object_detections(Classes, dt(TimeRange), Detections) :-
+  get_timepoint(T1), !,
+  time_term(T1, T1_Term),
+  T0_Term is T1_Term - TimeRange,
+  atom_concat('http://knowrob.org/kb/knowrob.owl#timepoint_', T0_Term, T0),
+  saphari_latest_object_detections(Classes, interval(T0,T1), Detections).
+
+saphari_latest_object_detections(Classes, interval(Start,End), ValidDetections) :-
+  saphari_latest_object_detections(Classes, Detections),
+  findall( ValidDetection, (
+    member(Detection, Detections),
+    owl_has(Detection, knowrob:'startTime', StartTime),
+    (( time_later_then(StartTime,Start),
+       time_earlier_then(StartTime,End) )
+    -> ValidDetection = Detection
+    ;  ValidDetection = none
+    )
+  ), ValidDetections).
+
+saphari_latest_object_detections(Classes, Detections) :-
+  findall(Detection, (
+    member(Class, Classes),
+    saphari_latest_object_detection(Class, Detection)
+  ), Detections).
+
+saphari_perception_designator_class(Obj, ObjJava, Class) :-
+  mng_designator_props(Obj, ObjJava, ['RESPONSE'], Class).
+
+saphari_perception_designator_class(Obj, ObjJava, Class) :-
+  mng_designator_props(Obj, ObjJava, ['TYPE'], Class).
+
+saphari_perception_designator(Class, Obj, Start, End) :-
+  task_type(Perc,knowrob:'UIMAPerception'),
+  rdf_has(Perc, knowrob:'perceptionResult', Obj),
+  mng_designator(Obj, ObjJava),
+  once(saphari_perception_designator_class(Obj, ObjJava, Class)),
+  rdf_has(Perc, knowrob:'startTime', Start),
+  rdf_has(Perc, knowrob:'endTime', End).
+
+saphari_latest_object_detection(Class, Obj) :-
+  get_timepoint(Now), !,
+  saphari_latest_object_detection(Class, Obj, Now).
+
+saphari_latest_object_detection(Class, Obj, Now) :-
+  saphari_perception_designator(Class, Obj, _, End),
+  time_earlier_then(End, Now),
+  % Make sure there is no later event
+  not((
+    saphari_perception_designator(Class, Obj2, _, End2),
+    not(Obj = Obj2),
+    time_earlier_then(End2, Now),
+    time_later_then(End2, End)
+  )).
