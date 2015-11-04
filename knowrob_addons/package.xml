@@ -26,7 +26,6 @@
   <run_depend>knowrob_cad_models</run_depend>
   <run_depend>knowrob_cad_parser</run_depend>
   <run_depend>knowrob_cram</run_depend>
-  <run_depend>knowrob_motion_constraints</run_depend>
   <run_depend>knowrob_omics</run_depend>
   <run_depend>knowrob_roslog_launch</run_depend>
   <run_depend>knowrob_sim</run_depend>
