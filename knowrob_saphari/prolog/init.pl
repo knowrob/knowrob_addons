@@ -36,8 +36,6 @@
 :- register_ros_package(knowrob_saphari).
 :- use_module(library('knowrob_saphari')).
 
-:- mng_db('saphari').
-
 %Extended ontology
 :- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
 :- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).

@@ -306,7 +306,9 @@ get_dynamics_image_perception(Parent,Perceive):-
 
 visualize_rolling_experiment(T) :-
   add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
-  mng_latest_designator_with_values(T, ['designator.DOUGH'], ['exist'], ['true'], Desig),
+  mng_query_latest('logged_designators', one(DBObj),
+    '__recorded', T, [['designator.DOUGH', 'exist', 'true']]),
+  mng_designator(DBObj, Desig),
   add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).
   
 %%%%%%%%%%%%%%%%%%%%%%%

@@ -13,7 +13,6 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
-import org.knowrob.interfaces.mongo.MongoRosMessage;
 import org.knowrob.interfaces.mongo.types.ISODate;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;

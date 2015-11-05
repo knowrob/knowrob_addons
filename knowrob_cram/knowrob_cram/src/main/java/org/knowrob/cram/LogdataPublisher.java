@@ -48,10 +48,12 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 
+import com.mongodb.DBObject;
+import com.mongodb.QueryBuilder;
+
 import javax.vecmath.Vector3d;
 
 import designator_integration_msgs.KeyValuePair;
-
 
 import java.io.File;
 import java.util.LinkedList;
@@ -107,8 +109,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 			final StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 			s1.nextToken();
 			designatorId= s1.nextToken();
-
-			org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+			
+			QueryBuilder query = QueryBuilder.start("designator._id").is(designatorId);
+			org.knowrob.interfaces.mongo.types.Designator d1 = mdb.designator(mdb.one(
+					mdb.query(MongoDBInterface.COLLECTION_LOGGED_DESIGNATORS, query)));
 			publishDesignator(d1);
 			return true;
 		}
@@ -267,6 +271,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 				File videoDir = new File(episodeDir, "videos");
 				if(videoDir.exists()) {
 					for (final File vidFile : videoDir.listFiles()) {
+						// FIXME(daniel): won't work anymore. Is it used at all?
 						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/videos/"+vidFile.getName());
 					}
 				}
