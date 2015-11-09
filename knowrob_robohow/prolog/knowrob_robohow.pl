@@ -191,7 +191,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Put_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  writeln('PUTDOWN POSE'),
   % Find latest grasp that occurred before the PutDown happened
   designator_latest_grasp(ObjId, Put_T, Grasp),
   % Then the object was put down at timepoint Put_T.
@@ -213,7 +212,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Grasp_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  writeln('HOLDING POSE'),
   designator_grasped_pose(Grasp, ObjId, T, Position, Rotation).
   %designator_grasped_pose(T, Grasp, Position, Rotation).
 
