@@ -97,21 +97,21 @@ task_screwing_objects(Task, Cap, Container) :-
 visualize_chemlab_highlights([ObjFrame|Rest]) :-
   visualize_chemlab_highlight(ObjFrame),
   visualize_chemlab_highlights(Rest).
-  
-visualize_chemlab_highlights([]) :-
-  true.
+visualize_chemlab_highlights([]).
 
 visualize_chemlab_highlight(ObjFrame) :-
   atom_concat('/', ObjFrame, Buf),
   atom_concat(Buf, '_frame', MarkerId),
-  highlight_object_mesh(MarkerId).
+  marker_highlight(mesh(MarkerId)), !.
 
 visualize_chemlab_highlight(ObjFrame, Color) :-
   atom_concat('/', ObjFrame, Buf),
   atom_concat(Buf, '_frame', MarkerId),
-  highlight_object_mesh(MarkerId, Color).
+  marker_highlight(mesh(MarkerId), Color), !.
 
 visualize_chemlab_scene(T) :-
+  marker_remove(trajectories),
+  marker_highlight_remove(all),
   % Query experiment information
   experiment(Exp, T),
   experiment_map(Exp, Map, T),
@@ -120,9 +120,8 @@ visualize_chemlab_scene(T) :-
     owl_has(Exp, knowrob:'occuringObject', ObjUrl),
     rdf_split_url(_, Obj, ObjUrl)
   ), Objs),
-  clear_trajectories,
   % Show the PR2
-  add_agent_visualization('PR2', pr2:'PR2Robot1', T, '', ''),
+  marker_update(agent(pr2:'PR2Robot1'), T),
   % Show objects
   forall(
     member(Obj, Objs), ((
@@ -131,17 +130,17 @@ visualize_chemlab_scene(T) :-
       owl_has(Template, knowrob:'urdfName', literal(type(_,ObjFrame))),
       visualize_chemlab_object(ObjFrame, MeshPath, T)
     ) ; true)
-  ).
+  ), !.
 
 visualize_chemlab_object(ObjFrame, MeshPath, T) :-
-  remove_mesh_highlight(ObjFrame),
-  
   mng_lookup_transform('/map', ObjFrame, T, Transform),
   % Extract quaternion and translation vector
   matrix_rotation(Transform, Quaternion),
   matrix_translation(Transform, Translation),
   % Publish mesh marker message
-  add_mesh(ObjFrame, MeshPath, Translation, Quaternion).
+  marker(mesh(ObjFrame), MarkerObj),
+  marker_mesh_resource(MarkerObj,MeshPath),
+  marker_pose(MarkerObj, pose(Translation,Quaternion)).
 
 inside_physical(Frame, Out, T) :-
   mng_lookup_position('/map', Frame, T, [X_Frame, Y_Frame, Z_Frame]),
