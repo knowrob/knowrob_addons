@@ -92,7 +92,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
-  writeln(T),
   % Find parent joint
   rdf_has(ParentJoint, srdl2comp:'succeedingLink', BodyPart),
   rdf_has(ParentLink, srdl2comp:'succeedingJoint', ParentJoint),
@@ -275,11 +274,10 @@ show_action_trajectory(ActionID):-
   clear_trajectories,
   task_start(ActionID,StAction),
   task_end(ActionID,EAction),
-  add_trajectory('right_arm_adapter_kms40_fwk050_frame_out', StAction, EAction,0.2,2),
-  add_agent_visualization('BOXY', boxy2:'boxy_robot2', StAction, '', '').
-  
-  
-  
+  marker_update(trajectory('right_arm_adapter_kms40_fwk050_frame_out'), interval(tAction, EAction, dt(0.2))),
+  marker_update(agent(boxy2:'boxy_robot2'), StAction).
+
+
   
 get_sherlock_image_perception(Parent,Perceive):-
   rdf_has(Parent, knowrob:'subAction', Perceive),
@@ -303,11 +301,18 @@ get_dynamics_image_perception(Parent,Perceive):-
 
 
 visualize_rolling_experiment(T) :-
-  add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
+  marker_update(agent(boxy2:'boxy_robot2'), T),
   mng_query_latest('logged_designators', one(DBObj),
     '__recorded', T, [['designator.DOUGH', 'exist', 'true']]),
   mng_designator(DBObj, Desig),
+  % TODO: Interface for knowrob_meshes !!!
   add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).
+  
+  %add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
+  %mng_query_latest('logged_designators', one(DBObj),
+  %  '__recorded', T, [['designator.DOUGH', 'exist', 'true']]),
+  %mng_designator(DBObj, Desig),
+  %add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).
   
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -368,14 +373,16 @@ visualize_forth_objects(T) :-
   forall( forth_object(ObjId, MeshPath, Mode), (
     (
       once(designator_estimate_pose(ObjId, T, Mode, Position, Rot)),
-      add_mesh(ObjId, MeshPath, Position, Rot)
+      marker(mesh(ObjId), MarkerObj),
+      marker_mesh_resource(MarkerObj, MeshPath),
+      marker_pose(MarkerObj, pose(Position,Rot))
     ) ; true
   )).
 
 visualize_forth_experiment(T) :-
   % Remove because some links may be missing
   %remove_agent_visualization('forth', forth_human:'forth_human_robot1'),
-  add_stickman_visualization('forth', forth_human:'forth_human_robot1', T, '', ''),
+  marker_update(stickman(forth_human:'forth_human_robot1'), T),
   visualize_forth_objects(T).
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -412,7 +419,9 @@ visualize_pnp_objects(T) :-
   forall( pnp_object(ObjType, MeshPath, _), (
     (
       once(pnp_object_pose(ObjType, T, Position, Rot)),
-      add_mesh(ObjType, MeshPath, Position, Rot)
+      marker(mesh(ObjType), MarkerObj),
+      marker_mesh_resource(MarkerObj, MeshPath),
+      marker_pose(MarkerObj, pose(Position,Rot))
     ) ; (
       remove_object(ObjType)
     )
@@ -429,8 +438,10 @@ visualize_pnp_speech_bubble(Agent, T) :-
     % Speech bubble visible
     rdf_has(Ev, knowrob:'content', literal(type(_,Text))),
     visualize_pnp_speech_bubble(Sender, Text, T)
+    
   ) ; (
     % no speech bubble visible
+    % TODO: speech bubble interface attached to link !!!
     add_speech_bubble(Agent, '', [0,0,0])
   ).
 
@@ -438,7 +449,9 @@ visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, T) :-
   mng_lookup_transform('/map', '/head_pan_link', T, Transform),
   matrix_translation(Transform, [X,Y,Z]),
   Z_Offset is Z + 0.2,
-  add_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, [X,Y,Z_Offset]).
+  marker(sprite_text('PR2_SPEECH'), MarkerObj),
+  marker_text(MarkerObj, Text),
+  marker_translation(MarkerObj, [X,Y,Z_Offset]).
 
 visualize_pnp_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, T) :-
   true.
@@ -449,8 +462,8 @@ visualize_pnp_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, 
   
 
 visualize_pnp_experiment(T) :-
-  update_object_with_children('http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j', T),
-  add_agent_visualization('PR2', pr2:'PR2Robot1', T, '', ''),
+  marker_update(object('http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), T),
+  marker_update(agent(pr2:'PR2Robot1'), T),
   visualize_pnp_objects(T),
   visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', T),
   visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#boxy_robot1', T), !.
