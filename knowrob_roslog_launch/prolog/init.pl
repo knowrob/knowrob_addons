@@ -41,6 +41,3 @@
 :- register_ros_package(iai_semantic_maps).
 :- register_ros_package(knowrob_srdl).
 :- register_ros_package(knowrob_plan_summary).
-% :- register_ros_package(knowrob_motion_constraints).
-
-

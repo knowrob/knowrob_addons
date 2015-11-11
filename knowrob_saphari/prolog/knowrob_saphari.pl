@@ -65,6 +65,7 @@
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('srdl2')).
+:- use_module(library('knowrob_cram')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
