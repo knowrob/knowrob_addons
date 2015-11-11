@@ -1,65 +1,19 @@
-/*
- * Copyright (c) 2013-15 Moritz Tenorth, Arne Stefes, Daniel Beßler, Zhou Fang
- *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Technische Universiteit Eindhoven nor the
- *       names of its contributors may be used to endorse or promote products
- *       derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
-*/
 
 package org.knowrob.vis.meshes;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
-import java.text.DecimalFormat;
 
 import javax.vecmath.Vector3d;
 
-import org.ros.message.Duration;
 import org.ros.message.Time;
-import org.ros.namespace.GraphName;
-import org.ros.node.AbstractNodeMain;
-import org.ros.node.ConnectedNode;
-import org.ros.node.topic.Publisher;
-import org.apache.commons.logging.Log;
 import org.knowrob.interfaces.mongo.types.Designator;
-import org.knowrob.owl.OWLThing;
-import org.knowrob.prolog.PrologInterface;
 import org.knowrob.tfmemory.TFMemory;
-import org.knowrob.vis.MarkerVisualization;
+import org.knowrob.vis.MarkerObject;
+import org.knowrob.vis.MarkerPublisher;
 
 import tfjava.StampedTransform;
 import visualization_msgs.Marker;
-import visualization_msgs.MarkerArray;
-import geometry_msgs.Pose;
 
 public class MeshVisualization {
 
@@ -74,7 +28,7 @@ public class MeshVisualization {
 			List<Vector3d> contourPoints = new LinkedList<Vector3d>();
 			
 			// FIXME: Hacky method for getting time since TF data recorded that way for pizza rolling
-			double posix_ts = MarkerVisualization.get().parseTime_d(timepoint)*1000000000;
+			double posix_ts = parseTime_d(timepoint)*1000000000;
 			Time time = new Time();
 			time.secs = (int)posix_ts;
 			time.nsecs = (int) (1E9 * (posix_ts - ((int) posix_ts)));
@@ -86,7 +40,7 @@ public class MeshVisualization {
 			
 			// transform to /map
 			for(Vector3d camP : contourPointsCamRel) {
-				StampedTransform tr = TFMemory.getInstance().lookupTransform(sourceFrame, MarkerVisualization.getReferenceFrame(), time);
+				StampedTransform tr = TFMemory.getInstance().lookupTransform(sourceFrame, "/map", time);
 				if(tr==null) {
 					System.out.println("TF data missing for '" + sourceFrame + "' " + timepoint + " missing in mongo.");
 					return;
@@ -115,31 +69,24 @@ public class MeshVisualization {
 				else if(p.z>max.z) max.z=p.z;
 			}
 
-			Marker m = MarkerVisualization.get().getMarker(markerId);
+			MarkerObject m = MarkerPublisher.get().getMarker(markerId);
 			if(m==null) {
-				m = MarkerVisualization.get().createMarker();
+				m = MarkerPublisher.get().createMarker(markerId);
 				m.setType(Marker.CUBE);
-				m.getColor().setR(new Double(color.x).floatValue());
-				m.getColor().setG(new Double(color.y).floatValue());
-				m.getColor().setB(new Double(color.z).floatValue());
-				m.getColor().setA(1.0f);
+				m.setColor(new double[] {color.x, color.y, color.z, 1.0});
 			}
-	
-			m.getPose().getPosition().setX(0.5*(min.x+max.x));
-			m.getPose().getPosition().setY(0.5*(min.y+max.y));
-			m.getPose().getPosition().setZ(0.5*(min.z+max.z));
 
-			m.getPose().getOrientation().setW(1.0);
-			m.getPose().getOrientation().setX(0.0);
-			m.getPose().getOrientation().setY(0.0);
-			m.getPose().getOrientation().setZ(0.0);
-			
-			m.getScale().setX(max.x-min.x);
-			m.getScale().setY(max.y-min.y);
-			m.getScale().setZ(max.z-min.z);
-	
-			MarkerVisualization.get().putMarker(markerId,m);
-			MarkerVisualization.get().publishMarkers();
+			m.setScale(new double[] {
+				max.x-min.x,
+				max.y-min.y,
+				max.z-min.z
+			});
+			m.setTranslation(new double[] {
+				0.5*(min.x+max.x),
+				0.5*(min.y+max.y),
+				0.5*(min.z+max.z)
+			});
+			m.setOrientation(new double[] {1.0,0.0,0.0,0.0});
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -191,5 +138,12 @@ public class MeshVisualization {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static double parseTime_d(String timepoint) {
+		String x[] = timepoint.split("timepoint_");
+		// Also allow input strings without 'timepoint_' prefix
+		String ts = (x.length==1 ? x[0] : x[1]);
+		return Double.valueOf(ts.replaceAll("[^0-9.]", ""));
 	}
 }

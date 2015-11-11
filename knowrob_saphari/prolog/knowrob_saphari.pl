@@ -48,7 +48,14 @@
       saphari_visualize_agents/1,
       saphari_visualize_human/2,
       saphari_visualize_human/3,
-      highlight_intrusions/4
+      highlight_intrusions/4,
+      
+      
+      saphari_latest_object_detection/2,
+      saphari_latest_object_detection/3,
+      saphari_latest_object_detections/2,
+      saphari_latest_object_detections/3,
+      saphari_perception_designator/4
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -212,10 +219,9 @@ saphari_visualize_humans(Timepoint) :-
   mng_designator_distinct_values('designator.USER-ID', UserIds),
   forall(member(UserIdJava, UserIds), ((
     ((
-      mng_latest_designator(Time, [
+      mng_query_latest('logged_designators', one(_), '__recorded', Time, [
         ['__recorded', '>=', date(MinTimepoint)],
-        ['designator.USER-ID', '=', UserIdJava]
-      ], _)
+        ['designator.USER-ID', '=', UserIdJava]])
     )
     -> (
       human_tf_prefix(UserIdJava, Prefix),
@@ -269,6 +275,7 @@ saphari_visualize_experiment(Timepoint) :-
   
   saphari_visualize_map(Experiment, Timepoint),
   saphari_visualize_agents(Timepoint), !.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  FINAL REVIEW
