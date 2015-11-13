@@ -61,7 +61,7 @@
     visualize_chemlab_highlight(+),
     visualize_chemlab_highlight(+,+),
     visualize_chemlab_highlights(+).
-
+    
 is_screwable_on(CapName, ContName) :-
   owl_has(CapIndividual, knowrob:'name', literal(type(_,CapName))),
   owl_has(CapIndividual, knowrob_chemlab:'screwable', ContClass),
