@@ -274,7 +274,7 @@ show_action_trajectory(ActionID):-
   clear_trajectories,
   task_start(ActionID,StAction),
   task_end(ActionID,EAction),
-  marker_update(trajectory('right_arm_adapter_kms40_fwk050_frame_out'), interval(tAction, EAction, dt(0.2))),
+  marker_update(trajectory('right_arm_adapter_kms40_fwk050_frame_out'), interval(StAction, EAction, dt(0.2))),
   marker_update(agent(boxy2:'boxy_robot2'), StAction).
 
 
