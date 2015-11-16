@@ -389,6 +389,7 @@ designator_publish_image(Input) :-
   designator_publish_image(Task), !.
 
 designator_publish_image(Input) :-
+  once(rdf_has(Input, rdf:'type', _)), !, % owl individuals have capturedImage or don't get published
   rdf_has(Input, knowrob:'capturedImage', Img),
   rdf_has(Input, knowrob:'startTime', T),
   rdf_has(Img, knowrob:'linkToImageFile', literal(type(_, Path))),
