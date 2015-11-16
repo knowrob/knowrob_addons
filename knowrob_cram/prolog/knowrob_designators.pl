@@ -389,19 +389,18 @@ designator_publish_image(Input) :-
   designator_publish_image(Task), !.
 
 designator_publish_image(Input) :-
-  task(Input),
   rdf_has(Input, knowrob:'capturedImage', Img),
   rdf_has(Input, knowrob:'startTime', T),
   rdf_has(Img, knowrob:'linkToImageFile', literal(type(_, Path))),
 
   % Find directory that contains the experiment active at given timepoint
   experiment(Experiment, T),
-  rdf_has(Directory, rdf:type, knowrob:'RobotExperimentDirectory'),
   rdf_has(Directory, knowrob:experiment, Experiment),
+  rdf_has(Directory, rdf:type, knowrob:'RobotExperimentDirectory'),
   
   atomic_list_concat([_Prefix, Dir], '#', Directory),
   atomic_list_concat([Dir, Path], '/', CompletePath),
-  designator_publish_image(CompletePath).
+  designator_publish_image(CompletePath), !.
 
 designator_publish_image(Input) :-
   atom(Input),

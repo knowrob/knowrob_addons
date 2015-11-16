@@ -105,20 +105,15 @@ action_designator(TaskContext, Timepoint, Designator) :-
     rdf_has(Designator, knowrob:'equationTime', Timepoint)
   )).
 
-agent_tf_frame(Link, Prefix, TfFrame) :-
-  owl_has(Link, srdl2comp:'urdfName', literal(UrdfName)),
-  atom_concat(Prefix, UrdfName, Buffer),
-  atom_concat(Buffer, '_', TfFrame).
-
 agent_marker(Link, Prefix, Identifier, MarkerId) :-
-  agent_tf_frame(Link, Prefix, TfFrame),
-  atom_concat(TfFrame, Identifier, MarkerId).
+  term_to_atom(object_without_children(Link), LinkAtom),
+  atom_concat(Identifier, '_', Buf),
+  atom_concat(Buf, LinkAtom, MarkerId).
 
 agent_connection_marker(Link0, Link1, Prefix, Identifier, MarkerId) :-
-  agent_tf_frame(Link0, Prefix, TfFrame0),
-  agent_tf_frame(Link1, Prefix, TfFrame1),
-  atom_concat(TfFrame0, TfFrame1, TfFrame),
-  atom_concat(TfFrame, Identifier, MarkerId).
+  term_to_atom(cylinder_tf(Link0,Link1), CylinderAtom),
+  atom_concat(Identifier, '_', Buf),
+  atom_concat(Buf, CylinderAtom, MarkerId).
 
 intrusion_link(Human, HumanPrefix, Timeppoint, HumanLink) :-
   intrusion_link(Human, HumanPrefix, Timeppoint, 1.5, HumanLink).
@@ -132,7 +127,9 @@ intrusion_link(Human, HumanPrefix, Timeppoint, Threshold, HumanLink) :-
   XPosition < Threshold.
   
 highlight_intrusion_danger(MarkerId) :-
-  highlight_object(MarkerId, 255, 0, 0, 255).
+  write('highlight_intrusion_danger MarkerId: '), writeln(MarkerId),
+  marker(MarkerId, MarkerObject),
+  marker_highlight(MarkerObject, [1.0,0.0,0.0,1.0]).
 
 highlight_intrusions(HumanIdentifier, Human, HumanPrefix, Timeppoint) :-
   % Find all links that intersect with the safety area of the robot
@@ -156,14 +153,10 @@ saphari_visualize_human(HumanPrefix, Timeppoint) :-
   saphari_visualize_human(HumanPrefix, HumanPrefix, Timeppoint).
 
 saphari_visualize_human(HumanIdentifier, HumanPrefix, Timeppoint) :-
-  add_stickman_visualization(
-      HumanIdentifier, openni_human:'iai_human_robot1',
-      Timeppoint, '', HumanPrefix
-  ),
-  highlight_intrusions(HumanIdentifier, 
-      openni_human:'iai_human_robot1', HumanPrefix,
-      Timeppoint
-  ).
+  marker(stickman(openni_human:'iai_human_robot1'), _, HumanIdentifier),
+  marker_tf_prefix(HumanIdentifier, HumanPrefix),
+  marker_update(HumanIdentifier, Timeppoint),
+  highlight_intrusions(HumanIdentifier, openni_human:'iai_human_robot1', HumanPrefix, Timeppoint).
 
 saphari_collision_events(Type, Events) :-
   CollisionTypes = ['LIGHT-COLLISION', 'STRONG-COLLISION', 'CONTACT', 'SEVERE-COLLISION'],
@@ -228,12 +221,12 @@ saphari_visualize_humans(Timepoint) :-
       saphari_visualize_human(Prefix, Timepoint)
     ) ; (
       human_tf_prefix(UserIdJava, Prefix),
-      remove_agent_visualization(Prefix, openni_human:'iai_human_robot1')
+      marker_remove(Prefix)
     ))
   ) ; true)).
 
 saphari_visualize_agents(Timepoint) :-
-  add_agent_visualization('BOXY', boxy:'boxy_robot1', Timepoint, '', ''),
+  marker_update(agent(boxy:'boxy_robot1'), Timepoint),
   saphari_visualize_humans(Timepoint).
 
 unasserted_perceived_object(StartTime, EndTime, Perception, Obj) :-
@@ -267,12 +260,12 @@ saphari_visualize_map(Experiment, Timepoint) :-
   % Create_pose causes this maybe also add_object_as_semantic_instance.
   % Howto fix it?
   %assert_perceived_objects(StartTime, Timepoint, Map),
-  
-  update_object_with_children(Map, Timepoint).
+  marker_remove(object(Map)),
+  marker_update(object(Map), Timepoint).
 
 saphari_visualize_experiment(Timepoint) :-
   once(experiment(Experiment, Timepoint)),
-  
+  marker_highlight_remove(all),
   saphari_visualize_map(Experiment, Timepoint),
   saphari_visualize_agents(Timepoint), !.
 

@@ -576,7 +576,7 @@ visualize_simulation_scene(T) :-
     rdf_split_url(_, Obj, ObjUrl)
   ), Objs),
   % Show the simulation hand
-  add_agent_visualization('http://knowrob.org/kb/sim-hand.owl#SimulationHand', T),
+  marker_update(agent('http://knowrob.org/kb/sim-hand.owl#SimulationHand'), T),
   % Show objects
   forall(
     member(Obj, Objs), ((
@@ -607,4 +607,6 @@ visualize_simulation_object(Obj, MeshPath, T) :-
   matrix_rotation(Transform, Quaternion),
   matrix_translation(Transform, Translation),
   % Publish mesh marker message
-  add_mesh(ObjFrame, MeshPath, Translation, Quaternion).
+  marker(mesh(ObjFrame), ObjectMarker),
+  marker_mesh_resource(ObjectMarker, MeshPath),
+  marker_pose(ObjectMarker, pose(Translation,Quaternion)).
