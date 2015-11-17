@@ -127,7 +127,6 @@ intrusion_link(Human, HumanPrefix, Timeppoint, Threshold, HumanLink) :-
   XPosition < Threshold.
   
 highlight_intrusion_danger(MarkerId) :-
-  write('highlight_intrusion_danger MarkerId: '), writeln(MarkerId),
   marker(MarkerId, MarkerObject),
   marker_highlight(MarkerObject, [1.0,0.0,0.0,1.0]).
 
