@@ -206,7 +206,7 @@ human_tf_prefix(UserIdJava, Prefix) :-
 
 saphari_visualize_humans(Timepoint) :-
   time_term(Timepoint, Time),
-  MinTimepoint is Time - 0.5,
+  MinTimepoint is Time - 5.0,
   
   mng_designator_distinct_values('designator.USER-ID', UserIds),
   forall(member(UserIdJava, UserIds), ((
@@ -259,7 +259,6 @@ saphari_visualize_map(Experiment, Timepoint) :-
   % Create_pose causes this maybe also add_object_as_semantic_instance.
   % Howto fix it?
   %assert_perceived_objects(StartTime, Timepoint, Map),
-  marker_remove(object(Map)),
   marker_update(object(Map), Timepoint).
 
 saphari_visualize_experiment(Timepoint) :-
