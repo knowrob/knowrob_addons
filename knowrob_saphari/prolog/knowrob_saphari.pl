@@ -51,11 +51,24 @@
       highlight_intrusions/4,
       
       
-      saphari_latest_object_detection/2,
-      saphari_latest_object_detection/3,
-      saphari_latest_object_detections/2,
-      saphari_latest_object_detections/3,
-      saphari_perception_designator/4
+      saphari_task_initialize/1,
+      saphari_active_task/1,
+      saphari_slot_description/3,
+      saphari_slot_state/2,
+      saphari_empty_slots/1,
+      saphari_object_mesh/2,
+      saphari_object_class/3,
+      saphari_object_properties/3,
+      saphari_object_on_table/1,
+      saphari_object_in_basket/1,
+      saphari_object_in_gripper/1,
+      saphari_perceived_objects/1,
+      saphari_next_object/4,
+      saphari_grasping_point/2,
+      saphari_basket_goal/1,
+      saphari_basket_state/1,
+      saphari_objects_on_table/1,
+      saphari_objects_in_gripper/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -204,6 +217,13 @@ human_tf_prefix(UserIdJava, Prefix) :-
   atom_concat('/human', UserId, PrefixA),
   atom_concat(PrefixA, '/', Prefix).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REVIEW 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 saphari_visualize_humans(Timepoint) :-
   time_term(Timepoint, Time),
   MinTimepoint is Time - 5.0,
@@ -269,58 +289,196 @@ saphari_visualize_experiment(Timepoint) :-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  FINAL REVIEW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REVIEW 2015
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-saphari_latest_object_detections(Classes, dt(TimeRange), Detections) :-
-  get_timepoint(T1), !,
-  time_term(T1, T1_Term),
-  T0_Term is T1_Term - TimeRange,
-  atom_concat('http://knowrob.org/kb/knowrob.owl#timepoint_', T0_Term, T0),
-  saphari_latest_object_detections(Classes, interval(T0,T1), Detections).
+% Fact that defines the axctive taskId
+saphari_active_task(none).
 
-saphari_latest_object_detections(Classes, interval(Start,End), ValidDetections) :-
-  saphari_latest_object_detections(Classes, Detections),
-  findall( ValidDetection, (
-    member(Detection, Detections),
-    owl_has(Detection, knowrob:'startTime', StartTime),
-    (( time_later_then(StartTime,Start),
-       time_earlier_then(StartTime,End) )
-    -> ValidDetection = Detection
-    ;  ValidDetection = none
-    )
-  ), ValidDetections).
+% saphari_slot_description(TaskId, SlotId, ObjectCLass)
+% Facts that define which objects should be put into which slot w.r.t. the task.
+saphari_slot_description('Task0', 'Slot0', 'Scalpel').
+saphari_slot_description('Task0', 'Slot1', 'KidneyDish').
+saphari_slot_description('Task0', 'Slot2', 'BluntRetractor').
 
-saphari_latest_object_detections(Classes, Detections) :-
-  findall(Detection, (
-    member(Class, Classes),
-    saphari_latest_object_detection(Class, Detection)
-  ), Detections).
+% Facts that define the current state of a slot (empty or the corresponding designator id)
+saphari_slot_state('Slot0', empty).
+saphari_slot_state('Slot1', empty).
+saphari_slot_state('Slot2', empty).
 
-saphari_perception_designator_class(Obj, ObjJava, Class) :-
-  mng_designator_props(Obj, ObjJava, ['RESPONSE'], Class).
+% Reset the slot state and assert active experiment
+saphari_task_initialize(TaskId) :-
+  % Assert the active task id
+  retract(saphari_active_task(_)),
+  assert(saphari_active_task(TaskId)),
+  % Assume all slots are empty
+  retract(saphari_slot_state(_,_)),
+  forall(
+    saphari_slot_description(TaskId, SlotId, _),
+    assert( saphari_slot_state(SlotId, empty) )
+  ).
 
-saphari_perception_designator_class(Obj, ObjJava, Class) :-
-  mng_designator_props(Obj, ObjJava, ['TYPE'], Class).
+% Find list of empty slots with corresponding desired object classes for the slots
+saphari_empty_slots(Slots) :-
+  saphari_active_task(TaskId),
+  findall((SlotId,ObjectClass), (
+      saphari_slot_state(SlotId, empty),
+      saphari_slot_description(TaskId, SlotId, ObjectClass)
+  ), Slots).
 
-saphari_perception_designator(Class, Obj, Start, End) :-
-  task_type(Perc,knowrob:'UIMAPerception'),
-  rdf_has(Perc, knowrob:'perceptionResult', Obj),
-  mng_designator(Obj, ObjJava),
-  once(saphari_perception_designator_class(Obj, ObjJava, Class)),
-  rdf_has(Perc, knowrob:'startTime', Start),
-  rdf_has(Perc, knowrob:'endTime', End).
+% Find a mesh that corresponds to the object class
+saphari_object_mesh(ObjectClass, ObjectMesh) :-
+  rdf_has(ClsIndividual, knowrob:'perceptionResponse', ObjectClass),
+  rdf_has(ClsIndividual, knowrob:'pathToCadModel', ObjectMesh).
 
-saphari_latest_object_detection(Class, Obj) :-
-  get_timepoint(Now), !,
-  saphari_latest_object_detection(Class, Obj, Now).
+% Read class property from designator
+saphari_object_class(Identifier, Designator, Class) :-
+  mng_designator_props(Identifier, Designator, ['RESPONSE'], Class), !.
+saphari_object_class(Identifier, Designator, Class) :-
+  mng_designator_props(Identifier, Designator, ['TYPE'], Class), !.
 
-saphari_latest_object_detection(Class, Obj, Now) :-
-  saphari_perception_designator(Class, Obj, _, End),
-  time_earlier_then(End, Now),
-  % Make sure there is no later event
+% Read some object properties
+saphari_object_properties(DesignatorId, ObjectClass, PoseMatrix) :-
+  mng_designator(DesignatorId, DesignatorJava),
+  saphari_object_class(DesignatorId, DesignatorJava, ObjectClass),
+  mng_designator_location(DesignatorJava,PoseMatrix).
+
+saphari_object_on_table(ObjectId) :-
+  saphari_perceived_objects(Perceptions),
+  member(ObjectId, Perceptions),
+  not(saphari_object_in_gripper(ObjectId)),
+  not(saphari_object_in_basket(ObjectId)).
+  
+saphari_object_in_basket(ObjectId) :-
+  saphari_slot_state(_, (ObjectId,_,_)).
+
+saphari_object_in_gripper(ObjectId) :-
+  rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
+  rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),
+  rdf_has(Grasp, knowrob:'endTime', Grasp_T),
+  % Make sure that there is no put down event after the grasp
   not((
-    saphari_perception_designator(Class, Obj2, _, End2),
-    not(Obj = Obj2),
-    time_earlier_then(End2, Now),
-    time_later_then(End2, End)
+    rdfs_individual_of(Put, knowrob:'PuttingSomethingSomewhere'),
+    rdf_has(Put, knowrob:'objectActedOn', ObjectId),
+    rdf_has(Put, knowrob:'endTime', Put_T),
+    time_earlier_then(Grasp_T, Put_T)
   )).
+
+% Yields in a list of designator ids that were perceived in the last perception event
+% XXX: may yield unwanted results when other task logs are asserted to the KB
+saphari_perceived_objects(PerceivedObjectIds) :-
+  rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
+  rdf_has(Perc0, knowrob:'startTime', T0),
+  % Make sure that there is no perception event happening after Perc0
+  % we are only interested in the very last perception event
+  not((
+    rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
+    rdf_has(Perc1, knowrob:'startTime', T1),
+    time_later_then(T1, T0)
+  )),
+  findall(ObjId, rdf_has(Perc0, knowrob:'perceptionResult', ObjId), PerceivedObjectIds).
+
+% Find next possible target object for putting it into the basket
+% by matching desired classes in empty slots with latest perceived object classes
+saphari_next_object(SlotId, DesignatorId, ObjectClass, PoseMatrix) :-
+  saphari_empty_slots(Slots),
+  saphari_perceived_objects(Perceptions),
+  member((SlotId,ObjectClass), Slots),
+  member(DesignatorId, Perceptions),
+  saphari_object_properties(DesignatorId, ObjectClass, PoseMatrix),
+  saphari_object_on_table(DesignatorId).
+
+saphari_grasping_point(ObjectId, GraspingPose) :-
+  saphari_object_properties(ObjectId, ObjectClass, _),
+  saphari_object_mesh(ObjectClass, ObjectMesh),
+  % TODO: compute grasping pose. Howto do that? By using CAD model segmentation?
+  false.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% ROS message helper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% SlotGoalDescription[] basket_goal
+saphari_basket_goal(SlotGoalDescriptions) :-
+  saphari_active_task(TaskId),
+  findall((SlotId,ObjectClass),
+    saphari_slot_description(TaskId, SlotId, ObjectClass),
+    SlotGoalDescriptions
+  ).
+
+% SlotStateDescription[] basket_state
+saphari_basket_state(SlotStateDescriptions) :-
+  findall((SlotId,ObjectId,ObjectClass,PoseMatrix), (
+    saphari_slot_state(SlotId, (ObjectId, ObjectClass, PoseMatrix))
+  ), SlotStateDescriptions).
+
+% ObjectInstanceDescription[] objects_on_table
+saphari_objects_on_table(ObjectInstanceDescriptions) :-
+  saphari_perceived_objects(PerceivedObjectIds),
+  findall((ObjectId,ObjectClass,PoseMatrix), (
+    member(ObjectId, PerceivedObjectIds),
+    saphari_object_on_table(ObjectId),
+    saphari_object_properties(ObjectId, ObjectClass, PoseMatrix)
+  ), ObjectInstanceDescriptions).
+
+% ObjectInstanceDescription[] objects_on_table
+saphari_objects_in_gripper(ObjectInstanceDescriptions) :-
+  saphari_perceived_objects(PerceivedObjectIds),
+  findall((ObjectId,ObjectClass,PoseMatrix), (
+    member(ObjectId, PerceivedObjectIds),
+    saphari_object_in_gripper(ObjectId),
+    saphari_object_properties(ObjectId, ObjectClass, PoseMatrix)
+  ), ObjectInstanceDescriptions).
+
+  
+  
+  
+%saphari_latest_object_detections(Classes, dt(TimeRange), Detections) :-
+%  get_timepoint(T1), !,
+%  time_term(T1, T1_Term),
+%  T0_Term is T1_Term - TimeRange,
+%  atom_concat('http://knowrob.org/kb/knowrob.owl#timepoint_', T0_Term, T0),
+%  saphari_latest_object_detections(Classes, interval(T0,T1), Detections).
+
+%saphari_latest_object_detections(Classes, interval(Start,End), ValidDetections) :-
+%  saphari_latest_object_detections(Classes, Detections),
+%  findall( ValidDetection, (
+%    member(Detection, Detections),
+%    owl_has(Detection, knowrob:'startTime', StartTime),
+%    (( time_later_then(StartTime,Start),
+%       time_earlier_then(StartTime,End) )
+%    -> ValidDetection = Detection
+%    ;  ValidDetection = none
+%    )
+%  ), ValidDetections).
+
+%saphari_latest_object_detections(Classes, Detections) :-
+%  findall(Detection, (
+%    member(Class, Classes),
+%    saphari_latest_object_detection(Class, Detection)
+%  ), Detections).
+
+%saphari_perception_designator(Class, Obj, Start, End) :-
+%  task_type(Perc,knowrob:'UIMAPerception'),
+%  rdf_has(Perc, knowrob:'perceptionResult', Obj),
+%  mng_designator(Obj, ObjJava),
+%  once(saphari_object_class(Obj, ObjJava, Class)),
+%  rdf_has(Perc, knowrob:'startTime', Start),
+%  rdf_has(Perc, knowrob:'endTime', End).
+
+%saphari_latest_object_detection(Class, Obj) :-
+%  get_timepoint(Now), !,
+%  saphari_latest_object_detection(Class, Obj, Now).
+
+%saphari_latest_object_detection(Class, Obj, Now) :-
+%  saphari_perception_designator(Class, Obj, _, End),
+%  time_earlier_then(End, Now),
+%  % Make sure there is no later event
+%  not((
+%    saphari_perception_designator(Class, Obj2, _, End2),
+%    not(Obj = Obj2),
+%    time_earlier_then(End2, Now),
+%    time_later_then(End2, End)
+%  )).
