@@ -55,6 +55,7 @@
       saphari_active_task/1,
       saphari_slot_description/3,
       saphari_slot_state/2,
+      saphari_slot_assign/4,
       saphari_empty_slots/1,
       saphari_object_mesh/2,
       saphari_object_class/3,
@@ -295,18 +296,18 @@ saphari_visualize_experiment(Timepoint) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Fact that defines the axctive taskId
-saphari_active_task(none).
+:- assert( saphari_active_task(none) ).
 
 % saphari_slot_description(TaskId, SlotId, ObjectCLass)
 % Facts that define which objects should be put into which slot w.r.t. the task.
-saphari_slot_description('Task0', 'Slot0', 'Scalpel').
-saphari_slot_description('Task0', 'Slot1', 'KidneyDish').
-saphari_slot_description('Task0', 'Slot2', 'BluntRetractor').
+:- assert( saphari_slot_description('Task0', 'Slot0', 'Scalpel') ).
+:- assert( saphari_slot_description('Task0', 'Slot1', 'KidneyDish') ).
+:- assert( saphari_slot_description('Task0', 'Slot2', 'Scissors') ).
 
 % Facts that define the current state of a slot (empty or the corresponding designator id)
-saphari_slot_state('Slot0', empty).
-saphari_slot_state('Slot1', empty).
-saphari_slot_state('Slot2', empty).
+:- assert( saphari_slot_state('Slot0', empty) ).
+:- assert( saphari_slot_state('Slot1', empty) ).
+:- assert( saphari_slot_state('Slot2', empty) ).
 
 % Reset the slot state and assert active experiment
 saphari_task_initialize(TaskId) :-
@@ -314,11 +315,11 @@ saphari_task_initialize(TaskId) :-
   retract(saphari_active_task(_)),
   assert(saphari_active_task(TaskId)),
   % Assume all slots are empty
-  retract(saphari_slot_state(_,_)),
   forall(
-    saphari_slot_description(TaskId, SlotId, _),
+    saphari_slot_description(TaskId, SlotId, _), (
+    retract( saphari_slot_state(SlotId,_) ),
     assert( saphari_slot_state(SlotId, empty) )
-  ).
+  )).
 
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slots(Slots) :-
@@ -327,6 +328,11 @@ saphari_empty_slots(Slots) :-
       saphari_slot_state(SlotId, empty),
       saphari_slot_description(TaskId, SlotId, ObjectClass)
   ), Slots).
+
+saphari_slot_assign(SlotId, ObjId, ObjClass, PoseMatrix) :-
+  saphari_active_task(TaskId),
+  saphari_slot_description(TaskId, SlotId, ObjClass),
+  assert( saphari_slot_state(SlotId, (ObjId,ObjClass,PoseMatrix)) ).
 
 % Find a mesh that corresponds to the object class
 saphari_object_mesh(ObjectClass, ObjectMesh) :-
@@ -358,12 +364,14 @@ saphari_object_in_gripper(ObjectId) :-
   rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
   rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
+  time_term(Grasp_T, Grasp_T_term),
   % Make sure that there is no put down event after the grasp
   not((
     rdfs_individual_of(Put, knowrob:'PuttingSomethingSomewhere'),
     rdf_has(Put, knowrob:'objectActedOn', ObjectId),
     rdf_has(Put, knowrob:'endTime', Put_T),
-    time_earlier_then(Grasp_T, Put_T)
+    time_term(Put_T, Put_T_term),
+    Put_T_term > Grasp_T_term
   )).
 
 % Yields in a list of designator ids that were perceived in the last perception event
@@ -371,12 +379,14 @@ saphari_object_in_gripper(ObjectId) :-
 saphari_perceived_objects(PerceivedObjectIds) :-
   rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
   rdf_has(Perc0, knowrob:'startTime', T0),
+  time_term(T0, T0_term),
   % Make sure that there is no perception event happening after Perc0
   % we are only interested in the very last perception event
   not((
     rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
     rdf_has(Perc1, knowrob:'startTime', T1),
-    time_later_then(T1, T0)
+    time_term(T1, T1_term),
+    T1_term > T0_term
   )),
   findall(ObjId, rdf_has(Perc0, knowrob:'perceptionResult', ObjId), PerceivedObjectIds).
 
