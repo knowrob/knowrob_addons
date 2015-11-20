@@ -254,6 +254,51 @@
         <rdfs:subClassOf rdf:resource="&saphari;CRAMDescribe"/>
         <rdfs:subClassOf rdf:resource="&saphari;DescribingSomething"/>
     </owl:Class>
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Class Instances
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- http://knowrob.org/kb/saphari.owl#Basket_FGGH485HBgdf -->
+
+    <owl:NamedIndividual rdf:about="&saphari;Basket_FGGH485HBgdf">
+        <rdf:type rdf:resource="&saphari;Basket"/>
+    </owl:NamedIndividual>
+
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_DfHGFD634 -->
+
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_DfHGFD634">
+        <rdf:type rdf:resource="&saphari;BasketSlot"/>
+        <knowrob:perceptionResponse>Scissors</knowrob:perceptionResponse>
+        <knowrob:physicalPartOf rdf:resource="&saphari;Basket_FGGH485HBgdf"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_IAI_K42">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.00000 0.00000 0.00000 0.00000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.73250 2.51920 0.64500</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_IAI_K43">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_IAI_K43"/>
+        <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+        <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_DfHGFD634"/>
+    </owl:NamedIndividual>
+
+    <!-- http://knowrob.org/kb/saphari.owl#SaphariTaskDescription_fduDFh867gh -->
+    <!-- TODO: remove this individual from the OWL-file; only for testing here -->
+    <owl:NamedIndividual rdf:about="&saphari;SaphariTaskDescription_fduDFh867gh">
+        <rdf:type rdf:resource="&saphari;SaphariTaskDescription"/>
+        <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+        <knowrob:nameString>task0</knowrob:nameString>
+        <knowrob:objectActedOn rdf:resource="&saphari;Basket_FGGH485HBgdf"/>
+    </owl:NamedIndividual>
+
 </rdf:RDF>
 
 
