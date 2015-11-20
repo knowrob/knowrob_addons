@@ -81,6 +81,7 @@
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('srdl2')).
 :- use_module(library('knowrob_cram')).
+:- use_module(library('knowrob_objects')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
@@ -335,7 +336,7 @@ saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription) :-
   ) ; InstanceDescription = empty).
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
-  current_time(T),
+  get_time(T),
   object_pose_at_time(SlotIdentifier, T, Translation, Orientation).
 
 saphari_active_task(Task) :-
