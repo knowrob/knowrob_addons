@@ -277,15 +277,15 @@
         <knowrob:physicalPartOf rdf:resource="&saphari;Basket_FGGH485HBgdf"/>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_IAI_K42">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_GDU76FBJSB">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
         <knowrob:quaternion rdf:datatype="&xsd;string">1.00000 0.00000 0.00000 0.00000</knowrob:quaternion>
         <knowrob:translation rdf:datatype="&xsd;string">-0.73250 2.51920 0.64500</knowrob:translation>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_IAI_K43">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_GDU76FBJSB">
         <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_IAI_K43"/>
+        <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_GDU76FBJSB"/>
         <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
         <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_DfHGFD634"/>
     </owl:NamedIndividual>
