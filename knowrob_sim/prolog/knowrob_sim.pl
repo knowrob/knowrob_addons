@@ -59,7 +59,8 @@
         visualize_simulation_particles/4,
         anyact/3,
         intersected_uid_event/6,
-        sim_subsumes/4
+        sim_subsumes/4,
+        extract_time_points/3
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -104,6 +105,7 @@
     visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
+    extract_time_points(r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -398,6 +400,13 @@ test(Arr) :-
     jpl_list_to_array(['1','2','3','4'], Arr),
     jpl_call(Canvas, 'showAverageTrajectory', [bla, Arr, Arr, 1, 1], _).
 
+%%
+% Returns a list with start and end time (stripped) of the given interval
+extract_time_points(Exp, Event, [SVal|EVal]):-
+    simact_start(Exp,Event,Start),
+    simact_end(Exp,Event,End),
+    time_point_value(Start, SVal),
+    time_point_value(End, EVal).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
