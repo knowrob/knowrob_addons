@@ -129,6 +129,7 @@ cram_finish_action(ActionInst, EndTime) :-
 cram_logged_query(QueryingInst, Query, BindingInst) :-
   % Convert to atom (note: this replaces var names with generated names)
   term_to_atom(Query, QueryAtom),
+  rdf_assert(QueryingInst, knowrob:'queryText', QueryAtom),
   % VarValues contains list of assigned values after the call
   term_variables(Query, VarValues),
   % Read atom back to term in order to find out the generated variable names
@@ -140,7 +141,6 @@ cram_logged_query(QueryingInst, Query, BindingInst) :-
   call(Query),
   % log the query
   rdf_instance_from_class(knowrob:'QueryBinding', BindingInst),
-  rdf_assert(QueryingInst, knowrob:'queryText', QueryAtom),
   rdf_assert(QueryingInst, knowrob:'queryBinding', BindingInst),
   forall( member([Name,Value], Bindings), (
     rdf_instance_from_class(knowrob:'VariableBinding', VariableBindingInst),
