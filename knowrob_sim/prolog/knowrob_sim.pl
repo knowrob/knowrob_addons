@@ -45,7 +45,6 @@
         supported_during/4,
         simact_start/3,
         simact_end/3,
-        sim_timeline_val/2,
         subact/3,
         subact_all/2,
         successful_simacts_for_goal/2,
@@ -60,8 +59,7 @@
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4,
-        extract_time_points/3,
-        sim_timeline_val/3
+        sim_timeline_val/4
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -89,7 +87,6 @@
     simlift_liftonly(r,r,r,r),
     simflip_full(r,r,r,r,r,r,r,r,r),
     simflip_fliponly(r,r,r,r,r,r,r,r,r),
-    sim_timeline_val(r,r),
     supported_during(r,r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -106,8 +103,7 @@
     visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
-    extract_time_points(r,r,r),
-    sim_timeline_val(r,r,r),
+    sim_timeline_val(r,r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -234,8 +230,21 @@ simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
 
 %% Function returns a range for each event in the list during which that event is true
-% Not done yet!
-sim_timeline_val(EventList, vals).
+%
+% Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
+sim_timeline_val(IndivExpID, EventNamesList, StartTimeList, EndTimeList):-
+    %Find all events from a single experiment
+    rdf_has(IndivExpID, knowrob:'experiment', literal(type(_, Expname))), 
+    %Make title for timeline
+    string_concat(Expname, ' Timeline', Title), 
+    %Get list of all the events that happen in the experiment for extracting timepoints
+    findall(Type, simact(Expname,Type), EventList), 
+    %Get list of event names that happened in the experment for putting in the timeline
+    findall(EventName, (member(E,EventList),rdf_split_url(_,EventName,E)), EventNamesList),
+    %Get list of all [start|end] times of the events in the list
+    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_point_value(Start, StartTime)), StartTimeList),
+    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_point_value(End, EndTime)), EndTimeList).
+
 
 %%  Auxilary function for enabling changing color on consecutive calls
 %
@@ -402,35 +411,6 @@ test(Arr) :-
     jpl_list_to_array(['1','2','3','4'], Arr),
     jpl_call(Canvas, 'showAverageTrajectory', [bla, Arr, Arr, 1, 1], _).
 
-%%
-% Returns start and end time of the event stripped and concatenated
-extract_time_points(Exp, Event, Timevals):-
-    simact_start(Exp,Event,Start),
-    simact_end(Exp,Event,End),
-    time_point_value(Start, SVal),
-    time_point_value(End, EVal),
-    atom_concat(SVal, '_', Tmp),
-    atom_concat(Tmp, EVal, Timevals).
-    %% atom_string(Timevals, Res). %convert string to atom, need atom for add_diagram
-
-%%
-%
-% Function returns a range for each event in the list during which that event is true
-%
-% Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
-sim_timeline_val(Exp, EventNamesList, StartTimeslist, EndTimeList):-
-    %Find all events from a single experiment
-    rdf_has(IndivExpID, knowrob:'experiment', literal(type(_, Expname))), 
-    %Make title for timeline
-    string_concat(Expname, ' Timeline', Title), 
-    %Get list of all the events that happen in the experiment for extracting timepoints
-    findall(Type, simact(Expname,Type), EventList), 
-    %Get list of event names that happened in the experment for putting in the timeline
-    findall(EventName, (member(E,EventList),rdf_split_url(_,EventName,E)), EventNamesList),
-    %Get list of all [start|end] times of the events in the list
-    findall(TimeInterval, (member(Event, EventList), extract_time_points(Expname, Event, TimeInterval)), TimeList).
-    %Test whether start times can be extracted from the timelist
-    %% findall(Start, (member(Time, TimeList), [Start|End]=Time), StartList).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
