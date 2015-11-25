@@ -328,12 +328,19 @@ saphari_slot_state(SlotIdentifier, InstanceDescription) :-
 saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription) :-
   rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
   rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket),
-  ((  rdf_has(Assignment, rdf:type, saphari:'SaphariSlotAssignment'),
-      rdf_has(Assignment, knowrob:objectActedOn, SlotIdentifier),
-      rdf_has(Assignment, knowrob:designator, DesignatorId),
+  ((  saphari_slot_release_action(SlotIdentifier, ReleasingAction),
+      rdf_has(ReleasingAction, knowrob:'objectActedOn', DesignatorId),
       saphari_object_properties(DesignatorId, ObjectClass, PoseStamped),
       InstanceDescription = (DesignatorId, ObjectClass, PoseStamped)
   ) ; InstanceDescription = empty).
+
+saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
+  % TODO: Make sure that this action is part of the current task!
+  % TODO: Not very efficient here, better use slot assignment events
+  rdfs_instance_of(ReleasingAction, knowrob:'ReleasingGraspOfSomething'),
+  rdf_has(ReleasingAction, knowrob:'goalLocation', Loc),
+  mng_designator(Loc, LocDesig, [], 'designator.AT._id'),
+  mng_designator_props(Loc, LocDesig, 'AT.SLOT-ID', SlotIdentifier).
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
@@ -404,7 +411,10 @@ saphari_object_class(Identifier, Designator, Class) :-
 
 % Read some object properties
 saphari_object_properties(DesignatorId, ObjectClass, (FrameId, TimeStamp, (Translation, Orientation))) :-
-  mng_designator(DesignatorId, DesignatorJava),
+  (  mng_designator(DesignatorId, DesignatorJava) ; (
+     mng_designator(DesignatorId, ParentDesig, [], 'designator.OBJ._id'),
+     jpl_call(ParentDesig, get, ['OBJ'], DesignatorJava)
+  )),
   saphari_object_class(DesignatorId, DesignatorJava, ObjectClass),
   mng_designator_location(DesignatorJava, PoseMatrix),
   matrix_translation(PoseMatrix, Translation),
