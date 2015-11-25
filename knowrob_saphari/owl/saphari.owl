@@ -273,14 +273,14 @@
 
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_DfHGFD634">
         <rdf:type rdf:resource="&saphari;BasketSlot"/>
-        <knowrob:perceptionResponse>Scissors</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse>BANDAGE-SCISSORS</knowrob:perceptionResponse>
         <knowrob:physicalPartOf rdf:resource="&saphari;Basket_FGGH485HBgdf"/>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;Transformation_GDU76FBJSB">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:quaternion rdf:datatype="&xsd;string">1.00000 0.00000 0.00000 0.00000</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="&xsd;string">-0.73250 2.51920 0.64500</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.3338 0.9426</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.8935 0.4856 0.91</knowrob:translation>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_GDU76FBJSB">

@@ -313,7 +313,7 @@ saphari_slot_description(SlotIdentifier, ObjectClass, (Translation, Orientation)
 saphari_slot_description(TaskIdentifier, SlotIdentifier, ObjectClass, (Translation, Orientation)) :-
   rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
   rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket),
-  rdf_has(SlotIdentifier, knowrob:perceptionResponse, ObjectClass),
+  rdf_has(SlotIdentifier, knowrob:perceptionResponse, literal(ObjectClass)),
   saphari_slot_pose(SlotIdentifier, Translation, Orientation).
 
 % Facts that define the current state of a slot (empty or the corresponding designator id)
@@ -331,8 +331,8 @@ saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription) :-
   ((  rdf_has(Assignment, rdf:type, saphari:'SaphariSlotAssignment'),
       rdf_has(Assignment, knowrob:objectActedOn, SlotIdentifier),
       rdf_has(Assignment, knowrob:designator, DesignatorId),
-      saphari_object_properties(DesignatorId, ObjectClass, PoseMatrix),
-      InstanceDescription = (DesignatorId, ObjectClass, PoseMatrix)
+      saphari_object_properties(DesignatorId, ObjectClass, PoseStamped),
+      InstanceDescription = (DesignatorId, ObjectClass, PoseStamped)
   ) ; InstanceDescription = empty).
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
@@ -386,9 +386,9 @@ saphari_active_task(Task) :-
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slots(Slots) :-
   saphari_active_task(TaskId),
-  findall((SlotId,ObjectClass), (
+  findall((SlotId,ObjectClass,Pose), (
       saphari_slot_state(SlotId, empty),
-      saphari_slot_description(TaskId, SlotId, ObjectClass)
+      saphari_slot_description(TaskId, SlotId, ObjectClass, Pose)
   ), Slots).
 
 % Find a mesh that corresponds to the object class
@@ -403,10 +403,16 @@ saphari_object_class(Identifier, Designator, Class) :-
   mng_designator_props(Identifier, Designator, ['TYPE'], Class), !.
 
 % Read some object properties
-saphari_object_properties(DesignatorId, ObjectClass, PoseMatrix) :-
+saphari_object_properties(DesignatorId, ObjectClass, (FrameId, TimeStamp, (Translation, Orientation))) :-
   mng_designator(DesignatorId, DesignatorJava),
   saphari_object_class(DesignatorId, DesignatorJava, ObjectClass),
-  mng_designator_location(DesignatorJava,PoseMatrix).
+  mng_designator_location(DesignatorJava, PoseMatrix),
+  matrix_translation(PoseMatrix, Translation),
+  matrix_rotation(PoseMatrix, Orientation),
+  mng_designator_props(DesignatorId, DesignatorJava, ['AT', 'POSE'], DesigPoseStamped),
+  jpl_get(DesigPoseStamped, 'frameID', FrameId),
+  jpl_get(DesigPoseStamped, 'timeStamp', TimeStampIso),
+  jpl_call(TimeStampIso, 'toSeconds', [], TimeStamp).
 
 saphari_object_on_table(ObjectId) :-
   saphari_perceived_objects(Perceptions),
@@ -449,13 +455,13 @@ saphari_perceived_objects(PerceivedObjectIds) :-
 
 % Find next possible target object for putting it into the basket
 % by matching desired classes in empty slots with latest perceived object classes
-saphari_next_object(SlotId, DesignatorId, ObjectClass, PoseMatrix) :-
+saphari_next_object(SlotId, (SlotTranslation, SlotRotation), ObjectClass, DesigId) :-
   saphari_empty_slots(Slots),
   saphari_perceived_objects(Perceptions),
-  member((SlotId,ObjectClass), Slots),
-  member(DesignatorId, Perceptions),
-  saphari_object_properties(DesignatorId, ObjectClass, PoseMatrix),
-  saphari_object_on_table(DesignatorId).
+  member((SlotId,ObjectClass,(SlotTranslation, SlotRotation)), Slots),
+  member(DesigId, Perceptions),
+  saphari_object_properties(DesigId, ObjectClass, _),
+  saphari_object_on_table(DesigId).
 
 saphari_grasping_point(ObjectId, GraspingPose) :-
   saphari_object_properties(ObjectId, ObjectClass, _),
@@ -484,19 +490,19 @@ saphari_basket_state(SlotStateDescriptions) :-
 % ObjectInstanceDescription[] objects_on_table
 saphari_objects_on_table(ObjectInstanceDescriptions) :-
   saphari_perceived_objects(PerceivedObjectIds),
-  findall((ObjectId,ObjectClass,PoseMatrix), (
+  findall((ObjectId,ObjectClass,PoseStamped), (
     member(ObjectId, PerceivedObjectIds),
     saphari_object_on_table(ObjectId),
-    saphari_object_properties(ObjectId, ObjectClass, PoseMatrix)
+    saphari_object_properties(ObjectId, ObjectClass, PoseStamped)
   ), ObjectInstanceDescriptions).
 
 % ObjectInstanceDescription[] objects_on_table
 saphari_objects_in_gripper(ObjectInstanceDescriptions) :-
   saphari_perceived_objects(PerceivedObjectIds),
-  findall((ObjectId,ObjectClass,PoseMatrix), (
+  findall((ObjectId,ObjectClass,PoseStamped), (
     member(ObjectId, PerceivedObjectIds),
     saphari_object_in_gripper(ObjectId),
-    saphari_object_properties(ObjectId, ObjectClass, PoseMatrix)
+    saphari_object_properties(ObjectId, ObjectClass, PoseStamped)
   ), ObjectInstanceDescriptions).
 
   
