@@ -386,9 +386,9 @@ saphari_active_task(Task) :-
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slots(Slots) :-
   saphari_active_task(TaskId),
-  findall((SlotId,ObjectClass), (
+  findall((SlotId,ObjectClass,Pose), (
       saphari_slot_state(SlotId, empty),
-      saphari_slot_description(TaskId, SlotId, ObjectClass)
+      saphari_slot_description(TaskId, SlotId, ObjectClass, Pose)
   ), Slots).
 
 % Find a mesh that corresponds to the object class
