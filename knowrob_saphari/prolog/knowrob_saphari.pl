@@ -313,7 +313,7 @@ saphari_slot_description(SlotIdentifier, ObjectClass, (Translation, Orientation)
 saphari_slot_description(TaskIdentifier, SlotIdentifier, ObjectClass, (Translation, Orientation)) :-
   rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
   rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket),
-  rdf_has(SlotIdentifier, knowrob:perceptionResponse, ObjectClass),
+  rdf_has(SlotIdentifier, knowrob:perceptionResponse, literal(ObjectClass)),
   saphari_slot_pose(SlotIdentifier, Translation, Orientation).
 
 % Facts that define the current state of a slot (empty or the corresponding designator id)
