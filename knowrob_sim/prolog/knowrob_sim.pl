@@ -185,6 +185,9 @@ simact(Experiment, EventID, EventClass) :-
     rdf_has(MetaData, knowrob:'experiment', literal(type(_, Experiment))),
     rdf_has(MetaData, knowrob:'subAction', EventID).
 
+%% sim_class_individual(?ObjectClass, ?ObjectIndivid)
+%
+% Get the ObjectClass of an individual, or an individual of a certain class
 sim_class_individual(ObjectClass, ObjectIndivid) :-
     rdf_has(ObjectIndivid, rdf:type, ObjectClass),
     rdf_reachable(ObjectClass, rdfs:subClassOf, owl:'Thing'). %Otherwise it will return owl:namedIndividual as a Class of any objectinstance as well
@@ -200,8 +203,8 @@ sim_class_individual(ObjectClass, ObjectIndivid) :-
 %   > simact_contact_specific(Exp, E, knowrob_sim:'Cup_object_hkm6glYmRQ0BWF', knowrob_sim:'KitchenTable_object_50SJX00eStoIfD').
 simact_contact(Experiment, Event, ObjectClass, ObjectInstance) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
-    sim_class_individual(ObjectClass, ObjectInstance),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance),
+    sim_class_individual(ObjectClass, ObjectInstance),
     simact_start(Experiment, Event, StartTime).
     %writeln(StartTime).
  %% Find a certain event involving a certain object
@@ -214,20 +217,20 @@ simact_contact_specific(Experiment, Event, ObjectInstance) :-
 %
 simact_contact(Experiment, Event, Object1Class, Object2Class, ObjectInstance1, ObjectInstance2) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2),
     sim_class_individual(Object1Class, ObjectInstance1),
     sim_class_individual(Object2Class, ObjectInstance2),
-    ObjectInstance1\=ObjectInstance2,
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+    ObjectInstance1\=ObjectInstance2.
 %%  simact_contact(?Event, ?EventClass, +ObjectInstance1, +ObjectInstance2)
 %   
 %   Find a certain event involving certain objects
 %
 simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
-    ObjectInstance1\=ObjectInstance2,
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2),
+    ObjectInstance1\=ObjectInstance2.
 
 %% Function returns a range for each event in the list during which that event is true
 %
