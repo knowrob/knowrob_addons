@@ -59,7 +59,7 @@
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4,
-        sim_timeline_val/4
+        sim_timeline_val/5
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -103,7 +103,7 @@
     visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
-    sim_timeline_val(r,r,r,r),
+    sim_timeline_val(r,r,r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
