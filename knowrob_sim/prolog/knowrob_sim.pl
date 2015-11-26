@@ -59,7 +59,7 @@
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4,
-        sim_timeline_val/5
+        sim_timeline_val/4
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -103,7 +103,7 @@
     visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
-    sim_timeline_val(r,r,r,r,r),
+    sim_timeline_val(r,r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,7 +235,7 @@ simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
 %% Function returns a range for each event in the list during which that event is true
 %
 % Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
-sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList, Title):-
+sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList):-
     %Find all events from a single experiment
     rdf_has(_, knowrob:'experiment', literal(type(_, Expname))),
     %Get list of all the events that happen in the experiment for extracting timepoints
