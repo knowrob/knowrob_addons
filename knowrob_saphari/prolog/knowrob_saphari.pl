@@ -57,6 +57,8 @@
       saphari_slot_state/2,
       saphari_slot_state/3,
       saphari_slot_pose/3,
+      saphari_empty_slot/1,
+      saphari_empty_slot/2,
       saphari_empty_slots/1,
       saphari_object_mesh/2,
       saphari_object_class/3,
@@ -391,6 +393,13 @@ saphari_active_task(Task) :-
 %  assert( saphari_slot_state(SlotId, (ObjId,ObjClass,PoseMatrix)) ).
 
 % Find list of empty slots with corresponding desired object classes for the slots
+saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
+  saphari_empty_slot(_, (SlotId, ObjectClass, Pose)).
+
+saphari_empty_slot(TaskId, (SlotId, ObjectClass, Pose)) :-
+  saphari_slot_state(TaskId, SlotId, empty),
+  saphari_slot_description(TaskId, SlotId, ObjectClass, Pose).
+
 saphari_empty_slots(Slots) :-
   saphari_active_task(TaskId),
   findall((SlotId,ObjectClass,Pose), (
