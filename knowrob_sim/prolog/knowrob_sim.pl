@@ -45,7 +45,6 @@
         supported_during/4,
         simact_start/3,
         simact_end/3,
-        sim_timeline_val/2,
         subact/3,
         subact_all/2,
         successful_simacts_for_goal/2,
@@ -59,7 +58,8 @@
         visualize_simulation_particles/4,
         anyact/3,
         intersected_uid_event/6,
-        sim_subsumes/4
+        sim_subsumes/4,
+        sim_timeline_val/4
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -87,7 +87,6 @@
     simlift_liftonly(r,r,r,r),
     simflip_full(r,r,r,r,r,r,r,r,r),
     simflip_fliponly(r,r,r,r,r,r,r,r,r),
-    sim_timeline_val(r,r),
     supported_during(r,r,r,r),
     subact(r,r),
     subact_all(r,r),
@@ -104,6 +103,7 @@
     visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
+    sim_timeline_val(r,r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -185,6 +185,9 @@ simact(Experiment, EventID, EventClass) :-
     rdf_has(MetaData, knowrob:'experiment', literal(type(_, Experiment))),
     rdf_has(MetaData, knowrob:'subAction', EventID).
 
+%% sim_class_individual(?ObjectClass, ?ObjectIndivid)
+%
+% Get the ObjectClass of an individual, or an individual of a certain class
 sim_class_individual(ObjectClass, ObjectIndivid) :-
     rdf_has(ObjectIndivid, rdf:type, ObjectClass),
     rdf_reachable(ObjectClass, rdfs:subClassOf, owl:'Thing'). %Otherwise it will return owl:namedIndividual as a Class of any objectinstance as well
@@ -200,8 +203,8 @@ sim_class_individual(ObjectClass, ObjectIndivid) :-
 %   > simact_contact_specific(Exp, E, knowrob_sim:'Cup_object_hkm6glYmRQ0BWF', knowrob_sim:'KitchenTable_object_50SJX00eStoIfD').
 simact_contact(Experiment, Event, ObjectClass, ObjectInstance) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
-    sim_class_individual(ObjectClass, ObjectInstance),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance),
+    sim_class_individual(ObjectClass, ObjectInstance),
     simact_start(Experiment, Event, StartTime).
     %writeln(StartTime).
  %% Find a certain event involving a certain object
@@ -214,24 +217,37 @@ simact_contact_specific(Experiment, Event, ObjectInstance) :-
 %
 simact_contact(Experiment, Event, Object1Class, Object2Class, ObjectInstance1, ObjectInstance2) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2),
     sim_class_individual(Object1Class, ObjectInstance1),
     sim_class_individual(Object2Class, ObjectInstance2),
-    ObjectInstance1\=ObjectInstance2,
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+    ObjectInstance1\=ObjectInstance2.
 %%  simact_contact(?Event, ?EventClass, +ObjectInstance1, +ObjectInstance2)
 %   
 %   Find a certain event involving certain objects
 %
 simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
-    ObjectInstance1\=ObjectInstance2,
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2),
+    ObjectInstance1\=ObjectInstance2.
 
 %% Function returns a range for each event in the list during which that event is true
-% Not done yet!
-sim_timeline_val(EventList, vals).
+%
+% Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
+sim_timeline_val(ExpName, EventNamesList, StartTimeList, EndTimeList):-
+    %Find all events from a single experiment
+    rdf_has(IndivExpID, knowrob:'experiment', literal(type(_, Expname))), 
+    %Make title for timeline
+    string_concat(Expname, ' Timeline', Title), 
+    %Get list of all the events that happen in the experiment for extracting timepoints
+    findall(Type, simact(Expname,Type), EventList), 
+    %Get list of event names that happened in the experment for putting in the timeline
+    findall(EventName, (member(E,EventList),rdf_split_url(_,EventName,E)), EventNamesList),
+    %Get list of all [start|end] times of the events in the list
+    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_point_value(Start, StartTime)), StartTimeList),
+    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_point_value(End, EndTime)), EndTimeList).
+
 
 %%  Auxilary function for enabling changing color on consecutive calls
 %
