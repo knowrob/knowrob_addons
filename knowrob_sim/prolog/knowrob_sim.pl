@@ -130,7 +130,7 @@ experiment_file(X):-
 %  @param ExpOwlPath path where the logfiles are located
 %  @param ExpFiles list of logfile names to be loaded
 % 
-load_sim_experiments(ExpOwlPath, []).
+load_sim_experiments(_, []).
 load_sim_experiments(ExpOwlPath, [ExpFile|T]) :-
     atom_concat(ExpOwlPath, ExpFile, Path),
     (load_experiment(Path) -> load_sim_experiments(ExpOwlPath, T); load_sim_experiments(ExpOwlPath, T)).
@@ -204,8 +204,8 @@ sim_class_individual(ObjectClass, ObjectIndivid) :-
 simact_contact(Experiment, Event, ObjectClass, ObjectInstance) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance),
-    sim_class_individual(ObjectClass, ObjectInstance),
-    simact_start(Experiment, Event, StartTime).
+    sim_class_individual(ObjectClass, ObjectInstance).
+    %simact_start(Experiment, Event, StartTime).
     %writeln(StartTime).
  %% Find a certain event involving a certain object
 simact_contact_specific(Experiment, Event, ObjectInstance) :-
@@ -235,11 +235,9 @@ simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
 %% Function returns a range for each event in the list during which that event is true
 %
 % Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
-sim_timeline_val(ExpName, EventNamesList, StartTimeList, EndTimeList):-
+sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList):-
     %Find all events from a single experiment
-    rdf_has(IndivExpID, knowrob:'experiment', literal(type(_, Expname))), 
-    %Make title for timeline
-    string_concat(Expname, ' Timeline', Title), 
+    rdf_has(_, knowrob:'experiment', literal(type(_, Expname))),
     %Get list of all the events that happen in the experiment for extracting timepoints
     findall(Type, simact(Expname,Type), EventList), 
     %Get list of event names that happened in the experment for putting in the timeline
@@ -426,7 +424,7 @@ test(Arr) :-
 %   that do not include any of those intervals in the list.
 %
 %Bottom case; unify temporary start and end with the result
-interval_setdifference(Experiment, Start, End, [], Start, End). 
+interval_setdifference(_, Start, End, [], Start, End). 
 %If the head overlaps at the beginning
 interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
     simact_start(Experiment,EventID2, Start2),
@@ -520,17 +518,6 @@ simact_end(Experiment, Event, End) :-
 %
 % Goals, success, failure
 %
-
-%% simact_goal(?Task, ?Goal) is nondet.
-%
-%  Check if Goal is the goal of Task
-%
-%  @param Task Identifier of given Task
-%  @param Goal Identifier of given Goal
-% 
-simact_subaction(Subaction, Type) :-
-    simact(_, Task),
-    rdf_has(Task, knowrob:'simactContext', literal(type(_, Goal))).
 
 %% successful_simacts_for_goal(+Goal, -Tasks) is nondet.
 %
