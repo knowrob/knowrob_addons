@@ -633,3 +633,4 @@ visualize_simulation_object(Obj, MeshPath, T) :-
   marker(mesh(ObjFrame), ObjectMarker),
   marker_mesh_resource(ObjectMarker, MeshPath),
   marker_pose(ObjectMarker, pose(Translation,Quaternion)).
+
