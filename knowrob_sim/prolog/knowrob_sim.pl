@@ -245,9 +245,11 @@ simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
 %% Function returns a range for each event in the list during which that event is true
 %
 % Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
-sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList):-
+sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList, Title):-
     %Find all events from a single experiment
     rdf_has(_, knowrob:'experiment', literal(type(_, Expname))),
+    %Get title for chart
+    string_concat(Expname, ' Timeline', Title),
     %Get list of all the events that happen in the experiment for extracting timepoints
     findall(Type, simact(Expname,Type), EventList), 
     %Get list of event names that happened in the experment for putting in the timeline
