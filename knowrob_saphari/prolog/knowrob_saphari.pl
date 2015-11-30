@@ -54,18 +54,23 @@
       saphari_active_task/1,
       saphari_slot_description/3,
       saphari_slot_description/4,
+      saphari_slot/1,
+      saphari_slot/2,
       saphari_slot_state/2,
       saphari_slot_state/3,
       saphari_slot_pose/3,
       saphari_empty_slot/1,
       saphari_empty_slot/2,
       saphari_empty_slots/1,
+      saphari_taken_slot/1,
+      saphari_taken_slot/2,
       saphari_object_mesh/2,
       saphari_object_class/3,
       saphari_object_properties/3,
       saphari_object_on_table/1,
       saphari_object_in_basket/1,
       saphari_object_in_gripper/1,
+      saphari_perceived_object/1,
       saphari_perceived_objects/1,
       saphari_next_object/4,
       saphari_grasping_point/2,
@@ -299,42 +304,35 @@ saphari_visualize_experiment(Timepoint) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Fact that defines the axctive taskId
-%:- assert( saphari_active_task(none) ).
+saphari_slot(SlotIdentifier) :-
+  saphari_active_task(_TaskIdentifier),
+  saphari_slot(_TaskIdentifer, SlotIdentifier).
 
-% saphari_slot_description(TaskId, SlotId, ObjectCLass)
-% Facts that define which objects should be put into which slot w.r.t. the task.
-%:- assert( saphari_slot_description('Task0', 'Slot0', 'Scalpel') ).
-%:- assert( saphari_slot_description('Task0', 'Slot1', 'KidneyDish') ).
-%:- assert( saphari_slot_description('Task0', 'Slot2', 'Scissors') ).
+saphari_slot(TaskIdentifier, SlotIdentifier) :-
+  rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
+  rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket).
 
 saphari_slot_description(SlotIdentifier, ObjectClass, (Translation, Orientation)) :-
   saphari_active_task(TaskIdentifier),
   saphari_slot_description(TaskIdentifier, SlotIdentifier, ObjectClass, (Translation, Orientation)).
 
 saphari_slot_description(TaskIdentifier, SlotIdentifier, ObjectClass, (Translation, Orientation)) :-
-  rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
-  rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket),
+  saphari_slot(TaskIdentifier, SlotIdentifier),
   rdf_has(SlotIdentifier, knowrob:perceptionResponse, literal(ObjectClass)),
   saphari_slot_pose(SlotIdentifier, Translation, Orientation).
-
-% Facts that define the current state of a slot (empty or the corresponding designator id)
-%:- assert( saphari_slot_state('Slot0', empty) ).
-%:- assert( saphari_slot_state('Slot1', empty) ).
-%:- assert( saphari_slot_state('Slot2', empty) ).
 
 saphari_slot_state(SlotIdentifier, InstanceDescription) :-
   saphari_active_task(TaskIdentifier),
   saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription).
 
 saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription) :-
-  rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
-  rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket),
-  once(((  saphari_slot_release_action(SlotIdentifier, ReleasingAction),
-      rdf_has(ReleasingAction, knowrob:'objectActedOn', DesignatorId),
-      saphari_object_properties(DesignatorId, ObjectClass, PoseStamped),
-      InstanceDescription = (DesignatorId, ObjectClass, PoseStamped)
-  ) ; InstanceDescription = empty)).
+  saphari_slot(TaskIdentifier, SlotIdentifier),
+  once(
+  (saphari_slot_release_action(SlotIdentifier, ReleasingAction) -> 
+    rdf_has(ReleasingAction, knowrob:'objectActedOn', DesignatorId),
+    saphari_object_properties(DesignatorId, ObjectClass, PoseStamped),
+    InstanceDescription = (DesignatorId, ObjectClass, PoseStamped)
+  ; InstanceDescription = empty)).
 
 saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
   % TODO: Make sure that this action is part of the current task!
@@ -353,48 +351,10 @@ saphari_active_task(Task) :-
   rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
   not( rdf_has(Task, knowrob:endTime, _) ).
 
-%saphari_basket_initialize(Slots) :-
-%  saphari_active_task(TaskIdentifier),
-%  saphari_basket_initialize(TaskIdentifier, Slots).
-
-%saphari_basket_initialize(TaskIdentifier, Slots) :-
-%  % TODO: remove previous basket definition
-%  % TODO: howto owl logging?
-%  rdf_instance_from_class(saphari:'Basket', Basket),
-%  rdf_assert(TaskIdentifier, knowrob:objectActedOn, Basket),
-%  forall( member((PerceptionResponse,Pose),Slots), (
-%      rdf_instance_from_class(saphari:'BasketSlot', BasketSlot),
-%      rdf_assert(BasketSlot, knowrob:perceptionResponse, literal(type(xsd:string, PerceptionResponse))),
-%      rdf_assert(BasketSlot, knowrob:physicalPartOf, Basket)
-%      % TODO: assert pose
-%  )).
-
-%saphari_basket_put(SlotIdentifier, DesignatorId, Assignment) :-
-%  rdf_instance_from_class(saphari:'SaphariSlotAssignment', Assignment),
-%  rdf_assert(Assignment, knowrob:objectActedOn, SlotIdentifier),
-%  rdf_assert(Assignment, knowrob:designator, DesignatorId).
-
-
-% Reset the slot state and assert active experiment
-%saphari_task_initialize(TaskId) :-
-%  % Assert the active task id
-%  retract(saphari_active_task(_)),
-%  assert(saphari_active_task(TaskId)),
-%  % Assume all slots are empty
-%  forall(
-%    saphari_slot_description(TaskId, SlotId, _), (
-%    retract( saphari_slot_state(SlotId,_) ),
-%    assert( saphari_slot_state(SlotId, empty) )
-%  )).
-
-%saphari_slot_assign(SlotId, ObjId, ObjClass, PoseMatrix) :-
-%  saphari_active_task(TaskId),
-%  saphari_slot_description(TaskId, SlotId, ObjClass),
-%  assert( saphari_slot_state(SlotId, (ObjId,ObjClass,PoseMatrix)) ).
-
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
-  saphari_empty_slot(_, (SlotId, ObjectClass, Pose)).
+  saphari_active_task(TaskIdentifier),
+  saphari_empty_slot(TaskIdentifier, (SlotId, ObjectClass, Pose)).
 
 saphari_empty_slot(TaskId, (SlotId, ObjectClass, Pose)) :-
   saphari_slot_state(TaskId, SlotId, empty),
@@ -406,6 +366,16 @@ saphari_empty_slots(Slots) :-
       saphari_slot_state(SlotId, empty),
       saphari_slot_description(TaskId, SlotId, ObjectClass, Pose)
   ), Slots).
+
+% Find occupied slots with corresponding slot information
+saphari_taken_slot((SlotId, ObjectClass, Pose)) :-
+  saphari_active_task(TaskIdentifier),
+  saphari_taken_slot(TaskIdentifier, (SlotId, ObjectClass, Pose)).
+
+saphari_taken_slot(TaskId, (SlotId, ObjectClass, Pose)) :-
+  saphari_slot(TaskId, SlotId),
+  not( saphari_empty_slot(TaskId, (SlotId, _, _)) ),
+  saphari_slot_description(TaskId, SlotId, ObjectClass, Pose).
 
 % Find a mesh that corresponds to the object class
 saphari_object_mesh(ObjectClass, ObjectMesh) :-
@@ -472,13 +442,26 @@ saphari_perceived_objects(PerceivedObjectIds) :-
   )),
   findall(ObjId, rdf_has(Perc0, knowrob:'perceptionResult', ObjId), PerceivedObjectIds).
 
+saphari_perceived_object(PerceivedObjectId) :-
+  rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
+  rdf_has(Perc0, knowrob:'startTime', T0),
+  time_term(T0, T0_term),
+  % Make sure that there is no perception event happening after Perc0
+  % we are only interested in the very last perception event
+  not((
+    rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
+    rdf_has(Perc1, knowrob:'startTime', T1),
+    time_term(T1, T1_term),
+    T1_term > T0_term
+  )),
+  rdf_has(Perc0, knowrob:'perceptionResult', PerceivedObjectId).
+
+
 % Find next possible target object for putting it into the basket
 % by matching desired classes in empty slots with latest perceived object classes
 saphari_next_object(SlotId, (SlotTranslation, SlotRotation), ObjectClass, DesigId) :-
-  saphari_empty_slots(Slots),
-  saphari_perceived_objects(Perceptions),
-  member((SlotId,ObjectClass,(SlotTranslation, SlotRotation)), Slots),
-  member(DesigId, Perceptions),
+  saphari_empty_slot((SlotId, ObjectClass, (SlotTranslation, SlotRotation))),
+  saphari_perceived_object(DesigId),
   saphari_object_properties(DesigId, ObjectClass, _),
   saphari_object_on_table(DesigId).
 
@@ -523,54 +506,3 @@ saphari_objects_in_gripper(ObjectInstanceDescriptions) :-
     saphari_object_in_gripper(ObjectId),
     saphari_object_properties(ObjectId, ObjectClass, PoseStamped)
   ), ObjectInstanceDescriptions).
-
-  
-  
-  
-%saphari_latest_object_detections(Classes, dt(TimeRange), Detections) :-
-%  get_timepoint(T1), !,
-%  time_term(T1, T1_Term),
-%  T0_Term is T1_Term - TimeRange,
-%  atom_concat('http://knowrob.org/kb/knowrob.owl#timepoint_', T0_Term, T0),
-%  saphari_latest_object_detections(Classes, interval(T0,T1), Detections).
-
-%saphari_latest_object_detections(Classes, interval(Start,End), ValidDetections) :-
-%  saphari_latest_object_detections(Classes, Detections),
-%  findall( ValidDetection, (
-%    member(Detection, Detections),
-%    owl_has(Detection, knowrob:'startTime', StartTime),
-%    (( time_later_then(StartTime,Start),
-%       time_earlier_then(StartTime,End) )
-%    -> ValidDetection = Detection
-%    ;  ValidDetection = none
-%    )
-%  ), ValidDetections).
-
-%saphari_latest_object_detections(Classes, Detections) :-
-%  findall(Detection, (
-%    member(Class, Classes),
-%    saphari_latest_object_detection(Class, Detection)
-%  ), Detections).
-
-%saphari_perception_designator(Class, Obj, Start, End) :-
-%  task_type(Perc,knowrob:'UIMAPerception'),
-%  rdf_has(Perc, knowrob:'perceptionResult', Obj),
-%  mng_designator(Obj, ObjJava),
-%  once(saphari_object_class(Obj, ObjJava, Class)),
-%  rdf_has(Perc, knowrob:'startTime', Start),
-%  rdf_has(Perc, knowrob:'endTime', End).
-
-%saphari_latest_object_detection(Class, Obj) :-
-%  get_timepoint(Now), !,
-%  saphari_latest_object_detection(Class, Obj, Now).
-
-%saphari_latest_object_detection(Class, Obj, Now) :-
-%  saphari_perception_designator(Class, Obj, _, End),
-%  time_earlier_then(End, Now),
-%  % Make sure there is no later event
-%  not((
-%    saphari_perception_designator(Class, Obj2, _, End2),
-%    not(Obj = Obj2),
-%    time_earlier_then(End2, Now),
-%    time_later_then(End2, End)
-%  )).
