@@ -339,11 +339,12 @@ saphari_slot_state(SlotIdentifier, InstanceDescription) :-
 
 saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription) :-
   saphari_slot(TaskIdentifier, SlotIdentifier),
+  once(
   (saphari_slot_release_action(SlotIdentifier, ReleasingAction) -> 
     rdf_has(ReleasingAction, knowrob:'objectActedOn', DesignatorId),
     saphari_object_properties(DesignatorId, ObjectClass, PoseStamped),
     InstanceDescription = (DesignatorId, ObjectClass, PoseStamped)
-  ; InstanceDescription = empty).
+  ; InstanceDescription = empty)).
 
 saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
   % TODO: Make sure that this action is part of the current task!
