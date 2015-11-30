@@ -62,6 +62,8 @@
       saphari_empty_slot/1,
       saphari_empty_slot/2,
       saphari_empty_slots/1,
+      saphari_taken_slot/1,
+      saphari_taken_slot/2,
       saphari_object_mesh/2,
       saphari_object_class/3,
       saphari_object_properties/3,
@@ -364,6 +366,16 @@ saphari_empty_slots(Slots) :-
       saphari_slot_state(SlotId, empty),
       saphari_slot_description(TaskId, SlotId, ObjectClass, Pose)
   ), Slots).
+
+% Find occupied slots with corresponding slot information
+saphari_taken_slot((SlotId, ObjectClass, Pose)) :-
+  saphari_active_task(TaskIdentifier),
+  saphari_taken_slot(TaskIdentifier, (SlotId, ObjectClass, Pose)).
+
+saphari_taken_slot(TaskId, (SlotId, ObjectClass, Pose)) :-
+  saphari_slot(TaskId, SlotId),
+  not( saphari_empty_slot(TaskId, (SlotId, _, _)) ),
+  saphari_slot_description(TaskId, SlotId, ObjectClass, Pose).
 
 % Find a mesh that corresponds to the object class
 saphari_object_mesh(ObjectClass, ObjectMesh) :-
