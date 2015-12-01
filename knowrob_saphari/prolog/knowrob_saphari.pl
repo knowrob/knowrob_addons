@@ -71,7 +71,9 @@
       saphari_object_in_basket/1,
       saphari_object_in_gripper/1,
       saphari_perceived_object/1,
+      saphari_perceived_object/2,
       saphari_perceived_objects/1,
+      saphari_perceived_objects/2,
       saphari_next_object/4,
       saphari_grasping_point/2,
       saphari_basket_goal/1,
@@ -441,6 +443,23 @@ saphari_perceived_objects(PerceivedObjectIds) :-
   )),
   findall(ObjId, rdf_has(Perc0, knowrob:'perceptionResult', ObjId), PerceivedObjectIds).
 
+saphari_perceived_objects(PerceivedObjectIds, Time) :-
+  rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
+  rdf_has(Perc0, knowrob:'startTime', T0),
+  time_term(T0, T0_term),
+  time_term(Time, Time_term),
+  T0_term =< Time_term,
+  % Make sure that there is no perception event happening after Perc0
+  % we are only interested in the very last perception event
+  not((
+    rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
+    rdf_has(Perc1, knowrob:'startTime', T1),
+    time_term(T1, T1_term),
+    T1_term =< Time_term,
+    T1_term > T0_term
+  )),
+  findall(ObjId, rdf_has(Perc0, knowrob:'perceptionResult', ObjId), PerceivedObjectIds).
+
 saphari_perceived_object(PerceivedObjectId) :-
   rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
   rdf_has(Perc0, knowrob:'startTime', T0),
@@ -451,6 +470,23 @@ saphari_perceived_object(PerceivedObjectId) :-
     rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
     rdf_has(Perc1, knowrob:'startTime', T1),
     time_term(T1, T1_term),
+    T1_term > T0_term
+  )),
+  rdf_has(Perc0, knowrob:'perceptionResult', PerceivedObjectId).
+
+saphari_perceived_object(PerceivedObjectId, Time) :-
+  rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
+  rdf_has(Perc0, knowrob:'startTime', T0),
+  time_term(T0, T0_term),
+  time_term(Time, Time_term),
+  T0_term =< Time_term,
+  % Make sure that there is no perception event happening after Perc0
+  % we are only interested in the very last perception event
+  not((
+    rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
+    rdf_has(Perc1, knowrob:'startTime', T1),
+    time_term(T1, T1_term),
+    T1_term =< Time_term,
     T1_term > T0_term
   )),
   rdf_has(Perc0, knowrob:'perceptionResult', PerceivedObjectId).
