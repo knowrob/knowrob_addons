@@ -339,8 +339,7 @@ saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
   % TODO: Not very efficient here, better use slot assignment events
   rdfs_instance_of(ReleasingAction, knowrob:'ReleasingGraspOfSomething'),
   rdf_has(ReleasingAction, knowrob:'goalLocation', Loc),
-  mng_designator(Loc, LocDesig, [], 'designator.AT._id'),
-  mng_designator_props(Loc, LocDesig, 'AT.SLOT-ID', SlotIdentifier).
+  mng_designator_props(Loc, 'SLOT-ID', SlotIdentifier).
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
