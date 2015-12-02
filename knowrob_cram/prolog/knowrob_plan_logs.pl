@@ -40,6 +40,8 @@
         cram_holds/2,
         occurs/2,
         event/3,
+        event_before/3,
+        event_after/3,
         experiment/2,
         experiment_map/2,
         experiment_map/3,
@@ -96,6 +98,8 @@
     load_experiments(+,+),
     load_experiments(+,+,+),
     event(r,r,r),
+    event_before(r,r,r),
+    event_after(r,r,r),
     experiment(r,r),
     experiment_map(r,r),
     experiment_map(r,r,r),
@@ -246,10 +250,20 @@ experiment_map(_, Map) :-
 % 
 
 event(EventClass, EventInstance, Timepoint) :-
-  owl_individual_of(EventInstance, EventClass),
-  owl_has(EventInstance, knowrob:'startTime', T0),
-  owl_has(EventInstance, knowrob:'endTime', T1),
+  rdfs_individual_of(EventInstance, EventClass),
+  rdf_has(EventInstance, knowrob:'startTime', T0),
+  rdf_has(EventInstance, knowrob:'endTime', T1),
   time_between(Timepoint, T0, T1).
+
+event_before(EventClass, EventInstance, Timepoint) :-
+  rdfs_individual_of(EventInstance, EventClass),
+  rdf_has(EventInstance, knowrob:'endTime', T0),
+  time_earlier_then(T0, Timepoint).
+
+event_after(EventClass, EventInstance, Timepoint) :-
+  rdfs_individual_of(EventInstance, EventClass),
+  rdf_has(EventInstance, knowrob:'startTime', T0),
+  time_later_then(T0, Timepoint).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
