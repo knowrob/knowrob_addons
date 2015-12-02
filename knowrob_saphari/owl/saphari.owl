@@ -444,8 +444,9 @@
     <owl:NamedIndividual rdf:about="&saphari;BandageScissors_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">BANDAGE-SCISSORS</knowrob:perceptionResponse>
-        <!-- TODO: Mesh for BANDAGE-SCISSORS response. -->
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scissors</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scissors.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;Pincers_TEMPLATE">
@@ -453,6 +454,7 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pincers</knowrob:perceptionResponse>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">PINCERS</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Pincers.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;Scalpel_TEMPLATE">
@@ -460,20 +462,23 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scalpel</knowrob:perceptionResponse>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">SCALPEL</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;BluntRetractor_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">BLUNT-RETRACTOR</knowrob:perceptionResponse>
-        <!-- TODO: Mesh for BLUNT-RETRACTOR response. -->
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Rake</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Rake.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;Retractor_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">RETRACTOR</knowrob:perceptionResponse>
-        <!-- TODO: Mesh for RETRACTOR response. -->
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Hook</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Hook.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;ClampBig_TEMPLATE">
@@ -481,6 +486,7 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampBig</knowrob:perceptionResponse>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">BIG-CLAMP</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/BigClamp.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&saphari;ClampSmall_TEMPLATE">
@@ -488,37 +494,7 @@
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampSmall</knowrob:perceptionResponse>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">SMALL-CLAMP</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/SmallClamp.dae</knowrob:pathToCadModel>
-    </owl:NamedIndividual>
-    
-    
-
-    <owl:NamedIndividual rdf:about="&saphari;Scissors_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scissors</knowrob:perceptionResponse>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scissors.dae</knowrob:pathToCadModel>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="&saphari;Rake_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Rake</knowrob:perceptionResponse>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Rake.dae</knowrob:pathToCadModel>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="&saphari;Bowl_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bowl</knowrob:perceptionResponse>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Bowl.dae</knowrob:pathToCadModel>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="&saphari;Hook_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Hook</knowrob:perceptionResponse>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Hook.dae</knowrob:pathToCadModel>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="&saphari;TablePlane_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">TablePlane</knowrob:perceptionResponse>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
     
     
