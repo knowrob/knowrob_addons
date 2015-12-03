@@ -316,7 +316,6 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
   event_before(knowrob:'ReleasingGraspOfSomething', Event, T),
   rdf_has(Event, knowrob:'objectActedOn', Designator),
-     write('in_basket '), writeln(Identifier),
   rdf_has(Event, knowrob:'goalLocation', Loc),
   mng_designator_props(Loc, 'SLOT-ID', Slot),
   saphari_slot_pose(Slot, Translation, Orientation), !.
@@ -346,7 +345,6 @@ saphari_object_marker_update(Task,T) :-
      (  once(( member(Obj, Objs) ; saphari_object_in_basket(Obj,T,Task) ))
      -> true
      ; (
-       write('retract '), writeln(Obj),
        retract( v_saphari_marker(Obj) ),
        marker_remove(object(Obj))
      ))
@@ -493,15 +491,11 @@ saphari_object_in_basket(ObjectId, Time) :-
   event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
 
 saphari_object_in_basket(ObjectId, Time, Task) :-
-  rdf_has(Release, knowrob:'objectActedOn', ObjectId),
+  rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
+  rdf_has(Release, knowrob:'objectActedOn', Designator),
   event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
-  write('saphari_object_in_basket '), write(ObjectId),
-  write('    Release: '), write(Release),
   event_interval(Task, T0, T1),
-  write('    T0: '), write(T0),
-  write('    T1: '), write(T1),
   rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
-  write('    Release_T_term: '), write(Release_T_term),
   Release_T_term >= T0,
   Release_T_term =< T1.
 
