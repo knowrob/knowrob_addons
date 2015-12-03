@@ -311,28 +311,24 @@ saphari_visualize_experiment(Timepoint) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-current_time(T) :-
-  set_prolog_flag(float_format, '%.12g'),
-  get_time(T).
-
 saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
+  event_before(knowrob:'ReleasingGraspOfSomething', Event, T),
   rdf_has(Event, knowrob:'objectActedOn', Designator),
-  saphari_active_task(Task, T),
-  ( event_before(knowrob:'ReleasingGraspOfSomething', Event, T)
-  -> (
-    rdf_has(Event, knowrob:'goalLocation', Loc),
-    mng_designator_props(Loc, 'SLOT-ID', Slot),
-    writeln(Slot),
-    saphari_slot_description(Task, Slot, _, (Translation,Orientation))
-  ) ; (
-    event_before(knowrob:'GraspingSomething', Event, T),
-    mng_lookup_transform('/map', '/gripper_finger_right_link', T, Pose),
-    matrix_rotation(Pose, Orientation),
-    matrix_translation(Pose, Translation)
-  )), !.
-saphari_object_pose_estimate(Identifier, PoseIn, PoseIn).
+     write('in_basket '), writeln(Identifier),
+  rdf_has(Event, knowrob:'goalLocation', Loc),
+  mng_designator_props(Loc, 'SLOT-ID', Slot),
+  saphari_slot_pose(Slot, Translation, Orientation), !.
+saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
+  rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
+  rdf_has(Identifier, knowrob:'successorDesignator', Designator),
+  event_before(knowrob:'GraspingSomething', Event, T),
+  rdf_has(Event, knowrob:'objectActedOn', Designator),
+  mng_lookup_transform('/map', '/gripper_finger_right_link', T, Pose),
+  matrix_rotation(Pose, Orientation),
+  matrix_translation(Pose, Translation), !.
+saphari_object_pose_estimate(_, PoseIn, PoseIn).
 
 :- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
 
@@ -346,19 +342,21 @@ saphari_object_marker_update(Task,T) :-
   saphari_perceived_objects(Objs, T),
   forall( ( current_predicate(v_saphari_marker,_), v_saphari_marker(Obj) ), (
      % remove all markers that do not correspond to an object that was
-     % perceived with latest perception event
-     % TODO: keep markers in basket as long as they belong to active task
-     member(Obj, Objs) ; (
+     % perceived with latest perception event and that's not inside of the basket
+     (  once(( member(Obj, Objs) ; saphari_object_in_basket(Obj,T,Task) ))
+     -> true
+     ; (
+       write('retract '), writeln(Obj),
        retract( v_saphari_marker(Obj) ),
        marker_remove(object(Obj))
-     )
+     ))
   )),
   forall( member(Obj, Objs), (
     saphari_object_marker(Obj),
     marker_update(object(Obj), T)
   )).
 
-saphari_human_marker_update(T) :-
+saphari_human_marker_update(_) :-
   true. % TODO: implement
 
 saphari_object_marker(Obj) :-
@@ -419,10 +417,9 @@ saphari_active_task(Task) :-
 saphari_active_task(Task, T) :-
   time_term(T, T_term),
   rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-  rdf_has(Task, knowrob:'startTime', T0), time_term(T0, T0_term),
-  T_term >= T0_term,
-  ( rdf_has(Task, knowrob:'endTime', T1) ; current_time(T1) ), time_term(T1, T1_term),
-  T_term =< T1_term.
+  event_interval(Task, T0, T1),
+  T_term >= T0,
+  T_term =< T1.
 
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
@@ -494,6 +491,19 @@ saphari_object_in_basket(ObjectId) :-
 saphari_object_in_basket(ObjectId, Time) :-
   rdf_has(Release, knowrob:'objectActedOn', ObjectId),
   event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
+
+saphari_object_in_basket(ObjectId, Time, Task) :-
+  rdf_has(Release, knowrob:'objectActedOn', ObjectId),
+  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
+  write('saphari_object_in_basket '), write(ObjectId),
+  write('    Release: '), write(Release),
+  event_interval(Task, T0, T1),
+  write('    T0: '), write(T0),
+  write('    T1: '), write(T1),
+  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
+  write('    Release_T_term: '), write(Release_T_term),
+  Release_T_term >= T0,
+  Release_T_term =< T1.
 
 saphari_object_in_gripper(ObjectId) :-
   rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),

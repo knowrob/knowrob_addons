@@ -42,6 +42,7 @@
         event/3,
         event_before/3,
         event_after/3,
+        event_interval/3,
         experiment/2,
         experiment_map/2,
         experiment_map/3,
@@ -100,6 +101,7 @@
     event(r,r,r),
     event_before(r,r,r),
     event_after(r,r,r),
+    event_interval(r,-,-),
     experiment(r,r),
     experiment_map(r,r),
     experiment_map(r,r,r),
@@ -264,6 +266,12 @@ event_after(EventClass, EventInstance, Timepoint) :-
   rdfs_individual_of(EventInstance, EventClass),
   rdf_has(EventInstance, knowrob:'startTime', T0),
   time_later_then(T0, Timepoint).
+
+event_interval(EventInstance, T0_term, T1_term) :-
+  rdf_has(EventInstance, knowrob:'startTime', T0),
+  ( rdf_has(EventInstance, knowrob:'endTime', T1) ; current_time(T1) ),
+  time_term(T0, T0_term),
+  time_term(T1, T1_term).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
