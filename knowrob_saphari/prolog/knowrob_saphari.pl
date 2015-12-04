@@ -311,6 +311,29 @@ saphari_visualize_experiment(Timepoint) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+vector_length([X0,Y0,Z0],Length) :-
+  Length is sqrt( X0*X0 + Y0*Y0 + Z0*Z0 ).
+
+vector_normalize([X0,Y0,Z0], [X1,Y1,Z1]) :-
+  vector_length([X0,Y0,Z0],Length),
+  X1 is X0 / Length, Y1 is Y0 / Length, Z1 is Z0 / Length.
+
+vector_average([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is 0.5*(X0+X1), Y2 is 0.5*(Y0+Y1), Z2 is 0.5*(Z0+Z1).
+
+vector_add([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is X0+X1, Y2 is Y0+Y1, Z2 is Z0+Z1.
+
+vector_sub([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is X0-X1, Y2 is Y0-Y1, Z2 is Z0-Z1.
+
+vector_mul([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is X0*X1, Y2 is Y0*Y1, Z2 is Z0*Z1.
+
+vector_mul([X0,Y0,Z0], Scalar, [X2,Y2,Z2]) :-
+  number(Scalar),
+  X2 is X0*Scalar, Y2 is Y0*Scalar, Z2 is Z0*Scalar.
+
 saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
@@ -324,9 +347,16 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
   event_before(knowrob:'GraspingSomething', Event, T),
   rdf_has(Event, knowrob:'objectActedOn', Designator),
-  mng_lookup_transform('/map', '/gripper_finger_right_link', T, Pose),
-  matrix_rotation(Pose, Orientation),
-  matrix_translation(Pose, Translation), !.
+  mng_lookup_position('/map', '/gripper_finger_left_link', T, P0),
+  mng_lookup_position('/map', '/gripper_finger_right_link', T, P1),
+  mng_lookup_position('/map', '/gripper_base_link', T, P2),
+  Offset is 0.12,
+  vector_average(P0,P1,C),
+  vector_sub(C,P2,D),
+  vector_normalize(D,DirNorm),
+  vector_mul(DirNorm, Offset, Dir),
+  vector_add(C, Dir, Translation),
+  Orientation = [0.0,0.0,0.0,0.0], !.
 saphari_object_pose_estimate(_, PoseIn, PoseIn).
 
 :- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
