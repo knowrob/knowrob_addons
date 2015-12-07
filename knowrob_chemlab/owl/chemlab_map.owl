@@ -260,7 +260,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
      
-    <owl:NamedIndividual rdf:about="&chemlab;Bottle500ml_SFIONSFNS">
+    <owl:NamedIndividual rdf:about="&chemlab;Bottle500ml_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;Bottle"/>
         <knowrob:name rdf:datatype="&xsd;string">bottle_500ml</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bottle500ml</knowrob:perceptionResponse>
@@ -270,7 +270,7 @@
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.0638517439365387 0.0638517439365387 0.18989452719688416</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;BottleCap500ml_PSFMNGIHG">
+    <owl:NamedIndividual rdf:about="&chemlab;BottleCap500ml_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;BottleCap"/>
         <knowrob:name rdf:datatype="&xsd;string">bottle_500ml_cap</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">BottleCap500ml</knowrob:perceptionResponse>
@@ -279,7 +279,7 @@
         <knowrob_chemlab:screwable rdf:resource="&knowrob_chemlab;Bottle"/>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;Pipette_BVDFGSDHF">
+    <owl:NamedIndividual rdf:about="&chemlab;Pipette_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;Pipette"/>
         <knowrob:name rdf:datatype="&xsd;string">pipette</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pipette</knowrob:perceptionResponse>
@@ -287,7 +287,7 @@
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;TubesRack_VSBDZBFVGU">
+    <owl:NamedIndividual rdf:about="&chemlab;TubesRack_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;TubesRack"/>
         <knowrob:name rdf:datatype="&xsd;string">tubes_rack</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubesRack</knowrob:perceptionResponse>
@@ -297,7 +297,7 @@
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.09224671125411987 0.16477441787719727 0.1000000610947609</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;Tube0_CBSRFNCS">
+    <owl:NamedIndividual rdf:about="&chemlab;Tube0_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;Tube"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_0</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube0</knowrob:perceptionResponse>
@@ -307,7 +307,7 @@
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.009882630556821823 0.009882630556821823 0.14015135169029236</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;Tube1_PDOFJKSDUI">
+    <owl:NamedIndividual rdf:about="&chemlab;Tube1_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;Tube"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_1</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube1</knowrob:perceptionResponse>
@@ -317,7 +317,7 @@
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.009882630556821823 0.009882630556821823 0.14015135169029236</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;TubeCap0_VNSZFHZDSA">
+    <owl:NamedIndividual rdf:about="&chemlab;TubeCap0_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;TubeCap"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_cap_0</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubeCap0</knowrob:perceptionResponse>
@@ -326,7 +326,7 @@
         <knowrob_chemlab:screwable rdf:resource="&knowrob_chemlab;Tube"/>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&chemlab;TubeCap1_VDNUHDSN">
+    <owl:NamedIndividual rdf:about="&chemlab;TubeCap1_TEMPLATE">
         <rdf:type rdf:resource="&knowrob_chemlab;TubeCap"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_cap_1</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubeCap1</knowrob:perceptionResponse>
