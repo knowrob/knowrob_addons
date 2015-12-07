@@ -51,11 +51,39 @@
       highlight_intrusions/4,
       
       
-      saphari_latest_object_detection/2,
-      saphari_latest_object_detection/3,
-      saphari_latest_object_detections/2,
-      saphari_latest_object_detections/3,
-      saphari_perception_designator/4
+      saphari_active_task/1,
+      saphari_slot_description/3,
+      saphari_slot_description/4,
+      saphari_slot/1,
+      saphari_slot/2,
+      saphari_slot_state/2,
+      saphari_slot_state/3,
+      saphari_slot_pose/3,
+      saphari_empty_slot/1,
+      saphari_empty_slot/2,
+      saphari_empty_slots/1,
+      saphari_taken_slot/1,
+      saphari_taken_slot/2,
+      saphari_object_mesh/2,
+      saphari_object_class/3,
+      saphari_object_properties/3,
+      saphari_object_on_table/1,
+      saphari_object_on_table/2,
+      saphari_object_in_basket/1,
+      saphari_object_in_basket/2,
+      saphari_object_in_gripper/1,
+      saphari_object_in_gripper/2,
+      saphari_perceived_object/1,
+      saphari_perceived_object/2,
+      saphari_perceived_objects/1,
+      saphari_perceived_objects/2,
+      saphari_next_object/4,
+      saphari_grasping_point/2,
+      saphari_basket_goal/1,
+      saphari_basket_state/1,
+      saphari_objects_on_table/1,
+      saphari_objects_in_gripper/1,
+      saphari_marker_update/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -64,8 +92,10 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
+:- use_module(library('knowrob_marker')).
 :- use_module(library('srdl2')).
 :- use_module(library('knowrob_cram')).
+:- use_module(library('knowrob_objects')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
@@ -204,9 +234,16 @@ human_tf_prefix(UserIdJava, Prefix) :-
   atom_concat('/human', UserId, PrefixA),
   atom_concat(PrefixA, '/', Prefix).
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REVIEW 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 saphari_visualize_humans(Timepoint) :-
   time_term(Timepoint, Time),
-  MinTimepoint is Time - 0.5,
+  MinTimepoint is Time - 5.0,
   
   mng_designator_distinct_values('designator.USER-ID', UserIds),
   forall(member(UserIdJava, UserIds), ((
@@ -259,7 +296,6 @@ saphari_visualize_map(Experiment, Timepoint) :-
   % Create_pose causes this maybe also add_object_as_semantic_instance.
   % Howto fix it?
   %assert_perceived_objects(StartTime, Timepoint, Map),
-  marker_remove(object(Map)),
   marker_update(object(Map), Timepoint).
 
 saphari_visualize_experiment(Timepoint) :-
@@ -270,58 +306,313 @@ saphari_visualize_experiment(Timepoint) :-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  FINAL REVIEW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% REVIEW 2015
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-saphari_latest_object_detections(Classes, dt(TimeRange), Detections) :-
-  get_timepoint(T1), !,
-  time_term(T1, T1_Term),
-  T0_Term is T1_Term - TimeRange,
-  atom_concat('http://knowrob.org/kb/knowrob.owl#timepoint_', T0_Term, T0),
-  saphari_latest_object_detections(Classes, interval(T0,T1), Detections).
+vector_length([X0,Y0,Z0],Length) :-
+  Length is sqrt( X0*X0 + Y0*Y0 + Z0*Z0 ).
 
-saphari_latest_object_detections(Classes, interval(Start,End), ValidDetections) :-
-  saphari_latest_object_detections(Classes, Detections),
-  findall( ValidDetection, (
-    member(Detection, Detections),
-    owl_has(Detection, knowrob:'startTime', StartTime),
-    (( time_later_then(StartTime,Start),
-       time_earlier_then(StartTime,End) )
-    -> ValidDetection = Detection
-    ;  ValidDetection = none
-    )
-  ), ValidDetections).
+vector_normalize([X0,Y0,Z0], [X1,Y1,Z1]) :-
+  vector_length([X0,Y0,Z0],Length),
+  X1 is X0 / Length, Y1 is Y0 / Length, Z1 is Z0 / Length.
 
-saphari_latest_object_detections(Classes, Detections) :-
-  findall(Detection, (
-    member(Class, Classes),
-    saphari_latest_object_detection(Class, Detection)
-  ), Detections).
+vector_average([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is 0.5*(X0+X1), Y2 is 0.5*(Y0+Y1), Z2 is 0.5*(Z0+Z1).
 
-saphari_perception_designator_class(Obj, ObjJava, Class) :-
-  mng_designator_props(Obj, ObjJava, ['RESPONSE'], Class).
+vector_add([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is X0+X1, Y2 is Y0+Y1, Z2 is Z0+Z1.
 
-saphari_perception_designator_class(Obj, ObjJava, Class) :-
-  mng_designator_props(Obj, ObjJava, ['TYPE'], Class).
+vector_sub([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is X0-X1, Y2 is Y0-Y1, Z2 is Z0-Z1.
 
-saphari_perception_designator(Class, Obj, Start, End) :-
-  task_type(Perc,knowrob:'UIMAPerception'),
-  rdf_has(Perc, knowrob:'perceptionResult', Obj),
-  mng_designator(Obj, ObjJava),
-  once(saphari_perception_designator_class(Obj, ObjJava, Class)),
-  rdf_has(Perc, knowrob:'startTime', Start),
-  rdf_has(Perc, knowrob:'endTime', End).
+vector_mul([X0,Y0,Z0], [X1,Y1,Z1], [X2,Y2,Z2]) :-
+  X2 is X0*X1, Y2 is Y0*Y1, Z2 is Z0*Z1.
 
-saphari_latest_object_detection(Class, Obj) :-
-  get_timepoint(Now), !,
-  saphari_latest_object_detection(Class, Obj, Now).
+vector_mul([X0,Y0,Z0], Scalar, [X2,Y2,Z2]) :-
+  number(Scalar),
+  X2 is X0*Scalar, Y2 is Y0*Scalar, Z2 is Z0*Scalar.
 
-saphari_latest_object_detection(Class, Obj, Now) :-
-  saphari_perception_designator(Class, Obj, _, End),
-  time_earlier_then(End, Now),
-  % Make sure there is no later event
-  not((
-    saphari_perception_designator(Class, Obj2, _, End2),
-    not(Obj = Obj2),
-    time_earlier_then(End2, Now),
-    time_later_then(End2, End)
+saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
+  rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
+  rdf_has(Identifier, knowrob:'successorDesignator', Designator),
+  event_before(knowrob:'ReleasingGraspOfSomething', Event, T),
+  rdf_has(Event, knowrob:'objectActedOn', Designator),
+  rdf_has(Event, knowrob:'goalLocation', Loc),
+  mng_designator_props(Loc, 'SLOT-ID', Slot),
+  saphari_slot_pose(Slot, Translation, Orientation), !.
+saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
+  rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
+  rdf_has(Identifier, knowrob:'successorDesignator', Designator),
+  event_before(knowrob:'GraspingSomething', Event, T),
+  rdf_has(Event, knowrob:'objectActedOn', Designator),
+  mng_lookup_position('/map', '/gripper_finger_left_link', T, P0),
+  mng_lookup_position('/map', '/gripper_finger_right_link', T, P1),
+  mng_lookup_position('/map', '/gripper_base_link', T, P2),
+  Offset is 0.12,
+  vector_average(P0,P1,C),
+  vector_sub(C,P2,D),
+  vector_normalize(D,DirNorm),
+  vector_mul(DirNorm, Offset, Dir),
+  vector_add(C, Dir, Translation),
+  Orientation = [0.0,0.0,0.0,0.0], !.
+saphari_object_pose_estimate(_, PoseIn, PoseIn).
+
+:- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
+
+saphari_marker_update(T) :-
+  saphari_active_task(Task,T),
+  marker_update(agent('http://knowrob.org/kb/Saphari.owl#saphari_robot1'), T),
+  saphari_object_marker_update(Task,T),
+  saphari_human_marker_update(T).
+
+saphari_object_marker_update(Task,T) :-
+  saphari_perceived_objects(Objs, T),
+  forall( ( current_predicate(v_saphari_marker,_), v_saphari_marker(Obj) ), (
+     % remove all markers that do not correspond to an object that was
+     % perceived with latest perception event and that's not inside of the basket
+     (  once(( member(Obj, Objs) ; saphari_object_in_basket(Obj,T,Task) ))
+     -> true
+     ; (
+       retract( v_saphari_marker(Obj) ),
+       marker_remove(object(Obj))
+     ))
+  )),
+  forall( member(Obj, Objs), (
+    saphari_object_marker(Obj),
+    marker_update(object(Obj), T)
   )).
+
+saphari_human_marker_update(_) :-
+  true. % TODO: implement
+
+saphari_object_marker(Obj) :-
+  current_predicate(v_saphari_marker,_),
+  v_saphari_marker(Obj), !.
+
+saphari_object_marker(Obj) :-
+  assert( v_saphari_marker(Obj) ).
+
+
+
+saphari_slot(SlotIdentifier) :-
+  saphari_active_task(_TaskIdentifier),
+  saphari_slot(_TaskIdentifer, SlotIdentifier).
+
+saphari_slot(TaskIdentifier, SlotIdentifier) :-
+  rdf_has(TaskIdentifier, knowrob:objectActedOn, Basket),
+  rdf_has(SlotIdentifier, knowrob:physicalPartOf, Basket).
+
+saphari_slot_description(SlotIdentifier, ObjectClass, (Translation, Orientation)) :-
+  saphari_active_task(TaskIdentifier),
+  saphari_slot_description(TaskIdentifier, SlotIdentifier, ObjectClass, (Translation, Orientation)).
+
+saphari_slot_description(TaskIdentifier, SlotIdentifier, ObjectClass, (Translation, Orientation)) :-
+  saphari_slot(TaskIdentifier, SlotIdentifier),
+  rdf_has(SlotIdentifier, knowrob:perceptionResponse, literal(ObjectClass)),
+  saphari_slot_pose(SlotIdentifier, Translation, Orientation).
+
+saphari_slot_state(SlotIdentifier, InstanceDescription) :-
+  saphari_active_task(TaskIdentifier),
+  saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription).
+
+saphari_slot_state(TaskIdentifier, SlotIdentifier, InstanceDescription) :-
+  saphari_slot(TaskIdentifier, SlotIdentifier),
+  once(
+  (saphari_slot_release_action(SlotIdentifier, ReleasingAction) -> 
+    rdf_has(ReleasingAction, knowrob:'objectActedOn', DesignatorId),
+    saphari_object_properties(DesignatorId, ObjectClass, PoseStamped),
+    InstanceDescription = (DesignatorId, ObjectClass, PoseStamped)
+  ; InstanceDescription = empty)).
+
+saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
+  % TODO: Make sure that this action is part of the current task!
+  % TODO: Not very efficient here, better use slot assignment events
+  rdfs_instance_of(ReleasingAction, knowrob:'ReleasingGraspOfSomething'),
+  rdf_has(ReleasingAction, knowrob:'goalLocation', Loc),
+  mng_designator_props(Loc, 'SLOT-ID', SlotIdentifier).
+
+saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
+  get_time(T),
+  object_pose_at_time(SlotIdentifier, T, Translation, Orientation).
+
+saphari_active_task(Task) :-
+  % for now assume a task is active when no endTime asserted
+  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
+  not( rdf_has(Task, knowrob:endTime, _) ).
+
+saphari_active_task(Task, T) :-
+  time_term(T, T_term),
+  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
+  event_interval(Task, T0, T1),
+  T_term >= T0,
+  T_term =< T1.
+
+% Find list of empty slots with corresponding desired object classes for the slots
+saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
+  saphari_active_task(TaskIdentifier),
+  saphari_empty_slot(TaskIdentifier, (SlotId, ObjectClass, Pose)).
+
+saphari_empty_slot(TaskId, (SlotId, ObjectClass, Pose)) :-
+  saphari_slot_state(TaskId, SlotId, empty),
+  saphari_slot_description(TaskId, SlotId, ObjectClass, Pose).
+
+saphari_empty_slots(Slots) :-
+  saphari_active_task(TaskId),
+  findall((SlotId,ObjectClass,Pose), (
+      saphari_slot_state(SlotId, empty),
+      saphari_slot_description(TaskId, SlotId, ObjectClass, Pose)
+  ), Slots).
+
+% Find occupied slots with corresponding slot information
+saphari_taken_slot((SlotId, ObjectClass, Pose)) :-
+  saphari_active_task(TaskIdentifier),
+  saphari_taken_slot(TaskIdentifier, (SlotId, ObjectClass, Pose)).
+
+saphari_taken_slot(TaskId, (SlotId, ObjectClass, Pose)) :-
+  saphari_slot(TaskId, SlotId),
+  not( saphari_empty_slot(TaskId, (SlotId, _, _)) ),
+  saphari_slot_description(TaskId, SlotId, ObjectClass, Pose).
+
+% Find a mesh that corresponds to the object class
+saphari_object_mesh(ObjectClass, ObjectMesh) :-
+  rdf_has(ClsIndividual, knowrob:'perceptionResponse', ObjectClass),
+  rdf_has(ClsIndividual, knowrob:'pathToCadModel', ObjectMesh).
+
+% Read class property from designator
+saphari_object_class(Identifier, Designator, Class) :-
+  mng_designator_props(Identifier, Designator, ['RESPONSE'], Class), !.
+saphari_object_class(Identifier, Designator, Class) :-
+  mng_designator_props(Identifier, Designator, ['TYPE'], Class), !.
+
+% Read some object properties
+saphari_object_properties(DesignatorId, ObjectClass, (FrameId, TimeStamp, (Translation, Orientation))) :-
+  (  mng_designator(DesignatorId, DesignatorJava) ; (
+     mng_designator(DesignatorId, ParentDesig, [], 'designator.OBJ._id'),
+     jpl_call(ParentDesig, get, ['OBJ'], DesignatorJava)
+  )),
+  saphari_object_class(DesignatorId, DesignatorJava, ObjectClass),
+  mng_designator_location(DesignatorJava, PoseMatrix),
+  matrix_translation(PoseMatrix, Translation),
+  matrix_rotation(PoseMatrix, Orientation),
+  mng_designator_props(DesignatorId, DesignatorJava, ['AT', 'POSE'], DesigPoseStamped),
+  jpl_get(DesigPoseStamped, 'frameID', FrameId),
+  jpl_get(DesigPoseStamped, 'timeStamp', TimeStampIso),
+  jpl_call(TimeStampIso, 'toSeconds', [], TimeStamp).
+
+saphari_object_on_table(ObjectId) :-
+  current_time(T), saphari_object_on_table(ObjectId, T).
+
+saphari_object_on_table(ObjectId, T) :-
+  saphari_perceived_objects(Perceptions, T),
+  member(ObjectId, Perceptions),
+  not(saphari_object_in_gripper(ObjectId,T)),
+  not(saphari_object_in_basket(ObjectId,T)).
+  
+% TODO(daniel): check if actions successfull ?
+
+saphari_object_in_basket(ObjectId) :-
+  rdf_has(Release, knowrob:'objectActedOn', ObjectId),
+  rdfs_instance_of(Release, knowrob:'ReleasingGraspOfSomething').
+  
+saphari_object_in_basket(ObjectId, Time) :-
+  rdf_has(Release, knowrob:'objectActedOn', ObjectId),
+  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
+
+saphari_object_in_basket(ObjectId, Time, Task) :-
+  rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
+  rdf_has(Release, knowrob:'objectActedOn', Designator),
+  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
+  event_interval(Task, T0, T1),
+  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
+  Release_T_term >= T0,
+  Release_T_term =< T1.
+
+saphari_object_in_gripper(ObjectId) :-
+  rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),
+  rdfs_instance_of(Grasp, knowrob:'GraspingSomething'),
+  not(saphari_object_in_basket(ObjectId)).
+
+saphari_object_in_gripper(ObjectId, Time) :-
+  rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),
+  event_before(knowrob:'GraspingSomething', Grasp, Time),
+  not(saphari_object_in_basket(ObjectId, Time)), !.
+
+% Yields in a list of designator ids that were perceived in the last perception event
+saphari_perceived_objects(PerceivedObjectIds) :-
+  current_time(T), saphari_perceived_objects(PerceivedObjectIds, T).
+
+saphari_perceived_objects(PerceivedObjectIds, Time) :-
+  saphari_latest_perception(Event, Time),
+  findall(ObjId, rdf_has(Event, knowrob:'perceptionResult', ObjId), PerceivedObjectIds).
+
+saphari_perceived_object(PerceivedObjectId) :-
+  current_time(T), saphari_perceived_object(PerceivedObjectId, T).
+
+saphari_perceived_object(PerceivedObjectId, Time) :-
+  saphari_latest_perception(Event, Time),
+  rdf_has(Event, knowrob:'perceptionResult', PerceivedObjectId).
+
+saphari_latest_perception(Perc0, Time) :-
+  rdfs_individual_of(Perc0, knowrob:'UIMAPerception'),
+  rdf_has(Perc0, knowrob:'endTime', T0),
+  time_term(T0, T0_term),
+  time_term(Time, Time_term),
+  T0_term =< Time_term,
+  % Make sure that there is no perception event happening after Perc0
+  % we are only interested in the very last perception event (before Time)
+  not((
+    rdfs_individual_of(Perc1, knowrob:'UIMAPerception'),
+    rdf_has(Perc1, knowrob:'endTime', T1),
+    time_term(T1, T1_term),
+    T1_term =< Time_term,
+    T1_term > T0_term
+  )), !.
+
+
+% Find next possible target object for putting it into the basket
+% by matching desired classes in empty slots with latest perceived object classes
+saphari_next_object(SlotId, (SlotTranslation, SlotRotation), ObjectClass, DesigId) :-
+  saphari_empty_slot((SlotId, ObjectClass, (SlotTranslation, SlotRotation))),
+  saphari_perceived_object(DesigId),
+  saphari_object_properties(DesigId, ObjectClass, _),
+  saphari_object_on_table(DesigId).
+
+saphari_grasping_point(ObjectId, GraspingPose) :-
+  saphari_object_properties(ObjectId, ObjectClass, _),
+  saphari_object_mesh(ObjectClass, ObjectMesh),
+  % TODO: compute grasping pose. Howto do that? By using CAD model segmentation?
+  false.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% ROS message helper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% SlotGoalDescription[] basket_goal
+saphari_basket_goal(SlotGoalDescriptions) :-
+  saphari_active_task(TaskId),
+  findall((SlotId,ObjectClass),
+    saphari_slot_description(TaskId, SlotId, ObjectClass),
+    SlotGoalDescriptions
+  ).
+
+% SlotStateDescription[] basket_state
+saphari_basket_state(SlotStateDescriptions) :-
+  findall((SlotId,ObjectId,ObjectClass,PoseMatrix), (
+    saphari_slot_state(SlotId, (ObjectId, ObjectClass, PoseMatrix))
+  ), SlotStateDescriptions).
+
+% ObjectInstanceDescription[] objects_on_table
+saphari_objects_on_table(ObjectInstanceDescriptions) :-
+  findall((ObjectId,ObjectClass,PoseStamped), (
+    saphari_object_on_table(ObjectId),
+    saphari_object_properties(ObjectId, ObjectClass, PoseStamped)
+  ), ObjectInstanceDescriptions).
+
+% ObjectInstanceDescription[] objects_on_table
+saphari_objects_in_gripper(ObjectInstanceDescriptions) :-
+  findall((ObjectId,ObjectClass,PoseStamped), (
+    saphari_object_in_gripper(ObjectId),
+    saphari_object_properties(ObjectId, ObjectClass, PoseStamped)
+  ), ObjectInstanceDescriptions).

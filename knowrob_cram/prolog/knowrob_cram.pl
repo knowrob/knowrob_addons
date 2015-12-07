@@ -43,7 +43,8 @@
       cram_set_object_acted_on/2,
       cram_set_detected_object/3,
       cram_set_perception_request/2,
-      cram_set_perception_result/2
+      cram_set_perception_result/2,
+      cram_logged_query/3
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -65,7 +66,8 @@
     cram_set_object_acted_on(r, r),
     cram_set_detected_object(r, r, r),
     cram_set_perception_request(r, r),
-    cram_set_perception_result(r, r).
+    cram_set_perception_result(r, r),
+    cram_logged_query(r, +, r).
 
 
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -101,8 +103,6 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
       rdf_assert(ActionInst, knowrob:previousEvent, PrevAction),
       rdf_assert(PrevAction, knowrob:nextEvent, ActionInst)) ; (true)).
 
-
-
 %% cram_finish_action(+ActionInst, +EndTime) is det.
 %
 % Finish an action, i.e. set the end time.
@@ -116,7 +116,38 @@ cram_finish_action(ActionInst, EndTime) :-
   create_timepoint(EndTime, ETime),
   rdf_assert(ActionInst, knowrob:endTime, ETime).
 
-
+%% cram_logged_query(+QueryingInst, +Query, -BindingInst) is det.
+%
+% Call the predicate Query and set the query-binding relation
+% between QueryingInst and BindingInst based on variable bindings
+% of Query term.
+%
+% @param QueryingInst The event that caused the query
+% @param Query The query
+% @param BindingInst Variable bindings
+%
+cram_logged_query(QueryingInst, Query, BindingInst) :-
+  % Convert to atom (note: this replaces var names with generated names)
+  term_to_atom(Query, QueryAtom),
+  rdf_assert(QueryingInst, knowrob:'queryText', QueryAtom),
+  % VarValues contains list of assigned values after the call
+  term_variables(Query, VarValues),
+  % Read atom back to term in order to find out the generated variable names
+  atom_to_term(QueryAtom, _, BindingNames),
+  findall(VarName, member((VarName = _), BindingNames), VarNames),
+  % zip [name,value] pairs
+  zip(VarNames, VarValues, Bindings),
+  % run the query
+  call(Query),
+  % log the query
+  rdf_instance_from_class(knowrob:'QueryBinding', BindingInst),
+  rdf_assert(QueryingInst, knowrob:'queryBinding', BindingInst),
+  forall( member([Name,Value], Bindings), (
+    rdf_instance_from_class(knowrob:'VariableBinding', VariableBindingInst),
+    rdf_assert(VariableBindingInst, knowrob:'nameString', Name),
+    rdf_assert(VariableBindingInst, knowrob:'variableValue', Value),
+    rdf_assert(BindingInst, knowrob:'variableBinding', VariableBindingInst)
+  )).
 
 %% cram_set_subaction(+Super, +Sub) is det.
 %

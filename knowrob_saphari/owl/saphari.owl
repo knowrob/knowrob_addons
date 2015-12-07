@@ -33,6 +33,26 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#dangerousPart -->
+
+    <owl:ObjectProperty rdf:about="&knowrob;dangerousPart">
+        <rdfs:range rdf:resource="&knowrob;DangerousThing"/>
+        <rdfs:domain rdf:resource="&knowrob;SpatialThing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Data properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -102,19 +122,10 @@
     
 
 
-    <!-- http://knowrob.org/kb/saphari.owl#ConfigurationEvent -->
+    <!-- http://knowrob.org/kb/knowrob.owl#DangerousThing -->
 
-    <owl:Class rdf:about="&saphari;ConfigurationEvent">
-        <rdfs:subClassOf rdf:resource="&knowrob;Action"/>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/saphari.owl#HumanIntrusion -->
-
-    <owl:Class rdf:about="&saphari;HumanIntrusion">
-        <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerceive"/>
-        <rdfs:subClassOf rdf:resource="&knowrob;Intrusion"/>
+    <owl:Class rdf:about="&knowrob;DangerousThing">
+        <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>
     
 
@@ -141,25 +152,354 @@
         <rdfs:subClassOf rdf:resource="&knowrob;LabUtensil"/>
     </owl:Class>
     
-    
-    
-    <owl:ObjectProperty rdf:about="&knowrob;dangerousPart">
-        <rdfs:range rdf:resource="&knowrob;DangerousThing"/>
-        <rdfs:domain rdf:resource="&knowrob;SpatialThing"/>
-    </owl:ObjectProperty>
-    
-    <owl:Class rdf:about="&knowrob;DangerousThing">
-        <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
-    </owl:Class>
-    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#ScalpelBlade -->
+
     <owl:Class rdf:about="&knowrob;ScalpelBlade">
         <rdfs:subClassOf rdf:resource="&knowrob;DangerousThing"/>
     </owl:Class>
     
-    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Scissors -->
+
     <owl:Class rdf:about="&knowrob;Scissors">
         <rdfs:subClassOf rdf:resource="&knowrob;LabUtensil"/>
     </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#Basket -->
+
+    <owl:Class rdf:about="&saphari;Basket">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <rdfs:comment>container products, often bowl-shaped, which are woven out of some material (usually out of some kind of plant material like straw or wicker, although metal baskets do exist.)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot -->
+
+    <owl:Class rdf:about="&saphari;BasketSlot">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <rdfs:comment>a slot of a basket</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#CRAMDescribe -->
+
+    <owl:Class rdf:about="&saphari;CRAMDescribe">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMAction"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#ConfigurationEvent -->
+
+    <owl:Class rdf:about="&saphari;ConfigurationEvent">
+        <rdfs:subClassOf rdf:resource="&knowrob;Action"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#DescribingSomething -->
+
+    <owl:Class rdf:about="&saphari;DescribingSomething">
+        <rdfs:subClassOf rdf:resource="&saphari;InformationTransferEvent"/>
+        <rdfs:comment>A collection of events; a subcollection of ExpoundingSomething. In each DescribingSomething, someone gives a description of something.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#GeneralizedTransfer -->
+
+    <owl:Class rdf:about="&saphari;GeneralizedTransfer">
+        <rdfs:subClassOf rdf:resource="&knowrob;Event"/>
+        <rdfs:comment>A specialization of Event. Each instance of GeneralizedTransfer is an event in which something (tangible or intangible) is transferred from one &apos;place&apos; to another. GeneralizedTransfer includes changes in physical location, in ownership or possession, transfer of information, and propagation of wave phenomena through space. See also the related predicate transferredThing, and the specializations of this collection.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#HumanIntrusion -->
+
+    <owl:Class rdf:about="&saphari;HumanIntrusion">
+        <rdfs:subClassOf rdf:resource="&knowrob;CRAMPerceive"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;Intrusion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#InformationTransferEvent -->
+
+    <owl:Class rdf:about="&saphari;InformationTransferEvent">
+        <rdfs:subClassOf rdf:resource="&saphari;GeneralizedTransfer"/>
+        <rdfs:comment>A specialization of GeneralizedTransfer. Each instance of InformationTransferEvent is an event in which information is transferred from a source (informationOrigin) to one or more destinations (informationDestination), where the source and the various destinations are either intelligent agents or InformationBearingThings (IBTs). Examples include reading a book (transfer of information from the book to the reader), saying something to someone (transfer of information from the speaker to the listener), machine translation (transfer of information from an encoded IBT in the source language to an encoded IBT in the target language), OCR scanning (transfer of information from a visual information source to another IBT in a different format), carving initials in a tree (transfer of information from an agent to an IBT), and making a speech (transfer of information from an agent to other agents). See also the specialization InformationTransferPhysicalEvent.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#SaphariSlotAssignment -->
+
+    <owl:Class rdf:about="&saphari;SaphariSlotAssignment">
+        <rdfs:subClassOf rdf:resource="&saphari;DescribingSomething"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/saphari.owl#SaphariTaskDescription -->
+
+    <owl:Class rdf:about="&saphari;SaphariTaskDescription">
+        <rdfs:subClassOf rdf:resource="&saphari;CRAMDescribe"/>
+        <rdfs:subClassOf rdf:resource="&saphari;DescribingSomething"/>
+    </owl:Class>
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Class Instances
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_9DlLhHFy -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_9DlLhHFy">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>BANDAGE-SCISSORS</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_vsk3JgAG">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8935484425732925 0.48560992777779505 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_vsk3JgAG">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_vsk3JgAG"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_9DlLhHFy"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_mduNnUbj -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_mduNnUbj">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_HA01qeNW">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 -0.4305112345978039 0.9025855732318189</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">1.0156956496959957 0.430111636555765 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_HA01qeNW">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_HA01qeNW"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_mduNnUbj"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_Pj0D4IdA -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_Pj0D4IdA">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_hoTHv9T6">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 -0.4305112345978039 0.9025855732318189</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.976838342358852 0.3986456095011812 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_hoTHv9T6">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_hoTHv9T6"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_Pj0D4IdA"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_N1F392dZ -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_N1F392dZ">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>SMALL-CLAMP</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_C8ZFA8bb">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 -0.4305112345978039 0.9025855732318189</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.7336844835725169 0.3175518577848312 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_C8ZFA8bb">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_C8ZFA8bb"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_N1F392dZ"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_ruyAdQ27 -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_ruyAdQ27">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>RETRACTOR</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_6Sb3koEp">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8791460652258599 0.2809331795952027 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_6Sb3koEp">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_6Sb3koEp"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_ruyAdQ27"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_CO91xfzk -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_CO91xfzk">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>BIG-CLAMP</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_yhPMOPPF">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8569297585934754 0.34014834143564976 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_yhPMOPPF">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_yhPMOPPF"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_CO91xfzk"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_11pl1Xan -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_11pl1Xan">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>PINCERS</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_JP9rwmS9">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8021493599741603 0.36012602615825495 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_JP9rwmS9">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_JP9rwmS9"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_11pl1Xan"/>
+    </owl:NamedIndividual>
+    
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_ThOjhALb -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_ThOjhALb">
+      <rdf:type rdf:resource="&saphari;BasketSlot"/>
+      <knowrob:perceptionResponse>PINCERS</knowrob:perceptionResponse>
+      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_tsXHSV3f">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
+      <knowrob:translation rdf:datatype="&xsd;string">0.7706833411249806 0.39898332336256853 0.9099999995529652</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_tsXHSV3f">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_tsXHSV3f"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_ThOjhALb"/>
+    </owl:NamedIndividual>
+
+    <!-- http://knowrob.org/kb/saphari.owl#SaphariTaskDescription_fduDFh867gh -->
+    <!-- TODO: remove this individual from the OWL-file; only for testing here -->
+    <owl:NamedIndividual rdf:about="&saphari;SaphariTaskDescription_fduDFh867gh">
+        <rdf:type rdf:resource="&saphari;SaphariTaskDescription"/>
+        <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+        <knowrob:nameString>task0</knowrob:nameString>
+        <knowrob:objectActedOn rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+    </owl:NamedIndividual>
+    
+    
+
+    <!-- OBJECT TEMPLATES -->
+    
+    <owl:NamedIndividual rdf:about="&saphari;BandageScissors_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">BANDAGE-SCISSORS</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scissors</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scissors.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;Pincers_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pincers</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">PINCERS</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Pincers.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;Scalpel_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scalpel</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">SCALPEL</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;BluntRetractor_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">BLUNT-RETRACTOR</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Rake</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Rake.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;Retractor_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">RETRACTOR</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Hook</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Hook.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;ClampBig_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampBig</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">BIG-CLAMP</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/BigClamp.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&saphari;ClampSmall_TEMPLATE">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampSmall</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">SMALL-CLAMP</knowrob:perceptionResponse>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/SmallClamp.dae</knowrob:pathToCadModel>
+        <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
+    </owl:NamedIndividual>
+    
+    
+    <!-- http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd -->
+
+    <owl:NamedIndividual rdf:about="&saphari;SemanticEnvironmentMap_FSf74Vd">
+        <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
+    </owl:NamedIndividual>
+
 </rdf:RDF>
 
 

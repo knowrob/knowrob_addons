@@ -120,7 +120,7 @@ designator_grasped_pose(Grasp, ObjId, T, Position, Rotation) :-
   % TODO(daniel): Object might not be grasped at center of object
   %     - Use knowledge about graspable object parts
   %     - Use planner knowledge where the grasp was done
-  once(rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart)),
+  once(rdf_has(Grasp, knowrob:'bodyPartsUsed', BodyPart)),
   % The time when the object was grasped
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
   % Find the pose of the object before the grasp

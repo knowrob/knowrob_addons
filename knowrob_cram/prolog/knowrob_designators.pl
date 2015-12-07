@@ -139,6 +139,7 @@ designator_template(Map, Response, Template) :-
   atom(Map),
   owl_individual_of(Map, knowrob:'SemanticEnvironmentMap'),
   owl_has(Template, knowrob:'perceptionResponse', literal(type(_,Response))),
+  atom_concat(_, '_TEMPLATE', Template),
   % Make sure template instance is defined in Map
   rdf_split_url(MapUrl, _, Map),
   rdf_split_url(MapUrl, _, Template).
@@ -168,7 +169,7 @@ designator_assert(ObjInstance, Designator, Map) :-
 designator_assert(ObjInstance, Designator, _, _) :-
   designator_object(Designator, ObjInstance),
   % Check if already asserted
-  rdf_has(ObjInstance, rdf:type, _).
+  rdf_has(ObjInstance, rdf:type, _), !.
 
 designator_assert(ObjInstance, Designator, DesignatorJava, Map) :-
   designator_object(Designator, ObjInstance),
