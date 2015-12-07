@@ -59,7 +59,9 @@
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4,
-        sim_timeline_val/5
+        sim_timeline_val/4,
+        get_exp_times/3,
+        interval_setdifference/6
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -103,7 +105,8 @@
     visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
-    sim_timeline_val(r,r,r,r,r),
+    sim_timeline_val(r,r,r,r),
+    get_exp_times(r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,7 +118,6 @@ exp_list(['sim_exp1.owl','sim_exp2.owl','sim_exp4.owl','sim_exp6.owl']).
 experiment_file(X):-
     exp_list(List),
     member(X,List).
-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -135,6 +137,14 @@ load_sim_experiments(ExpOwlPath, [ExpFile|T]) :-
     atom_concat(ExpOwlPath, ExpFile, Path),
     (load_experiment(Path) -> load_sim_experiments(ExpOwlPath, T); load_sim_experiments(ExpOwlPath, T)).
 
+%% get_exp_times(?Exp, ?StartTime, ?EndTime)
+%   
+%  Provides information on the global start and endtime of a certain experiment.
+%
+get_exp_times(Exp, Start, End):-
+    rdf_has(MetaData, knowrob:'experiment', literal(type(_, Exp))), 
+    rdf_has(MetaData, knowrob:'startTime',Start), 
+    rdf_has(MetaData, knowrob:'endTime',End).
 
 %% simact(?Task) is nondet.
 %
@@ -412,7 +422,6 @@ test(Arr) :-
     jpl_list_to_array(['1','2','3','4'], Arr),
     jpl_call(Canvas, 'showAverageTrajectory', [bla, Arr, Arr, 1, 1], _).
 
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Interval handling
@@ -423,23 +432,34 @@ test(Arr) :-
 %   these if they overlap with the given start/endtime interval. Returns start/endtime values
 %   that do not include any of those intervals in the list.
 %
+%If Start equals End, it means that no difference set could be found 
 %Bottom case; unify temporary start and end with the result
-interval_setdifference(_, Start, End, [], Start, End). 
+interval_setdifference(_, Start, End, [], Start, End).
+%If the event is identical to the interval we started with, there cannot be any difference left, so the call will fail.
+interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
+    simact_start(Experiment,EventID2, Start2),
+    simact_end(Experiment,EventID2, End2),
+    Start == Start2,
+    End == End2,!, fail.
 %If the head overlaps at the beginning
 interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
     simact_start(Experiment,EventID2, Start2),
     simact_end(Experiment,EventID2, End2),
     sim_timepoints_overlap(Start, End, Start2, End2),
+    End \= End2,
     interval_setdifference(Experiment, End2, End, Tail, ResStart, ResEnd), !.
 %If the head overlaps at the end
 interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
     simact_start(Experiment,EventID2, Start2),
     simact_end(Experiment,EventID2, End2),
     sim_timepoints_overlap_inv(Start, End, Start2, End2),
+    Start \= Start2,
     interval_setdifference(Experiment, Start, Start2, Tail, ResStart, ResEnd), !.
-%if there is no overlap, so we don't care about the current head
+%if there is no overlap, we don't care about the event in the current head and leave Start and End the way it was.
 interval_setdifference(Experiment, Start, End, [_|Tail], ResStart, ResEnd) :-
+    not((Start==ResStart, End==ResEnd)),
     interval_setdifference(Experiment, Start, End, Tail, ResStart, ResEnd), !.
+    
 
 %% Similar to the comp_overlapsI predicate but works with separate timepoints 
 %% True if I2 overlaps with I1 at the beginning
@@ -449,9 +469,10 @@ sim_timepoints_overlap(Start1, End1, Start2, End2) :-
     time_point_value(End1, EVal1),
     time_point_value(Start2, SVal2),
     time_point_value(End2, EVal2),
-    SVal2 < SVal1, %Start2 is before Start1
+    SVal2 =< SVal1, %Start2 is before Start1
     EVal2 > SVal1, %End2 is after Start1
-    EVal2 < EVal1. %End2 ends before End1
+    EVal2 =< EVal1. %End2 ends before End1
+%% True if I2 overlaps with I1 at the end
 sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
     sim_timepoints_overlap(Start2, End2, Start1, End1).
 
@@ -485,7 +506,6 @@ supported_during(Experiment, EventID, EventID2, ObjectInstance) :-
 %
 % Temporal stuff: start, end, duration of a simact
 %
-
 
 %% simact_start(?Task, ?Start) is nondet.
 %
