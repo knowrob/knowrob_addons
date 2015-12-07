@@ -263,164 +263,164 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_9DlLhHFy -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_9DlLhHFy">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_rIdNsO2w -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_rIdNsO2w">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>BANDAGE-SCISSORS</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_vsk3JgAG">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_IUNw7czO">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.8935484425732925 0.48560992777779505 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8148833983808446 0.5827531671697112 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_vsk3JgAG">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_IUNw7czO">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_vsk3JgAG"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_IUNw7czO"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_9DlLhHFy"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_rIdNsO2w"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_mduNnUbj -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_mduNnUbj">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_3EQUpUkE -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_3EQUpUkE">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_HA01qeNW">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_5CV12gDb">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 -0.4305112345978039 0.9025855732318189</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">1.0156956496959957 0.430111636555765 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.9370305984703442 0.527254884632964 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_HA01qeNW">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_5CV12gDb">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_HA01qeNW"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_5CV12gDb"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_mduNnUbj"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_3EQUpUkE"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_Pj0D4IdA -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_Pj0D4IdA">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_txXhxDw8 -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_txXhxDw8">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_hoTHv9T6">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_xUVpE0gM">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 -0.4305112345978039 0.9025855732318189</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.976838342358852 0.3986456095011812 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8981732911332005 0.4957888575783802 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_hoTHv9T6">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_xUVpE0gM">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_hoTHv9T6"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_xUVpE0gM"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_Pj0D4IdA"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_txXhxDw8"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_N1F392dZ -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_N1F392dZ">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_hn5hkcAc -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_hn5hkcAc">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SMALL-CLAMP</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_C8ZFA8bb">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_i4chBr7S">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 -0.4305112345978039 0.9025855732318189</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.7336844835725169 0.3175518577848312 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.655019439380069 0.4146950971767473 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_C8ZFA8bb">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_i4chBr7S">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_C8ZFA8bb"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_i4chBr7S"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_N1F392dZ"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_hn5hkcAc"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_ruyAdQ27 -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_ruyAdQ27">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_fUjD06nL -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_fUjD06nL">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>RETRACTOR</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_6Sb3koEp">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_qbmQ6xNT">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.8791460652258599 0.2809331795952027 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.8004810163446097 0.3780764247773074 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_6Sb3koEp">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_qbmQ6xNT">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_6Sb3koEp"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_qbmQ6xNT"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_ruyAdQ27"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_fUjD06nL"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_CO91xfzk -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_CO91xfzk">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_RRyrh1zN -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_RRyrh1zN">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>BIG-CLAMP</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_yhPMOPPF">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_JzjMWMkb">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.8569297585934754 0.34014834143564976 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.7845579146542616 0.4295201257293446 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_yhPMOPPF">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_JzjMWMkb">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_yhPMOPPF"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_JzjMWMkb"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_CO91xfzk"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_RRyrh1zN"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_11pl1Xan -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_11pl1Xan">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_gE9l7tN8 -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_gE9l7tN8">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>PINCERS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_JP9rwmS9">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_PCHvIotN">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.8021493599741603 0.36012602615825495 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.7234843099207096 0.4572692727879068 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_JP9rwmS9">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_PCHvIotN">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_JP9rwmS9"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_PCHvIotN"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_11pl1Xan"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_gE9l7tN8"/>
     </owl:NamedIndividual>
     
-    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_ThOjhALb -->
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_ThOjhALb">
+    <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_0iw4XOZa -->
+    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_0iw4XOZa">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>PINCERS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&saphari;Transformation_tsXHSV3f">
+    <owl:NamedIndividual rdf:about="&saphari;Transformation_2LS2iHej">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.33380685923387066 0.942641491092143</knowrob:quaternion>
-      <knowrob:translation rdf:datatype="&xsd;string">0.7706833411249806 0.39898332336256853 0.9099999995529652</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">0.6920182922437303 0.49612656854467324 0.9099999995529652</knowrob:translation>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_tsXHSV3f">
+    <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_2LS2iHej">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_tsXHSV3f"/>
+      <knowrob:eventOccursAt rdf:resource="&saphari;Transformation_2LS2iHej"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_ThOjhALb"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_0iw4XOZa"/>
     </owl:NamedIndividual>
 
     <!-- http://knowrob.org/kb/saphari.owl#SaphariTaskDescription_fduDFh867gh -->
@@ -429,10 +429,8 @@
         <rdf:type rdf:resource="&saphari;SaphariTaskDescription"/>
         <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
         <knowrob:nameString>task0</knowrob:nameString>
-        <knowrob:objectActedOn rdf:resource="&saphari;http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
     </owl:NamedIndividual>
-    
-    
 
     <!-- OBJECT TEMPLATES -->
     
