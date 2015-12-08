@@ -365,7 +365,8 @@ saphari_marker_update(T) :-
   saphari_active_task(Task,T),
   marker_update(agent('http://knowrob.org/kb/Saphari.owl#saphari_robot1'), T),
   saphari_object_marker_update(Task,T),
-  saphari_human_marker_update(T).
+  saphari_human_marker_update(T),
+  saphari_intrusion_marker_update(T).
 
 saphari_object_marker_update(Task,T) :-
   saphari_perceived_objects(Objs, T),
@@ -384,8 +385,64 @@ saphari_object_marker_update(Task,T) :-
     marker_update(object(Obj), T)
   )).
 
-saphari_human_marker_update(_) :-
-  true. % TODO: implement
+saphari_human_marker_update(T) :-
+  % Find all active PerceivePerson events
+  findall(Event, event(knowrob_cram:'PerceivePerson', Event, T), Events),
+  % Remove existing marker without corresponding event
+  forall(marker(stickman(Person), M), (
+    (  member(Event,Events), rdf_has(Event, knowrob:'detectedPerson', Person)
+    -> true
+    ;  marker_remove(M)
+    )
+  )),
+  % Update perceived human
+  forall(member(Event,Events), saphari_human_marker_update(T, Event)).
+
+saphari_human_marker_update(T, Event) :-
+  rdf_has(Event, knowrob:'detectedPerson', Person),
+  rdf_has(Person, srdl2comp:'tfPrefix', literal(type(_,TfPrefix))),
+  marker(stickman(Person), M, TfPrefix),
+  marker_tf_prefix(M, TfPrefix),
+  marker_update(M,T).
+
+saphari_intrusion_marker_update(T) :-
+  % Remove previous highlights
+  marker_highlight_remove(all),
+  
+  % Find all active HumanIntrusion events
+  findall(Event, event(saphari:'HumanIntrusion', Event, T), IntrusionEvents),
+  
+  % highlight intruding body parts of perceived humans
+  forall(marker(stickman(Person), _), (
+    rdf_has(Person, srdl2comp:'tfPrefix', literal(type(_,TfPrefix))),
+    rdf_has(Person, knowrob:'designator', D),
+    
+    % find all intruding body parts
+    findall(Part, (
+      member(Event,IntrusionEvents),
+      rdf_has(Event, knowrob:'designator', D),
+      rdf_has(Event, knowrob:'bodyPartsUsed', literal(type(_,Part)))
+    ), Parts),
+    
+    % Finally highlight intruding parts
+    forall(member(Part0,Parts), (
+      atom_concat('http://knowrob.org/kb/openni_human1.owl#iai_human_', Part0, HumanLink0),
+      term_to_atom(object_without_children(HumanLink0), X0),
+      atomic_list_concat([TfPrefix,'_',X0], Marker0),
+      marker_highlight(Marker0, [1.0,0.0,0.0,1.0]),
+      
+      % highlight cylinder marker
+      forall(member(Part1,Parts), (
+        atom_concat('http://knowrob.org/kb/openni_human1.owl#iai_human_', Part1, HumanLink1),
+        (  succeeding_link(HumanLink0, HumanLink1)
+        -> (
+          term_to_atom(cylinder_tf(HumanLink0,HumanLink1), X1),
+          atomic_list_concat([TfPrefix,'_',X1], Marker1),
+          marker_highlight(Marker1, [1.0,0.0,0.0,1.0])
+        ) ;  true )
+      ))
+    ))
+  )).
 
 saphari_object_marker(Obj) :-
   current_predicate(v_saphari_marker,_),
