@@ -510,7 +510,7 @@ saphari_active_task(Task,T) :-
   saphari_latest_task(Task,T).
 
 saphari_latest_task(Task) :-
-  current_time(T), saphari_latest_task(ObjectId, T).
+  current_time(T), saphari_latest_task(Task, T).
 
 saphari_latest_task(Task, Time) :-
   rdfs_individual_of(Task, knowrob:'SaphariTaskDescription'),
