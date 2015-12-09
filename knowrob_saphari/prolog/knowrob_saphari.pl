@@ -347,16 +347,10 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
   event_before(knowrob:'GraspingSomething', Event, T),
   rdf_has(Event, knowrob:'objectActedOn', Designator),
-  mng_lookup_position('/map', '/gripper_finger_left_link', T, P0),
-  mng_lookup_position('/map', '/gripper_finger_right_link', T, P1),
-  mng_lookup_position('/map', '/gripper_base_link', T, P2),
-  Offset is 0.12,
-  vector_average(P0,P1,C),
-  vector_sub(C,P2,D),
-  vector_normalize(D,DirNorm),
-  vector_mul(DirNorm, Offset, Dir),
-  vector_add(C, Dir, Translation),
-  Orientation = [0.0,0.0,0.0,0.0], !.
+  mng_lookup_transform('/map', '/gripper_tool_frame', T, Matrix),
+  matrix_translation(Matrix,Translation),
+  % TODO: orientation not correct
+  matrix_rotation(Matrix,Orientation), !.
 saphari_object_pose_estimate(_, PoseIn, PoseIn).
 
 :- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
