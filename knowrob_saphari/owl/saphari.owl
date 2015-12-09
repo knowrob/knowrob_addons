@@ -263,11 +263,23 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Task1 start
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+    
+    <owl:NamedIndividual rdf:about="&saphari;Basket_rIdNsO2w">
+      <rdf:type rdf:resource="&saphari;Basket"/>
+    </owl:NamedIndividual>
+
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_rIdNsO2w -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_rIdNsO2w">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>BANDAGE-SCISSORS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_IUNw7czO">
@@ -287,7 +299,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_3EQUpUkE">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_5CV12gDb">
@@ -307,7 +319,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_txXhxDw8">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_xUVpE0gM">
@@ -327,7 +339,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_hn5hkcAc">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SMALL-CLAMP</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_i4chBr7S">
@@ -347,7 +359,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_fUjD06nL">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>RETRACTOR</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_qbmQ6xNT">
@@ -367,7 +379,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_RRyrh1zN">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>BIG-CLAMP</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_JzjMWMkb">
@@ -387,7 +399,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_gE9l7tN8">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>PINCERS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_PCHvIotN">
@@ -407,7 +419,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_0iw4XOZa">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>PINCERS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_2LS2iHej">
@@ -423,14 +435,13 @@
       <knowrob:objectActedOn rdf:resource="&saphari;BasketSlot_0iw4XOZa"/>
     </owl:NamedIndividual>
 
-    <!-- http://knowrob.org/kb/saphari.owl#SaphariTaskDescription_fduDFh867gh -->
-    <!-- TODO: remove this individual from the OWL-file; only for testing here -->
-    <owl:NamedIndividual rdf:about="&saphari;SaphariTaskDescription_fduDFh867gh">
-        <rdf:type rdf:resource="&saphari;SaphariTaskDescription"/>
-        <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
-        <knowrob:nameString>task0</knowrob:nameString>
-        <knowrob:objectActedOn rdf:resource="http://knowrob.org/kb/Saphari.owl#saphari_robot_sorting_basket"/>
-    </owl:NamedIndividual>
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Task1 stop
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
     <!-- OBJECT TEMPLATES -->
     
