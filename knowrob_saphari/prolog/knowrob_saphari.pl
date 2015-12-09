@@ -513,16 +513,16 @@ saphari_latest_task(Task) :-
   current_time(T), saphari_latest_task(ObjectId, T).
 
 saphari_latest_task(Task, Time) :-
-  rdfs_individual_of(Perc0, knowrob:'SaphariTaskDescription'),
-  rdf_has(Perc0, knowrob:'endTime', T0),
+  rdfs_individual_of(Task, knowrob:'SaphariTaskDescription'),
+  rdf_has(Task, knowrob:'endTime', T0),
   time_term(T0, T0_term),
   time_term(Time, Time_term),
   T0_term =< Time_term,
-  % Make sure that there is no perception event happening after Perc0
+  % Make sure that there is no perception event happening after Task
   % we are only interested in the very last perception event (before Time)
   not((
-    rdfs_individual_of(Perc1, knowrob:'SaphariTaskDescription'),
-    rdf_has(Perc1, knowrob:'endTime', T1),
+    rdfs_individual_of(Task1, knowrob:'SaphariTaskDescription'),
+    rdf_has(Task1, knowrob:'endTime', T1),
     time_term(T1, T1_term),
     T1_term =< Time_term,
     T1_term > T0_term
