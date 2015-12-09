@@ -363,7 +363,7 @@ saphari_marker_update(T) :-
   saphari_intrusion_marker_update(T).
 
 saphari_object_marker_update(Task,T) :-
-  saphari_perceived_objects(Objs, T),
+  saphari_perceived_objects(Objs, T), !,
   forall( ( current_predicate(v_saphari_marker,_), v_saphari_marker(Obj) ), (
      % remove all markers that do not correspond to an object that was
      % perceived with latest perception event and that's not inside of the basket
