@@ -298,7 +298,7 @@
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_3EQUpUkE -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_3EQUpUkE">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
-      <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
+      <knowrob:perceptionResponse>SCALPEL-HOLDER</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
@@ -318,7 +318,7 @@
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_txXhxDw8 -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_txXhxDw8">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
-      <knowrob:perceptionResponse>SCALPEL</knowrob:perceptionResponse>
+      <knowrob:perceptionResponse>SCALPEL-HOLDER</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
@@ -338,7 +338,7 @@
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_hn5hkcAc -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_hn5hkcAc">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
-      <knowrob:perceptionResponse>SMALL-CLAMP</knowrob:perceptionResponse>
+      <knowrob:perceptionResponse>BALL-SOCKET-TOWEL-FORCEPS</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
@@ -378,7 +378,7 @@
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_RRyrh1zN -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_RRyrh1zN">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
-      <knowrob:perceptionResponse>BIG-CLAMP</knowrob:perceptionResponse>
+      <knowrob:perceptionResponse>VERBRUGGE-CLAMP</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
@@ -463,9 +463,9 @@
 
     <owl:NamedIndividual rdf:about="&saphari;Scalpel_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scalpel</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Scalpel-HOLDER</knowrob:perceptionResponse>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">SCALPEL</knowrob:perceptionResponse>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/Scalpel.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/ScalpelHandle.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
 
@@ -488,7 +488,7 @@
     <owl:NamedIndividual rdf:about="&saphari;ClampBig_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampBig</knowrob:perceptionResponse>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">BIG-CLAMP</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">VERBRUGGE-CLAMP</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/BigClamp.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
@@ -496,7 +496,7 @@
     <owl:NamedIndividual rdf:about="&saphari;ClampSmall_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampSmall</knowrob:perceptionResponse>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">SMALL-CLAMP</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">BALL-SOCKET-TOWEL-FORCEPS</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/SmallClamp.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
     </owl:NamedIndividual>
