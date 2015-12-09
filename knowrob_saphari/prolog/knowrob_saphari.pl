@@ -514,7 +514,7 @@ saphari_latest_task(Task) :-
 
 saphari_latest_task(Task, Time) :-
   rdfs_individual_of(Task, knowrob:'SaphariTaskDescription'),
-  rdf_has(Task, knowrob:'endTime', T0),
+  rdf_has(Task, knowrob:'startTime', T0),
   time_term(T0, T0_term),
   time_term(Time, Time_term),
   T0_term =< Time_term,
@@ -522,7 +522,7 @@ saphari_latest_task(Task, Time) :-
   % we are only interested in the very last perception event (before Time)
   not((
     rdfs_individual_of(Task1, knowrob:'SaphariTaskDescription'),
-    rdf_has(Task1, knowrob:'endTime', T1),
+    rdf_has(Task1, knowrob:'startTime', T1),
     time_term(T1, T1_term),
     T1_term =< Time_term,
     T1_term > T0_term
