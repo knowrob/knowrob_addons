@@ -491,17 +491,42 @@ saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
   object_pose_at_time(SlotIdentifier, T, Translation, Orientation).
 
-saphari_active_task(Task) :-
-  % for now assume a task is active when no endTime asserted
-  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-  not( rdf_has(Task, knowrob:endTime, _) ), !.
+%saphari_active_task(Task) :-
+%  % for now assume a task is active when no endTime asserted
+%  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
+%  not( rdf_has(Task, knowrob:endTime, _) ), !.
 
-saphari_active_task(Task, T) :-
-  time_term(T, T_term),
-  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-  event_interval(Task, T0, T1),
-  T_term >= T0,
-  T_term =< T1, !.
+%saphari_active_task(Task, T) :-
+%  time_term(T, T_term),
+%  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
+%  event_interval(Task, T0, T1),
+%  T_term >= T0,
+%  T_term =< T1, !.
+
+saphari_active_task(Task) :-
+  saphari_latest_task(Task).
+
+saphari_active_task(Task,T) :-
+  saphari_latest_task(Task,T).
+
+saphari_latest_task(Task) :-
+  current_time(T), saphari_latest_task(ObjectId, T).
+
+saphari_latest_task(Task, Time) :-
+  rdfs_individual_of(Perc0, knowrob:'SaphariTaskDescription'),
+  rdf_has(Perc0, knowrob:'endTime', T0),
+  time_term(T0, T0_term),
+  time_term(Time, Time_term),
+  T0_term =< Time_term,
+  % Make sure that there is no perception event happening after Perc0
+  % we are only interested in the very last perception event (before Time)
+  not((
+    rdfs_individual_of(Perc1, knowrob:'SaphariTaskDescription'),
+    rdf_has(Perc1, knowrob:'endTime', T1),
+    time_term(T1, T1_term),
+    T1_term =< Time_term,
+    T1_term > T0_term
+  )), !.
 
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
@@ -577,11 +602,17 @@ saphari_object_in_basket(ObjectId, Time) :-
 saphari_object_in_basket(ObjectId, Time, Task) :-
   rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
   rdf_has(Release, knowrob:'objectActedOn', Designator),
-  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
-  event_interval(Task, T0, T1),
-  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
-  Release_T_term >= T0,
-  Release_T_term =< T1.
+  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
+
+% TODO: why checking for task interval?
+%saphari_object_in_basket(ObjectId, Time, Task) :-
+%  rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
+%  rdf_has(Release, knowrob:'objectActedOn', Designator),
+%  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
+%  event_interval(Task, T0, T1),
+%  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
+%  Release_T_term >= T0,
+%  Release_T_term =< T1.
 
 saphari_object_in_gripper(ObjectId) :-
   rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),
