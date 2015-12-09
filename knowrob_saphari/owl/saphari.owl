@@ -562,6 +562,15 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
+    
+    <!-- http://knowrob.org/kb/saphari.owl#SaphariTaskDescription_fduDFh867gh -->
+    <!-- TODO: remove this individual from the OWL-file; only for testing here -->
+    <owl:NamedIndividual rdf:about="&saphari;SaphariTaskDescription_fduDFh867gh">
+      <rdf:type rdf:resource="&saphari;SaphariTaskDescription"/>
+      <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
+      <knowrob:nameString>task0</knowrob:nameString>
+      <knowrob:objectActedOn rdf:resource="&saphari;Basket_rIdNsO2w"/>
+    </owl:NamedIndividual>
 
     <!-- OBJECT TEMPLATES -->
     
