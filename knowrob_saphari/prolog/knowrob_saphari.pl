@@ -93,6 +93,7 @@
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('knowrob_marker')).
+:- use_module(library('knowrob_math')).
 :- use_module(library('srdl2')).
 :- use_module(library('knowrob_cram')).
 :- use_module(library('knowrob_objects')).
@@ -349,8 +350,10 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdf_has(Event, knowrob:'objectActedOn', Designator),
   mng_lookup_transform('/map', '/gripper_tool_frame', T, Matrix),
   matrix_translation(Matrix,Translation),
-  % TODO: orientation not correct
-  matrix_rotation(Matrix,Orientation), !.
+  matrix_rotation(Matrix,GripperOrientation),
+  % Apply offset quaternion
+  quaternion_multiply(GripperOrientation,
+      [0.0,0.7071067811865476,-0.7071067811865475,0.0], Orientation), !.
 saphari_object_pose_estimate(_, PoseIn, PoseIn).
 
 :- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
@@ -491,14 +494,14 @@ saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
 saphari_active_task(Task) :-
   % for now assume a task is active when no endTime asserted
   rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-  not( rdf_has(Task, knowrob:endTime, _) ).
+  not( rdf_has(Task, knowrob:endTime, _) ), !.
 
 saphari_active_task(Task, T) :-
   time_term(T, T_term),
   rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
   event_interval(Task, T0, T1),
   T_term >= T0,
-  T_term =< T1.
+  T_term =< T1, !.
 
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
