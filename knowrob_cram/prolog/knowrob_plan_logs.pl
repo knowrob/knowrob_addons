@@ -45,6 +45,7 @@
         event_interval/3,
         event_name/2,
         event_class_name/2,
+        event_class/2,
         experiment/1,
         experiment/2,
         experiment_map/2,
@@ -105,6 +106,7 @@
     event_before(r,r,r),
     event_name(r,?),
     event_class_name(r,?),
+    event_class(r,?),
     event_after(r,r,r),
     event_interval(r,-,-),
     experiment(r),
@@ -292,6 +294,11 @@ event_name(EventInstance, EventName) :-
   rdf_split_url(_, EventName, EventInstance).
 
 event_class_name(EventInstance, EventClass) :-
+  rdf_has(EventInstance, rdf:'type', ClassUri),
+  rdf_split_url(_, EventClass, ClassUri),
+  not( EventClass = 'NamedIndividual' ).
+
+event_class(EventInstance, ClassUri) :-
   rdf_has(EventInstance, rdf:'type', ClassUri),
   rdf_split_url(_, EventClass, ClassUri),
   not( EventClass = 'NamedIndividual' ).
