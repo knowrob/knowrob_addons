@@ -569,7 +569,7 @@
       <rdf:type rdf:resource="&saphari;SaphariTaskDescription"/>
       <knowrob:startTime rdf:resource="&saphari;timepoint_0000000001"/>
       <knowrob:nameString>task0</knowrob:nameString>
-      <knowrob:objectActedOn rdf:resource="&saphari;Basket_rIdNsO2w"/>
+      <knowrob:objectActedOn rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
 
     <!-- OBJECT TEMPLATES -->
