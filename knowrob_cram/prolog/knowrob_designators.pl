@@ -223,7 +223,9 @@ designator_read_template_from_map(ObjInstance, Map, Response) :-
   findall([Prop,Value], (
     rdf_has(TemplateInstance, Prop, Value),
     % Only handle knowrob properties
-    rdf_split_url('http://knowrob.org/kb/knowrob.owl#', _, Prop)
+    % TODO: handle all properties? Why skipping some?
+    ( rdf_split_url('http://knowrob.org/kb/knowrob.owl#', _, Prop)
+    ; Prop = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' )
   ), Props),
   
   forall(
