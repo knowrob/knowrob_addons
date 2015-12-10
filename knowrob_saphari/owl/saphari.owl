@@ -451,7 +451,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
     
-    <owl:NamedIndividual rdf:about="&saphari;BasketSlot_c2u5sfFh">
+    <owl:NamedIndividual rdf:about="&saphari;Basket_c2u5sfFh">
       <rdf:type rdf:resource="&saphari;Basket"/>
     </owl:NamedIndividual>
 
@@ -459,7 +459,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_6rjlEafQ">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>RETRACTOR</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;BasketSlot_c2u5sfFh"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_nkZ6hRz3">
@@ -479,7 +479,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_qSYZc7cN">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>SCALPEL-HOLDER</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;BasketSlot_c2u5sfFh"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_x6uHptrI">
@@ -499,7 +499,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_M6PAFMtm">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>BALL-SOCKET-TOWEL-FORCEPS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;BasketSlot_c2u5sfFh"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_bGCN8uuy">
@@ -519,7 +519,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_0LSnZCww">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>BALL-SOCKET-TOWEL-FORCEPS</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;BasketSlot_c2u5sfFh"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_CkkJZJah">
@@ -539,7 +539,7 @@
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_HzuBIUom">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
       <knowrob:perceptionResponse>VERBRUGGE-CLAMP</knowrob:perceptionResponse>
-      <knowrob:physicalPartOf rdf:resource="&saphari;BasketSlot_c2u5sfFh"/>
+      <knowrob:physicalPartOf rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&saphari;Transformation_DrMSJOI5">
