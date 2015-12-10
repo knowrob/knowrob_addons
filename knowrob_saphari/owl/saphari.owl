@@ -378,7 +378,7 @@
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_RRyrh1zN -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_RRyrh1zN">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
-      <knowrob:perceptionResponse>VERBRUGGE-CLAMP</knowrob:perceptionResponse>
+      <knowrob:perceptionResponse>SURGICAL-TUBING-CLAMP</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="&saphari;Basket_rIdNsO2w"/>
     </owl:NamedIndividual>
     
@@ -538,7 +538,7 @@
     <!-- http://knowrob.org/kb/saphari.owl#BasketSlot_HzuBIUom -->
     <owl:NamedIndividual rdf:about="&saphari;BasketSlot_HzuBIUom">
       <rdf:type rdf:resource="&saphari;BasketSlot"/>
-      <knowrob:perceptionResponse>VERBRUGGE-CLAMP</knowrob:perceptionResponse>
+      <knowrob:perceptionResponse>SURGICAL-TUBING-CLAMP</knowrob:perceptionResponse>
       <knowrob:physicalPartOf rdf:resource="&saphari;Basket_c2u5sfFh"/>
     </owl:NamedIndividual>
     
@@ -624,7 +624,7 @@
     <owl:NamedIndividual rdf:about="&saphari;ClampBig_TEMPLATE">
         <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">ClampBig</knowrob:perceptionResponse>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">VERBRUGGE-CLAMP</knowrob:perceptionResponse>
+        <knowrob:perceptionResponse rdf:datatype="&xsd;string">SURGICAL-TUBING-CLAMP</knowrob:perceptionResponse>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">BIG-CLAMP</knowrob:perceptionResponse>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://hospital/surgical-instruments/BigClamp.dae</knowrob:pathToCadModel>
         <knowrob:visuallyAbove rdf:datatype="&xsd;double">0.895</knowrob:visuallyAbove>
