@@ -602,7 +602,7 @@
         <knowrob:queryAbout rdf:resource="http://knowrob.org/kb/openni_human1.owl#iai_human_lefthand"/>
         <knowrob:queryAbout rdf:resource="http://knowrob.org/kb/openni_human1.owl#iai_human_righthand"/>
         <knowrob:queryAbout rdf:resource="http://knowrob.org/kb/openni_human1.owl#iai_human_head"/>
-        <knowrob:queryString rdf:datatype="&xsd;string">rdf_has(Individual, srdl2comp:'urdfName', BodyPart), rdf_has(Event, knowrob:'bodyPartsUsed', BodyPart), rdfs_individual_of(Event, saphari:'HumanIntrusion'), rdf_has(Event, knowrob:'startTime', T), saphari_marker_update(T)</knowrob:queryString>
+        <knowrob:queryString rdf:datatype="&xsd;string">rdf_has(Individual, srdl2comp:'urdfName', BodyPart), rdf_has(Event, knowrob:'bodyPartsUsed', BodyPart), rdfs_individual_of(Event, saphari:'HumanIntrusion'), rdf_has(Event, knowrob:'startTime', T), !, saphari_marker_update(T)</knowrob:queryString>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&knowrob;Query_VSOJFDO7SCf4">
@@ -610,7 +610,7 @@
         <knowrob:groupName rdf:datatype="&xsd;string">Object Queries</knowrob:groupName>
         <knowrob:queryName rdf:datatype="&xsd;string">Did events occurred that acted on this object?</knowrob:queryName>
         <knowrob:queryAbout rdf:resource="&owl;Thing"/>
-        <knowrob:queryString rdf:datatype="&xsd;string">rdf_has(Event, knowrob:'objectActedOn', Individual), not(rdfs_individual_of(Event, knowrob:'Perceiving')), rdf_has(Event, knowrob:'startTime', T), saphari_marker_update(T)</knowrob:queryString>
+        <knowrob:queryString rdf:datatype="&xsd;string">rdf_has(Event, knowrob:'objectActedOn', Individual), not(rdfs_individual_of(Event, knowrob:'Perceiving')), rdf_has(Event, knowrob:'startTime', T), !, saphari_marker_update(T)</knowrob:queryString>
     </owl:NamedIndividual>
 
     <!-- OBJECT TEMPLATES -->
