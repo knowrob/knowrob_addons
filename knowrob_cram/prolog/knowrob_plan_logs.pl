@@ -137,9 +137,11 @@
     add_object_to_semantic_map(+,+,+,-,+,+,+),
     successful_tasks_for_goal(+,-).
 
-
+% TODO: hack for review
 default_map(Map) :-
-  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
+  Map = 'http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd'.
+%default_map(Map) :-
+%  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
