@@ -343,6 +343,7 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdf_has(Event, knowrob:'goalLocation', Loc),
   mng_designator_props(Loc, 'SLOT-ID', Slot),
   saphari_slot_pose(Slot, Translation, Orientation), !.
+
 saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
@@ -354,6 +355,7 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   % Apply offset quaternion
   quaternion_multiply(GripperOrientation,
       [0.0,0.7071067811865476,-0.7071067811865475,0.0], Orientation), !.
+
 saphari_object_pose_estimate(_, PoseIn, PoseIn).
 
 :- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
@@ -361,9 +363,9 @@ saphari_object_pose_estimate(_, PoseIn, PoseIn).
 saphari_marker_update(T) :-
   saphari_active_task(Task,T),
   marker_update(agent('http://knowrob.org/kb/Saphari.owl#saphari_robot1'), T),
-  saphari_object_marker_update(Task,T),
-  saphari_human_marker_update(T),
-  saphari_intrusion_marker_update(T).
+  ignore(saphari_object_marker_update(Task,T)),
+  ignore(saphari_human_marker_update(T)),
+  ignore(saphari_intrusion_marker_update(T)).
 
 saphari_object_marker_update(Task,T) :-
   saphari_perceived_objects(Objs, T), !,
@@ -404,7 +406,7 @@ saphari_human_marker_update(T, Event) :-
 
 saphari_intrusion_marker_update(T) :-
   % Remove previous highlights
-  marker_highlight_remove(all),
+  ignore(marker_highlight_remove(all)),
   
   % Find all active HumanIntrusion events
   findall(Event, event(saphari:'HumanIntrusion', Event, T), IntrusionEvents),
