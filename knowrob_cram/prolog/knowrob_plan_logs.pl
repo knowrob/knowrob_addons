@@ -43,6 +43,10 @@
         event_before/3,
         event_after/3,
         event_interval/3,
+        event_name/2,
+        event_class_name/2,
+        event_class/2,
+        experiment/1,
         experiment/2,
         experiment_map/2,
         experiment_map/3,
@@ -100,8 +104,12 @@
     load_experiments(+,+,+),
     event(r,r,r),
     event_before(r,r,r),
+    event_name(r,?),
+    event_class_name(r,?),
+    event_class(r,?),
     event_after(r,r,r),
     event_interval(r,-,-),
+    experiment(r),
     experiment(r,r),
     experiment_map(r,r),
     experiment_map(r,r,r),
@@ -129,9 +137,11 @@
     add_object_to_semantic_map(+,+,+,-,+,+,+),
     successful_tasks_for_goal(+,-).
 
-
+% TODO: hack for review
 default_map(Map) :-
-  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
+  Map = 'http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd'.
+%default_map(Map) :-
+%  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -207,6 +217,15 @@ load_experiments(Path, SubDirs, ExpFileName) :-
     load_experiment(ExpFile)
   ) ; true )).
 
+%% experiment(?Experiment) is nondet.
+%
+% Yields all experiments
+%
+%  @param Experiment Experiment identifier
+% 
+experiment(Experiment) :-
+  rdfs_individual_of(Experiment, knowrob:'RobotExperiment').
+
 %% experiment(?Experiment, +Timepoint) is nondet.
 %
 % Yields experiments which were active at Timepoint
@@ -272,6 +291,19 @@ event_interval(EventInstance, T0_term, T1_term) :-
   ( rdf_has(EventInstance, knowrob:'endTime', T1) ; current_time(T1) ),
   time_term(T0, T0_term),
   time_term(T1, T1_term).
+
+event_name(EventInstance, EventName) :-
+  rdf_split_url(_, EventName, EventInstance).
+
+event_class_name(EventInstance, EventClass) :-
+  rdf_has(EventInstance, rdf:'type', ClassUri),
+  rdf_split_url(_, EventClass, ClassUri),
+  not( EventClass = 'NamedIndividual' ).
+
+event_class(EventInstance, ClassUri) :-
+  rdf_has(EventInstance, rdf:'type', ClassUri),
+  rdf_split_url(_, EventClass, ClassUri),
+  not( EventClass = 'NamedIndividual' ).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %

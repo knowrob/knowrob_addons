@@ -93,6 +93,7 @@
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('knowrob_marker')).
+:- use_module(library('knowrob_math')).
 :- use_module(library('srdl2')).
 :- use_module(library('knowrob_cram')).
 :- use_module(library('knowrob_objects')).
@@ -342,21 +343,19 @@ saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdf_has(Event, knowrob:'goalLocation', Loc),
   mng_designator_props(Loc, 'SLOT-ID', Slot),
   saphari_slot_pose(Slot, Translation, Orientation), !.
+
 saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
   rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
   rdf_has(Identifier, knowrob:'successorDesignator', Designator),
   event_before(knowrob:'GraspingSomething', Event, T),
   rdf_has(Event, knowrob:'objectActedOn', Designator),
-  mng_lookup_position('/map', '/gripper_finger_left_link', T, P0),
-  mng_lookup_position('/map', '/gripper_finger_right_link', T, P1),
-  mng_lookup_position('/map', '/gripper_base_link', T, P2),
-  Offset is 0.12,
-  vector_average(P0,P1,C),
-  vector_sub(C,P2,D),
-  vector_normalize(D,DirNorm),
-  vector_mul(DirNorm, Offset, Dir),
-  vector_add(C, Dir, Translation),
-  Orientation = [0.0,0.0,0.0,0.0], !.
+  mng_lookup_transform('/map', '/gripper_tool_frame', T, Matrix),
+  matrix_translation(Matrix,Translation),
+  matrix_rotation(Matrix,GripperOrientation),
+  % Apply offset quaternion
+  quaternion_multiply(GripperOrientation,
+      [0.0,0.7071067811865476,-0.7071067811865475,0.0], Orientation), !.
+
 saphari_object_pose_estimate(_, PoseIn, PoseIn).
 
 :- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
@@ -364,11 +363,12 @@ saphari_object_pose_estimate(_, PoseIn, PoseIn).
 saphari_marker_update(T) :-
   saphari_active_task(Task,T),
   marker_update(agent('http://knowrob.org/kb/Saphari.owl#saphari_robot1'), T),
-  saphari_object_marker_update(Task,T),
-  saphari_human_marker_update(T).
+  ignore(saphari_object_marker_update(Task,T)),
+  ignore(saphari_human_marker_update(T)),
+  ignore(saphari_intrusion_marker_update(T)).
 
 saphari_object_marker_update(Task,T) :-
-  saphari_perceived_objects(Objs, T),
+  saphari_perceived_objects(Objs, T), !,
   forall( ( current_predicate(v_saphari_marker,_), v_saphari_marker(Obj) ), (
      % remove all markers that do not correspond to an object that was
      % perceived with latest perception event and that's not inside of the basket
@@ -384,8 +384,64 @@ saphari_object_marker_update(Task,T) :-
     marker_update(object(Obj), T)
   )).
 
-saphari_human_marker_update(_) :-
-  true. % TODO: implement
+saphari_human_marker_update(T) :-
+  % Find all active PerceivePerson events
+  findall(Event, event(knowrob_cram:'PerceivePerson', Event, T), Events),
+  % Remove existing marker without corresponding event
+  forall(marker(stickman(Person), M), (
+    (  member(Event,Events), rdf_has(Event, knowrob:'detectedPerson', Person)
+    -> true
+    ;  marker_remove(M)
+    )
+  )),
+  % Update perceived human
+  forall(member(Event,Events), saphari_human_marker_update(T, Event)).
+
+saphari_human_marker_update(T, Event) :-
+  rdf_has(Event, knowrob:'detectedPerson', Person),
+  rdf_has(Person, srdl2comp:'tfPrefix', literal(type(_,TfPrefix))),
+  marker(stickman(Person), M, TfPrefix),
+  marker_tf_prefix(M, TfPrefix),
+  marker_update(M,T).
+
+saphari_intrusion_marker_update(T) :-
+  % Remove previous highlights
+  ignore(marker_highlight_remove(all)),
+  
+  % Find all active HumanIntrusion events
+  findall(Event, event(saphari:'HumanIntrusion', Event, T), IntrusionEvents),
+  
+  % highlight intruding body parts of perceived humans
+  forall(marker(stickman(Person), _), (
+    rdf_has(Person, srdl2comp:'tfPrefix', literal(type(_,TfPrefix))),
+    rdf_has(Person, knowrob:'designator', D),
+    
+    % find all intruding body parts
+    findall(Part, (
+      member(Event,IntrusionEvents),
+      rdf_has(Event, knowrob:'designator', D),
+      rdf_has(Event, knowrob:'bodyPartsUsed', literal(type(_,Part)))
+    ), Parts),
+    
+    % Finally highlight intruding parts
+    forall(member(Part0,Parts), (
+      atom_concat('http://knowrob.org/kb/openni_human1.owl#iai_human_', Part0, HumanLink0),
+      term_to_atom(object_without_children(HumanLink0), X0),
+      atomic_list_concat([TfPrefix,'_',X0], Marker0),
+      marker_highlight(Marker0, [1.0,0.0,0.0,1.0]),
+      
+      % highlight cylinder marker
+      forall(member(Part1,Parts), (
+        atom_concat('http://knowrob.org/kb/openni_human1.owl#iai_human_', Part1, HumanLink1),
+        (  succeeding_link(HumanLink0, HumanLink1)
+        -> (
+          term_to_atom(cylinder_tf(HumanLink0,HumanLink1), X1),
+          atomic_list_concat([TfPrefix,'_',X1], Marker1),
+          marker_highlight(Marker1, [1.0,0.0,0.0,1.0])
+        ) ;  true )
+      ))
+    ))
+  )).
 
 saphari_object_marker(Obj) :-
   current_predicate(v_saphari_marker,_),
@@ -437,17 +493,42 @@ saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
   object_pose_at_time(SlotIdentifier, T, Translation, Orientation).
 
-saphari_active_task(Task) :-
-  % for now assume a task is active when no endTime asserted
-  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-  not( rdf_has(Task, knowrob:endTime, _) ).
+%saphari_active_task(Task) :-
+%  % for now assume a task is active when no endTime asserted
+%  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
+%  not( rdf_has(Task, knowrob:endTime, _) ), !.
 
-saphari_active_task(Task, T) :-
-  time_term(T, T_term),
-  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-  event_interval(Task, T0, T1),
-  T_term >= T0,
-  T_term =< T1.
+%saphari_active_task(Task, T) :-
+%  time_term(T, T_term),
+%  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
+%  event_interval(Task, T0, T1),
+%  T_term >= T0,
+%  T_term =< T1, !.
+
+saphari_active_task(Task) :-
+  saphari_latest_task(Task).
+
+saphari_active_task(Task,T) :-
+  saphari_latest_task(Task,T).
+
+saphari_latest_task(Task) :-
+  current_time(T), saphari_latest_task(Task, T).
+
+saphari_latest_task(Task, Time) :-
+  rdfs_individual_of(Task, saphari:'SaphariTaskDescription'),
+  rdf_has(Task, knowrob:'startTime', T0),
+  time_term(T0, T0_term),
+  time_term(Time, Time_term),
+  T0_term =< Time_term,
+  % Make sure that there is no perception event happening after Task
+  % we are only interested in the very last perception event (before Time)
+  not((
+    rdfs_individual_of(Task1, saphari:'SaphariTaskDescription'),
+    rdf_has(Task1, knowrob:'startTime', T1),
+    time_term(T1, T1_term),
+    T1_term =< Time_term,
+    T1_term > T0_term
+  )), !.
 
 % Find list of empty slots with corresponding desired object classes for the slots
 saphari_empty_slot((SlotId, ObjectClass, Pose)) :-
@@ -523,11 +604,17 @@ saphari_object_in_basket(ObjectId, Time) :-
 saphari_object_in_basket(ObjectId, Time, Task) :-
   rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
   rdf_has(Release, knowrob:'objectActedOn', Designator),
-  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
-  event_interval(Task, T0, T1),
-  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
-  Release_T_term >= T0,
-  Release_T_term =< T1.
+  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
+
+% TODO: why checking for task interval?
+%saphari_object_in_basket(ObjectId, Time, Task) :-
+%  rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
+%  rdf_has(Release, knowrob:'objectActedOn', Designator),
+%  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
+%  event_interval(Task, T0, T1),
+%  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
+%  Release_T_term >= T0,
+%  Release_T_term =< T1.
 
 saphari_object_in_gripper(ObjectId) :-
   rdf_has(Grasp, knowrob:'objectActedOn', ObjectId),
