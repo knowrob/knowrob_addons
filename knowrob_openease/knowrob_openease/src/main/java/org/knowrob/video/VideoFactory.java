@@ -14,6 +14,7 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 
 import org.knowrob.interfaces.mongo.types.ISODate;
+//import org.knowrob.video.tools;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -25,10 +26,15 @@ import sensor_msgs.Image;
 
 import com.mongodb.BasicDBObject;
 
+import com.googlecode.javacv.cpp.opencv_core;
+import com.googlecode.javacv.cpp.opencv_core.CvMat;
+import static com.googlecode.javacv.cpp.opencv_highgui.cvSaveImage;
+
+
 /**
  * @author asil@cs.uni-bremen.de
  */
-public class VideoFactory extends AbstractNodeMain {
+public class VideoFactory extends AbstractNodeMain implements MessageListener<sensor_msgs.Image> {
 	private String path_of_video = "/home/ros/summary_data/video";
 	private String absolute_path_prefix = "/home/ros";
 	private ConnectedNode node = null;
@@ -36,21 +42,20 @@ public class VideoFactory extends AbstractNodeMain {
 	//private MongoRosMessage<sensor_msgs.Image> backgroundMessage = null;
 	private Publisher<std_msgs.String> backgroundMessage = null;
 	
-	//private Subscriber<sensor_msgs.Image> frameReceiver = null;
+	private Subscriber<sensor_msgs.Image> frameReceiver = null;
 	
-	//private boolean recordingStarted = false;
-	//private String recordingTime = "";
-	//private long frameCounter = 0;
+	private boolean recordingStarted = false;
+	private String recordingTime = "";
+	private long frameCounter = 0;
 	
-	//private int in_fps = 15;
-	//private int out_fps = 30;
+	private int in_fps = 15;
+	private int out_fps = 30;
 
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
 		node = connectedNode;
-		
-		//frameReceiver = connectedNode.newSubscriber("/openease/video/frame", sensor_msgs.Image._TYPE);
-		//frameReceiver.addMessageListener(this);
+		frameReceiver = connectedNode.newSubscriber("/openease/video/frame", sensor_msgs.Image._TYPE);
+		frameReceiver.addMessageListener(this);
 		
 		path_of_video = node.getParameterTree().getString("/knowrob/videos/path", path_of_video);
 		absolute_path_prefix = node.getParameterTree().getString("/knowrob/videos/absolute/path/prefix", absolute_path_prefix);
@@ -68,10 +73,11 @@ public class VideoFactory extends AbstractNodeMain {
 	//////// Listening on /openease/video/frame topic and generate video from messages
 	///////////////////////////////////
 	
-	/*
+	
 	public void setVideoFPS(int in_fps, int out_fps) {
 		this.in_fps = in_fps;
 		this.out_fps = out_fps;
+		
 	}
 	
 	public boolean startRecording() {
@@ -79,7 +85,6 @@ public class VideoFactory extends AbstractNodeMain {
 		recordingStarted = true;
 		recordingTime = "" + System.currentTimeMillis() / 1000;
 		frameCounter = 0;
-		node.getLog().info("Start recording video: " + recordingTime);
 		System.err.println("Start recording video: " + recordingTime);
 		return true;
 	}
@@ -121,10 +126,8 @@ public class VideoFactory extends AbstractNodeMain {
 	public boolean isRecording() {
 		return recordingStarted;
 	}
-	*/
-
-	//@Override
-	/*
+	
+        @Override
 	public void onNewMessage(Image frame) {
 		if(!isRecording()) {
 			node.getLog().debug("Ignoring video frame: " + frame.getHeader().getStamp().toString());
@@ -147,10 +150,10 @@ public class VideoFactory extends AbstractNodeMain {
 			frameCounter += 1;
 		}
 		catch (Exception exc) {
-    		node.getLog().error("Failed to write frame.", exc);
+    		        node.getLog().error("Failed to write frame.", exc);
 		}
 	}
-	*/
+	
 	
 	
 	public boolean waitOnPublisher() {
