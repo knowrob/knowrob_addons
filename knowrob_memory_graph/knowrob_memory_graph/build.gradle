@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Asil Kaan Bozcuoglu.
+ * Copyright (C) 2016 Asil Kaan Bozcuoglu.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -25,25 +25,11 @@ mainClassName = 'org.ros.RosRun'
  which usually occur on minor and major version numbers.
 */
 
-
-repositories {
-    mavenCentral()
-    maven {
-        url "http://maven2.javacv.googlecode.com/git/"
-    }
-}
-
-
 dependencies {
   compile 'org.ros.rosjava_core:rosjava:[0.1,)'
   compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
   compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
   compile 'org.knowrob.knowrob_cram:knowrob_cram:[0.1,)'
-  compile 'nu.pattern:opencv:2.4.9-4'
-  
-  compile group: 'com.googlecode.javacpp', name: 'javacpp', version: '0.5'
-  compile group: 'com.googlecode.javacv', name: 'javacv', version: '0.5'
-  
 }
 
 
@@ -55,5 +41,3 @@ task writeClasspath << {
                                                project.name + "-" +
                                                project.version + ".jar" + "\n"
 }
-
-compileJava.options.encoding = 'utf-8'

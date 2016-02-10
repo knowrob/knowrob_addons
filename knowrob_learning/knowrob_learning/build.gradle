@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Asil Kaan Bozcuoglu.
+ * Copyright (C) 2016 Asil Kaan Bozcuoglu.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,32 +17,13 @@
 apply plugin: 'application'
 mainClassName = 'org.ros.RosRun'
 
-/* 
- Dependencies can be on external maven artifacts (such as rosjava_core
- here) or on sibling subprojects. Fpr external maven artifact dependencies
- it's convenient to use an open ranged dependency, but restrict it to
- cover the patch version only to avoid breakages due to api changes
- which usually occur on minor and major version numbers.
-*/
-
-
-repositories {
-    mavenCentral()
-    maven {
-        url "http://maven2.javacv.googlecode.com/git/"
-    }
-}
-
 
 dependencies {
   compile 'org.ros.rosjava_core:rosjava:[0.1,)'
   compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
   compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
-  compile 'org.knowrob.knowrob_cram:knowrob_cram:[0.1,)'
-  compile 'nu.pattern:opencv:2.4.9-4'
   
-  compile group: 'com.googlecode.javacpp', name: 'javacpp', version: '0.5'
-  compile group: 'com.googlecode.javacv', name: 'javacv', version: '0.5'
+  compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.6'
   
 }
 
