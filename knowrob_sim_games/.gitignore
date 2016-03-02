@@ -1,0 +1,9 @@
+*~
+knowrob_kitchen_games/build/
+.gradle
+knowrob_sim_games/build/
+.classpath
+.project
+.settings
+bin
+build
