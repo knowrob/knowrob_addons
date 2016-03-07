@@ -162,6 +162,12 @@ public class MongoSimGames {
 	     else if(color.equals("green")){
 	    	 return new float[] {0.0f, 1.0f, 0.0f, 1.0f};
 	     }
+	     else if(color.equals("yellow")){
+	    	 return new float[] {1.0f, 1.0f, 0.0f, 1.0f};
+	     }
+	     else if(color.equals("red")){
+	    	 return new float[] {1.0f, 0.0f, 0.0f, 1.0f};
+	     }
 	     else{
 	    	 return new float[] {1.0f, 0.0f, 0.0f, 1.0f}; // default red       
 	     }
@@ -287,11 +293,11 @@ public class MongoSimGames {
 		MarkerObject m = MarkerPublisher.get().getMarker(markerID);
 		if(m==null) {			
 			// create marker
-			m = MarkerPublisher.get().createMarker(markerID);			
+			m = MarkerPublisher.get().createMarker(markerID);
 			// set the type of the marker
 			m.setType(markerFromString(markerType));
 			// set the positions of the list markers
-			m.getMessage().setPoints(marker_points);			
+			m.getMessage().setPoints(marker_points);
 			// transform string color to float[] array
 			m.setColor(this.colorFromString(color));
 			// set the scale of the marker

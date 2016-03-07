@@ -489,6 +489,7 @@ loop_pancake_raw :-
 	write(FlipEnd), nl.
 
 
+
 p_test :-
 	
 	sg_load_experiments('/home/haidu/sr_experimental_data/mixed_pancake'),
@@ -498,13 +499,15 @@ p_test :-
 	exp_tag(EpInst, ExpTag),
 	write('** Experiment tag: '), write(ExpTag), nl,
 
+	%% sg_exp_timeline(EpInst, 'diag_id1', 'Diag title');
+
 	% load the semantic map
 	%owl_parse('package://knowrob_sim_games/owl/pizza_kitchen_table.owl'), 
 	%marker_update(object('http://knowrob.org/kb/pizza_kitchen_table.owl#SimPizzaMap_gVb2')),
 	
 	% load the semantic map
-	owl_parse('package://knowrob_sim_games/owl/kitchen_table.owl'), 
-	marker_update(object('http://knowrob.org/kb/kitchen_table.owl#SimPancakeMap_gVb3')),
+	%% owl_parse('package://knowrob_sim_games/owl/kitchen_table.owl'), 
+	%% marker_update(object('http://knowrob.org/kb/kitchen_table.owl#SimPancakeMap_gVb3')),
 
    %marker(mesh('http://knowrob.org/kb/labels.owl#pizza_AleMDa28D1Kmvc'), MeshMarkerObj),
    %marker_mesh_resource(MeshMarkerObj, 'package://kitchen/food-drinks/pizza-credentials/pizza.dae'),

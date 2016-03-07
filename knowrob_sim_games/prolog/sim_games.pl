@@ -179,7 +179,8 @@ mongo_sim_interface :-
 
 % check flag, then init interface
 mongo_sim_interface(MongoSim) :-
-    mng_sim_interface(fail), 	
+    mng_sim_interface(fail),
+    visualisation_canvas,
     jpl_new('org.knowrob.knowrob_sim_games.MongoSimGames', [], MongoSim),
     retract(mng_sim_interface(fail)),
     assert(mng_sim_interface(MongoSim)),!.
@@ -189,28 +190,28 @@ mongo_sim_interface(MongoSim) :-
     mng_sim_interface(MongoSim).
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-% Create the vis sim interface object
-% (makes sure the interface is only created once)
+%% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%% % Create the vis sim interface object
+%% % (makes sure the interface is only created once)
 
-% set flag
-:- assert(vs_sim_interface(fail)).
+%% % set flag
+%% :- assert(vs_sim_interface(fail)).
 
-% from knowrob_mongo.pl
-vis_sim_interface :-
-    vis_sim_interface(_).
+%% % from knowrob_mongo.pl
+%% vis_sim_interface :-
+%%     vis_sim_interface(_).
 
-% check flag, then init interface
-vis_sim_interface(VisSim) :-
-    vs_sim_interface(fail), 	
-    jpl_new('org.knowrob.knowrob_sim_games.VisSimGames',
-			[],	VisSim),
-    retract(vs_sim_interface(fail)),
-    assert(vs_sim_interface(VisSim)),!.
+%% % check flag, then init interface
+%% vis_sim_interface(VisSim) :-
+%%     vs_sim_interface(fail), 	
+%%     jpl_new('org.knowrob.knowrob_sim_games.VisSimGames',
+%% 			[],	VisSim),
+%%     retract(vs_sim_interface(fail)),
+%%     assert(vs_sim_interface(VisSim)),!.
 
-% if set, return object
-vis_sim_interface(VisSim) :-
-    vs_sim_interface(VisSim).
+%% % if set, return object
+%% vis_sim_interface(VisSim) :-
+%%     vs_sim_interface(VisSim).
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %   
