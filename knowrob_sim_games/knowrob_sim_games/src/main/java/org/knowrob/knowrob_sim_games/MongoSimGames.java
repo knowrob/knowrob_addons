@@ -372,12 +372,13 @@ public class MongoSimGames {
 		// create marker for every link mesh
 		for (int i = 0; i < names.size(); ++i)
 		{
-			final String curr_name = names.get(i);	
+			final String curr_name = names.get(i);
+			final String curr_id = markerID + curr_name;
 			// check if marker already exists (ID + link names)
-			MarkerObject m = MarkerPublisher.get().getMarker(markerID + curr_name);
+			MarkerObject m = MarkerPublisher.get().getMarker(curr_id);
 			if(m==null) {
 				// create marker
-				m = MarkerPublisher.get().createMarker(markerID + curr_name);
+				m = MarkerPublisher.get().createMarker(curr_id);
 				// set the type of the marker
 				m.setType(Marker.MESH_RESOURCE);
 				// set the path to the mesh
@@ -389,7 +390,7 @@ public class MongoSimGames {
 				m.setScale(new float[] {1.0f,1.0f,1.0f});
 			}
 			// add ID to the marker container
-			this.markerIDs.add(markerID);		
+			this.markerIDs.add(curr_id);		
 		}
 	}
 	
@@ -683,12 +684,6 @@ public class MongoSimGames {
 		}	
 	}
 	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Get the poses of the model links meshes at the given timestamp
 	 * view results as rviz markers
@@ -798,26 +793,6 @@ public class MongoSimGames {
 			this.CreateNestedMeshMarkers(translations, orientations, names, meshFolderPath, markerID);			
 		}	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	//////////////////// LINK
 	/**
@@ -2719,7 +2694,7 @@ public class MongoSimGames {
 		// build the $projection operation
 		DBObject proj_fields = new BasicDBObject("_id", 0);
 		proj_fields.put("timestamp", 1);
-		proj_fields.put("links_name_pose", "$models.links.pos");
+		proj_fields.put("links_pos", "$models.links.pos");
 		DBObject project = new BasicDBObject("$project", proj_fields);
 
 		// run aggregation
