@@ -54,6 +54,7 @@
     	view_model_traj/5,
     	view_model_traj/9,
     	view_mesh_at/5,
+    	view_nested_mesh_at/5,
     	view_mesh_traj/7,
     	get_link_traj/6,
     	view_link_traj/6,
@@ -337,6 +338,17 @@ view_mesh_at(EpInst, Model, Ts, MeshPath, MarkerID) :-
 	set_coll(CollName),
 	jpl_call(MongoSim, 'ViewModelMeshAt', 
 		[Ts, Model, MeshPath, MarkerID], @void).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %  
+% View the nested meshes of the model at the given time
+% Model = 'Spatula', 
+% TODO make sure the correct coll is set, check that model exists
+view_nested_mesh_at(EpInst, Model, Ts, MeshFolderPath, MarkerID) :-
+	mongo_sim_interface(MongoSim),
+	get_raw_coll_name(EpInst, CollName),
+	set_coll(CollName),
+	jpl_call(MongoSim, 'ViewNestedMeshesAt', 
+		[Ts, Model, MeshFolderPath, MarkerID], @void).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %  
 % View the traj of the model mesh at the given times

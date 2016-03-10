@@ -159,11 +159,41 @@ public class MongoSimGames {
 	     if(color.equals("blue")){
 	    	return new float[] {0.0f, 0.0f, 1.0f, 1.0f};	    	
 	     }
-	     else if(color.equals("green")){
+	     else if(color.equals("lime")){
 	    	 return new float[] {0.0f, 1.0f, 0.0f, 1.0f};
+	     }
+	     else if(color.equals("green")){
+	    	 return new float[] {0.0f, 0.5f, 0.0f, 1.0f};
 	     }
 	     else if(color.equals("yellow")){
 	    	 return new float[] {1.0f, 1.0f, 0.0f, 1.0f};
+	     }
+	     else if(color.equals("orange")){
+	    	 return new float[] {1.0f, 0.65f, 0.0f, 1.0f};
+	     }
+	     else if(color.equals("cyan")){
+	    	 return new float[] {0.0f, 1.0f, 1.0f, 1.0f};
+	     }
+	     else if(color.equals("purple")){
+	    	 return new float[] {0.5f, 0.0f, 0.5f, 1.0f};
+	     }
+	     else if(color.equals("teal")){
+	    	 return new float[] {0.0f, 0.5f, 0.5f, 1.0f};
+	     }
+	     else if(color.equals("magenta")){
+	    	 return new float[] {1.0f, 0.0f, 1.0f, 1.0f};
+	     }
+	     else if(color.equals("brown")){
+	    	 return new float[] {0.65f, 0.16f, 0.16f, 1.0f};
+	     }
+	     else if(color.equals("gray") || color.equals("grey")){
+	    	 return new float[] {0.5f, 0.5f, 0.5f, 1.0f};
+	     }
+	     else if(color.equals("white")){
+	    	 return new float[] {1.0f, 1.0f, 1.0f, 1.0f};
+	     }
+	     else if(color.equals("black")){
+	    	 return new float[] {0.0f, 0.0f, 0.0f, 1.0f};
 	     }
 	     else if(color.equals("red")){
 	    	 return new float[] {1.0f, 0.0f, 0.0f, 1.0f};
@@ -328,6 +358,39 @@ public class MongoSimGames {
 		}
 		// add ID to the marker container
 		this.markerIDs.add(markerID);
+	}
+
+	/**
+	 * Create the nested rviz mesh marker
+	 */
+	public void CreateNestedMeshMarkers(
+			List<double[]> translations,
+			List<double[]> orientations,
+			List<String> names,
+			String meshFolderPath,
+			String markerID){
+		// create marker for every link mesh
+		for (int i = 0; i < names.size(); ++i)
+		{
+			final String curr_name = names.get(i);	
+			// check if marker already exists (ID + link names)
+			MarkerObject m = MarkerPublisher.get().getMarker(markerID + curr_name);
+			if(m==null) {
+				// create marker
+				m = MarkerPublisher.get().createMarker(markerID + curr_name);
+				// set the type of the marker
+				m.setType(Marker.MESH_RESOURCE);
+				// set the path to the mesh
+				m.setMeshResource(meshFolderPath + curr_name + ".dae");
+				// set pos and rotation
+				m.setTranslation(translations.get(i));
+				m.setOrientation(orientations.get(i));
+				// set scale
+				m.setScale(new float[] {1.0f,1.0f,1.0f});
+			}
+			// add ID to the marker container
+			this.markerIDs.add(markerID);		
+		}
 	}
 	
 	/**
@@ -619,6 +682,142 @@ public class MongoSimGames {
 			this.CreateMeshMarker(translation, orientation, meshPath, markerID);	
 		}	
 	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Get the poses of the model links meshes at the given timestamp
+	 * view results as rviz markers
+	 */
+	public void ViewNestedMeshesAt(
+			String ts_str,
+			String model_name,
+			String meshFolderPath,
+			String markerID){		
+		// transform the knowrob time to double with 3 decimal precision
+		double timestamp = (double) Math.round((parseTime_d(ts_str) - TIME_OFFSET) * 1000) / 1000;	
+
+		this.ViewNestedMeshesAt(timestamp, model_name, meshFolderPath, markerID);
+	}
+	
+	/**
+	 * Get the poses of the model links meshes at the given timestamp
+	 * view results as rviz markers
+	 */
+	public void ViewNestedMeshesAt(double timestamp,
+			String model_name,
+			String meshFolderPath,
+			String markerID){		
+					
+		// $and list for querying the $match in the aggregation
+		BasicDBList time_and_name = new BasicDBList();
+
+		// add the timestamp and the model name
+		time_and_name.add(new BasicDBObject("timestamp", new BasicDBObject("$lte", timestamp)));
+		time_and_name.add(new BasicDBObject("models.name", model_name));
+
+		// create the pipeline operations, first the $match
+		DBObject match_time_and_name = new BasicDBObject(
+				"$match", new BasicDBObject( "$and", time_and_name)); 
+
+		// sort the results in descending order on the timestamp (keep most recent result first)
+		DBObject sort_desc = new BasicDBObject(
+				"$sort", new BasicDBObject("timestamp", -1));
+
+		// $limit the result to 1, we only need one pose
+		DBObject limit_result = new BasicDBObject("$limit", 1);
+
+		// $unwind models in order to output only the queried model
+		DBObject unwind_models = new BasicDBObject("$unwind", "$models");
+
+		// $match for the given model name from the unwinded models
+		DBObject match_model = new BasicDBObject(
+				"$match", new BasicDBObject("models.name", model_name));
+
+		// build the $projection operation
+		DBObject proj_fields = new BasicDBObject("_id", 0);
+		proj_fields.put("timestamp", 1);		
+		proj_fields.put("links_pos", "$models.links.pos");
+		proj_fields.put("links_rot", "$models.links.rot");
+		proj_fields.put("links_name", "$models.links.name");
+		
+		DBObject project = new BasicDBObject("$project", proj_fields);
+
+		// run aggregation
+		List<DBObject> pipeline = Arrays.asList(
+				match_time_and_name, sort_desc, limit_result, unwind_models, match_model, project);
+
+		AggregationOptions aggregationOptions = AggregationOptions.builder()
+				.batchSize(100)
+				.outputMode(AggregationOptions.OutputMode.CURSOR)
+				.allowDiskUse(true)
+				.build();
+
+		Cursor cursor = this.coll.aggregate(pipeline, aggregationOptions);
+			
+		// get the result of the query
+		if(cursor.hasNext())
+		{			
+			// get the first document as the next cursor
+			BasicDBObject curr_doc = (BasicDBObject) cursor.next();			
+			System.out.println(curr_doc);
+			
+			// get the list of links pos
+			BasicDBList pos_list = (BasicDBList) curr_doc.get("links_pos");
+			BasicDBList rot_list = (BasicDBList) curr_doc.get("links_rot");
+			BasicDBList names_list = (BasicDBList) curr_doc.get("links_name");
+			
+			// Dynamic arrays of the links positions, rotations and names
+			List<double[]> translations = new ArrayList<double[]>();
+			List<double[]> orientations = new ArrayList<double[]>();
+			List<String> names = new ArrayList<String>();
+			
+			// pos_list and rot_list and names_list length should be always the same
+			for (int i = 0; i < pos_list.size(); ++i)
+			{	
+				// add the pos's
+				translations.add(new double[] {
+						((BasicDBObject) pos_list.get(i)).getDouble("x"),
+						((BasicDBObject) pos_list.get(i)).getDouble("y"),
+						((BasicDBObject) pos_list.get(i)).getDouble("z")});
+				
+				// add the rots
+				orientations.add(this.quatFromEulerRad(
+						((BasicDBObject) rot_list.get(i)).getDouble("x"),
+						((BasicDBObject) rot_list.get(i)).getDouble("y"),
+						((BasicDBObject) rot_list.get(i)).getDouble("z")));
+
+				// add the names
+				names.add((String)names_list.get(i));
+			}			
+			// create the nested mesh markers
+			this.CreateNestedMeshMarkers(translations, orientations, names, meshFolderPath, markerID);			
+		}	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//////////////////// LINK
 	/**
@@ -2520,7 +2719,7 @@ public class MongoSimGames {
 		// build the $projection operation
 		DBObject proj_fields = new BasicDBObject("_id", 0);
 		proj_fields.put("timestamp", 1);
-		proj_fields.put("links_pos", "$models.links.pos");
+		proj_fields.put("links_name_pose", "$models.links.pos");
 		DBObject project = new BasicDBObject("$project", proj_fields);
 
 		// run aggregation
@@ -2565,7 +2764,7 @@ public class MongoSimGames {
 		// create the markers
 		this.CreateMarkers(positions, markerID, markerType, color, scale);
 	}
-	
+
 	/**
 	 * Get the positions of the model links at the given timestamp
 	 * save result in MongoDB

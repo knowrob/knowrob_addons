@@ -523,6 +523,8 @@ p_test :-
 	write('Start:'), writeln(GrStart), write('End:'), writeln(GrEnd),
 	sg_marker_remove_all,
 
+	view_nested_mesh_at(EpInst, 'Hand', GrStart, 'package://sim/r_hit_hand/meshes/','meshID'),
+
 	% view model traj
 	%view_model_traj(EpInst, 'Spatula', GrStart, GrEnd, 'model_traj_id'),
 	%view_model_traj(EpInst, 'Mondamin', GrStart, GrEnd, 'model_traj_id2'),
@@ -539,15 +541,15 @@ p_test :-
 
 	% view coll traj
 	%view_collision_traj(EpInst, 'Mondamin', 'mondamin_link', 'mondamin_event_collision', GrStart, GrEnd, 'coll_traj_id'),
-	view_collision_traj(EpInst, 'Mondamin', 'mondamin_link', 'mondamin_event_collision', GrStart, GrEnd, 'coll_traj_id', 'point', 'green', 0.1, 0.05),	
+	%% view_collision_traj(EpInst, 'Mondamin', 'mondamin_link', 'mondamin_event_collision', GrStart, GrEnd, 'coll_traj_id', 'point', 'green', 0.1, 0.05),	
 
 	% view links pos
 	%view_links_positions(EpInst, 'LiquidTangibleThing', GrStart, 'liquid_links_pos_id'),
-	view_links_positions(EpInst, 'LiquidTangibleThing', GrStart, 'liquid_links_pos_id2', 'sphere', 'red', 0.01),
+	%% view_links_positions(EpInst, 'LiquidTangibleThing', GrStart, 'liquid_links_pos_id2', 'sphere', 'red', 0.01),
 	
 	% view links trajs
 	%view_links_trajs(EpInst, 'LiquidTangibleThing', GrStart, GrEnd, 'liquid_links_trajs_id'),
-	view_links_trajs(EpInst, 'LiquidTangibleThing', GrStart, GrEnd, 'liquid_links_trajs_id2', 'cube', 'green', 0.01, 0.05),
+	%% view_links_trajs(EpInst, 'LiquidTangibleThing', GrStart, GrEnd, 'liquid_links_trajs_id2', 'cube', 'green', 0.01, 0.05),
 
 	% view mesh
 	%view_mesh_at(EpInst, 'Spatula', GrStart, 'package://sim/pancake/pancake_maker.dae','meshID'),
