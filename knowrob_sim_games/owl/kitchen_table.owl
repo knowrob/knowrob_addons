@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+          <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+          <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+          <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+          <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+          <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
+          <!ENTITY sim-map 'http://knowrob.org/kb/kitchen_table.owl#'>
+          ]>
+<rdf:RDF
+
+   xmlns:computable="http://knowrob.org/kb/computable.owl#"
+   xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+   xmlns:sim-map="http://knowrob.org/kb/kitchen_table.owl#"
+   xml:base="http://knowrob.org/kb/kitchen_table.owl">
+
+   <!-- =========================================== -->
+   <!-- |   Ontology Imports                      | -->
+   <!-- =========================================== -->
+
+   <owl:Ontology rdf:about="http://knowrob.org/kb/kitchen_table.owl">
+       <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+   </owl:Ontology>
+
+    <!-- GENERAL DEFS -->
+    <owl:ObjectProperty rdf:about="&knowrob;describedInMap"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;depthOfObject"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;heightOfObject"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;widthOfObject"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorX"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorY"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;vectorZ"/>
+    <owl:Class rdf:about="&knowrob;SemanticEnvironmentMap"/>
+    <owl:Class rdf:about="&knowrob;SemanticMapPerception"/>
+    <owl:Class rdf:about="&knowrob;TimePoint"/>
+    <owl:Class rdf:about="&knowrob;Vector"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;pathToCadModel"/>
+
+
+    <!-- SemanticEnvironmentMap -->
+    <owl:NamedIndividual rdf:about="&sim-map;SimPancakeMap_gVb3">
+        <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+    </owl:NamedIndividual>
+
+    <!-- timepoint -->
+    <owl:NamedIndividual rdf:about="&sim-map;timepoint_0">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+    </owl:NamedIndividual>
+
+
+    <knowrob:CounterTop rdf:about="&sim-map;CounterTop_fTr3">
+        <knowrob:describedInMap rdf:resource="&sim-map;SimPancakeMap_gVb3"/>
+        <knowrob:widthOfObject rdf:datatype="&xsd;float">2.45</knowrob:widthOfObject> <!--X-->
+        <knowrob:depthOfObject rdf:datatype="&xsd;float">0.8</knowrob:depthOfObject> <!--Y-->
+        <knowrob:heightOfObject rdf:datatype="&xsd;float">0.03</knowrob:heightOfObject> <!--Z-->
+        <rdfs:label rdf:datatype="&xsd;string">KitchenTableTop</rdfs:label>
+    </knowrob:CounterTop>
+
+    <knowrob:SemanticMapPerception rdf:about="&knowrob;SemanticMapPerception_CounterTop">
+        <knowrob:startTime rdf:resource="&sim-map;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&sim-map;CounterTop_fTr3"/>
+        <knowrob:eventOccursAt rdf:resource="&sim-map;Transformation_fTr3"/>
+    </knowrob:SemanticMapPerception>
+
+    <owl:NamedIndividual rdf:about="&sim-map;Transformation_fTr3">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.4 0.075 0.835</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+
+    <knowrob:TableLeft rdf:about="&sim-map;TableLeft_w1OP">
+        <knowrob:describedInMap rdf:resource="&sim-map;SimPancakeMap_gVb3"/>
+        <knowrob:widthOfObject rdf:datatype="&xsd;float">0.03</knowrob:widthOfObject> <!--X-->
+        <knowrob:depthOfObject rdf:datatype="&xsd;float">0.6</knowrob:depthOfObject> <!--Y-->
+        <knowrob:heightOfObject rdf:datatype="&xsd;float">0.82</knowrob:heightOfObject> <!--Z-->
+        <rdfs:label rdf:datatype="&xsd;string">KitchenTableLeft</rdfs:label>
+    </knowrob:TableLeft>
+
+    <knowrob:SemanticMapPerception rdf:about="&knowrob;SemanticMapPerception_TableLeft">
+        <knowrob:startTime rdf:resource="&sim-map;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&sim-map;TableLeft_w1OP"/>
+        <knowrob:eventOccursAt rdf:resource="&sim-map;Transformation_w1OP"/>
+    </knowrob:SemanticMapPerception>
+
+    <owl:NamedIndividual rdf:about="&sim-map;Transformation_w1OP">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.4 1.185 0.41</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+    <knowrob:TableRight rdf:about="&sim-map;TableRight_qGD1">
+        <knowrob:describedInMap rdf:resource="&sim-map;SimPancakeMap_gVb3"/>
+        <knowrob:widthOfObject rdf:datatype="&xsd;float">0.03</knowrob:widthOfObject> <!--X-->
+        <knowrob:depthOfObject rdf:datatype="&xsd;float">0.6</knowrob:depthOfObject> <!--Y-->
+        <knowrob:heightOfObject rdf:datatype="&xsd;float">0.82</knowrob:heightOfObject> <!--Z-->
+        <rdfs:label rdf:datatype="&xsd;string">KitchenTableRight</rdfs:label>
+    </knowrob:TableRight>
+
+    <knowrob:SemanticMapPerception rdf:about="&knowrob;SemanticMapPerception_TableRight">
+        <knowrob:startTime rdf:resource="&sim-map;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&sim-map;TableRight_qGD1"/>
+        <knowrob:eventOccursAt rdf:resource="&sim-map;Transformation_qGD1"/>
+    </knowrob:SemanticMapPerception>
+
+    <owl:NamedIndividual rdf:about="&sim-map;Transformation_qGD1">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.4 -1.04 0.41</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+
+    <owl:Class rdf:about="&knowrob;PancakeMaker">
+      <!-- TODO check for PancakeMaker in the ontology -->
+      <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	  <rdfs:subClassOf>
+	      <owl:Restriction>
+		  <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		  <owl:hasValue rdf:datatype="&xsd;string">package://sim/pancake/pancake_maker.dae</owl:hasValue>
+	      </owl:Restriction>
+	  </rdfs:subClassOf>
+    </owl:Class>
+
+  <owl:NamedIndividual rdf:about="&knowrob;PancakeMaker_gghT">
+      <rdf:type rdf:resource="&knowrob;PancakeMaker"/>
+      <knowrob:describedInMap rdf:resource="&sim-map;SimPancakeMap_gVb3"/>
+  </owl:NamedIndividual>
+
+   <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerception_PancakeMaker">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:eventOccursAt rdf:resource="&sim-map;Transformation_qqqV"/>
+        <knowrob:startTime rdf:resource="&sim-map;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&knowrob;PancakeMaker_gghT"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&sim-map;Transformation_qqqV">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.3 0.4 0.89</knowrob:translation>
+    </owl:NamedIndividual>
+
+</rdf:RDF>
