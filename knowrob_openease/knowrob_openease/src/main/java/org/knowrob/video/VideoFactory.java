@@ -26,9 +26,9 @@ import sensor_msgs.Image;
 
 import com.mongodb.BasicDBObject;
 
-import com.googlecode.javacv.cpp.opencv_core;
-import com.googlecode.javacv.cpp.opencv_core.CvMat;
-import static com.googlecode.javacv.cpp.opencv_highgui.cvSaveImage;
+import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.opencv_core.CvMat;
+import static org.bytedeco.javacpp.opencv_imgcodecs.*;
 
 
 /**
@@ -54,6 +54,7 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
 		node = connectedNode;
+		
 		frameReceiver = connectedNode.newSubscriber("/openease/video/frame", sensor_msgs.Image._TYPE);
 		frameReceiver.addMessageListener(this);
 		
@@ -77,7 +78,6 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 	public void setVideoFPS(int in_fps, int out_fps) {
 		this.in_fps = in_fps;
 		this.out_fps = out_fps;
-		
 	}
 	
 	public boolean startRecording() {

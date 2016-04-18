@@ -1,25 +1,25 @@
 package org.knowrob.video;
 
-import static com.googlecode.javacv.cpp.opencv_core.CV_16UC1;
-import static com.googlecode.javacv.cpp.opencv_core.CV_16UC3;
-import static com.googlecode.javacv.cpp.opencv_core.CV_16UC4;
-import static com.googlecode.javacv.cpp.opencv_core.CV_32FC1;
-import static com.googlecode.javacv.cpp.opencv_core.CV_32FC2;
-import static com.googlecode.javacv.cpp.opencv_core.CV_32FC3;
-import static com.googlecode.javacv.cpp.opencv_core.CV_32FC4;
-import static com.googlecode.javacv.cpp.opencv_core.CV_64FC1;
-import static com.googlecode.javacv.cpp.opencv_core.CV_64FC2;
-import static com.googlecode.javacv.cpp.opencv_core.CV_64FC3;
-import static com.googlecode.javacv.cpp.opencv_core.CV_64FC4;
-import static com.googlecode.javacv.cpp.opencv_core.CV_8UC1;
-import static com.googlecode.javacv.cpp.opencv_core.CV_8UC2;
-import static com.googlecode.javacv.cpp.opencv_core.CV_8UC3;
-import static com.googlecode.javacv.cpp.opencv_core.CV_8UC4;
-import static com.googlecode.javacv.cpp.opencv_core.cvMat;
+import static org.bytedeco.javacpp.opencv_core.CV_16UC1;
+import static org.bytedeco.javacpp.opencv_core.CV_16UC3;
+import static org.bytedeco.javacpp.opencv_core.CV_16UC4;
+import static org.bytedeco.javacpp.opencv_core.CV_32FC1;
+import static org.bytedeco.javacpp.opencv_core.CV_32FC2;
+import static org.bytedeco.javacpp.opencv_core.CV_32FC3;
+import static org.bytedeco.javacpp.opencv_core.CV_32FC4;
+import static org.bytedeco.javacpp.opencv_core.CV_64FC1;
+import static org.bytedeco.javacpp.opencv_core.CV_64FC2;
+import static org.bytedeco.javacpp.opencv_core.CV_64FC3;
+import static org.bytedeco.javacpp.opencv_core.CV_64FC4;
+import static org.bytedeco.javacpp.opencv_core.CV_8UC1;
+import static org.bytedeco.javacpp.opencv_core.CV_8UC2;
+import static org.bytedeco.javacpp.opencv_core.CV_8UC3;
+import static org.bytedeco.javacpp.opencv_core.CV_8UC4;
+import static org.bytedeco.javacpp.opencv_core.cvMat;
 
 
-import com.googlecode.javacpp.Pointer;
-import com.googlecode.javacv.cpp.opencv_core.CvMat;
+import org.bytedeco.javacpp.Pointer;
+import org.bytedeco.javacpp.opencv_core.CvMat;
 
 /**
  * Mapping of ROS Image messages to OpenCV images.
