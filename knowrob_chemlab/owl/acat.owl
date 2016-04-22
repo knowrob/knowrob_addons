@@ -304,9 +304,9 @@
         <rdfs:subClassOf rdf:resource="&acat;Opening"/>
     </owl:Class>
     
-    <!-- http://knowrob.org/kb/acat.owl#NeutralizingADT -->
+    <!-- http://knowrob.org/kb/acat.owl#FillingADT -->
 
-    <owl:Class rdf:about="&acat;NeutralizingADT">
+    <owl:Class rdf:about="&acat;FillingADT">
         <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
         <rdfs:subClassOf rdf:resource="&acat;Filling"/>
     </owl:Class>
