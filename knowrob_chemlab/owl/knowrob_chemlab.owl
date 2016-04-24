@@ -65,6 +65,20 @@
     <owl:Class rdf:about="&knowrob_chemlab;Bottle">
         <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
     </owl:Class>
+
+
+    <!-- http://knowrob.org/kb/knowrob_chemlab.owl#Jar -->
+
+    <owl:Class rdf:about="&knowrob_chemlab;Jar">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+    </owl:Class>
+
+
+    <!-- http://knowrob.org/kb/knowrob_chemlab.owl#Centrifuge -->
+
+    <owl:Class rdf:about="&knowrob_chemlab;Centrifuge">
+        <rdfs:subClassOf rdf:resource="&knowrob;ElectricalDevice"/>
+    </owl:Class>
     
 
 

@@ -276,10 +276,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 				}
 				for (final File vidFile : episodeDir.listFiles()) {
 					if(vidFile.isDirectory()) continue;
-					String ext = vidFile.getName().substring(vidFile.getName().indexOf(".") + 1).toLowerCase();
+					String ext = vidFile.getName().substring(vidFile.getName().indexOf(".") + 1);
 					if (ext.equalsIgnoreCase("avi") ||
 					    ext.equalsIgnoreCase("mpg") ||
-                                            ext.equalsIgnoreCase("mp4") ||
+					    ext.equalsIgnoreCase("mp4") ||
 					    ext.equalsIgnoreCase("mpeg") ||
 					    ext.equalsIgnoreCase("flv") ||
 					    ext.equalsIgnoreCase("mov") ||
