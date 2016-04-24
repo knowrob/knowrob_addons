@@ -46,6 +46,7 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
+:- use_module(library('knowrob_math')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_chemlab, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
