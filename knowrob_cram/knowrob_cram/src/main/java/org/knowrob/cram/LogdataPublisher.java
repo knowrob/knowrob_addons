@@ -271,8 +271,19 @@ public class LogdataPublisher extends AbstractNodeMain {
 				File videoDir = new File(episodeDir, "videos");
 				if(videoDir.exists()) {
 					for (final File vidFile : videoDir.listFiles()) {
-						// FIXME(daniel): won't work anymore. Is it used at all?
 						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/videos/"+vidFile.getName());
+					}
+				}
+				for (final File vidFile : episodeDir.listFiles()) {
+					if(vidFile.isDirectory()) continue;
+					String ext = vidFile.getName().substring(vidFile.getName().indexOf(".") + 1).toLowerCase();
+					if (ext.equalsIgnoreCase(".avi") ||
+					    ext.equalsIgnoreCase(".mpg") ||
+					    ext.equalsIgnoreCase(".mpeg") ||
+					    ext.equalsIgnoreCase(".flv") ||
+					    ext.equalsIgnoreCase(".mov") ||
+					    ext.equalsIgnoreCase(".mkv")) {
+						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/" + vidFile.getName());
 					}
 				}
 			}
