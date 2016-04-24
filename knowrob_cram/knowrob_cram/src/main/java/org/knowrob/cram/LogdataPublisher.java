@@ -277,12 +277,13 @@ public class LogdataPublisher extends AbstractNodeMain {
 				for (final File vidFile : episodeDir.listFiles()) {
 					if(vidFile.isDirectory()) continue;
 					String ext = vidFile.getName().substring(vidFile.getName().indexOf(".") + 1).toLowerCase();
-					if (ext.equalsIgnoreCase(".avi") ||
-					    ext.equalsIgnoreCase(".mpg") ||
-					    ext.equalsIgnoreCase(".mpeg") ||
-					    ext.equalsIgnoreCase(".flv") ||
-					    ext.equalsIgnoreCase(".mov") ||
-					    ext.equalsIgnoreCase(".mkv")) {
+					if (ext.equalsIgnoreCase("avi") ||
+					    ext.equalsIgnoreCase("mpg") ||
+                                            ext.equalsIgnoreCase("mp4") ||
+					    ext.equalsIgnoreCase("mpeg") ||
+					    ext.equalsIgnoreCase("flv") ||
+					    ext.equalsIgnoreCase("mov") ||
+					    ext.equalsIgnoreCase("mkv")) {
 						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/" + vidFile.getName());
 					}
 				}
