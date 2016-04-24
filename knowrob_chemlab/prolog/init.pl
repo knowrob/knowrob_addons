@@ -38,7 +38,7 @@
 
 %Extended ontology
 :- owl_parser:owl_parse('package://knowrob_chemlab/owl/knowrob_chemlab.owl').
-:- rdf_db:rdf_register_ns(sim, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemlab, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
 
 % :- owl_parser:owl_parse('package://knowrob_chemlab/owl/simulation_map.owl').
-:- rdf_db:rdf_register_ns(sim_map, 'http://knowrob.org/kb/chemlab_map.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemlab_map, 'http://knowrob.org/kb/chemlab_map.owl#', [keep(true)]).
