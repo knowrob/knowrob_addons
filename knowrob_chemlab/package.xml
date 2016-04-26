@@ -12,6 +12,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>rosjava_build_tools</build_depend>
+  <build_depend>rosjava_bootstrap</build_depend>
+  <build_depend>rosjava_messages</build_depend>
+
   <build_depend>knowrob_common</build_depend>
   <build_depend>comp_temporal</build_depend>
   <build_depend>knowrob_mongo</build_depend>

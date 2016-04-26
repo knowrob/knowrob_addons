@@ -1,0 +1,9 @@
+<root>
+  <http:knowrob.org_kb_acat.owl-adtMainObject><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtMainObject>
+  <http:knowrob.org_kb_acat.owl-adtPrimaryObject><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtPrimaryObject>
+  <http:knowrob.org_kb_acat.owl-adtSecondaryObject><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtSecondaryObject>
+  <http:knowrob.org_kb_acat.owl-adtStuff><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtStuff>
+  <http:knowrob.org_kb_acat.owl-adtGoal><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtGoal>
+  <http:knowrob.org_kb_acat.owl-adtContent><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtContent>
+  <http:knowrob.org_kb_acat.owl-adtDevice><![CDATA[http://knowrob.org/kb/acat.owl#ActionDataTable]]></http:knowrob.org_kb_acat.owl-adtDevice>
+</root>

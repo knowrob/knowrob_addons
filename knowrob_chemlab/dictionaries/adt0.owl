@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/acat_example.owl#"
+     xml:base="http://knowrob.org/kb/acat_example.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:acat="http://knowrob.org/kb/acat.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/acat_example.owl">
+        <owl:imports rdf:resource="https://raw.githubusercontent.com/knowrob/knowrob/master/knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat.owl"/>
+        <owl:imports rdf:resource="https://raw.githubusercontent.com/knowrob/knowrob_addons/master/knowrob_cram/owl/knowrob_cram.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/acat.owl#adtContent -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/acat.owl#adtContent"/>
+    
+
+
+    <!-- http://knowrob.org/kb/acat.owl#adtGoal -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/acat.owl#adtGoal"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/acat.owl#ActionDataTable -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/acat.owl#ActionDataTable"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Beaker -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Beaker"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#ActionChunk_ParticleTranslation_P5nakfYHBEZSfvmn -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/acat_example.owl#ActionChunk_ParticleTranslation_P5nakfYHBEZSfvmn">
+        <rdf:type rdf:resource="http://knowrob.org/kb/acat.owl#ActionChunk"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#ActionChunk_PipettingAction_mGE3ZMhv5bl0WUS3 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/acat_example.owl#ActionChunk_PipettingAction_mGE3ZMhv5bl0WUS3">
+        <rdf:type rdf:resource="http://knowrob.org/kb/acat.owl#ActionChunk"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#ActionDataTable_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/acat_example.owl#ActionDataTable_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/acat.owl#ActionDataTable"/>
+        <knowrob:nameString rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PipettingAction-LiquidTangibleThingRed</knowrob:nameString>
+        <acat:adtAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_ParticleTranslation_P5nakfYHBEZSfvmn"/>
+        <acat:adtAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_PipettingAction_mGE3ZMhv5bl0WUS3"/>
+        <acat:adtGoal rdf:resource="http://knowrob.org/kb/knowrob.owl#Beaker_object_cz6ozkt1q7orAE"/>
+        <acat:adtContent rdf:resource="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed_object_XC6ORA7sgXFcdT"/>
+        <acat:adtPrimaryObject rdf:resource="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed_object_XC6ORA7sgXFcdT"/>
+        <acat:adtSecondaryObject rdf:resource="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed_object_XC6ORA7sgXFcdT"/>
+        <acat:adtMainObject rdf:resource="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed_object_XC6ORA7sgXFcdT"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Beaker_object_cz6ozkt1q7orAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob.owl#Beaker_object_cz6ozkt1q7orAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/acat.owl#ActionDataTable"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Beaker"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed_object_XC6ORA7sgXFcdT -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed_object_XC6ORA7sgXFcdT">
+        <rdf:type rdf:resource="http://knowrob.org/kb/acat.owl#ActionDataTable"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#LiquidTangibleThingRed"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.3) http://owlapi.sourceforge.net -->
+
