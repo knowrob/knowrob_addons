@@ -45,7 +45,6 @@
 
     <owl:NamedIndividual rdf:about="&acat_example;UnscrewingADT_sdfiuh436dsfg">
         <rdf:type rdf:resource="&acat;UnscrewingADT"/>
-        <rdf:type rdf:resource="&acat;Unscrewing"/>
 
         <knowrob:tfFrame rdf:datatype="&xsd;string">kuka_goe.baseframe</knowrob:tfFrame> <!-- the map frame -->
 
@@ -60,10 +59,7 @@
         <!-- <acat:adtTool rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_tooldgs98ftzwe"/> -->
         
         <!--- Action chunks --->
-        <!-- TODO(daniel): use nextAction relation -->
-        <acat:adtAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_dsfg24375zd"/>
-        <acat:adtAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_vsdg78hndsg"/>
-        <acat:adtAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_bgjsfd8t438"/>
+        <knowrob:subAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_dsfg24375zd"/>
 
         <!-- TODO(daniel): part-graph, ignore? -->
         <!-- TODO(daniel): recording method/data, ignore? -->
