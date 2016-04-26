@@ -30,7 +30,10 @@ import java.lang.Float;
 
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
+import javax.vecmath.Vector3d;
 import java.io.*;
+
+import org.knowrob.knowrob_sim_games.MongoSimGames;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
@@ -370,6 +373,8 @@ public class EpisodicMemoryToADT
 		generateActionChuck(ind);		
 		File ontologyFile = new File(dictionary_path + "/adt" + count + ".owl");
 
+		System.out.println(dictionary_path + "/adt" + count + ".owl");
+
 		RDFXMLOntologyFormat rdfxmlformat = new RDFXMLOntologyFormat();
 		try
 		{
@@ -433,6 +438,9 @@ public class EpisodicMemoryToADT
 												(chunkProperty, adt_of_interest, valueNew);
 								AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
 								manager.applyChange(addAxiomChange);
+
+								createTrajectoryForActionChunk(valueNew, 
+											timeInstance(value, true), timeInstance(value, false), "PR2LGripper", "chem_coll_1");
 
 							}
 
@@ -521,6 +529,52 @@ public class EpisodicMemoryToADT
 		
 
 		return everything;
+
+	}
+
+
+	public boolean createTrajectoryForActionChunk(OWLNamedIndividual chunk, float start, float end, String model, String dbName)
+	{
+		if(start < end)
+		{
+			MongoSimGames mongosimgames = new MongoSimGames();
+			mongosimgames.SetDatabase(dbName);
+			mongosimgames.SetCollection(dbName + "_raw");
+
+			ArrayList<Vector3d> trajPoints =  mongosimgames.ViewModelTrajectory((double) start, (double) end, model, null);
+
+			OWLClass translocationClass = factory.getOWLClass(IRI.create("http://knowrob.org/kb/knowrob.owl#Translocation"));
+			OWLClass trajectoryClass = factory.getOWLClass(IRI.create("http://knowrob.org/kb/knowrob.owl#Trajectory"));
+			OWLNamedIndividual trajectoryInstance = factory.getOWLNamedIndividual(":#Trajectory_" + chunk.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
+			OWLClassAssertionAxiom translocationClassAssertion = factory.getOWLClassAssertionAxiom(translocationClass, trajectoryInstance);
+			manager.addAxiom(adtOntology, translocationClassAssertion);
+			OWLClassAssertionAxiom trajectoryClassAssertion = factory.getOWLClassAssertionAxiom(trajectoryClass, trajectoryInstance);
+			manager.addAxiom(adtOntology, trajectoryClassAssertion);
+
+			String trajectorySamples = "";
+
+			for(Vector3d point: trajPoints)
+			{
+				trajectorySamples += point.x + " " + point.y + " " + point.z + "";			 
+			}
+			System.out.println(start + "-" + end );
+			System.out.println(trajectorySamples);
+
+			OWLLiteral trajectoryLiteral = factory.	getOWLLiteral(trajectorySamples);
+			OWLDataPropertyExpression trajectoryProperty = factory.getOWLDataProperty(":#poses", adtPM);
+			OWLDataPropertyAssertionAxiom assertion = factory.getOWLDataPropertyAssertionAxiom(trajectoryProperty, trajectoryInstance, trajectoryLiteral);
+			AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
+			manager.applyChange(addAxiomChange);
+
+			OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(":#trajectoryDuring", adtPM);
+			OWLObjectPropertyAssertionAxiom chunkAssertion = factory.getOWLObjectPropertyAssertionAxiom(chunkProperty, trajectoryInstance, chunk);
+			addAxiomChange = new AddAxiom(adtOntology, chunkAssertion);
+			manager.applyChange(addAxiomChange);
+		}
+		else
+			return false;
+
+		return true;
 
 	}
 

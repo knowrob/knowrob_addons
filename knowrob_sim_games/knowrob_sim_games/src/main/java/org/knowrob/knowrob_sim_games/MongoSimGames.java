@@ -1396,7 +1396,7 @@ public class MongoSimGames {
 	 * Query the trajectory of the given model with double timestamps
 	 * view as rviz markers
 	 */
-	public void ViewModelTrajectory(double start_ts,
+	public ArrayList<Vector3d> ViewModelTrajectory(double start_ts,
 			double end_ts,
 			String model_name,
 			String markerID){
@@ -1461,7 +1461,8 @@ public class MongoSimGames {
 		}
 		
 		// create the markers
-		this.CreateMarkers(traj, markerID);
+		if(markerID != null )this.CreateMarkers(traj, markerID);
+		return traj;
 	}
 	
 	/**
