@@ -89,6 +89,11 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 public class EpisodicMemoryToADT
 {
 	final String task_root_type = "http://knowrob.org/kb/knowrob.owl#RobotExperiment";
+	final String sub_action_type = "http://knowrob.org/kb/knowrob.owl#subAction";
+        final String start_time_type = "http://knowrob.org/kb/knowrob.owl#startTime";
+	final String end_time_type = "http://knowrob.org/kb/knowrob.owl#endTime";
+        final String translocation_type = "http://knowrob.org/kb/knowrob.owl#Translocation";
+	final String trajectory_type = "http://knowrob.org/kb/knowrob.owl#Trajectory";
 
 	OWLOntologyManager manager;
 	OWLDataFactory factory;
@@ -160,12 +165,12 @@ public class EpisodicMemoryToADT
 		return (Map<String,String>) o;
 	}	
 
-	public boolean initializeADTOntology()
+	public boolean initializeADTOntology(String actionClass)
 	{
 		try
 		{
 			
-			OWLClass clsADT = factory.getOWLClass(":#ActionDataTable", adtPM);
+			OWLClass clsADT = factory.getOWLClass(":#" + actionClass.replaceAll("Action", "") + "ADT", adtPM);
 			adtOntology = manager.createOntology(IRI.create(adtExamplePM.getDefaultPrefix()));
 		
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(clsADT);
@@ -252,7 +257,7 @@ public class EpisodicMemoryToADT
 		{
 			for(OWLNamedIndividual instance : setOfInstances.getFlattened())
 			{
-				generateADTFromIndividual(instance, count);
+				generateADTFromIndividual(actionClass, instance, count);
 				count++;
 			}
 		}
@@ -281,9 +286,9 @@ public class EpisodicMemoryToADT
 
 	}
 
-	public boolean generateADTFromIndividual(OWLIndividual ind, int count)
+	public boolean generateADTFromIndividual(String adtType, OWLIndividual ind, int count)
 	{
-		initializeADTOntology();
+		initializeADTOntology(adtType);
 		Set<String> keySet = dictionary.keySet();
 		String[] keySetArray = new String[keySet.size()];
 		keySet.toArray(keySetArray);
@@ -298,7 +303,6 @@ public class EpisodicMemoryToADT
 
 
 			for (OWLObjectPropertyExpression property : objectProperties) {
-				//System.out.println(property.asOWLObjectProperty().getIRI().toString() + "----" + owlField);
 				if(owlField.equals(property.asOWLObjectProperty().getIRI().toString()))
 				{	
 						
@@ -307,11 +311,11 @@ public class EpisodicMemoryToADT
 					if(values != null && values.size() > 0)
 					{
 						
-						//System.out.println("here1");
 						OWLIndividual[] valuesArray = new OWLIndividual[values.size()];
 						values.toArray(valuesArray);
 
 						OWLNamedIndividual valueFirst = valuesArray[0].asOWLNamedIndividual();
+
 
 						Set<OWLClassExpression> classes = valueFirst.getTypes(ontology);
 						OWLClassExpression[] classesArray = new OWLClassExpression[classes.size()];
@@ -334,13 +338,8 @@ public class EpisodicMemoryToADT
 
 						OWLObjectProperty interpretedProperty = factory.getOWLObjectProperty(IRI.create(keySetArray[x].replaceAll("http:", "http://").
 											replaceAll("_", "/").replaceAll("-", "#")));
-						OWLObjectPropertyAssertionAxiom assertion = factory.getOWLObjectPropertyAssertionAxiom
-												(interpretedProperty, adt_of_interest, valueFirst);
 
-						AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
-						manager.applyChange(addAxiomChange);
-
-
+						makeObjectPropertyAssertion(adt_of_interest, valueFirst, interpretedProperty);
 					}	
 					
 													
@@ -372,8 +371,6 @@ public class EpisodicMemoryToADT
 
 		generateActionChuck(ind);		
 		File ontologyFile = new File(dictionary_path + "/adt" + count + ".owl");
-
-		System.out.println(dictionary_path + "/adt" + count + ".owl");
 
 		RDFXMLOntologyFormat rdfxmlformat = new RDFXMLOntologyFormat();
 		try
@@ -415,7 +412,7 @@ public class EpisodicMemoryToADT
 			for(OWLObjectPropertyExpression propExpr : objectProperties)
 			{
 				OWLObjectProperty prop = propExpr.asOWLObjectProperty();
-				if(prop.getIRI().toString().equals("http://knowrob.org/kb/knowrob.owl#subAction"))
+				if(prop.getIRI().toString().equals(sub_action_type))
 				{
 					Set<OWLIndividual> values =  root.getObjectPropertyValues(prop, ontology);
 					
@@ -434,11 +431,21 @@ public class EpisodicMemoryToADT
 								OWLObjectProperty chunkProperty = factory.getOWLObjectProperty
 										(":#adtAction", adtPM);
 
-								OWLObjectPropertyAssertionAxiom assertion = factory.getOWLObjectPropertyAssertionAxiom
-												(chunkProperty, adt_of_interest, valueNew);
-								AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
-								manager.applyChange(addAxiomChange);
+								makeObjectPropertyAssertion(adt_of_interest, valueNew, chunkProperty);
 
+								OWLNamedIndividual start = timeInstanceInd(value, true);
+								OWLNamedIndividual end = timeInstanceInd(value, false);
+
+								OWLObjectProperty startProperty = factory.getOWLObjectProperty
+										(IRI.create(start_time_type));
+
+								OWLObjectProperty endProperty = factory.getOWLObjectProperty
+										(IRI.create(end_time_type));
+
+								makeObjectPropertyAssertion(valueNew, start, startProperty);
+
+								makeObjectPropertyAssertion(valueNew, end, endProperty);
+					
 								createTrajectoryForActionChunk(valueNew, 
 											timeInstance(value, true), timeInstance(value, false), "PR2LGripper", "chem_coll_1");
 
@@ -458,6 +465,14 @@ public class EpisodicMemoryToADT
 		return true;
 	}
 
+	public void makeObjectPropertyAssertion(OWLIndividual ind1, OWLIndividual ind2, OWLObjectProperty property)
+	{
+		OWLObjectPropertyAssertionAxiom assertion = factory.getOWLObjectPropertyAssertionAxiom(property, ind1, ind2);
+		AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
+		manager.applyChange(addAxiomChange);
+
+	}
+
 	public boolean intervalIncludes(OWLIndividual ind1, OWLIndividual ind2)
 	{
 		float start1 = timeInstance(ind1, true);
@@ -465,16 +480,29 @@ public class EpisodicMemoryToADT
 		float start2 = timeInstance(ind2, true);
 		float end2 = timeInstance(ind2, false);
 
-		//System.out.println(start1 + " " + start2 + " " + end2 + " " + end1);
-
 		return ((start1 <= start2) && (end1 >= end2));
 	}
 
 	public float timeInstance(OWLIndividual ind, boolean isStart)
 	{
+		OWLNamedIndividual timeInst = timeInstanceInd(ind, isStart);
+		
+		if (timeInst == null)
+			return (float)0.0;
+
+		String iri = timeInst.getIRI().toString();
+		StringTokenizer st = new StringTokenizer(iri, "_");
+		st.nextToken();
+		st.nextToken();
+		return Float.parseFloat(st.nextToken());
+	}
+
+
+	public OWLNamedIndividual timeInstanceInd(OWLIndividual ind, boolean isStart)
+	{
 		String property;
-		if(isStart) property = "http://knowrob.org/kb/knowrob.owl#startTime";
-		else property = "http://knowrob.org/kb/knowrob.owl#endTime";
+		if(isStart) property = start_time_type;
+		else property = end_time_type;
 		
 
 		Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(ind);
@@ -490,15 +518,11 @@ public class EpisodicMemoryToADT
 				values.toArray(valuesArray);
 
 				OWLNamedIndividual valueFirst = valuesArray[0].asOWLNamedIndividual();
-				String iri = valueFirst.getIRI().toString();
-				StringTokenizer st = new StringTokenizer(iri, "_");
-				st.nextToken();
-				st.nextToken();
-				return Float.parseFloat(st.nextToken());
+				return valueFirst;
 			}
 
 		}
-		return (float)0.0;
+		return null;
 	}
 
 	public String writeXMLToString(String path)
@@ -543,8 +567,8 @@ public class EpisodicMemoryToADT
 
 			ArrayList<Vector3d> trajPoints =  mongosimgames.ViewModelTrajectory((double) start, (double) end, model, null);
 
-			OWLClass translocationClass = factory.getOWLClass(IRI.create("http://knowrob.org/kb/knowrob.owl#Translocation"));
-			OWLClass trajectoryClass = factory.getOWLClass(IRI.create("http://knowrob.org/kb/knowrob.owl#Trajectory"));
+			OWLClass translocationClass = factory.getOWLClass(IRI.create(translocation_type));
+			OWLClass trajectoryClass = factory.getOWLClass(IRI.create(trajectory_type));
 			OWLNamedIndividual trajectoryInstance = factory.getOWLNamedIndividual(":#Trajectory_" + chunk.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
 			OWLClassAssertionAxiom translocationClassAssertion = factory.getOWLClassAssertionAxiom(translocationClass, trajectoryInstance);
 			manager.addAxiom(adtOntology, translocationClassAssertion);
@@ -557,8 +581,6 @@ public class EpisodicMemoryToADT
 			{
 				trajectorySamples += point.x + " " + point.y + " " + point.z + "";			 
 			}
-			System.out.println(start + "-" + end );
-			System.out.println(trajectorySamples);
 
 			OWLLiteral trajectoryLiteral = factory.	getOWLLiteral(trajectorySamples);
 			OWLDataPropertyExpression trajectoryProperty = factory.getOWLDataProperty(":#poses", adtPM);

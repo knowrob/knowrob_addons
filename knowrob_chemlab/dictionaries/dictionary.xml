@@ -1,5 +1,7 @@
 <root>
   <http:knowrob.org_kb_knowrob.owl-nameString><![CDATA[http://knowrob.org/kb/knowrob.owl#taskContext]]></http:knowrob.org_kb_knowrob.owl-nameString>
+  <http:knowrob.org_kb_knowrob.owl-startTime><![CDATA[http://knowrob.org/kb/knowrob.owl#startTime]]></http:knowrob.org_kb_knowrob.owl-startTime>
+  <http:knowrob.org_kb_knowrob.owl-endTime><![CDATA[http://knowrob.org/kb/knowrob.owl#endTime]]></http:knowrob.org_kb_knowrob.owl-endTime>
   <http:knowrob.org_kb_acat.owl-adtMainObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></http:knowrob.org_kb_acat.owl-adtMainObject>
   <http:knowrob.org_kb_acat.owl-adtPrimaryObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></http:knowrob.org_kb_acat.owl-adtPrimaryObject>
   <http:knowrob.org_kb_acat.owl-adtSecondaryObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></http:knowrob.org_kb_acat.owl-adtSecondaryObject>
