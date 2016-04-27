@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [ 
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+  <!ENTITY srdl2 "http://knowrob.org/kb/srdl2.owl#" >
+  <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+  <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+  <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
+  <!ENTITY srdl2-cap "http://knowrob.org/kb/srdl2-cap.owl#" >
+  <!ENTITY qudt-unit "http://qudt.org/vocab/unit#" >
+  <!ENTITY chemobjects "http://knowrob.org/kb/chemlab-objects.owl#" >
+  <!ENTITY chemstoff "http://knowrob.org/kb/chemlab-substances.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://knowrob.org/kb/chemlab-objects.owl#"
+  xml:base="http://knowrob.org/kb/chemlab-objects.owl"
+  xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+  xmlns:srdl2="http://knowrob.org/kb/srdl2.owl#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:srdl2-cap="http://knowrob.org/kb/srdl2-cap.owl#"
+  xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
+  xmlns:qudt-unit="http://qudt.org/vocab/unit#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+    <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-objects.owl">
+        <!-- =========================================== -->
+        <!-- |   Substance data                        | -->
+        <!-- =========================================== -->
+        <owl:imports rdf:resource="package://chemlab_context/owl/chemlab-substances.owl"/>
+    </owl:Ontology>
+
+    <!-- =========================================== -->
+    <!-- |   Object properties                     | -->
+    <!-- =========================================== -->
+
+    <owl:ObjectProperty rdf:about="&chemobjects;material">
+        <rdfs:domain rdf:resource="&chemobjects;ChemContainer">
+        <rdfs:range rdf:resource="&chemstoff;ContainerMaterial">
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&chemobjects;madeOf">
+        <rdfs:range rdf:resource="&chemobjects;Material"/>
+        <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&chemobjects;containsReagent">
+        <rdfs:domain rdf:resource="&chemobjects;ChemContainer">
+        <rdfs:range rdf:resource="&chemstoff;Reagent">
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&knowrob_chemlab;screwable">
+        <rdfs:range rdf:resource="&knowrob;HumanScaleObject"/>
+        <rdfs:domain rdf:resource="&knowrob;PhysicalPartOfObject"/>
+    </owl:ObjectProperty>
+    
+        
+
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#Glas -->
+
+    <owl:Class rdf:about="&acat;Glas">
+        <rdfs:subClassOf rdf:resource="&acat;Material"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#Wood -->
+
+    <owl:Class rdf:about="&acat;Wood">
+        <rdfs:subClassOf rdf:resource="&acat;Material"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#Material -->
+
+    <owl:Class rdf:about="&acat;Material">
+        <rdfs:subClassOf rdf:resource="&knowrob;ObjectType"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#Metal -->
+
+    <owl:Class rdf:about="&acat;Metal">
+        <rdfs:subClassOf rdf:resource="&acat;Material"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#Plastic -->
+
+    <owl:Class rdf:about="&acat;Plastic">
+        <rdfs:subClassOf rdf:resource="&acat;Material"/>
+    </owl:Class>
+
+    <!-- =========================================== -->
+    <!-- |   Object classes                        | -->
+    <!-- =========================================== -->
+
+    <!-- TODO: put into knowrob.owl! -->
+    <owl:Class rdf:about="&acat;Table">
+        <rdfs:subClassOf rdf:resource="&knowrob;Place"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;GlassContainer">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <chemobjects:madeOf rdf:resource="&chemstoff;Glass"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;PlasticContainer">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <chemobjects:madeOf rdf:resource="&chemstoff;Plastic"/>
+<!--
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&chemobjects;material"/>
+                <owl:hasValue rdf:datatype="&xsd;string">plastic</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>  
+-->
+    </owl:Class>
+
+    <!-- =========================================== -->
+    <!-- |   Bottle class                          | -->
+    <!-- =========================================== -->
+
+    <owl:Class rdf:about="&chemobjects;Bottle">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <!--
+        <rdfs:subClassOf rdf:resource="&knowrob;ContainerArtifact"/>
+        -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;GlasBottle">
+        <rdfs:subClassOf rdf:resource="&chemobjects;Bottle"/>
+        <chemobjects:madeOf rdf:resource="&chemobjects;GlassContainer"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;PlasticBottle">
+        <rdfs:subClassOf rdf:resource="&chemobjects;Bottle"/>
+        <chemobjects:madeOf rdf:resource="&chemobjects;PlasticContainer"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;GlasBottle250ml">
+        <rdfs:subClassOf rdf:resource="&chemobjects;GlasBottle"/>
+        <knowrob:volumeOfObject rdf:datatype="&qudt-unit;Liter">0.25</knowrob:volumeOfObject>
+    </owl:Class>
+
+    <!-- =========================================== -->
+    <!-- |   Flask class                           | -->
+    <!-- =========================================== -->
+
+    <owl:Class rdf:about="&chemobjects;Flask">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;GlasFlask">
+        <rdfs:subClassOf rdf:resource="&chemobjects;Flask"/>
+        <rdfs:subClassOf rdf:resource="&chemobjects;GlassContainer"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;PlasticFlask">
+        <rdfs:subClassOf rdf:resource="&chemobjects;Flask"/>
+        <rdfs:subClassOf rdf:resource="&chemobjects;PlasticContainer"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;GlasFlask250ml">
+        <rdfs:subClassOf rdf:resource="&chemobjects;GlasFlask"/>
+        <knowrob:volumeOfObject rdf:datatype="&qudt-unit;Liter">0.25</knowrob:volumeOfObject>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;GlasFlask400ml">
+        <rdfs:subClassOf rdf:resource="&chemobjects;GlasFlask"/>
+        <knowrob:volumeOfObject rdf:datatype="&qudt-unit;Liter">0.4</knowrob:volumeOfObject>
+    </owl:Class>
+
+    <!-- =========================================== -->
+    <!-- |   Pipette class                         | -->
+    <!-- =========================================== -->
+    
+    <owl:Class rdf:about="&chemobjects;Pipette">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <!-- TODO: part-of restriction -->
+    </owl:Class>>
+
+    <!-- =========================================== -->
+    <!-- |   Tube class                            | -->
+    <!-- =========================================== -->
+
+    <owl:Class rdf:about="&chemobjects;Tube">
+        <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+        <!-- TODO: part-of restriction -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemobjects;TubeCap">
+        <rdfs:subClassOf rdf:resource="&knowrob;PhysicalPartOfObject"/>
+    </owl:Class>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Transformation           | -->
+    <!-- =========================================== -->
+
+<!--
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_Identity">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_TGF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">-0.5 0.5 0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.03 0.0 0.12</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_FGF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_IF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.005 0.0 0.14</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_OF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_FF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.1 0.0 0.13</knowrob:translation>
+    </owl:NamedIndividual>
+-->
+
+</rdf:RDF>
