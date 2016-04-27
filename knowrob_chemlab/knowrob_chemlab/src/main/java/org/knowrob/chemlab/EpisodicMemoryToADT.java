@@ -165,18 +165,21 @@ public class EpisodicMemoryToADT
 		return (Map<String,String>) o;
 	}	
 
-	public boolean initializeADTOntology(String actionClass)
+	public boolean initializeADTOntology(String actionClass, OWLNamedIndividual ind)
 	{
 		try
 		{
-			
+			actionClass =  getIndividualTagName(actionClass, "#");
 			OWLClass clsADT = factory.getOWLClass(":#" + actionClass.replaceAll("Action", "") + "ADT", adtPM);
 			adtOntology = manager.createOntology(IRI.create(adtExamplePM.getDefaultPrefix()));
 		
 			OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(clsADT);
 			manager.addAxiom(ontology, declarationAxiom);	
 
-			adt_of_interest = factory.getOWLNamedIndividual(":#ActionDataTable_1", adtExamplePM);
+			String indName = ind.getIRI().toString();
+			indName =  getIndividualTagName(indName, "#");
+
+			adt_of_interest = factory.getOWLNamedIndividual(":#ActionDataTable_" + indName, adtExamplePM);
 			OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(clsADT, adt_of_interest);	
 
 			manager.addAxiom(adtOntology, classAssertion);
@@ -212,7 +215,12 @@ public class EpisodicMemoryToADT
 		return true;
 	}
 
-
+	public String getIndividualTagName(String ind, String delim)
+	{
+		StringTokenizer st = new StringTokenizer(ind, delim);
+		st.nextToken();
+		return st.nextToken();
+	}
 
 	public boolean parseOWL()
 	{
@@ -288,7 +296,7 @@ public class EpisodicMemoryToADT
 
 	public boolean generateADTFromIndividual(String adtType, OWLIndividual ind, int count)
 	{
-		initializeADTOntology(adtType);
+		initializeADTOntology(adtType, ind.asOWLNamedIndividual());
 		Set<String> keySet = dictionary.keySet();
 		String[] keySetArray = new String[keySet.size()];
 		keySet.toArray(keySetArray);
