@@ -1,6 +1,6 @@
 /** <module> knowrob_chemlab
 
-  Copyright (C) 2013 by Asil Kaan Bozcuoglu, Moritz Tenorth, Daniel Beßler
+  Copyright (C) 2013-16 by Asil Kaan Bozcuoglu, Moritz Tenorth, Daniel Beßler
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,8 @@
         visualize_chemlab_highlight/1,
         visualize_chemlab_highlight/2,
         visualize_chemlab_highlights/1,
-        inside_physical/3
+        inside_physical/3,
+        import_task_as_adt/3
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -163,3 +164,21 @@ inside_physical(Frame, Out, T) :-
   Y_Negative < Y_Frame, Y_Positive > Y_Frame),
   (Z_Negative > Z_Frame, Z_Positive < Z_Frame;
   Z_Negative < Z_Frame, Z_Positive > Z_Frame).    
+
+
+import_task_as_adt(ExperimentName, TaskType, ADTPath) :-
+  rospack_package_path('knowrob_chemlab', Path),
+  atom_concat(Path, '/dictionaries', DictionaryPath),
+  atom_concat(Path, '/owl', OWLPath),
+  jpl_new('org.knowrob.chemlab.EpisodicMemoryToADT', [OWLPath, DictionaryPath, '/home/ros/user_data', 'http://knowrob.org/kb/acat.owl', 'http://knowrob.org/kb/acat_example.owl', ExperimentName], EA),
+  jpl_call(EA, 'generateADT', [TaskType], _R),
+  atom_concat('/home/ros/user_data', '/adt0.owl', ADTPath).
+
+
+
+
+
+
+
+
+

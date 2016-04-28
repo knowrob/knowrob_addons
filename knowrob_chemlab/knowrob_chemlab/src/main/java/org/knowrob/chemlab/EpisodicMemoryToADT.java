@@ -115,8 +115,9 @@ public class EpisodicMemoryToADT
 	String owl_path;
 	String dictionary_path;
 	String output_path;
+	String experiment_name;
 
-	public EpisodicMemoryToADT(String owl_path, String dictionary_path, String output_path, String adt_prefix, String adt_example_prefix)
+	public EpisodicMemoryToADT(String owl_path, String dictionary_path, String output_path, String adt_prefix, String adt_example_prefix, String experiment_name)
 	{
 		xStream = new XStream();
         	xStream.registerConverter(new MapEntryConverter());
@@ -126,6 +127,7 @@ public class EpisodicMemoryToADT
 		this.owl_path = owl_path;
 		this.dictionary_path = dictionary_path;
 		this.output_path = output_path;
+		this.experiment_name = experiment_name;
 
 		manager = OWLManager.createOWLOntologyManager();
 		factory = manager.getOWLDataFactory();
@@ -378,7 +380,7 @@ public class EpisodicMemoryToADT
 		}
 
 		generateActionChuck(ind);		
-		File ontologyFile = new File(dictionary_path + "/adt" + count + ".owl");
+		File ontologyFile = new File(output_path + "/adt" + count + ".owl");
 
 		RDFXMLOntologyFormat rdfxmlformat = new RDFXMLOntologyFormat();
 		try
@@ -455,7 +457,7 @@ public class EpisodicMemoryToADT
 								makeObjectPropertyAssertion(valueNew, end, endProperty);
 					
 								createTrajectoryForActionChunk(valueNew, 
-											timeInstance(value, true), timeInstance(value, false), "PR2LGripper", "chem_coll_1");
+											timeInstance(value, true), timeInstance(value, false), "PR2LGripper");
 
 							}
 
@@ -565,13 +567,13 @@ public class EpisodicMemoryToADT
 	}
 
 
-	public boolean createTrajectoryForActionChunk(OWLNamedIndividual chunk, float start, float end, String model, String dbName)
+	public boolean createTrajectoryForActionChunk(OWLNamedIndividual chunk, float start, float end, String model)
 	{
 		if(start < end)
 		{
 			MongoSimGames mongosimgames = new MongoSimGames();
-			mongosimgames.SetDatabase(dbName);
-			mongosimgames.SetCollection(dbName + "_raw");
+			mongosimgames.SetDatabase(experiment_name);
+			mongosimgames.SetCollection(experiment_name + "_raw");
 
 			ArrayList<Vector3d> trajPoints =  mongosimgames.ViewModelTrajectory((double) start, (double) end, model, null);
 
