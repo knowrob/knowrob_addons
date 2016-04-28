@@ -87,16 +87,12 @@
 
     <owl:Class rdf:about="&chemstoff;HydroFluoricAcid">
         <rdfs:subClassOf rdf:resource="&chemstoff;Acid"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <chemstoff:dissolves rdf:resource="&knowrob;Glass"/>
-        <!--
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&chemstoff;dissolves"/>
                 <owl:hasValue rdf:resource="&knowrob;Glass"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        -->
     </owl:Class>
     
 

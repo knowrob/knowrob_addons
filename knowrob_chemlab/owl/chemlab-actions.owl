@@ -33,7 +33,7 @@
         <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
     </owl:Class>
     
-    <owl:Class rdf:about="&acat;ScrewingSomething">
+    <owl:Class rdf:about="&actions;ScrewingSomething">
         <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
     </owl:Class>
 
