@@ -39,3 +39,6 @@
 %Extended ontology
 :- owl_parser:owl_parse('package://knowrob_chemlab/owl/chemlab.owl').
 :- rdf_db:rdf_register_ns(chemlab, 'http://knowrob.org/kb/chemlab.owl#', [keep(true)]).
+
+:- rdf_db:rdf_register_ns(chemlab_map_2016,
+        'http://knowrob.org/kb/chemlab-map_review-2016.owl#', [keep(true)]).

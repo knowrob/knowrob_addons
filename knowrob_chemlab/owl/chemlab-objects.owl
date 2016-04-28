@@ -34,7 +34,7 @@
         <!-- |   Substance data                        | -->
         <!-- =========================================== -->
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
-        <owl:imports rdf:resource="package://chemlab_context/owl/chemlab-substances.owl"/>
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-substances.owl"/>
     </owl:Ontology>
 
     <!-- =========================================== -->

@@ -98,6 +98,12 @@
         <rdfs:range rdf:resource="&knowrob;Event"/>
         <rdfs:domain rdf:resource="&knowrob;Trajectory"/>
     </owl:ObjectProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#wordnetName -->
+
+    <owl:ObjectProperty rdf:about="&acat;wordnetName">
+        <rdfs:subPropertyOf rdf:resource="&knowrob;nameString"/>
+    </owl:ObjectProperty>
 
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
