@@ -43,18 +43,21 @@
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_Gsdsgkne945n">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;UnknownSubstance" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml</acat:wordnetName>
   </owl:NamedIndividual>
 
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg7BFS74bfd78">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;Purine" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_0</acat:wordnetName>
   </owl:NamedIndividual>
 
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg457gGFD78">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;AceticAcid" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_1</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -65,12 +68,14 @@
   <owl:NamedIndividual rdf:about="&map;Flask250ml_FD745HBvferd">
       <rdf:type rdf:resource="&chemobjects;GlasFlask250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;Phenolphtaleine" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <acat:wordnetName rdf:datatype="&xsd;string">flask_250ml_0</acat:wordnetName>
   </owl:NamedIndividual>
   
   <owl:NamedIndividual rdf:about="&map;Flask400ml_SFD538hfds3">
       <rdf:type rdf:resource="&chemobjects;GlassFlask400ml"/>
       <knowrob:contains rdf:resource="&knowrob;Air" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <acat:wordnetName rdf:datatype="&xsd;string">flask_400ml_0</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -80,6 +85,7 @@
   
   <owl:NamedIndividual rdf:about="&map;Pipette_5ddzewGGfsdr">
       <rdf:type rdf:resource="&chemobjects;Pipette"/>
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <acat:wordnetName rdf:datatype="&xsd;string">pipette_0</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -89,6 +95,7 @@
   
   <owl:NamedIndividual rdf:about="&map;MagneticMixer_sdrfg459hsfS">
       <rdf:type rdf:resource="&chemobjects;MagneticMixer"/>
+      <knowrob:madeOf rdf:resource="&knowrob;Metal" />
       <acat:wordnetName rdf:datatype="&xsd;string">mixer_0</acat:wordnetName>
   </owl:NamedIndividual>
   
