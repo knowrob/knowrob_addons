@@ -34,16 +34,31 @@
         <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-substances.owl"/>
   </owl:Ontology>
 
+  <owl:NamedIndividual rdf:about="&map;SemanticEnvironmentMap_FS745hf347hf">
+      <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: Table                    | -->
+  <!-- =========================================== -->
+    
+  <owl:NamedIndividual rdf:about="&map;Table_FSDBFH64783thds">
+      <rdf:type rdf:resource="&knowrob;Table-PieceOfFurniture"/>
+      <knowrob:madeOf rdf:resource="&knowrob;Wood" />
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/chemlab_table.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+  </owl:NamedIndividual>
+
   <!-- =========================================== -->
   <!-- |   Individuals: GlasBottle250ml          | -->
   <!-- =========================================== -->
-  <!-- "bottle": not a typo. Gheorghe's plans refer to an object called bottle_250ml, 
-       and since I don't know how much effort it is to change that, I'd leave that object
-       name as is for now. -->
+  
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_Gsdsgkne945n">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;UnknownSubstance" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_250ml_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml.dae</knowrob:pathToCadModel>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -51,6 +66,9 @@
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;Purine" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_250ml_0_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_0</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -58,17 +76,23 @@
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;AceticAcid" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_250ml_1_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_1</acat:wordnetName>
   </owl:NamedIndividual>
 
   <!-- =========================================== -->
   <!-- |   Individuals: GlasFlask400ml           | -->
   <!-- =========================================== -->
-    
+  
   <owl:NamedIndividual rdf:about="&map;Flask250ml_FD745HBvferd">
       <rdf:type rdf:resource="&chemobjects;GlasFlask250ml"/>
       <knowrob:contains rdf:resource="&chemstoff;Phenolphtaleine" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/flask_250ml_0_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/flask_250ml.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">flask_250ml_0</acat:wordnetName>
   </owl:NamedIndividual>
   
@@ -76,6 +100,9 @@
       <rdf:type rdf:resource="&chemobjects;GlassFlask400ml"/>
       <knowrob:contains rdf:resource="&knowrob;Air" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/flask_400ml_0_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/flask_400ml.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">flask_400ml_0</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -86,6 +113,9 @@
   <owl:NamedIndividual rdf:about="&map;Pipette_5ddzewGGfsdr">
       <rdf:type rdf:resource="&chemobjects;Pipette"/>
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/pipette_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">pipette_0</acat:wordnetName>
   </owl:NamedIndividual>
 
@@ -96,6 +126,9 @@
   <owl:NamedIndividual rdf:about="&map;MagneticMixer_sdrfg459hsfS">
       <rdf:type rdf:resource="&chemobjects;MagneticMixer"/>
       <knowrob:madeOf rdf:resource="&knowrob;Metal" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">/mixer_ikamag_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/mixer_ikamag.stl</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">mixer_0</acat:wordnetName>
   </owl:NamedIndividual>
   
@@ -195,6 +228,19 @@
       <!-- TODO: rotate!: 
    <pose> 0 1.54 0</pose>
       -->
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_FSDBFH64783thds">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Table_FSDBFH64783thds"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_FSDBFH64783thds"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_FSDBFH64783thds">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.340 1.850 0.0</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
   </owl:NamedIndividual>
 
     <!-- =========================================== -->
