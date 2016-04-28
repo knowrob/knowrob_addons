@@ -8,8 +8,8 @@
     <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
 ]>
 
-<rdf:RDF xmlns="http://knowrob.org/kb/chemlab-knowledge.owl#"
-     xml:base="http://knowrob.org/kb/chemlab-knowledge.owl"
+<rdf:RDF xmlns="http://knowrob.org/kb/chemlab.owl#"
+     xml:base="http://knowrob.org/kb/chemlab.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
@@ -20,7 +20,7 @@
     <!-- |   Ontology Imports                      | -->
     <!-- =========================================== -->
 
-    <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-knowledge.owl">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab.owl">
         <!-- =========================================== -->
         <!-- |   Basic stuff                           | -->
         <!-- =========================================== -->
@@ -28,12 +28,11 @@
         <!-- =========================================== -->
         <!-- |   Object data                           | -->
         <!-- =========================================== -->
-        <!-- Also imports substance data -->
         <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-objects.owl"/>
         <!-- =========================================== -->
-        <!-- |   Action descriptions/ADTs              | -->
+        <!-- |   Actions                               | -->
         <!-- =========================================== -->
-        <!-- ???????? -->
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-actions.owl"/>
     </owl:Ontology>
 
 
