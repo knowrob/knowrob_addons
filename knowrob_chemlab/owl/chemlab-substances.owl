@@ -1,110 +1,146 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
+
 
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
     <!ENTITY chemstoff "http://knowrob.org/kb/chemlab-substances.owl#" >
 ]>
 
+
 <rdf:RDF xmlns="http://knowrob.org/kb/chemlab-substances.owl#"
-     xml:base="http://knowrob.org/kb/chemlab-substances.owl#"
+     xml:base="http://knowrob.org/kb/chemlab-substances.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:chemstoff="http://knowrob.org/kb/chemlab-substances.owl#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-substances.owl">
-    <!-- =========================================== -->
-    <!-- |   Ontology Imports                      | -->
-    <!-- =========================================== -->
-        <!-- None so far -->
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
+    
 
-    <!-- =========================================== -->
-    <!-- |   Object classes                        | -->
-    <!-- =========================================== -->
 
-    <owl:Class rdf:about="&chemstoff;Reagent">
-        <!-- TODO: find a good superclass-->
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#dissolves -->
+
+    <owl:ObjectProperty rdf:about="&chemstoff;dissolves"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#AceticAcid -->
+
+    <owl:Class rdf:about="&chemstoff;AceticAcid">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Acid"/>
     </owl:Class>
     
-    <owl:Class rdf:about="&chemstoff;ContainerMaterial">
-        <!-- TODO: find a good superclass-->
-    </owl:Class>
-    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#Acid -->
+
     <owl:Class rdf:about="&chemstoff;Acid">
-        <rdfs:subClassOf rdf:resource="&chemstoff;Reagent"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;ChemicalSubstance"/>
     </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#Base -->
 
     <owl:Class rdf:about="&chemstoff;Base">
-        <rdfs:subClassOf rdf:resource="&chemstoff;Reagent"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;ChemicalSubstance"/>
     </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#ChemicalSubstance -->
+
+    <owl:Class rdf:about="&chemstoff;ChemicalSubstance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#HydroFluoricAcid -->
+
+    <owl:Class rdf:about="&chemstoff;HydroFluoricAcid">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Acid"/>
+        <!-- TODO: not sure if this is allowed!!! -->
+        <chemstoff:dissolves rdf:resource="&knowrob;Glass"/>
+        <!--
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&chemstoff;dissolves"/>
+                <owl:hasValue rdf:resource="&knowrob;Glass"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        -->
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#Indicator -->
 
     <owl:Class rdf:about="&chemstoff;Indicator">
-        <rdfs:subClassOf rdf:resource="&chemstoff;Reagent"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;ChemicalSubstance"/>
     </owl:Class>
+    
 
-    <!-- =========================================== -->
-    <!-- |   Object properties                     | -->
-    <!-- =========================================== -->
 
-    <owl:ObjectProperty rdf:about="&chemstoff;penetratesContainerMaterial"/>
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#Phenolphtaleine -->
 
-    <!-- =========================================== -->
-    <!-- |   Individuals: ContainerMaterial        | -->
-    <!-- =========================================== -->
+    <owl:Class rdf:about="&chemstoff;Phenolphtaleine">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Indicator"/>
+    </owl:Class>
+    
 
-    <owl:NamedIndividual rdf:about="&chemstoff;Glass">
-        <rdf:type rdf:resource="&chemstoff;ContainerMaterial"/>
-    </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&chemstoff;Plastic">
-        <rdf:type rdf:resource="&chemstoff;ContainerMaterial"/>
-    </owl:NamedIndividual>
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#Purine -->
 
-    <!-- =========================================== -->
-    <!-- |   Individuals: Reagent                  | -->
-    <!-- =========================================== -->
+    <owl:Class rdf:about="&chemstoff;Purine">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Base"/>
+    </owl:Class>
+    
 
-    <owl:NamedIndividual rdf:about="&chemstoff;UnknownSubstance">
-        <rdf:type rdf:resource="&chemstoff;Reagent"/>
-    </owl:NamedIndividual>
 
-    <!-- =========================================== -->
-    <!-- |   Individuals: Acid                     | -->
-    <!-- =========================================== -->
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#SodiumHydroxide -->
 
-    <owl:NamedIndividual rdf:about="&chemstoff;HydroFluoric_Acid">
-        <rdf:type rdf:resource="&chemstoff;Acid"/>
-        <penetratesContainerMaterial rdf:resource="&chemstoff;Glass"/>
-    </owl:NamedIndividual>
+    <owl:Class rdf:about="&chemstoff;SodiumHydroxide">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Base"/>
+    </owl:Class>
+    
 
-    <owl:NamedIndividual rdf:about="&chemstoff;Acetic_Acid">
-        <rdf:type rdf:resource="&chemstoff;Acid"/>
-    </owl:NamedIndividual>
 
-    <!-- =========================================== -->
-    <!-- |   Individuals: Base                     | -->
-    <!-- =========================================== -->
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#UnknownSubstance -->
 
-    <owl:NamedIndividual rdf:about="&chemstoff;Sodium_Hydroxide">
-        <rdf:type rdf:resource="&chemstoff;Base"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="&chemstoff;Purine">
-        <rdf:type rdf:resource="&chemstoff;Base"/>
-    </owl:NamedIndividual>
-
-    <!-- =========================================== -->
-    <!-- |   Individuals: Indicator                | -->
-    <!-- =========================================== -->
-
-    <owl:NamedIndividual rdf:about="&chemstoff;Phenolphtaleine">
-        <rdf:type rdf:resource="&chemstoff;Indicator"/>
-    </owl:NamedIndividual>
-
+    <owl:Class rdf:about="&chemstoff;UnknownSubstance">
+        <rdfs:subClassOf rdf:resource="&chemstoff;ChemicalSubstance"/>
+    </owl:Class>
 </rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+

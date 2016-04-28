@@ -7,7 +7,8 @@
           <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
           <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
           <!ENTITY map 'http://knowrob.org/kb/chemlab-map_review-2016.owl#'>
-          <!ENTITY objects 'http://knowrob.org/kb/chemlab-objects.owl#'>
+          <!ENTITY chemobjects 'http://knowrob.org/kb/chemlab-objects.owl#'>
+          <!ENTITY chemstoff 'http://knowrob.org/kb/chemlab-substances.owl#'>
           <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
           ]>
 
@@ -19,7 +20,8 @@
    xmlns:owl="http://www.w3.org/2002/07/owl#"
    xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
    xmlns:map="http://knowrob.org/kb/chemlab-map_review-2016.owl#"
-   xmlns:objects="http://knowrob.org/kb/chemlab-objects.owl#"
+   xmlns:chemobjects="http://knowrob.org/kb/chemlab-objects.owl#"
+   xmlns:chemstoff="http://knowrob.org/kb/chemlab-substances.owl#"
    xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
    xml:base="http://knowrob.org/kb/chemlab_map.owl">
 
@@ -35,7 +37,7 @@
     
   <owl:NamedIndividual rdf:about="&map;Flask250ml_FD745HBvferd">
       <rdf:type rdf:resource="&chemobjects;GlasFlask250ml"/>
-      <objects:containsReagent rdf:resource="&chemstoff;Phenolphtaleine">
+      <knowrob:contains rdf:resource="&chemstoff;Phenolphtaleine" />
   </owl:NamedIndividual>
 
   <!-- =========================================== -->
@@ -45,31 +47,51 @@
        and since I don't know how much effort it is to change that, I'd leave that object
        name as is for now. -->
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_Gsdsgkne945n">
-      <rdf:type rdf:resource="&chemobjects;GlasBottle250ml"/>
-      <objects:containsReagent rdf:resource="&chemstoff;UnknownSubstance">
+      <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
+      <knowrob:contains rdf:resource="&chemstoff;UnknownSubstance" />
   </owl:NamedIndividual>
 
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg7BFS74bfd78">
-      <rdf:type rdf:resource="&chemobjects;GlasBottle250ml"/>
-      <objects:containsReagent rdf:resource="&chemstoff;Purine">
+      <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
+      <knowrob:contains rdf:resource="&chemstoff;Purine" />
   </owl:NamedIndividual>
 
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg457gGFD78">
-      <rdf:type rdf:resource="&chemobjects;GlasBottle250ml"/>
-      <objects:containsReagent rdf:resource="&chemstoff;Acetic_Acid">
+      <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
+      <knowrob:contains rdf:resource="&chemstoff;AceticAcid" />
   </owl:NamedIndividual>
 
   <!-- =========================================== -->
   <!-- |   Individuals: GlasFlask400ml           | -->
   <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;Flask250ml_FD745HBvferd">
+      <rdf:type rdf:resource="&chemobjects;GlassFlask250ml"/>
+  </owl:NamedIndividual>
+  
   <owl:NamedIndividual rdf:about="&map;Flask400ml_SFD538hfds3">
-      <rdf:type rdf:resource="&chemobjects;GlasFlask400ml"/>
+      <rdf:type rdf:resource="&chemobjects;GlassFlask400ml"/>
   </owl:NamedIndividual>
 
   <!-- =========================================== -->
+  <!-- |   Individuals: Pipette                  | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;Pipette_5ddzewGGfsdr">
+      <rdf:type rdf:resource="&chemobjects;Pipette"/>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: Pipette                  | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;MagneticMixer_sdrfg459hsfS">
+      <rdf:type rdf:resource="&chemobjects;MagneticMixer"/>
+  </owl:NamedIndividual>
+  
+  <!-- =========================================== -->
   <!-- |   Initial Transforms                    | -->
   <!-- =========================================== -->
-  <!-- TODO: objectActedOn names not matching individuals that are defined here. -->
   
   <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_Gsdsgkne945n">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
@@ -138,7 +160,7 @@
   
   <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_sdrfg459hsfS">
       <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-      <knowrob:objectActedOn rdf:resource="&map;MixerIkamag_sdrfg459hsfS"/>
+      <knowrob:objectActedOn rdf:resource="&map;MagneticMixer_sdrfg459hsfS"/>
       <knowrob:startTime rdf:resource="&map;timepoint_0"/>
       <knowrob:eventOccursAt rdf:resource="&map;Transformation_sdrfg459hsfS"/>
   </owl:NamedIndividual>
@@ -164,5 +186,47 @@
    <pose> 0 1.54 0</pose>
       -->
   </owl:NamedIndividual>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Grasp poses              | -->
+    <!-- =========================================== -->
+
+<!--
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_Identity">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_TGF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">-0.5 0.5 0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.03 0.0 0.12</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_FGF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_IF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.005 0.0 0.14</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_OF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_FF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.1 0.0 0.13</knowrob:translation>
+    </owl:NamedIndividual>
+-->
 </rdf:RDF>
 
