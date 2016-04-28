@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY chemstoff "http://knowrob.org/kb/chemlab-substances.owl#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/chemlab-substances.owl#"
+     xml:base="http://knowrob.org/kb/chemlab-substances.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+    <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-substances.owl">
+    <!-- =========================================== -->
+    <!-- |   Ontology Imports                      | -->
+    <!-- =========================================== -->
+        <!-- None so far -->
+    </owl:Ontology>
+
+    <!-- =========================================== -->
+    <!-- |   Object classes                        | -->
+    <!-- =========================================== -->
+
+    <owl:Class rdf:about="&chemstoff;Reagent">
+        <!-- TODO: find a good superclass-->
+    </owl:Class>
+    
+    <owl:Class rdf:about="&chemstoff;ContainerMaterial">
+        <!-- TODO: find a good superclass-->
+    </owl:Class>
+    
+    <owl:Class rdf:about="&chemstoff;Acid">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Reagent"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemstoff;Base">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Reagent"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&chemstoff;Indicator">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Reagent"/>
+    </owl:Class>
+
+    <!-- =========================================== -->
+    <!-- |   Object properties                     | -->
+    <!-- =========================================== -->
+
+    <owl:ObjectProperty rdf:about="&chemstoff;penetratesContainerMaterial"/>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: ContainerMaterial        | -->
+    <!-- =========================================== -->
+
+    <owl:NamedIndividual rdf:about="&chemstoff;Glass">
+        <rdf:type rdf:resource="&chemstoff;ContainerMaterial"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemstoff;Plastic">
+        <rdf:type rdf:resource="&chemstoff;ContainerMaterial"/>
+    </owl:NamedIndividual>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Reagent                  | -->
+    <!-- =========================================== -->
+
+    <owl:NamedIndividual rdf:about="&chemstoff;UnknownSubstance">
+        <rdf:type rdf:resource="&chemstoff;Reagent"/>
+    </owl:NamedIndividual>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Acid                     | -->
+    <!-- =========================================== -->
+
+    <owl:NamedIndividual rdf:about="&chemstoff;HydroFluoric_Acid">
+        <rdf:type rdf:resource="&chemstoff;Acid"/>
+        <penetratesContainerMaterial rdf:resource="&chemstoff;Glass"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemstoff;Acetic_Acid">
+        <rdf:type rdf:resource="&chemstoff;Acid"/>
+    </owl:NamedIndividual>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Base                     | -->
+    <!-- =========================================== -->
+
+    <owl:NamedIndividual rdf:about="&chemstoff;Sodium_Hydroxide">
+        <rdf:type rdf:resource="&chemstoff;Base"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemstoff;Purine">
+        <rdf:type rdf:resource="&chemstoff;Base"/>
+    </owl:NamedIndividual>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Indicator                | -->
+    <!-- =========================================== -->
+
+    <owl:NamedIndividual rdf:about="&chemstoff;Phenolphtaleine">
+        <rdf:type rdf:resource="&chemstoff;Indicator"/>
+    </owl:NamedIndividual>
+
+</rdf:RDF>
