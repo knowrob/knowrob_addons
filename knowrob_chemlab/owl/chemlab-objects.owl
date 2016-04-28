@@ -52,8 +52,12 @@
 
     <owl:Class rdf:about="&chemobjects;GlassBottle250ml">
         <rdfs:subClassOf rdf:resource="&knowrob;GlassBottle"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <knowrob:volumeOfObject rdf:datatype="&qudt-unit;Liter">0.25</knowrob:volumeOfObject>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;volumeOfObject"/>
+                <owl:hasValue rdf:datatype="&qudt-unit;Liter">0.25</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
 
     <!-- =========================================== -->
@@ -66,26 +70,42 @@
 
     <owl:Class rdf:about="&chemobjects;GlassFlask">
         <rdfs:subClassOf rdf:resource="&chemobjects;Flask"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <knowrob:madeOf rdf:resource="&knowrob;Glass"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;madeOf"/>
+                <owl:hasValue rdf:resource="&knowrob;Glass"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
 
     <owl:Class rdf:about="&chemobjects;PlasticFlask">
         <rdfs:subClassOf rdf:resource="&chemobjects;Flask"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <knowrob:madeOf rdf:resource="&knowrob;Plastic"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;madeOf"/>
+                <owl:hasValue rdf:resource="&knowrob;Plastic"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
 
     <owl:Class rdf:about="&chemobjects;GlassFlask250ml">
         <rdfs:subClassOf rdf:resource="&chemobjects;GlassFlask"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <knowrob:volumeOfObject rdf:datatype="&qudt-unit;Liter">0.25</knowrob:volumeOfObject>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;volumeOfObject"/>
+                <owl:hasValue rdf:datatype="&qudt-unit;Liter">0.25</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
 
     <owl:Class rdf:about="&chemobjects;GlassFlask400ml">
         <rdfs:subClassOf rdf:resource="&chemobjects;GlassFlask"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <knowrob:volumeOfObject rdf:datatype="&qudt-unit;Liter">0.4</knowrob:volumeOfObject>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;volumeOfObject"/>
+                <owl:hasValue rdf:datatype="&qudt-unit;Liter">0.4</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
 
     <!-- =========================================== -->
