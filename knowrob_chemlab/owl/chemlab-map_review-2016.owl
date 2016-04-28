@@ -224,10 +224,7 @@
   <owl:NamedIndividual rdf:about="&map;Transformation_5ddzewGGfsdr">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
       <knowrob:translation rdf:datatype="&xsd;string">1.300 1.000 0.785</knowrob:translation>
-      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
-      <!-- TODO: rotate!: 
-   <pose> 0 1.54 0</pose>
-      -->
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.6946583704589973 0.0 -0.6961352 0.0</knowrob:quaternion>
   </owl:NamedIndividual>
   
   <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_FSDBFH64783thds">
@@ -239,7 +236,7 @@
   
   <owl:NamedIndividual rdf:about="&map;Transformation_FSDBFH64783thds">
       <rdf:type rdf:resource="&knowrob;Transformation"/>
-      <knowrob:translation rdf:datatype="&xsd;string">1.340 1.850 0.0</knowrob:translation>
+      <knowrob:translation rdf:datatype="&xsd;string">1.340 1.65 0.0</knowrob:translation>
       <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
   </owl:NamedIndividual>
 
