@@ -7,6 +7,8 @@
     <!ENTITY chemobjects "http://knowrob.org/kb/chemlab-objects.owl#" >
     <!ENTITY chemstoff "http://knowrob.org/kb/chemlab-substances.owl#" >
     <!ENTITY example "http://knowrob.org/kb/acat-adt_example_pipetting.owl#" >
+    <!ENTITY log "http://knowrob.org/kb/chemlab-log_review-2016.owl#" >
+    <!ENTITY map "http://knowrob.org/kb/chemlab-map_review-2016.owl#" >
     <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
@@ -77,17 +79,17 @@
         <acat:adtObject rdf:resource="&example;ActionObjectDescription_GDfg46439fd"/> <!-- The base -->
         <acat:adtObject rdf:resource="&example;ActionObjectDescription_cxv43969nGD"/> <!-- The acid bottle -->
         <acat:adtObject rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/> <!-- The base bottle -->
-        <!--- Action roles inferred by PRAC. --->
+        <!-- Action roles inferred by PRAC. -->
         <acat:adtContent rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/> <!-- The acid -->
         <acat:adtGoal rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/>    <!-- The base bottle -->
-        <acat:adtAmount rdf:datatype="&chemstoff;Drop">5</owl:hasValue>
+        <acat:adtAmount rdf:datatype="&chemstoff;Drop">5</acat:adtAmount>
         <!-- note: in case of liter and other units: -->
-        <!--<acat:adtAmount rdf:datatype="&qudt-unit;Liter">0.25</acat:adtAmount>-->
-        <!--- Special action roles. --->
+        <!-- <acat:adtAmount rdf:datatype="&qudt-unit;Liter">0.25</acat:adtAmount> -->
+        <!-- Special action roles. -->
         <acat:adtMainObject rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/>      <!-- The acid -->
         <acat:adtPrimaryObject rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/>   <!-- The acid -->
         <acat:adtSecondaryObject rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/> <!-- The base bottle -->
-        <!--- Action chunks (note: link to first chunk, chunks are linked using nextAction/previousAction) --->
+        <!-- Action chunks (note: link to first chunk, chunks are linked using nextAction/previousAction) -->
         <knowrob:subAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_dsfg24375zd"/>
     </owl:NamedIndividual>
     
@@ -101,7 +103,7 @@
 
     <owl:NamedIndividual rdf:about="&example;ActionObjectDescription_dfgINiret8h">
         <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
-        <rdf:type rdf:resource="&chemlab;Pipette"/>
+        <rdf:type rdf:resource="&chemobjects;Pipette"/>
         <!-- Link to the semantic map object (note: should not appear in XML ADT) -->
         <acat:adtObject rdf:resource="&map;Pipette_5ddzewGGfsdr"/>
         <!-- Object properties -->

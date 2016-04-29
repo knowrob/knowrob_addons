@@ -55,22 +55,31 @@
     
   <owl:NamedIndividual rdf:about="&map;UnknownSubstance_FSDBFH64783thds">
       <rdf:type rdf:resource="&chemstoff;UnknownSubstance"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
   </owl:NamedIndividual>
     
   <owl:NamedIndividual rdf:about="&map;Purine_dfiNOIdtr4tng">
       <rdf:type rdf:resource="&chemstoff;Purine"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">purine</acat:wordnetName>
   </owl:NamedIndividual>
     
   <owl:NamedIndividual rdf:about="&map;AceticAcid_DFOKpokj45fod">
       <rdf:type rdf:resource="&chemstoff;AceticAcid"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">acetic_acid</acat:wordnetName>
   </owl:NamedIndividual>
     
   <owl:NamedIndividual rdf:about="&map;Phenolphtaleine_SFMofj3453dsm">
       <rdf:type rdf:resource="&chemstoff;Phenolphtaleine"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">phenolphtaleine</acat:wordnetName>
   </owl:NamedIndividual>
     
   <owl:NamedIndividual rdf:about="&map;Air_vdsoifOJXos">
       <rdf:type rdf:resource="&knowrob;Air"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">air</acat:wordnetName>
   </owl:NamedIndividual>
   
   <!-- =========================================== -->
