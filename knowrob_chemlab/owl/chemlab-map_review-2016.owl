@@ -50,23 +50,56 @@
   </owl:NamedIndividual>
 
   <!-- =========================================== -->
+  <!-- |   Individuals: Substances               | -->
+  <!-- =========================================== -->
+    
+  <owl:NamedIndividual rdf:about="&map;UnknownSubstance_FSDBFH64783thds">
+      <rdf:type rdf:resource="&chemstoff;UnknownSubstance"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;Purine_dfiNOIdtr4tng">
+      <rdf:type rdf:resource="&chemstoff;Purine"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">purine</acat:wordnetName>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;AceticAcid_DFOKpokj45fod">
+      <rdf:type rdf:resource="&chemstoff;AceticAcid"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">acetic_acid</acat:wordnetName>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;Phenolphtaleine_SFMofj3453dsm">
+      <rdf:type rdf:resource="&chemstoff;Phenolphtaleine"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">phenolphtaleine</acat:wordnetName>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;Air_vdsoifOJXos">
+      <rdf:type rdf:resource="&knowrob;Air"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">air</acat:wordnetName>
+  </owl:NamedIndividual>
+  
+  <!-- =========================================== -->
   <!-- |   Individuals: GlasBottle250ml          | -->
   <!-- =========================================== -->
   
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_Gsdsgkne945n">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
-      <knowrob:contains rdf:resource="&chemstoff;UnknownSubstance" />
+      <knowrob:contains rdf:resource="&map;UnknownSubstance_FSDBFH64783thds" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_250ml_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml.dae</knowrob:pathToCadModel>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml</acat:wordnetName>
   </owl:NamedIndividual>
 
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg7BFS74bfd78">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
-      <knowrob:contains rdf:resource="&chemstoff;Purine" />
+      <knowrob:contains rdf:resource="&map;Purine_dfiNOIdtr4tng" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_250ml_0_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_0_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_0</acat:wordnetName>
@@ -74,9 +107,9 @@
 
   <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg457gGFD78">
       <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
-      <knowrob:contains rdf:resource="&chemstoff;AceticAcid" />
+      <knowrob:contains rdf:resource="&chemstoff;AceticAcid_DFOKpokj45fod" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_250ml_1_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_1_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_1</acat:wordnetName>
@@ -88,9 +121,9 @@
   
   <owl:NamedIndividual rdf:about="&map;Flask250ml_FD745HBvferd">
       <rdf:type rdf:resource="&chemobjects;GlasFlask250ml"/>
-      <knowrob:contains rdf:resource="&chemstoff;Phenolphtaleine" />
+      <knowrob:contains rdf:resource="&map;Phenolphtaleine_SFMofj3453dsm" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/flask_250ml_0_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">flask_250ml_0_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/flask_250ml.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">flask_250ml_0</acat:wordnetName>
@@ -98,9 +131,9 @@
   
   <owl:NamedIndividual rdf:about="&map;Flask400ml_SFD538hfds3">
       <rdf:type rdf:resource="&chemobjects;GlassFlask400ml"/>
-      <knowrob:contains rdf:resource="&knowrob;Air" />
+      <knowrob:contains rdf:resource="&map;Air_vdsoifOJXos" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/flask_400ml_0_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">flask_400ml_0_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/flask_400ml.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">flask_400ml_0</acat:wordnetName>
@@ -113,7 +146,7 @@
   <owl:NamedIndividual rdf:about="&map;Pipette_5ddzewGGfsdr">
       <rdf:type rdf:resource="&chemobjects;Pipette"/>
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/pipette_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">pipette_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">pipette_0</acat:wordnetName>
@@ -126,7 +159,7 @@
   <owl:NamedIndividual rdf:about="&map;MagneticMixer_sdrfg459hsfS">
       <rdf:type rdf:resource="&chemobjects;MagneticMixer"/>
       <knowrob:madeOf rdf:resource="&knowrob;Metal" />
-      <knowrob:urdfName rdf:datatype="&xsd;string">/mixer_ikamag_frame</knowrob:urdfName>
+      <knowrob:urdfName rdf:datatype="&xsd;string">mixer_ikamag_frame</knowrob:urdfName>
       <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/mixer_ikamag.stl</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">mixer_0</acat:wordnetName>
