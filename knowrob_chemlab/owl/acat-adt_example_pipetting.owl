@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY acat "http://knowrob.org/kb/acat.owl#" >
+    <!ENTITY example "http://knowrob.org/kb/acat_example.owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY computable "http://knowrob.org/kb/computable.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://knowrob.org/kb/acat_example.owl#"
+     xml:base="http://knowrob.org/kb/acat_example.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:acat="http://knowrob.org/kb/acat.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/acat_example.owl">
+        <owl:imports rdf:resource="package://knowrob_acat/owl/acat.owl"/>
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_cram/owl/knowrob_cram.owl"/>
+    </owl:Ontology>
+    
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // ADT individual
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- http://knowrob.org/kb/acat.owl#ActionDataTable_sdfiuh436dsfg -->
+
+    <!-- Action core definition in PRAC: -->
+    <!--
+    action_core: Pipetting
+    action_roles: ['content','goal','action_verb','amount','unit']
+    cram_plan: "(use-pipette (from (an object (type container.n.01)(contains (some stuff (type {content}))))(to (an object (type container.n.01)(contains (some stuff (type {goal})))(amount (a quantity (type {unit})(number {amount}))))"
+    -->
+    <owl:NamedIndividual rdf:about="&example;PipettingADT_sdfiuh436dsfg">
+        <rdf:type rdf:resource="&acat;PipettingADT"/>
+        <!-- Link to the action in the plan log (note: should not appear in XML ADT) -->
+        <acat:adtAction rdf:resource="&log;Pipetting_XDFJbnrt78"/>
+        <!-- The natural language instruction -->
+        <acat:instruction rdf:datatype="&xsd;string">Add 5 drops of the lysergic_acid to the pyrimidine.</acat:instruction>
+        <!-- The action core inferred by PRAC -->
+        <acat:actioncore rdf:datatype="&xsd;string">Pipetting</acat:actioncore>
+        <!-- List all the involved objects. -->
+        <knowrob:objectActedOn rdf:resource="&example;ActionObjectDescription_dfgINiret8h"/> <!-- The pipette -->
+        <knowrob:objectActedOn rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/> <!-- The acid -->
+        <knowrob:objectActedOn rdf:resource="&example;ActionObjectDescription_GDfg46439fd"/> <!-- The base -->
+        <knowrob:objectActedOn rdf:resource="&example;ActionObjectDescription_cxv43969nGD"/> <!-- The acid bottle -->
+        <knowrob:objectActedOn rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/> <!-- The base bottle -->
+        <!--- Action roles inferred by PRAC. --->
+        <acat:adtContent rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/> <!-- The acid -->
+        <acat:adtGoal rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/>    <!-- The base bottle -->
+        <acat:adtAmount rdf:datatype="&qudt-unit;Drops">4</owl:hasValue>
+        <!--- Special action roles. --->
+        <acat:adtMainObject rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/>      <!-- The acid -->
+        <acat:adtPrimaryObject rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/>   <!-- The acid -->
+        <acat:adtSecondaryObject rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/> <!-- The base bottle -->
+        <!--- Action chunks (note: link to first chunk, chunks are linked using nextAction/previousAction) --->
+        <knowrob:subAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_dsfg24375zd"/>
+    </owl:NamedIndividual>
+    
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object descriptions
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <owl:NamedIndividual rdf:about="&example;ActionObjectDescription_dfgINiret8h">
+        <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
+        <rdf:type rdf:resource="&chemlab;Pipette"/>
+        <!-- Link to the semantic map object (note: should not appear in XML ADT) -->
+        <acat:adtObject rdf:resource="&map;Pipette_gnJHbfdgih48"/>
+        <!-- Object Properties -->
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">pipette.stl</knowrob:pathToCadModel>
+        <acat:madeOf rdf:resource="&knowrob;Glas"/>
+    </owl:NamedIndividual>
+
+    <!-- .... TODO INSERT OTHER ActionObjectDescription's .... -->
+
+    <owl:NamedIndividual rdf:about="&example;ActionObjectDescription_dfgINiret8h">
+        <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
+        <rdf:type rdf:resource="&chemlab;LysergicAcid"/>
+        <!-- Link to the semantic map object (note: should not appear in XML ADT) -->
+        <!-- NOTE: Liquids are no entities in the semantic map so far :( -->
+        <!--
+        <acat:adtObject rdf:resource="&map;Pipette_gnJHbfdgih48"/>
+        -->
+        <!-- Object Properties -->
+    </owl:NamedIndividual>
+    
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Action chunks
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- First chunk -->
+    <owl:NamedIndividual rdf:about="&example;ActionChunk_dsfg24375zd">
+        <rdf:type rdf:resource="&acat;ActionChunk"/>
+        <rdf:type rdf:resource="&knowrob;GraspingSomethingSomewhere"/>
+        <knowrob:taskSuccess rdf:datatype="&xsd;boolean">true</knowrob:taskSuccess>
+        <!-- Link to the action in the plan log (note: should not appear in XML ADT) -->
+        <acat:adtAction rdf:resource="&log;GraspingSomethingSomewhere_SDFCIBfru45"/>
+        <!-- NL action description -->
+        <knowrob:taskContext rdf:datatype="&xsd;string">Hand moves towards pipette and grasps it</knowrob:taskContext>
+        <!-- Supporting planes (6D/3D pose & supported object) -->
+        <knowrob:supportingPlane rdf:datatype="&xsd;string">0.0 0.0 0.0</knowrob:taskContext>
+        <knowrob:supportedObject rdf:resource="&example;ActionObjectDescription_dfgINiret8h"/> <!-- The pipette -->
+        <!-- Action sequence -->
+        <knowrob:nextAction rdf:resource="&log;ActionChunk_fgdz6389BVG"/>
+        <!-- Trajectories -->
+        <acat:adtTrajectory rdf:resource="&log;Trajectory_bvsdvg9sd8gj"/>
+        <!-- TODO(daniel): Grasping pose -->
+    </owl:NamedIndividual>
+
+    <!-- .... TODO INSERT OTHER ActionChunk's .... -->
+
+    <!-- Last chunk -->
+    <owl:NamedIndividual rdf:about="&example;ActionChunk_dsfg24375zd">
+        <rdf:type rdf:resource="&acat;ActionChunk"/>
+        <rdf:type rdf:resource="&knowrob;PuttingDownSomethingSomewhere"/>
+        <knowrob:taskSuccess rdf:datatype="&xsd;boolean">true</knowrob:taskSuccess>
+        <!-- Link to the action in the plan log (note: should not appear in XML ADT) -->
+        <acat:adtAction rdf:resource="&log;PuttingDownSomethingSomewhere_SDFCIBfru45"/>
+        <!-- NL action description -->
+        <knowrob:taskContext rdf:datatype="&xsd;string">Hand moves towards table and release grasp of pipette</knowrob:taskContext>
+        <!-- Supporting planes (6D/3D pose & supported object) -->
+        <knowrob:supportingPlane rdf:datatype="&xsd;string">0.0 0.0 0.0</knowrob:taskContext>
+        <knowrob:supportedObject rdf:resource="&example;ActionObjectDescription_dfgINiret8h"/> <!-- The pipette -->
+        <!-- Action sequence -->
+        <knowrob:previousAction rdf:resource="&log;ActionChunk_fhgniore689f"/>
+        <!-- TODO(daniel): Grasping pose -->
+    </owl:NamedIndividual>
+    
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Action chunk trajectories
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+    <!-- hand trajectory for chunk1 -->
+    <owl:NamedIndividual rdf:about="&example;Trajectory_bvsdvg9sd8gj">
+        <rdf:type rdf:resource="&knowrob;Trajectory"/>
+        <knowrob:objectActedOn rdf:resource="&robot;wrist"/>
+        <acat:poses rdf:datatype="&xsd;string">x x x x x x
+                                               .......
+                                               x x x x x x</acat:poses>
+    </owl:NamedIndividual>
+
+    <!-- .... TODO INSERT OTHER Trajectory's .... -->
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+
+
