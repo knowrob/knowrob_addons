@@ -22,83 +22,87 @@
     </owl:Ontology>
 
     <owl:Class rdf:about="&actions;Opening">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;OpeningSomething"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Filling">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;FillingProcess"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Pulling">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;PullingAnObject"/>
     </owl:Class>
     
-    <owl:Class rdf:about="&actions;ScrewingSomething">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+    <owl:Class rdf:about="&actions;Screwing">
+        <rdfs:subClassOf rdf:resource="&knowrob;TurningAnObject"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Unscrewing">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;TurningAnObject"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Neutralizing">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;OpeningADoor">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
-    </owl:Class>
-
-    <owl:Class rdf:about="&actions;Starting">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;OpeningSomething"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Pouring">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;Pouring"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Adding">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;AddingSomething"/>
     </owl:Class>
 
-    <owl:Class rdf:about="&actions;Preheating">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
-    </owl:Class>
-
-    <owl:Class rdf:about="&actions;OperatingATap">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
-    </owl:Class>
-
-    <owl:Class rdf:about="&actions;UsingSpiceJar">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
-    </owl:Class>
-
-    <owl:Class rdf:about="&actions;Spooning">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
-    </owl:Class>
-
-    <owl:Class rdf:about="&actions;Flavouring">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+    <owl:Class rdf:about="&actions;Flipping">
+        <rdfs:subClassOf rdf:resource="&knowrob;FlippingAnObject"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;TurningOnElectricalDevice">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;TurningOnPoweredDevice"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Starting">
+        <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Stopping">
+        <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Preheating">
+        <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;OperatingATap">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;UsingSpiceJar">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Spooning">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Flavouring">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;UsingMeasuringCup">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Pipetting">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Storing">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
-    </owl:Class>>
-
-    <owl:Class rdf:about="&actions;Flipping">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
     </owl:Class>
 
 </rdf:RDF>
