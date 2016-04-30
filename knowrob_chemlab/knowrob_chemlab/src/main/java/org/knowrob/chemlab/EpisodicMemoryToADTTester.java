@@ -36,9 +36,9 @@ public class EpisodicMemoryToADTTester extends AbstractNodeMain
 
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
-		EpisodicMemoryToADT tester = new EpisodicMemoryToADT("/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/dictionaries", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl", "http://knowrob.org/kb/acat.owl", "http://knowrob.org/kb/acat_example.owl", "chem_coll_1");
+		EpisodicMemoryToADT tester = new EpisodicMemoryToADT("/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/dictionaries", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl", "http://knowrob.org/kb/acat-adt.owl", "http://knowrob.org/kb/acat_experiment.owl", "chem_pipette_coll_1");
 
-		tester.generateADT("http://knowrob.org/kb/knowrob.owl#PipettingAction");
+		tester.generateADT("http://knowrob.org/kb/knowrob.owl#Pipetting");
 	}
 
 

@@ -1442,6 +1442,15 @@ public class MongoSimGames {
 					((BasicDBObject) first_doc.get("pos")).getDouble("x"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("y"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("z")));
+
+			if(markerID != null)
+			{
+				traj.add(new Vector3d(
+					((BasicDBObject) first_doc.get("rot")).getDouble("x"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("y"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("z")));
+			}
+
 		}
 		// if query returned no values for these timestamps, get the pose at the nearest timestamp
 		else
@@ -1458,6 +1467,14 @@ public class MongoSimGames {
 					((BasicDBObject) first_doc.get("pos")).getDouble("x"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("y"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("z")));
+
+			if(markerID != null)
+			{
+				traj.add(new Vector3d(
+					((BasicDBObject) first_doc.get("rot")).getDouble("x"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("y"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("z")));
+			}
 		}
 		
 		// create the markers

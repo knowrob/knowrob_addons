@@ -92,8 +92,14 @@ public class EpisodicMemoryToADT
 	final String sub_action_type = "http://knowrob.org/kb/knowrob.owl#subAction";
         final String start_time_type = "http://knowrob.org/kb/knowrob.owl#startTime";
 	final String end_time_type = "http://knowrob.org/kb/knowrob.owl#endTime";
-        final String translocation_type = "http://knowrob.org/kb/knowrob.owl#Translocation";
 	final String trajectory_type = "http://knowrob.org/kb/knowrob.owl#Trajectory";
+	final String translation_type = "http://knowrob.org/kb/knowrob.owl#translation";
+	final String quaternion_type = "http://knowrob.org/kb/knowrob.owl#quaternion";
+	final String prac_type = "http://knowrob.org/kb/acat.owl#PracAdt";
+	final String supporting_type = "http://knowrob.org/kb/acat.owl#supportingPlane";
+	final String supported_type = "http://knowrob.org/kb/acat.owl#supportedObject";
+	final String supporting_adt_type = "http://knowrob.org/kb/acat-adt.owl#adtChunkSupport";
+	final String supported_adt_type = "http://knowrob.org/kb/knowrob.owl#supportedObject";
 
 	OWLOntologyManager manager;
 	OWLDataFactory factory;
@@ -111,6 +117,7 @@ public class EpisodicMemoryToADT
 
 	Map<String,String> dictionary;
 	Map<String,String> isMongo;
+	Map<String,String> prac;
 
 	String owl_path;
 	String dictionary_path;
@@ -150,17 +157,20 @@ public class EpisodicMemoryToADT
 
 	public void initializeDictionaries()
 	{	
-		dictionary = initializeDictionary(false);
-		isMongo = initializeDictionary(true);
+		isMongo = initializeDictionary(0);
+		dictionary = initializeDictionary(1);
+		prac = initializeDictionary(2);
 	}
 
-	public Map<String,String> initializeDictionary(boolean mongoCheck)
+	public Map<String,String> initializeDictionary(int mode)
 	{	
 		String xmlContent;
-		if(mongoCheck)
+		if(mode == 0)
 		 	xmlContent =  writeXMLToString(dictionary_path + "/mongo.xml");
-		else
+		else if(mode == 1)
 			xmlContent =  writeXMLToString(dictionary_path + "/dictionary.xml");
+		else 
+			xmlContent =  writeXMLToString(dictionary_path + "/prac.xml");
 
 		Object o = xStream.fromXML(xmlContent);
 		
@@ -202,9 +212,9 @@ public class EpisodicMemoryToADT
     			manager.applyChange( new AddImport( adtOntology, imprt2 ) );
 
 			OWLImportsDeclaration imprt3 = manager.getOWLDataFactory().getOWLImportsDeclaration
-							( IRI.create( "https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat.owl" ) );
-			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/acat.owl"), 
-						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat.owl")));
+							( IRI.create( "https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat-adt.owl" ) );
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/acat-adt.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat-adt.owl")));
 
     			manager.applyChange( new AddImport( adtOntology, imprt3 ) );
 
@@ -269,6 +279,7 @@ public class EpisodicMemoryToADT
 			{
 				generateADTFromIndividual(actionClass, instance, count);
 				count++;
+				break;
 			}
 		}
 
@@ -307,12 +318,11 @@ public class EpisodicMemoryToADT
 		{
 			String owlField = dictionary.get(keySetArray[x]);
 			
-			
 			Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(ind);
 			Set<OWLDataPropertyExpression> dataProperties = getRelatedSubDataProperties(ind);
 
-
 			for (OWLObjectPropertyExpression property : objectProperties) {
+				
 				if(owlField.equals(property.asOWLObjectProperty().getIRI().toString()))
 				{	
 						
@@ -346,8 +356,10 @@ public class EpisodicMemoryToADT
 						manager.applyChange(addAxiomChange1);
 
 
-						OWLObjectProperty interpretedProperty = factory.getOWLObjectProperty(IRI.create(keySetArray[x].replaceAll("http:", "http://").
-											replaceAll("_", "/").replaceAll("-", "#")));
+						OWLObjectProperty interpretedProperty = factory.getOWLObjectProperty(IRI.create(keySetArray[x].
+											replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://")));
+
+						
 
 						makeObjectPropertyAssertion(adt_of_interest, valueFirst, interpretedProperty);
 					}	
@@ -366,17 +378,14 @@ public class EpisodicMemoryToADT
 					values.toArray(valuesArray);
 
 					OWLLiteral valueFirst = valuesArray[0];
-					OWLDataPropertyExpression interpretedProperty = factory.getOWLDataProperty(IRI.create(keySetArray[x].replaceAll("http:", "http://").
-											replaceAll("_", "/").replaceAll("-", "#")));
+					OWLDataProperty interpretedProperty = factory.getOWLDataProperty(IRI.create(keySetArray[x].
+											replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://")));
 
-						
-					OWLDataPropertyAssertionAxiom assertion = factory.getOWLDataPropertyAssertionAxiom
-												(interpretedProperty, adt_of_interest, valueFirst);
-					AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
-					manager.applyChange(addAxiomChange);
+					makeDataPropertyAssertion(adt_of_interest, valueFirst, interpretedProperty);
 					break;
 				}
 			}
+			includePRACData(adt_of_interest);
 		}
 
 		generateActionChuck(ind);		
@@ -446,6 +455,8 @@ public class EpisodicMemoryToADT
 								OWLNamedIndividual start = timeInstanceInd(value, true);
 								OWLNamedIndividual end = timeInstanceInd(value, false);
 
+								 
+
 								OWLObjectProperty startProperty = factory.getOWLObjectProperty
 										(IRI.create(start_time_type));
 
@@ -458,6 +469,30 @@ public class EpisodicMemoryToADT
 					
 								createTrajectoryForActionChunk(valueNew, 
 											timeInstance(value, true), timeInstance(value, false), "PR2LGripper");
+
+								OWLNamedIndividual supported = instanceOfProperty(value, supported_type);
+								OWLNamedIndividual supporting = instanceOfProperty(value, supporting_type);
+
+								if(supporting != null)
+								{
+									OWLObjectProperty supportingProperty = factory.getOWLObjectProperty(IRI.create(supporting_adt_type));
+									makeObjectPropertyAssertion(valueNew, supporting, supportingProperty);
+
+									String data = normalValuesOfPlane(supporting);
+									OWLLiteral lit = factory.getOWLLiteral(data);
+									OWLDataProperty normalProperty = factory.getOWLDataProperty(IRI.create(translation_type));
+									makeDataPropertyAssertion(supporting, lit, normalProperty);
+
+									OWLLiteral lit_q = factory.getOWLLiteral("1 0 0 0");
+									OWLDataProperty qProperty = factory.getOWLDataProperty(IRI.create(quaternion_type));
+									makeDataPropertyAssertion(supporting, lit_q, qProperty);	
+								}
+								if(supported != null)
+								{
+									OWLObjectProperty supportedProperty = factory.getOWLObjectProperty(IRI.create(supported_adt_type));
+									makeObjectPropertyAssertion(supporting, supported, supportedProperty);
+								}
+								
 
 							}
 
@@ -475,6 +510,117 @@ public class EpisodicMemoryToADT
 		return true;
 	}
 
+	public boolean includePRACData(OWLIndividual ind)
+	{
+		OWLClass pracClass = factory.getOWLClass(IRI.create(prac_type));
+		NodeSet<OWLNamedIndividual> pracInstances = reason.getInstances(pracClass, true);
+
+		for(OWLNamedIndividual pracInd : pracInstances.getFlattened())
+		{
+			Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(pracInd);
+			
+
+			Set<String> keySet = prac.keySet();
+			String[] keySetArray = new String[keySet.size()];
+			keySet.toArray(keySetArray);
+			for(OWLObjectPropertyExpression propExpr : objectProperties)
+			{
+				OWLObjectProperty prop = propExpr.asOWLObjectProperty();
+					
+				for(int x = 0; x < keySetArray.length; x++)
+				{
+					String owlField = prac.get(keySetArray[x]);
+					if(prop.getIRI().toString().equals(owlField))
+					{
+						Set<OWLIndividual> values =  pracInd.getObjectPropertyValues(prop, ontology);
+						
+					
+						if(values != null && values.size() > 0)
+						{
+						
+							OWLIndividual[] valuesArray = new OWLIndividual[values.size()];
+							values.toArray(valuesArray);
+
+							OWLNamedIndividual valueFirst = valuesArray[0].asOWLNamedIndividual();
+
+
+							Set<OWLClassExpression> classes = valueFirst.getTypes(ontology);
+							OWLClassExpression[] classesArray = new OWLClassExpression[classes.size()];
+							classes.toArray(classesArray);
+
+							OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(classesArray[0].asOWLClass());
+							manager.addAxiom(adtOntology, declarationAxiom);	
+							OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(classesArray[0].asOWLClass(), valueFirst);	
+							AddAxiom addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
+							manager.applyChange(addAxiomChange1);
+
+							String adtClassIRI = isMongo.get(keySetArray[x]);
+
+							if(adtClassIRI.equals("literal"))
+							{
+								OWLLiteral lit = objectToLiteral(valueFirst);
+
+								OWLDataProperty interpretedProperty = factory.getOWLDataProperty(IRI.create(keySetArray[x].
+											replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://")));
+
+								makeDataPropertyAssertion(ind.asOWLNamedIndividual(), lit, interpretedProperty);
+							}
+							else
+							{
+								OWLClass adtClass = factory.getOWLClass(IRI.create(adtClassIRI));
+								declarationAxiom = factory.getOWLDeclarationAxiom(adtClass);
+								manager.addAxiom(adtOntology, declarationAxiom);	
+								classAssertion = factory.getOWLClassAssertionAxiom(adtClass, valueFirst);	
+								addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
+								manager.applyChange(addAxiomChange1);
+
+
+								OWLObjectProperty interpretedProperty = factory.getOWLObjectProperty(IRI.create(keySetArray[x].
+													replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://")));
+
+								makeObjectPropertyAssertion(ind, valueFirst, interpretedProperty);
+							}
+						}
+					}
+				}
+			}
+			
+			Set<OWLDataPropertyExpression> dataProperties = getRelatedSubDataProperties(pracInd);
+			for(OWLDataPropertyExpression propExpr : dataProperties)
+			{
+				OWLDataProperty prop = propExpr.asOWLDataProperty();
+				for(int x = 0; x < keySetArray.length; x++)
+				{
+					String owlField = prac.get(keySetArray[x]);
+					System.out.println(owlField + "--" + prop.getIRI().toString());
+					if(prop.getIRI().toString().equals(owlField))
+					{
+						Set<OWLLiteral> values =  pracInd.getDataPropertyValues(prop, ontology);
+										
+						if(values != null && values.size() > 0)
+						{
+							OWLLiteral[] valuesArray = new OWLLiteral[values.size()];
+							values.toArray(valuesArray);
+
+							OWLLiteral valueFirst = valuesArray[0];
+							OWLDataProperty interpretedProperty = factory.getOWLDataProperty(IRI.create(keySetArray[x].
+													replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://")));
+
+
+							makeDataPropertyAssertion(ind.asOWLNamedIndividual(), valueFirst, interpretedProperty);
+
+						}
+
+					}
+				}
+
+			}
+
+
+		}
+		return true;
+	}
+
 	public void makeObjectPropertyAssertion(OWLIndividual ind1, OWLIndividual ind2, OWLObjectProperty property)
 	{
 		OWLObjectPropertyAssertionAxiom assertion = factory.getOWLObjectPropertyAssertionAxiom(property, ind1, ind2);
@@ -482,6 +628,15 @@ public class EpisodicMemoryToADT
 		manager.applyChange(addAxiomChange);
 
 	}
+
+
+	public void makeDataPropertyAssertion(OWLNamedIndividual ind, OWLLiteral lit, OWLDataProperty property)
+	{
+		OWLDataPropertyAssertionAxiom assertion = factory.getOWLDataPropertyAssertionAxiom(property, ind, lit);
+		AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
+		manager.applyChange(addAxiomChange);
+	}
+
 
 	public boolean intervalIncludes(OWLIndividual ind1, OWLIndividual ind2)
 	{
@@ -514,7 +669,11 @@ public class EpisodicMemoryToADT
 		if(isStart) property = start_time_type;
 		else property = end_time_type;
 		
+		return instanceOfProperty(ind, property);
+	}
 
+	public OWLNamedIndividual instanceOfProperty(OWLIndividual ind, String property)
+	{
 		Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(ind);
 			
 		for(OWLObjectPropertyExpression propExpr : objectProperties)
@@ -577,11 +736,8 @@ public class EpisodicMemoryToADT
 
 			ArrayList<Vector3d> trajPoints =  mongosimgames.ViewModelTrajectory((double) start, (double) end, model, null);
 
-			OWLClass translocationClass = factory.getOWLClass(IRI.create(translocation_type));
 			OWLClass trajectoryClass = factory.getOWLClass(IRI.create(trajectory_type));
 			OWLNamedIndividual trajectoryInstance = factory.getOWLNamedIndividual(":#Trajectory_" + chunk.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
-			OWLClassAssertionAxiom translocationClassAssertion = factory.getOWLClassAssertionAxiom(translocationClass, trajectoryInstance);
-			manager.addAxiom(adtOntology, translocationClassAssertion);
 			OWLClassAssertionAxiom trajectoryClassAssertion = factory.getOWLClassAssertionAxiom(trajectoryClass, trajectoryInstance);
 			manager.addAxiom(adtOntology, trajectoryClassAssertion);
 
@@ -589,7 +745,7 @@ public class EpisodicMemoryToADT
 
 			for(Vector3d point: trajPoints)
 			{
-				trajectorySamples += point.x + " " + point.y + " " + point.z + "";			 
+				trajectorySamples += point.x + " " + point.y + " " + point.z + " ";			 
 			}
 
 			OWLLiteral trajectoryLiteral = factory.	getOWLLiteral(trajectorySamples);
@@ -610,6 +766,29 @@ public class EpisodicMemoryToADT
 
 	}
 
+
+	public OWLLiteral objectToLiteral(OWLNamedIndividual ind)
+	{
+		String iri = getIndividualTagName(ind.getIRI().toString(), "#");
+
+		StringTokenizer st = new StringTokenizer(iri, "_");
+		String literal = st.nextToken().replaceAll("%20", " ");
+
+		return factory.getOWLLiteral(literal);
+	}
+
+	public String normalValuesOfPlane(OWLNamedIndividual ind)
+	{
+		String iri = getIndividualTagName(ind.getIRI().toString(), "#");
+
+		StringTokenizer st = new StringTokenizer(iri, "_");
+		String literal = st.nextToken();
+		literal = literal.concat(" ");
+		literal = literal.concat(st.nextToken());
+		literal = literal.concat(" ");
+		literal = literal.concat(st.nextToken());
+		return literal;
+	}
 
 	public static class MapEntryConverter implements Converter {
 
@@ -650,7 +829,6 @@ public class EpisodicMemoryToADT
 		}
 
     }
-	
 
 }
  
