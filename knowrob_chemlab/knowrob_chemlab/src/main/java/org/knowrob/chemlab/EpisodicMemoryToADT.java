@@ -42,6 +42,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -100,6 +101,7 @@ public class EpisodicMemoryToADT
 	final String supported_type = "http://knowrob.org/kb/acat.owl#supportedObject";
 	final String supporting_adt_type = "http://knowrob.org/kb/acat-adt.owl#adtChunkSupport";
 	final String supported_adt_type = "http://knowrob.org/kb/knowrob.owl#supportedObject";
+	final String actioncore_type = "http://knowrob.org/kb/acat-adt.owl#actioncore";
 
 	OWLOntologyManager manager;
 	OWLDataFactory factory;
@@ -196,6 +198,11 @@ public class EpisodicMemoryToADT
 
 			manager.addAxiom(adtOntology, classAssertion);
 
+			OWLLiteral lit = factory.getOWLLiteral(actionClass.replaceAll("Action", ""));
+
+			OWLDataProperty actionCoreProperty = factory.getOWLDataProperty(IRI.create(actioncore_type));
+
+			makeDataPropertyAssertion(adt_of_interest, lit, actionCoreProperty);
 
 			OWLImportsDeclaration imprt = manager.getOWLDataFactory().getOWLImportsDeclaration
 							( IRI.create( "https://raw.githubusercontent.com/knowrob/knowrob_addons/master/knowrob_cram/owl/knowrob_cram.owl" ) );
@@ -314,6 +321,10 @@ public class EpisodicMemoryToADT
 		String[] keySetArray = new String[keySet.size()];
 		keySet.toArray(keySetArray);
 	
+
+		OWLObjectProperty taskProperty = factory.getOWLObjectProperty(":#adtAction", adtPM);
+		makeObjectPropertyAssertion(adt_of_interest, ind, taskProperty);
+
 		for(int x = 0; x < keySetArray.length; x++)
 		{
 			String owlField = dictionary.get(keySetArray[x]);
@@ -447,8 +458,7 @@ public class EpisodicMemoryToADT
 								OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(chunkClass, valueNew);
 								manager.addAxiom(adtOntology, classAssertion);
 
-								OWLObjectProperty chunkProperty = factory.getOWLObjectProperty
-										(":#adtAction", adtPM);
+								OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(IRI.create(sub_action_type));
 
 								makeObjectPropertyAssertion(adt_of_interest, valueNew, chunkProperty);
 
@@ -515,6 +525,10 @@ public class EpisodicMemoryToADT
 		OWLClass pracClass = factory.getOWLClass(IRI.create(prac_type));
 		NodeSet<OWLNamedIndividual> pracInstances = reason.getInstances(pracClass, true);
 
+		String amount = "";
+		String amount_field = "";
+		OWLDatatype unit = null;
+
 		for(OWLNamedIndividual pracInd : pracInstances.getFlattened())
 		{
 			Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(pracInd);
@@ -564,6 +578,17 @@ public class EpisodicMemoryToADT
 											replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://")));
 
 								makeDataPropertyAssertion(ind.asOWLNamedIndividual(), lit, interpretedProperty);
+							}
+							else if(adtClassIRI.equals("literal1"))
+							{
+								OWLLiteral lit = objectToLiteral(valueFirst);
+								unit = factory.getOWLDatatype(IRI.create("http://knowrob.org/kb/chemlab-substances.owl#" + lit.getLiteral()));
+							}
+							else if(adtClassIRI.equals("literal2"))
+							{
+								OWLLiteral lit = objectToLiteral(valueFirst);
+								amount = lit.getLiteral();
+								amount_field = keySetArray[x].replaceAll("_", "/").replaceAll(":", "#").replaceAll("http", "http://");
 							}
 							else
 							{
@@ -618,6 +643,9 @@ public class EpisodicMemoryToADT
 
 
 		}
+		OWLLiteral amount1 = factory.getOWLLiteral(amount, unit);
+		OWLDataProperty amountProperty = factory.getOWLDataProperty(IRI.create(amount_field));
+		makeDataPropertyAssertion(ind.asOWLNamedIndividual(), amount1, amountProperty);
 		return true;
 	}
 
