@@ -160,6 +160,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 			if(key.isEmpty()) continue;
 			if(key.substring(0,1).equals("_")) continue;
 			Object value = designator.get(key);
+			if(value==null) {
+				System.err.println("Designator null value for key: " + key);
+				continue;
+			}
 
 			KeyValuePair kv = node.getTopicMessageFactory().newFromType(
 					designator_integration_msgs.KeyValuePair._TYPE);
