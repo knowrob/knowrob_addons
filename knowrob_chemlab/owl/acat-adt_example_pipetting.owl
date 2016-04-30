@@ -90,7 +90,7 @@
         <acat:adtPrimaryObject rdf:resource="&example;ActionObjectDescription_DF4543nhdjs"/>   <!-- The acid -->
         <acat:adtSecondaryObject rdf:resource="&example;ActionObjectDescription_ften8dbFGSD"/> <!-- The base bottle -->
         <!-- Action chunks (note: link to first chunk, chunks are linked using nextAction/previousAction) -->
-        <knowrob:subAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_dsfg24375zd"/>
+        <knowrob:subAction rdf:resource="&example;ActionChunk_dsfg24375zd"/>
     </owl:NamedIndividual>
     
     <!-- 
@@ -169,9 +169,9 @@
         <!-- Supporting planes (6D/3D pose & supported object) -->
         <acat:adtChunkSupport rdf:resource="&log;SupportingPlane_dsfg24375zd"/>
         <!-- Trajectories -->
-        <acat:adtChunkTrajectory rdf:resource="&log;Trajectory_bvsdvg9sd8gj"/>
+        <acat:adtChunkTrajectory rdf:resource="&example;Trajectory_bvsdvg9sd8gj"/>
         <!-- Action sequence -->
-        <knowrob:nextAction rdf:resource="&log;ActionChunk_DGFri4u5fd"/>
+        <knowrob:nextAction rdf:resource="&example;ActionChunk_DGFri4u5fd"/>
     </owl:NamedIndividual>
 
     <!-- note: skipping other chunks for this example -->
@@ -190,9 +190,9 @@
         <!-- Supporting planes (6D/3D pose & supported object) -->
         <acat:adtChunkSupport rdf:resource="&log;SupportingPlane_DGoinr468z"/>
         <!-- Trajectories -->
-        <acat:adtChunkTrajectory rdf:resource="&log;Trajectory_DFji4e548fd"/>
+        <acat:adtChunkTrajectory rdf:resource="&example;Trajectory_DFji4e548fd"/>
         <!-- Action sequence -->
-        <knowrob:previousAction rdf:resource="&log;ActionChunk_dsfg24375zd"/>
+        <knowrob:previousAction rdf:resource="&example;ActionChunk_dsfg24375zd"/>
     </owl:NamedIndividual>
     
     <!-- 
