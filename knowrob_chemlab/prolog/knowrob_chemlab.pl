@@ -38,11 +38,14 @@
         visualize_chemlab_highlight/2,
         visualize_chemlab_highlights/1,
         inside_physical/3,
-        import_task_as_adt/3
+        import_task_as_adt/3,
+        adt_object_type/2,
+        adt_publish/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('owl')).
+:- use_module(library('jpl')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
@@ -52,6 +55,7 @@
 :- rdf_db:rdf_register_ns(knowrob_chemlab, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(acat, 'http://knowrob.org/kb/acat-adt.owl#', [keep(true)]).
 
 % define predicates as rdf_meta predicates
 % (i.e. rdf namespaces are automatically expanded)
@@ -61,7 +65,9 @@
     visualize_chemlab_object(+,+,r),
     visualize_chemlab_highlight(+),
     visualize_chemlab_highlight(+,+),
-    visualize_chemlab_highlights(+).
+    visualize_chemlab_highlights(+),
+    adt_publish(r),
+    adt_object_type(r,?).
     
 is_screwable_on(CapName, ContName) :-
   owl_has(CapIndividual, knowrob:'name', literal(type(_,CapName))),
@@ -165,6 +171,21 @@ inside_physical(Frame, Out, T) :-
   (Z_Negative > Z_Frame, Z_Positive < Z_Frame;
   Z_Negative < Z_Frame, Z_Positive > Z_Frame).    
 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Final review
+%
+
+adt_object_type(Object, Type) :-
+  rdf_has(Object, rdf:'type', ClsUri),
+  rdfs_subclass_of(ClsUri, knowrob:'EnduringThing-Localized'),
+  rdf_split_url(_,Type,ClsUri), !.
+
+adt_publish(ADT) :-
+  jpl_new('org.knowrob.chemlab.ADTDesignator', [], ADTDesignator),
+  jpl_call(ADTDesignator, 'readFromIndividual', [ADT], _),
+  designator_publish(ADT, ADTDesignator).
 
 import_task_as_adt(ExperimentName, TaskType, ADTPath) :-
   rospack_package_path('knowrob_chemlab', Path),

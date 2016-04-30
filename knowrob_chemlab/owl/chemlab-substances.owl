@@ -18,11 +18,32 @@
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:qudt="http://qudt.org/vocab/unit#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-substances.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
     
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Define unit "Drop"
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+    
+    <rdf:Description rdf:about="&chemstoff;Drop">
+      <rdf:type rdf:resource="http://qudt.org/schema/qudt#VolumeUnit"/>
+      <qudt:symbol rdf:datatype="&xsd;string">Drop</qudt:symbol>
+      <qudt:abbreviation rdf:datatype="&xsd;string">Drop</qudt:abbreviation>
+      <rdfs:label rdf:datatype="&xsd;string">Drop</rdfs:label>
+      <!--
+      <rdf:type rdf:resource="http://qudt.org/schema/qudt#UsedWithSIUnit"/>
+      <qudt:conversionOffset rdf:datatype="&xsd;double">0.0</qudt:conversionOffset>
+      <qudt:conversionMultiplier rdf:datatype="&xsd;double">1.0E-3</qudt:conversionMultiplier>
+      <qudt:code rdf:datatype="&xsd;string">1070</qudt:code>
+      -->
+    </rdf:Description>
 
 
     <!-- 
@@ -57,6 +78,14 @@
 
     <owl:Class rdf:about="&chemstoff;AceticAcid">
         <rdfs:subClassOf rdf:resource="&chemstoff;Acid"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#LysergicAcid -->
+
+    <owl:Class rdf:about="&chemstoff;LysergicAcid">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Acid"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
     </owl:Class>
     
 
@@ -74,12 +103,13 @@
     <owl:Class rdf:about="&chemstoff;Base">
         <rdfs:subClassOf rdf:resource="&chemstoff;ChemicalSubstance"/>
     </owl:Class>
-    
 
 
     <!-- http://knowrob.org/kb/chemlab-substances.owl#ChemicalSubstance -->
 
-    <owl:Class rdf:about="&chemstoff;ChemicalSubstance"/>
+    <owl:Class rdf:about="&chemstoff;ChemicalSubstance">
+        <rdfs:subClassOf rdf:resource="&knowrob;EnduringThing-Localized"/>
+    </owl:Class>
     
 
 
@@ -87,16 +117,13 @@
 
     <owl:Class rdf:about="&chemstoff;HydroFluoricAcid">
         <rdfs:subClassOf rdf:resource="&chemstoff;Acid"/>
-        <!-- TODO: not sure if this is allowed!!! -->
-        <chemstoff:dissolves rdf:resource="&knowrob;Glass"/>
-        <!--
+        <rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&chemstoff;dissolves"/>
                 <owl:hasValue rdf:resource="&knowrob;Glass"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        -->
     </owl:Class>
     
 
@@ -113,6 +140,7 @@
 
     <owl:Class rdf:about="&chemstoff;Phenolphtaleine">
         <rdfs:subClassOf rdf:resource="&chemstoff;Indicator"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
     </owl:Class>
     
 
@@ -121,6 +149,7 @@
 
     <owl:Class rdf:about="&chemstoff;Purine">
         <rdfs:subClassOf rdf:resource="&chemstoff;Base"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
     </owl:Class>
     
 
@@ -129,8 +158,15 @@
 
     <owl:Class rdf:about="&chemstoff;SodiumHydroxide">
         <rdfs:subClassOf rdf:resource="&chemstoff;Base"/>
+        <rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
     </owl:Class>
-    
+
+    <!-- http://knowrob.org/kb/chemlab-substances.owl#SodiumHydroxide -->
+
+    <owl:Class rdf:about="&chemstoff;Pyrimidine">
+        <rdfs:subClassOf rdf:resource="&chemstoff;Base"/>
+	<rdfs:subClassOf rdf:resource="&chemstoff;LiquidTangibleThing"/> <!-- TODO: is a liquid? -->
+    </owl:Class>
 
 
     <!-- http://knowrob.org/kb/chemlab-substances.owl#UnknownSubstance -->

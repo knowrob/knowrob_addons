@@ -26,6 +26,10 @@
         <!-- =========================================== -->
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
         <!-- =========================================== -->
+        <!-- |   Chemical substances                   | -->
+        <!-- =========================================== -->
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-substances.owl"/>
+        <!-- =========================================== -->
         <!-- |   Object data                           | -->
         <!-- =========================================== -->
         <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-objects.owl"/>
