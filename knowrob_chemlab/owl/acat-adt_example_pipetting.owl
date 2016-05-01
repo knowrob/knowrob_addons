@@ -179,7 +179,7 @@
     <!-- Last chunk -->
     <owl:NamedIndividual rdf:about="&example;ActionChunk_DGFri4u5fd">
         <rdf:type rdf:resource="&acat;ActionChunk"/>
-        <rdf:type rdf:resource="&knowrob;PuttingDownSomethingSomewhere"/>
+        <rdf:type rdf:resource="&knowrob;PuttingDownAnObject"/>
         <knowrob:taskSuccess rdf:datatype="&xsd;boolean">true</knowrob:taskSuccess>
         <!-- Link to the action in the plan log (note: should not appear in XML ADT) -->
         <acat:adtAction rdf:resource="&log;PuttingDownAnObject_FDSJN46546"/>
