@@ -10,11 +10,12 @@ public class ADTDesignator extends Designator {
 
 	public ADTDesignator() {
 		super();
+		values.put("type", "ADT");
 	}
 	
 	public Designator readActionChunk(String id) {
 		Designator chunkDesignator = new Designator();
-		chunkDesignator.setType("ADT-action-chunk");
+		chunkDesignator.put("type", "ADT-action-chunk");
 		HashMap<String, Vector<String>> res;
 
 		res = PrologInterface.executeQuery("rdf_has("+id+", rdf:'type', ClassUri), " +
@@ -24,7 +25,7 @@ public class ADTDesignator extends Designator {
 		
 		res = PrologInterface.executeQuery("rdf_has("+id+", acat:'adtAction', Action)");
 		if(res!=null && res.size()>0)
-			values.put("_adt_action", res.get("Action").get(0));
+			values.put("adt-action", res.get("Action").get(0));
 		else
 			System.out.println("ADT " + id + " missing key acat:'adtAction'.");
 		
@@ -75,9 +76,9 @@ public class ADTDesignator extends Designator {
 	public Designator readActionChunks(String id) {
 		HashMap<String, Vector<String>> res, res2;
 		Designator chunkDesignator = new Designator();
+		chunkDesignator.put("type", "ADT-action-chunks");
 		
 		res = PrologInterface.executeQuery("rdf_has('"+id+"', knowrob:'subAction', FirstChunk)");
-		chunkDesignator.setType("ADT-action-chunks");
 		if(res!=null) {
 			String chunk = res.get("FirstChunk").get(0);
 			for(Integer i=0;;++i) {
@@ -100,7 +101,7 @@ public class ADTDesignator extends Designator {
 				"rdf_split_url(_,Role,RoleUri)," +
 				"adt_object_type(Object, Cls)");
 		Designator roleDesignator = new Designator();
-		roleDesignator.setType("ADT-roles");
+		roleDesignator.put("type", "ADT-roles");
 		if(res!=null) {
 			for(int i=0; res.get("Role").size()>i; ++i) {
 				String role = res.get("Role").get(i);
@@ -117,7 +118,7 @@ public class ADTDesignator extends Designator {
 				"rdf_has('"+id+"', acat:'adtObject', Object), " +
 				"adt_object_type(Object, Type)");
 		Designator objectsDesignator = new Designator();
-		objectsDesignator.setType("ADT-objects");
+		objectsDesignator.put("type", "ADT-objects");
 		if(res!=null) {
 			for(Integer i=0; res.get("Object").size()>i; ++i) {
 				HashMap<String, Vector<String>> res2;
@@ -149,12 +150,12 @@ public class ADTDesignator extends Designator {
 
 	public Designator readFromIndividual(String id) {
 		try {
-			values.put("_adt_id", id);
+			values.put("adt-id", id);
 			
 			HashMap<String, Vector<String>> res = PrologInterface.executeQuery(
 					"rdf_has('"+id+"', acat:'adtAction', Action)");
 			if(res!=null && res.size()>0)
-				values.put("_adt_action", res.get("Action").get(0));
+				values.put("adt-action", res.get("Action").get(0));
 			else
 				System.out.println("ADT " + id + " missing key acat:'adtAction'.");
 			// read instruction
