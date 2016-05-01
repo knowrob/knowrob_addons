@@ -6,6 +6,8 @@ import java.util.Vector;
 import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.prolog.PrologInterface;
 
+import com.google.common.base.CaseFormat;
+
 public class ADTDesignator extends Designator {
 
 	public ADTDesignator() {
@@ -19,9 +21,11 @@ public class ADTDesignator extends Designator {
 		HashMap<String, Vector<String>> res;
 
 		res = PrologInterface.executeQuery("rdf_has("+id+", rdf:'type', ClassUri), " +
-				"rdfs_subclass_of(ClassUri, knowrob:'Event'), rdf_split_url(_,ClassName,ClassUri)");
+				"rdfs_subclass_of(ClassUri, knowrob:'Event'), " +
+				"rdf_split_url(_,ClassName,ClassUri), " +
+				"not( ClassName='ActionChunk' )");
 		if(res!=null && res.size()>0)
-			chunkDesignator.put("class", res.get("ClassName").get(0));
+			chunkDesignator.put("action-class", res.get("ClassName").get(0));
 		
 		res = PrologInterface.executeQuery("rdf_has("+id+", acat:'adtAction', Action)");
 		if(res!=null && res.size()>0)
@@ -107,7 +111,8 @@ public class ADTDesignator extends Designator {
 				String role = res.get("Role").get(i);
 				String cls = res.get("Cls").get(i);
 				if(role.startsWith("adt")) role = role.substring(3);
-				roleDesignator.put(role.toLowerCase(), cls);
+				role = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, role);
+				roleDesignator.put(role, cls);
 			}
 		}
 		return roleDesignator;
