@@ -2,15 +2,15 @@
   <httpknowrob.org_kb_acat-adt.owl:adtActionContext><![CDATA[http://knowrob.org/kb/knowrob.owl#String]]></httpknowrob.org_kb_acat-adt.owl:adtActionContext>
   <httpknowrob.org_kb_knowrob.owl:startTime><![CDATA[http://knowrob.org/kb/knowrob.owl#TimePoint]]></httpknowrob.org_kb_knowrob.owl:startTime>
   <httpknowrob.org_kb_knowrob.owl:endTime><![CDATA[http://knowrob.org/kb/knowrob.owl#TimePoint]]></httpknowrob.org_kb_knowrob.owl:endTime>
-  <httpknowrob.org_kb_acat-adt.owl:adtMainObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtMainObject>
-  <httpknowrob.org_kb_acat-adt.owl:adtPrimaryObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtPrimaryObject>
-  <httpknowrob.org_kb_acat-adt.owl:adtSecondaryObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtSecondaryObject>
-  <httpknowrob.org_kb_knowrob.owl:taskGoal><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_knowrob.owl:taskGoal>
-  <httpknowrob.org_kb_acat-adt.owl:adtContent><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtContent>
-  <httpknowrob.org_kb_acat-adt.owl:adtGoal><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtGoal>
-  <httpknowrob.org_kb_acat-adt.owl:adtStuff><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtStuff>
-  <httpknowrob.org_kb_acat-adt.owl:adtDevice><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtDevice>
-  <httpknowrob.org_kb_acat-adt.owl:adtObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionDataObject]]></httpknowrob.org_kb_acat-adt.owl:adtObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtMainObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtMainObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtPrimaryObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtPrimaryObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtSecondaryObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtSecondaryObject>
+  <httpknowrob.org_kb_knowrob.owl:taskGoal><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_knowrob.owl:taskGoal>
+  <httpknowrob.org_kb_acat-adt.owl:adtContent><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtContent>
+  <httpknowrob.org_kb_acat-adt.owl:adtGoal><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtGoal>
+  <httpknowrob.org_kb_acat-adt.owl:adtStuff><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtStuff>
+  <httpknowrob.org_kb_acat-adt.owl:adtDevice><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtDevice>
+  <httpknowrob.org_kb_acat-adt.owl:adtObject><![CDATA[http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription]]></httpknowrob.org_kb_acat-adt.owl:adtObject>
   <httpknowrob.org_kb_acat-adt.owl:instruction>literal</httpknowrob.org_kb_acat-adt.owl:instruction>
   <httpknowrob.org_kb_acat-adt.owl:adtActionContext>literal</httpknowrob.org_kb_acat-adt.owl:adtActionContext>
   <httpknowrob.org_kb_acat-adt.owl:unit>literal1</httpknowrob.org_kb_acat-adt.owl:unit>

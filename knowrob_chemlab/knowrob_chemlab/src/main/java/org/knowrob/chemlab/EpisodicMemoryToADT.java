@@ -106,12 +106,14 @@ public class EpisodicMemoryToADT
 	OWLOntologyManager manager;
 	OWLDataFactory factory;
 	OWLReasoner reason;
+	OWLReasoner reason_map;
 
 	PrefixManager adtPM;
 	PrefixManager adtExamplePM;
 
 	OWLOntology ontology; 
-	OWLOntology adtOntology; 
+	OWLOntology adtOntology;
+	OWLOntology mapOntology; 
 	Set<OWLClass> classes;
 	XStream xStream;
 
@@ -151,6 +153,7 @@ public class EpisodicMemoryToADT
         	// Create a reasoner that will reason over our ontology and its imports
         	// closure. Pass in the configuration.
         	reason = rFactory.createReasoner(ontology, config);
+		reason_map = rFactory.createReasoner(mapOntology, config);
 
 		adtPM = new DefaultPrefixManager(adt_prefix);
 		adtExamplePM = new DefaultPrefixManager(adt_example_prefix);
@@ -291,6 +294,10 @@ public class EpisodicMemoryToADT
 	      		ontology = manager.loadOntologyFromOntologyDocument(file);
 			System.out.println("Loaded ontology: " + file);
 
+			File mapFile = new File(owl_path + "/chemlab-map_review-2016.owl");
+	      		mapOntology = manager.loadOntologyFromOntologyDocument(mapFile);
+			System.out.println("Loaded ontology: " + mapFile);
+
 			classes = ontology.getClassesInSignature(true);	
 		}
 		catch(Exception e)
@@ -390,8 +397,13 @@ public class EpisodicMemoryToADT
 						classes.toArray(classesArray);
 
 						if(!owlField.contains("Time"))
-							valueFirst = factory.getOWLNamedIndividual(":#ActionObjectDescription_" 
+						{
+							
+							OWLNamedIndividual newValue = factory.getOWLNamedIndividual(":#ActionObjectDescription_" 
 									+ valueFirst.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
+							addSemanticMapFeatures(newValue, valueFirst);
+							valueFirst = newValue;
+						}
 
 						OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(classesArray[0].asOWLClass());
 						manager.addAxiom(adtOntology, declarationAxiom);	
@@ -459,12 +471,20 @@ public class EpisodicMemoryToADT
 	}
 
 	private Set<OWLObjectPropertyExpression> getRelatedSubObjectProperties(OWLIndividual individual) {
-		Map<OWLObjectPropertyExpression,java.util.Set<OWLIndividual>> mapping = individual.getObjectPropertyValues(ontology);		
-		return mapping.keySet();
+		return getRelatedSubObjectProperties(individual, ontology);
 	}
 
 	private Set<OWLDataPropertyExpression> getRelatedSubDataProperties(OWLIndividual individual) {
-		Map<OWLDataPropertyExpression,java.util.Set<OWLLiteral>> mapping = individual.getDataPropertyValues(ontology);		
+		return getRelatedSubDataProperties(individual, ontology);
+	}
+
+	private Set<OWLObjectPropertyExpression> getRelatedSubObjectProperties(OWLIndividual individual, OWLOntology o) {
+		Map<OWLObjectPropertyExpression,java.util.Set<OWLIndividual>> mapping = individual.getObjectPropertyValues(o);		
+		return mapping.keySet();
+	}
+
+	private Set<OWLDataPropertyExpression> getRelatedSubDataProperties(OWLIndividual individual, OWLOntology o) {
+		Map<OWLDataPropertyExpression,java.util.Set<OWLLiteral>> mapping = individual.getDataPropertyValues(o);		
 		return mapping.keySet();
 	}
 
@@ -856,13 +876,77 @@ public class EpisodicMemoryToADT
 
 	public OWLLiteral objectToLiteral(OWLNamedIndividual ind)
 	{
+		return factory.getOWLLiteral(objectToString(ind));
+	}
+
+	public String objectToString(OWLNamedIndividual ind)
+	{
 		String iri = getIndividualTagName(ind.getIRI().toString(), "#");
 
 		StringTokenizer st = new StringTokenizer(iri, "_");
 		String literal = st.nextToken().replaceAll("%20", " ");
 
-		return factory.getOWLLiteral(literal);
+		return literal;
 	}
+
+	public boolean addSemanticMapFeatures(OWLNamedIndividual adtInd, OWLNamedIndividual logInd)
+	{
+		Set<OWLClassExpression> classesSem = logInd.getTypes(ontology);
+		OWLClassExpression[] classesSemArray = new OWLClassExpression[classesSem.size()];
+		classesSem.toArray(classesSemArray);
+		String iri_postfix = getIndividualTagName(classesSemArray[0].asOWLClass().getIRI().toString(), "#");
+
+		OWLClass iri_object_class = factory.getOWLClass(IRI.create("http://knowrob.org/kb/chemlab-objects.owl#" + iri_postfix));
+		OWLClass iri_substance_class = factory.getOWLClass(IRI.create("http://knowrob.org/kb/chemlab-substances.owl#" + iri_postfix));
+
+
+		NodeSet<OWLNamedIndividual> objectInstances = reason_map.getInstances(iri_object_class, true);
+		NodeSet<OWLNamedIndividual> substanceInstances = reason_map.getInstances(iri_substance_class, true);
+
+		addIndividualFeaturesMap(objectInstances, adtInd);
+		addIndividualFeaturesMap(substanceInstances, adtInd);
+		return true;
+	}
+
+	public boolean addIndividualFeaturesMap(NodeSet<OWLNamedIndividual> objectInstances, OWLNamedIndividual adtInd)
+	{
+		for(OWLNamedIndividual ind : objectInstances.getFlattened())
+		{
+			Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(ind, mapOntology);
+			
+			for(OWLObjectPropertyExpression propExpr : objectProperties)
+			{
+
+				OWLObjectProperty prop = propExpr.asOWLObjectProperty();
+
+				Set<OWLIndividual> values =  ind.getObjectPropertyValues(prop, mapOntology);
+				OWLIndividual[] valuesArray = new OWLIndividual[values.size()];
+				values.toArray(valuesArray);
+
+				OWLNamedIndividual valueFirst = valuesArray[0].asOWLNamedIndividual();
+				makeObjectPropertyAssertion(adtInd, valueFirst, prop);
+			}
+
+			Set<OWLDataPropertyExpression> dataProperties = getRelatedSubDataProperties(ind, mapOntology);
+			
+			for(OWLDataPropertyExpression propExpr : dataProperties)
+			{
+				OWLDataProperty prop = propExpr.asOWLDataProperty();
+
+				Set<OWLLiteral> values =  ind.getDataPropertyValues(prop, mapOntology);
+				OWLLiteral[] valuesArray = new OWLLiteral[values.size()];
+				values.toArray(valuesArray);
+
+				OWLLiteral valueFirst = valuesArray[0];
+				makeDataPropertyAssertion(adtInd, valueFirst, prop);
+			}
+				
+
+			break;
+		}
+		return true;
+	}
+
 
 	public String normalValuesOfPlane(OWLNamedIndividual ind)
 	{
