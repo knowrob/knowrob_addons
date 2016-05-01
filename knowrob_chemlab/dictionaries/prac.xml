@@ -3,4 +3,8 @@
   <httpknowrob.org_kb_acat-adt.owl:adtActionContext><![CDATA[http://knowrob.org/kb/acat.owl#content]]></httpknowrob.org_kb_acat-adt.owl:adtActionContext>
   <httpknowrob.org_kb_acat-adt.owl:unit><![CDATA[http://knowrob.org/kb/acat.owl#unit]]></httpknowrob.org_kb_acat-adt.owl:unit>
   <httpknowrob.org_kb_acat-adt.owl:amount><![CDATA[http://knowrob.org/kb/acat.owl#amount]]></httpknowrob.org_kb_acat-adt.owl:amount>
+  <httpknowrob.org_kb_acat-adt.owl:adtGoal><![CDATA[http://knowrob.org/kb/acat.owl#goal]]></httpknowrob.org_kb_acat-adt.owl:adtGoal>
+  <httpknowrob.org_kb_acat-adt.owl:adtContent><![CDATA[http://knowrob.org/kb/acat.owl#content]]></httpknowrob.org_kb_acat-adt.owl:adtContent>
+  <httpknowrob.org_kb_acat-adt.owl:adtObject><![CDATA[http://knowrob.org/kb/acat.owl#content]]></httpknowrob.org_kb_acat-adt.owl:adtObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtObject><![CDATA[http://knowrob.org/kb/acat.owl#goal]]></httpknowrob.org_kb_acat-adt.owl:adtObject>
 </root>

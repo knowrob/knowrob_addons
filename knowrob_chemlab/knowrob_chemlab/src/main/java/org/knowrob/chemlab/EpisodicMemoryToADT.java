@@ -122,11 +122,12 @@ public class EpisodicMemoryToADT
 	Map<String,String> prac;
 
 	String owl_path;
+	String log_path;
 	String dictionary_path;
 	String output_path;
 	String experiment_name;
 
-	public EpisodicMemoryToADT(String owl_path, String dictionary_path, String output_path, String adt_prefix, String adt_example_prefix, String experiment_name)
+	public EpisodicMemoryToADT(String owl_path, String log_path, String dictionary_path, String output_path, String adt_prefix, String adt_example_prefix, String experiment_name)
 	{
 		xStream = new XStream();
         	xStream.registerConverter(new MapEntryConverter());
@@ -134,6 +135,7 @@ public class EpisodicMemoryToADT
 
 
 		this.owl_path = owl_path;
+		this.log_path = log_path;
 		this.dictionary_path = dictionary_path;
 		this.output_path = output_path;
 		this.experiment_name = experiment_name;
@@ -205,25 +207,48 @@ public class EpisodicMemoryToADT
 			makeDataPropertyAssertion(adt_of_interest, lit, actionCoreProperty);
 
 			OWLImportsDeclaration imprt = manager.getOWLDataFactory().getOWLImportsDeclaration
-							( IRI.create( "https://raw.githubusercontent.com/knowrob/knowrob_addons/master/knowrob_cram/owl/knowrob_cram.owl" ) );
+							( IRI.create( "package://knowrob_cram/owl/knowrob-cram.owl" ) );
 			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/cram_log.owl"), 
-						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/master/knowrob_cram/owl/knowrob_cram.owl")));
+						IRI.create("package://knowrob_cram/owl/knowrob-cram.owl")));
 
     			manager.applyChange( new AddImport( adtOntology, imprt ) );
 
 			OWLImportsDeclaration imprt2 = manager.getOWLDataFactory().getOWLImportsDeclaration
-							( IRI.create( "https://raw.githubusercontent.com/knowrob/knowrob/master/knowrob_common/owl/knowrob.owl" ) );
+							( IRI.create( "package://knowrob_common/owl/knowrob.owl" ) );
 			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/knowrob.owl"), 
-						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob/master/knowrob_common/owl/knowrob.owl")));
+						IRI.create("package://knowrob_common/owl/knowrob.owl")));
 
     			manager.applyChange( new AddImport( adtOntology, imprt2 ) );
 
 			OWLImportsDeclaration imprt3 = manager.getOWLDataFactory().getOWLImportsDeclaration
-							( IRI.create( "https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat-adt.owl" ) );
+							( IRI.create( "package://knowrob_chemlab/owl/acat-adt.owl" ) );
 			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/acat-adt.owl"), 
-						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat-adt.owl")));
+						IRI.create("package://knowrob_chemlab/owl/acat-adt.owl")));
 
     			manager.applyChange( new AddImport( adtOntology, imprt3 ) );
+
+
+			OWLImportsDeclaration imprt4 = manager.getOWLDataFactory().getOWLImportsDeclaration
+							( IRI.create( "package://knowrob_chemlab/owl/chemlab.owl" ) );
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/chemlab.owl"), 
+						IRI.create("package://knowrob_chemlab/owl/chemlab.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/chemlab-actions.owl"), 
+						IRI.create("package://knowrob_chemlab/owl/chemlab-actions.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/chemlab-substances.owl"), 
+						IRI.create("package://knowrob_chemlab/owl/chemlab-substances.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/chemlab-objects.owl"), 
+						IRI.create("package://knowrob_chemlab/owl/chemlab-objects.owl")));
+
+    			manager.applyChange( new AddImport( adtOntology, imprt4 ) );
+
+
+			OWLImportsDeclaration imprt5 = manager.getOWLDataFactory().getOWLImportsDeclaration
+							( IRI.create( "package://knowrob_chemlab/owl/chemlab-map_review-2016.owl" ) );
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/chemlab-map_review-2016.owl"), 
+						IRI.create("package://knowrob_chemlab/owl/chemlab-map_review-2016.owl")));
+
+    			manager.applyChange( new AddImport( adtOntology, imprt5 ) );
+
 
 		}
 		catch(Exception e)
@@ -249,7 +274,20 @@ public class EpisodicMemoryToADT
 						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob/master/knowrob_common/owl/knowrob.owl")));
 			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_cram/owl/knowrob_cram.owl"), 
 						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/master/knowrob_cram/owl/knowrob_cram.owl")));
-			File file = new File(owl_path + "/log.owl");
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_chemlab/owl/acat-adt.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/acat-adt.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_chemlab/owl/chemlab.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/chemlab.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_chemlab/owl/chemlab-actions.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/chemlab-actions.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_chemlab/owl/chemlab-objects.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/chemlab-objects.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_chemlab/owl/chemlab-substances.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/chemlab-substances.owl")));
+			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("package://knowrob_chemlab/owl/chemlab-map_review-2016.owl"), 
+						IRI.create("https://raw.githubusercontent.com/knowrob/knowrob_addons/acat/knowrob_chemlab/owl/chemlab-map_review-2016.owl")));
+
+			File file = new File(log_path);
 	      		ontology = manager.loadOntologyFromOntologyDocument(file);
 			System.out.println("Loaded ontology: " + file);
 
@@ -347,10 +385,13 @@ public class EpisodicMemoryToADT
 
 						OWLNamedIndividual valueFirst = valuesArray[0].asOWLNamedIndividual();
 
-
 						Set<OWLClassExpression> classes = valueFirst.getTypes(ontology);
 						OWLClassExpression[] classesArray = new OWLClassExpression[classes.size()];
 						classes.toArray(classesArray);
+
+						if(!owlField.contains("Time"))
+							valueFirst = factory.getOWLNamedIndividual(":#ActionObjectDescription_" 
+									+ valueFirst.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
 
 						OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(classesArray[0].asOWLClass());
 						manager.addAxiom(adtOntology, declarationAxiom);	
@@ -465,7 +506,13 @@ public class EpisodicMemoryToADT
 								OWLNamedIndividual start = timeInstanceInd(value, true);
 								OWLNamedIndividual end = timeInstanceInd(value, false);
 
-								 
+								OWLClass startClass = factory.getOWLClass(IRI.create("http://knowrob.org/kb/knowrob.owl#TimePoint"));
+								OWLClass endClass = factory.getOWLClass(IRI.create("http://knowrob.org/kb/knowrob.owl#TimePoint")); 
+								OWLClassAssertionAxiom startAssertion = factory.getOWLClassAssertionAxiom(startClass, start);
+								manager.addAxiom(adtOntology, startAssertion);
+								OWLClassAssertionAxiom endAssertion = factory.getOWLClassAssertionAxiom(endClass, end);
+								manager.addAxiom(adtOntology, endAssertion);
+
 
 								OWLObjectProperty startProperty = factory.getOWLObjectProperty
 										(IRI.create(start_time_type));
@@ -482,25 +529,32 @@ public class EpisodicMemoryToADT
 
 								OWLNamedIndividual supported = instanceOfProperty(value, supported_type);
 								OWLNamedIndividual supporting = instanceOfProperty(value, supporting_type);
+								OWLNamedIndividual supporting_new = null;
 
 								if(supporting != null)
 								{
+									supporting_new = factory.getOWLNamedIndividual(":#SupportingPlane_" 
+									+ supporting.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
+
 									OWLObjectProperty supportingProperty = factory.getOWLObjectProperty(IRI.create(supporting_adt_type));
-									makeObjectPropertyAssertion(valueNew, supporting, supportingProperty);
+									makeObjectPropertyAssertion(valueNew, supporting_new, supportingProperty);
 
 									String data = normalValuesOfPlane(supporting);
 									OWLLiteral lit = factory.getOWLLiteral(data);
 									OWLDataProperty normalProperty = factory.getOWLDataProperty(IRI.create(translation_type));
-									makeDataPropertyAssertion(supporting, lit, normalProperty);
+									makeDataPropertyAssertion(supporting_new, lit, normalProperty);
 
 									OWLLiteral lit_q = factory.getOWLLiteral("1 0 0 0");
 									OWLDataProperty qProperty = factory.getOWLDataProperty(IRI.create(quaternion_type));
-									makeDataPropertyAssertion(supporting, lit_q, qProperty);	
+									makeDataPropertyAssertion(supporting_new, lit_q, qProperty);	
 								}
 								if(supported != null)
 								{
+									OWLNamedIndividual supported_new = factory.getOWLNamedIndividual(":#ActionObjectDescription_" 
+									+ supported.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
+
 									OWLObjectProperty supportedProperty = factory.getOWLObjectProperty(IRI.create(supported_adt_type));
-									makeObjectPropertyAssertion(supporting, supported, supportedProperty);
+									makeObjectPropertyAssertion(supporting_new, supported_new, supportedProperty);
 								}
 								
 
@@ -558,16 +612,6 @@ public class EpisodicMemoryToADT
 							OWLNamedIndividual valueFirst = valuesArray[0].asOWLNamedIndividual();
 
 
-							Set<OWLClassExpression> classes = valueFirst.getTypes(ontology);
-							OWLClassExpression[] classesArray = new OWLClassExpression[classes.size()];
-							classes.toArray(classesArray);
-
-							OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(classesArray[0].asOWLClass());
-							manager.addAxiom(adtOntology, declarationAxiom);	
-							OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(classesArray[0].asOWLClass(), valueFirst);	
-							AddAxiom addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
-							manager.applyChange(addAxiomChange1);
-
 							String adtClassIRI = isMongo.get(keySetArray[x]);
 
 							if(adtClassIRI.equals("literal"))
@@ -592,9 +636,24 @@ public class EpisodicMemoryToADT
 							}
 							else
 							{
+								Set<OWLClassExpression> classes = valueFirst.getTypes(ontology);
+								OWLClassExpression[] classesArray = new OWLClassExpression[classes.size()];
+								classes.toArray(classesArray);
+
+								OWLDeclarationAxiom declarationAxiom = factory.getOWLDeclarationAxiom(classesArray[0].asOWLClass());
+								manager.addAxiom(adtOntology, declarationAxiom);	
+								OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom
+													(classesArray[0].asOWLClass(), valueFirst);	
+								AddAxiom addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
+								manager.applyChange(addAxiomChange1);
+
 								OWLClass adtClass = factory.getOWLClass(IRI.create(adtClassIRI));
 								declarationAxiom = factory.getOWLDeclarationAxiom(adtClass);
-								manager.addAxiom(adtOntology, declarationAxiom);	
+								manager.addAxiom(adtOntology, declarationAxiom);
+
+								valueFirst = factory.getOWLNamedIndividual(":#ActionObjectDescription_" 
+									+ valueFirst.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
+	
 								classAssertion = factory.getOWLClassAssertionAxiom(adtClass, valueFirst);	
 								addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
 								manager.applyChange(addAxiomChange1);
@@ -782,8 +841,8 @@ public class EpisodicMemoryToADT
 			AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
 			manager.applyChange(addAxiomChange);
 
-			OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(":#trajectoryDuring", adtPM);
-			OWLObjectPropertyAssertionAxiom chunkAssertion = factory.getOWLObjectPropertyAssertionAxiom(chunkProperty, trajectoryInstance, chunk);
+			OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(":#adtChunkTrajectory", adtPM);
+			OWLObjectPropertyAssertionAxiom chunkAssertion = factory.getOWLObjectPropertyAssertionAxiom(chunkProperty, chunk, trajectoryInstance);
 			addAxiomChange = new AddAxiom(adtOntology, chunkAssertion);
 			manager.applyChange(addAxiomChange);
 		}
