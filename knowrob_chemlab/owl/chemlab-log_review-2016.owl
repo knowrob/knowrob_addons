@@ -7,8 +7,10 @@
           <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
           <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
           <!ENTITY objects "http://knowrob.org/kb/chemlab-objects.owl#" >
-          <!ENTITY map 'http://knowrob.org/kb/chemlab-map_review-2015.owl#'>
+          <!ENTITY map 'http://knowrob.org/kb/chemlab-map_review-2016.owl#'>
+          <!ENTITY log 'http://knowrob.org/kb/chemlab-log_review-2016.owl#'>
           <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
+          <!ENTITY acat "http://knowrob.org/kb/acat-adt.owl#" >
           ]>
 
 <rdf:RDF xmlns="http://knowrob.org/kb/chemlab-log_review-2016.owl#"
@@ -19,16 +21,15 @@
    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
    xmlns:owl="http://www.w3.org/2002/07/owl#"
    xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
-   xmlns:map="http://knowrob.org/kb/chemlab-map_review-2015.owl#"
+   xmlns:map="http://knowrob.org/kb/chemlab-map_review-2016.owl#"
    xmlns:acat="http://knowrob.org/kb/acat-adt.owl#"
    xmlns:example="http://knowrob.org/kb/acat-adt_example_pipetting.owl#"
    xmlns:chemobjects="http://knowrob.org/kb/chemlab-objects.owl#"
    xmlns:chemstoff="http://knowrob.org/kb/chemlab-substances.owl#"
    xmlns:chemactions="http://knowrob.org/kb/chemlab-actions.owl#"
    xmlns:log="http://knowrob.org/kb/chemlab-log_review-2016.owl#"
-   xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
-   xml:base="http://knowrob.org/kb/chemlab-map_review-2015.owl">
-  <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-map_review-2015.owl">
+   xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#">
+  <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-map_review-2016.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
   </owl:Ontology>
   
@@ -37,11 +38,11 @@
   </owl:NamedIndividual>
   
   <owl:NamedIndividual rdf:about="&log;GraspingSomething_grsGTFCD5">
-      <rdf:type rdf:resource="&acat;GraspingSomething"/>
+      <rdf:type rdf:resource="&knowrob;GraspingSomething"/>
   </owl:NamedIndividual>
   
   <owl:NamedIndividual rdf:about="&log;PuttingDownAnObject_FDSJN46546">
-      <rdf:type rdf:resource="&acat;PuttingDownAnObject"/>
+      <rdf:type rdf:resource="&knowrob;PuttingDownAnObject"/>
   </owl:NamedIndividual>
 
 </rdf:RDF>

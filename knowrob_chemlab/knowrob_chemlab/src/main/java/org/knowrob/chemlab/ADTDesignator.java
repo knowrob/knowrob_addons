@@ -19,7 +19,9 @@ public class ADTDesignator extends Designator {
 		Designator chunkDesignator = new Designator();
 		chunkDesignator.put("type", "ADT-action-chunk");
 		HashMap<String, Vector<String>> res;
-
+		
+		chunkDesignator.put("action-id", id);
+		
 		res = PrologInterface.executeQuery("rdf_has("+id+", rdf:'type', ClassUri), " +
 				"rdfs_subclass_of(ClassUri, knowrob:'Event'), " +
 				"rdf_split_url(_,ClassName,ClassUri), " +
@@ -29,7 +31,7 @@ public class ADTDesignator extends Designator {
 		
 		res = PrologInterface.executeQuery("rdf_has("+id+", acat:'adtAction', Action)");
 		if(res!=null && res.size()>0)
-			values.put("adt-action", res.get("Action").get(0));
+			chunkDesignator.put("adt-action", res.get("Action").get(0));
 		else
 			System.out.println("ADT " + id + " missing key acat:'adtAction'.");
 		
@@ -110,9 +112,11 @@ public class ADTDesignator extends Designator {
 			for(int i=0; res.get("Role").size()>i; ++i) {
 				String role = res.get("Role").get(i);
 				String cls = res.get("Cls").get(i);
+				String obj = res.get("Object").get(i);
 				if(role.startsWith("adt")) role = role.substring(3);
 				role = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, role);
 				roleDesignator.put(role, cls);
+				roleDesignator.put(role+"-object", obj);
 			}
 		}
 		return roleDesignator;
