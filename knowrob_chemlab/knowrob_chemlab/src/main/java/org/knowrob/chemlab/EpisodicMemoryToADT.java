@@ -89,45 +89,45 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class EpisodicMemoryToADT
 {
-	final String task_root_type = "http://knowrob.org/kb/knowrob.owl#RobotExperiment";
-	final String sub_action_type = "http://knowrob.org/kb/knowrob.owl#subAction";
-        final String start_time_type = "http://knowrob.org/kb/knowrob.owl#startTime";
-	final String end_time_type = "http://knowrob.org/kb/knowrob.owl#endTime";
-	final String trajectory_type = "http://knowrob.org/kb/knowrob.owl#Trajectory";
-	final String translation_type = "http://knowrob.org/kb/knowrob.owl#translation";
-	final String quaternion_type = "http://knowrob.org/kb/knowrob.owl#quaternion";
-	final String prac_type = "http://knowrob.org/kb/acat.owl#PracAdt";
-	final String supporting_type = "http://knowrob.org/kb/acat.owl#supportingPlane";
-	final String supported_type = "http://knowrob.org/kb/acat.owl#supportedObject";
-	final String supporting_adt_type = "http://knowrob.org/kb/acat-adt.owl#adtChunkSupport";
-	final String supported_adt_type = "http://knowrob.org/kb/knowrob.owl#supportedObject";
-	final String actioncore_type = "http://knowrob.org/kb/acat-adt.owl#actioncore";
+	protected final String task_root_type = "http://knowrob.org/kb/knowrob.owl#RobotExperiment";
+	protected final String sub_action_type = "http://knowrob.org/kb/knowrob.owl#subAction";
+        protected final String start_time_type = "http://knowrob.org/kb/knowrob.owl#startTime";
+	protected final String end_time_type = "http://knowrob.org/kb/knowrob.owl#endTime";
+	protected final String trajectory_type = "http://knowrob.org/kb/knowrob.owl#Trajectory";
+	protected final String translation_type = "http://knowrob.org/kb/knowrob.owl#translation";
+	protected final String quaternion_type = "http://knowrob.org/kb/knowrob.owl#quaternion";
+	protected final String prac_type = "http://knowrob.org/kb/acat.owl#PracAdt";
+	protected final String supporting_type = "http://knowrob.org/kb/acat.owl#supportingPlane";
+	protected final String supported_type = "http://knowrob.org/kb/acat.owl#supportedObject";
+	protected final String supporting_adt_type = "http://knowrob.org/kb/acat-adt.owl#adtChunkSupport";
+	protected final String supported_adt_type = "http://knowrob.org/kb/knowrob.owl#supportedObject";
+	protected final String actioncore_type = "http://knowrob.org/kb/acat-adt.owl#actioncore";
 
-	OWLOntologyManager manager;
-	OWLDataFactory factory;
-	OWLReasoner reason;
-	OWLReasoner reason_map;
+	protected OWLOntologyManager manager;
+	protected OWLDataFactory factory;
+	protected OWLReasoner reason;
+	protected OWLReasoner reason_map;
 
-	PrefixManager adtPM;
-	PrefixManager adtExamplePM;
+	protected PrefixManager adtPM;
+	protected PrefixManager adtExamplePM;
 
-	OWLOntology ontology; 
-	OWLOntology adtOntology;
-	OWLOntology mapOntology; 
-	Set<OWLClass> classes;
-	XStream xStream;
+	protected OWLOntology ontology; 
+	protected OWLOntology adtOntology;
+	protected OWLOntology mapOntology; 
+	protected Set<OWLClass> classes;
+	protected XStream xStream;
 
-	OWLNamedIndividual adt_of_interest;
+	protected OWLNamedIndividual adt_of_interest;
 
-	Map<String,String> dictionary;
-	Map<String,String> isMongo;
-	Map<String,String> prac;
+	protected Map<String,String> dictionary;
+	protected Map<String,String> isMongo;
+	protected Map<String,String> prac;
 
-	String owl_path;
-	String log_path;
-	String dictionary_path;
-	String output_path;
-	String experiment_name;
+	protected String owl_path;
+	protected String log_path;
+	protected String dictionary_path;
+	protected String output_path;
+	protected String experiment_name;
 
 	public EpisodicMemoryToADT(String owl_path, String log_path, String dictionary_path, String output_path, String adt_prefix, String adt_example_prefix, String experiment_name)
 	{
@@ -329,7 +329,7 @@ public class EpisodicMemoryToADT
 		{
 			for(OWLNamedIndividual instance : setOfInstances.getFlattened())
 			{
-				generateADTFromIndividual(actionClass, instance, count);
+				generateADTFromIndividual(actionClass, instance, count, true);
 				count++;
 				break;
 			}
@@ -359,7 +359,7 @@ public class EpisodicMemoryToADT
 
 	}
 
-	public boolean generateADTFromIndividual(String adtType, OWLIndividual ind, int count)
+	public boolean generateADTFromIndividual(String adtType, OWLIndividual ind, int count, boolean isSim)
 	{
 		initializeADTOntology(adtType, ind.asOWLNamedIndividual());
 		Set<String> keySet = dictionary.keySet();
@@ -377,7 +377,8 @@ public class EpisodicMemoryToADT
 			Set<OWLObjectPropertyExpression> objectProperties = getRelatedSubObjectProperties(ind);
 			Set<OWLDataPropertyExpression> dataProperties = getRelatedSubDataProperties(ind);
 
-			for (OWLObjectPropertyExpression property : objectProperties) {
+			for (OWLObjectPropertyExpression property : objectProperties) 
+			{
 				
 				if(owlField.equals(property.asOWLObjectProperty().getIRI().toString()))
 				{	
@@ -449,21 +450,24 @@ public class EpisodicMemoryToADT
 					break;
 				}
 			}
-			includePRACData(adt_of_interest);
+			if(isSim) includePRACData(adt_of_interest);
 		}
 
-		generateActionChuck(ind);		
-		File ontologyFile = new File(output_path + "/adt" + count + ".owl");
-
-		RDFXMLOntologyFormat rdfxmlformat = new RDFXMLOntologyFormat();
-		try
+		if(isSim) 
 		{
-			manager.saveOntology(adtOntology, rdfxmlformat, IRI.create(ontologyFile));
+			generateActionChuck(ind);		
+			File ontologyFile = new File(output_path + "/adt" + count + ".owl");
 
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
+			RDFXMLOntologyFormat rdfxmlformat = new RDFXMLOntologyFormat();
+			try
+			{
+				manager.saveOntology(adtOntology, rdfxmlformat, IRI.create(ontologyFile));
+
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return true;
