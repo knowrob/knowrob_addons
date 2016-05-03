@@ -21,6 +21,14 @@
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
     </owl:Ontology>
 
+    <owl:Class rdf:about="&actions;MovingObjectAtLocation">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Preparing">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
     <owl:Class rdf:about="&actions;Aspirating">
         <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
     </owl:Class>
@@ -30,10 +38,6 @@
     </owl:Class>
 
     <owl:Class rdf:about="&actions;Dispensing">
-        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
-    </owl:Class>
-
-    <owl:Class rdf:about="&actions;TestingPHValue">
         <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
     </owl:Class>
 
