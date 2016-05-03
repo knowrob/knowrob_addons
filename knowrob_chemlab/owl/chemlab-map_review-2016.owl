@@ -100,7 +100,7 @@
       <knowrob:contains rdf:resource="&map;Purine_dfiNOIdtr4tng" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_0_frame</knowrob:urdfName>
-      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual_blue.dae</knowrob:pathToCadModel>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual_blue_stronger.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_0</acat:wordnetName>
   </owl:NamedIndividual>
@@ -110,7 +110,7 @@
       <knowrob:contains rdf:resource="&chemstoff;AceticAcid_DFOKpokj45fod" />
       <knowrob:madeOf rdf:resource="&knowrob;Glass" />
       <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_1_frame</knowrob:urdfName>
-      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual_red.dae</knowrob:pathToCadModel>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual_red_stronger.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_1</acat:wordnetName>
   </owl:NamedIndividual>
@@ -160,7 +160,7 @@
       <rdf:type rdf:resource="&chemobjects;MagneticMixer"/>
       <knowrob:madeOf rdf:resource="&knowrob;Metal" />
       <knowrob:urdfName rdf:datatype="&xsd;string">mixer_ikamag_frame</knowrob:urdfName>
-      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/mixer_ikamag_visual.dae</knowrob:pathToCadModel>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/mixer_ikamag_visual_multi_color.dae</knowrob:pathToCadModel>
       <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
       <acat:wordnetName rdf:datatype="&xsd;string">mixer_0</acat:wordnetName>
   </owl:NamedIndividual>
