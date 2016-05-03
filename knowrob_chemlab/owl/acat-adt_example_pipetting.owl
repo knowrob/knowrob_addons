@@ -4,6 +4,7 @@
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY acat "http://knowrob.org/kb/acat-adt.owl#" >
+    <!ENTITY chemactions "http://knowrob.org/kb/chemlab-actions.owl#" >
     <!ENTITY chemobjects "http://knowrob.org/kb/chemlab-objects.owl#" >
     <!ENTITY chemstoff "http://knowrob.org/kb/chemlab-substances.owl#" >
     <!ENTITY example "http://knowrob.org/kb/acat-adt_example_pipetting.owl#" >

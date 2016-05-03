@@ -135,17 +135,18 @@ public class ADTDesignator extends Designator {
 				Designator objectDesignator = new Designator();
 				objectDesignator.setType("ADT-object");
 				objectDesignator.put("class", res.get("Type").get(i));
-
-				// contains mesh
+				
+				objectDesignator.put("object-id", object);
+				// mesh
 				res2 = PrologInterface.executeQuery(
 						"rdf_has("+object+", knowrob:'pathToCadModel', literal(type(_,Path)))");
 				if(res2!=null && res2.size()>0) objectDesignator.put("mesh", res2.get("Path").get(0));
-				// contains madeOf
+				// madeOf
 				res2 = PrologInterface.executeQuery(
-						"rdf_has("+object+", knowrob:'madeOf', MaterialUri),"+
+						"rdf_has("+object+", knowrob:'made-of', MaterialUri),"+
 						"rdf_split_url(_,Material,MaterialUri)");
-				if(res2!=null && res2.size()>0) objectDesignator.put("mesh", res2.get("Material").get(0));
-				// contains property
+				if(res2!=null && res2.size()>0) objectDesignator.put("madeOf", res2.get("Material").get(0));
+				// contains
 				res2 = PrologInterface.executeQuery(
 						"rdf_has("+object+", knowrob:'contains', ObjectUri),"+
 						"adt_object_type(ObjectUri, Type)");

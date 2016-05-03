@@ -6,7 +6,8 @@
           <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
           <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
           <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
-          <!ENTITY objects "http://knowrob.org/kb/chemlab-objects.owl#" >
+          <!ENTITY chemobjects "http://knowrob.org/kb/chemlab-objects.owl#" >
+          <!ENTITY chemactions "http://knowrob.org/kb/chemlab-actions.owl#" >
           <!ENTITY map 'http://knowrob.org/kb/chemlab-map_review-2016.owl#'>
           <!ENTITY log 'http://knowrob.org/kb/chemlab-log_review-2016.owl#'>
           <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
@@ -34,7 +35,7 @@
   </owl:Ontology>
   
   <owl:NamedIndividual rdf:about="&log;Pipetting_XDFJbnrt78">
-      <rdf:type rdf:resource="&acat;Pipetting"/>
+      <rdf:type rdf:resource="&chemactions;Pipetting"/>
   </owl:NamedIndividual>
   
   <owl:NamedIndividual rdf:about="&log;GraspingSomething_grsGTFCD5">
