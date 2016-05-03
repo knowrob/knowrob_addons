@@ -36,9 +36,9 @@ public class CramEpisodicMemoryToADTTester extends AbstractNodeMain
 
 	@Override
 	public void onStart(final ConnectedNode connectedNode) {
-		CramEpisodicMemoryToADT tester = new CramEpisodicMemoryToADT("/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl","/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl/cram_log.owl", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/dictionaries", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl", "http://knowrob.org/kb/acat-adt.owl", "http://knowrob.org/kb/acat_experiment.owl", "chem_pipette_coll_1");
+		CramEpisodicMemoryToADT tester = new CramEpisodicMemoryToADT("/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl","/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl/cram_log.owl", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/dictionaries", "/home/asil/catkin_ws/src/knowrob_addons/knowrob_chemlab/owl", "http://knowrob.org/kb/acat-adt.owl", "http://knowrob.org/kb/acat_experiment.owl", "gheorghe_2");
 
-		tester.generateADT("http://knowrob.org/kb/chemlab_actions.owl#AspirateSubstanceFromContainer");
+		tester.generateADT("http://knowrob.org/kb/chemlab_actions.owl#Pipetting");
 	}
 
 

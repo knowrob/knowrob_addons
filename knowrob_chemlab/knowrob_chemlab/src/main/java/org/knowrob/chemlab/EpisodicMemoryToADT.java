@@ -210,9 +210,9 @@ public class EpisodicMemoryToADT
 			makeDataPropertyAssertion(adt_of_interest, lit, actionCoreProperty);
 
 			OWLImportsDeclaration imprt = manager.getOWLDataFactory().getOWLImportsDeclaration
-							( IRI.create( "package://knowrob_cram/owl/knowrob-cram.owl" ) );
+							( IRI.create( "package://knowrob_cram/owl/knowrob_cram.owl" ) );
 			manager.addIRIMapper(new SimpleIRIMapper(IRI.create("http://knowrob.org/kb/cram_log.owl"), 
-						IRI.create("package://knowrob_cram/owl/knowrob-cram.owl")));
+						IRI.create("package://knowrob_cram/owl/knowrob_cram.owl")));
 
     			manager.applyChange( new AddImport( adtOntology, imprt ) );
 
@@ -523,6 +523,13 @@ public class EpisodicMemoryToADT
 								OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(chunkClass, valueNew);
 								manager.addAxiom(adtOntology, classAssertion);
 
+								Set<OWLClassExpression> classesAction = value.getTypes(ontology);
+								OWLClassExpression[] classesActionArray = new OWLClassExpression[classesAction.size()];
+								classesAction.toArray(classesActionArray);
+								classAssertion = factory.getOWLClassAssertionAxiom(classesActionArray[0], valueNew);
+								manager.addAxiom(adtOntology, classAssertion);
+
+
 								OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(IRI.create(sub_action_type));
 
 								makeObjectPropertyAssertion(adt_of_interest, valueNew, chunkProperty);
@@ -756,7 +763,7 @@ public class EpisodicMemoryToADT
 		float start2 = timeInstance(ind2, true);
 		float end2 = timeInstance(ind2, false);
 
-		return ((start1 <= start2) && (end1 >= end2));
+		return ((start1 < start2) && (end1 > end2));
 	}
 
 	public float timeInstance(OWLIndividual ind, boolean isStart)
@@ -860,14 +867,26 @@ public class EpisodicMemoryToADT
 			}
 
 			OWLLiteral trajectoryLiteral = factory.	getOWLLiteral(trajectorySamples);
-			OWLDataPropertyExpression trajectoryProperty = factory.getOWLDataProperty(":#poses", adtPM);
+			OWLDataPropertyExpression trajectoryProperty = factory.getOWLDataProperty(IRI.create("http://knowrob.org/kb/knowrob.owl#poseVector"));
 			OWLDataPropertyAssertionAxiom assertion = factory.getOWLDataPropertyAssertionAxiom(trajectoryProperty, trajectoryInstance, trajectoryLiteral);
 			AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
 			manager.applyChange(addAxiomChange);
 
+			OWLLiteral tfLiteral = factory.	getOWLLiteral("l_wrist_flex_joint");
+			OWLDataPropertyExpression tfProperty = factory.getOWLDataProperty(IRI.create("http://knowrob.org/kb/knowrob.owl#tfFrame"));
+			OWLDataPropertyAssertionAxiom tfAssertion = factory.getOWLDataPropertyAssertionAxiom(tfProperty, trajectoryInstance, tfLiteral);
+			AddAxiom tfAddAxiomChange = new AddAxiom(adtOntology, tfAssertion);
+			manager.applyChange(tfAddAxiomChange);
+
 			OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(":#adtChunkTrajectory", adtPM);
 			OWLObjectPropertyAssertionAxiom chunkAssertion = factory.getOWLObjectPropertyAssertionAxiom(chunkProperty, chunk, trajectoryInstance);
 			addAxiomChange = new AddAxiom(adtOntology, chunkAssertion);
+			manager.applyChange(addAxiomChange);
+
+			OWLNamedIndividual map = factory.getOWLNamedIndividual(":#/map", adtExamplePM);
+			OWLObjectProperty baseProperty = factory.getOWLObjectProperty(IRI.create("http://knowrob.org/kb/knowrob.owl#relativeTo"));
+			OWLObjectPropertyAssertionAxiom baseAssertion = factory.getOWLObjectPropertyAssertionAxiom(baseProperty, trajectoryInstance, map);
+			addAxiomChange = new AddAxiom(adtOntology, baseAssertion);
 			manager.applyChange(addAxiomChange);
 		}
 		else
@@ -906,6 +925,20 @@ public class EpisodicMemoryToADT
 
 		NodeSet<OWLNamedIndividual> objectInstances = reason_map.getInstances(iri_object_class, true);
 		NodeSet<OWLNamedIndividual> substanceInstances = reason_map.getInstances(iri_substance_class, true);
+
+		if(objectInstances.getFlattened().size() > 0)
+		{
+			OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(iri_object_class, adtInd);	
+			AddAxiom addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
+			manager.applyChange(addAxiomChange1);
+		}
+		else
+		{
+			OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(iri_substance_class, adtInd);	
+			AddAxiom addAxiomChange1 = new AddAxiom(adtOntology, classAssertion);
+			manager.applyChange(addAxiomChange1);
+		}
+			
 
 		addIndividualFeaturesMap(objectInstances, adtInd);
 		addIndividualFeaturesMap(substanceInstances, adtInd);

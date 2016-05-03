@@ -30,10 +30,16 @@ import java.lang.Float;
 
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
+import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
+import javax.vecmath.Point3d;
+import javax.vecmath.Matrix4d;
 import java.io.*;
+import tfjava.StampedTransform;
+
 
 import org.knowrob.knowrob_sim_games.MongoSimGames;
+import org.knowrob.interfaces.mongo.MongoDBInterface;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
@@ -89,12 +95,17 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class CramEpisodicMemoryToADT extends EpisodicMemoryToADT
 {
+	MongoDBInterface mongo;
+
 
 	public CramEpisodicMemoryToADT
 		(String owl_path, String log_path, String dictionary_path, String output_path, String adt_prefix, String adt_example_prefix, String experiment_name)
 	{
 		super(owl_path, log_path, dictionary_path, output_path, adt_prefix, adt_example_prefix, experiment_name);
 		this.initializeDictionaries();
+
+		mongo = new MongoDBInterface();
+		mongo.setDatabase(experiment_name);
 	}
 
 	public void initializeDictionaries()
@@ -219,9 +230,47 @@ public class CramEpisodicMemoryToADT extends EpisodicMemoryToADT
 				makeObjectPropertyAssertion(valueNew, end, endProperty);
 
 				//TODO: trajectory and supporting planes addition
+				createTrajectoryForActionChunk(valueNew, timeInstance(value, true), timeInstance(value, false), "/l_wrist_roll_link");
 
 			}
 
+		}
+		return true;
+	}
+
+	public boolean createTrajectoryForActionChunk(OWLNamedIndividual chunk, float start, float end, String model)
+	{
+		System.out.println(start + " " + end);
+		if(start < end)
+		{
+			
+
+			String trajectorySamples = "";
+			for(double x = (double)start; x < end; x = x + 0.1)
+			{
+				StampedTransform trans = mongo.lookupTransform("/map", model, x);
+				Vector3d t = trans.getTranslation();
+				Quat4d q = trans.getRotation();
+				
+				trajectorySamples = trajectorySamples.concat(t.x + " " + t.y + " " + t.z + " " + q.w + " " + q.x + " " + q.y + " " + q.z + " ");
+
+			}
+
+			OWLClass trajectoryClass = factory.getOWLClass(IRI.create(trajectory_type));
+			OWLNamedIndividual trajectoryInstance = factory.getOWLNamedIndividual(":#Trajectory_" + chunk.asOWLNamedIndividual().getIRI().getFragment(), adtExamplePM);
+			OWLClassAssertionAxiom trajectoryClassAssertion = factory.getOWLClassAssertionAxiom(trajectoryClass, trajectoryInstance);
+			manager.addAxiom(adtOntology, trajectoryClassAssertion);
+
+			OWLLiteral trajectoryLiteral = factory.	getOWLLiteral(trajectorySamples);
+			OWLDataPropertyExpression trajectoryProperty = factory.getOWLDataProperty(":#poses", adtPM);
+			OWLDataPropertyAssertionAxiom assertion = factory.getOWLDataPropertyAssertionAxiom(trajectoryProperty, trajectoryInstance, trajectoryLiteral);
+			AddAxiom addAxiomChange = new AddAxiom(adtOntology, assertion);
+			manager.applyChange(addAxiomChange);
+
+			OWLObjectProperty chunkProperty = factory.getOWLObjectProperty(":#adtChunkTrajectory", adtPM);
+			OWLObjectPropertyAssertionAxiom chunkAssertion = factory.getOWLObjectPropertyAssertionAxiom(chunkProperty, chunk, trajectoryInstance);
+			addAxiomChange = new AddAxiom(adtOntology, chunkAssertion);
+			manager.applyChange(addAxiomChange);
 		}
 		return true;
 	}

@@ -40,7 +40,8 @@
         inside_physical/3,
         import_task_as_adt/3,
         adt_object_type/2,
-        adt_publish/1
+        adt_publish/1,
+        update_pipetting_scene/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -195,6 +196,17 @@ import_task_as_adt(ExperimentName, TaskType, ADTPath) :-
   jpl_call(EA, 'generateADT', [TaskType], _R),
   atom_concat('/home/ros/user_data', '/adt0.owl', ADTPath).
 
+update_pipetting_scene(T) :-
+ findall(O, (rdf_has(O, knowrob:'describedInMap', 'http://knowrob.org/kb/chemlab-map_review-2016.owl#SemanticEnvironmentMap_FS745hf347hf')),Os),
+ marker_update(agent(pr2:'PR2Robot1'), T),
+ % Show objects
+ forall(
+    member(Obj, Os), ((
+      owl_has(Obj, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
+      owl_has(Obj, knowrob:'urdfName', literal(type(_,ObjFrame))),
+      visualize_chemlab_object(ObjFrame, MeshPath, T)
+    ) ; true)
+  ), !. 
 
 
 

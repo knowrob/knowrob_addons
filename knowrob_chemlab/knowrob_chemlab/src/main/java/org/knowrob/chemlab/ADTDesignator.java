@@ -21,7 +21,7 @@ public class ADTDesignator extends Designator {
 		HashMap<String, Vector<String>> res;
 
 		res = PrologInterface.executeQuery("rdf_has("+id+", rdf:'type', ClassUri), " +
-				"rdfs_subclass_of(ClassUri, knowrob:'Event'), " +
+				//"rdfs_subclass_of(ClassUri, knowrob:'Event'), " +
 				"rdf_split_url(_,ClassName,ClassUri), " +
 				"not( ClassName='ActionChunk' )");
 		if(res!=null && res.size()>0)
