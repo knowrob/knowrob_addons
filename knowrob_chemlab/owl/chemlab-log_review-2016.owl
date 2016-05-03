@@ -34,7 +34,7 @@
   </owl:Ontology>
   
   <owl:NamedIndividual rdf:about="&log;Pipetting_XDFJbnrt78">
-      <rdf:type rdf:resource="&acat;Pipetting"/>
+      <rdf:type rdf:resource="&chemactions;Pipetting"/>
   </owl:NamedIndividual>
   
   <owl:NamedIndividual rdf:about="&log;GraspingSomething_grsGTFCD5">
