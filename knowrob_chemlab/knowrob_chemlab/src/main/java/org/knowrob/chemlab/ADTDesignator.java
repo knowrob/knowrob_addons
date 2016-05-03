@@ -19,7 +19,9 @@ public class ADTDesignator extends Designator {
 		Designator chunkDesignator = new Designator();
 		chunkDesignator.put("type", "ADT-action-chunk");
 		HashMap<String, Vector<String>> res;
-
+		
+		chunkDesignator.put("action-id", id);
+		
 		res = PrologInterface.executeQuery("rdf_has("+id+", rdf:'type', ClassUri), " +
 				//"rdfs_subclass_of(ClassUri, knowrob:'Event'), " +
 				"rdf_split_url(_,ClassName,ClassUri), " +
@@ -29,7 +31,7 @@ public class ADTDesignator extends Designator {
 		
 		res = PrologInterface.executeQuery("rdf_has("+id+", acat:'adtAction', Action)");
 		if(res!=null && res.size()>0)
-			values.put("adt-action", res.get("Action").get(0));
+			chunkDesignator.put("adt-action", res.get("Action").get(0));
 		else
 			System.out.println("ADT " + id + " missing key acat:'adtAction'.");
 		
@@ -110,9 +112,11 @@ public class ADTDesignator extends Designator {
 			for(int i=0; res.get("Role").size()>i; ++i) {
 				String role = res.get("Role").get(i);
 				String cls = res.get("Cls").get(i);
+				String obj = res.get("Object").get(i);
 				if(role.startsWith("adt")) role = role.substring(3);
 				role = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, role);
 				roleDesignator.put(role, cls);
+				roleDesignator.put(role+"-object", obj);
 			}
 		}
 		return roleDesignator;
@@ -131,17 +135,18 @@ public class ADTDesignator extends Designator {
 				Designator objectDesignator = new Designator();
 				objectDesignator.setType("ADT-object");
 				objectDesignator.put("class", res.get("Type").get(i));
-
-				// contains mesh
+				
+				objectDesignator.put("object-id", object);
+				// mesh
 				res2 = PrologInterface.executeQuery(
 						"rdf_has("+object+", knowrob:'pathToCadModel', literal(type(_,Path)))");
 				if(res2!=null && res2.size()>0) objectDesignator.put("mesh", res2.get("Path").get(0));
-				// contains madeOf
+				// madeOf
 				res2 = PrologInterface.executeQuery(
-						"rdf_has("+object+", knowrob:'madeOf', MaterialUri),"+
+						"rdf_has("+object+", knowrob:'made-of', MaterialUri),"+
 						"rdf_split_url(_,Material,MaterialUri)");
-				if(res2!=null && res2.size()>0) objectDesignator.put("mesh", res2.get("Material").get(0));
-				// contains property
+				if(res2!=null && res2.size()>0) objectDesignator.put("madeOf", res2.get("Material").get(0));
+				// contains
 				res2 = PrologInterface.executeQuery(
 						"rdf_has("+object+", knowrob:'contains', ObjectUri),"+
 						"adt_object_type(ObjectUri, Type)");
