@@ -192,8 +192,8 @@ saphari_collision_events(Type, Events) :-
   CollisionTypes = ['LIGHT-COLLISION', 'STRONG-COLLISION', 'CONTACT', 'SEVERE-COLLISION'],
   member(Type, CollisionTypes),
   findall(Event, (
-    owl_individual_of(Event, knowrob:'CRAMAction'),
-    rdf_has(Event, knowrob:'taskContext', literal(type(_,Type)))
+    rdf_has(Event, knowrob:'taskContext', literal(type(_,Type))),
+    owl_individual_of(Event, knowrob:'CRAMAction')
   ), Events).
 
 saphari_action_events(Type, Events) :-
