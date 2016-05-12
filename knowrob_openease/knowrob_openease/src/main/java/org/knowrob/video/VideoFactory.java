@@ -6,6 +6,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,7 +17,6 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 
 import org.knowrob.interfaces.mongo.types.ISODate;
-//import org.knowrob.video.tools;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -28,7 +30,24 @@ import com.mongodb.BasicDBObject;
 
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.CvMat;
+import org.bytedeco.javacpp.opencv_core.IplImage;
 import static org.bytedeco.javacpp.opencv_imgcodecs.*;
+
+
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
 
 
 /**
@@ -36,12 +55,14 @@ import static org.bytedeco.javacpp.opencv_imgcodecs.*;
  */
 public class VideoFactory extends AbstractNodeMain implements MessageListener<sensor_msgs.Image> {
 	private String path_of_video = "/home/ros/summary_data/video";
+        private String path_of_web_video_server = "/home/ros/devel/lib/web_video_server/bin";
 	private String absolute_path_prefix = "/home/ros";
+        private String path_of_recorded_video= "/home/ros/user_data";
 	private ConnectedNode node = null;
 	
-	//private MongoRosMessage<sensor_msgs.Image> backgroundMessage = null;
 	private Publisher<std_msgs.String> backgroundMessage = null;
-	
+
+	private Publisher<sensor_msgs.Image> frameReSender = null;	
 	private Subscriber<sensor_msgs.Image> frameReceiver = null;
 	
 	private boolean recordingStarted = false;
@@ -59,10 +80,13 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 		frameReceiver.addMessageListener(this);
 		
 		path_of_video = node.getParameterTree().getString("/knowrob/videos/path", path_of_video);
+		path_of_web_video_server = node.getParameterTree().getString("/web_video_server/path", path_of_web_video_server);
 		absolute_path_prefix = node.getParameterTree().getString("/knowrob/videos/absolute/path/prefix", absolute_path_prefix);
-		//backgroundMessage = new MongoRosMessage<sensor_msgs.Image>(sensor_msgs.Image._TYPE, "background_images");
-		//backgroundMessage.connect(connectedNode);
+
+		frameReSender = connectedNode.newPublisher("snapshots", sensor_msgs.Image._TYPE);
 		backgroundMessage = connectedNode.newPublisher("background_images", std_msgs.String._TYPE);
+	
+
 	}
 
 	@Override
@@ -83,44 +107,94 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 	public boolean startRecording() {
 		if(isRecording()) return false;
 		recordingStarted = true;
-		recordingTime = "" + System.currentTimeMillis() / 1000;
+		recordingTime = "video_created"; 
 		frameCounter = 0;
+		
+		final File targetDir = new File(path_of_recorded_video + "/" +recordingTime);
+		String cmd = new StringBuilder().append("rm -r ").
+			append(targetDir.getAbsolutePath()).toString();
+		executeCommand(cmd);
+		
+		
 		System.err.println("Start recording video: " + recordingTime);
 		return true;
 	}
 	
 	public boolean stopRecording() {
+
 		if(!isRecording()) return false;
 		recordingStarted = false;
-		node.getLog().info("Number of video frames: " + frameCounter);
 		System.err.println("Number of video frames: " + frameCounter);
-		final File targetDir = new File("/tmp/"+recordingTime);
-		if(targetDir.exists() && frameCounter>0) {
-			String cmd = new StringBuilder().append("cd ").
-			   append(targetDir.getAbsolutePath()).
-			   append(" && ").
-			   append("mencoder \"mf://*.jpg\" -mf type=jpg:fps=").append(in_fps).
-			   append("-o video.mpg -speed 1 -ofps ").append(out_fps).
-			   append(" -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=2500 -oac copy -of mpeg").toString();
+
+		final File tmpDir = new File(path_of_recorded_video);
+		final File targetDir = new File(path_of_recorded_video + "/" +recordingTime);
+		final File videoServerBinDir = new File(path_of_web_video_server);
+
+
+		if(!tmpDir.exists())
+		{
+			String cmd = new StringBuilder().append("mkdir ").
+			   append(tmpDir.getAbsolutePath()).toString();
 			executeCommand(cmd);
 		}
+		if(!targetDir.exists())
+		{
+			String cmd = new StringBuilder().append("mkdir ").
+			   append(targetDir.getAbsolutePath()).toString();
+			executeCommand(cmd);
+		}
+                if(targetDir.exists() && frameCounter>0) {
+			String cmd = new StringBuilder().
+			   append("mencoder \"mf://*.jpg\" -mf type=jpg:fps=").append(in_fps).
+			   append(" -o video.mpg -speed 1 -ofps ").append(out_fps).
+			   append(" -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=2500 -oac copy -of mpeg").toString();
+			executeCommand(new String[]{"/bin/bash", "-c", cmd}, targetDir);
+		}
+
 		return true;
 	}
 	
 	public void executeCommand(String command) {
 	    Process p;
+	    System.out.println(command);
 	    try {
 	        p = Runtime.getRuntime().exec(command);
 	        p.waitFor();
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	        String line = "";           
-	        while ((line = reader.readLine())!= null) {
+	        String line = reader.readLine();           
+	        while (line != null) {
 	        	node.getLog().info(line + "\n");
+			line = reader.readLine();
 	        }
 	    }
 	    catch (Exception exc) {
-    		node.getLog().error("Unable to run mencoder.", exc);
+    		node.getLog().error("Unable to run process.", exc);
 	    }
+	}
+
+
+        public void executeCommand(String[] cmd, File directory) {
+		StringBuffer theRun = null;
+		try {
+			Process process = Runtime.getRuntime().exec(cmd, null, directory);
+
+			BufferedReader reader = new BufferedReader(
+				new InputStreamReader(process.getInputStream()));
+			int read;
+			char[] buffer = new char[4096];
+			StringBuffer output = new StringBuffer();
+			while ((read = reader.read(buffer)) > 0) {
+				theRun = output.append(buffer, 0, read);
+			}
+			reader.close();
+			process.waitFor();
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println(theRun.toString().trim());
 	}
 	
 	public boolean isRecording() {
@@ -133,16 +207,25 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 			node.getLog().debug("Ignoring video frame: " + frame.getHeader().getStamp().toString());
 			return;
 		}
-		// Ensure video directory exists
-		final File targetDir = new File("/tmp/"+recordingTime);
-		if(!targetDir.exists()) {
-	    	try { targetDir.mkdir(); }
-	    	catch(Exception exc) {
-	    		node.getLog().error("Unable to create video directory.", exc);
-	    		stopRecording();
-	    		return;
-	    	}
+
+		final File tmpDir = new File(path_of_recorded_video);
+		final File targetDir = new File(path_of_recorded_video + "/" +recordingTime);
+
+		if(!tmpDir.exists())
+		{
+			String cmd = new StringBuilder().append("mkdir ").
+			   append(tmpDir.getAbsolutePath()).toString();
+			executeCommand(cmd);
 		}
+		if(!targetDir.exists()) {
+	    		try { targetDir.mkdir(); }
+	    		catch(Exception exc) {
+	    			node.getLog().error("Unable to create video directory.", exc);
+	    			stopRecording();
+	    			return;
+	    		}
+		}
+
 		final File targetFile = new File(targetDir, ""+frameCounter+".jpg");
 		try {
 			final CvMat cvFrame = CVBridge.getMappedCvMat(frame);
@@ -226,15 +309,6 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 		}
 		return null;
 	}
-
-	/*
-	public boolean publishBackground(BasicDBObject mngObj) {
-		// wait for publisher to be ready
-		if(!waitOnPublisher()) return false;
-		
-		return backgroundMessage.publish(mngObj);
-	}
-	*/
 	
 	// HACK
 	public boolean publishBackground(double t) {

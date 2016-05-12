@@ -30,6 +30,7 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
+:- register_ros_package(knowrob_math).
 :- register_ros_package(knowrob_srdl).
 :- register_ros_package(comp_temporal).
 
@@ -46,3 +47,4 @@
 :- rdf_db:rdf_register_ns(chemlab_map_2016,
         'http://knowrob.org/kb/chemlab-map_review-2016.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(acat, 'http://knowrob.org/kb/acat-adt.owl#', [keep(true)]).
+
