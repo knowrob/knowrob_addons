@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY acat "http://knowrob.org/kb/acat.owl#" >
+    <!ENTITY acat_example "http://knowrob.org/kb/acat_example.owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY computable "http://knowrob.org/kb/computable.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://knowrob.org/kb/acat_example.owl#"
+     xml:base="http://knowrob.org/kb/acat_example.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:acat="http://knowrob.org/kb/acat.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/acat_example.owl">
+        <owl:imports rdf:resource="package://knowrob_acat/owl/acat.owl"/>
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_cram/owl/knowrob_cram.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://knowrob.org/kb/acat.owl#ActionDataTable_sdfiuh436dsfg -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;UnscrewingADT_sdfiuh436dsfg">
+        <rdf:type rdf:resource="&acat;UnscrewingADT"/>
+
+        <knowrob:tfFrame rdf:datatype="&xsd;string">kuka_goe.baseframe</knowrob:tfFrame> <!-- the map frame -->
+
+        <acat:instruction rdf:datatype="&xsd;string">Uncrew a bottle</acat:instruction>
+        <acat:adtActionContext rdf:datatype="&xsd;string">Unscrew lid of the bottle and take it off</acat:adtActionContext>
+        
+        <!--- Action roles --->
+        <acat:adtMainObject rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_dsfg24375zd"/>
+        <acat:adtPrimaryObject rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_dsg458dsfh"/>
+        <acat:adtSecondaryObject rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_fgitwezt53d"/>
+        <!-- no tool used in this adt -->
+        <!-- <acat:adtTool rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_tooldgs98ftzwe"/> -->
+        
+        <!--- Action chunks --->
+        <knowrob:subAction rdf:resource="http://knowrob.org/kb/acat_example.owl#ActionChunk_dsfg24375zd"/>
+
+        <!-- TODO(daniel): part-graph, ignore? -->
+        <!-- TODO(daniel): recording method/data, ignore? -->
+    </owl:NamedIndividual>
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_dsfg24375zd -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectDescription_dsfg24375zd">
+        <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
+        <rdf:type rdf:resource="&knowrob;BottleCap"/>
+        <!-- Object Parts -->
+	    <knowrob:parts rdf:resource="&acat_example;SupportingPlane_dsfg24375zd"/>
+        <!-- Object Properties -->
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">lid.stl</knowrob:pathToCadModel>
+        <knowrob:massOfObject rdf:datatype="&xsd;double">0.0025</knowrob:massOfObject>
+        <acat:madeOf rdf:resource="http://knowrob.org/kb/acat.owl#Plastic"/>
+    </owl:NamedIndividual>
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_dsg458dsfh -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectDescription_dsg458dsfh">
+        <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
+        <rdf:type rdf:resource="&acat;Bottle"/>
+        <!-- Object Parts -->
+	    <knowrob:parts rdf:resource="&acat_example;SupportingPlane_dsg458dsfh"/>
+	    <knowrob:properPhysicalParts rdf:resource="&acat_example;ActionObjectDescription_dsfg24375zd"/>
+	    <acat:partOfInterest rdf:resource="&acat_example;ActionObjectDescription_dsfg24375zd"/>
+        <!-- Object Properties -->
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">bottle.stl</knowrob:pathToCadModel>
+        <knowrob:massOfObject rdf:datatype="&xsd;double">0.025</knowrob:massOfObject>
+        <acat:madeOf rdf:resource="http://knowrob.org/kb/acat.owl#Plastic"/>
+        <acat:madeOf rdf:resource="http://knowrob.org/kb/acat.owl#Wood"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#ActionObjectDescription_fgitwezt53d -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectDescription_fgitwezt53d">
+        <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
+        <rdf:type rdf:resource="&acat;Table"/>
+        <!-- Object Parts -->
+	    <knowrob:parts rdf:resource="&acat_example;SupportingPlane_fgitwezt53d"/>
+        <!-- Object Properties -->
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">table.stl</knowrob:pathToCadModel>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">table</knowrob:tfFrame>
+        <acat:madeOf rdf:resource="http://knowrob.org/kb/acat.owl#Wood"/>
+        <acat:madeOf rdf:resource="http://knowrob.org/kb/acat.owl#Metal"/>
+    </owl:NamedIndividual>
+
+
+    <!--
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectDescription_tooldgs98ftzwe">
+        <rdf:type rdf:resource="&acat;ActionObjectDescription"/>
+        <rdf:type rdf:resource="&acat;Pipette"/>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">pipette.stl</knowrob:pathToCadModel>
+        <knowrob:massOfObject rdf:datatype="&xsd;double">0.0025</knowrob:massOfObject>
+        <acat:madeOf rdf:resource="http://knowrob.org/kb/acat.owl#Glas"/>
+    </owl:NamedIndividual>
+    -->
+
+
+    <!-- http://knowrob.org/kb/acat_example.owl#SupportingPlane_dsfg24375zd -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportingPlane_dsfg24375zd">
+        <rdf:type rdf:resource="&knowrob;SupportingPlane"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">lid_plane</knowrob:tfFrame>
+    </owl:NamedIndividual>
+
+    
+    <!-- http://knowrob.org/kb/acat_example.owl#SupportingPlane_dsg458dsfh -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportingPlane_dsg458dsfh">
+        <rdf:type rdf:resource="&knowrob;SupportingPlane"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">bottle_plane</knowrob:tfFrame>
+    </owl:NamedIndividual>
+    
+
+    <!-- http://knowrob.org/kb/acat_example.owl#SupportingPlane_fgitwezt53d -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportingPlane_fgitwezt53d">
+        <rdf:type rdf:resource="&knowrob;SupportingPlane"/>
+        <knowrob:tfFrame rdf:datatype="&xsd;string">table_plane</knowrob:tfFrame>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectPerception_dsfg24375zd">
+        <rdf:type rdf:resource="&acat;ActionObjectPerception"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&acat_example;Transformation_dsfg24375zd"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_dsfg24375zd"/>
+        <acat:reliability rdf:datatype="&xsd;double">0.0</acat:reliability>
+        <acat:size rdf:datatype="&xsd;string">0.04 0.04 0.01</acat:size>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectPerception_dsg458dsfh">
+        <rdf:type rdf:resource="&acat;ActionObjectPerception"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&acat_example;Transformation_dsg458dsfh"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_dsg458dsfh"/>
+        <acat:reliability rdf:datatype="&xsd;double">0.0</acat:reliability>
+        <acat:size rdf:datatype="&xsd;string">0.04 0.04 0.01</acat:size>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;ActionObjectPerception_fgitwezt53d">
+        <rdf:type rdf:resource="&acat;ActionObjectPerception"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&acat_example;Transformation_fgitwezt53d"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_fgitwezt53d"/>
+        <acat:reliability rdf:datatype="&xsd;double">0.0</acat:reliability>
+        <acat:size rdf:datatype="&xsd;string">0.04 0.04 0.01</acat:size>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportPerception_dsfg24375zd">
+        <rdf:type rdf:resource="&acat;ActionObjectPerception"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&acat_example;SupportTransformation_dsfg24375zd"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_dsfg24375zd"/>
+        <acat:reliability rdf:datatype="&xsd;double">0.0</acat:reliability>
+        <acat:size rdf:datatype="&xsd;string">0.04 0.04 0.01</acat:size>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportPerception_dsg458dsfh">
+        <rdf:type rdf:resource="&acat;ActionObjectPerception"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&acat_example;SupportTransformation_dsg458dsfh"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_dsg458dsfh"/>
+        <acat:reliability rdf:datatype="&xsd;double">0.0</acat:reliability>
+        <acat:size rdf:datatype="&xsd;string">0.04 0.04 0.01</acat:size>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportPerception_fgitwezt53d">
+        <rdf:type rdf:resource="&acat;ActionObjectPerception"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_0"/>
+        <knowrob:eventOccursAt rdf:resource="&acat_example;SupportTransformation_fgitwezt53d"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_fgitwezt53d"/>
+        <acat:reliability rdf:datatype="&xsd;double">0.0</acat:reliability>
+        <acat:size rdf:datatype="&xsd;string">0.04 0.04 0.01</acat:size>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;Transformation_dsfg24375zd">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000000 0.000000 0.000000 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">1.2550000000003576 -0.43000000000011784 0.7349999999999999</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;Transformation_dsg458dsfh">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000000 0.000000 0.000000 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">1.2550000000003576 -0.43000000000011784 0.7349999999999999</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;Transformation_fgitwezt53d">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000000 0.000000 0.000000 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">1.2550000000003576 -0.43000000000011784 0.7349999999999999</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportTransformation_dsfg24375zd">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000000 0.000000 0.000000 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">1.2550000000003576 -0.43000000000011784 0.7349999999999999</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportTransformation_dsg458dsfh">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000000 0.000000 0.000000 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">1.2550000000003576 -0.43000000000011784 0.7349999999999999</knowrob:translation>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;SupportTransformation_fgitwezt53d">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000000 0.000000 0.000000 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">1.2550000000003576 -0.43000000000011784 0.7349999999999999</knowrob:translation>
+    </owl:NamedIndividual>
+
+    
+    <owl:NamedIndividual rdf:about="&acat_example;ActionChunk_dsfg24375zd">
+        <!-- action chunk1 -->
+        <rdf:type rdf:resource="&acat;ActionChunk"/>
+        <!-- NOTE(daniel): Link to action log -->
+        <owl:sameAs rdf:resource="&acat;GraspingSomethingSomewhere_FVGgtd8zu54"/>
+        <knowrob:taskContext rdf:datatype="&xsd;string">Hand moves towards lid and grasps it</knowrob:taskContext>
+
+        <knowrob:nextAction rdf:resource="&log;ActionChunk_vsdg78hndsg"/>
+        <!-- TODO(daniel): success specifier missing -->
+        <!-- TODO(daniel): grasp-ungrasp, ignore? -->
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&acat_example;ActionChunk_vsdg78hndsg">
+        <rdf:type rdf:resource="&acat;ActionChunk"/>
+        <owl:sameAs rdf:resource="&acat;TurningSomething_dsfsdiontgm4389"/>
+        <knowrob:taskContext rdf:datatype="&xsd;string">Hand turns the lid</knowrob:taskContext>
+        <knowrob:previousAction rdf:resource="&log;ActionChunk_dsfg24375zd"/>
+        <knowrob:nextAction rdf:resource="&log;ActionChunk_bgjsfd8t438"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&acat_example;ActionChunk_bgjsfd8t438">
+        <rdf:type rdf:resource="&acat;ActionChunk"/>
+        <owl:sameAs rdf:resource="&acat;XXXXSomething_dsfsdiontgm4389"/>
+        <knowrob:taskContext rdf:datatype="&xsd;string">Hand takes the lid off the bottle</knowrob:taskContext>
+        <knowrob:previousAction rdf:resource="&log;ActionChunk_vsdg78hndsg"/>
+    </owl:NamedIndividual>
+
+
+    <owl:NamedIndividual rdf:about="&acat_example;Translocation_bvsdvg9sd8gj">
+        <!-- hand trajectory for chunk1 -->
+        <rdf:type rdf:resource="&knowrob;Translocation"/>
+        <rdf:type rdf:resource="&knowrob;Trajectory"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_1408353001.577"/>
+        <knowrob:endTime rdf:resource="&acat_example;timepoint_1408353015.318"/>
+        <knowrob:objectActedOn rdf:resource="&acat_robot;wrist"/>
+        <acat:poses rdf:datatype="&xsd;string">x x x x x x
+                                               .......
+                                               x x x x x x</knowrob:translation>
+        <acat:trajectoryDuring rdf:resource="&acat_example;ActionChunk_dsfg24375zd"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&acat_example;Translocation_sdgsd89jgsd">
+        <!-- main object trajectory for chunk1 -->
+        <rdf:type rdf:resource="&knowrob;Translocation"/>
+        <rdf:type rdf:resource="&knowrob;Trajectory"/>
+        <knowrob:startTime rdf:resource="&acat_example;timepoint_1408353001.577"/>
+        <knowrob:endTime rdf:resource="&acat_example;timepoint_1408353015.318"/>
+        <knowrob:objectActedOn rdf:resource="&acat_example;ActionObjectDescription_dsfg24375zd"/>
+        <acat:poses rdf:datatype="&xsd;string">x x x x x x
+                                               .......
+                                               x x x x x x</knowrob:translation>
+        <acat:trajectoryDuring rdf:resource="&acat_example;ActionChunk_dsfg24375zd"/>
+    </owl:NamedIndividual>
+
+    <!-- Timepoint Individuals -->
+
+    <owl:NamedIndividual rdf:about="&acat_example;timepoint_0">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&acat_example;timepoint_1408353001.577">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&acat_example;timepoint_1408353015.318">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+

@@ -1396,7 +1396,7 @@ public class MongoSimGames {
 	 * Query the trajectory of the given model with double timestamps
 	 * view as rviz markers
 	 */
-	public void ViewModelTrajectory(double start_ts,
+	public ArrayList<Vector3d> ViewModelTrajectory(double start_ts,
 			double end_ts,
 			String model_name,
 			String markerID){
@@ -1442,6 +1442,15 @@ public class MongoSimGames {
 					((BasicDBObject) first_doc.get("pos")).getDouble("x"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("y"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("z")));
+
+			if(markerID != null)
+			{
+				traj.add(new Vector3d(
+					((BasicDBObject) first_doc.get("rot")).getDouble("x"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("y"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("z")));
+			}
+
 		}
 		// if query returned no values for these timestamps, get the pose at the nearest timestamp
 		else
@@ -1458,10 +1467,19 @@ public class MongoSimGames {
 					((BasicDBObject) first_doc.get("pos")).getDouble("x"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("y"),
 					((BasicDBObject) first_doc.get("pos")).getDouble("z")));
+
+			if(markerID != null)
+			{
+				traj.add(new Vector3d(
+					((BasicDBObject) first_doc.get("rot")).getDouble("x"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("y"),
+					((BasicDBObject) first_doc.get("rot")).getDouble("z")));
+			}
 		}
 		
 		// create the markers
-		this.CreateMarkers(traj, markerID);
+		if(markerID != null )this.CreateMarkers(traj, markerID);
+		return traj;
 	}
 	
 	/**

@@ -36,7 +36,6 @@ package org.knowrob.cram;
 import geometry_msgs.PoseStamped;
 
 import java.util.*;
-import java.util.Map.*;
 import java.lang.Integer;
 
 import javax.vecmath.Matrix4d;
@@ -48,7 +47,6 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 
-import com.mongodb.DBObject;
 import com.mongodb.QueryBuilder;
 
 import javax.vecmath.Vector3d;
@@ -129,7 +127,8 @@ public class LogdataPublisher extends AbstractNodeMain {
 			if(!waitOnPublisher()) return false;
 	
 			final designator_integration_msgs.Designator designator_msg = pub.newMessage();
-	
+
+			designator_msg.setType(0);
 			try {
 				if(designator.getType().toString().toLowerCase() == "action")
 					designator_msg.setType(1);
@@ -137,9 +136,8 @@ public class LogdataPublisher extends AbstractNodeMain {
 					designator_msg.setType(2);
 				else if(designator.getType().toString().toLowerCase() == "location")
 					designator_msg.setType(0);			
-			} catch (java.lang.NullPointerException exc) {
-				designator_msg.setType(0);
 			}
+			catch (java.lang.NullPointerException exc) {}
 	
 			publishDesignator(designator, designator_msg, 0);
 			
@@ -160,6 +158,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 			if(key.isEmpty()) continue;
 			if(key.substring(0,1).equals("_")) continue;
 			Object value = designator.get(key);
+			if(value==null) {
+				System.err.println("Designator null value for key: " + key);
+				continue;
+			}
 
 			KeyValuePair kv = node.getTopicMessageFactory().newFromType(
 					designator_integration_msgs.KeyValuePair._TYPE);

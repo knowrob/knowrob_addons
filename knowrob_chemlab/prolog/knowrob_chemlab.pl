@@ -1,6 +1,6 @@
 /** <module> knowrob_chemlab
 
-  Copyright (C) 2013 by Asil Kaan Bozcuoglu, Moritz Tenorth, Daniel Beßler
+  Copyright (C) 2013-16 by Asil Kaan Bozcuoglu, Moritz Tenorth, Daniel Beßler
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
@@ -37,11 +37,16 @@
         visualize_chemlab_highlight/1,
         visualize_chemlab_highlight/2,
         visualize_chemlab_highlights/1,
-        inside_physical/3
+        inside_physical/3,
+        import_task_as_adt/3,
+        adt_object_type/2,
+        adt_publish/1,
+        update_pipetting_scene/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('owl')).
+:- use_module(library('jpl')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
@@ -52,6 +57,7 @@
 :- rdf_db:rdf_register_ns(knowrob_chemlab, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(acat, 'http://knowrob.org/kb/acat-adt.owl#', [keep(true)]).
 
 % define predicates as rdf_meta predicates
 % (i.e. rdf namespaces are automatically expanded)
@@ -61,7 +67,9 @@
     visualize_chemlab_object(+,+,r),
     visualize_chemlab_highlight(+),
     visualize_chemlab_highlight(+,+),
-    visualize_chemlab_highlights(+).
+    visualize_chemlab_highlights(+),
+    adt_publish(r),
+    adt_object_type(r,?).
     
 is_screwable_on(CapName, ContName) :-
   owl_has(CapIndividual, knowrob:'name', literal(type(_,CapName))),
@@ -164,3 +172,47 @@ inside_physical(Frame, Out, T) :-
   Y_Negative < Y_Frame, Y_Positive > Y_Frame),
   (Z_Negative > Z_Frame, Z_Positive < Z_Frame;
   Z_Negative < Z_Frame, Z_Positive > Z_Frame).    
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%
+% Final review
+%
+
+adt_object_type(Object, Type) :-
+  rdf_has(Object, rdf:'type', ClsUri),
+  rdfs_subclass_of(ClsUri, knowrob:'EnduringThing-Localized'),
+  rdf_split_url(_,Type,ClsUri), !.
+
+adt_publish(ADT) :-
+  jpl_new('org.knowrob.chemlab.ADTDesignator', [], ADTDesignator),
+  jpl_call(ADTDesignator, 'readFromIndividual', [ADT], _),
+  designator_publish(ADT, ADTDesignator).
+
+import_task_as_adt(ExperimentName, TaskType, ADTPath) :-
+  rospack_package_path('knowrob_chemlab', Path),
+  atom_concat(Path, '/dictionaries', DictionaryPath),
+  atom_concat(Path, '/owl', OWLPath),
+  jpl_new('org.knowrob.chemlab.EpisodicMemoryToADT', [OWLPath, DictionaryPath, '/home/ros/user_data', 'http://knowrob.org/kb/acat.owl', 'http://knowrob.org/kb/acat_example.owl', ExperimentName], EA),
+  jpl_call(EA, 'generateADT', [TaskType], _R),
+  atom_concat('/home/ros/user_data', '/adt0.owl', ADTPath).
+
+update_pipetting_scene(T) :-
+ findall(O, (rdf_has(O, knowrob:'describedInMap', 'http://knowrob.org/kb/chemlab-map_review-2016.owl#SemanticEnvironmentMap_FS745hf347hf')),Os),
+ marker_update(agent(pr2:'PR2Robot1'), T),
+ % Show objects
+ forall(
+    member(Obj, Os), ((
+      owl_has(Obj, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
+      owl_has(Obj, knowrob:'urdfName', literal(type(_,ObjFrame))),
+      visualize_chemlab_object(ObjFrame, MeshPath, T)
+    ) ; true)
+  ), !. 
+
+
+
+
+
+
+
+

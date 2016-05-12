@@ -1,0 +1,9 @@
+<root>
+  <httpknowrob.org_kb_acat-adt.owl:adtActionContext><![CDATA[http://knowrob.org/kb/knowrob.owl#taskContext]]></httpknowrob.org_kb_acat-adt.owl:adtActionContext>
+  <httpknowrob.org_kb_knowrob.owl:startTime><![CDATA[http://knowrob.org/kb/knowrob.owl#startTime]]></httpknowrob.org_kb_knowrob.owl:startTime>
+  <httpknowrob.org_kb_knowrob.owl:endTime><![CDATA[http://knowrob.org/kb/knowrob.owl#endTime]]></httpknowrob.org_kb_knowrob.owl:endTime>
+  <httpknowrob.org_kb_acat-adt.owl:adtMainObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></httpknowrob.org_kb_acat-adt.owl:adtMainObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtPrimaryObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></httpknowrob.org_kb_acat-adt.owl:adtPrimaryObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtSecondaryObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></httpknowrob.org_kb_acat-adt.owl:adtSecondaryObject>
+  <httpknowrob.org_kb_acat-adt.owl:adtObject><![CDATA[http://knowrob.org/kb/knowrob.owl#objectActedOn]]></httpknowrob.org_kb_acat-adt.owl:adtObject>
+</root>
