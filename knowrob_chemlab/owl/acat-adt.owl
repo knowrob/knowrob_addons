@@ -1,0 +1,417 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY acat "http://knowrob.org/kb/acat-adt.owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY computable "http://knowrob.org/kb/computable.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://knowrob.org/kb/acat-adt.owl#"
+     xml:base="http://knowrob.org/kb/acat-adt.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:acat="http://knowrob.org/kb/acat-adt.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/acat.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_cram/owl/knowrob_cram.owl"/>
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab.owl"/>
+    </owl:Ontology>
+    
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtAction -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtAction">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtProperty"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&acat;adtObject">
+    </owl:ObjectProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtMainObject -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtMainObject">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtPrimaryObject -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtPrimaryObject">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtProperty -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtProperty">
+        <rdfs:domain rdf:resource="&acat;ActionDataTable"/>
+    </owl:ObjectProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtRole -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtRole">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtProperty"/>
+    </owl:ObjectProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtSecondaryObject -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtSecondaryObject">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtTool -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtTool">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&acat;adtNeutralizee">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtNeutralizer">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtStuff">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtGoal">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBeOpened">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBeUnscrewed">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBePulled">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBeStarted">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBeFlipped">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBeStored">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtObjToBeHeated">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtTheme">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtTemperatureUnit">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtTemperatureSetting">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtLiquid">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtContent">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtSubstance">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtSpice">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtDevice">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtLocation">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+    
+    <owl:ObjectProperty rdf:about="&acat;adtUtensil">
+        <rdfs:subPropertyOf rdf:resource="&acat;adtRole"/>
+    </owl:ObjectProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#partOfInterest -->
+
+    <owl:ObjectProperty rdf:about="&acat;partOfInterest">
+        <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <rdfs:range rdf:resource="&knowrob;SpatialThing-Localized"/>
+    </owl:ObjectProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#trajectoryDuring -->
+
+    <owl:ObjectProperty rdf:about="&acat;adtChunkTrajectory">
+        <rdfs:range rdf:resource="&acat;ActionChunk"/>
+        <rdfs:domain rdf:resource="&knowrob;Trajectory"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&acat;adtChunkSupport">
+        <rdfs:range rdf:resource="&acat;ActionChunk"/>
+        <rdfs:domain rdf:resource="&knowrob;SupportingPlane"/>
+    </owl:ObjectProperty>
+    
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+      
+    <owl:DataProperty rdf:about="&acat;adtAmount">
+    </owl:DataProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#adtActionContext -->
+
+    <owl:DatatypeProperty rdf:about="&acat;adtActionContext">
+        <rdfs:domain rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#wordnetName -->
+    
+    <owl:DatatypeProperty rdf:about="&acat;wordnetName">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#instruction -->
+
+    <owl:DatatypeProperty rdf:about="&acat;instruction">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#actioncore -->
+
+    <owl:DatatypeProperty rdf:about="&acat;actioncore">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#poseVector -->
+
+    <owl:DatatypeProperty rdf:about="&acat;poseVector">
+        <rdfs:subPropertyOf rdf:resource="&knowrob;vector"/>
+    </owl:DatatypeProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#reliability -->
+
+    <owl:DatatypeProperty rdf:about="&acat;reliability">
+        <rdfs:domain rdf:resource="&knowrob;Transformation"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#size -->
+
+    <owl:DatatypeProperty rdf:about="&acat;size">
+        <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob;vector"/>
+    </owl:DatatypeProperty>
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#ActionChunk -->
+
+    <owl:Class rdf:about="&acat;ActionChunk">
+        <rdfs:subClassOf rdf:resource="&knowrob;PurposefulAction"/>
+    </owl:Class>
+    
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#ActionDataTable -->
+
+    <owl:Class rdf:about="&acat;ActionDataTable">
+        <rdfs:subClassOf rdf:resource="&knowrob;ConceptualWork"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;TemporallyExtendedThing"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#ActionObjectDescription -->
+
+    <owl:Class rdf:about="&acat;ActionObjectDescription">
+        <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+    </owl:Class>
+    
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#ActionObjectPerception -->
+
+    <owl:Class rdf:about="&acat;ActionObjectPerception">
+        <rdfs:subClassOf rdf:resource="&knowrob;SemanticMapPerception"/>
+    </owl:Class>
+    
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#UnscrewingADT -->
+
+    <owl:Class rdf:about="&acat;UnscrewingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Unscrewing"/>
+    </owl:Class>
+
+    <!-- http://knowrob.org/kb/acat-adt.owl#NeutralizingADT -->
+
+    <owl:Class rdf:about="&acat;NeutralizingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Neutralizing"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#OpeningADT -->
+
+    <owl:Class rdf:about="&acat;OpeningADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Opening"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#FillingADT -->
+
+    <owl:Class rdf:about="&acat;FillingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Filling"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#PullingADT -->
+
+    <owl:Class rdf:about="&acat;PullingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Pulling"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#OpeningADoorADT -->
+
+    <owl:Class rdf:about="&acat;OpeningADoorADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;OpeningADoor"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#OpeningADoorADT -->
+
+    <owl:Class rdf:about="&acat;StartingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Starting"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#PouringADT -->
+
+    <owl:Class rdf:about="&acat;PouringADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Pouring"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#AddingADT -->
+
+    <owl:Class rdf:about="&acat;AddingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Adding"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#PreheatingADT -->
+
+    <owl:Class rdf:about="&acat;OperatingATapADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;OperatingATap"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#UsingSpiceJarADT -->
+
+    <owl:Class rdf:about="&acat;UsingSpiceJarADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;UsingSpiceJar"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#PreheatingADT -->
+
+    <owl:Class rdf:about="&acat;PreheatingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Preheating"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#SpooningADT -->
+
+    <owl:Class rdf:about="&acat;SpooningADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Spooning"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#FlavouringADT -->
+
+    <owl:Class rdf:about="&acat;FlavouringADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Flavouring"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#TurningOnElectricalDeviceADT -->
+
+    <owl:Class rdf:about="&acat;UsingMeasuringCupADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;UsingMeasuringCup"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#StoringADT -->
+
+    <owl:Class rdf:about="&acat;StoringADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Storing"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#FlippingADT -->
+
+    <owl:Class rdf:about="&acat;FlippingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Flipping"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#TurningOnElectricalDeviceADT -->
+
+    <owl:Class rdf:about="&acat;TurningOnElectricalDeviceADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;TurningOnElectricalDevice"/>
+    </owl:Class>
+    
+    <!-- http://knowrob.org/kb/acat-adt.owl#PipettingADT -->
+
+    <owl:Class rdf:about="&acat;PipettingADT">
+        <rdfs:subClassOf rdf:resource="&acat;ActionDataTable"/>
+        <rdfs:subClassOf rdf:resource="&acat;Pipetting"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+

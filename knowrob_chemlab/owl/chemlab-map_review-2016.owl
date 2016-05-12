@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+
+          <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns'>
+          <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema'>
+          <!ENTITY owl 'http://www.w3.org/2002/07/owl'>
+          <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+          <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
+          <!ENTITY map 'http://knowrob.org/kb/chemlab-map_review-2016.owl#'>
+          <!ENTITY chemobjects 'http://knowrob.org/kb/chemlab-objects.owl#'>
+          <!ENTITY chemstoff 'http://knowrob.org/kb/chemlab-substances.owl#'>
+          <!ENTITY acat 'http://knowrob.org/kb/acat-adt.owl#'>
+          <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
+          ]>
+
+<rdf:RDF
+   xmlns:computable="http://knowrob.org/kb/computable.owl#"
+   xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+   xmlns:map="http://knowrob.org/kb/chemlab-map_review-2016.owl#"
+   xmlns:acat="http://knowrob.org/kb/acat-adt.owl#"
+   xmlns:chemobjects="http://knowrob.org/kb/chemlab-objects.owl#"
+   xmlns:chemstoff="http://knowrob.org/kb/chemlab-substances.owl#"
+   xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
+   xml:base="http://knowrob.org/kb/chemlab_map.owl">
+
+  <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-map_review-2016.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/acat-adt.owl"/>
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-objects.owl"/>
+        <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-substances.owl"/>
+  </owl:Ontology>
+
+  <owl:NamedIndividual rdf:about="&map;SemanticEnvironmentMap_FS745hf347hf">
+      <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: Table                    | -->
+  <!-- =========================================== -->
+    
+  <owl:NamedIndividual rdf:about="&map;Table_FSDBFH64783thds">
+      <rdf:type rdf:resource="&knowrob;Table-PieceOfFurniture"/>
+      <knowrob:madeOf rdf:resource="&knowrob;Wood" />
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/chemlab_table.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: Substances               | -->
+  <!-- =========================================== -->
+    
+  <owl:NamedIndividual rdf:about="&map;UnknownSubstance_FSDBFH64783thds">
+      <rdf:type rdf:resource="&chemstoff;UnknownSubstance"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;Purine_dfiNOIdtr4tng">
+      <rdf:type rdf:resource="&chemstoff;Purine"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">purine</acat:wordnetName>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;AceticAcid_DFOKpokj45fod">
+      <rdf:type rdf:resource="&chemstoff;AceticAcid"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">acetic_acid</acat:wordnetName>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;Phenolphtaleine_SFMofj3453dsm">
+      <rdf:type rdf:resource="&chemstoff;Phenolphtaleine"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">phenolphtaleine</acat:wordnetName>
+  </owl:NamedIndividual>
+    
+  <owl:NamedIndividual rdf:about="&map;Air_vdsoifOJXos">
+      <rdf:type rdf:resource="&knowrob;Air"/>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">air</acat:wordnetName>
+  </owl:NamedIndividual>
+  
+  <!-- =========================================== -->
+  <!-- |   Individuals: GlasBottle250ml          | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;Bottle250ml_Gsdsgkne945n">
+      <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
+      <knowrob:contains rdf:resource="&map;UnknownSubstance_FSDBFH64783thds" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual.dae</knowrob:pathToCadModel>
+      <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml</acat:wordnetName>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg7BFS74bfd78">
+      <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
+      <knowrob:contains rdf:resource="&map;Purine_dfiNOIdtr4tng" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_0_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual_blue_stronger.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_0</acat:wordnetName>
+  </owl:NamedIndividual>
+
+  <owl:NamedIndividual rdf:about="&map;Bottle250ml_fg457gGFD78">
+      <rdf:type rdf:resource="&chemobjects;GlassBottle250ml"/>
+      <knowrob:contains rdf:resource="&chemstoff;AceticAcid_DFOKpokj45fod" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">bottle_250ml_1_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_250ml_visual_red_stronger.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">bottle_250ml_1</acat:wordnetName>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: GlasFlask400ml           | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;Flask250ml_FD745HBvferd">
+      <rdf:type rdf:resource="&chemobjects;GlasFlask250ml"/>
+      <knowrob:contains rdf:resource="&map;Phenolphtaleine_SFMofj3453dsm" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">flask_250ml_0_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/flask_250ml_visual.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">flask_250ml_0</acat:wordnetName>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Flask400ml_SFD538hfds3">
+      <rdf:type rdf:resource="&chemobjects;GlassFlask400ml"/>
+      <knowrob:contains rdf:resource="&map;Air_vdsoifOJXos" />
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">flask_400ml_0_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/flask_400ml_visual.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">flask_400ml_0</acat:wordnetName>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: Pipette                  | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;Pipette_5ddzewGGfsdr">
+      <rdf:type rdf:resource="&chemobjects;Pipette"/>
+      <knowrob:madeOf rdf:resource="&knowrob;Glass" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">pipette_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">pipette_0</acat:wordnetName>
+  </owl:NamedIndividual>
+
+  <!-- =========================================== -->
+  <!-- |   Individuals: Pipette                  | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;MagneticMixer_sdrfg459hsfS">
+      <rdf:type rdf:resource="&chemobjects;MagneticMixer"/>
+      <knowrob:madeOf rdf:resource="&knowrob;Metal" />
+      <knowrob:urdfName rdf:datatype="&xsd;string">mixer_ikamag_frame</knowrob:urdfName>
+      <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/mixer_ikamag_visual_multi_color.dae</knowrob:pathToCadModel>
+      <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_FS745hf347hf"/>
+      <acat:wordnetName rdf:datatype="&xsd;string">mixer_0</acat:wordnetName>
+  </owl:NamedIndividual>
+  
+  <!-- =========================================== -->
+  <!-- |   Initial Transforms                    | -->
+  <!-- =========================================== -->
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_Gsdsgkne945n">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Bottle250ml_Gsdsgkne945n"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_Gsdsgkne945n"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_Gsdsgkne945n">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 1.500 0.755</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_fg7BFS74bfd78">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Bottle250ml_fg7BFS74bfd78"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_fg7BFS74bfd78"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_fg7BFS74bfd78">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 1.325 0.755</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_fg457gGFD78">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Bottle250ml_fg457gGFD78"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_fg457gGFD78"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_fg457gGFD78">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 1.150 0.755</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_FD745HBvferd">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Flask250ml_FD745HBvferd"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_FD745HBvferd"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_FD745HBvferd">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 2.000 0.755</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_SFD538hfds3">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Flask400ml_SFD538hfds3"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_SFD538hfds3"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_SFD538hfds3">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 2.200 0.755</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_sdrfg459hsfS">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;MagneticMixer_sdrfg459hsfS"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_sdrfg459hsfS"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_sdrfg459hsfS">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 1.700 0.755</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_5ddzewGGfsdr">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Pipette_5ddzewGGfsdr"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_5ddzewGGfsdr"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_5ddzewGGfsdr">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.300 1.000 0.785</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">0.6946583704589973 0.0 -0.6961352 0.0</knowrob:quaternion>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;SemanticMapPerception_FSDBFH64783thds">
+      <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+      <knowrob:objectActedOn rdf:resource="&map;Table_FSDBFH64783thds"/>
+      <knowrob:startTime rdf:resource="&map;timepoint_0"/>
+      <knowrob:eventOccursAt rdf:resource="&map;Transformation_FSDBFH64783thds"/>
+  </owl:NamedIndividual>
+  
+  <owl:NamedIndividual rdf:about="&map;Transformation_FSDBFH64783thds">
+      <rdf:type rdf:resource="&knowrob;Transformation"/>
+      <knowrob:translation rdf:datatype="&xsd;string">1.335 1.635 0.0</knowrob:translation>
+      <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
+  </owl:NamedIndividual>
+
+    <!-- =========================================== -->
+    <!-- |   Individuals: Grasp poses              | -->
+    <!-- =========================================== -->
+
+<!--
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_Identity">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_TGF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">-0.5 0.5 0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.03 0.0 0.12</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_FGF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_IF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.005 0.0 0.14</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_OF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&chemobjects;Transformation_FF250ml">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.0 0.0 0.0 1.000000</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="&xsd;string">-0.1 0.0 0.13</knowrob:translation>
+    </owl:NamedIndividual>
+-->
+</rdf:RDF>
+

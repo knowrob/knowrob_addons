@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY actions "http://knowrob.org/kb/chemlab-actions.owl#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/chemlab-actions.owl#"
+     xml:base="http://knowrob.org/kb/chemlab-actions.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+    <owl:Ontology rdf:about="http://knowrob.org/kb/chemlab-actions.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+    </owl:Ontology>
+
+    <owl:Class rdf:about="&actions;MovingObjectAtLocation">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Preparing">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Aspirating">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;ChemlabContext">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Dispensing">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;TestingPHValue">
+        <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/> <!-- TODO: use more special superclass -->
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Opening">
+        <rdfs:subClassOf rdf:resource="&knowrob;OpeningSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Filling">
+        <rdfs:subClassOf rdf:resource="&knowrob;FillingProcess"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Pulling">
+        <rdfs:subClassOf rdf:resource="&knowrob;PullingAnObject"/>
+    </owl:Class>
+    
+    <owl:Class rdf:about="&actions;Screwing">
+        <rdfs:subClassOf rdf:resource="&knowrob;TurningAnObject"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Unscrewing">
+        <rdfs:subClassOf rdf:resource="&knowrob;TurningAnObject"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Neutralizing">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;OpeningADoor">
+        <rdfs:subClassOf rdf:resource="&knowrob;OpeningSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Pouring">
+        <rdfs:subClassOf rdf:resource="&knowrob;Pouring"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Adding">
+        <rdfs:subClassOf rdf:resource="&knowrob;AddingSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Flipping">
+        <rdfs:subClassOf rdf:resource="&knowrob;FlippingAnObject"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;TurningOnElectricalDevice">
+        <rdfs:subClassOf rdf:resource="&knowrob;TurningOnPoweredDevice"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Starting">
+        <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Stopping">
+        <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Preheating">
+        <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;OperatingATap">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;UsingSpiceJar">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Spooning">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Flavouring">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;UsingMeasuringCup">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Pipetting">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&actions;Storing">
+        <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
+    </owl:Class>
+
+</rdf:RDF>
