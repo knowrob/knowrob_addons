@@ -149,6 +149,10 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 			   append(" -o video.mpg -speed 1 -ofps ").append(out_fps).
 			   append(" -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=2500 -oac copy -of mpeg").toString();
 			executeCommand(new String[]{"/bin/bash", "-c", cmd}, targetDir);
+
+			String conversion_cmd = new StringBuilder().
+			   append("avconv -i video.mpg -vf scale=\"trunc(iw/2)*2:trunc(ih/2)*2\" -c:v libx264 video.mp4").toString();
+			executeCommand(new String[]{"/bin/bash", "-c", conversion_cmd}, targetDir);
 		}
 
 		return true;
