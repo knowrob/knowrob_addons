@@ -77,7 +77,7 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
-:- use_module(library('knowrob_language')).
+:- use_module(library('knowrob_temporal')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
@@ -558,7 +558,7 @@ successful_tasks_for_goal(Goal, Tasks) :-
 % 
 task_status(Task, Status) :-
     get_timepoint(T),
-    knowrob_language:holds(task_status(Task, Status), T).
+    knowrob_temporal:holds(task_status(Task, Status), T).
 
 %% holds(task_status(+Task, -Status), +T) is nondet.
 %
@@ -569,7 +569,7 @@ task_status(Task, Status) :-
 % @param Status Returned status
 % @param T   TimePoint
 % 
-knowrob_language:holds(task_status(Task, Status), T):-
+knowrob_temporal:holds(task_status(Task, Status), T):-
     nonvar(Task),
     task(Task),
     task_start(Task, Start),
