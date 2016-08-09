@@ -37,7 +37,6 @@
         load_experiments/2,
         load_experiments/3,
         belief_at/2,
-        occurs/2,
         event/3,
         event_before/3,
         event_after/3,
@@ -83,9 +82,6 @@
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 
-% :- meta_predicate occurs(0, ?, ?).
-:- discontiguous occurs/2.
-
 % :- meta_predicate belief_at(0, ?, ?).
 :- discontiguous belief_at/1.
 
@@ -121,7 +117,6 @@
     task_end(r,r),
     task_duration(r,?),
     belief_at(?,r),
-    occurs(+,r),
     task_outcome(r,r),
     failure_type(r,r),
     task_failure(r,r),
@@ -621,20 +616,6 @@ belief_at(loc(Desig,Loc), _Time) :-
 % 
 belief_at(robot(Part,Loc), Time) :-
   mng_lookup_transform('/map', Part, Time, Loc).
-
-%% occurs(object_perceived(?Obj),?T) is nondet.
-%
-% Check whether Object was perceived at given Time .
-%
-% @param Obj    Identifier of the Object
-% @param Time   TimePoint
-% 
-occurs(object_perceived(Obj),T) :-
-    nonvar(Obj),
-    nonvar(T),
-    task_type(Task, knowrob:'UIMAPerception'),
-    task_outcome(Task, Obj),
-    task_start(Task, T).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-
   experiment_map(_Experiment, Map, Time), !,
