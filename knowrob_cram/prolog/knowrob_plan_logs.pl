@@ -40,7 +40,6 @@
         event/3,
         event_before/3,
         event_after/3,
-        event_interval/3,
         event_name/2,
         event_class_name/2,
         event_class/2,
@@ -99,7 +98,6 @@
     event_class_name(r,?),
     event_class(r,?),
     event_after(r,r,r),
-    event_interval(r,-,-),
     experiment(r),
     experiment(r,r),
     experiment_map(r,r),
@@ -127,10 +125,8 @@
     successful_tasks_for_goal(+,-).
 
 % TODO: hack for review
-default_map(Map) :-
-  Map = 'http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd'.
-%default_map(Map) :-
-%  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
+default_map('http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd').
+%default_map('http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j').
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -217,13 +213,13 @@ experiment(Experiment) :-
 
 %% experiment(?Experiment, +Timepoint) is nondet.
 %
-% Yields experiments which were active at Timepoint
+% Yields experiments which were active during Timepoint
 %
 %  @param Experiment Experiment identifier
 %  @param Time       Time when experiment was performed
 % 
 experiment(Experiment, Timepoint) :-
-  event(knowrob:'RobotExperiment', Experiment, Timepoint).
+  occurs(Experiment, Timepoint, knowrob:'RobotExperiment').
 
 %% experiment_map(?Experiment, ?Map, +Time) is nondet.
 %
@@ -275,12 +271,6 @@ event_after(EventClass, EventInstance, Timepoint) :-
   rdf_has(EventInstance, knowrob:'startTime', T0),
   time_later_then(T0, Timepoint).
 
-event_interval(EventInstance, T0_term, T1_term) :-
-  rdf_has(EventInstance, knowrob:'startTime', T0),
-  ( rdf_has(EventInstance, knowrob:'endTime', T1) ; current_time(T1) ),
-  time_term(T0, T0_term),
-  time_term(T1, T1_term).
-
 event_name(EventInstance, EventName) :-
   rdf_split_url(_, EventName, EventInstance).
 
@@ -319,12 +309,8 @@ task(Task) :-
 % 
 task(Task, Timepoint) :-
     task(Task),
-    task_start(Task,TimepointStart),
-    task_end(Task,TimepointEnd),
-    time_term(Timepoint, Time),
-    time_term(TimepointStart, Start),
-    time_term(TimepointEnd, End),
-    Start=<Time, Time=<End.
+    interval(Task, [Start,End]),
+    time_between(Timepoint, Start, End).
 
 %% task(?Task, ?Timepoint, ?SuperClass) is nondet.
 %
@@ -423,9 +409,7 @@ subtask_all(Task, Subtask) :-
 %  @param Task Identifier of given Task
 %  @param Start Identifier of given Start
 % 
-task_start(Task, Start) :-
-    rdf_has(Task, knowrob:'startTime', Start),
-    task(Task).
+task_start(Task, Start) :- interval_start(Task, Start).
 
 
 %% task_end(?Task, ?End) is nondet.
@@ -435,9 +419,7 @@ task_start(Task, Start) :-
 %  @param Task Identifier of given Task
 %  @param End Identifier of given End
 % 
-task_end(Task, End) :-
-    rdf_has(Task, knowrob:'endTime', End),
-    task(Task).
+task_end(Task, End) :- interval_end(Task, Start).
 
 %% task_duration(?Task, ?Duration) is nondet.
 %
@@ -447,11 +429,8 @@ task_end(Task, End) :-
 %  @param Duration Duration value
 % 
 task_duration(Task, Duration) :-
-    task_start(Task, Start),
-    task_end(Task, End),
-    time_term(Start, StartVal),
-    time_term(End, EndVal),
-    Duration is EndVal - StartVal.
+  interval(Task, [ST,ET]),
+  Duration is (ET-ST).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
