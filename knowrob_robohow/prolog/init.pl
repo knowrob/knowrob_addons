@@ -36,6 +36,7 @@
 
 :- register_ros_package(knowrob_robohow).
 :- use_module(library('knowrob_robohow')).
+:- use_module(library('commentator')).
 
 %Extended ontology
 %:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
