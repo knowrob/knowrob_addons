@@ -37,16 +37,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#designator -->
-
-    <owl:ObjectProperty rdf:about="&knowrob;designator">
-        <rdfs:range rdf:resource="&knowrob;CRAMDesignator"/>
-    </owl:ObjectProperty>
-    
-
 
     <!-- http://knowrob.org/kb/knowrob.owl#detectedObject -->
 
@@ -92,15 +82,6 @@
     <!-- http://knowrob.org/kb/knowrob.owl#subAction -->
 
     <owl:ObjectProperty rdf:about="&knowrob;subAction"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#successorDesignator -->
-
-    <owl:ObjectProperty rdf:about="&knowrob;successorDesignator">
-        <rdfs:domain rdf:resource="&knowrob;CRAMDesignator"/>
-        <rdfs:range rdf:resource="&knowrob;CRAMDesignator"/>
-    </owl:ObjectProperty>
     
 
 
@@ -213,7 +194,9 @@
 
     <!-- http://knowrob.org/kb/knowrob.owl#CRAMDesignator -->
 
-    <owl:Class rdf:about="&knowrob;CRAMDesignator"/>
+    <owl:Class rdf:about="&knowrob;CRAMDesignator">
+        <rdfs:subClassOf rdf:resource="&knowrob;Designator"/>
+    </owl:Class>
     
 
 

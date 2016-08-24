@@ -491,7 +491,7 @@ saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
-  object_pose_at_time(SlotIdentifier, T, Translation, Orientation).
+  object_pose_at_time(SlotIdentifier, T, pose(Translation, Orientation)).
 
 %saphari_active_task(Task) :-
 %  % for now assume a task is active when no endTime asserted
