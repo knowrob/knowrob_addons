@@ -253,8 +253,8 @@ sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList):-
     %Get list of event names that happened in the experment for putting in the timeline
     findall(EventName, (member(E,EventList),rdf_split_url(_,EventName,E)), EventNamesList),
     %Get list of all [start|end] times of the events in the list
-    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_point_value(Start, StartTime)), StartTimeList),
-    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_point_value(End, EndTime)), EndTimeList).
+    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_term(Start, StartTime)), StartTimeList),
+    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_term(End, EndTime)), EndTimeList).
 
 
 %%  Auxilary function for enabling changing color on consecutive calls
@@ -465,10 +465,10 @@ interval_setdifference(Experiment, Start, End, [_|Tail], ResStart, ResEnd) :-
 %% True if I2 overlaps with I1 at the beginning
 %% Called by: interval_setdifference
 sim_timepoints_overlap(Start1, End1, Start2, End2) :-
-    time_point_value(Start1, SVal1),
-    time_point_value(End1, EVal1),
-    time_point_value(Start2, SVal2),
-    time_point_value(End2, EVal2),
+    time_term(Start1, SVal1),
+    time_term(End1, EVal1),
+    time_term(Start2, SVal2),
+    time_term(End2, EVal2),
     SVal2 =< SVal1, %Start2 is before Start1
     EVal2 > SVal1, %End2 is after Start1
     EVal2 =< EVal1. %End2 ends before End1
@@ -477,10 +477,10 @@ sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
     sim_timepoints_overlap(Start2, End2, Start1, End1).
 
 sim_subsumes(Start1,End1, Start2, End2):-
-    time_point_value(Start1, SVal1),
-    time_point_value(End1, EVal1),
-    time_point_value(Start2, SVal2),
-    time_point_value(End2, EVal2),
+    time_term(Start1, SVal1),
+    time_term(End1, EVal1),
+    time_term(Start2, SVal2),
+    time_term(End2, EVal2),
     SVal1 =< EVal1, %check this interval is ok (start comes before end)
     SVal2 =< EVal2, %check this interval is ok (start comes before end)
     SVal2 >= SVal1, %Start2 is after Start1

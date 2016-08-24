@@ -345,9 +345,9 @@ designator_between(Designator, PreAction, PostAction) :-
   task_start(PostAction, T1),
   rdfs_individual_of(Designator, knowrob:'CRAMDesignator'),
   rdf_has(Designator, knowrob:'equationTime', T),
-  time_point_value(T0, T_Val0),
-  time_point_value(T1, T_Val1),
-  time_point_value(T, T_Val),
+  time_term(T0, T_Val0),
+  time_term(T1, T_Val1),
+  time_term(T, T_Val),
   T_Val =< T_Val1, T_Val >= T_Val0.
 
 %% designator_publish(+Designator) is nondet.

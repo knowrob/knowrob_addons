@@ -10,13 +10,13 @@ import com.google.common.base.CaseFormat;
 
 public class ADTDesignator extends Designator {
 
-	public ADTDesignator() {
-		super();
+	public ADTDesignator(java.util.Date instant) {
+		super(instant);
 		values.put("type", "ADT");
 	}
 	
 	public Designator readActionChunk(String id) {
-		Designator chunkDesignator = new Designator();
+		Designator chunkDesignator = new Designator(instant);
 		chunkDesignator.put("type", "ADT-action-chunk");
 		HashMap<String, Vector<String>> res;
 		
@@ -81,7 +81,7 @@ public class ADTDesignator extends Designator {
 
 	public Designator readActionChunks(String id) {
 		HashMap<String, Vector<String>> res, res2;
-		Designator chunkDesignator = new Designator();
+		Designator chunkDesignator = new Designator(instant);
 		chunkDesignator.put("type", "ADT-action-chunks");
 		
 		res = PrologInterface.executeQuery("rdf_has('"+id+"', knowrob:'subAction', FirstChunk)");
@@ -106,7 +106,7 @@ public class ADTDesignator extends Designator {
 				"rdfs_subproperty_of(RoleUri, acat:'adtRole')," +
 				"rdf_split_url(_,Role,RoleUri)," +
 				"adt_object_type(Object, Cls)");
-		Designator roleDesignator = new Designator();
+		Designator roleDesignator = new Designator(instant);
 		roleDesignator.put("type", "ADT-roles");
 		if(res!=null) {
 			for(int i=0; res.get("Role").size()>i; ++i) {
@@ -126,13 +126,13 @@ public class ADTDesignator extends Designator {
 		HashMap<String, Vector<String>> res = PrologInterface.executeQuery(
 				"rdf_has('"+id+"', acat:'adtObject', Object), " +
 				"adt_object_type(Object, Type)");
-		Designator objectsDesignator = new Designator();
+		Designator objectsDesignator = new Designator(instant);
 		objectsDesignator.put("type", "ADT-objects");
 		if(res!=null) {
 			for(Integer i=0; res.get("Object").size()>i; ++i) {
 				HashMap<String, Vector<String>> res2;
 				String object = res.get("Object").get(i);
-				Designator objectDesignator = new Designator();
+				Designator objectDesignator = new Designator(instant);
 				objectDesignator.setType("ADT-object");
 				objectDesignator.put("class", res.get("Type").get(i));
 				
