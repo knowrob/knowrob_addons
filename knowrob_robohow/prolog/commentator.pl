@@ -51,5 +51,5 @@ comment_action(Action, Comment) :-
     'action'], ' ', Comment).
   
 % TODO: implement
-action_position(Action, [0.0,0.0,0.0]).
+action_position(Action, [0.1,-0.2,1.05]).
 
