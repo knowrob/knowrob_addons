@@ -425,6 +425,7 @@ task_end(Task, End) :-
   rdfs_individual_of(Task, knowrob:'Event'),
   interval_end(Task, End).
 
+
 %% task_duration(?Task, ?Duration) is nondet.
 %
 %  Compute duration of given task
