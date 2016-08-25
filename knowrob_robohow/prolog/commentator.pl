@@ -27,10 +27,10 @@
 :- rdf_db:rdf_register_ns(pr2, 'http://knowrob.org/kb/PR2.owl#', [keep(true)]).
 
 % TODO: should be in another module
-action_during(Action, Now) :-
+action_during(Action, Instant) :-
   rdfs_individual_of(Action, knowrob:'Action'),
   interval(Action, ActionInterval),
-  interval_during(Now, ActionInterval).
+  interval_during(Instant, ActionInterval).
 
 comment(What, Where) :-
   current_time(Now),
