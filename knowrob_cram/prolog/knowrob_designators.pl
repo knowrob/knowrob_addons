@@ -322,7 +322,7 @@ designator_add_perception(ObjInstance, Designator, Pose, Time) :-
 
 designator_add_perception(ObjInstance, Designator, Pose, Time) :-
   is_list(Pose),
-  create_pose(Pose, Matrix),
+  create_pose(mat(Pose), Matrix),
   designator_add_perception(ObjInstance, Designator, Matrix, Time).
 
 designator_add_perception(ObjInstance, _Designator, Pose, Time) :-

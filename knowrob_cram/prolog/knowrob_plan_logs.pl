@@ -409,7 +409,9 @@ subtask_all(Task, Subtask) :-
 %  @param Task Identifier of given Task
 %  @param Start Identifier of given Start
 % 
-task_start(Task, Start) :- interval_start(Task, Start).
+task_start(Task, Start) :-
+  rdfs_individual_of(Task, knowrob:'Event'),
+  interval_start(Task, Start).
 
 
 %% task_end(?Task, ?End) is nondet.
@@ -419,7 +421,9 @@ task_start(Task, Start) :- interval_start(Task, Start).
 %  @param Task Identifier of given Task
 %  @param End Identifier of given End
 % 
-task_end(Task, End) :- interval_end(Task, Start).
+task_end(Task, End) :-
+  rdfs_individual_of(Task, knowrob:'Event'),
+  interval_end(Task, End).
 
 %% task_duration(?Task, ?Duration) is nondet.
 %
@@ -548,24 +552,25 @@ task_status(Task, Status) :-
 % @param Status Returned status
 % @param T   TimePoint
 % 
-knowrob_temporal:holds(task_status(Task, Status), T):-
-    nonvar(Task),
-    task(Task),
-    task_start(Task, Start),
-    task_end(Task, End),
-    
-    ((rdf_triple(knowrob:after, Start, T)) ->   % Start < T
-      (
-        ((rdf_triple(knowrob:after, T, End)) ->
-        (Status = ['Continue']);                % Start < T < End
-        (Status = ['Done']))                    % Start < End < T
-      )
-      ; (                                       % T < Start
-        ((rdf_triple(knowrob:after, T, End)) -> % T < End
-          (Status = ['NotStarted']);            % T < Start, T < End
-          (Status = ['Error']))                 % T < Start, T > End
-        )
-    ).
+% TODO: re-enable
+%knowrob_temporal:holds(task_status(Task, Status), T):-
+%    nonvar(Task),
+%    task(Task),
+%    task_start(Task, Start),
+%    task_end(Task, End),
+%    
+%    ((rdf_triple(knowrob:after, Start, T)) ->   % Start < T
+%      (
+%        ((rdf_triple(knowrob:after, T, End)) ->
+%        (Status = ['Continue']);                % Start < T < End
+%        (Status = ['Done']))                    % Start < End < T
+%      )
+%      ; (                                       % T < Start
+%        ((rdf_triple(knowrob:after, T, End)) -> % T < End
+%          (Status = ['NotStarted']);            % T < Start, T < End
+%          (Status = ['Error']))                 % T < Start, T > End
+%        )
+%    ).
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -610,7 +615,10 @@ add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
 
 add_robot_as_basic_semantic_instance(Matrix, Time, ObjInstance) :-
   % FIXME(daniel): Seems not a good idea to use time as identifier for robot here!
-  add_object_to_semantic_map(Time, Matrix, Time, ObjInstance, 0.5, 0.5, 0.5).
+  ( number(Time)
+  -> create_timepoint(Time, TimePoint)
+  ;  TimePoint = Time ),
+  add_object_to_semantic_map(TimePoint, Matrix, TimePoint, ObjInstance, 0.5, 0.5, 0.5).
 
 
 add_object_to_semantic_map(Designator, Matrix, Time, ObjInstance, H, W, D) :-
