@@ -607,8 +607,12 @@ add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-
   add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
+  ( number(Time)
+  -> create_timepoint(Time, TimePoint)
+  ;  TimePoint = Time ),
+  % TODO: use fluents instead!
   designator_assert(ObjInstance, Designator, Map), !,
-  designator_add_perception(ObjInstance, Designator, Matrix, Time).
+  designator_add_perception(ObjInstance, Designator, Matrix, TimePoint).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
   add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, 0.2, 0.2, 0.2).
@@ -631,6 +635,7 @@ add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D) 
     designator_object(Designator, ObjInstance),
     rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
     rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
+    % TODO: use fluents instead!
     object_assert_dimensions(ObjInstance, H, W, D),
     designator_add_perception(ObjInstance, Designator, Matrix, Time)
   )).
