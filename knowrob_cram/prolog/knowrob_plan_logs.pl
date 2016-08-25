@@ -419,7 +419,7 @@ task_start(Task, Start) :- interval_start(Task, Start).
 %  @param Task Identifier of given Task
 %  @param End Identifier of given End
 % 
-task_end(Task, End) :- interval_end(Task, Start).
+task_end(Task, End) :- interval_end(Task, End).
 
 %% task_duration(?Task, ?Duration) is nondet.
 %
