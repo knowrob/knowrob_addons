@@ -38,7 +38,7 @@ public class ADTDesignator extends Designator {
 		res = PrologInterface.executeQuery("rdf_has("+id+", knowrob:'taskSuccess', literal(type(_,Success)))");
 		if(res!=null && res.size()>0) chunkDesignator.put("success", res.get("Success").get(0));
 
-		res = PrologInterface.executeQuery("event_interval("+id+", T0, T1)");
+		res = PrologInterface.executeQuery("interval("+id+", [T0, T1])");
 		if(res!=null && res.size()>0) {
 			chunkDesignator.put("start", res.get("T0").get(0));
 			chunkDesignator.put("end", res.get("T1").get(0));
@@ -183,7 +183,7 @@ public class ADTDesignator extends Designator {
 			else
 				System.out.println("ADT " + id + " missing key acat:'actioncore'.");
 			// read time interval
-			res = PrologInterface.executeQuery("event_interval('"+id+"', T0, T1)");
+			res = PrologInterface.executeQuery("interval('"+id+"', [T0, T1])");
 			if(res!=null && res.size()>0) {
 				values.put("start", res.get("T0").get(0));
 				values.put("end", res.get("T1").get(0));
