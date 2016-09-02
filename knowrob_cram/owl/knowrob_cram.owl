@@ -111,6 +111,11 @@
         <rdfs:domain rdf:resource="&knowrob;CRAMAction"/>
         <rdfs:range rdf:resource="&xsd;string"/>
     </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="&knowrob;taskSuccess">
+        <rdfs:domain rdf:resource="&knowrob;CRAMAction"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
     
 
 
