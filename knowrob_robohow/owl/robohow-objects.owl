@@ -111,6 +111,10 @@
     <owl:Class rdf:about="&knowrob;ToolHolder">
         <rdfs:subClassOf rdf:resource="&knowrob;NonPoweredDevice"/>
     </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;PizzaCutter">
+        <rdfs:subClassOf rdf:resource="&knowrob;CuttingDevice"/>
+    </owl:Class>
     
 
 </rdf:RDF>
