@@ -42,6 +42,18 @@
         <owl:imports rdf:resource="package://iai_semantic_maps/owl/kitchen.owl"/>
         <owl:imports rdf:resource="package://knowrob_robohow/owl/robohow-objects.owl"/>
     </owl:Ontology>
+
+    <owl:Class rdf:about="&knowrob;GarnishingSomething">
+        <rdfs:subClassOf rdf:resource="&knowrob;PreparingAFoodItem"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;ScoopingSomething">
+        <rdfs:subClassOf rdf:resource="&knowrob;PreparingAFoodItem"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&knowrob;DispensingSomething">
+        <rdfs:subClassOf rdf:resource="&knowrob;PreparingAFoodItem"/>
+    </owl:Class>
     
     <owl:NamedIndividual rdf:about="&iai-map;ToolHolder_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;ToolHolder"/>

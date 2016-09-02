@@ -51,6 +51,7 @@
         task/2,
         task/3,
         task_type/2,
+        task_type_name/2,
         task_goal/2,
         task_goal_inherited/2,
         task_start/2,
@@ -106,6 +107,7 @@
     task(r,r),
     task(r,r,r),
     task_type(r,r),
+    task_type_name(r,?),
     subtask(r,r),
     subtask_all(r,r),
     subtask_typed(r,r,r),
@@ -336,7 +338,11 @@ task(Task, Timepoint, SuperClass) :-
 % 
 task_type(Task, Class) :-
     rdf_has(Task, rdf:type, Class),
-    rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
+    rdf_reachable(Class, rdfs:subClassOf, knowrob:'Event').
+    
+task_type_name(Task, ClassName) :-
+    task_type(Task, Class),
+    rdf_split_url(_, ClassName, Class).
 
 
 %% subtask(?Task, ?Subtask) is nondet.
