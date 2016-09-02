@@ -43,7 +43,6 @@
         <owl:imports rdf:resource="package://knowrob_robohow/owl/robohow-objects.owl"/>
     </owl:Ontology>
     
-    
     <owl:NamedIndividual rdf:about="&iai-map;ToolHolder_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;ToolHolder"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
@@ -69,7 +68,6 @@
         <rdf:type rdf:resource="&knowrob;Pose"/>
         <srdl2-comp:urdfName>spoon_rounded_frame</srdl2-comp:urdfName>
     </owl:NamedIndividual>
-    
     
     <owl:NamedIndividual rdf:about="&iai-map;FlatSpoon_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;FlatSpoon"/>

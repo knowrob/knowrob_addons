@@ -46,19 +46,19 @@
     <owl:NamedIndividual rdf:about="&iai-map;RedMetalBowl_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;RedMetalBowl"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://ltfnp_models/models/red_metal_bowl_white_speckles/red_metal_bowl_white_speckles.stl</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/RedSpottedBowl.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;RedMetalCup_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;RedMetalCup"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://ltfnp_models/models/red_metal_cup_white_speckles/red_metal_cup_white_speckles.stl</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/cup_eco_orange/cup_eco_orange.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;RedMetalPlate_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;RedMetalPlate"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://ltfnp_models/models/red_metal_plate_white_speckles/red_metal_plate_white_speckles.stl</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/RedSpottedPlate.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
 </rdf:RDF>
