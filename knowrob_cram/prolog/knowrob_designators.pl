@@ -52,7 +52,8 @@
         
         designator_publish/1,
         designator_publish/2,
-        designator_publish_image/1
+        designator_publish_image/1,
+        show_entity/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -86,7 +87,8 @@
     action_designator_exp(r,r),
     designator_publish(r),
     designator_publish(r,+),
-    designator_publish_image(r).
+    designator_publish_image(r),
+    show_entity(r).
 
 
 :- assert(log_pbl(fail)).
@@ -349,6 +351,29 @@ designator_between(Designator, PreAction, PostAction) :-
   time_term(T1, T_Val1),
   time_term(T, T_Val),
   T_Val =< T_Val1, T_Val >= T_Val0.
+
+show_entity(Entity) :-
+  entity(Entity, Descr),
+  Descr = [_,Type|Descr_],
+  jpl_new('org.knowrob.interfaces.mongo.types.Designator', [], Desig),
+  jpl_call(Desig, 'put', ['_designator_type', Type], _),
+  read_entity_desig(Desig, Descr_),
+  designator_publish(Entity, Desig).
+
+read_entity_desig(_, []).
+read_entity_desig(Desig, [[Key,Val]|Descr]) :-
+  term_to_atom(Key, KeyAtom),
+  (  is_list(Val)
+  -> (
+    jpl_new('org.knowrob.interfaces.mongo.types.Designator', [], Val_),
+    Val = [_, Type|Nested],
+    jpl_call(Val_, 'put', ['_designator_type', Type], _),
+    read_entity_desig(Val_, Nested)
+  ) ; term_to_atom(Val, Val_) ),
+  jpl_call(Desig, 'put', [KeyAtom, Val_], _),
+  read_entity_desig(Desig, Descr), !.
+read_entity_desig(Desig, [_|Descr]) :-
+  read_entity_desig(Desig, Descr).
 
 %% designator_publish(+Designator) is nondet.
 %
