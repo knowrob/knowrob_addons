@@ -74,6 +74,7 @@
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://iai_kitchen/meshes/racks/BoxyToolholder/Holder_Spoon.stl</knowrob:pathToCadModel>
         <knowrob:pose rdf:resource="&iai-map;Pose_RoundSpoon_fngh257tgh"/>
+        <knowrob:madeOf rdf:resource="&knowrob;Plastic" />
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;Pose_RoundSpoon_fngh257tgh">
@@ -86,6 +87,7 @@
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://iai_kitchen/meshes/racks/BoxyToolholder/holder_spoon_flat.stl</knowrob:pathToCadModel>
         <knowrob:pose rdf:resource="&iai-map;Pose_FlatSpoon_fngh257tgh"/>
+        <knowrob:madeOf rdf:resource="&knowrob;Plastic" />
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;Pose_FlatSpoon_fngh257tgh">
@@ -132,6 +134,23 @@
     <owl:NamedIndividual rdf:about="&iai-map;Pose_PizzaTray_fngh257tgh">
         <rdf:type rdf:resource="&knowrob;Pose"/>
         <srdl2-comp:urdfName>tray_frame</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+    
+    <owl:NamedIndividual rdf:about="&knowrob;Query_DFn45thdsgw4e">
+        <rdf:type rdf:resource="&knowrob;Query"/>
+        <knowrob:queryAbout rdf:resource="&knowrob;Spoon"/>
+        <knowrob:groupName rdf:datatype="&xsd;string">Episodic Memory</knowrob:groupName>
+        <knowrob:queryName rdf:datatype="&xsd;string">In which time intervals was this object grasped by the robot?</knowrob:queryName>
+        <knowrob:queryString rdf:datatype="&xsd;string">entity(Action, [an, action, [tool_used, Individual]]), occurs(Action, I)</knowrob:queryString>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&knowrob;Query_fgnjm4386jhfdg">
+        <rdf:type rdf:resource="&knowrob;Query"/>
+        <knowrob:queryAbout rdf:resource="&knowrob;Spoon"/>
+        <knowrob:groupName rdf:datatype="&xsd;string">Symbolic knowledge</knowrob:groupName>
+        <knowrob:queryName rdf:datatype="&xsd;string">What is the material of this object?</knowrob:queryName>
+        <knowrob:queryString rdf:datatype="&xsd;string">holds( knowrob:madeOf(Individual, Material) )</knowrob:queryString>
     </owl:NamedIndividual>
     
 </rdf:RDF>
