@@ -75,6 +75,7 @@
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://iai_kitchen/meshes/racks/BoxyToolholder/Holder_Spoon.stl</knowrob:pathToCadModel>
         <knowrob:pose rdf:resource="&iai-map;Pose_RoundSpoon_fngh257tgh"/>
         <knowrob:madeOf rdf:resource="&knowrob;Plastic" />
+        <knowrob:boundingBoxSize rdf:datatype="&xsd;string">0.08 0.04 0.203</knowrob:boundingBoxSize>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;Pose_RoundSpoon_fngh257tgh">
@@ -88,6 +89,7 @@
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://iai_kitchen/meshes/racks/BoxyToolholder/holder_spoon_flat.stl</knowrob:pathToCadModel>
         <knowrob:pose rdf:resource="&iai-map;Pose_FlatSpoon_fngh257tgh"/>
         <knowrob:madeOf rdf:resource="&knowrob;Plastic" />
+        <knowrob:boundingBoxSize rdf:datatype="&xsd;string">0.066 0.03 0.201</knowrob:boundingBoxSize>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;Pose_FlatSpoon_fngh257tgh">
@@ -129,6 +131,7 @@
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://kitchen/cooking-vessels/tray.dae</knowrob:pathToCadModel>
         <knowrob:pose rdf:resource="&iai-map;Pose_PizzaTray_fngh257tgh"/>
+        <knowrob:boundingBoxSize rdf:datatype="&xsd;string">0.445 0.365 0.024</knowrob:boundingBoxSize>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;Pose_PizzaTray_fngh257tgh">
@@ -142,7 +145,7 @@
         <knowrob:queryAbout rdf:resource="&knowrob;Spoon"/>
         <knowrob:groupName rdf:datatype="&xsd;string">Episodic Memory</knowrob:groupName>
         <knowrob:queryName rdf:datatype="&xsd;string">In which time intervals was this object grasped by the robot?</knowrob:queryName>
-        <knowrob:queryString rdf:datatype="&xsd;string">entity(Action, [an, action, [tool_used, Individual]]), occurs(Action, I)</knowrob:queryString>
+        <knowrob:queryString rdf:datatype="&xsd;string">entity(Action, [an, action, [tool_used, Individual], [body_parts_used, [an, object, [srdl2comp:base_link_of_composition, Obj]]]]), occurs(Action, [Begin,End]), show(object(kitchen:'IAIKitchenMap_PM580j'), Begin), show(object(boxy:'boxy_robot_3'), Begin), show(trajectory(Obj), interval(Begin, End, dt(0.5)))</knowrob:queryString>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&knowrob;Query_fgnjm4386jhfdg">
