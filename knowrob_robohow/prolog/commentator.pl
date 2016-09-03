@@ -56,7 +56,7 @@ comment(What, none, When) :-
   writeln('v_commment(perception_failed)'), !.
 
 % if perception succeeded...
-comment(What, none, When) :-
+comment(What, Where, When) :-
   not(rdf_has(perception, _, _)),
   task_with_context_ends_before('UIMA-PERCEIVE', Perc, When),
   rdf_has(Perc, knowrob:'taskSuccess', literal(type(_,true))),
@@ -72,6 +72,9 @@ comment(What, none, When) :-
   atomic_list_concat([
     'Now Raphael has found a ', Name, '. ',
     'The next step is to grasp it.'], '', What),
+  
+  mng_designator_location(DesignatorJ, Mat),
+  matrix_translation(Mat, Where),
   
   atom_number(When_, When), rdf_assert(perception, What, When_), !.
 
@@ -140,7 +143,7 @@ comment(What, none, When) :-
 comment_interval([Begin, End], DT, Comments) :-
   ( Begin < End -> (
   NextBegin is Begin + DT,
-  (  comment(What, none, Begin)
+  (  comment(What, _, Begin)
   -> (comment_interval([NextBegin, End], DT, Tail), Comments = [[What,Begin]|Tail])
   ;   comment_interval([NextBegin, End], DT, Comments)
   ))
