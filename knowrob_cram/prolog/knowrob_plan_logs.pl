@@ -51,6 +51,7 @@
         task/2,
         task/3,
         task_type/2,
+        task_type_name/2,
         task_goal/2,
         task_goal_inherited/2,
         task_start/2,
@@ -106,6 +107,7 @@
     task(r,r),
     task(r,r,r),
     task_type(r,r),
+    task_type_name(r,?),
     subtask(r,r),
     subtask_all(r,r),
     subtask_typed(r,r,r),
@@ -336,7 +338,11 @@ task(Task, Timepoint, SuperClass) :-
 % 
 task_type(Task, Class) :-
     rdf_has(Task, rdf:type, Class),
-    rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
+    rdf_reachable(Class, rdfs:subClassOf, knowrob:'Event').
+    
+task_type_name(Task, ClassName) :-
+    task_type(Task, Class),
+    rdf_split_url(_, ClassName, Class).
 
 
 %% subtask(?Task, ?Subtask) is nondet.
@@ -607,8 +613,12 @@ add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-
   add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
+  ( number(Time)
+  -> create_timepoint(Time, TimePoint)
+  ;  TimePoint = Time ),
+  % TODO: use fluents instead!
   designator_assert(ObjInstance, Designator, Map), !,
-  designator_add_perception(ObjInstance, Designator, Matrix, Time).
+  designator_add_perception(ObjInstance, Designator, Matrix, TimePoint).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
   add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, 0.2, 0.2, 0.2).
@@ -631,6 +641,7 @@ add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D) 
     designator_object(Designator, ObjInstance),
     rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
     rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
+    % TODO: use fluents instead!
     object_assert_dimensions(ObjInstance, H, W, D),
     designator_add_perception(ObjInstance, Designator, Matrix, Time)
   )).

@@ -133,12 +133,12 @@ visualize_chemlab_scene(T) :-
   marker_update(agent(pr2:'PR2Robot1'), T),
   % Show objects
   forall(
-    member(Obj, Objs), ((
+    member(Obj, Objs), ignore((
       designator_template(Map, Obj, Template),
       owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
       owl_has(Template, knowrob:'urdfName', literal(type(_,ObjFrame))),
       visualize_chemlab_object(ObjFrame, MeshPath, T)
-    ) ; true)
+    ))
   ), !.
 
 visualize_chemlab_object(ObjFrame, MeshPath, T) :-

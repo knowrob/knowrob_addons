@@ -46,5 +46,7 @@
 
 :- rdf_db:rdf_register_ns(chemlab_map_2016,
         'http://knowrob.org/kb/chemlab-map_review-2016.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemlab_map_2015,
+        'http://knowrob.org/kb/chemlab-map_review-2015.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(acat, 'http://knowrob.org/kb/acat-adt.owl#', [keep(true)]).
 

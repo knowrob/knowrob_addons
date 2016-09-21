@@ -45,7 +45,6 @@
       get_reach_action/2,
       get_roll_action/2,
       get_retract_action/2,
-      experiment/1,
       experiment_start/2,
       experiment_end/2,
       forth_task_start/2,
@@ -318,8 +317,8 @@ visualize_rolling_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
-experiment(E) :-
-  owl_individual_of(E, knowrob:'RobotExperiment').
+%experiment(E) :-
+%  owl_individual_of(E, knowrob:'RobotExperiment').
 
 experiment_start(T,S) :-
   experiment(T),
