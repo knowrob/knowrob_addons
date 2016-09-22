@@ -1,0 +1,8 @@
+<launch>
+  <node name="fake_localizaton" type="fake_localization" pkg="fake_localization">
+    <rosparam>
+      odom_frame_id: odom_combined
+      base_frame_id: base_footprint
+    </rosparam>
+  </node>
+</launch>
