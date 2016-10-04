@@ -137,19 +137,19 @@ public class BasicBehavior extends AbstractNodeMain
 	}
 
 	
-	public static String getTimestamp(DBObject o) {
+	public static String getTimestamp(BasicDBObject o) {
 		return "timepoint_" + helperGetTimestamp(o);
 	}
 
-	public static double getTimestamp(DBObject start, DBObject end) {
+	public static double getTimestamp(BasicDBObject start, BasicDBObject end) {
 		return helperGetTimestamp(end) - helperGetTimestamp(start);
 	}
 
-	private static double helperGetTimestamp(DBObject o) {
+	private static double helperGetTimestamp(BasicDBObject o) {
 
 	    DBObject val = (DBObject) o.get("transforms");
+	    val = (DBObject) val.get("0");
 	    val = (DBObject) val.get("header");
-
 	    Date dt = (Date) val.get("stamp");
 
 	    return dt.getTime()/1000.0;
