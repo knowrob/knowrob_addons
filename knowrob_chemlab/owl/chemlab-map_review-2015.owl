@@ -109,8 +109,8 @@
     ///////////////////////////////////////////////////////////////////////////////////////
     -->
 
-    <!-- SemanticEnvironmentMap_SAsdfs -->
-    <owl:NamedIndividual rdf:about="&map;SemanticEnvironmentMap_SAsdfs">
+    <!-- Map_SAsdfs -->
+    <owl:NamedIndividual rdf:about="&map;Map_SAsdfs">
         <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
     </owl:NamedIndividual>
 
@@ -129,35 +129,36 @@
     
     <!-- optical table mesh location -->
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryOpticalTable">
-        <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_SAsdfs"/>
-        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;Table"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/optical_table.dae</knowrob:pathToCadModel>        
     </owl:NamedIndividual>
     
     <!-- bunsen burner mesh location -->
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryBunsenBurner">
-        <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_SAsdfs"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/burner_bunsen.dae</knowrob:pathToCadModel>        
     </owl:NamedIndividual>
     
     <!-- jar mesh location -->
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryJar">
-        <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_SAsdfs"/>
-        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;Container"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/jar.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
     <!-- tommy centrifuge mesh location -->
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryTommyCentrifuge">
-        <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_SAsdfs"/>
-        <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
+        <rdf:type rdf:resource="&knowrob;ElectricalDevice"/>
+        <rdf:type rdf:resource="&knowrob;Container"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/centrifuge_tommy.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
     <!--
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryWaterBottle">
-        <knowrob:describedInMap rdf:resource="&map;SemanticEnvironmentMap_SAsdfs"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <rdf:type rdf:resource="&knowrob;SpatialThing-Localized"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
@@ -250,90 +251,117 @@
         <knowrob:quaternion rdf:datatype="&xsd;string">1.000 0.000 0.000 0.000</knowrob:quaternion>
     </owl:NamedIndividual>
     -->
-    
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Templates
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
      
-    <owl:NamedIndividual rdf:about="&map;Bottle500ml_TEMPLATE">
-        <rdf:type rdf:resource="&objects;Bottle"/>
+    <owl:NamedIndividual rdf:about="&map;Bottle500ml_bs0b5hzgrs">
+        <rdf:type rdf:resource="&knowrob;Bottle"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">bottle_500ml</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Bottle500ml</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_500ml_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/bottle_500ml_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml.dae</knowrob:pathToCadModel>
         <srdl2-comp:box_size rdf:datatype="&xsd;string">-5.369289457490822e-10 -2.9406543866628e-10 0.09391830861568451</srdl2-comp:box_size>
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.0638517439365387 0.0638517439365387 0.18989452719688416</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;BottleCap500ml_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;BottleCap500ml_dsngf84ht">
         <rdf:type rdf:resource="&knowrob;BottleCap"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">bottle_500ml_cap</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">BottleCap500ml</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/bottle_500ml_cap_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/bottle_500ml_cap_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/bottle_500ml_cap.dae</knowrob:pathToCadModel>
         <objects:screwable rdf:resource="&objects;Bottle"/>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;Pipette_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;Pipette_sfg098wht">
         <rdf:type rdf:resource="&objects;Pipette"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">pipette</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pipette</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/pipette_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/pipette_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/pipette_accumax.dae</knowrob:pathToCadModel>
+	<knowrob:properPhysicalParts rdf:resource="&map;PipetteEndeffector_sfg098wht"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="&map;PipetteEndeffector_sfg098wht">
+        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
+        <srdl2-comp:urdfName>/pipette_end_effector_frame_name</srdl2-comp:urdfName>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;TubesRack_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;TubesRack_nsacw8hsfds">
         <rdf:type rdf:resource="&objects;TubesRack"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">tubes_rack</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubesRack</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/tubes_rack_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/tubes_rack_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tubes_rack.dae</knowrob:pathToCadModel>
         <srdl2-comp:box_size rdf:datatype="&xsd;string">0.00020882487297058105 0.0011711748084053397 0.0530637688934803</srdl2-comp:box_size>
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.09224671125411987 0.16477441787719727 0.1000000610947609</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;Tube0_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;Tube0_vndo84thdsf">
         <rdf:type rdf:resource="&objects;Tube"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_0</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube0</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_0_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/tube_15ml_0_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml.dae</knowrob:pathToCadModel>
         <srdl2-comp:box_size rdf:datatype="&xsd;string">0.01 0.01 0.07146421074867249</srdl2-comp:box_size>
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.009882630556821823 0.009882630556821823 0.14015135169029236</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;Tube1_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;Tube1_vsdoinf98efdf">
         <rdf:type rdf:resource="&objects;Tube"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_1</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">Tube1</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_1_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/tube_15ml_1_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml.dae</knowrob:pathToCadModel>
         <srdl2-comp:box_size rdf:datatype="&xsd;string">0.01 0.01 0.07146421074867249</srdl2-comp:box_size>
         <srdl2-comp:aabb_offset rdf:datatype="&xsd;string">0.009882630556821823 0.009882630556821823 0.14015135169029236</srdl2-comp:aabb_offset>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;TubeCap0_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;TubeCap0_yvor98gnhrf">
         <rdf:type rdf:resource="&objects;TubeCap"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_cap_0</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubeCap0</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_cap_0_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/tube_15ml_cap_0_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml_cap.dae</knowrob:pathToCadModel>
         <objects:screwable rdf:resource="&objects;Tube"/>
     </owl:NamedIndividual>
      
-    <owl:NamedIndividual rdf:about="&map;TubeCap1_TEMPLATE">
+    <owl:NamedIndividual rdf:about="&map;TubeCap1_vsd0n9rewghus">
         <rdf:type rdf:resource="&objects;TubeCap"/>
+        <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
         <knowrob:name rdf:datatype="&xsd;string">tube_15ml_cap_1</knowrob:name>
         <knowrob:perceptionResponse rdf:datatype="&xsd;string">TubeCap1</knowrob:perceptionResponse>
-        <knowrob:urdfName rdf:datatype="&xsd;string">/tube_15ml_cap_1_frame</knowrob:urdfName>
+        <srdl2-comp:urdfName>/tube_15ml_cap_1_frame</srdl2-comp:urdfName>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/tube_15ml_cap.dae</knowrob:pathToCadModel>
         <objects:screwable rdf:resource="&objects;Tube"/>
     </owl:NamedIndividual>
+    
+    
+
+    <owl:ObjectProperty rdf:about="&map;insideOf">
+        <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
+        <rdfs:range rdf:resource="&knowrob;Container"/>
+    </owl:ObjectProperty>
+    
+    <computable:PrologProperty rdf:about="&map;computeInsideOf">
+        <computable:command rdf:datatype="&xsd;string">knowrob_chemlab:comp_insideOf</computable:command>
+        <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
+        <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
+        <computable:target rdf:resource="&map;insideOf"/>
+    </computable:PrologProperty>
+    
+    <computable:PrologProperty rdf:about="&map;computeActionObject">
+        <computable:command rdf:datatype="&xsd;string">knowrob_chemlab:comp_objectActedOn</computable:command>
+        <computable:cache rdf:datatype="&xsd;string">dontCache</computable:cache>
+        <computable:visible rdf:datatype="&xsd;string">unvisible</computable:visible>
+        <computable:target rdf:resource="&knowrob;objectActedOn"/>
+    </computable:PrologProperty>
 
 </rdf:RDF>
 
