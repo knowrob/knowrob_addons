@@ -37,8 +37,6 @@
       designator_estimate_pose/5,
       visualize_pnp_experiment/1,
       visualize_rolling_experiment/1,
-      visualize_forth_experiment/1,
-      visualize_forth_objects/1,
       show_action_trajectory/1,
       get_dynamics_image_perception/2,
       get_sherlock_image_perception/2,
@@ -46,9 +44,7 @@
       get_roll_action/2,
       get_retract_action/2,
       experiment_start/2,
-      experiment_end/2,
-      forth_task_start/2,
-      forth_task_end/2
+      experiment_end/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -255,19 +251,19 @@ designator_latest_grasp(ObjId, T, Grasp) :-
 %%%%%%%%%%%%%%%%%%%%%%%
   
 get_reach_action(ActionID, ReachID):-
-  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
-  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
-  nth0(0, _Subs, ReachID).
+  rdf_has(ActionID, knowrob:'subAction', WithDesig),
+  findall(Sub,rdf_has(WithDesig, knowrob:'subAction', Sub),Subs),
+  nth0(0, Subs, ReachID).
   
 get_roll_action(ActionID, RollID):-
-  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
-  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
-  nth0(1, _Subs, RollID).
+  rdf_has(ActionID, knowrob:'subAction', WithDesig),
+  findall(Sub,rdf_has(WithDesig, knowrob:'subAction', Sub),Subs),
+  nth0(1, Subs, RollID).
   
 get_retract_action(ActionID, RetractID):-
-  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
-  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
-  nth0(2, _Subs, RetractID).
+  rdf_has(ActionID, knowrob:'subAction', WithDesig),
+  findall(Sub,rdf_has(WithDesig, knowrob:'subAction', Sub),Subs),
+  nth0(2, Subs, RetractID).
   
 show_action_trajectory(ActionID):-
   clear_trajectories,
@@ -298,6 +294,10 @@ get_dynamics_image_perception(Parent,Perceive):-
   rdf_has(Parent, knowrob:'subAction', Sub),
   get_dynamics_image_perception(Sub,Perceive).
 
+% TODO: add dough to semantic map
+%    - annotate with vis method robohow:dough_vis
+% OR
+%    - make show/marker_update multifile
 
 visualize_rolling_experiment(T) :-
   marker_update(agent(boxy2:'boxy_robot2'), T),
@@ -317,9 +317,6 @@ visualize_rolling_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
-%experiment(E) :-
-%  owl_individual_of(E, knowrob:'RobotExperiment').
-
 experiment_start(T,S) :-
   experiment(T),
   rdf_has(T, knowrob:'startTime', S).
@@ -328,61 +325,12 @@ experiment_end(T,E) :-
   experiment(T),
   rdf_has(T, knowrob:'endTime', E).
 
-forth_task_start(T,S) :-
-  rdf_has(T, knowrob:'startTime', S).
 
-forth_task_end(T,E) :-
-  rdf_has(T, knowrob:'endTime', E).
+knowrob_temporal:holds(Object, 'http://knowrob.org/kb/knowrob.owl#pose', Pose, [Instant,Instant]) :-
+  ground(Instant),
+  once(designator_estimate_pose(Object, Instant, movable, Position, Rotation)),
+  create_pose(pose(Position, Rotation), Pose).
 
-forth_object('http://knowrob.org/kb/labels.owl#tray_JKdma8aduNdkOM',
-             'package://kitchen/cooking-vessels/tray.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#spoon_Jdna8auH73bCMC',
-             'package://unsorted/robohow/spoon3.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#smallRedCup1_2ecD3otVRyYGYQ',
-             'package://kitchen/hand-tools/red_cup.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#smallRedCup2_feDa5geCRGasVB',
-             'package://kitchen/hand-tools/red_cup.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#cheese_Iuad8anDKa27op',
-             'package://unsorted/robohow/bowl_cheese.dae',
-             static).
-%forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
-%             'package://unsorted/robohow/cup_onions.dae',
-%             static).
-forth_object('http://knowrob.org/kb/labels.owl#tomatoSauce_JameUd81KmdE18',
-             'package://unsorted/robohow/bowl_sauce.dae',
-             static).
-%forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
-%             'package://unsorted/robohow/cup_bacon.dae',
-%             static).
-forth_object('http://knowrob.org/kb/labels.owl#yellowBowl_mdJa91KdAoemAN',
-             'package://kitchen/cooking-vessels/yellow_bowl.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#redBowl_Jame81dDNMAkeC',
-             'package://kitchen/cooking-vessels/red_bowl.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#pizza_AleMDa28D1Kmvc',
-             'package://kitchen/food-drinks/pizza-credentials/pizza.dae',
-             movable).
-
-visualize_forth_objects(T) :-
-  forall( forth_object(ObjId, MeshPath, Mode), (
-    (
-      once(designator_estimate_pose(ObjId, T, Mode, Position, Rot)),
-      marker(mesh(ObjId), MarkerObj),
-      marker_mesh_resource(MarkerObj, MeshPath),
-      marker_pose(MarkerObj, pose(Position,Rot))
-    ) ; true
-  )).
-
-visualize_forth_experiment(T) :-
-  % Remove because some links may be missing
-  %remove_agent_visualization('forth', forth_human:'forth_human_robot1'),
-  marker_update(stickman(forth_human:'forth_human_robot1'), T),
-  visualize_forth_objects(T).
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -401,8 +349,8 @@ pnp_object('TOMATO-SAUCE',
 pnp_object_pose(ObjType, T, Position, Rotation) :-
   task_type(Perc,knowrob:'UIMAPerception'),
   % Is perceive earlier then T?
-  task_end(Perc,_E),
-  time_earlier_then(_E, T),
+  task_end(Perc,E),
+  time_earlier_then(E, T),
   % Is there a designator?
   rdf_has(Perc, knowrob:'nextAction', PostAction),
   designator_between(Obj, Perc, PostAction),
