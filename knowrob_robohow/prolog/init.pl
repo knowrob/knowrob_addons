@@ -39,6 +39,7 @@
 :- use_module(library('commentator')).
 
 :- rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
+:- rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
 :- rdf_register_ns(labels, 'http://knowrob.org/kb/labels.owl#', [keep(true)]).
 :- rdf_register_ns(iai_kitchen, 'http://knowrob.org/kb/IAI-kitchen.owl#', [keep(true)]).
 

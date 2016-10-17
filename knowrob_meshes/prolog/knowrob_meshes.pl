@@ -33,7 +33,8 @@
     [
       add_designator_contour_mesh/4,
       get_designator_contour_size/3,
-      add_designator_checkerboard_mesh/2
+      add_designator_checkerboard_mesh/2,
+      contour_mesh_extends/3
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -59,7 +60,23 @@ add_designator_contour_mesh(MarkerId, DesigJava, Color, ContourPath) :-
     mng_designator_props('CONTOUR', DesigJava, ['TIMESTAMP'], Timestamp),
     lists_to_arrays(Color, ColorArr),
     jpl_call('org.knowrob.vis.meshes.MeshVisualization', 'addDesignatorContourMesh', [MarkerId, ContourDesig, Timestamp, ColorArr], _).
-    
+
+
+contour_mesh_extends(DesignatorId, ContourPath, Extends) :-
+    atom(DesignatorId),
+    mng_designator(DesignatorId, DesigJava),
+    contour_mesh_extends(DesigJava, ContourPath, Extends).
+ 
+contour_mesh_extends(DesigJava, ContourPath, [Min,Max]) :-
+    mng_designator_props('CONTOUR', DesigJava, ContourPath, ContourDesig),
+    mng_designator_props('CONTOUR', DesigJava, ['TIMESTAMP'], Timestamp),
+    jpl_call('org.knowrob.vis.meshes.MeshVisualization',
+        'getContourExtends', [ContourDesig, Timestamp], ExtendsJava),
+    jpl_get(ExtendsJava, min, MinArray),
+    jpl_get(ExtendsJava, max, MaxArray),
+    jpl_array_to_list(MinArray,Min),
+    jpl_array_to_list(MaxArray,Max).
+
     
 get_designator_contour_size(DesignatorId, ContourPath, Size) :-
     mng_designator(DesignatorId, DesigJava),

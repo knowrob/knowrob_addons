@@ -35,7 +35,6 @@
     [
       designator_grasped_pose/5,
       designator_estimate_pose/5,
-      visualize_pnp_experiment/1,
       visualize_rolling_experiment/1,
       show_action_trajectory/1,
       get_dynamics_image_perception/2,
@@ -54,6 +53,7 @@
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('knowrob_meshes')).
+:- use_module(library('knowrob_temporal')).
 :- use_module(library('srdl2')).
 :- use_module(library('lists')).
 
@@ -294,10 +294,43 @@ get_dynamics_image_perception(Parent,Perceive):-
   rdf_has(Parent, knowrob:'subAction', Sub),
   get_dynamics_image_perception(Sub,Perceive).
 
-% TODO: add dough to semantic map
-%    - annotate with vis method robohow:dough_vis
-% OR
-%    - make show/marker_update multifile
+
+% FIXME: is never called because
+%	- knowrob_marker implements more general case object(Obj)
+%         -> this must fail because no pose can be obtained
+%	- there is a generic case that just iterates all childs
+%	  -> fail if no children?
+%% special vis hook for the dough
+knowrob_marker:marker_new(MarkerName,
+    contour('http://knowrob.org/kb/IAI-kitchen.owl#Dough_fngh257tgh'),
+    MarkerObject, Parent) :-
+  marker_primitive(cube, MarkerName,
+      contour('http://knowrob.org/kb/IAI-kitchen.owl#Dough_fngh257tgh'),
+      MarkerObject, Parent),
+  marker_color(MarkerObject, [0.6,0.6,0.2,1.0]),
+  marker_scale(MarkerObject, [1.0,1.0,1.0]).
+
+knowrob_marker:marker_update(
+    contour('http://knowrob.org/kb/IAI-kitchen.owl#Dough_fngh257tgh'), 
+    MarkerObject, Instant) :-
+  % FIXME: hide dough if no desig could be found
+  %	- could be done one level above (i.e., hide markers for which marker_update failed)
+  mng_query_latest('logged_designators', one(DBObj),
+    '__recorded', Instant, [['designator.DOUGH', 'exist', 'true']]),
+  mng_designator(DBObj, Desig),
+  contour_mesh_extends(Desig, ['DOUGH', 'CONTOUR'],
+    [[Min_x,Min_y,Min_z], [Max_x,Max_y,Max_z]]),
+  % compute scaling
+  Scale_x is Max_x - Min_x,
+  Scale_y is Max_y - Min_y,
+  Scale_z is Max_z - Min_z,
+  marker_scale(MarkerObject, [Scale_x,Scale_y,Scale_z]),
+  % compute translation
+  Offset_x is 0.5*(Max_x + Min_x),
+  Offset_y is 0.5*(Max_y + Min_y),
+  Offset_z is 0.5*(Max_z + Min_z),
+  marker_translation(MarkerObject, [Offset_x,Offset_y,Offset_z]).
+
 
 visualize_rolling_experiment(T) :-
   marker_update(agent(boxy2:'boxy_robot2'), T),
@@ -317,100 +350,11 @@ visualize_rolling_experiment(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 
-experiment_start(T,S) :-
-  experiment(T),
-  rdf_has(T, knowrob:'startTime', S).
-
-experiment_end(T,E) :-
-  experiment(T),
-  rdf_has(T, knowrob:'endTime', E).
-
-
+% NOTE: this computable also takes action into account: it tries to predict the object pose
+%       based on object designators and grasping events, attaching the object to the gripper while grasped
+% TODO: integrate this idea into knowrob core
 knowrob_temporal:holds(Object, 'http://knowrob.org/kb/knowrob.owl#pose', Pose, [Instant,Instant]) :-
   ground(Instant),
   once(designator_estimate_pose(Object, Instant, movable, Position, Rotation)),
   create_pose(pose(Position, Rotation), Pose).
 
-
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-
-pnp_object('SPOON',
-           'package://unsorted/robohow/spoon3.dae',
-            movable).
-pnp_object('TRAY',
-           'package://kitchen/cooking-vessels/tray.dae',
-           movable).
-pnp_object('TOMATO-SAUCE',
-           'package://kitchen/food-drinks/ketchup/ketchup.dae',
-           movable).
-
-pnp_object_pose(ObjType, T, Position, Rotation) :-
-  task_type(Perc,knowrob:'UIMAPerception'),
-  % Is perceive earlier then T?
-  task_end(Perc,E),
-  time_earlier_then(E, T),
-  % Is there a designator?
-  rdf_has(Perc, knowrob:'nextAction', PostAction),
-  designator_between(Obj, Perc, PostAction),
-  % Has the designator the correct type?
-  mng_designator(Obj, ObjJava),
-  mng_designator_props(Obj, ObjJava, ['TYPE'], ObjType),
-  
-  mng_designator_location(Obj, Transform, T),
-  matrix_rotation(Transform, Rotation),
-  matrix_translation(Transform, Position).
-
-visualize_pnp_objects(T) :-
-  forall( pnp_object(ObjType, MeshPath, _), (
-    (
-      once(pnp_object_pose(ObjType, T, Position, Rot)),
-      marker(mesh(ObjType), MarkerObj),
-      marker_mesh_resource(MarkerObj, MeshPath),
-      marker_pose(MarkerObj, pose(Position,Rot))
-    ) ; (
-      remove_object(ObjType)
-    )
-  )).
-  
-visualize_pnp_speech_bubble(Agent, T) :-
-  (
-    rdfs_individual_of(Ev, knowrob:'SpeechAct'),
-    rdf_has(Ev, knowrob:'sender', Agent),
-    rdf_has(Ev, knowrob:'startTime', T0),
-    rdf_has(Ev, knowrob:'endTime', T1),
-    time_earlier_then(T0, T),
-    time_earlier_then(T, T1),
-    % Speech bubble visible
-    rdf_has(Ev, knowrob:'content', literal(type(_,Text))),
-    visualize_pnp_speech_bubble(Sender, Text, T)
-    
-  ) ; (
-    % no speech bubble visible
-    % TODO: speech bubble interface attached to link !!!
-    add_speech_bubble(Agent, '', [0,0,0])
-  ).
-
-visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, T) :-
-  mng_lookup_transform('/map', '/head_pan_link', T, Transform),
-  matrix_translation(Transform, [X,Y,Z]),
-  Z_Offset is Z + 0.2,
-  marker(sprite_text('PR2_SPEECH'), MarkerObj),
-  marker_text(MarkerObj, Text),
-  marker_translation(MarkerObj, [X,Y,Z_Offset]).
-
-visualize_pnp_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, T) :-
-  true.
-  %mng_lookup_transform('/map', '/boxy_head_mount_kinect2_rgb_optical_frame', T, Transform),
-  %matrix_translation(Transform, [X,Y,Z]),
-  %Z_Offset is Z + 0.2,
-  %add_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, [2,2,2]).
-  
-
-visualize_pnp_experiment(T) :-
-  marker_update(object('http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), T),
-  marker_update(agent(pr2:'PR2Robot1'), T),
-  visualize_pnp_objects(T),
-  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', T),
-  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#boxy_robot1', T), !.
