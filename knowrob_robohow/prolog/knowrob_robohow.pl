@@ -41,9 +41,7 @@
       get_sherlock_image_perception/2,
       get_reach_action/2,
       get_roll_action/2,
-      get_retract_action/2,
-      experiment_start/2,
-      experiment_end/2
+      get_retract_action/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
