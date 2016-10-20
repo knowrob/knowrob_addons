@@ -53,9 +53,6 @@
         add_count/1,
         experiment_file/1,
         load_sim_experiments/2,
-        visualize_simulation_scene/1,
-        visualize_simulation_object/3,
-        visualize_simulation_particles/4,
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4,
@@ -100,9 +97,6 @@
     load_sim_experiments(r,r),
     intersected_uid_event(r,r,r,r,r,r),
     successful_simacts_for_goal(+,-),
-    visualize_simulation_scene(r),
-    visualize_simulation_object(+,+,r),
-    visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
     sim_timeline_val(r,r,r,r),
@@ -583,54 +577,3 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
 
     set_object_perception(ObjInstance, Perception).
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-%
-% Visualization methods
-%
-
-visualize_simulation_scene(T) :-
-  % Query experiment information
-  experiment(Exp, T),
-  experiment_map(Exp, Map, T),
-  % Query all occuring objects
-  findall(Obj, (
-    owl_has(Exp, knowrob:'occuringObject', ObjUrl),
-    rdf_split_url(_, Obj, ObjUrl)
-  ), Objs),
-  % Show the simulation hand
-  marker_update(agent('http://knowrob.org/kb/sim-hand.owl#SimulationHand'), T),
-  % Show objects
-  forall(
-    member(Obj, Objs), ((
-    designator_template(Map, Obj, Template),
-    owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
-    (  owl_has(Template, knowrob:'numParticles', literal(type(_,ParticleCount)))
-    -> (
-      atom_number(ParticleCount, N),
-      visualize_simulation_particles(Obj, MeshPath, N, T)
-    )
-    ;  visualize_simulation_object(Obj, MeshPath, T)
-    )) ; true
-  )).
-
-visualize_simulation_particles(Obj, MeshPath, ParticleCount, T) :-
-  Count is ParticleCount - 1,
-  atom_concat(Obj, '_link_', Prefix),
-  forall( between(0, Count, N), (
-    atom_concat(Prefix, N, ObjectFrame),
-    visualize_simulation_object(ObjectFrame, MeshPath, T)
-  )).
-  
-visualize_simulation_object(Obj, MeshPath, T) :-
-  % Lookup object pose in mongo
-  atom_concat('/', Obj, ObjFrame),
-  mng_lookup_transform('/map', ObjFrame, T, Transform),
-  % Extract quaternion and translation vector
-  matrix_rotation(Transform, Quaternion),
-  matrix_translation(Transform, Translation),
-  % Publish mesh marker message
-  marker(mesh(ObjFrame), ObjectMarker),
-  marker_mesh_resource(ObjectMarker, MeshPath),
-  marker_pose(ObjectMarker, pose(Translation,Quaternion)).
-
