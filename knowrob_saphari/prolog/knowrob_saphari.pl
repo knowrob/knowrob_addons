@@ -491,7 +491,7 @@ saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
-  object_pose_at_time(SlotIdentifier, T, Translation, Orientation).
+  object_pose_at_time(SlotIdentifier, T, pose(Translation, Orientation)).
 
 %saphari_active_task(Task) :-
 %  % for now assume a task is active when no endTime asserted
@@ -501,7 +501,7 @@ saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
 %saphari_active_task(Task, T) :-
 %  time_term(T, T_term),
 %  rdf_has(Task, rdf:type, saphari:'SaphariTaskDescription'),
-%  event_interval(Task, T0, T1),
+%  interval(Task, [T0, T1]),
 %  T_term >= T0,
 %  T_term =< T1, !.
 
@@ -611,7 +611,7 @@ saphari_object_in_basket(ObjectId, Time, Task) :-
 %  rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
 %  rdf_has(Release, knowrob:'objectActedOn', Designator),
 %  event_before(knowrob:'ReleasingGraspOfSomething', Release, Time),
-%  event_interval(Task, T0, T1),
+%  interval(Task, [T0, T1]),
 %  rdf_has(Release, knowrob:'startTime', Release_T), time_term(Release_T, Release_T_term),
 %  Release_T_term >= T0,
 %  Release_T_term =< T1.

@@ -37,12 +37,9 @@
         load_experiments/2,
         load_experiments/3,
         belief_at/2,
-        cram_holds/2,
-        occurs/2,
         event/3,
         event_before/3,
         event_after/3,
-        event_interval/3,
         event_name/2,
         event_class_name/2,
         event_class/2,
@@ -54,11 +51,13 @@
         task/2,
         task/3,
         task_type/2,
+        task_type_name/2,
         task_goal/2,
         task_goal_inherited/2,
         task_start/2,
         task_end/2,
         task_duration/2,
+        task_status/2,
         subtask/2,
         subtask_all/2,
         subtask_typed/3,
@@ -78,18 +77,10 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
-
+:- use_module(library('knowrob_temporal')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
-
-% define holds as meta-predicate and allow the definitions
-% to be in different parts of the source file
-% :- meta_predicate cram_holds(0, ?, ?).
-:- discontiguous cram_holds/2.
-
-% :- meta_predicate occurs(0, ?, ?).
-:- discontiguous occurs/2.
 
 % :- meta_predicate belief_at(0, ?, ?).
 :- discontiguous belief_at/1.
@@ -108,7 +99,6 @@
     event_class_name(r,?),
     event_class(r,?),
     event_after(r,r,r),
-    event_interval(r,-,-),
     experiment(r),
     experiment(r,r),
     experiment_map(r,r),
@@ -117,6 +107,7 @@
     task(r,r),
     task(r,r,r),
     task_type(r,r),
+    task_type_name(r,?),
     subtask(r,r),
     subtask_all(r,r),
     subtask_typed(r,r,r),
@@ -126,8 +117,6 @@
     task_end(r,r),
     task_duration(r,?),
     belief_at(?,r),
-    occurs(+,r),
-    cram_holds(r,+),
     task_outcome(r,r),
     failure_type(r,r),
     task_failure(r,r),
@@ -138,10 +127,8 @@
     successful_tasks_for_goal(+,-).
 
 % TODO: hack for review
-default_map(Map) :-
-  Map = 'http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd'.
-%default_map(Map) :-
-%  Map = 'http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j'.
+default_map('http://knowrob.org/kb/saphari.owl#SemanticEnvironmentMap_FSf74Vd').
+%default_map('http://knowrob.org/kb/ias_semantic_map.owl#SemanticEnvironmentMap_PM580j').
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -228,13 +215,13 @@ experiment(Experiment) :-
 
 %% experiment(?Experiment, +Timepoint) is nondet.
 %
-% Yields experiments which were active at Timepoint
+% Yields experiments which were active during Timepoint
 %
 %  @param Experiment Experiment identifier
 %  @param Time       Time when experiment was performed
 % 
 experiment(Experiment, Timepoint) :-
-  event(knowrob:'RobotExperiment', Experiment, Timepoint).
+  occurs(Experiment, Timepoint, knowrob:'RobotExperiment').
 
 %% experiment_map(?Experiment, ?Map, +Time) is nondet.
 %
@@ -286,12 +273,6 @@ event_after(EventClass, EventInstance, Timepoint) :-
   rdf_has(EventInstance, knowrob:'startTime', T0),
   time_later_then(T0, Timepoint).
 
-event_interval(EventInstance, T0_term, T1_term) :-
-  rdf_has(EventInstance, knowrob:'startTime', T0),
-  ( rdf_has(EventInstance, knowrob:'endTime', T1) ; current_time(T1) ),
-  time_term(T0, T0_term),
-  time_term(T1, T1_term).
-
 event_name(EventInstance, EventName) :-
   rdf_split_url(_, EventName, EventInstance).
 
@@ -330,12 +311,8 @@ task(Task) :-
 % 
 task(Task, Timepoint) :-
     task(Task),
-    task_start(Task,TimepointStart),
-    task_end(Task,TimepointEnd),
-    time_term(Timepoint, Time),
-    time_term(TimepointStart, Start),
-    time_term(TimepointEnd, End),
-    Start=<Time, Time=<End.
+    interval(Task, [Start,End]),
+    time_between(Timepoint, Start, End).
 
 %% task(?Task, ?Timepoint, ?SuperClass) is nondet.
 %
@@ -361,7 +338,11 @@ task(Task, Timepoint, SuperClass) :-
 % 
 task_type(Task, Class) :-
     rdf_has(Task, rdf:type, Class),
-    rdf_reachable(Class, rdfs:subClassOf, knowrob:'CRAMEvent').
+    rdf_reachable(Class, rdfs:subClassOf, knowrob:'Event').
+    
+task_type_name(Task, ClassName) :-
+    task_type(Task, Class),
+    rdf_split_url(_, ClassName, Class).
 
 
 %% subtask(?Task, ?Subtask) is nondet.
@@ -435,8 +416,8 @@ subtask_all(Task, Subtask) :-
 %  @param Start Identifier of given Start
 % 
 task_start(Task, Start) :-
-    rdf_has(Task, knowrob:'startTime', Start),
-    task(Task).
+  rdfs_individual_of(Task, knowrob:'Event'),
+  interval_start(Task, Start).
 
 
 %% task_end(?Task, ?End) is nondet.
@@ -447,8 +428,9 @@ task_start(Task, Start) :-
 %  @param End Identifier of given End
 % 
 task_end(Task, End) :-
-    rdf_has(Task, knowrob:'endTime', End),
-    task(Task).
+  rdfs_individual_of(Task, knowrob:'Event'),
+  interval_end(Task, End).
+
 
 %% task_duration(?Task, ?Duration) is nondet.
 %
@@ -458,11 +440,8 @@ task_end(Task, End) :-
 %  @param Duration Duration value
 % 
 task_duration(Task, Duration) :-
-    task_start(Task, Start),
-    task_end(Task, End),
-    time_term(Start, StartVal),
-    time_term(End, EndVal),
-    Duration is EndVal - StartVal.
+  interval(Task, [ST,ET]),
+  Duration is (ET-ST).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -559,9 +538,19 @@ successful_tasks_for_goal(Goal, Tasks) :-
      findall(FT, ((task_goal(FT, Goal), rdf_has(FT, knowrob:'caughtFailure', _F))), FTs),
      subtract(Ts, FTs, Tasks).
 
+%% task_status(+Task, -Status)) is nondet.
+%
+% Check whether the given task was being continued, done, failed or not
+% yet started at the current time point.
+%
+% @param Task Identifier of given Task
+% @param Status Returned status
+% 
+task_status(Task, Status) :-
+    get_timepoint(T),
+    knowrob_temporal:holds(task_status(Task, Status), T).
 
-
-%% cram_holds(task_status(+Task, -Status), +T) is nondet.
+%% holds(task_status(+Task, -Status), +T) is nondet.
 %
 % Check whether the given task was being continued, done, failed or not
 % yet started at the given time point.
@@ -570,24 +559,25 @@ successful_tasks_for_goal(Goal, Tasks) :-
 % @param Status Returned status
 % @param T   TimePoint
 % 
-cram_holds(task_status(Task, Status), T):-
-    nonvar(Task),
-    task(Task),
-    task_start(Task, Start),
-    task_end(Task, End),
-    
-    ((rdf_triple(knowrob:after, Start, T)) ->   % Start < T
-      (
-        ((rdf_triple(knowrob:after, T, End)) ->
-        (Status = ['Continue']);                % Start < T < End
-        (Status = ['Done']))                    % Start < End < T
-      )
-      ; (                                       % T < Start
-        ((rdf_triple(knowrob:after, T, End)) -> % T < End
-          (Status = ['NotStarted']);            % T < Start, T < End
-          (Status = ['Error']))                 % T < Start, T > End
-        )
-    ).
+% TODO: re-enable
+%knowrob_temporal:holds(task_status(Task, Status), T):-
+%    nonvar(Task),
+%    task(Task),
+%    task_start(Task, Start),
+%    task_end(Task, End),
+%    
+%    ((rdf_triple(knowrob:after, Start, T)) ->   % Start < T
+%      (
+%        ((rdf_triple(knowrob:after, T, End)) ->
+%        (Status = ['Continue']);                % Start < T < End
+%        (Status = ['Done']))                    % Start < End < T
+%      )
+%      ; (                                       % T < Start
+%        ((rdf_triple(knowrob:after, T, End)) -> % T < End
+%          (Status = ['NotStarted']);            % T < Start, T < End
+%          (Status = ['Error']))                 % T < Start, T > End
+%        )
+%    ).
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -618,27 +608,17 @@ belief_at(loc(Desig,Loc), _Time) :-
 belief_at(robot(Part,Loc), Time) :-
   mng_lookup_transform('/map', Part, Time, Loc).
 
-%% occurs(object_perceived(?Obj),?T) is nondet.
-%
-% Check whether Object was perceived at given Time .
-%
-% @param Obj    Identifier of the Object
-% @param Time   TimePoint
-% 
-occurs(object_perceived(Obj),T) :-
-    nonvar(Obj),
-    nonvar(T),
-    task_type(Task, knowrob:'UIMAPerception'),
-    task_outcome(Task, Obj),
-    task_start(Task, T).
-
 add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-
   experiment_map(_Experiment, Map, Time), !,
   add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
+  ( number(Time)
+  -> create_timepoint(Time, TimePoint)
+  ;  TimePoint = Time ),
+  % TODO: use fluents instead!
   designator_assert(ObjInstance, Designator, Map), !,
-  designator_add_perception(ObjInstance, Designator, Matrix, Time).
+  designator_add_perception(ObjInstance, Designator, Matrix, TimePoint).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
   add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, 0.2, 0.2, 0.2).
@@ -646,7 +626,10 @@ add_object_as_semantic_instance(Designator, Matrix, Time, Map, ObjInstance) :-
 
 add_robot_as_basic_semantic_instance(Matrix, Time, ObjInstance) :-
   % FIXME(daniel): Seems not a good idea to use time as identifier for robot here!
-  add_object_to_semantic_map(Time, Matrix, Time, ObjInstance, 0.5, 0.5, 0.5).
+  ( number(Time)
+  -> create_timepoint(Time, TimePoint)
+  ;  TimePoint = Time ),
+  add_object_to_semantic_map(TimePoint, Matrix, TimePoint, ObjInstance, 0.5, 0.5, 0.5).
 
 
 add_object_to_semantic_map(Designator, Matrix, Time, ObjInstance, H, W, D) :-
@@ -658,6 +641,7 @@ add_object_to_semantic_map(Designator, Matrix, Time, Map, ObjInstance, H, W, D) 
     designator_object(Designator, ObjInstance),
     rdf_assert(ObjInstance, rdf:type, knowrob:'SpatialThing-Localized'),
     rdf_assert(ObjInstance, knowrob:'describedInMap', Map),
+    % TODO: use fluents instead!
     object_assert_dimensions(ObjInstance, H, W, D),
     designator_add_perception(ObjInstance, Designator, Matrix, Time)
   )).

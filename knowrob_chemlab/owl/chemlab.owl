@@ -39,5 +39,4 @@
         <owl:imports rdf:resource="package://knowrob_chemlab/owl/chemlab-actions.owl"/>
     </owl:Ontology>
 
-
 </rdf:RDF>
