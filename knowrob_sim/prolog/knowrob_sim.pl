@@ -53,9 +53,6 @@
         add_count/1,
         experiment_file/1,
         load_sim_experiments/2,
-        visualize_simulation_scene/1,
-        visualize_simulation_object/3,
-        visualize_simulation_particles/4,
         anyact/3,
         intersected_uid_event/6,
         sim_subsumes/4,
@@ -100,9 +97,6 @@
     load_sim_experiments(r,r),
     intersected_uid_event(r,r,r,r,r,r),
     successful_simacts_for_goal(+,-),
-    visualize_simulation_scene(r),
-    visualize_simulation_object(+,+,r),
-    visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
     sim_timeline_val(r,r,r,r),
@@ -253,8 +247,8 @@ sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList):-
     %Get list of event names that happened in the experment for putting in the timeline
     findall(EventName, (member(E,EventList),rdf_split_url(_,EventName,E)), EventNamesList),
     %Get list of all [start|end] times of the events in the list
-    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_point_value(Start, StartTime)), StartTimeList),
-    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_point_value(End, EndTime)), EndTimeList).
+    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_term(Start, StartTime)), StartTimeList),
+    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_term(End, EndTime)), EndTimeList).
 
 
 %%  Auxilary function for enabling changing color on consecutive calls
@@ -465,10 +459,10 @@ interval_setdifference(Experiment, Start, End, [_|Tail], ResStart, ResEnd) :-
 %% True if I2 overlaps with I1 at the beginning
 %% Called by: interval_setdifference
 sim_timepoints_overlap(Start1, End1, Start2, End2) :-
-    time_point_value(Start1, SVal1),
-    time_point_value(End1, EVal1),
-    time_point_value(Start2, SVal2),
-    time_point_value(End2, EVal2),
+    time_term(Start1, SVal1),
+    time_term(End1, EVal1),
+    time_term(Start2, SVal2),
+    time_term(End2, EVal2),
     SVal2 =< SVal1, %Start2 is before Start1
     EVal2 > SVal1, %End2 is after Start1
     EVal2 =< EVal1. %End2 ends before End1
@@ -477,10 +471,10 @@ sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
     sim_timepoints_overlap(Start2, End2, Start1, End1).
 
 sim_subsumes(Start1,End1, Start2, End2):-
-    time_point_value(Start1, SVal1),
-    time_point_value(End1, EVal1),
-    time_point_value(Start2, SVal2),
-    time_point_value(End2, EVal2),
+    time_term(Start1, SVal1),
+    time_term(End1, EVal1),
+    time_term(Start2, SVal2),
+    time_term(End2, EVal2),
     SVal1 =< EVal1, %check this interval is ok (start comes before end)
     SVal2 =< EVal2, %check this interval is ok (start comes before end)
     SVal2 >= SVal1, %Start2 is after Start1
@@ -583,54 +577,3 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
 
     set_object_perception(ObjInstance, Perception).
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-%
-% Visualization methods
-%
-
-visualize_simulation_scene(T) :-
-  % Query experiment information
-  experiment(Exp, T),
-  experiment_map(Exp, Map, T),
-  % Query all occuring objects
-  findall(Obj, (
-    owl_has(Exp, knowrob:'occuringObject', ObjUrl),
-    rdf_split_url(_, Obj, ObjUrl)
-  ), Objs),
-  % Show the simulation hand
-  marker_update(agent('http://knowrob.org/kb/sim-hand.owl#SimulationHand'), T),
-  % Show objects
-  forall(
-    member(Obj, Objs), ((
-    designator_template(Map, Obj, Template),
-    owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
-    (  owl_has(Template, knowrob:'numParticles', literal(type(_,ParticleCount)))
-    -> (
-      atom_number(ParticleCount, N),
-      visualize_simulation_particles(Obj, MeshPath, N, T)
-    )
-    ;  visualize_simulation_object(Obj, MeshPath, T)
-    )) ; true
-  )).
-
-visualize_simulation_particles(Obj, MeshPath, ParticleCount, T) :-
-  Count is ParticleCount - 1,
-  atom_concat(Obj, '_link_', Prefix),
-  forall( between(0, Count, N), (
-    atom_concat(Prefix, N, ObjectFrame),
-    visualize_simulation_object(ObjectFrame, MeshPath, T)
-  )).
-  
-visualize_simulation_object(Obj, MeshPath, T) :-
-  % Lookup object pose in mongo
-  atom_concat('/', Obj, ObjFrame),
-  mng_lookup_transform('/map', ObjFrame, T, Transform),
-  % Extract quaternion and translation vector
-  matrix_rotation(Transform, Quaternion),
-  matrix_translation(Transform, Translation),
-  % Publish mesh marker message
-  marker(mesh(ObjFrame), ObjectMarker),
-  marker_mesh_resource(ObjectMarker, MeshPath),
-  marker_pose(ObjectMarker, pose(Translation,Quaternion)).
-

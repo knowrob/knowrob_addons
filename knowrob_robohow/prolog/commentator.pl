@@ -56,7 +56,7 @@ comment(What, none, When) :-
   writeln('v_commment(perception_failed)'), !.
 
 % if perception succeeded...
-comment(What, none, When) :-
+comment(What, _, When) :-
   not(rdf_has(perception, _, _)),
   task_with_context_ends_before('UIMA-PERCEIVE', Perc, When),
   rdf_has(Perc, knowrob:'taskSuccess', literal(type(_,true))),
@@ -140,7 +140,7 @@ comment(What, none, When) :-
 comment_interval([Begin, End], DT, Comments) :-
   ( Begin < End -> (
   NextBegin is Begin + DT,
-  (  comment(What, none, Begin)
+  (  comment(What, _, Begin)
   -> (comment_interval([NextBegin, End], DT, Tail), Comments = [[What,Begin]|Tail])
   ;   comment_interval([NextBegin, End], DT, Comments)
   ))
