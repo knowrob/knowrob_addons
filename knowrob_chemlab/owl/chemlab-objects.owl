@@ -45,6 +45,18 @@
         <rdfs:range rdf:resource="&knowrob;HumanScaleObject"/>
         <rdfs:domain rdf:resource="&knowrob;PhysicalPartOfObject"/>
     </owl:ObjectProperty>
+    
+    <!-- =========================================== -->
+    <!-- |   Object classes                        | -->
+    <!-- =========================================== -->
+    
+    <owl:Class rdf:about="&chemobjects;Jar">
+      <rdfs:subClassOf rdf:resource="&knowrob;StorageConstruct"/>
+    </owl:Class>
+    
+    <owl:Class rdf:about="&chemobjects;Centrifuge">
+      <rdfs:subClassOf rdf:resource="&knowrob;ElectricalDevice"/>
+    </owl:Class>
 
     <!-- =========================================== -->
     <!-- |   Bottle classes                        | -->
