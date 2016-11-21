@@ -1,6 +1,7 @@
-/*
 
-  Copyright (C) 2015 by Daniel Beßler
+/** <module> robcog_mongo_interface
+
+  Copyright (C) 2016 by Andrei Haidu
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
@@ -24,26 +25,57 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-@author Daniel Beßler
-@license BSD
+  @author Andrei Haidu
+  @license BSD
 */
 
+:- module(robcog_mongo_interface,
+  [
+		mongo_robcog_conn/1,
+        mongo_robcog_query/1
+  ]).
 
-:- register_ros_package(knowrob_common).
-:- register_ros_package(knowrob_mongo).
-:- register_ros_package(comp_temporal).
-:- register_ros_package(knowrob_cram).
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Create the mongo robcog interface object
+% (makes sure the interface is only created once)
 
-:- register_ros_package(knowrob_saphari).
-:- use_module(library('knowrob_saphari')).
+% set flag
+:- assert(connection_flag(fail)).
 
-%Extended ontology
-:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
-:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari-objects.owl').
-:- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
+% from knowrob_mongo.pl
+mongo_robcog_conn :-
+    mongo_robcog_conn(_).
 
-:- rdf_db:rdf_register_ns(openni_human, 'http://knowrob.org/kb/openni_human1.owl#', [keep(true)]).
-:- rdf_db:rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
+% check flag, then init interface
+mongo_robcog_conn(MongoRobcog) :-
+    connection_flag(fail), 	
+    jpl_new('org.knowrob.knowrob_robcog.MongoRobcogConn',[], MongoRobcog),
+    retract(connection_flag(fail)),
+    assert(connection_flag(MongoRobcog)),!.
 
-:- rdf_db:rdf_register_ns(saphari_map_2015, 'http://knowrob.org/kb/saphari-map_2015.owl#', [keep(true)]).
+% if set, return object
+mongo_robcog_conn(MongoRobcog) :-
+    connection_flag(MongoRobcog).
 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Create the mongo robcog query object
+% (makes sure the interface is only created once)
+
+% set flag
+:- assert(query_flag(fail)).
+
+mongo_robcog_query :-
+  mongo_robcog_query(_).
+
+% check flag, then init interface
+mongo_robcog_query(MongoQuery) :-
+    query_flag(fail),  
+    mongo_robcog_conn(MongoRobcog), 
+    jpl_new('org.knowrob.knowrob_robcog.MongoRobcogQueries',[MongoRobcog], MongoQuery),
+    retract(query_flag(fail)),
+    assert(query_flag(MongoQuery)),!.
+
+% if set, return object
+mongo_robcog_query(MongoQuery) :-
+    query_flag(MongoQuery).

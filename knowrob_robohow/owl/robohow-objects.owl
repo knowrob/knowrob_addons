@@ -66,6 +66,15 @@
         </rdfs:subClassOf>
     </owl:Class>
 
+    <owl:Class rdf:about="&knowrob;KetchupBottle">
+        <rdfs:subClassOf rdf:resource="&knowrob;Bottle"/>
+    </owl:Class>
+    
+    <owl:Class rdf:about="&knowrob;HelaKetchupBottle">
+        <rdfs:subClassOf rdf:resource="&knowrob;KetchupBottle"/>
+        <rdfs:subClassOf rdf:resource="&knowrob;PlasticBottle"/>
+    </owl:Class>
+
     <!-- =========================================== -->
     <!-- |   Pizza experiment                    | -->
     <!-- =========================================== -->
