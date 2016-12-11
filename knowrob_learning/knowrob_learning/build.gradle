@@ -17,6 +17,10 @@
 apply plugin: 'application'
 mainClassName = 'org.ros.RosRun'
 
+
+
+
+
 task nativeLibsToJar(type: Zip, description: 'create a jar archive of the native libs') {
     destinationDir file("$buildDir/native-libs")
     baseName 'native-libs'
@@ -31,7 +35,6 @@ tasks.withType(JavaCompile) {
 
 
 dependencies {
-  compile fileTree(dir: "$buildDir/native-libs", include: '*.jar')
   compile 'org.ros.rosjava_core:rosjava:[0.1,)'
   compile 'org.ros.rosjava_core:rosjava_geometry:[0.1,)'
   compile 'org.ros.rosjava_messages:geometry_msgs:1.10.+'
@@ -42,7 +45,9 @@ dependencies {
   compile 'org.ros.rosjava_messages:trajectory_msgs:[0.1,)'
   compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
   compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
-  compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.6'
+  compile files('src/main/javalibs/weka-stable-3.8.0.jar')
+  compile group: 'tw.edu.ntu.csie', name: 'libsvm', version: '3.1'
+  compile files('src/main/javalibs/LibSVM-1.0.9.jar')
   compile 'edu.brown.cs.burlap:burlap:3.0.0'
 }
 
