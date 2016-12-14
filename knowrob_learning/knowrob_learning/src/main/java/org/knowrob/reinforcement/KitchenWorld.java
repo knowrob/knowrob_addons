@@ -16,6 +16,40 @@ import burlap.visualizer.StatePainter;
 import burlap.visualizer.StateRenderLayer;
 import burlap.visualizer.Visualizer;
 
+
+/*public static final String VAR_BODY_X = "body_x";
+public static final String VAR_BODY_Y = "body_y";
+
+public static final String VAR_ARM_X = "arm_x";
+public static final String VAR_ARM_Y = "arm_y";
+public static final String VAR_ARM_Z = "arm_z";
+
+public static final String VAR_ARM_QA = "arm_qa";
+public static final String VAR_ARM_QB = "arm_qb";
+public static final String VAR_ARM_QC = "arm_qc";
+public static final String VAR_ARM_QD = "arm_qd";
+
+public static final String VAR_FINGER_ONE_X = "finger_one_x";
+public static final String VAR_FINGER_ONE_Y = "finger_one_y";
+public static final String VAR_FINGER_ONE_Z = "finger_one_z";
+public static final String VAR_FINGER_TWO_X = "finger_two_x";
+public static final String VAR_FINGER_TWO_Y = "finger_two_y";
+public static final String VAR_FINGER_TWO_Z = "finger_two_z";
+
+public static final String ACTION_BODY_X = "body_action_x";
+public static final String ACTION_BODY_Y = "body_action_y";
+
+public static final String ACTION_ARM_X = "arm_action_x";
+public static final String ACTION_ARM_Y = "arm_action_y";
+public static final String ACTION_ARM_Z = "arm_action_z";
+
+public static final String ACTION_ARM_ROLL = "arm_action_roll";
+public static final String ACTION_ARM_PITCH = "arm_action_pitch";
+public static final String ACTION_ARM_YAW = "arm_action_yaw";
+
+public static final String ACTION_ARM_SPREAD_ANGLE = "arm_spread_angle";
+public static final String ACTION_ARM_CLOSING_GRIPPER = "arm_closing_gripper";*/
+
 public class KitchenWorld implements DomainGenerator
 {
 	public static final String VAR_BODY = "body";

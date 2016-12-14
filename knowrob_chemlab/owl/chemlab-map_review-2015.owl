@@ -144,15 +144,14 @@
     <!-- jar mesh location -->
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryJar">
         <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
-        <rdf:type rdf:resource="&knowrob;Container"/>
+        <rdf:type rdf:resource="&objects;Jar"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/jar.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
     <!-- tommy centrifuge mesh location -->
     <owl:NamedIndividual rdf:about="&map;ChemistryLaboratoryTommyCentrifuge">
         <knowrob:describedInMap rdf:resource="&map;Map_SAsdfs"/>
-        <rdf:type rdf:resource="&knowrob;ElectricalDevice"/>
-        <rdf:type rdf:resource="&knowrob;Container"/>
+        <rdf:type rdf:resource="&objects;Centrifuge"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://chemlab/misc/centrifuge_tommy.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     

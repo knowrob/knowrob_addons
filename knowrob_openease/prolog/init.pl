@@ -39,6 +39,7 @@
 :- register_ros_package(knowrob_openease).
 :- use_module(library('openease_video')).
 :- use_module(library('openease_tasktree')).
+:- use_module(library('teaching')).
 
 %Extended ontology
 %:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').

@@ -25,7 +25,7 @@ public abstract class AttributeSelector
 			{
 				Ranker rnk = new Ranker();
 				ReliefFAttributeEval relief = new ReliefFAttributeEval();
-				if(options != null)
+				if(options != null && options.length > 2)
 				{
 					if(options[0] > 0)
 						rnk.setGenerateRanking(true);

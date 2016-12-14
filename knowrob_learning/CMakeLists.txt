@@ -21,6 +21,11 @@ catkin_package(
   DEPENDS knowrob_mongo
 )
 
+file(GLOB MY_SHARED_LIBS
+  "knowrob_learning/src/main/libs/x86/*.so*"
+)
+file(COPY ${MY_SHARED_LIBS} DESTINATION ${CATKIN_DEVEL_PREFIX}/lib)
+
 ##############################################################################
 # Installation
 ##############################################################################
@@ -29,3 +34,5 @@ catkin_package(
 # allprojects closure the root build.gradle
 install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME}/ 
         DESTINATION ${CATKIN_GLOBAL_MAVEN_DESTINATION}/org/knowrob/${PROJECT_NAME})
+
+

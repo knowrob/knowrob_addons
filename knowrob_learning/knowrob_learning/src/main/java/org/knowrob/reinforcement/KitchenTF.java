@@ -62,6 +62,45 @@ public class KitchenTF implements TerminalFunction
 			return true;
 		}
 
+		/*KitchenState ks = (KitchenState) s;
+
+		TransformStamped finger_one = (TransformStamped)ks.get(VAR_FINGER_ONE);
+		TransformStamped finger_two = (TransformStamped)ks.get(VAR_FINGER_TWO);
+
+		
+
+		double finger_one_x = finger_one.getTransform().getTranslation().getX();
+		double finger_one_y = finger_one.getTransform().getTranslation().getY();
+		double finger_one_z = finger_one.getTransform().getTranslation().getZ();
+
+		double finger_two_x = finger_two.getTransform().getTranslation().getX();
+		double finger_two_y = finger_two.getTransform().getTranslation().getY();
+		double finger_two_z = finger_two.getTransform().getTranslation().getZ();
+
+		double square_one = Math.pow(finger_one_x, 2) + Math.pow(finger_one_y, 2) + Math.pow(finger_one_z, 2);
+		double square_two = Math.pow(finger_two_x, 2) + Math.pow(finger_two_y, 2) + Math.pow(finger_two_z, 2);
+
+		double square_goal_one = Math.pow(goalFingerOneX, 2) + Math.pow(goalFingerOneY, 2) + Math.pow(goalFingerOneZ, 2);
+		double square_goal_two = Math.pow(goalFingerTwoX, 2) + Math.pow(goalFingerTwoY, 2) + Math.pow(goalFingerTwoZ, 2);
+		
+		double distance_one = Math.pow(Math.abs(square_goal_one - square_one), 0.5);
+		double distance_two = Math.pow(Math.abs(square_goal_two - square_two), 0.5);
+
+		System.out.println(distance_one + " -- " + distance_two);
+
+		if(distance_one <= offset || distance_two <= offset)
+		{
+			return true;
+		}
+		else
+		{
+			double distance = Math.pow(Math.abs(square_one - square_two), 0.5);
+
+			System.out.println("Distance between fingers:" + distance);
+			if(distance <= offset)
+				return false;
+		}*/
+
 		return false;
 	}
 

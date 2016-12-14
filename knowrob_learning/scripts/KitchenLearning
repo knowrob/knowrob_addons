@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$(rospack find knowrob_learning)/knowrob_learning/build/install/knowrob_learning/bin/knowrob_learning org.knowrob.reinforcement.BasicBehavior

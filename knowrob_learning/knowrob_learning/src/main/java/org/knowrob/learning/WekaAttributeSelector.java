@@ -80,7 +80,7 @@ public class WekaAttributeSelector extends AttributeSelector implements Serializ
 		for (int i = 0; i < data.length; i++) {
 			vals[i] = getInternalValue(this.attributes[i], data[i]);
 		}
-		Instance in = new Instance(1.0D, vals);
+		Instance in = new DenseInstance(1.0D, vals);
 		in.setDataset(this.instances);
 		return in;
 	}	
