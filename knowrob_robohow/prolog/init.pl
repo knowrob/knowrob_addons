@@ -36,8 +36,15 @@
 
 :- register_ros_package(knowrob_robohow).
 :- use_module(library('knowrob_robohow')).
+:- use_module(library('commentator')).
 
-%Extended ontology
+:- rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
+:- rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
+:- rdf_register_ns(labels, 'http://knowrob.org/kb/labels.owl#', [keep(true)]).
+:- rdf_register_ns(iai_kitchen, 'http://knowrob.org/kb/IAI-kitchen.owl#', [keep(true)]).
+:- rdf_register_ns(sim_map, 'http://knowrob.org/kb/simulation_map.owl#', [keep(true)]).
+:- rdf_register_ns(sim_hand, 'http://knowrob.org/kb/sim-hand.owl#', [keep(true)]).
+
 %:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
 %:- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
 

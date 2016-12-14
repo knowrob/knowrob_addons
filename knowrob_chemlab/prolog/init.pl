@@ -30,7 +30,7 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
-:- register_ros_package(knowrob_math).
+%:- register_ros_package(knowrob_math).
 :- register_ros_package(knowrob_srdl).
 :- register_ros_package(comp_temporal).
 
@@ -38,8 +38,17 @@
 :- use_module(library('knowrob_chemlab')).
 
 %Extended ontology
-:- owl_parser:owl_parse('package://knowrob_chemlab/owl/knowrob_chemlab.owl').
-:- rdf_db:rdf_register_ns(chemlab, 'http://knowrob.org/kb/knowrob_chemlab.owl#', [keep(true)]).
+:- owl_parser:owl_parse('package://knowrob_chemlab/owl/chemlab.owl').
+:- rdf_db:rdf_register_ns(chemlab, 'http://knowrob.org/kb/chemlab.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemstoff, 'http://knowrob.org/kb/chemlab-substances.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemobjects, 'http://knowrob.org/kb/chemlab-objects.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemactions, 'http://knowrob.org/kb/chemlab-actions.owl#', [keep(true)]).
 
-% :- owl_parser:owl_parse('package://knowrob_chemlab/owl/simulation_map.owl').
-:- rdf_db:rdf_register_ns(chemlab_map, 'http://knowrob.org/kb/chemlab_map.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemlab_map_2015,
+        'http://knowrob.org/kb/chemlab-map_review-2015.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemlab_map_2016,
+        'http://knowrob.org/kb/chemlab-map_review-2016.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(chemlab_map_2015,
+        'http://knowrob.org/kb/chemlab-map_review-2015.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(acat, 'http://knowrob.org/kb/acat-adt.owl#', [keep(true)]).
+

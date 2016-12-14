@@ -39,13 +39,11 @@
 
 %Extended ontology
 :- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
+:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari-objects.owl').
 :- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
 
-:- owl_parser:owl_parse('package://knowrob_srdl/owl/openni_human1.owl').
 :- rdf_db:rdf_register_ns(openni_human, 'http://knowrob.org/kb/openni_human1.owl#', [keep(true)]).
-
-:- owl_parser:owl_parse('package://knowrob_srdl/owl/Boxy.owl').
 :- rdf_db:rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
 
-:- rdf_db:rdf_register_ns(saphari_map, 'http://knowrob.org/kb/saphari_map.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(saphari_map_2015, 'http://knowrob.org/kb/saphari-map_2015.owl#', [keep(true)]).
 

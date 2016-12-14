@@ -34,5 +34,6 @@
 
 :- register_ros_package(knowrob_learning).
 :- use_module(library('knowrob_learning')).
-
+:- use_module(library('knowrob_reinforcement')).
+:- use_module(library('knowrob_mvg')).
 

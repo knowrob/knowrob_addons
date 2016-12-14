@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$(rospack find knowrob_chemlab)/knowrob_chemlab/build/install/knowrob_chemlab/bin/knowrob_chemlab org.knowrob.chemlab.CramEpisodicMemoryToADTTester
