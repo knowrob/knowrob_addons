@@ -36,7 +36,6 @@ package org.knowrob.cram;
 import geometry_msgs.PoseStamped;
 
 import java.util.*;
-import java.util.Map.*;
 import java.lang.Integer;
 
 import javax.vecmath.Matrix4d;
@@ -48,9 +47,14 @@ import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 import org.ros.node.topic.Publisher;
 
+import com.mongodb.QueryBuilder;
+
 import javax.vecmath.Vector3d;
 
 import designator_integration_msgs.KeyValuePair;
+
+import java.io.File;
+import java.util.LinkedList;
 
 
 public class LogdataPublisher extends AbstractNodeMain {
@@ -103,8 +107,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 			final StringTokenizer s1 = new StringTokenizer(designatorId, "#");
 			s1.nextToken();
 			designatorId= s1.nextToken();
-
-			org.knowrob.interfaces.mongo.types.Designator d1 = mdb.getDesignatorByID(designatorId);
+			
+			QueryBuilder query = QueryBuilder.start("designator._id").is(designatorId);
+			org.knowrob.interfaces.mongo.types.Designator d1 = mdb.designator(mdb.one(
+					mdb.query(MongoDBInterface.COLLECTION_LOGGED_DESIGNATORS, query)));
 			publishDesignator(d1);
 			return true;
 		}
@@ -121,7 +127,8 @@ public class LogdataPublisher extends AbstractNodeMain {
 			if(!waitOnPublisher()) return false;
 	
 			final designator_integration_msgs.Designator designator_msg = pub.newMessage();
-	
+
+			designator_msg.setType(0);
 			try {
 				if(designator.getType().toString().toLowerCase() == "action")
 					designator_msg.setType(1);
@@ -129,9 +136,8 @@ public class LogdataPublisher extends AbstractNodeMain {
 					designator_msg.setType(2);
 				else if(designator.getType().toString().toLowerCase() == "location")
 					designator_msg.setType(0);			
-			} catch (java.lang.NullPointerException exc) {
-				designator_msg.setType(0);
 			}
+			catch (java.lang.NullPointerException exc) {}
 	
 			publishDesignator(designator, designator_msg, 0);
 			
@@ -152,6 +158,10 @@ public class LogdataPublisher extends AbstractNodeMain {
 			if(key.isEmpty()) continue;
 			if(key.substring(0,1).equals("_")) continue;
 			Object value = designator.get(key);
+			if(value==null) {
+				System.err.println("Designator null value for key: " + key);
+				continue;
+			}
 
 			KeyValuePair kv = node.getTopicMessageFactory().newFromType(
 					designator_integration_msgs.KeyValuePair._TYPE);
@@ -250,6 +260,41 @@ public class LogdataPublisher extends AbstractNodeMain {
 		};
 		designator_msg.getDescription().get(c).setType(12);
 		designator_msg.getDescription().get(c).setValueArray(val);
+	}
+	
+	// TODO: move to openease package
+	public static String[] getVideoURLs(String cat, String exp)
+	{
+		LinkedList<String> urls = new LinkedList<String>();
+		File expDir = new File("/episodes/"+cat+"/"+exp);
+		if(expDir.exists()) {
+			for (final File episodeDir : expDir.listFiles()) {
+				if(!episodeDir.isDirectory()) continue;
+				File videoDir = new File(episodeDir, "videos");
+				if(videoDir.exists()) {
+					for (final File vidFile : videoDir.listFiles()) {
+						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/videos/"+vidFile.getName());
+					}
+				}
+				for (final File vidFile : episodeDir.listFiles()) {
+					if(vidFile.isDirectory()) continue;
+					String ext = vidFile.getName().substring(vidFile.getName().indexOf(".") + 1);
+					if (ext.equalsIgnoreCase("avi") ||
+					    ext.equalsIgnoreCase("mpg") ||
+					    ext.equalsIgnoreCase("mp4") ||
+					    ext.equalsIgnoreCase("mpeg") ||
+					    ext.equalsIgnoreCase("flv") ||
+					    ext.equalsIgnoreCase("mov") ||
+					    ext.equalsIgnoreCase("mkv")) {
+						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/" + vidFile.getName());
+					}
+				}
+			}
+		}
+		if(urls.isEmpty())
+			return null;
+		else
+			return urls.toArray(new String[urls.size()]);
 	}
 
 }

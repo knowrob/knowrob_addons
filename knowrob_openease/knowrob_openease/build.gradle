@@ -25,11 +25,24 @@ mainClassName = 'org.ros.RosRun'
  which usually occur on minor and major version numbers.
 */
 
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven2.javacv.googlecode.com/git/"
+    }
+}
+
+
 dependencies {
   compile 'org.ros.rosjava_core:rosjava:[0.1,)'
   compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
   compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
   compile 'org.knowrob.knowrob_cram:knowrob_cram:[0.1,)'
+  
+  compile group: 'org.bytedeco', name: 'javacpp', version: '1.1'
+  compile group: 'org.bytedeco', name: 'javacv', version: '1.1'
+  compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '2.4.11-0.11', classifier: 'linux-x86_64'
 }
 
 
