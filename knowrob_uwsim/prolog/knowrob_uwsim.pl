@@ -55,7 +55,6 @@
 	display_thirdthreepoints/0,
 	display_lastthreepoints/0,
 	panaroma_picture_display/0,
-	retrieve_positions/1,
 	display_combinedimage/0,
 	display_trajectory_of_all_fishes/1,
 	display_trajectory_bluishgreen_fish/1,
@@ -102,7 +101,6 @@
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
 :- use_module(library('knowrob_meshes')).
-:- use_module(library('knowrob_temporal')).
 :- use_module(library('srdl2')).
 :- use_module(library('lists')).
 
