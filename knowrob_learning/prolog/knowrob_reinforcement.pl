@@ -42,14 +42,13 @@
     ]).
 
 :- use_module(library('jpl')).
-:- use_module( library(random)).
 :- use_module(library('lists')).
 :- use_module(library('util')).
 
 choose_map(SemanticMapPath, JavaListMap) :-
    owl_parse(SemanticMapPath),
    owl_individual_of(A, knowrob:'SemanticEnvironmentMap'), 
-   marker_update(object(A)), !,
+   %marker_update(object(A)), !,
    (( A = 'http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j', 
       jpl_new('org.knowrob.reinforcement.KitchenWorld', [], KitchenWorld),
       jpl_call(KitchenWorld, 'generateDomain', [], Domain),
@@ -111,8 +110,6 @@ visualize_trajectory(Trial, Link) :-
     mng_query_earliest(Trial, one(DBObjEarliest), 'transforms.header.stamp', 'timepoint_0'),
     jpl_call('org.knowrob.reinforcement.BasicBehavior', 'getTimestamp', [DBObjEarliest], StartTime),
     marker(trajectory(Link), Trj, Trial), marker_type(Trj, sphere),
-    random(R), random(G), random(B),
-    marker_color(Trj, [R,G,B,1.0]),
     marker_update(Trj, interval(StartTime, EndTime, dt(2.0))),
     jpl_call(TfMemory, 'setTfTableName', ['tf'], _B).
 

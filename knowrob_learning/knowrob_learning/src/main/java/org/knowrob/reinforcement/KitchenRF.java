@@ -103,6 +103,131 @@ public class KitchenRF implements RewardFunction {
 
 		System.out.println("Reward gained: " + lastReward);
 		return lastReward;
+
+		/*TransformStamped finger_one = (TransformStamped)s.get(VAR_FINGER_ONE);
+		TransformStamped finger_two = (TransformStamped)s.get(VAR_FINGER_TWO);
+
+		double finger_one_x = finger_one.getTransform().getTranslation().getX();
+		double finger_one_y = finger_one.getTransform().getTranslation().getY();
+		double finger_one_z = finger_one.getTransform().getTranslation().getZ();
+
+		double finger_two_x = finger_two.getTransform().getTranslation().getX();
+		double finger_two_y = finger_two.getTransform().getTranslation().getY();
+		double finger_two_z = finger_two.getTransform().getTranslation().getZ();
+
+
+		TransformStamped finger_one_next = (TransformStamped)sprime.get(VAR_FINGER_ONE);
+		TransformStamped finger_two_next = (TransformStamped)sprime.get(VAR_FINGER_TWO);
+
+		double finger_one_next_x = finger_one_next.getTransform().getTranslation().getX();
+		double finger_one_next_y = finger_one_next.getTransform().getTranslation().getY();
+		double finger_one_next_z = finger_one_next.getTransform().getTranslation().getZ();
+
+		double finger_two_next_x = finger_two_next.getTransform().getTranslation().getX();
+		double finger_two_next_y = finger_two_next.getTransform().getTranslation().getY();
+		double finger_two_next_z = finger_two_next.getTransform().getTranslation().getZ();
+
+		double square_current_one = Math.pow(finger_one_x, 2) + Math.pow(finger_one_y, 2) + Math.pow(finger_one_z, 2);
+		double square_current_two = Math.pow(finger_two_x, 2) + Math.pow(finger_two_y, 2) + Math.pow(finger_two_z, 2);
+
+		double square_goal_one = Math.pow(goalFingerOneX, 2) + Math.pow(goalFingerOneY, 2) + Math.pow(goalFingerOneZ, 2);
+		double square_goal_two = Math.pow(goalFingerTwoX, 2) + Math.pow(goalFingerTwoY, 2) + Math.pow(goalFingerTwoZ, 2);
+
+		double square_next_one = Math.pow(finger_one_next_x, 2) + Math.pow(finger_one_next_y, 2) + Math.pow(finger_one_next_z, 2);
+		double square_next_two = Math.pow(finger_two_next_x, 2) + Math.pow(finger_two_next_y, 2) + Math.pow(finger_two_next_z, 2);
+
+		double distance = Math.pow(Math.abs(square_current_one - square_goal_one), 0.5);
+		double distance_candidate = Math.pow(Math.abs(square_next_one - square_goal_one), 0.5);		
+	
+		
+
+		if(distance_candidate <= DISTANCE_CONSTANT)
+		{
+			lastReward = 1000.0;
+		}
+		else if(distance_candidate < distance)
+		{
+			lastReward = (distance - distance_candidate) * 100;
+		}
+		else if(distance_candidate >= distance)
+		{
+			lastReward = (distance - distance_candidate) * 100;
+		}
+		else lastReward = -5.0;
+
+		System.out.println("Reward gained: " + lastReward);
+		return lastReward;*/
+				
+		/*if(Math.abs(finger_one_x - finger_one_next_x) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_one_y - finger_one_next_y) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_one_z - finger_one_next_z) <= DISTANCE_CONSTANT &&
+			Math.abs(finger_two_x - finger_two_next_x) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_two_y - finger_two_next_y) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_two_z - finger_two_next_z) <= DISTANCE_CONSTANT)
+		{
+			lastReward = -10.0;
+			return lastReward;
+		}
+		else if(Math.abs(finger_one_x - goalFingerOneX) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_one_y - goalFingerOneY) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_one_z - goalFingerOneZ) <= DISTANCE_CONSTANT ||
+			Math.abs(finger_two_x - goalFingerTwoX) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_two_y - goalFingerTwoY) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_two_z - goalFingerTwoZ) <= DISTANCE_CONSTANT)
+		{
+			lastReward = 1000.0;
+			return lastReward;
+		}
+		else if(Math.abs(finger_one_x - goalFingerOneX) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_one_y - goalFingerOneY) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_one_z - goalFingerOneZ) <= DISTANCE_CONSTANT)
+		{
+			if(Math.abs(square_goal_two - square_next_two) < Math.abs(square_goal_two - square_current_two))
+				lastReward = 50.0;
+			else
+				lastReward = -1.0;
+			return lastReward;
+		}
+		else if(Math.abs(finger_two_x - goalFingerTwoX) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_two_y - goalFingerOneY) <= DISTANCE_CONSTANT && 
+			Math.abs(finger_two_z - goalFingerOneZ) <= DISTANCE_CONSTANT)
+		{
+			if(Math.abs(square_goal_two - square_next_two) < Math.abs(square_goal_two - square_current_two))
+				lastReward = 50.0;
+			else
+				lastReward = -1.0;
+			return lastReward;
+		}
+		else if(distance <= 6.0 && distance_candidate < distance)
+		{
+			if(!a.actionName().startsWith("body_action"))
+ 				lastReward = 5.0;
+			else lastReward = -5.0;
+			return lastReward;
+		}
+		else if(distance <= 6.0 && distance_candidate >= distance)
+		{
+			lastReward = -5.0;
+			return lastReward;
+		}
+		else if(distance > 6.0 && distance_candidate < distance)
+		{
+			if(a.actionName().startsWith("body_action"))
+ 				lastReward = 5.0;
+			else lastReward = 0.0;
+			return lastReward;
+		}
+		else if(distance > 6.0 && distance_candidate >= distance)
+		{
+			if(a.actionName().startsWith("body_action"))
+ 				lastReward = -1.0;
+			else lastReward = 0.0;
+			return lastReward;
+		}
+
+		lastReward = -1.0;
+		System.out.println("Reward gained: " + lastReward);
+		return lastReward;*/
 	}
 
 	public double getLastReward()

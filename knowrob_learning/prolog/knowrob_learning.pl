@@ -36,7 +36,15 @@
       train_classifier/4,
       classify_data/3,
       save_classifier/2,
-      save_selector/2
+      save_selector/2,
+      get_negative_instances_of_tasktype/2,
+      get_positive_instances_of_tasktype/2,
+      featurize_ar_places/3,
+      featurize_ar_place/3,
+%      featurize_gaussian_places/3,
+%      featurize_gaussian_place/3,
+      featurize_gaussian_places/3,
+      featurize_gaussian_place/3
     ]).
 
 :- use_module(library('jpl')).
@@ -79,13 +87,11 @@ select_features(FilteredInstances, Algorithm, Options, Trainingsdata) :-
 % Example: classifier_trained(FilteredInstances, 'weka.classifier.svm', [], Instances).
 %
 % @param TrainedClassifier     The resulting classifier instance as Java Object
-% @param Algorithm          Name of the selection algorithm, e.g. 'weka.classifier.svm'
 % @param Options        Options that are passed to the selection algorithm
 % @param Instances      Data that will train the classifier
 
-train_classifier(TrainedClassifier, Algorithm, Options, Instances) :-
-  list_to_array(Options, OptionsArray),
-  jpl_call('org.knowrob.learning.Classifier', 'getAClassifier', [Algorithm, OptionsArray, Instances], TrainedClassifier).
+train_classifier(NullClassifier, TrainedClassifier, Options, Instances) :-
+  jpl_call('org.knowrob.learning.KnowrobClassifier', 'setAClassifier', [NullClassifier, Options, Instances], TrainedClassifier).
 
 
 %% classify_instances(+ Classifier, + Instances, - Classified) is nondet.
@@ -104,10 +110,10 @@ train_classifier(TrainedClassifier, Algorithm, Options, Instances) :-
 % @param Classified   Resulting class/cluster assignment: [classA,classB]
 
 classify_data(Classifier, Data, Classified) :-
-  prepare_data(Data, I1),
-  check_weka_data(I1),
-  lists_to_arrays(I1, DataArr),
-  jpl_call(Classifier, classify, [DataArr], ClassifiedArr),
+  %prepare_data(Data, I1),
+  %check_weka_data(I1),
+  %lists_to_arrays(I1, DataArr),
+  jpl_call(Classifier, classify, Data, ClassifiedArr),
   arrays_to_lists(ClassifiedArr, Classified).
 
 
@@ -167,3 +173,101 @@ save_selector(File, Selector) :-
   check_all([H|T],L) :- atom_list_length(H,L), check_all(T,L).
 
 
+get_negative_instances_of_tasktype(TaskClass, TaskList) :-
+  findall(TaskID,(
+     get_a_instance_of_tasktype(TaskClass, 'false', TaskID)
+  ), TaskList).
+
+get_positive_instances_of_tasktype(TaskClass, TaskList) :-
+  findall(TaskID,(
+     get_a_instance_of_tasktype(TaskClass, 'true', TaskID)
+  ), TaskList).
+
+get_a_instance_of_tasktype(TaskClass, IsSuccess, TaskInstance) :-
+  owl_individual_of(TaskInstance, TaskClass),
+  rdf_has(TaskInstance, knowrob:'subAction', FailureHandlingTask),
+  owl_individual_of(FailureHandlingTask, 'http://knowrob.org/kb/knowrob.owl#WithFailureHandling'),
+  rdf_has(FailureHandlingTask, knowrob:'taskSuccess', literal(type(_, IsSuccess))).
+
+featurize_ar_places(TaskList, Success, FeatureList) :-
+  findall( Features, (member(Task, TaskList),
+     featurize_ar_place(Task, Success, Features)), FeatureList).
+
+featurize_ar_place(Tsk, Success, Features) :-
+  rdf_has(Tsk, knowrob:'designator', DAction),
+  rdf_has(Tsk, knowrob:'startTime', StartTime),
+  mng_designator_props(DAction, 'OBJ', DObj),
+  %add_object_as_semantic_instance(DObj, Loc, StartTime, SemanticMapInstance), 
+  designator_assert(SemanticMapInstance, DAction, DObj, 'http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), !,
+  designator_add_perception(SemanticMapInstance, DObj, Matrix, StartTime),
+  comp_above_of(SemanticMapInstance, TableTop),
+  object_pose_at_time(TableTop, StartTime, mat(TableTopTransform)),
+  object_pose_at_time(SemanticMapInstance, StartTime, mat(ObjTransform)),
+  mng_lookup_transform('/map', '/base_footprint', StartTime, RobotTransform),
+  pose_into_relative_coord(ObjTransform, TableTopTransform, ObjTransformTT),
+  pose_into_relative_coord(RobotTransform, TableTopTransform, RobotTransformTT),
+  object_dimensions(TableTop, TTDepth, TTWidth, _TTHeight),
+  TTCenterX is TTDepth / 2,
+  TTCenterY is TTWidth / 2,
+  matrix_translation(RobotTransformTT, [RobotX, RobotY, RobotZ]),
+  DistanceRobotX is abs(RobotX),
+  DistanceRobotY is abs(RobotY),
+  matrix_translation(ObjTransformTT, [ObjectX, ObjectY, ObjectZ]),
+  DistanceObjectX is abs(ObjectX),
+  DistanceObjectY is abs(ObjectY),
+  matrix_rotation(ObjTransformTT, [QW, QX, QY, QZ]),
+  ((
+    DistanceRobotX > TTCenterX,
+    DeltaRobotX is DistanceRobotX - TTCenterX,
+    DeltaRobotY is DistanceRobotY,
+    DeltaObjectX is abs(RobotX - ObjectX) - DeltaRobotX 
+  );
+  (
+    DistanceRobotX =< TTCenterX,
+    DeltaRobotX is DistanceRobotY - TTCenterY,
+    DeltaRobotY is DistanceRobotX,
+    DeltaObjectX is abs(RobotY - ObjectY) - DeltaRobotY
+  )),
+  DeltaObjectAngle is atan2((2.0*(QY*QZ + QW*QX)), (QW*QW - QX*QX - QY*QY + QZ*QZ)),
+  Features = [DeltaRobotX, DeltaRobotY, DeltaObjectX, DeltaObjectAngle, Success].
+
+
+%featurize_gaussian_places(TaskList, Success, FeatureList) :-
+%  findall( Features, (member(Task, TaskList),
+%     featurize_gaussian_place(Task, Success, Features)), FeatureList).
+
+%featurize_gaussian_place(Tsk, Success, Features) :-
+%  rdf_has(Tsk, knowrob:'designator', DAction),
+%  rdf_has(Tsk, knowrob:'startTime', StartTime),
+%  mng_designator_props(DAction, 'OBJ', DObj),
+%  designator_assert(SemanticMapInstance, DAction, DObj, 'http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), !,
+%  designator_add_perception(SemanticMapInstance, DObj, Matrix, StartTime),
+%  object_pose_at_time(SemanticMapInstance, StartTime, mat(ObjTransform)),
+%  mng_lookup_transform('/map', '/base_footprint', StartTime, RobotTransform),
+%  pose_into_relative_coord(RobotTransform, ObjTransform, RobotTransformTT),
+%  matrix_translation(RobotTransformTT, [RobotX, RobotY, RobotZ]),
+%  Features = [Success, RobotX, RobotY, 0].
+
+featurize_gaussian_places(TaskList, FloatFeaturesList, StringFeatureList) :-
+  findall( [FloatFeatures, StringFeatures], (member(Task, TaskList),
+     featurize_gaussian_place_analyze(Task, FloatFeatures, StringFeatures)), FeatureList),
+  findall(Ff, ( member(F, FeatureList), nth0(0, F, Ff)), FloatFeaturesList),
+  findall(Sf, ( member(F, FeatureList), nth0(1, F, Sf)), StringFeatureList).
+
+featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
+  rdf_has(Tsk, knowrob:'designator', DAction),
+  rdf_has(Tsk, knowrob:'startTime', StartTime),
+  rdf_has(Tsk, rdf:type, Class),
+  rdf_split_url(_, TskType, Class),
+  mng_designator_props(DAction, 'OBJ', DObj),
+  mng_designator_props(DAction, 'OBJ.TYPE', ObjType),!,
+  designator_assert(SemanticMapInstance, DAction, DObj, 'http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), !,
+  designator_add_perception(SemanticMapInstance, DObj, Matrix, StartTime),
+  object_pose_at_time(SemanticMapInstance, StartTime, mat(ObjTransform)),
+  mng_lookup_transform('/map', '/base_footprint', StartTime, RobotTransform),
+  pose_into_relative_coord(RobotTransform, ObjTransform, RobotTransformTT),
+  matrix_translation(RobotTransformTT, [RobotX, RobotY, RobotZ]),
+  matrix_rotation(RobotTransformTT, [QW, QX, QY, QZ]),
+  DeltaRobotAngle is atan2((2.0*(QY*QZ + QW*QX)), (QW*QW - QX*QX - QY*QY + QZ*QZ)),
+  FloatFeatures = [RobotX, RobotY, RobotZ, DeltaRobotAngle],	
+  jpl_new( '[Ljava.lang.String;', [TskType, ObjType], StringFeatures).
