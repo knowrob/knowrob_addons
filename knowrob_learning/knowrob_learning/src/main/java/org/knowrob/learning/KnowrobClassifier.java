@@ -28,6 +28,20 @@ public abstract class KnowrobClassifier
     		}
   	}
 
+	public static KnowrobClassifier setAClassifier(Object classifier, String[] attrNames, String[][] trainInstances) throws Exception
+  	{	
+    		if (classifier.getClass().getName().startsWith("weka")) 
+		{
+			WekaKnowrobClassifier wkc = new WekaKnowrobClassifier(classifier, attrNames, trainInstances); 
+						
+      			return wkc;
+    		}	
+    		else 
+		{
+      			throw new Exception("other classifiers not implementet yet");
+    		}
+  	}
+
 	public void saveToFile(String filename) throws IOException
   	{
     		ObjectOutputStream streamer = new ObjectOutputStream(new FileOutputStream(filename));
