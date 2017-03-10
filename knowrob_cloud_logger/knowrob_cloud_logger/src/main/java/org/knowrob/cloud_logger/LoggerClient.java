@@ -64,6 +64,10 @@ public class LoggerClient {
         pathToPOM = path;
 
         oeClient = client;
+       
+        if(!(oeClient.getHost().equals(address)))
+           throw new EASEError("Host of BridgeClient and address given as parameter should be equal!");
+
         oeClient.setSSLCertificate(Files.newInputStream(Paths.get(pathToPOM)));
         oeClient.startContainer();
         oeClient.connect();
@@ -77,6 +81,18 @@ public class LoggerClient {
     public LoggerClient(BridgeClient client, String path) throws InterruptedException, EASEError, IOException 
     {
        this(client, "https://data.open-ease.org", path);
+    }
+
+    
+    public void startUserContainer() throws EASEError
+    {
+       oeClient.startContainer();
+    }
+
+
+    public void connectToUserContainer() throws EASEError
+    {
+       oeClient.connect();
     }
 
     public void setOeClient(BridgeClient oeClient)

@@ -30,7 +30,7 @@ import edu.wpi.rail.jrosbridge.Service;
  * A client rosbridge implementation for openEASE.
  * 
  * @author Moritz Horstmann <mhorst@cs.uni-bremen.de>
- *
+ * @maintainer Asil Kaan Bozcuoglu <asil@cs.uni-bremen.de>
  */
 public class BridgeClient {
 
@@ -64,6 +64,32 @@ public class BridgeClient {
     public BridgeClient(String apiToken, String host) {
         this.apiToken = apiToken;
         this.host = host;
+    }
+
+
+    public String getHost()
+    {
+        return host;
+    }
+
+    public String getApiToken()
+    {
+        return apiToken;
+    }
+
+    public Service getPrologQuery()
+    {
+        return prologQuery;
+    }
+
+    public Service getPrologNext()
+    {
+        return prologNext;
+    }
+
+    public Service getPrologFinish()
+    {
+        return prologFinish;
     }
 
     /**
