@@ -32,6 +32,8 @@
 
 package org.knowrob.cloud_logger;
 
+import java.util.UUID;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -46,6 +48,36 @@ public class LoggerClient {
     String oeAddress;
     String pathToPOM;
 
+
+     /* ********************************
+        ********************************
+        Service methods
+        ********************************
+        ******************************** */
+
+
+    public String sendPrologQuery(String prolog, boolean isIncremental)
+    {
+          String id = randomStringGenerator();
+          
+          String[] values = new String[3];
+          values[0] = id;
+          values[1] = (isIncremental) ? "1" : "0";
+	  values[2] = prolog;	
+
+	  String json = jsonizerServiceRequests(ServerType.PrologQuery, values);
+
+          return id;
+    }
+
+    
+
+
+     /* ********************************
+        ********************************
+        Constructors and setters-getters
+        ********************************
+        ******************************** */
 
     public LoggerClient(String token, String address, String path) throws InterruptedException, EASEError, IOException 
     {
@@ -97,7 +129,7 @@ public class LoggerClient {
 
     public void setOeClient(BridgeClient oeClient)
     {
-        this.oeClient = oeClient;
+      this.oeClient = oeClient;
     }
 
     public BridgeClient getOeClient()
@@ -123,6 +155,43 @@ public class LoggerClient {
     public String getPathToPOM()
     {
         return pathToPOM;
+    }
+
+     /* ********************************
+        ********************************
+        Constructors and setters-getters
+        ********************************
+        ******************************** */
+
+    private String jsonizerServiceRequests(ServerType mode, String[] values)
+    {
+       String json = "{";
+       if(mode == ServerType.PrologQuery)
+       {
+          json += "\"id\": \"" + values[0] + "\","
+               +  "\"mode\": " + values[1] + ","
+               +  "\"query\": \"" + values[2] + "\"";
+       }
+       else if(mode == ServerType.PrologNextSolution || mode == ServerType.PrologFinish)
+       {
+          json += "\"id\": \"" + values[0] + "\"";
+       }
+       else return "";
+
+       json += "}";
+       return json;
+    }
+
+    private String randomStringGenerator()
+    {
+	String uuid = UUID.randomUUID().toString();
+	System.out.println("uuid = " + uuid);
+	return uuid;
+    }
+    
+    public enum ServerType
+    {
+       PrologQuery, PrologNextSolution, PrologFinish
     }
 
     /*public static void main(String[] args) throws InterruptedException, EASEError, IOException {
