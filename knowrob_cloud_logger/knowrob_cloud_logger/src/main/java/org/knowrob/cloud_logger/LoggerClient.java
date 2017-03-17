@@ -82,6 +82,16 @@ public class LoggerClient {
           return id;
     }
 
+    public String readPrologQueryMessage()
+    {
+         return (String)readFromPrologResponse("message");
+    }
+
+    public boolean readPrologQueryOk()
+    {
+         return ((Boolean)readFromPrologResponse("ok")).booleanValue();
+    }
+
 
     public void sendPrologNextSolution(String id)
     {
@@ -94,6 +104,17 @@ public class LoggerClient {
           prologResponse = oeClient.getPrologNext().callServiceAndWait(prologRequest);
 
     }
+
+    public String readPrologNextSolution()
+    {
+         return (String)readFromPrologResponse("solution");
+    }
+
+    public int readPrologNextSolutionStatus()
+    {
+         return ((Integer)readFromPrologResponse("status")).intValue();
+    }
+
 
      
     public void sendPrologFinish(String id)
