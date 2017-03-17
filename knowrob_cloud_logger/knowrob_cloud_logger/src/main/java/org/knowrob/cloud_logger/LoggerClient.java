@@ -33,6 +33,8 @@
 package org.knowrob.cloud_logger;
 
 import java.util.UUID;
+import java.lang.Boolean;
+import java.lang.Integer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,6 +43,11 @@ import java.nio.file.Paths;
 import org.openease.client.BridgeClient;
 import org.openease.client.EASEError;
 
+import edu.wpi.rail.jrosbridge.Service;
+import edu.wpi.rail.jrosbridge.services.ServiceRequest;
+import edu.wpi.rail.jrosbridge.services.ServiceResponse;
+
+import org.json.JSONObject;
 
 public class LoggerClient {
 
@@ -48,6 +55,8 @@ public class LoggerClient {
     String oeAddress;
     String pathToPOM;
 
+    ServiceRequest prologRequest;
+    ServiceResponse prologResponse; 
 
      /* ********************************
         ********************************
@@ -67,7 +76,36 @@ public class LoggerClient {
 
 	  String json = jsonizerServiceRequests(ServerType.PrologQuery, values);
 
+          prologRequest = new ServiceRequest(json);
+          prologResponse = oeClient.getPrologQuery().callServiceAndWait(prologRequest);
+
           return id;
+    }
+
+
+    public void sendPrologNextSolution(String id)
+    {
+          String[] values = new String[3];
+          values[0] = id;	
+
+	  String json = jsonizerServiceRequests(ServerType.PrologNextSolution, values);
+
+          prologRequest = new ServiceRequest(json);
+          prologResponse = oeClient.getPrologNext().callServiceAndWait(prologRequest);
+
+    }
+
+     
+    public void sendPrologFinish(String id)
+    {
+          String[] values = new String[3];
+          values[0] = id;	
+
+	  String json = jsonizerServiceRequests(ServerType.PrologFinish, values);
+
+          prologRequest = new ServiceRequest(json);
+          prologResponse = oeClient.getPrologFinish().callServiceAndWait(prologRequest);
+
     }
 
     
@@ -162,6 +200,22 @@ public class LoggerClient {
         Constructors and setters-getters
         ********************************
         ******************************** */
+
+    private Object readFromPrologResponse(String field)
+    {
+        String jsonString = prologResponse.toString();
+        
+        JSONObject jsonObj = new JSONObject(jsonString);
+
+        if(field.equals("solution") || field.equals("message"))
+           return jsonObj.getString(field);
+        else if (field.equals("ok"))
+           return new Boolean(jsonObj.getBoolean(field));
+        else if (field.equals("solution"))
+           return new Integer(jsonObj.getInt(field));
+
+        return null;
+    }
 
     private String jsonizerServiceRequests(ServerType mode, String[] values)
     {
