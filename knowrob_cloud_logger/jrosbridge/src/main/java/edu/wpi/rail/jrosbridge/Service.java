@@ -179,6 +179,7 @@ public class Service {
 				this.wait();
 			} catch (InterruptedException e) {
 				// continue on
+				e.printStackTrace(System.out);
 			}
 		}
 

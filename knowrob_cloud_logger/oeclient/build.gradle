@@ -27,10 +27,10 @@ mainClassName = 'org.ros.RosRun'
 
 dependencies {
    compile project(':jrosbridge')
-   compile group: 'javax.json', name: 'javax.json-api', version: '1.0'
+   compile group: 'org.glassfish', name: 'javax.json', version: '1.0.4'
    compile group: 'org.json', name: 'json', version: '20160810'
    compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.0'
-   compile group: 'org.glassfish.grizzly', name: 'grizzly-http', version: '2.3.29'
+   compile group: 'org.glassfish.tyrus', name: 'tyrus-container-grizzly-client', version: '1.13.1'
    compile group: 'org.glassfish.tyrus', name: 'tyrus-client', version: '1.13.1'
 }
 

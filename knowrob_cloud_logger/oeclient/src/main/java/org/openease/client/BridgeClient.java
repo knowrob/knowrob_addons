@@ -124,9 +124,12 @@ public class BridgeClient {
             // Use custom SSL server certificate for web socket implementation
             ros.setSSLContext(sslContext);
         }
-        ros.connectInternal();
+
+        boolean isConnected = false;
+
+        while(!isConnected) isConnected = ros.connectInternal();
         authenticate();
-        prologQuery = new Service(ros, "/json_prolog/query", "json_prolog/PrologQuery");
+        prologQuery = new Service(ros, "/json_prolog/simple_query", "json_prolog/PrologQuery");
         prologNext = new Service(ros, "/json_prolog/next_solution", "json_prolog/PrologNextSolution");
         prologFinish = new Service(ros, "/json_prolog/finish", "json_prolog/PrologFinish");
     }

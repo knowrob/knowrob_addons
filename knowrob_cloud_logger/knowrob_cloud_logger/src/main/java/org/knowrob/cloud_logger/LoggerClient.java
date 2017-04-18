@@ -33,6 +33,8 @@
 package org.knowrob.cloud_logger;
 
 import java.util.UUID;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.lang.Boolean;
 import java.lang.Integer;
 
@@ -43,9 +45,13 @@ import java.nio.file.Paths;
 import org.openease.client.BridgeClient;
 import org.openease.client.EASEError;
 
-import edu.wpi.rail.jrosbridge.Service;
+//import edu.wpi.rail.jrosbridge.Topic;
+//import edu.wpi.rail.jrosbridge.messages.Message;
+//import edu.wpi.rail.jrosbridge.Service;
 import edu.wpi.rail.jrosbridge.services.ServiceRequest;
 import edu.wpi.rail.jrosbridge.services.ServiceResponse;
+//import edu.wpi.rail.jrosbridge.Ros;
+//import edu.wpi.rail.jrosbridge.JRosbridge;
 
 import org.json.JSONObject;
 
@@ -72,12 +78,27 @@ public class LoggerClient {
           String[] values = new String[3];
           values[0] = id;
           values[1] = (isIncremental) ? "1" : "0";
-	  values[2] = prolog;	
+	  values[2] = prolog;
+
+
+          //Topic echo = new Topic(oeClient.getRos(), "/echo", "std_msgs/String");
+	  //Message toSend = new Message("{\"data\": \"hello, world!\"}");
+	  //echo.publish(toSend);
+
+
 
 	  String json = jsonizerServiceRequests(ServerType.PrologQuery, values);
-
           prologRequest = new ServiceRequest(json);
           prologResponse = oeClient.getPrologQuery().callServiceAndWait(prologRequest);
+
+
+          //String json = jsonizerServiceRequests(ServerType.PrologQuery, values);
+          //prologRequest = new ServiceRequest(json);
+          //Timer timer = new Timer();
+          //timer.schedule(new SendServiceResponse(oeClient.getRos(), json), 1500);
+          //prologResponse = oeClient.getPrologQuery().callServiceAndWait(prologRequest);
+
+          System.out.println("h4" +  prologResponse.toString());
 
           return id;
     }
@@ -142,11 +163,9 @@ public class LoggerClient {
     {
         oeAddress = address;
         pathToPOM = path;
-
         oeClient = new BridgeClient(token, oeAddress);
         oeClient.setSSLCertificate(Files.newInputStream(Paths.get(pathToPOM)));
-        oeClient.startContainer();
-        oeClient.connect();
+        //oeClient.startContainer();
     }
 
     public LoggerClient(BridgeClient client, String address, String path) throws InterruptedException, EASEError, IOException 
@@ -160,8 +179,7 @@ public class LoggerClient {
            throw new EASEError("Host of BridgeClient and address given as parameter should be equal!");
 
         oeClient.setSSLCertificate(Files.newInputStream(Paths.get(pathToPOM)));
-        oeClient.startContainer();
-        oeClient.connect();
+        //oeClient.startContainer();
     }
 
     public LoggerClient(String token, String path) throws InterruptedException, EASEError, IOException 
@@ -254,14 +272,14 @@ public class LoggerClient {
        else return "";
 
        json += "}";
+
+       System.out.println(json);
        return json;
     }
 
     private String randomStringGenerator()
     {
-	String uuid = UUID.randomUUID().toString();
-	System.out.println("uuid = " + uuid);
-	return uuid;
+	return UUID.randomUUID().toString();
     }
     
     public enum ServerType
@@ -269,11 +287,4 @@ public class LoggerClient {
        PrologQuery, PrologNextSolution, PrologFinish
     }
 
-    /*public static void main(String[] args) throws InterruptedException, EASEError, IOException {
-        BridgeClient client = new BridgeClient("E84O1GRNURm0yHsqnSRInjUVXzf58Pz6WIEiMhoSuuoLvtetUzj2idiIcHuKqACf",
-                "https://localhost");
-        client.setSSLCertificate(Files.newInputStream(Paths.get("/home/moritz/localhost.pem")));
-        client.startContainer();
-        client.connect();
-    }*/
 }
