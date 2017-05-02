@@ -11,7 +11,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Technische Universiteit Eindhoven nor the
+ *     * Neither the name of the University of Bremen nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -81,24 +81,10 @@ public class LoggerClient {
 	  values[2] = prolog;
 
 
-          //Topic echo = new Topic(oeClient.getRos(), "/echo", "std_msgs/String");
-	  //Message toSend = new Message("{\"data\": \"hello, world!\"}");
-	  //echo.publish(toSend);
-
-
-
 	  String json = jsonizerServiceRequests(ServerType.PrologQuery, values);
           prologRequest = new ServiceRequest(json);
           prologResponse = oeClient.getPrologQuery().callServiceAndWait(prologRequest);
 
-
-          //String json = jsonizerServiceRequests(ServerType.PrologQuery, values);
-          //prologRequest = new ServiceRequest(json);
-          //Timer timer = new Timer();
-          //timer.schedule(new SendServiceResponse(oeClient.getRos(), json), 1500);
-          //prologResponse = oeClient.getPrologQuery().callServiceAndWait(prologRequest);
-
-          System.out.println("h4" +  prologResponse.toString());
 
           return id;
     }
@@ -129,6 +115,13 @@ public class LoggerClient {
     public String readPrologNextSolution()
     {
          return (String)readFromPrologResponse("solution");
+    }
+
+    public String readPrologNextSolution(String field)
+    {
+         String jsonSolution = readPrologNextSolution();
+         JSONObject jsonObj = new JSONObject(jsonSolution);
+         return jsonObj.getString(field);
     }
 
     public int readPrologNextSolutionStatus()

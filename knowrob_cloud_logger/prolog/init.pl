@@ -31,7 +31,11 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_cram).
+:- register_ros_package(knowrob_mongo).
+:- register_ros_package(comp_temporal).
 
+:- register_ros_package(knowrob_cloud_logger).
+:- use_module(library('knowrob_cloud_logger')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 
