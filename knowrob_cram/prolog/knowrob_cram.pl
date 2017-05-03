@@ -110,6 +110,7 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 
   % create timepoint instance and set as start time
   create_timepoint(StartTime, StTime),
+  rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(ActionInst, knowrob:startTime, StTime, 'LoggingGraph'),
 
@@ -129,6 +130,7 @@ cram_finish_action(ActionInst, EndTime) :-
 
   % create timepoint instance and set as end time
   create_timepoint(EndTime, ETime),
+  rdf_assert(ETime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(ETime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(ActionInst, knowrob:endTime, ETime, 'LoggingGraph').
 
@@ -216,6 +218,7 @@ cram_add_failure_to_action(ActionInst, FailureType, FailureLabel, FailureTime, F
   rdf_assert(FailureInst, rdfs:label, literal(type(xsd:string, FailureLabel)), 'LoggingGraph'),
 
   create_timepoint(FailureTime, StTime),
+  rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(FailureInst, knowrob:startTime, StTime, 'LoggingGraph'),
 
@@ -249,6 +252,7 @@ cram_create_desig(DesigType, DesigInst) :-
 %
 cram_equate_designators(PreDesig, SuccDesig, EquationTime) :-
   create_timepoint(EquationTime, EqTime),
+  rdf_assert(EqTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(EqTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(PreDesig, knowrob:successorDesignator, SuccDesig, 'LoggingGraph'),
   rdf_assert(SuccDesig, knowrob:equationTime, EqTime, 'LoggingGraph').
