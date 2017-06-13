@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY knowrob_assembly "http://knowrob.org/kb/knowrob_assembly.owl#" >
+    <!ENTITY knowrob_beliefstate "http://www.knowrob.org/kb/knowrob_beliefstate#" >
+    <!ENTITY knowrob_paramserver "http://knowrob.org/kb/knowrob_paramserver.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.knowrob.org/kb/knowrob_beliefstate#"
+     xml:base="http://www.knowrob.org/kb/knowrob_beliefstate"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob_beliefstate="http://www.knowrob.org/kb/knowrob_beliefstate#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:knowrob_assembly="http://knowrob.org/kb/knowrob_assembly.owl#"
+     xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
+    <owl:Ontology rdf:about="http://www.knowrob.org/kb/knowrob_beliefstate">
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestIntervalForever -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestIntervalForever">
+        <rdf:type rdf:resource="&knowrob_assembly;Interval"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestLength0 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestLength0">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.0</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestLength0p7 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestLength0p7">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.7</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestLength0p8 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestLength0p8">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.8</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestLengthm0p5 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestLengthm0p5">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">-0.5</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestMapFrameName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestMapFrameName">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">map</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestQuantity0 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestQuantity0">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestQuantity1 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestQuantity1">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">1.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTable -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTable">
+        <rdf:type rdf:resource="&knowrob_assembly;FixedPart"/>
+        <knowrob_paramserver:hasColor rdf:resource="&knowrob_beliefstate;TestTableColor"/>
+        <knowrob_paramserver:hasShape rdf:resource="&knowrob_beliefstate;TestTableShapeFile"/>
+        <knowrob_paramserver:hasTransform rdf:resource="&knowrob_beliefstate;TestTableTemporaryLocation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableColor -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableColor">
+        <rdf:type rdf:resource="&knowrob_paramserver;Color"/>
+        <knowrob_paramserver:hasAlpha rdf:resource="&knowrob_beliefstate;TestTableColorAlpha"/>
+        <knowrob_paramserver:hasBlue rdf:resource="&knowrob_beliefstate;TestTableColorBlue"/>
+        <knowrob_paramserver:hasGreen rdf:resource="&knowrob_beliefstate;TestTableColorGreen"/>
+        <knowrob_paramserver:hasRed rdf:resource="&knowrob_beliefstate;TestTableColorRed"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableColorAlpha -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableColorAlpha">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">1.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableColorBlue -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableColorBlue">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableColorGreen -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableColorGreen">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">1.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableColorRed -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableColorRed">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.3</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableFrameName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableFrameName">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">table</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableShapeFile -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableShapeFile">
+        <rdf:type rdf:resource="&knowrob_paramserver;STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_beliefstate/stl/table.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableTemporaryLocation -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableTemporaryLocation">
+        <rdf:type rdf:resource="&knowrob_assembly;TemporaryTransform"/>
+        <knowrob_assembly:temporalExtent rdf:resource="&knowrob_beliefstate;TestIntervalForever"/>
+        <knowrob_paramserver:hasTransform rdf:resource="&knowrob_beliefstate;TestTableTransform"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableTransform -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableTransform">
+        <rdf:type rdf:resource="&knowrob_paramserver;Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="&knowrob_beliefstate;TestMapFrameName"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="&knowrob_beliefstate;TestTableFrameName"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="&knowrob_beliefstate;TestTableTranslation"/>
+        <knowrob_paramserver:hasRotation rdf:resource="&knowrob_beliefstate;TestUnitQuaternion"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableTranslation -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableTranslation">
+        <rdf:type rdf:resource="&knowrob_paramserver;Translation"/>
+        <knowrob_paramserver:hasY rdf:resource="&knowrob_beliefstate;TestLength0"/>
+        <knowrob_paramserver:hasX rdf:resource="&knowrob_beliefstate;TestLength0"/>
+        <knowrob_paramserver:hasZ rdf:resource="&knowrob_beliefstate;TestLength0p7"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestUnitQuaternion -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestUnitQuaternion">
+        <rdf:type rdf:resource="&knowrob_paramserver;Quaternion"/>
+        <knowrob_paramserver:hasZ rdf:resource="&knowrob_beliefstate;TestQuantity0"/>
+        <knowrob_paramserver:hasX rdf:resource="&knowrob_beliefstate;TestQuantity0"/>
+        <knowrob_paramserver:hasY rdf:resource="&knowrob_beliefstate;TestQuantity0"/>
+        <knowrob_paramserver:hasW rdf:resource="&knowrob_beliefstate;TestQuantity1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheel -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheel">
+        <rdf:type rdf:resource="&knowrob_assembly;BasicMechanicalPart"/>
+        <knowrob_paramserver:hasShape rdf:resource="&knowrob_beliefstate;TestWheelShapeFile"/>
+        <knowrob_paramserver:hasTransform rdf:resource="&knowrob_beliefstate;TestWheelTemporaryLocation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheelFrameName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelFrameName">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">wheel</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheelShapeFile -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelShapeFile">
+        <rdf:type rdf:resource="&knowrob_paramserver;STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_beliefstate/stl/wheel.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheelTemporaryLocation -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelTemporaryLocation">
+        <rdf:type rdf:resource="&knowrob_assembly;TemporaryTransform"/>
+        <knowrob_assembly:temporalExtent rdf:resource="&knowrob_beliefstate;TestIntervalForever"/>
+        <knowrob_paramserver:hasTransform rdf:resource="&knowrob_beliefstate;TestWheelTransform"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheelTransform -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelTransform">
+        <rdf:type rdf:resource="&knowrob_paramserver;Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="&knowrob_beliefstate;TestMapFrameName"/>
+        <knowrob_paramserver:hasRotation rdf:resource="&knowrob_beliefstate;TestUnitQuaternion"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="&knowrob_beliefstate;TestWheelFrameName"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="&knowrob_beliefstate;TestWheelTranslation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheelTranslation -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelTranslation">
+        <rdf:type rdf:resource="&knowrob_paramserver;Translation"/>
+        <knowrob_paramserver:hasY rdf:resource="&knowrob_beliefstate;TestLength0"/>
+        <knowrob_paramserver:hasZ rdf:resource="&knowrob_beliefstate;TestLength0p8"/>
+        <knowrob_paramserver:hasX rdf:resource="&knowrob_beliefstate;TestLengthm0p5"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

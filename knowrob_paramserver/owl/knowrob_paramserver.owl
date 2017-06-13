@@ -40,6 +40,28 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasAlpha -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasAlpha">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasBlue -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasBlue">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasColor -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasColor"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasComponent -->
 
     <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasComponent"/>
@@ -69,6 +91,14 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGreen -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasGreen">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasPostgraspTransform -->
 
     <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasPostgraspTransform">
@@ -85,6 +115,14 @@
         <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
         <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
         <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasTransform"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRed -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasRed">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
     </owl:ObjectProperty>
     
 
@@ -610,6 +648,49 @@
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Color -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Color">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Vector"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Adimensional"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasAlpha"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasBlue"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">4</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasGreen"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasRed"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
     </owl:Class>
     
 
@@ -2327,6 +2408,14 @@
             <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
             <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
         </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Color"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Quaternion"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Translation"/>
+        </owl:members>
     </rdf:Description>
 </rdf:RDF>
 

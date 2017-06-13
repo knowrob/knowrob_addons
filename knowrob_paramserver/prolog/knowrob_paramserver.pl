@@ -30,6 +30,7 @@
 
 :- module(knowrob_paramserver,
     [
+      get_associated_transform/7,
       get_annotator_confidence_threshold/3,
       get_object_type_shape_data/3,
       get_object_shape_data/3,
