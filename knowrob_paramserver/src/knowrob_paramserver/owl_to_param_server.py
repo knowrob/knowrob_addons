@@ -3,7 +3,7 @@ import yaml
 import rospy
 from json_prolog import json_prolog
 
-class KnowrobToParamserver(object):
+class OwlToParamserver(object):
     def __init__(self):
         self.prolog = json_prolog.Prolog()
 
@@ -26,7 +26,7 @@ class KnowrobToParamserver(object):
                 self.add_to_server(query, ns)
 
 if __name__ == '__main__':
-    rospy.init_node('knowrob_to_paramserver')
+    rospy.init_node('owl_to_paramserver')
     queries = rospy.get_param('~yaml_path', default='../../launch/prolog_queries.yaml')
-    asdf = KnowrobToParamserver()
+    asdf = OwlToParamserver()
     asdf.load_yaml(queries)
