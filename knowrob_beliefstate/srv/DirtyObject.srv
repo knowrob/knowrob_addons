@@ -1,0 +1,5 @@
+#name of object that needs to be queried again
+string object_id
+---
+#response fields
+bool success

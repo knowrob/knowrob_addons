@@ -10,12 +10,24 @@ project(knowrob_beliefstate)
 ##############################################################################
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common)
-find_package(catkin REQUIRED knowrob_common knowrob_paramserver)
+find_package(catkin REQUIRED knowrob_common knowrob_paramserver COMPONENTS message_generation)
+
+catkin_python_setup()
 
 # Set the gradle targets you want catkin's make to run by default, e.g.
 #   catkin_rosjava_setup(installApp)
 # Note that the catkin_create_rosjava_xxx scripts will usually automatically
 # add tasks to this for you when you create subprojects.
+
+add_service_files(
+   FILES
+   DirtyObject.srv
+)
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+   DEPENDENCIES
+)
 
 #catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
 
