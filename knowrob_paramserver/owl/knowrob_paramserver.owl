@@ -278,9 +278,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasGripperType"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasName -->
 
     <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasName"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasObjectType"/>
     
 
 
@@ -289,6 +301,12 @@
     <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasPath">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
     </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasRobotType"/>
     
 
 
@@ -568,15 +586,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -587,14 +605,14 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
-                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -608,6 +626,13 @@
         <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PerceptionParameter"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForAnnotatorType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onDataRange rdf:resource="&xsd;anyURI"/>
@@ -615,12 +640,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;validForAnnotatorType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
                 <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
@@ -628,8 +647,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForAnnotatorType"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&knowrob_paramserver;ReferenceShapeData"/>
@@ -702,13 +720,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForControllerType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForControllerType"/>
-                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -811,14 +829,14 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
-                <owl:allValuesFrom rdf:resource="&xsd;string"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;string"/>
+                <owl:allValuesFrom rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
@@ -916,14 +934,14 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForSide"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Side"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Side"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForSide"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;Side"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Side"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1044,15 +1062,15 @@
         <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PositionalParameter"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasGraspTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasGraspTransform"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPregraspTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1063,21 +1081,9 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPregraspTransform"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPostgraspTransform"/>
                 <owl:onClass rdf:resource="&knowrob_paramserver;TransformListElement"/>
                 <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPregraspTransform"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPostgraspTransform"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1088,7 +1094,19 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasPostgraspTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPregraspTransform"/>
                 <owl:onClass rdf:resource="&knowrob_paramserver;TransformListElement"/>
                 <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
             </owl:Restriction>
@@ -1105,12 +1123,6 @@
         <rdfs:subClassOf rdf:resource="&knowrob_paramserver;RobotJointDescription"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
-                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasName"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onDataRange rdf:resource="&xsd;string"/>
@@ -1118,8 +1130,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;JointListElement"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1131,14 +1143,20 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasName"/>
-                <owl:allValuesFrom rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;JointListElement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasName"/>
+                <owl:allValuesFrom rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&knowrob_paramserver;JointListElement"/>
@@ -1176,6 +1194,12 @@
         <rdfs:subClassOf rdf:resource="&knowrob_paramserver;RobotJointDescription"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onDataRange rdf:resource="&xsd;string"/>
@@ -1191,12 +1215,6 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
                 <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1259,15 +1277,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
-                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;ListElement"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;ListElement"/>
-                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1327,12 +1345,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectComponentType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
                 <owl:onClass rdf:resource="&knowrob_paramserver;Pose"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
@@ -1342,6 +1354,12 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
                 <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Pose"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectComponentType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1386,22 +1404,27 @@
         <rdfs:subClassOf rdf:resource="&knowrob_paramserver;GeometricObject"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRotation"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;Quaternion"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasReferenceFrame"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasTranslation"/>
                 <owl:onClass rdf:resource="&knowrob_paramserver;Translation"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRotation"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Quaternion"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRotation"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Quaternion"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1414,13 +1437,8 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasReferenceFrame"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRotation"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Quaternion"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&knowrob_paramserver;Side"/>
@@ -1639,14 +1657,14 @@
         <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PoseListElement"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
-                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2386,27 +2404,27 @@
         <rdf:type rdf:resource="&owl;AllDifferent"/>
         <owl:distinctMembers rdf:parseType="Collection">
             <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Meter"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
             <rdf:Description rdf:about="&knowrob_paramserver;Kilogram"/>
             <rdf:Description rdf:about="&knowrob_paramserver;Meter"/>
             <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
             <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
             <rdf:Description rdf:about="&knowrob_paramserver;Second"/>
-        </owl:distinctMembers>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDifferent"/>
-        <owl:distinctMembers rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
-            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
-        </owl:distinctMembers>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDifferent"/>
-        <owl:distinctMembers rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
-            <rdf:Description rdf:about="&knowrob_paramserver;Meter"/>
-            <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
-            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
         </owl:distinctMembers>
     </rdf:Description>
     <rdf:Description>
