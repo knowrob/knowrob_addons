@@ -50,15 +50,19 @@ class ObjectTfPublisher(object):
         self.prolog = json_prolog.Prolog()
         self.tf_broadcaster = tf.TransformBroadcaster()
         self.marker_publisher = rospy.Publisher('/visualization_marker', Marker, queue_size=10)
-        self.dirty_object_srv = rospy.Service('~dirty_object', DirtyObject, self.dirty_cb)
+        self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
         self.objects = defaultdict(lambda: ThorinObject())
 
     def dirty_cb(self, srv_msg):
-        self.load_object(srv_msg.object_id)
-        self.publish_object_frames()
-        rospy.loginfo('updated {}'.format(srv_msg.object_id))
+        print(srv_msg)
         r = DirtyObjectResponse()
-        r.success = True
+        r.error_code = r.SUCCESS
+        for object_id in srv_msg.object_ids:
+            if not self.load_object(object_id):
+                r.error_code = r.UNKNOWN_OBJECT
+            else:
+                rospy.loginfo("object '{}' updated".format(object_id))
+            self.publish_object_frames()
         return r
 
     def prolog_query(self, q):
@@ -77,9 +81,14 @@ class ObjectTfPublisher(object):
             self.load_object(object_id)
 
     def load_object(self, object_id):
-        self.load_object_transform(object_id)
-        self.load_object_mesh(object_id)
-        self.load_object_color(object_id)
+        if object_id not in self.objects.keys():
+            self.load_objects()
+        if object_id in self.objects.keys():
+            self.load_object_transform(object_id)
+            self.load_object_mesh(object_id)
+            self.load_object_color(object_id)
+            return True
+        return False
 
     def load_object_ids(self):
         q = 'get_known_object_ids(A)'
@@ -95,7 +104,13 @@ class ObjectTfPublisher(object):
 
     def load_object_transform(self, object_id):
         # q = "get_object_transform('{}', A)".format(object_id)
+        # q = "rdf_has(ObjectId, paramserver:'hasTransform', TempRei), temporal_extent_active(TempRei),rdf_has(TempRei, assembly:'hasReferencePart', Ref),owl_individual_of(Ref, assembly:'TemporaryGrasp'),get_associated_transform(_, _, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform)."
+        # q = "temporal_extent_active(TemporalObject)"
+        # q = "rdf_has(TempRei, assembly:'hasReferencePart', Ref)"
+        # q = "rdf_has('{}', paramserver:'hasTransform', TempRei)".format(object_id)
+        # q = "owl_individual_of(Ref, assembly:'TemporaryGrasp')"
         # solutions = self.prolog_query(q)
+        # print(solutions)
         # self.objects[object_id].update_transform('left_gripper_tool_frame', object_id, (0, 0, 0), (0, 0, 0, 1))
         self.objects[object_id].update_transform('map', object_id, (0, 0, 0), (0, 0, 0, 1))
 
