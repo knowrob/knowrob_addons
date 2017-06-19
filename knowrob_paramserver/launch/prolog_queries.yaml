@@ -1,0 +1,6 @@
+- param: 
+    query: "member(A, [4]), B = ['x', A]"
+    ns: "ns0"
+- param:  
+    query: "get_known_object_ids(A)"
+    ns: "ns1"
