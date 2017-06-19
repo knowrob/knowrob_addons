@@ -176,7 +176,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableFrameName">
         <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
-        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">table</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">http://www.knowrob.org/kb/knowrob_beliefstate#TestTable</knowrob_paramserver:hasValue>
     </owl:NamedIndividual>
     
 
@@ -194,6 +194,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableTemporaryLocation">
         <rdf:type rdf:resource="&knowrob_assembly;TemporaryTransform"/>
+        <knowrob_assembly:hasReferencePart rdf:resource="&knowrob_paramserver;MapFrameSymbol"/>
         <knowrob_assembly:temporalExtent rdf:resource="&knowrob_beliefstate;TestIntervalForever"/>
         <knowrob_paramserver:hasTransform rdf:resource="&knowrob_beliefstate;TestTableTransform"/>
     </owl:NamedIndividual>
@@ -249,7 +250,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelFrameName">
         <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
-        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">wheel</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">http://www.knowrob.org/kb/knowrob_beliefstate#TestWheel</knowrob_paramserver:hasValue>
     </owl:NamedIndividual>
     
 
@@ -267,6 +268,7 @@
 
     <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelTemporaryLocation">
         <rdf:type rdf:resource="&knowrob_assembly;TemporaryTransform"/>
+        <knowrob_assembly:hasReferencePart rdf:resource="&knowrob_paramserver;MapFrameSymbol"/>
         <knowrob_assembly:temporalExtent rdf:resource="&knowrob_beliefstate;TestIntervalForever"/>
         <knowrob_paramserver:hasTransform rdf:resource="&knowrob_beliefstate;TestWheelTransform"/>
     </owl:NamedIndividual>
