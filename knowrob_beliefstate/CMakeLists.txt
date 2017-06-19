@@ -10,14 +10,21 @@ project(knowrob_beliefstate)
 ##############################################################################
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common)
-find_package(catkin REQUIRED knowrob_common knowrob_paramserver COMPONENTS message_generation)
+#find_package(catkin REQUIRED knowrob_common knowrob_paramserver COMPONENTS message_generation)
+find_package(catkin REQUIRED rosprolog knowrob_common knowrob_paramserver roslib rospack COMPONENTS message_generation)
 
 catkin_python_setup()
 
-# Set the gradle targets you want catkin's make to run by default, e.g.
-#   catkin_rosjava_setup(installApp)
-# Note that the catkin_create_rosjava_xxx scripts will usually automatically
-# add tasks to this for you when you create subprojects.
+find_package(PkgConfig)
+pkg_check_modules(SWIPL REQUIRED swipl)
+include_directories(${SWIPL_INCLUDE_DIRS})
+link_directories(${SWIPL_LIBRARY_DIRS})
+message(STATUS "SWIPL found.")
+
+find_package(RapidJSON QUIET)
+if(${RapidJSON_FOUND})
+    add_definitions(-DWITH_JSON -DRAPIDJSON_HAS_STDSTRING)
+endif()
 
 add_service_files(
    FILES
@@ -31,9 +38,21 @@ generate_messages(
 
 #catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
 
+include_directories(
+        include
+        ${SWIPL_INCLUDE_DIRS}
+        ${catkin_INCLUDE_DIRS}
+        )
+
 catkin_package(
-	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly
+	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly roslib rospack
 )
+
+add_library(kr_beliefstate SHARED 
+	src/kr_beliefstate.cpp)
+target_link_libraries(kr_beliefstate
+	${SWIPL_LIBRARIES}
+	${catkin_LIBRARIES})
 
 ##############################################################################
 # Installation

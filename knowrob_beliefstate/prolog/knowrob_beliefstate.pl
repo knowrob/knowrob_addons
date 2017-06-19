@@ -30,6 +30,7 @@
 
 :- module(knowrob_beliefstate,
     [
+      mark_dirty_objects/1,
       get_known_object_ids/1,
       get_known_assemblage_ids/1,
       get_object_color/2,
@@ -66,6 +67,7 @@
 :- use_module(library('knowrob_mongo_tf')).
 :- use_module(library('random')).
 
+:- load_foreign_library('kr_beliefstate').
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -76,7 +78,8 @@
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
 
 % TODO: send a ros service call to the ROS object state publisher node. Parameter is a list of object ids to mark as dirty.
-mark_dirty_objects(_).
+mark_dirty_objects(Objs) :-
+  service_call_mark_dirty_objects(Objs).
 
 temporal_extent_active(TemporalObject) :-
   % A TemporalObject is active when it has no temporalExtent (ie. it is forever) ...
