@@ -162,7 +162,7 @@ get_object_color(ObjectId, Color) :-
 %
 get_object_mesh_path(ObjectId, FilePath) :-
   rdf_has(ObjectId, paramserver:'hasShape', ShapeCan),
-  rdfs_individual_of(ShapeCan, paramserver:'Shape'),
+  rdfs_individual_of(ShapeCan, paramserver:'TexturedShape'),
   rdf_has(ShapeCan, paramserver:'hasPath', literal(type(xsd:'anyURI', FP))),
   atom_string(FP, FilePath).  
 
@@ -209,7 +209,7 @@ get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
   temporal_extent_active(TempRei),
   rdf_has(TempRei, assembly:'hasReferencePart', Ref),
-  =(Ref, paramserver:'MapFrameSymbol'),
+  =(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
   get_associated_transform(_, _, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
 
