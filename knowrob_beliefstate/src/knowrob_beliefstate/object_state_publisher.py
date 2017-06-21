@@ -4,6 +4,7 @@ import tf
 from collections import defaultdict
 from knowrob_beliefstate.srv._DirtyObject import DirtyObject, DirtyObjectResponse, DirtyObjectRequest
 from std_msgs.msg._ColorRGBA import ColorRGBA
+from std_srvs.srv._SetBool import SetBool, SetBoolResponse
 from std_srvs.srv._Trigger import Trigger, TriggerResponse
 from visualization_msgs.msg._Marker import Marker
 from json_prolog import json_prolog
@@ -55,7 +56,7 @@ class ObjectStatePublisher(object):
         self.marker_publisher = rospy.Publisher('/visualization_marker', Marker, queue_size=10)
         self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
         self.objects = defaultdict(lambda: ThorinObject())
-        # self.test_srv = rospy.Service('~asdf', Trigger, self.test_srv_cb)
+        # self.test_srv = rospy.Service('~asdf', SetBool, self.test_srv_cb)
 
     # for testing purpose, can be deleted...
     # def test_srv_cb(self, srv_msg):
@@ -71,7 +72,8 @@ class ObjectStatePublisher(object):
     #     asdf = DirtyObjectRequest()
     #     asdf.object_ids = [objectid]
     #     self.dirty_cb(asdf)
-    #     return TriggerResponse()
+    #     # return TriggerResponse()
+    #     return SetBoolResponse()
 
     def dirty_cb(self, srv_msg):
         r = DirtyObjectResponse()
@@ -156,5 +158,6 @@ class ObjectStatePublisher(object):
 
 if __name__ == '__main__':
     rospy.init_node('object_state_publisher')
-    object_state_publisher = ObjectStatePublisher(1)
+    hz = rospy.get_param('~hz', default='1')
+    object_state_publisher = ObjectStatePublisher(int(hz))
     object_state_publisher.loop()
