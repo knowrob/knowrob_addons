@@ -67,7 +67,7 @@
 :- use_module(library('knowrob_mongo_tf')).
 :- use_module(library('random')).
 
-:- load_foreign_library('kr_beliefstate').
+:- load_foreign_library('libkr_beliefstate.so').
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -78,8 +78,29 @@
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
 
 % TODO: send a ros service call to the ROS object state publisher node. Parameter is a list of object ids to mark as dirty.
+comma_sep_list([], C, C).
+
+comma_sep_list(L, C, CL) :-
+  \+ =(L, []),
+  nth0(0, L, X, []),
+  append(C, [X], CL).
+
+comma_sep_list(L, C, CL) :-
+  \+ =(L, []),
+  nth0(0, L, X, R),
+  \+ =(R, []),
+  append(C, [X, ','], N),
+  comma_sep_list(R, N, CL).
+  
+comma_sep_list(L, CL) :-
+  comma_sep_list(L, [], CL).
+
+mark_dirty_objects([]).
+
 mark_dirty_objects(Objs) :-
-  service_call_mark_dirty_objects(Objs).
+  \+ =(Objs, []),
+  comma_sep_list(Objs, CObjs),
+  service_call_mark_dirty_objects(CObjs).
 
 temporal_extent_active(TemporalObject) :-
   % A TemporalObject is active when it has no temporalExtent (ie. it is forever) ...
@@ -716,7 +737,7 @@ remove_transform_from_object_by_reference(Object, Ref) :-
   ensure_some_active_transform(Object, RemainingActives),
   !.
 
-multiply_transform(LTr, RTr, UpdTr) :-
+multiply_transforms(LTr, RTr, UpdTr) :-
   nth0(0, LTr, RefFrame),
   nth0(1, RTr, TgFrame),
   nth0(2, LTr, LTranslation),

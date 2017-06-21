@@ -11,7 +11,7 @@ project(knowrob_beliefstate)
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common)
 #find_package(catkin REQUIRED knowrob_common knowrob_paramserver COMPONENTS message_generation)
-find_package(catkin REQUIRED rosprolog knowrob_common knowrob_paramserver roslib rospack COMPONENTS message_generation)
+find_package(catkin REQUIRED rosprolog knowrob_common knowrob_paramserver roscpp roslib rospack COMPONENTS message_generation)
 
 catkin_python_setup()
 
