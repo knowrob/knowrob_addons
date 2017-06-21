@@ -184,8 +184,8 @@
     <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestTableShapeFile -->
 
     <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestTableShapeFile">
-        <rdf:type rdf:resource="&knowrob_paramserver;STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_beliefstate/stl/table.stl</knowrob_paramserver:hasPath>
+        <rdf:type rdf:resource="&knowrob_paramserver;DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_beliefstate/stl/table.dae</knowrob_paramserver:hasPath>
     </owl:NamedIndividual>
     
 
@@ -258,8 +258,8 @@
     <!-- http://www.knowrob.org/kb/knowrob_beliefstate#TestWheelShapeFile -->
 
     <owl:NamedIndividual rdf:about="&knowrob_beliefstate;TestWheelShapeFile">
-        <rdf:type rdf:resource="&knowrob_paramserver;STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_beliefstate/stl/wheel.stl</knowrob_paramserver:hasPath>
+        <rdf:type rdf:resource="&knowrob_paramserver;DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_beliefstate/stl/wheel.dae</knowrob_paramserver:hasPath>
     </owl:NamedIndividual>
     
 

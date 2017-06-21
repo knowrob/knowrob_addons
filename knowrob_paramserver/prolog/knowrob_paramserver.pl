@@ -490,6 +490,14 @@ get_controller_base_frame(ControllerType, RobotType, BaseFrameName) :-
   % ... and retrieve its name
   resolve_frame_specification(_, _, RobotType, CTCandidate, BaseFrameName).
 
+ensure_number(AorN, N) :-
+  number(AorN),
+  =(AorN, N).
+
+ensure_number(AorN, N) :-
+  atom(AorN),
+  atom_number(AorN, N).
+
 get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Pose) :-
   % find a transform individual based on Relation to ParSpec
   rdf_has(ParSpec, Relation, TrIn),
@@ -507,19 +515,19 @@ get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation,
   rdf_has(Rot, paramserver:'hasZ', RzIn),
   rdf_has(Rot, paramserver:'hasW', RwIn),
   rdf_has(TxIn, paramserver:'hasValue', literal(type(_, TxA))),
-  atom_number(TxA, Tx),
+  ensure_number(TxA, Tx),
   rdf_has(TyIn, paramserver:'hasValue', literal(type(_, TyA))),
-  atom_number(TyA, Ty),
+  ensure_number(TyA, Ty),
   rdf_has(TzIn, paramserver:'hasValue', literal(type(_, TzA))),
-  atom_number(TzA, Tz),
+  ensure_number(TzA, Tz),
   rdf_has(RxIn, paramserver:'hasValue', literal(type(_, RxA))),
-  atom_number(RxA, Rx),
+  ensure_number(RxA, Rx),
   rdf_has(RyIn, paramserver:'hasValue', literal(type(_, RyA))),
-  atom_number(RyA, Ry),
+  ensure_number(RyA, Ry),
   rdf_has(RzIn, paramserver:'hasValue', literal(type(_, RzA))),
-  atom_number(RzA, Rz),
+  ensure_number(RzA, Rz),
   rdf_has(RwIn, paramserver:'hasValue', literal(type(_, RwA))),
-  atom_number(RwA, Rw),
+  ensure_number(RwA, Rw),
   % assemble return value
   =(Pose, [RefFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]).
   

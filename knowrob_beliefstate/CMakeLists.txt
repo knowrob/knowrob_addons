@@ -11,7 +11,7 @@ project(knowrob_beliefstate)
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common)
 #find_package(catkin REQUIRED knowrob_common knowrob_paramserver COMPONENTS message_generation)
-find_package(catkin REQUIRED rosprolog knowrob_common knowrob_paramserver roslib rospack COMPONENTS message_generation)
+find_package(catkin REQUIRED rosprolog knowrob_common knowrob_paramserver roscpp tf roslib rospack COMPONENTS message_generation)
 
 catkin_python_setup()
 
@@ -29,6 +29,7 @@ endif()
 add_service_files(
    FILES
    DirtyObject.srv
+   GetTF.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -45,13 +46,18 @@ include_directories(
         )
 
 catkin_package(
-	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly roslib rospack
+	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly roscpp roslib rospack
 )
 
 add_library(kr_beliefstate SHARED 
 	src/kr_beliefstate.cpp)
 target_link_libraries(kr_beliefstate
 	${SWIPL_LIBRARIES}
+	${catkin_LIBRARIES})
+
+add_executable(krb_tf_listener
+               src/tf_listener.cpp)
+target_link_libraries(krb_tf_listener
 	${catkin_LIBRARIES})
 
 ##############################################################################
