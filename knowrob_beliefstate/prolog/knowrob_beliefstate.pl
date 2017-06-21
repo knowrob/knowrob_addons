@@ -99,28 +99,30 @@ mark_dirty_objects([]).
 
 mark_dirty_objects(Objs) :-
   \+ =(Objs, []),
-  comma_sep_list(Objs, CObjs),
-  service_call_mark_dirty_objects(CObjs).
+  % comma_sep_list(Objs, CObjs),
+  service_call_mark_dirty_objects(Objs).
 
 temporal_extent_active(TemporalObject) :-
   % A TemporalObject is active when it has no temporalExtent (ie. it is forever) ...
-  \+ rdf_has(TemporalObject, assembly:'temporalExtent', _).
+  \+ owl_has(TemporalObject, assembly:'temporalExtent', _).
 
 temporal_extent_active(TemporalObject) :-
  % ... or when it has a temporalExtent to an Interval without endsAtTime.
- rdf_has(TemporalObject, assembly:'temporalExtent', TempExt),
- \+ rdf_has(TempExt, assembly:'endsAtTime', _).
+ owl_has(TemporalObject, assembly:'temporalExtent', TempExt),
+ \+ owl_has(TempExt, assembly:'endsAtTime', _).
 
 create_object_with_temporal_extent(Type, Object) :-
   get_new_object_id(Type, Object),
-  rdf_assert(Object, rdf:type, Type),
+  atom_string(ObjectAt, Object),
+  rdf_assert(ObjectAt, rdf:type, Type),
   get_new_object_id('http://knowrob.org/kb/knowrob_assembly.owl#Interval', TempExt),
-  rdf_assert(TempExt, rdf:type, assembly:'Interval'),
+  atom_string(TempExtAt, TempExt),
+  rdf_assert(TempExtAt, rdf:type, assembly:'Interval'),
   get_timepoint(T),
   rdf_assert(T, rdf:type, assembly:'TimePoint'),
   rdf_assert(T, paramserver:'hasValue', literal(type(xsd:'string', T))),
-  rdf_assert(TempExt, assembly:'startsAtTime', T),
-  rdf_assert(Object, assembly:'temporalExtent', TempExt),
+  rdf_assert(TempExtAt, assembly:'startsAtTime', T),
+  rdf_assert(ObjectAt, assembly:'temporalExtent', TempExtAt),
   !.
 
 
@@ -311,22 +313,8 @@ matrix_to_quaternion(M00, M01, M02, M10, M11, M12, M20, M21, M22, QX, QY, QZ, QW
   =(Wu, QW).
 
 get_tf_transform(ReferenceFrame, TargetFrame, TFTransform) :-
-  get_timepoint(TimePoint),
-  mng_lookup_transform(ReferenceFrame, TargetFrame, TimePoint, MTF),
-  nth0(3, MTF, X),
-  nth0(7, MTF, Y),
-  nth0(11, MTF, Z),
-  nth0(0, MTF, M00),
-  nth0(1, MTF, M01),
-  nth0(2, MTF, M02),
-  nth0(4, MTF, M10),
-  nth0(5, MTF, M11),
-  nth0(6, MTF, M12),
-  nth0(8, MTF, M20),
-  nth0(9, MTF, M21),
-  nth0(10, MTF, M22),
-  matrix_to_quaternion(M00, M01, M02, M10, M11, M12, M20, M21, M22, QX, QY, QZ, QW),
-  =(TFTransform, [ReferenceFrame, TargetFrame, [X, Y, Z], [QX, QY, QZ, QW]]).
+  get_current_tf(ReferenceFrame, TargetFrame, Tx, Ty, Tz, Rx, Ry, Rz, Rw),
+  =(TFTransform, [ReferenceFrame, TargetFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]).
   
 
 %% get_object_at_location(+ObjectType, +Transform, +TranThreshold, +RotThreshold, -ObjectId) is det.
@@ -584,10 +572,11 @@ deactivate_temporal_extension(TemporalObject) :-
 deactivate_temporal_extension(TemporalObject) :-
   owl_has(TemporalObject, assembly:'temporalExtent', TempExt),
   \+ owl_has(TempExt, assembly:'endsAtTime', _),
+  atom_string(TempExtAt, TempExt),
   get_timepoint(T),
   rdf_assert(T, rdf:type, assembly:'TimePoint'),
   rdf_assert(T, paramserver:'hasValue', literal(type(xsd:'string', T))),
-  rdf_assert(TempExt, assembly:'endsAtTime', T),
+  rdf_assert(TempExtAt, assembly:'endsAtTime', T),
   % Once we put something in the endsAtTime of the temporal extent, it is inactive.
   % Avoid potentially dangerous backtracking via the cut operator.
   !.
@@ -595,8 +584,10 @@ deactivate_temporal_extension(TemporalObject) :-
 deactivate_temporal_extension(TemporalObject) :-
   \+ owl_has(TemporalObject, assembly:'temporalExtent', _),
   get_new_object_id('http://knowrob.org/kb/knowrob_assembly.owl#Interval', TempExt),
-  rdf_assert(TempExt, rdf:type, assembly:'Interval'),
-  rdf_assert(TemporalObject, assembly:'temporalExtent', TempExt),
+  atom_string(TempExtAt, TempExt),
+  atom_string(TemporalObjectAt, TemporalObject),
+  rdf_assert(TempExtAt, rdf:type, assembly:'Interval'),
+  rdf_assert(TemporalObjectAt, assembly:'temporalExtent', TempExtAt),
   deactivate_temporal_extension(TemporalObject).
   % No cuts above, because the called version of deactivate_temporal_extension already contains a cut.
 
@@ -612,29 +603,41 @@ deactivate_temporal_extensions(TemporalObjects) :-
 
 create_transform(Transform, TransformId) :-
   get_new_object_id('http://knowrob.org/kb/knowrob_paramserver.owl#Transform', TransformId),
-  rdf_assert(TransformId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Transform'),
+  atom_string(TransformIdAt, TransformId),
+  rdf_assert(TransformIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Transform'),
   get_new_object_id('Reference_Frame', ReferenceFrameId),
-  rdf_assert(ReferenceFrameId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
+  atom_string(ReferenceFrameIdAt, ReferenceFrameId),
+  rdf_assert(ReferenceFrameIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
   get_new_object_id('Target_Frame', TargetFrameId),
-  rdf_assert(TargetFrameId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
+  atom_string(TargetFrameIdAt, TargetFrameId),
+  rdf_assert(TargetFrameIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
   get_new_object_id('Translation', TranslationId),
-  rdf_assert(TranslationId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Translation'),
+  atom_string(TranslationIdAt, TranslationId),
+  rdf_assert(TranslationIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Translation'),
   get_new_object_id('Quaternion', QuaternionId),
-  rdf_assert(QuaternionId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion'),
+  atom_string(QuaternionIdAt, QuaternionId),
+  rdf_assert(QuaternionIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion'),
   get_new_object_id('X', XId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
+  atom_string(XIdAt, XId),
+  rdf_assert(XIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
   get_new_object_id('Y', YId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
+  atom_string(YIdAt, YId),
+  rdf_assert(YIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
   get_new_object_id('Z', ZId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
+  atom_string(ZIdAt, ZId),
+  rdf_assert(ZIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
   get_new_object_id('QX', QXId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
+  atom_string(QXIdAt, QXId),
+  rdf_assert(QXIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
   get_new_object_id('QY', QYId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
+  atom_string(QYIdAt, QYId),
+  rdf_assert(QYIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
   get_new_object_id('QZ', QZId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
+  atom_string(QZIdAt, QZId),
+  rdf_assert(QZIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
   get_new_object_id('QW', QWId),
-  rdf_assert(XId, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
+  atom_string(QWIdAt, QWId),
+  rdf_assert(QWIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
   nth0(0, Transform, ReferenceFrame),
   nth0(1, Transform, TargetFrame),
   nth0(2, Transform, Translation),
@@ -646,29 +649,29 @@ create_transform(Transform, TransformId) :-
   nth0(1, Rotation, QY),
   nth0(2, Rotation, QZ),
   nth0(3, Rotation, QW),
-  rdf_assert(TransformId, paramserver:'hasReferenceFrame', ReferenceFrameId),
-  rdf_assert(TransformId, paramserver:'hasTargetFrame', TargetFrameId),
-  rdf_assert(TransformId, paramserver:'hasTranslation', TranslationId),
-  rdf_assert(TransformId, paramserver:'hasRotation', RotationId),
-  rdf_assert(TranslationId, paramserver:'hasX', XId),
-  rdf_assert(TranslationId, paramserver:'hasY', YId),
-  rdf_assert(TranslationId, paramserver:'hasZ', ZId),
-  rdf_assert(RotationId, paramserver:'hasX', QXId),
-  rdf_assert(RotationId, paramserver:'hasY', QYId),
-  rdf_assert(RotationId, paramserver:'hasZ', QZId),
-  rdf_assert(RotationId, paramserver:'hasW', QWId),
-  rdf_assert(XId, paramserver:'hasUnit', paramserver:'Meter'),
-  rdf_assert(YId, paramserver:'hasUnit', paramserver:'Meter'),
-  rdf_assert(ZId, paramserver:'hasUnit', paramserver:'Meter'),
-  rdf_assert(ReferenceFrameId, paramserver:'hasValue', literal(type(xsd:'string', ReferenceFrame))),
-  rdf_assert(TargetFrameId, paramserver:'hasValue', literal(type(xsd:'string', TargetFrame))),
-  rdf_assert(XId, paramserver:'hasValue', literal(type(xsd:'double', X))),
-  rdf_assert(YId, paramserver:'hasValue', literal(type(xsd:'double', Y))),
-  rdf_assert(ZId, paramserver:'hasValue', literal(type(xsd:'double', Z))),
-  rdf_assert(QXId, paramserver:'hasValue', literal(type(xsd:'double', QX))),
-  rdf_assert(QYId, paramserver:'hasValue', literal(type(xsd:'double', QY))),
-  rdf_assert(QZId, paramserver:'hasValue', literal(type(xsd:'double', QZ))),
-  rdf_assert(QZId, paramserver:'hasValue', literal(type(xsd:'double', QW))),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame', ReferenceFrameIdAt),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame', TargetFrameIdAt),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTranslation', TranslationIdAt),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasRotation', QuaternionIdAt),
+  rdf_assert(TranslationIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasX', XIdAt),
+  rdf_assert(TranslationIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasY', YIdAt),
+  rdf_assert(TranslationIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasZ', ZIdAt),
+  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasX', QXIdAt),
+  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasY', QYIdAt),
+  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasZ', QZIdAt),
+  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasW', QWIdAt),
+  rdf_assert(XIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit', paramserver:'Meter'),
+  rdf_assert(YIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit', paramserver:'Meter'),
+  rdf_assert(ZIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit', paramserver:'Meter'),
+  rdf_assert(ReferenceFrameIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'string', ReferenceFrame))),
+  rdf_assert(TargetFrameIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'string', TargetFrame))),
+  rdf_assert(XIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', X))),
+  rdf_assert(YIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', Y))),
+  rdf_assert(ZIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', Z))),
+  rdf_assert(QXIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QX))),
+  rdf_assert(QYIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QY))),
+  rdf_assert(QZIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QZ))),
+  rdf_assert(QWIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QW))),
   !.
 
 active_transform(O, T) :-
@@ -694,11 +697,19 @@ ensure_no_active_mapref_transform(Object) :-
 add_transform_to_object(Object, TransformData, Reference, TransformId) :-
   ensure_no_active_mapref_transform(Object),
   create_object_with_temporal_extent('http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform', TempRei),
+  atom_string(TempReiAt, TempRei),
+  atom_string(ObjectAt, Object),
+  atom_string(ReferenceAt, Reference),
   create_transform(TransformData, TransformId),
-  rdf_assert(TempRei, paramserver:'hasTransform', TransformId),
-  rdf_assert(TempRei, assembly:'hasReferencePart', Reference),
-  rdf_assert(Object, paramserver:'hasTransform', TempRei),
+  atom_string(TransformIdAt, TransformId),
+  rdf_assert(TempReiAt, paramserver:'hasTransform', TransformIdAt),
+  rdf_assert(TempReiAt, 'http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart', ReferenceAt),
+  rdf_assert(ObjectAt, paramserver:'hasTransform', TempReiAt),
   !.
+
+add_transform_to_object(Object, TransformData, Reference) :-
+  add_transform_to_object(Object, TransformData, Reference, TransformId),
+  =(TransformId, _).
 
 get_reference_frame(Ref, RefFrame) :-
   owl_individual_of(Ref, assembly:'TemporaryGrasp'),
@@ -718,7 +729,7 @@ get_reference_frame(Ref, RefFrame) :-
 add_transform_to_object_by_reference(Object, Ref) :-
   get_reference_frame(Ref, RefFrame),
   get_tf_transform(RefFrame, Object, TransformData),
-  add_transform_to_object(Object, TransformData, Ref, _),
+  add_transform_to_object(Object, TransformData, Ref),
   !.
 
 ensure_some_active_transform(Object, []) :-
@@ -783,8 +794,8 @@ replace_object_transform(O, T, NT) :-
   % Update the transform that should exist between the old reference frame and the object
   multiply_transforms(TON, NT, UpdatedTransform),
   % Replace the TemporaryTransform with a new one
-  deactivate_temporal_extent(T),
-  add_transform_to_object(O, UpdatedTransform, Ref, _),
+  deactivate_temporal_extension(T),
+  add_transform_to_object(O, UpdatedTransform, Ref),
   !.  
 
 replace_object_transforms(_, [], _) :-
@@ -813,7 +824,9 @@ ensure_object_color_restriction_met(OType, _) :-
 
 ensure_object_color_restriction_met(OType, OId) :-
   object_type_has_color_restriction(OType, ColorId),
-  rdf_assert(OId, paramserver:'hasColor', ColorId),
+  atom_string(OIdAt, OId),
+  atom_string(ColorIdAt, ColorId),
+  rdf_assert(OIdAt, paramserver:'hasColor', ColorIdAt),
   !.
 
 get_object_property_exactly1_restriction(Type, Rel, Aff) :-
@@ -846,8 +859,10 @@ create_object_affordances(Object, AffordanceTypes) :-
   \+ =(AffordanceTypes, []),
   nth0(0, AffordanceTypes, Aff, Rest),
   get_new_object_id(Aff, AffId),
-  rdf_assert(AffId, rdf:type, Aff),
-  rdf_assert(Object, assembly:'hasAffordance', AffId),
+  atom_string(AffIdAt, AffId),
+  atom_string(ObjectAt, Object),
+  rdf_assert(AffIdAt, rdf:type, Aff),
+  rdf_assert(ObjectAt, assembly:'hasAffordance', AffIdAt),
   create_object_affordances(Object, Rest),
   !.
 
@@ -866,14 +881,16 @@ get_object_type_shapedata(OT, S) :-
   rdf_has(Super, owl:'hasValue', S).
 
 get_object_type_shapedatas(ObjectType, Shapes) :-
-  findall(S, get_object_type_shape_data(ObjectType, S), Shapes).
+  findall(S, get_object_type_shapedata(ObjectType, S), Shapes).
 
 link_object_to_shapes(_, []).
 
 link_object_to_shapes(Object, Shapes) :-
   \+ =(Shapes, []),
   nth0(0, Shapes, Shape, Rest),
-  rdf_assert(Object, paramserver:'hasShape', Shape),
+  atom_string(ObjectAt, Object),
+  atom_string(ShapeAt, Shape),
+  rdf_assert(ObjectAt, paramserver:'hasShape', ShapeAt),
   link_object_to_shapes(Object, Rest),
   !.
 
@@ -889,17 +906,23 @@ update_affordance_relations(TempRei, Rel, Types, Affs) :-
   nth0(0, Types, Type, RestTypes),
   select(A, Affs, RestAffs),
   owl_individual_of(A, Type),
-  rdf_assert(TempRei, Rel, A),
+  atom_string(TempReiAt, TempRei),
+  atom_string(RelAt, Rel),
+  atom_string(AAt, A),
+  rdf_assert(TempReiAt, RelAt, AAt),
   update_affordance_relations(TempRei, Rel, RestTypes, RestAffs),
   !.
 
 create_temporary_grasp(G, O, R, GraspSpecification, GraspRei) :-
   create_object_with_temporal_extent('http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp', GraspRei),
-  rdf_assert(GraspRei, paramserver:'hasGripperType', literal(type(xsd:'anyURI', G))),
-  rdf_assert(GraspRei, paramserver:'hasObjectType', literal(type(xsd:'anyURI', O))),
-  rdf_assert(GraspRei, paramserver:'hasRobotType', literal(type(xsd:'anyURI', R))),
-  rdf_assert(GraspRei, assembly:'hasSpecification', GraspSpecification),
-  rdf_assert(O, assembly:'isGrasped', GraspRei),
+  atom_string(GraspReiAt, GraspRei),
+  atom_string(OAt, O),
+  atom_string(GraspSpecificationAt, GraspSpecification),
+  rdf_assert(GraspReiAt, paramserver:'hasGripperType', literal(type(xsd:'anyURI', G))),
+  rdf_assert(GraspReiAt, paramserver:'hasObjectType', literal(type(xsd:'anyURI', O))),
+  rdf_assert(GraspReiAt, paramserver:'hasRobotType', literal(type(xsd:'anyURI', R))),
+  rdf_assert(GraspReiAt, assembly:'hasSpecification', GraspSpecificationAt),
+  rdf_assert(OAt, assembly:'isGrasped', GraspReiAt),
   findall(B, owl_has(GraspSpecification, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType', B), BlockedAffordanceTypes),
   findall(N, owl_has(GraspSpecification, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType', N), NeededAffordanceTypes),
   findall(A, get_affordance(O, A), Affordances),
@@ -1102,7 +1125,9 @@ assert_subassemblage(_, Component) :-
 
 assert_subassemblage(Assemblage, Component) :-
   owl_individual_of(Component, assembly:'Assemblage'),
-  rdf_assert(Assemblage, assembly:'hasSubassemblage', Component),
+  atom_string(AssemblageAt, Assemblage),
+  atom_string(ComponentAt, Component),
+  rdf_assert(AssemblageAt, assembly:'hasSubassemblage', ComponentAt),
   !.
 
 
@@ -1130,15 +1155,17 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
   nth0(1, Transform, ObjectId),
   % Assert that the object exists ...
-  rdf_assert(ObjectId, rdf:type, ObjectType),
+  atom_string(ObjectIdAt, ObjectId),
+  rdf_assert(ObjectIdAt, rdf:type, ObjectType),
   % ... and assert that it has the given transform ...
-  add_transform_to_object(ObjectId, Transform, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol', _),
+  add_transform_to_object(ObjectId, Transform, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
   % ... update paramserver:'ObjectReferenceFrameSymbol' to contain the frame name for this object ...
   get_new_object_id('http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName', ObjFrameName),
-  rdf_assert(ObjFrameName, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
-  rdf_assert(ObjFrameName, paramserver:'hasValue', literal(type(xsd:'string', ObjectId))),
-  rdf_assert(ObjFrameName, paramserver:'validForObjectType', literal(type(xsd:'anyURI', ObjectId))),
-  rdf_assert(paramserver:'ObjectReferenceFrameSymbol', paramserver:'standsFor', ObjFrameName),
+  atom_string(ObjFrameNameAt, ObjFrameName),
+  rdf_assert(ObjFrameNameAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
+  rdf_assert(ObjFrameNameAt, paramserver:'hasValue', literal(type(xsd:'string', ObjectId))),
+  rdf_assert(ObjFrameNameAt, paramserver:'validForObjectType', literal(type(xsd:'anyURI', ObjectId))),
+  rdf_assert(paramserver:'ObjectReferenceFrameSymbol', paramserver:'standsFor', ObjFrameNameAt),
   % ... assert color for the object in accordance to its class restrictions ...
   ensure_object_color_restriction_met(ObjectType, ObjectId),
   % ... assert shapeData for the object in accordance to its class restrictions ...
@@ -1165,7 +1192,7 @@ assert_grasp_on_object(Gripper, Object, Robot, GraspSpecification, GraspRei) :-
   get_valid_grasp_for_object(Object, Gripper, GraspAffordances, GraspSpecification),
   create_temporary_grasp(Gripper, Object, Robot, GraspSpecification, GraspRei),
   get_associated_transform(Gripper, Object, Robot, GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
-  add_transform_to_object(Object, Transform, GraspRei, _),
+  add_transform_to_object(Object, Transform, GraspRei),
   get_linked_mobile_reference_parts(Object, MobileReferenceParts),
   % We need two lists here: one that definitely does NOT contain Object, and one that does
   delete(MobileReferenceParts, Object, MRPs),
@@ -1235,15 +1262,19 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   % Create the AssemblyConnection object; we need to know all the objects in the assemblies here
   collect_assemblage_components([PrimaryObject, SecondaryObject], AssemblageComponents),
   create_connection(ConnectionType, AssemblageComponents, C),
-  rdf_assert(C, assembly:'hasReferencePart', ReferenceObject),
+  atom_string(CAt, C),
+  atom_string(ReferenceObjectAt, ReferenceObject),
+  rdf_assert(CAt, assembly:'hasReferencePart', ReferenceObjectAt),
   % Add the connection transform to the connection itself and to the SubRef
   get_connection_transform(ConnectionType, ReferenceObject, SubRef, Transform),
   add_transform_to_object(SubRef, Transform, C, TransformId),
-  rdf_assert(C, paramserver:'hasTransform', TransformId),
+  atom_string(TransformIdAt, TransformId),
+  rdf_assert(CAt, paramserver:'hasTransform', TransformIdAt),
   % Finally, create the assembly
   get_new_object_id(AssemblageType, Assemblage),
-  rdf_assert(Assemblage, rdf:type, AssemblageType),
-  rdf_assert(Assemblage, assembly:'usesConnection', C),
+  atom_string(AssemblageAt, Assemblage),
+  rdf_assert(AssemblageAt, rdf:type, AssemblageType),
+  rdf_assert(AssemblageAt, assembly:'usesConnection', CAt),
   assert_subassemblage(Assemblage, PrimaryObject),
   assert_subassemblage(Assemblage, SecondaryObject),
   mark_dirty_objects(AssemblageComponents),
