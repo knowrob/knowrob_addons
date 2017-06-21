@@ -2,7 +2,7 @@
 import rospy
 import tf
 from collections import defaultdict
-from knowrob_beliefstate.srv._DirtyObject import DirtyObject, DirtyObjectResponse
+from knowrob_beliefstate.srv._DirtyObject import DirtyObject, DirtyObjectResponse, DirtyObjectRequest
 from std_msgs.msg._ColorRGBA import ColorRGBA
 from std_srvs.srv._Trigger import Trigger, TriggerResponse
 from visualization_msgs.msg._Marker import Marker
@@ -44,49 +44,36 @@ class ThorinObject(object):
         return marker
 
     def get_short_name(self):
-        # return self.object_name.split('#')[1]
-        return self.object_name
+        return self.object_name.split('#')[1]
 
 
-class ObjectTfPublisher(object):
+class ObjectStatePublisher(object):
     def __init__(self, tf_frequency):
         self.tf_frequency = tf_frequency
         self.prolog = json_prolog.Prolog()
         self.tf_broadcaster = tf.TransformBroadcaster()
         self.marker_publisher = rospy.Publisher('/visualization_marker', Marker, queue_size=10)
         self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
-        self.test_srv = rospy.Service('~asdf', Trigger, self.test_srv_cb)
         self.objects = defaultdict(lambda: ThorinObject())
+        # self.test_srv = rospy.Service('~asdf', Trigger, self.test_srv_cb)
 
-    def test_srv_cb(self, srv_msg):
-        objectid = 'http://www.knowrob.org/kb/knowrob_beliefstate#TestWheel'
-        object_type = 'http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart'
-        new_transform = ['map', objectid, [0.5, 0, 0.8], [0, 0, 0, 1]]
-        # sol = self.prolog_query("owl_individual_of('{}', B)".format(objectid, object_type))
-        # sol = self.prolog_query("owl_individual_of('{}', '{}')".format(objectid, object_type))
-        q = "replace_object_transforms('{}', {})".format(objectid, new_transform)
-        # sol = self.prolog_query("owl_individual_of('{}', '{}'), nth0(1, '{}', '{}')".format(objectid, object_type, new_transform,objectid))
-        # sol = self.prolog_query("nth0(1, {}, '{}')".format(new_transform,objectid))
-        # sol = self.prolog_query("owl_individual_of('{}', '{}'), "
-        #                         "nth0(1, {}, '{}'), "
-        #                         "replace_object_transforms('{}', {})".format(objectid, object_type, new_transform, objectid, objectid, new_transform))
-        # sol = self.prolog_query("assert_object_at_location('{}', '{}', {})".format(object_type, objectid, new_transform))
-        print('queue::: {}'.format(q))
-        sol = self.prolog_query(q)
-        for s in sol:
-            print(s)
-        print('---------------------------------------------------')
-        # query = self.prolog.query(q)
-        # solutions = [x for x in query.solutions()]
-        # if len(solutions) > 1:
-        #     rospy.logwarn('{} returned more than one result'.format(q))
-        # elif len(solutions) == 0:
-        #     rospy.logwarn('{} returned nothing'.format(q))
-        # query.finish()
-        return TriggerResponse()
+    # for testing purpose, can be deleted...
+    # def test_srv_cb(self, srv_msg):
+    #     objectid = 'http://www.knowrob.org/kb/knowrob_beliefstate#TestWheel'
+    #     object_type = 'http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart'
+    #     new_transform = ['map', objectid, [0, 0, 0], [0, 0, 0, 1]]
+    #     q = "assert_object_at_location('{}', '{}', {})".format(object_type, objectid, new_transform)
+    #     print('test queue: {}'.format(q))
+    #     sol = self.prolog_query(q)
+    #     for s in sol:
+    #         print(s)
+    #     print('---------------------------------------------------')
+    #     asdf = DirtyObjectRequest()
+    #     asdf.object_ids = [objectid]
+    #     self.dirty_cb(asdf)
+    #     return TriggerResponse()
 
     def dirty_cb(self, srv_msg):
-        print(srv_msg)
         r = DirtyObjectResponse()
         r.error_code = r.SUCCESS
         for object_id in srv_msg.object_ids:
@@ -120,6 +107,7 @@ class ObjectTfPublisher(object):
             self.load_object_mesh(object_id)
             self.load_object_color(object_id)
             return True
+        rospy.logwarn('object with id:{} not found in database'.format(object_id))
         return False
 
     def load_object_ids(self):
@@ -136,13 +124,7 @@ class ObjectTfPublisher(object):
 
     def load_object_transform(self, object_id):
         q = "get_object_transform('{}', A)".format(object_id)
-        # q = "temporal_extent_active(A)"
-        # q = "rdf_has(ObjectId, paramserver:'hasTransform', TempRei), temporal_extent_active(TempRei),rdf_has(TempRei, assembly:'hasReferencePart', Ref),atom_string(Ref, RefStr),'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol' == 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'"
-        #q = "rdf_has(ObjectId, paramserver:'hasTransform', TempRei), temporal_extent_active(TempRei),rdf_has(TempRei, assembly:'hasReferencePart', Ref)"
         solutions = self.prolog_query(q)
-        print(solutions[0]['A'])
-        # self.objects[object_id].update_transform('left_gripper_tool_frame', object_id, (0, 0, 0), (0, 0, 0, 1))
-        # self.objects[object_id].update_transform('map', object_id, (0, 0, 0), (0, 0, 0, 1))
         self.objects[object_id].update_transform(*solutions[0]['A'])
 
     def load_object_mesh(self, object_id):
@@ -173,6 +155,6 @@ class ObjectTfPublisher(object):
 
 
 if __name__ == '__main__':
-    rospy.init_node('object_tf_publisher')
-    asdf = ObjectTfPublisher(1)
-    asdf.loop()
+    rospy.init_node('object_state_publisher')
+    object_state_publisher = ObjectStatePublisher(1)
+    object_state_publisher.loop()
