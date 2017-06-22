@@ -2,6 +2,10 @@
 import rospy
 import tf
 from collections import defaultdict
+
+from geometry_msgs.msg._Point import Point
+from geometry_msgs.msg._Pose import Pose
+from geometry_msgs.msg._Quaternion import Quaternion
 from knowrob_beliefstate.srv._DirtyObject import DirtyObject, DirtyObjectResponse, DirtyObjectRequest
 from std_msgs.msg._ColorRGBA import ColorRGBA
 from std_srvs.srv._SetBool import SetBool, SetBoolResponse
@@ -24,14 +28,13 @@ class ThorinObject(object):
         self.color.a = float(a)
 
     def update_transform(self, ref_frame, object_name, translation, rotation):
-        ref_frame = str(ref_frame)
-        object_name = str(object_name)
-        self.transform = [ref_frame, object_name, translation, rotation]
+        self.ref_frame = str(ref_frame)
         self.object_name = str(object_name)
+        self.transform = [self.ref_frame, self.object_name, translation, rotation]
 
     def get_marker(self):
         marker = Marker()
-        marker.header.frame_id = self.object_name
+        marker.header.frame_id = self.ref_frame
         marker.type = marker.MESH_RESOURCE
         marker.action = Marker.ADD
         marker.id = 1337
@@ -40,7 +43,9 @@ class ThorinObject(object):
         marker.scale.x = 1
         marker.scale.y = 1
         marker.scale.z = 1
-        marker.pose.orientation.w = 1
+        marker.frame_locked = True
+        marker.pose.position = Point(*self.transform[-2])
+        marker.pose.orientation = Quaternion(*self.transform[-1])
         marker.mesh_resource = self.mesh_path[:-4] + '.dae'
         return marker
 
@@ -62,7 +67,7 @@ class ObjectStatePublisher(object):
     # def test_srv_cb(self, srv_msg):
     #     objectid = 'http://www.knowrob.org/kb/knowrob_beliefstate#TestWheel'
     #     object_type = 'http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart'
-    #     new_transform = ['map', objectid, [0, 0, 0], [0, 0, 0, 1]]
+    #     new_transform = ['left_gripper_tool_frame', objectid, [0, 0, 0], [0, 0, 0, 1]]
     #     q = "assert_object_at_location('{}', '{}', {})".format(object_type, objectid, new_transform)
     #     print('test queue: {}'.format(q))
     #     sol = self.prolog_query(q)
@@ -72,7 +77,6 @@ class ObjectStatePublisher(object):
     #     asdf = DirtyObjectRequest()
     #     asdf.object_ids = [objectid]
     #     self.dirty_cb(asdf)
-    #     # return TriggerResponse()
     #     return SetBoolResponse()
 
     def dirty_cb(self, srv_msg):
@@ -83,7 +87,8 @@ class ObjectStatePublisher(object):
                 r.error_code = r.UNKNOWN_OBJECT
             else:
                 rospy.loginfo("object '{}' updated".format(object_id))
-            self.publish_object_frames()
+        self.publish_object_frames()
+        self.publish_object_markers()
         return r
 
     def prolog_query(self, q):
@@ -100,16 +105,18 @@ class ObjectStatePublisher(object):
         self.load_object_ids()
         for object_id in self.objects.keys():
             self.load_object(object_id)
+        self.publish_object_frames()
+        self.publish_object_markers()
 
     def load_object(self, object_id):
         if object_id not in self.objects.keys():
-            self.load_objects()
+            self.load_object_ids()
         if object_id in self.objects.keys():
             self.load_object_transform(object_id)
             self.load_object_mesh(object_id)
             self.load_object_color(object_id)
             return True
-        rospy.logwarn('object with id:{} not found in database'.format(object_id))
+        rospy.logwarn("object with id:'{}' not found in database".format(object_id))
         return False
 
     def load_object_ids(self):
@@ -152,7 +159,6 @@ class ObjectStatePublisher(object):
         rate = rospy.Rate(self.tf_frequency)
         while not rospy.is_shutdown():
             self.publish_object_frames()
-            self.publish_object_markers()
             rate.sleep()
 
 
