@@ -722,9 +722,11 @@ get_reference_frame(Ref, RefFrame) :-
   rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
 
 get_reference_frame(Ref, RefFrame) :-
-  =(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
-  rdf_has(Ref, paramserver:'standsFor', F),
-  rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
+  owl_same_as(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
+  %% TODO: currently we are using this FrameSymbol directly. In the future we may want to indirect on environment, for example.
+  % rdf_has(Ref, paramserver:'standsFor', F),
+  % rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
+  rdf_has(Ref, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
 
 add_transform_to_object_by_reference(Object, Ref) :-
   get_reference_frame(Ref, RefFrame),
