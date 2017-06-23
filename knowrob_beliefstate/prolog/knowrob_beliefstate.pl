@@ -48,6 +48,8 @@
       get_assemblages_with_object/2,
       get_objects_in_assemblage/2,
 
+
+
       assert_object_at_location/3,
       assert_grasp_on_object/5,
       assert_ungrasp/1,
@@ -831,14 +833,15 @@ ensure_object_color_restriction_met(OType, OId) :-
   rdf_assert(OIdAt, paramserver:'hasColor', ColorIdAt),
   !.
 
-get_object_property_exactly1_restriction(Type, Rel, Aff) :-
+get_object_property_exactly1_restriction(Type, Rel, Aff, Rest) :-
   % Find a superclass that is a restriction
   owl_subclass_of(Type, Super),
   rdfs_individual_of(Super, owl:'Restriction'),
   % of the form Rel exactly 1 AffordanceType
   rdf_has(Super, owl:'onProperty', Rel),
-  rdf_has(Super, owl:'qualifiedCardinality', literal(type(_, 1))),
-  rdf_has(Super, owl:'onClass', Aff).
+  rdf_has(Super, owl:'qualifiedCardinality', literal(type(_, '1'))),
+  rdf_has(Super, owl:'onClass', Aff),
+  =(Super, Rest).
 
 get_object_property_value_restriction(Type, Rel, Aff, Rest) :-
   % Find a superclass that is a restriction
@@ -850,8 +853,8 @@ get_object_property_value_restriction(Type, Rel, Aff, Rest) :-
   =(Super, Rest).
 
 get_connection_transform(ConnectionType, ReferenceObject, SubRef, Transform) :-
-  get_object_property_value_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', _, Restr),
-  get_associated_transform(_, ReferenceObject, _, Restr, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', TrMngl),
+  get_object_property_value_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#usesTransform', _, Restr),
+  get_associated_transform(_, ReferenceObject, _, Restr, _, 'http://knowrob.org/kb/knowrob_assembly.owl#usesTransform', TrMngl),
   =(TrMngl, [_, _, Trnsl, Rot]),
   =(Transform, [ReferenceObject, SubRef, Trnsl, Rot]).
 
@@ -870,7 +873,7 @@ create_object_affordances(Object, AffordanceTypes) :-
 
 %% WARNING: so far assume that all affordances on an object have unique types
 ensure_object_affordances(ObjectType, ObjectId) :-
-  findall(A, get_object_property_exactly1_restriction(ObjectType, 'http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', A), AffordanceTypes),
+  findall(A, get_object_property_exactly1_restriction(ObjectType, 'http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', A, _), AffordanceTypes),
   create_object_affordances(ObjectId, AffordanceTypes),
   !.
 
@@ -965,8 +968,8 @@ get_participating_object_available_affordances(Objects, Affordances) :-
 
 create_connection(ConnectionType, AssemblageComponents, Connection) :-
   create_object_with_temporal_extent(ConnectionType, Connection),
-  findall(BA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BA), BlockedAffordanceTypes),
-  findall(NA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NA), NeededAffordanceTypes),
+  findall(BA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BA, _), BlockedAffordanceTypes),
+  findall(NA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NA, _), NeededAffordanceTypes),
   get_participating_object_available_affordances(AssemblageComponents, Affordances),
   update_affordance_relations(Connection, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BlockedAffordanceTypes, Affordances),
   update_affordance_relations(Connection, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeededAffordanceTypes, Affordances),
