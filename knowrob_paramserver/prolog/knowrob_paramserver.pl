@@ -441,6 +441,13 @@ get_controller_arm_joints(ControllerType, RobotType, Side, Joints, Name, EEFJoin
   reverse(RevJoints, Joints).
 
 resolve_frame_specification(_, _, _, FrameSpec, FrameName) :-
+  owl_same_as(FrameSpec, paramserver:'MapFrameSymbol'),
+%% TODO: in the future, we may want to indirect the MapFrameSymbol as well, maybe on environment
+%% However for now the name of the map frame will be stored directly in the map symbol.
+  rdf_has(FrameSpec, paramserver:'hasValue', literal(type(xsd:'string', FN))),
+  atom_string(FN, FrameName).
+
+resolve_frame_specification(_, _, _, FrameSpec, FrameName) :-
   rdfs_individual_of(FrameSpec, paramserver:'CoordinateFrameName'),
   rdf_has(FrameSpec, paramserver:'hasValue', literal(type(xsd:'string', FN))),
   atom_string(FN, FrameName).
