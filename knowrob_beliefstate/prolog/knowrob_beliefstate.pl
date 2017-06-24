@@ -47,14 +47,17 @@
       get_objects_in_grasp/2,
       get_assemblages_with_object/2,
       get_objects_in_assemblage/2,
+      get_objects_connected_to_object/2,
 
-
+      get_object_reference_frame/2,
 
       assert_object_at_location/3,
       assert_grasp_on_object/5,
       assert_ungrasp/1,
       assert_assemblage_created/6,
-      assert_assemblage_destroyed/1
+      assert_assemblage_destroyed/1,
+
+      create_assembly_agenda/3
     ]).
 
 :- use_module(library('jpl')).
@@ -127,6 +130,11 @@ create_object_with_temporal_extent(Type, Object) :-
   rdf_assert(ObjectAt, assembly:'temporalExtent', TempExtAt),
   !.
 
+
+get_object_reference_frame(OId, FN) :-
+  rdf_has(paramserver:'ObjectReferenceFrameSymbol', paramserver:'standsFor', FNO),
+  rdf_has(FNO, paramserver:validForObjectType, literal(type(xsd:'anyURI', OId))),
+  rdf_has(FNO, paramserver:hasValue, literal(type(xsd:'string', FN))).
 
 %% get_known_object_ids(-ObjectIds) is det.
 %
@@ -221,21 +229,21 @@ get_object_transform(ObjectId, Transform) :-
   temporal_extent_active(TempRei),
   rdf_has(TempRei, assembly:'hasReferencePart', Ref),
   owl_individual_of(Ref, assembly:'TemporaryGrasp'),
-  get_associated_transform(_, _, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
+  get_associated_transform(_, ObjectId, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
 get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
   temporal_extent_active(TempRei),
   rdf_has(TempRei, assembly:'hasReferencePart', Ref),
   owl_individual_of(Ref, assembly:'AssemblyConnection'),
-  get_associated_transform(_, _, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
+  get_associated_transform(_, ObjectId, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
 get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
   temporal_extent_active(TempRei),
   rdf_has(TempRei, assembly:'hasReferencePart', Ref),
-  =(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
-  get_associated_transform(_, _, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
+  owl_same_as(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
+  get_associated_transform(_, ObjectId, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
 
 translations_are_close(T1, T2, Dmax) :-
@@ -400,7 +408,8 @@ assemblage_has_part(Assemblage, Part) :-
 % @param Assemblages [anyURI*], assemblages id
 %
 get_assemblages_with_object(Object, Assemblages) :-
-  findall(A, assemblage_has_part(A, Object), Assemblages).
+  findall(A, assemblage_has_part(A, Object), AssemblagesL),
+  list_to_set(AssemblagesL, Assemblages).
 
 %% get_objects_in_assemblage(+Assemblage, -Objects) is det.
 %
@@ -834,27 +843,33 @@ ensure_object_color_restriction_met(OType, OId) :-
   !.
 
 get_object_property_exactly1_restriction(Type, Rel, Aff, Rest) :-
+  % Also check whether sub properties of Rel are being asserted
+  findall(SP, owl_has(SP, 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf', Rel), SPs),
+  member(RelX, [Rel|SPs]),
   % Find a superclass that is a restriction
   owl_subclass_of(Type, Super),
   rdfs_individual_of(Super, owl:'Restriction'),
-  % of the form Rel exactly 1 AffordanceType
-  rdf_has(Super, owl:'onProperty', Rel),
+  % of the form RelX exactly 1 AffordanceType
+  rdf_has(Super, owl:'onProperty', RelX),
   rdf_has(Super, owl:'qualifiedCardinality', literal(type(_, '1'))),
   rdf_has(Super, owl:'onClass', Aff),
   =(Super, Rest).
 
 get_object_property_value_restriction(Type, Rel, Aff, Rest) :-
+  % Also check whether sub properties of Rel are being asserted
+  findall(SP, owl_has(SP, 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf', Rel), SPs),
+  member(RelX, [Rel|SPs]),
   % Find a superclass that is a restriction
   owl_subclass_of(Type, Super),
   rdfs_individual_of(Super, owl:'Restriction'),
-  % of the form Rel hasValue Aff
-  rdf_has(Super, owl:'onProperty', Rel),
+  % of the form RelX hasValue Aff
+  rdf_has(Super, owl:'onProperty', RelX),
   rdf_has(Super, owl:'hasValue', Aff),
   =(Super, Rest).
 
 get_connection_transform(ConnectionType, ReferenceObject, SubRef, Transform) :-
   get_object_property_value_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#usesTransform', _, Restr),
-  get_associated_transform(_, ReferenceObject, _, Restr, _, 'http://knowrob.org/kb/knowrob_assembly.owl#usesTransform', TrMngl),
+  get_associated_transform(_, ReferenceObject, _, Restr, _, 'http://www.w3.org/2002/07/owl#hasValue', TrMngl),
   =(TrMngl, [_, _, Trnsl, Rot]),
   =(Transform, [ReferenceObject, SubRef, Trnsl, Rot]).
 
@@ -904,11 +919,20 @@ ensure_object_shape_data(ObjectType, ObjectId) :-
   link_object_to_shapes(ObjectId, Shapes),
   !.
 
+remove_supertypes([], Cr, Cr).
+
+remove_supertypes([T|Rts], Cr, Result) :-
+  \+ (member(X, Rts), owl_subclass_of(X, T)),
+  remove_supertypes(Rts, [T|Cr], Result).
+
+remove_supertypes([T|Rts], Cr, Result) :-
+  member(X, Rts), 
+  owl_subclass_of(X, T),
+  remove_supertypes(Rts, Cr, Result).
+
 update_affordance_relations(_, _, [], _).
 
-update_affordance_relations(TempRei, Rel, Types, Affs) :-
-  \+ =(Types, []),
-  nth0(0, Types, Type, RestTypes),
+update_affordance_relations(TempRei, Rel, [Type|RestTypes], Affs) :-
   select(A, Affs, RestAffs),
   owl_individual_of(A, Type),
   atom_string(TempReiAt, TempRei),
@@ -928,15 +952,17 @@ create_temporary_grasp(G, O, R, GraspSpecification, GraspRei) :-
   rdf_assert(GraspReiAt, paramserver:'hasRobotType', literal(type(xsd:'anyURI', R))),
   rdf_assert(GraspReiAt, assembly:'hasSpecification', GraspSpecificationAt),
   rdf_assert(OAt, assembly:'isGrasped', GraspReiAt),
-  findall(B, owl_has(GraspSpecification, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType', B), BlockedAffordanceTypes),
-  findall(N, owl_has(GraspSpecification, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType', N), NeededAffordanceTypes),
+  findall(B, owl_has(GraspSpecification, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType', literal(type(_, B))), BATs),
+  findall(N, owl_has(GraspSpecification, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType', literal(type(_, N))), NATs),
+  remove_supertypes(BATs, [], BlockedAffordanceTypes),
+  remove_supertypes(NATs, [], NeededAffordanceTypes),
   findall(A, get_affordance(O, A), Affordances),
   update_affordance_relations(GraspRei, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BlockedAffordanceTypes, Affordances),
   update_affordance_relations(GraspRei, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeededAffordanceTypes, Affordances),
   !.
 
 collect_assemblage_components([], CrComponents, Result) :-
-  list_to_set(CrComponents, Result).
+  list_to_set(CrComponents, Result),!.
 
 collect_assemblage_components(Objects, CrComponents, Result) :-
   \+ =(Objects, []),
@@ -968,8 +994,10 @@ get_participating_object_available_affordances(Objects, Affordances) :-
 
 create_connection(ConnectionType, AssemblageComponents, Connection) :-
   create_object_with_temporal_extent(ConnectionType, Connection),
-  findall(BA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BA, _), BlockedAffordanceTypes),
-  findall(NA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NA, _), NeededAffordanceTypes),
+  findall(BA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BA, _), BATs),
+  findall(NA, get_object_property_exactly1_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NA, _), NATs),
+  remove_supertypes(BATs, [], BlockedAffordanceTypes),
+  remove_supertypes(NATs, [], NeededAffordanceTypes),
   get_participating_object_available_affordances(AssemblageComponents, Affordances),
   update_affordance_relations(Connection, 'http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance', BlockedAffordanceTypes, Affordances),
   update_affordance_relations(Connection, 'http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeededAffordanceTypes, Affordances),
@@ -985,7 +1013,16 @@ get_reference_part(Object, ReferencePart) :-
   rdf_has(Object, assembly:'usesConnection', C),
   rdf_has(C, assembly:'hasReferencePart', ReferencePart).
 
-%% Returns a list of AtomicParts connected to Object, via inclusion in a subsuming assemblage; Object itself will be in the list.
+%% get_objects_connected_to_object(+Object, ConnObjs) is det.
+%
+% Returns a list of AtomicParts connected to Object, via inclusion in a subsuming assemblage; Object itself will be in the list.
+%
+% @param Object        anyURI representing the Object id
+% @param ConnObjs      [anyURI*] list of object ids.
+%
+get_objects_connected_to_object(Object, [Object]) :-
+  get_assemblages_with_object(Object, []).
+
 get_objects_connected_to_object(Object, ConnObjs) :-
   get_assemblages_with_object(Object, SuperAssemblages),
   collect_assemblage_components(SuperAssemblages, [], ConnObjs).
@@ -1006,7 +1043,11 @@ get_assemblages_connected_to_object(Object, Assemblages) :-
   get_objects_connected_to_object(Object, ConnObjs),
   get_assemblages_with_objects(ConnObjs, [], Assemblages).
 
-%% Returns the reference part of A (an assemblage), if this reference part is mobile. Otherwise, returns nil.
+%% Returns the reference part of A (an assemblage or atomic part), if this reference part is mobile. Otherwise, returns nil.
+get_mobile_reference(A, A) :-
+  owl_individual_of(A, assembly:'AtomicPart'),
+  \+ owl_individual_of(A, assembly:'FixedPart').
+  
 get_mobile_reference(A, MRP) :-
   rdf_has(A, assembly:'usesConnection', C),
   rdf_has(C, assembly:'hasReferencePart', MRP),
@@ -1014,8 +1055,10 @@ get_mobile_reference(A, MRP) :-
   
 %% Retrieves the non-FixedPart reference parts for all assemblages somehow connected to Object.
 get_linked_mobile_reference_parts(Object, MRPs) :-
+  % This returns all assemblages somehow actively connected to Object, but not Object itself.
+  % This is why we will explicitly add Object to this list later.
   get_assemblages_connected_to_object(Object, Assemblages),
-  findall(MRP, (member(A, Assemblages), get_mobile_reference(A, MRP)), MRPsL),
+  findall(MRP, (member(A, [Object|Assemblages]), get_mobile_reference(A, MRP)), MRPsL),
   % Several assemblages may have the same reference part, so explicitly coerce to set
   list_to_set(MRPsL, MRPs).
 
@@ -1265,8 +1308,9 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   apply_grasp_list(MRPPrimary, SSpecGrasps),
   apply_grasp_list(MRPSecondary, PSpecGrasps),
   % Create the AssemblyConnection object; we need to know all the objects in the assemblies here
-  collect_assemblage_components([PrimaryObject, SecondaryObject], AssemblageComponents),
+  collect_assemblage_components([PrimaryObject, SecondaryObject], [], AssemblageComponents),
   create_connection(ConnectionType, AssemblageComponents, C),
+  !,
   atom_string(CAt, C),
   atom_string(ReferenceObjectAt, ReferenceObject),
   rdf_assert(CAt, assembly:'hasReferencePart', ReferenceObjectAt),
@@ -1304,6 +1348,8 @@ assert_assemblage_destroyed(Assemblage) :-
   rdf_has(Connection, paramserver:'hasTransform', TransformId),
   rdf_has(TransformId, paramserver:'hasReferenceFrame', RefFrId),
   rdf_has(TransformId, paramserver:'hasTargetFrame', TgFrId),
+  % TODO: perhaps replace this with a cleaner association between object name and object frame
+  % Currently, such an association is via the ObjectReferenceFrameSymbol and the get_object_reference_frame predicate.
   rdf_has(RefFrId, paramserver:'hasValue', literal(type(xsd:'string', ReferenceObject))),
   rdf_has(TgFrId, paramserver:'hasValue', literal(type(xsd:'string', SubRef))),
   remove_transform_from_object_by_reference(SubRef, Connection),
@@ -1323,4 +1369,103 @@ assert_assemblage_destroyed(Assemblage) :-
   remove_grasp_list(MRPSecondary, SInvalidGrasps),
   mark_dirty_objects(DirtyObjects),
   !.
+
+
+get_leaf_subtype(SuperType, LeafSubType) :-
+  =(SuperType, LeafSubType).
+%  owl_subclass_of(LeafSubType, SuperType),
+%  \+ owl_subclass_of(_, LeafSubType).
+
+get_assemblage_type_possible_connections(ConnectionDescription, Connections) :-
+  owl_has(ConnectionDescription, owl:onClass, Class),
+  \+ owl_same_as(Class, assembly:'AssemblyConnection'),
+  \+ rdf_has(Class, owl:intersectionOf, _),
+  findall(L, get_leaf_subtype(Class, L), Connections).
+
+get_assemblage_type_possible_connections(ConnectionDescription, Connections) :-
+  owl_has(ConnectionDescription, owl:onClass, Description),
+  \+ owl_same_as(Description, assembly:'AssemblyConnection'),
+  rdf_has(Description, owl:intersectionOf, I),
+  rdfs_list_to_prolog_list(I, IntersectionTerms),
+  member(ConnectionType, IntersectionTerms),
+  owl_subclass_of(ConnectionType, assembly:'AssemblyConnection'),
+  \+ owl_individual_of(ConnectionType, owl:'Restriction'),
+  findall(L, get_leaf_subtype(ConnectionType, L), Connections).
+
+get_assemblage_atomic_parts(AssemblageType, PrimaryAtomicParts, SecondaryAtomicParts) :-
+  findall(X, get_object_property_exactly1_restriction(AssemblageType, 'http://knowrob.org/kb/knowrob_assembly.owl#hasPart', X, _), Parts),
+  assign_ps_atomic_parts(Parts, PrimaryAtomicParts, SecondaryAtomicParts).
+
+assign_ps_atomic_parts([], [], []).
+
+assign_ps_atomic_parts([P], PPs, []) :-
+  findall(Y, get_leaf_subtype(P, Y), PPs).
+
+assign_ps_atomic_parts([P, S], PPs, SPs) :-
+  findall(Y, get_leaf_subtype(P, Y), PPs),
+  findall(X, get_leaf_subtype(S, X), SPs).
+
+get_assemblage_subassemblages(ConnectionDescription, [], []) :-
+  owl_has(ConnectionDescription, owl:onClass, Description),
+  owl_individual_of(Description, assembly:'AssemblyConnection').
+
+get_assemblage_subassemblages(ConnectionDescription, [], []) :-
+  owl_has(ConnectionDescription, owl:onClass, Description),
+  \+ owl_individual_of(Description, assembly:'AssemblyConnection'),
+  \+ rdf_has(Description, owl:intersectionOf, _).
+
+get_assemblage_subassemblages(ConnectionDescription, PAs, SAs) :-
+  owl_has(ConnectionDescription, owl:onClass, Description),
+  \+ owl_individual_of(Description, assembly:'AssemblyConnection'),
+  get_assemblage_subassemblages_internal(Description, PAs, SAs).
+
+get_required_linked_subassemblage(Restr, SA) :-
+  rdfs_individual_of(Restr, owl:'Restriction'),
+  owl_has(Restr, owl:onProperty, assembly:'linksAssemblage'),
+  owl_has(Restr, owl:someValuesFrom, SA).
+
+get_assemblage_subassemblages_internal(Description, PAs, SAs) :-
+  rdf_has(Description, owl:intersectionOf, I),
+  rdfs_list_to_prolog_list(I, IntersectionTerms),
+  findall(X, (member(IT, IntersectionTerms), get_required_linked_subassemblage(IT, X)), ATs),
+  assign_ps_subassemblages(ATs, PAs, SAs).
+
+assign_ps_subassemblages([], [], []).
+
+assign_ps_subassemblages([SA], [], SAs) :-
+  findall(X, get_leaf_subtype(SA, X), SAs).
+
+assign_ps_subassemblages([PA, SA], PAs, SAs) :-
+  findall(Y, get_leaf_subtype(PA, Y), PAs),
+  findall(X, get_leaf_subtype(SA, X), SAs).
+
+create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, [], NewAvailableAtomicParts, AssemblageName) :-
+  owl_subclass_of(AssemblageType, assembly:'AtomicPart'),
+  member(AssemblageName, AvailableAtomicParts),
+  owl_individual_of(AssemblageName, AssemblageType),
+  delete(AvailableAtomicParts, AssemblageName, NewAvailableAtomicParts).
+
+create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, NewAvailableAtomicParts, AssemblageName) :-
+mark_dirty_objects([createassemblage, AssemblageType, AvailableAtomicParts]),
+  \+ owl_subclass_of(AssemblageType, assembly:'AtomicPart'),
+  get_object_property_exactly1_restriction(AssemblageType, 'http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', _, ConnectionDescription),
+  get_assemblage_type_possible_connections(ConnectionDescription, Connections),
+  get_assemblage_atomic_parts(AssemblageType, PAPs, SAPs),
+  get_assemblage_subassemblages(ConnectionDescription, PAs, SAs),
+  append(PAPs, PAs, PrimaryAssemblages),
+  append(SAPs, SAs, SecondaryAssemblages),
+  member(Connection, Connections),
+  member(PrimaryType, PrimaryAssemblages),
+  member(SecondaryType, SecondaryAssemblages),
+  create_assembly_agenda_internal(PrimaryType, AvailableAtomicParts, PrimaryAgenda, AvailableAfterPrimary, PrimaryObject),
+  create_assembly_agenda_internal(SecondaryType, AvailableAfterPrimary, SecondaryAgenda, NewAvailableAtomicParts, SecondaryObject),
+  append(PrimaryAgenda, SecondaryAgenda, SubAssemblyAgenda),
+  get_new_object_id('Assemblage', AssemblageName),
+  append(SubAssemblyAgenda, [[AssemblageType, Connection, PrimaryObject, SecondaryObject, AssemblageName]], Agenda).
+
+%% create_assembly_agenda(+AssemblageType, +AvailableAtomicParts, -Agenda) is det.
+create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
+mark_dirty_objects([AssemblageType, AvailableAtomicParts]),
+  create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _),
+mark_dirty_objects([done]).
 

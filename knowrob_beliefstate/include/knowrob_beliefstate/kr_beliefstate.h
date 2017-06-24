@@ -1,6 +1,6 @@
-#ifndef __KR_BELIEFSTATE.H__
+#ifndef __KR_BELIEFSTATE_H__
 
-#define __KR_BELIEFSTATE.H__
+#define __KR_BELIEFSTATE_H__
 
 #include <ros/ros.h>
 

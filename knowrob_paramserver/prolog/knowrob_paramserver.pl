@@ -30,6 +30,7 @@
 
 :- module(knowrob_paramserver,
     [
+      resolve_frame_specification/5,
       get_associated_transform/7,
       get_annotator_confidence_threshold/3,
       get_object_type_shape_data/3,
@@ -441,7 +442,7 @@ get_controller_arm_joints(ControllerType, RobotType, Side, Joints, Name, EEFJoin
   reverse(RevJoints, Joints).
 
 resolve_frame_specification(_, _, _, FrameSpec, FrameName) :-
-  owl_same_as(FrameSpec, paramserver:'MapFrameSymbol'),
+  owl_same_as(FrameSpec, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
 %% TODO: in the future, we may want to indirect the MapFrameSymbol as well, maybe on environment
 %% However for now the name of the map frame will be stored directly in the map symbol.
   rdf_has(FrameSpec, paramserver:'hasValue', literal(type(xsd:'string', FN))),
