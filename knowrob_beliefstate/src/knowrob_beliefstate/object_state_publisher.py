@@ -55,6 +55,7 @@ class ThorinObject(object):
 
 class ObjectStatePublisher(object):
     def __init__(self, tf_frequency):
+        rospy.wait_for_service('/json_prolog/query')
         self.tf_frequency = tf_frequency
         self.prolog = json_prolog.Prolog()
         self.tf_broadcaster = tf.TransformBroadcaster()
@@ -65,7 +66,7 @@ class ObjectStatePublisher(object):
 
     # for testing purpose, can be deleted...
     # def test_srv_cb(self, srv_msg):
-    #     objectid = 'http://www.knowrob.org/kb/knowrob_beliefstate#TestWheel'
+    #     objectid = 'http://knowrob.org/kb/thorin_simulation.owl#PorscheBody1'
     #     object_type = 'http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart'
     #     new_transform = ['left_gripper_tool_frame', objectid, [0, 0, 0], [0, 0, 0, 1]]
     #     q = "assert_object_at_location('{}', '{}', {})".format(object_type, objectid, new_transform)
@@ -112,9 +113,9 @@ class ObjectStatePublisher(object):
         if object_id not in self.objects.keys():
             self.load_object_ids()
         if object_id in self.objects.keys():
-            self.load_object_transform(object_id)
-            self.load_object_mesh(object_id)
             self.load_object_color(object_id)
+            self.load_object_mesh(object_id)
+            self.load_object_transform(object_id)
             return True
         rospy.logwarn("object with id:'{}' not found in database".format(object_id))
         return False
@@ -123,23 +124,27 @@ class ObjectStatePublisher(object):
         q = 'get_known_object_ids(A)'
         solutions = self.prolog_query(q)
         for object_id in solutions[0]['A']:
-            self.objects[object_id] = ThorinObject()
-        rospy.loginfo('Loaded object ids {}'.format(self.objects.keys()))
+            if 'Test' not in object_id:
+                self.objects[object_id] = ThorinObject()
+        rospy.loginfo('Loaded object ids: {}'.format(self.objects.keys()))
 
     def load_object_color(self, object_id):
         q = "get_object_color('{}', A)".format(object_id)
         solutions = self.prolog_query(q)
         self.objects[object_id].update_color(*solutions[0]['A'])
+        rospy.logdebug("'{}' has color: {}".format(object_id, self.objects[object_id].color))
 
     def load_object_transform(self, object_id):
         q = "get_object_transform('{}', A)".format(object_id)
         solutions = self.prolog_query(q)
         self.objects[object_id].update_transform(*solutions[0]['A'])
+        rospy.logdebug("'{}' has transform: {}".format(object_id, self.objects[object_id].transform))
 
     def load_object_mesh(self, object_id):
         q = "get_object_mesh_path('{}', A)".format(object_id)
         solutions = self.prolog_query(q)
         self.objects[object_id].mesh_path = str(solutions[0]['A'])
+        rospy.logdebug("'{}' has mesh path: {}".format(object_id, self.objects[object_id].mesh_path))
 
     def publish_object_markers(self):
         for object_id, v in self.objects.items():
