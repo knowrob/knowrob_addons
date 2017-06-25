@@ -51,13 +51,14 @@ catkin_package(
 
 add_library(kr_beliefstate SHARED 
 	src/kr_beliefstate.cpp)
-add_dependencies(foo knowrob_beliefstate_generate_messages_cpp)
+add_dependencies(kr_beliefstate knowrob_beliefstate_generate_messages_cpp)
 target_link_libraries(kr_beliefstate
 	${SWIPL_LIBRARIES}
 	${catkin_LIBRARIES})
 
 add_executable(krb_tf_listener
                src/tf_listener.cpp)
+add_dependencies(krb_tf_listener knowrob_beliefstate_generate_messages_cpp)
 target_link_libraries(krb_tf_listener
 	${catkin_LIBRARIES})
 
