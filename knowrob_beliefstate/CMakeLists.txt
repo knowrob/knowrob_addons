@@ -11,7 +11,7 @@ project(knowrob_beliefstate)
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common)
 #find_package(catkin REQUIRED knowrob_common knowrob_paramserver COMPONENTS message_generation)
-find_package(catkin REQUIRED rosprolog knowrob_common knowrob_paramserver roscpp tf roslib rospack COMPONENTS message_generation)
+find_package(catkin REQUIRED COMPONENTS rosprolog knowrob_common knowrob_paramserver roscpp tf roslib rospack message_generation)
 
 catkin_python_setup()
 
@@ -51,6 +51,7 @@ catkin_package(
 
 add_library(kr_beliefstate SHARED 
 	src/kr_beliefstate.cpp)
+add_dependencies(foo knowrob_beliefstate_generate_messages_cpp)
 target_link_libraries(kr_beliefstate
 	${SWIPL_LIBRARIES}
 	${catkin_LIBRARIES})
