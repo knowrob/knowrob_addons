@@ -124,6 +124,7 @@ class ObjectStatePublisher(object):
         q = 'get_known_object_ids(A)'
         solutions = self.prolog_query(q)
         for object_id in solutions[0]['A']:
+            #TODO: remove this dirty hack when the test objects are removed from the knowledge base
             if 'Test' not in object_id:
                 self.objects[object_id] = ThorinObject()
         rospy.loginfo('Loaded object ids: {}'.format(self.objects.keys()))
