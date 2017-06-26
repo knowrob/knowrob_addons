@@ -104,20 +104,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasDirectPart -->
-
-    <owl:ObjectProperty rdf:about="&knowrob_assembly;hasDirectPart">
-        <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob_assembly;usesConnection"/>
-            <rdf:Description rdf:about="&knowrob_assembly;needsAffordance"/>
-            <rdf:Description>
-                <owl:inverseOf rdf:resource="&knowrob_assembly;hasAffordance"/>
-            </rdf:Description>
-        </owl:propertyChainAxiom>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasPart -->
 
     <owl:ObjectProperty rdf:about="&knowrob_assembly;hasPart">
@@ -137,15 +123,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart -->
 
     <owl:ObjectProperty rdf:about="&knowrob_assembly;hasReferencePart"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasShape -->
-
-    <owl:ObjectProperty rdf:about="&knowrob_assembly;hasShape">
-        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
-        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
-    </owl:ObjectProperty>
     
 
 
@@ -397,14 +374,14 @@
         <rdfs:subClassOf rdf:resource="&knowrob_assembly;MechanicalPart"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
-                <owl:someValuesFrom rdf:resource="&knowrob_assembly;TemporaryTransform"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasColor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Color"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasColor"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Color"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_assembly;TemporaryTransform"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -451,7 +428,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_assembly;hasAffordance"/>
-                <owl:someValuesFrom rdf:resource="&knowrob_assembly;AssemblyAffordance"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_assembly;Affordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -465,14 +442,14 @@
         <rdfs:subClassOf rdf:resource="&knowrob_assembly;ActionSpecification"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;blocksAffordanceType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:onProperty rdf:resource="&knowrob_assembly;needsAffordanceType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;needsAffordanceType"/>
-                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+                <owl:onProperty rdf:resource="&knowrob_assembly;blocksAffordanceType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -499,7 +476,7 @@
         <rdfs:subClassOf rdf:resource="&knowrob_assembly;TemporalConcepts"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;endsAtTime"/>
+                <owl:onProperty rdf:resource="&knowrob_assembly;startsAtTime"/>
                 <owl:onClass rdf:resource="&knowrob_assembly;TimePoint"/>
                 <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
             </owl:Restriction>
@@ -518,7 +495,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;startsAtTime"/>
+                <owl:onProperty rdf:resource="&knowrob_assembly;endsAtTime"/>
                 <owl:onClass rdf:resource="&knowrob_assembly;TimePoint"/>
                 <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
             </owl:Restriction>
@@ -551,7 +528,7 @@
     <owl:Class rdf:about="&knowrob_assembly;MechanicalPart">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;hasShape"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasShape"/>
                 <owl:allValuesFrom rdf:resource="&knowrob_paramserver;ReferenceShapeData"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -599,14 +576,14 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_assembly;temporalExtent"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_assembly;Interval"/>
+                <owl:onClass rdf:resource="&knowrob_assembly;Interval"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_assembly;temporalExtent"/>
-                <owl:onClass rdf:resource="&knowrob_assembly;Interval"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:allValuesFrom rdf:resource="&knowrob_assembly;Interval"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&knowrob_paramserver;MathematicalObject"/>
@@ -630,13 +607,27 @@
         <rdfs:subClassOf rdf:resource="&knowrob_assembly;TemporalReification"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;blocksAffordance"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_assembly;Affordance"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob_paramserver;hasGripperType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRobotType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasObjectType"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onDataRange rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
@@ -649,15 +640,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasObjectType"/>
-                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasObjectType"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+                <owl:onProperty rdf:resource="&knowrob_assembly;blocksAffordance"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_assembly;Affordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -669,20 +653,13 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRobotType"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasGripperType"/>
                 <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRobotType"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasGripperType"/>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasObjectType"/>
                 <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -694,25 +671,6 @@
 
     <owl:Class rdf:about="&knowrob_assembly;TemporaryTransform">
         <rdfs:subClassOf rdf:resource="&knowrob_assembly;TemporalReification"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_assembly;hasReferencePart"/>
-                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
-                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
-                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
-                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
@@ -734,6 +692,25 @@
                     </owl:Restriction>
                 </owl:unionOf>
             </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_assembly;hasReferencePart"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
