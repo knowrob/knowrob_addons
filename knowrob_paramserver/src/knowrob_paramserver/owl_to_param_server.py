@@ -5,6 +5,7 @@ from json_prolog import json_prolog
 
 class OwlToParamserver(object):
     def __init__(self):
+        rospy.wait_for_service('/json_prolog/query')
         self.prolog = json_prolog.Prolog()
 
     def add_to_server(self, prolog_query, namespace):
