@@ -84,28 +84,10 @@
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
 
 % TODO: send a ros service call to the ROS object state publisher node. Parameter is a list of object ids to mark as dirty.
-comma_sep_list([], C, C).
-
-comma_sep_list(L, C, CL) :-
-  \+ =(L, []),
-  nth0(0, L, X, []),
-  append(C, [X], CL).
-
-comma_sep_list(L, C, CL) :-
-  \+ =(L, []),
-  nth0(0, L, X, R),
-  \+ =(R, []),
-  append(C, [X, ','], N),
-  comma_sep_list(R, N, CL).
-  
-comma_sep_list(L, CL) :-
-  comma_sep_list(L, [], CL).
-
 mark_dirty_objects([]).
 
 mark_dirty_objects(Objs) :-
   \+ =(Objs, []),
-  % comma_sep_list(Objs, CObjs),
   service_call_mark_dirty_objects(Objs).
 
 print_debug_string(Str) :-
