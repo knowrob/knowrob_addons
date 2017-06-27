@@ -31,6 +31,7 @@
 :- module(knowrob_beliefstate,
     [
       mark_dirty_objects/1,
+      print_debug_string/1,
       get_known_object_ids/1,
       get_known_assemblage_ids/1,
       get_object_color/2,
@@ -106,6 +107,9 @@ mark_dirty_objects(Objs) :-
   \+ =(Objs, []),
   % comma_sep_list(Objs, CObjs),
   service_call_mark_dirty_objects(Objs).
+
+print_debug_string(Str) :-
+  call_ros_info(Str).
 
 temporal_extent_active(TemporalObject) :-
   % A TemporalObject is active when it has no temporalExtent (ie. it is forever) ...
@@ -1446,7 +1450,6 @@ create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, [], NewAva
   delete(AvailableAtomicParts, AssemblageName, NewAvailableAtomicParts).
 
 create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, NewAvailableAtomicParts, AssemblageName) :-
-mark_dirty_objects([createassemblage, AssemblageType, AvailableAtomicParts]),
   \+ owl_subclass_of(AssemblageType, assembly:'AtomicPart'),
   get_object_property_exactly1_restriction(AssemblageType, 'http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', _, ConnectionDescription),
   get_assemblage_type_possible_connections(ConnectionDescription, Connections),
@@ -1465,7 +1468,5 @@ mark_dirty_objects([createassemblage, AssemblageType, AvailableAtomicParts]),
 
 %% create_assembly_agenda(+AssemblageType, +AvailableAtomicParts, -Agenda) is det.
 create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
-mark_dirty_objects([AssemblageType, AvailableAtomicParts]),
-  create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _),
-mark_dirty_objects([done]).
+  create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _).
 
