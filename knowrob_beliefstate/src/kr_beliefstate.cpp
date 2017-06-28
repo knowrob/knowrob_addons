@@ -4,6 +4,8 @@
 #include <knowrob_beliefstate/GetTF.h>
 #include <knowrob_beliefstate/DirtyObject.h>
 
+#include <stdlib.h>
+
 void tokenize(std::string const& str, char d, std::vector<std::string> &tokens){
     size_t start = str.find_first_not_of(d), end=start;
 
@@ -39,30 +41,12 @@ PREDICATE(call_ros_info, 1)
 PREDICATE(service_call_mark_dirty_objects, 1)
 {
   std::string stuff((char*)A1);
-  trim_brackets(stuff);
-  std::vector<std::string> tokens;
-  tokenize(stuff, ',', tokens);
-  int maxK = tokens.size();
-  //for(int k = 0; k < maxK; k++)
-  //    ROS_INFO("%s", tokens[k].c_str());
-  //ROS_INFO("\n");
 
-  int argc = 1;
-  char **argv = (char**)malloc(1*sizeof(char*));
-  argv[0] = (char*)malloc(4*sizeof(char));
-  argv[0][0] = 'k'; argv[0][1] = 'r'; argv[0][2] = 'b'; argv[0][3] = 0;
-  ros::init(argc, argv, "krb");
-  ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<knowrob_beliefstate::DirtyObject>("object_state_publisher/mark_dirty_object");
+  std::string cmd = "rosservice call /object_state_publisher/mark_dirty_object ";
+  cmd = cmd + "\'" + stuff + "\'";
 
-  dobj.request.object_ids = tokens;
-
-  if(client.call(dobj))
-  {
-      //Nothing to do, really.
-  }
-  // Should maybe return false if the service call fails, but-- the service is there mostly for convenience. If everything else succeeds in, for example, a pose assertion predicate
-  // except for the service call to mark the objects as dirty, things should still be considered ok.
+  ROS_INFO("%s\n", cmd.c_str());
+  system(cmd.c_str());
 
   return TRUE;
 }

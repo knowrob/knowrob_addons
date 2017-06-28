@@ -70,7 +70,7 @@
 :- use_module(library('rdfs_computable')).
 :- use_module(library('knowrob_owl')).
 :- use_module(library('knowrob_paramserver')).
-:- use_module(library('knowrob_mongo_tf')).
+:- use_module(library('tf_prolog')).
 :- use_module(library('random')).
 
 :- load_foreign_library('libkr_beliefstate.so').
@@ -83,12 +83,26 @@
 :- rdf_db:rdf_register_ns(assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
 
+quote_id(X, O) :-
+  atom_string(X, Oxx),
+  string_concat('"', Oxx, Ox),
+  string_concat(Ox, '"', O).
+
 % TODO: send a ros service call to the ROS object state publisher node. Parameter is a list of object ids to mark as dirty.
 mark_dirty_objects([]).
 
 mark_dirty_objects(Objs) :-
   \+ =(Objs, []),
-  service_call_mark_dirty_objects(Objs).
+%  service_call_mark_dirty_objects(Objs),
+  findall(O, (member(X, Objs), quote_id(X, O)), Os),
+  atomic_list_concat(Os, ',', OsS),
+  atom_string("'[", LB),
+  string_concat(LB, OsS, PS),
+  atom_string("]'", RB),
+  string_concat(PS, RB, ParStr),
+  atom_string("rosservice call /object_state_publisher/mark_dirty_object ", CmdKern),
+  string_concat(CmdKern, ParStr, Cmd),
+  thread_create(shell(Cmd), _, []).
 
 print_debug_string(Str) :-
   call_ros_info(Str).
