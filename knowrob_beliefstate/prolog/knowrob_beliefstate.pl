@@ -433,7 +433,7 @@ get_active_grasp_description(Object, Grasp) :-
   get_associated_transform(G, O, R, GraspSpec, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
   % TODO: resolve the issue of how TF frame names are constructed here; for now, assume we can deref. syms to a complete frame name
   % Also resolve whether the Robot "Type" is actually the ID; currently assuming it is.
-  =(Grasp, [G, O, R, Transform]).
+  =(Grasp, [G, O, R, Transform, TempRei]).
 
 get_object_in_gripper(G, O) :-
   owl_individual_of(O, assembly:'AtomicPart'),
@@ -446,7 +446,7 @@ get_object_in_gripper(G, O) :-
 % Returns a list of Grasp descriptions for every currently active grasp on Object.
 % A grasp is active if its corresponding TemporaryGrasp object has as temporalExtention an Interval with no endsAtTime.
 % A Grasp description is of form
-% [string Gripper, string Object, string Robot, [string reference_frame, string target_frame, [float x, y, z], [float x, y, z, w]]]
+% [string Gripper, string Object, string Robot, [string reference_frame, string target_frame, [float x, y, z], [float x, y, z, w]], GraspId]
 %
 % @param Object      anyURI, the object id
 % @param Grasps      [GraspDesc*], grasp descriptions
@@ -482,7 +482,7 @@ get_objects_in_grasp(Grasp, Objects) :-
 get_current_objects_in_gripper(Gripper, Objects) :-
   findall(O, get_object_in_gripper(Gripper, O), Objects).
 
-affordance_type_availaible(AvailableAffordances, NeededType) :-
+affordance_type_available(AvailableAffordances, NeededType) :-
   member(X, AvailableAffordances),
   owl_individual_of(X, NeededType).
 
@@ -528,7 +528,8 @@ get_valid_grasp_for_object(Object, Gripper, AvailableAffordances, GS) :-
 %
 get_all_possible_grasps_on_object(Object, Grasps) :-
   findall(A, get_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
-  findall(G, get_valid_grasp_for_object(Object, _, GraspAffordances, G), Grasps).
+  findall(G, get_valid_grasp_for_object(Object, _, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
 
 %% get_all_possible_grasps_on_object(+Object, +Gripper, -Grasps) is det.
 %
@@ -540,7 +541,8 @@ get_all_possible_grasps_on_object(Object, Grasps) :-
 %
 get_all_possible_grasps_on_object(Object, Gripper, Grasps) :-
   findall(A, get_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
-  findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), Grasps).
+  findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
 
 %% get_currently_possible_grasps_on_object(+Object, -Grasps) is det.
 %
@@ -553,7 +555,8 @@ get_all_possible_grasps_on_object(Object, Gripper, Grasps) :-
 %
 get_currently_possible_grasps_on_object(Object, Grasps) :-
   findall(A, get_free_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
-  findall(G, get_valid_grasp_for_object(Object, _, GraspAffordances, G), Grasps).
+  findall(G, get_valid_grasp_for_object(Object, _, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
 
 %% get_currently_possible_grasps_on_object(+Object, +Gripper, -Grasps) is det.
 %
@@ -567,7 +570,8 @@ get_currently_possible_grasps_on_object(Object, Grasps) :-
 %
 get_currently_possible_grasps_on_object(Object, Gripper, Grasps) :-
   findall(A, get_free_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
-  findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), Grasps).
+  findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
 
 %% WARNING: the following functions assert entities and relations in the knowledge base.
 %% As a result, one must be careful to avoid asserting things multiple times because of
@@ -1239,7 +1243,7 @@ assert_grasp_on_object(Gripper, Object, Robot, GraspSpecification, GraspRei) :-
   findall(A, get_free_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
   get_valid_grasp_for_object(Object, Gripper, GraspAffordances, GraspSpecification),
   create_temporary_grasp(Gripper, Object, Robot, GraspSpecification, GraspRei),
-  get_associated_transform(Gripper, Object, Robot, GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
+  get_associated_transform(Gripper, Object, Robot, GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', Transform),
   add_transform_to_object(Object, Transform, GraspRei),
   get_linked_mobile_reference_parts(Object, MobileReferenceParts),
   % We need two lists here: one that definitely does NOT contain Object, and one that does
@@ -1262,6 +1266,8 @@ assert_ungrasp(Grasp) :-
   get_objects_in_grasp(Grasp, Objects),
   % deactivate the grasp for each object; must also remove it from any mobile reference parts linked to the objects
   ungrasp_objects(Objects, Grasp, [], DirtyObjects),
+  % finally deactivate the grasp itself
+  deactivate_temporal_extension(Grasp),
   mark_dirty_objects(DirtyObjects),
   !.
 
