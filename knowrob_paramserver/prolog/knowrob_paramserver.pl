@@ -511,7 +511,7 @@ get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation,
   rdf_has(ParSpec, Relation, TrIn),
   % resolve reference frame
   rdf_has(TrIn, paramserver:'hasReferenceFrame', RFS),
-  resolve_frame_specification(GripperType, ObjectType, RobotType, RFS, RefFrame),
+  resolve_frame_specification(GripperType, ObjectType, RobotType, RFS, RefFrame),!,
   % obtain translation and rotation components
   rdf_has(TrIn, paramserver:'hasTranslation', Tran),
   rdf_has(TrIn, paramserver:'hasRotation', Rot),
@@ -537,21 +537,21 @@ get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation,
   rdf_has(RwIn, paramserver:'hasValue', literal(type(_, RwA))),
   ensure_number(RwA, Rw),
   % assemble return value
-  =(Pose, [RefFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]).
+  =(Pose, [RefFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),!.
   
 get_associated_transform(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Transform) :-
   % find a transform individual based on Relation to ParSpec
   rdf_has(ParSpec, Relation, TrIn),
   % extract the Pose related properties
-  get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Pose),
+  get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Pose),!,
   nth0(0, Pose, RefFrame),
   nth0(1, Pose, Translation),
   nth0(2, Pose, Rotation),
   % resolve target frame
   rdf_has(TrIn, paramserver:'hasTargetFrame', TFS),
-  resolve_frame_specification(GripperType, ObjectType, RobotType, TFS, TgFrame),
+  resolve_frame_specification(GripperType, ObjectType, RobotType, TFS, TgFrame),!,
   % assemble return value
-  =(Transform, [RefFrame, TgFrame, Translation, Rotation]).
+  =(Transform, [RefFrame, TgFrame, Translation, Rotation]),!.
 
 get_transforms(GripperType, ObjectType, RobotType, ListEl, Ini, Result) :-
   \+ rdf_has(ListEl, paramserver:'hasSuccessor', _),

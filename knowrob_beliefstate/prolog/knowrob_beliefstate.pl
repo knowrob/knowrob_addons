@@ -130,6 +130,10 @@ create_object_with_temporal_extent(Type, Object) :-
   rdf_assert(ObjectAt, assembly:'temporalExtent', TempExtAt),
   !.
 
+get_gripper_tool_frame(Gr, ToolFrame) :-
+  rdf_has(paramserver:'GripperToolFrameSymbol', paramserver:'standsFor', FNO),
+  rdf_has(FNO, paramserver:validForGripperType, literal(type(xsd:'anyURI', Gr))),
+  rdf_has(FNO, paramserver:hasValue, literal(type(xsd:'string', ToolFrame))).
 
 get_object_reference_frame(OId, FN) :-
   rdf_has(paramserver:'ObjectReferenceFrameSymbol', paramserver:'standsFor', FNO),
@@ -728,7 +732,8 @@ add_transform_to_object(Object, TransformData, Reference) :-
 
 get_reference_frame(Ref, RefFrame) :-
   owl_individual_of(Ref, assembly:'TemporaryGrasp'),
-  rdf_has(Ref, paramserver:'hasGripperType', literal(type(xsd:'anyURI', RefFrame))).
+  rdf_has(Ref, paramserver:'hasGripperType', literal(type(xsd:'anyURI', Gripper))),
+  get_gripper_tool_frame(Gripper, RefFrame).
 
 get_reference_frame(Ref, RefFrame) :-
   owl_individual_of(Ref, assembly:'AssemblyConnection'),
@@ -743,26 +748,29 @@ get_reference_frame(Ref, RefFrame) :-
   % rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
   rdf_has(Ref, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
 
-add_transform_to_object_by_reference(Object, Ref) :-
+add_transform_to_object_by_reference(Object, Ref, TObj) :-
   get_reference_frame(Ref, RefFrame),
-  get_tf_transform(RefFrame, Object, TransformData),
+  =(TObj, [OldRefFrame, _, _, _]),
+  get_tf_transform(RefFrame, OldRefFrame, RefTransform),
+  multiply_transforms(RefTransform, TObj, TransformData),
   add_transform_to_object(Object, TransformData, Ref),
   !.
 
-ensure_some_active_transform(Object, []) :-
-  add_transform_to_object_by_reference(Object, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
+ensure_some_active_transform(Object, [], TransformData) :-
+  add_transform_to_object_by_reference(Object, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol', TransformData),
   !.
 
-ensure_some_active_transform(_, RemTrs) :-
-  \+ =(RemTrs, []),
+ensure_some_active_transform(_, [Rem|_], _) :-
+  \+ =(Rem, []),
   !.
 
 remove_transform_from_object_by_reference(Object, Ref) :-
   findall(T, active_transform(Object, T), ActTrs),
   findall(RT, active_referenced_transform(Object, Ref, RT), RefActTrs),
   subtract(ActTrs, RefActTrs, RemainingActives),
+  get_object_transform(Object, TransformData),!,
   deactivate_temporal_extensions(RefActTrs),
-  ensure_some_active_transform(Object, RemainingActives),
+  ensure_some_active_transform(Object, RemainingActives, TransformData),
   !.
 
 multiply_transforms(LTr, RTr, UpdTr) :-
@@ -941,8 +949,8 @@ update_affordance_relations(TempRei, Rel, [Type|RestTypes], Affs) :-
   owl_individual_of(A, Type),
   atom_string(TempReiAt, TempRei),
   atom_string(RelAt, Rel),
-  atom_string(AAt, A),
-  rdf_assert(TempReiAt, RelAt, AAt),
+  atom_string(AAt, A),!,
+  rdf_assert(TempReiAt, RelAt, AAt),!,
   update_affordance_relations(TempRei, Rel, RestTypes, RestAffs),
   !.
 
@@ -968,16 +976,12 @@ create_temporary_grasp(G, O, R, GraspSpecification, GraspRei) :-
 collect_assemblage_components([], CrComponents, Result) :-
   list_to_set(CrComponents, Result),!.
 
-collect_assemblage_components(Objects, CrComponents, Result) :-
-  \+ =(Objects, []),
-  nth0(0, Objects, O, RestObjs),
+collect_assemblage_components([O|RestObjs], CrComponents, Result) :-
   owl_individual_of(O, assembly:'AtomicPart'),
   append(CrComponents, [O], NewComps),
   collect_assemblage_components(RestObjs, NewComps, Result).
 
-collect_assemblage_components(Objects, CrComponents, Result) :-
-  \+ =(Objects, []),
-  nth0(0, Objects, O, RestObjs),
+collect_assemblage_components([O|RestObjs], CrComponents, Result) :-
   owl_individual_of(O, assembly:'Assemblage'),
   get_objects_in_assemblage(O, Os),
   append(CrComponents, Os, NewComps),
@@ -1025,27 +1029,47 @@ get_reference_part(Object, ReferencePart) :-
 % @param ConnObjs      [anyURI*] list of object ids.
 %
 get_objects_connected_to_object(Object, [Object]) :-
-  get_assemblages_with_object(Object, []).
+  get_assemblages_with_object(Object, []), !.
 
 get_objects_connected_to_object(Object, ConnObjs) :-
   get_assemblages_with_object(Object, SuperAssemblages),
-  collect_assemblage_components(SuperAssemblages, [], ConnObjs).
+  collect_assemblage_components(SuperAssemblages, [], ConnObjsIn),
+  object_set_least_fixed_point(ConnObjsIn, ConnObjs), !.
+
+is_mobile_object(O) :-
+  \+ owl_individual_of(O, assembly:'FixedPart'),
+  owl_individual_of(O, assembly:'AtomicPart'),!.
+
+get_mobile_objects_connected_to_object(Object, ConnMobileObjs) :-
+  get_objects_connected_to_object(Object, ConnObjs),
+  findall(O, (member(O, ConnObjs), is_mobile_object(O)), ConnMobileObjsL),
+  list_to_set(ConnMobileObjsL, ConnMobileObjs).
+
+continue_fixed_point(OIn, OInt, OInt) :- 
+  same_length(OIn, OInt),
+  subset(OIn, OInt),
+  !.
+
+continue_fixed_point(_, OInt, Out) :-
+  object_set_least_fixed_point(OInt, Out).
+
+object_set_least_fixed_point(OsIn, OsOut) :-
+  expand_object_set(OsIn, OsOutInt),
+  continue_fixed_point(OsIn, OsOutInt, OsOut).
+
+expand_object_set(OsIn, OsOut) :-
+  get_assemblages_with_objects(OsIn, [], AsIn),
+  collect_assemblage_components(AsIn, [], OsOutL),
+  list_to_set(OsOutL, OsOut).
 
 %% Returns a list of Assemblages that contain at least one of Objects
 get_assemblages_with_objects([], CrA, As) :-
   list_to_set(CrA, As).
 
-get_assemblages_with_objects(Os, CrA, As) :-
-  \+ =(Os, []),
-  nth0(0, Os, O, RO),
+get_assemblages_with_objects([O|RO], CrA, As) :-
   get_assemblages_with_object(O, NA),
   append(CrA, NA, NCrA),
   get_assemblages_with_objects(RO, NCrA, As).
-
-%% Returns a set of assemblages that are connected to Object, either directly via inclusion, or indirectly via inclusion in a subsuming assemblage.
-get_assemblages_connected_to_object(Object, Assemblages) :-
-  get_objects_connected_to_object(Object, ConnObjs),
-  get_assemblages_with_objects(ConnObjs, [], Assemblages).
 
 %% Returns the reference part of A (an assemblage or atomic part), if this reference part is mobile. Otherwise, returns nil.
 get_mobile_reference(A, A) :-
@@ -1057,15 +1081,6 @@ get_mobile_reference(A, MRP) :-
   rdf_has(C, assembly:'hasReferencePart', MRP),
   \+ owl_individual_of(MRP, assembly:'FixedPart').
   
-%% Retrieves the non-FixedPart reference parts for all assemblages somehow connected to Object.
-get_linked_mobile_reference_parts(Object, MRPs) :-
-  % This returns all assemblages somehow actively connected to Object, but not Object itself.
-  % This is why we will explicitly add Object to this list later.
-  get_assemblages_connected_to_object(Object, Assemblages),
-  findall(MRP, (member(A, [Object|Assemblages]), get_mobile_reference(A, MRP)), MRPsL),
-  % Several assemblages may have the same reference part, so explicitly coerce to set
-  list_to_set(MRPsL, MRPs).
-
 %% Returns an active transform for O that uses a TemporaryGrasp as a reference
 active_grasp_referenced_transform(O, GRT) :-
   active_referenced_transform(O, R, GRT),
@@ -1091,8 +1106,8 @@ grasp_reference_invalid(COs, Tr, Gr) :-
 get_invalid_grasps_on_object(Object, InvalidGrasps) :-
   % Find all active transforms for Object that reference a grasp
   findall(GRT, active_grasp_referenced_transform(Object, GRT), GRTransforms),
-  % Find all connected objects to Object
-  get_objects_connected_to_object(Object, ConnObjs),
+  % Find all mobile connected objects to Object
+  get_mobile_objects_connected_to_object(Object, ConnObjs),
   % From among the grasps used as reference by the active transforms, select those that are inactive or not on a connected object
   findall(G, (member(T, GRTransforms), grasp_reference_invalid(ConnObjs, T, G)), InvalidGraspsL),
   % Since several active transforms may reference the same grasp, explicitly coerce to a set
@@ -1102,9 +1117,7 @@ get_invalid_grasps_on_object(Object, InvalidGrasps) :-
 remove_grasp([], _) :-
   !.
 
-remove_grasp(Objects, Grasp) :-
-  \+ =(Objects, []),
-  nth0(0, Objects, Object, RestObjects),
+remove_grasp([Object|RestObjects], Grasp) :-
   remove_transform_from_object_by_reference(Object, Grasp),
   remove_grasp(RestObjects, Grasp),
   !.
@@ -1128,11 +1141,10 @@ apply_grasp(_, Grasp) :-
   \+ temporal_extent_active(Grasp),
   !.
 
-apply_grasp(Objects, Grasp) :-
-  \+ =(Objects, []),
+apply_grasp([Object|RestObjects], Grasp) :-
   temporal_extent_active(Grasp),
-  nth0(0, Objects, Object, RestObjects),
-  add_transform_to_object_by_reference(Object, Grasp),
+  get_object_transform(Object, TObj),
+  add_transform_to_object_by_reference(Object, Grasp, TObj),
   apply_grasp(RestObjects, Grasp),
   !.
 
@@ -1140,9 +1152,7 @@ apply_grasp(Objects, Grasp) :-
 apply_grasp_list(_, []) :-
   !.
 
-apply_grasp_list(Objects, Grasps) :-
-  \+ =(Grasps, []),
-  nth0(0, Grasps, Grasp, RestGrasps),
+apply_grasp_list(Objects, [Grasp|RestGrasps]) :-
   apply_grasp(Objects, Grasp),
   apply_grasp_list(Objects, RestGrasps),
   !.
@@ -1153,11 +1163,9 @@ ungrasp_objects([], _, CrDirtyObjects, DirtyObjects) :-
   list_to_set(CrDirtyObjects, DirtyObjects),
   !.
 
-ungrasp_objects(Objects, Grasp, CrDirtyObjects, DirtyObjects) :-
-  \+ =(Objects, []),
-  nth0(0, Objects, Object, RestObjects),
+ungrasp_objects([Object|RestObjects], Grasp, CrDirtyObjects, DirtyObjects) :-
   remove_transform_from_object_by_reference(Object, Grasp),
-  get_linked_mobile_reference_parts(Object, MRPsO),
+  get_mobile_objects_connected_to_object(Object, MRPsO),
   delete(MRPsO, Object, MRPs),
   remove_grasp(MRPs, Grasp),
   append(MRPs, [Object], NewL),
@@ -1178,7 +1186,7 @@ assert_subassemblage(_, Component) :-
 assert_subassemblage(Assemblage, Component) :-
   owl_individual_of(Component, assembly:'Assemblage'),
   atom_string(AssemblageAt, Assemblage),
-  atom_string(ComponentAt, Component),
+  atom_string(ComponentAt, Component),!,
   rdf_assert(AssemblageAt, assembly:'hasSubassemblage', ComponentAt),
   !.
 
@@ -1196,7 +1204,7 @@ assert_subassemblage(Assemblage, Component) :-
 % If the object exists already, simply update its active transform.
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
   owl_individual_of(ObjectId, ObjectType),
-  nth0(1, Transform, ObjectId),
+  nth0(1, Transform, ObjectId),!,
   replace_object_transforms(ObjectId, Transform),
   mark_dirty_objects([ObjectId]),
   !.
@@ -1245,11 +1253,12 @@ assert_grasp_on_object(Gripper, Object, Robot, GraspSpecification, GraspRei) :-
   create_temporary_grasp(Gripper, Object, Robot, GraspSpecification, GraspRei),
   get_associated_transform(Gripper, Object, Robot, GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', Transform),
   add_transform_to_object(Object, Transform, GraspRei),
-  get_linked_mobile_reference_parts(Object, MobileReferenceParts),
+  get_mobile_objects_connected_to_object(Object, MobileReferenceParts),
   % We need two lists here: one that definitely does NOT contain Object, and one that does
   delete(MobileReferenceParts, Object, MRPs),
   append(MRPs, [Object], DirtyObjects),
-  apply_grasp(MRPs, GraspRei),
+  atom_string(GraspReiAt, GraspRei),
+  apply_grasp(MRPs, GraspReiAt),
   mark_dirty_objects(DirtyObjects),
   !.
 
@@ -1290,7 +1299,13 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   nonvar(ReferenceObject),
   nonvar(PrimaryObject),
   nonvar(SecondaryObject),
-  owl_instance_of(ReferenceObject, assembly:'AtomicPart'),
+print_debug_string(huh),
+  owl_subclass_of(AssemblageType, 'http://knowrob.org/kb/knowrob_assembly.owl#Assemblage'),
+print_debug_string(hah),
+  owl_subclass_of(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection'),
+print_debug_string(heh),
+  owl_instance_of(ReferenceObject, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
+print_debug_string(hih),
   % Get active reference parts of each assembly, and check that ReferenceObject is one of them
   get_reference_part(PrimaryObject, PrimRef),
   get_reference_part(SecondaryObject, SecRef),
@@ -1298,40 +1313,39 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   % Get the reference object that will be secondary in the connection
   delete([PrimRef, SecRef], ReferenceObject, [SubRef]),
   % Get mobile reference parts of each assembly
-  get_linked_mobile_reference_parts(ReferenceObject, MRPPrimary),
-  get_linked_mobile_reference_parts(SubRef, MRPSecondary),
+  get_mobile_objects_connected_to_object(ReferenceObject, MRPPrimary),
+  get_mobile_objects_connected_to_object(SubRef, MRPSecondary),
   % For each of Primary and SecondaryObject, get the grasps it does not share with the other
   % Note: we CANNOT use the assemblage References here, since either of these may be a fixed part
   % to which grasps will never apply
   % However, all mobile reference parts in an assemblage will reference the same active TemporaryGrasp
   nth0(0, MRPPrimary, POR),
   nth0(0, MRPSecondary, SOR),
-  get_indirect_grasps_on_object(POR, PGrasps),
-  get_indirect_grasps_on_object(SOR, SGrasps),
+  get_indirect_grasps_on_object(POR, PGrasps),!,
+  get_indirect_grasps_on_object(SOR, SGrasps),!,
   subtract(PGrasps, SGrasps, PSpecGrasps),
   subtract(SGrasps, PGrasps, SSpecGrasps),
-  % To each of Primary, SecondaryObject: apply the grasps specific to the other
-  apply_grasp_list(MRPPrimary, SSpecGrasps),
-  apply_grasp_list(MRPSecondary, PSpecGrasps),
   % Create the AssemblyConnection object; we need to know all the objects in the assemblies here
   collect_assemblage_components([PrimaryObject, SecondaryObject], [], AssemblageComponents),
-  create_connection(ConnectionType, AssemblageComponents, C),
-  !,
+  create_connection(ConnectionType, AssemblageComponents, C),!,
   atom_string(CAt, C),
   atom_string(ReferenceObjectAt, ReferenceObject),
   rdf_assert(CAt, assembly:'hasReferencePart', ReferenceObjectAt),
   % Add the connection transform to the connection itself and to the SubRef
   get_connection_transform(ConnectionType, ReferenceObject, SubRef, Transform),
-  add_transform_to_object(SubRef, Transform, C, TransformId),
+  add_transform_to_object(SubRef, Transform, C, TransformId),!,
   atom_string(TransformIdAt, TransformId),
   rdf_assert(CAt, paramserver:'hasTransform', TransformIdAt),
+  % To each of Primary, SecondaryObject: apply the grasps specific to the other
+  apply_grasp_list(MRPPrimary, SSpecGrasps),!,
+  apply_grasp_list(MRPSecondary, PSpecGrasps),!,
   % Finally, create the assembly
   get_new_object_id(AssemblageType, Assemblage),
   atom_string(AssemblageAt, Assemblage),
-  rdf_assert(AssemblageAt, rdf:type, AssemblageType),
-  rdf_assert(AssemblageAt, assembly:'usesConnection', CAt),
-  assert_subassemblage(Assemblage, PrimaryObject),
-  assert_subassemblage(Assemblage, SecondaryObject),
+  rdf_assert(AssemblageAt, rdf:type, AssemblageType),!,
+  rdf_assert(AssemblageAt, assembly:'usesConnection', CAt),!,
+  assert_subassemblage(Assemblage, PrimaryObject),!,
+  assert_subassemblage(Assemblage, SecondaryObject),!,
   mark_dirty_objects(AssemblageComponents),
   !.
 
@@ -1361,13 +1375,13 @@ assert_assemblage_destroyed(Assemblage) :-
   remove_transform_from_object_by_reference(SubRef, Connection),
   % Now that the assemblage is no more, we can get two different lists of mobile reference parts starting from
   % those two objects
-  get_linked_mobile_reference_parts(ReferenceObject, MRPPrimary),
-  get_linked_mobile_reference_parts(SubRef, MRPSecondary),
+  get_mobile_objects_connected_to_object(ReferenceObject, MRPPrimary),
+  get_mobile_objects_connected_to_object(SubRef, MRPSecondary),
   % However, since they were just in an assembly, they will all have the same grasps active
   % Note as above that we need a mobile reference part to get active grasps; ReferenceObject and SubRef may be FixedParts to which
   % no grasps are applied, so we need to make sure we get a mobile reference part
   nth0(0, MRPPrimary, POR),
-  nth0(0, MRPPrimary, SOR),
+  nth0(0, MRPSecondary, SOR),
   % We now need to find which grasps are invalid on each mobile reference: these grasps are not on an object linked to the reference via active Connections
   get_invalid_grasps_on_object(POR, PInvalidGrasps),
   get_invalid_grasps_on_object(SOR, SInvalidGrasps),
@@ -1426,7 +1440,7 @@ get_assemblage_subassemblages(ConnectionDescription, PAs, SAs) :-
   get_assemblage_subassemblages_internal(Description, PAs, SAs).
 
 get_required_linked_subassemblage(Restr, SA) :-
-  rdfs_individual_of(Restr, owl:'Restriction'),
+  rdfs_individual_of(Restr, owl:'Restriction'),!,
   owl_has(Restr, owl:onProperty, assembly:'linksAssemblage'),
   owl_has(Restr, owl:someValuesFrom, SA).
 
@@ -1448,7 +1462,7 @@ assign_ps_subassemblages([PA, SA], PAs, SAs) :-
 create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, [], NewAvailableAtomicParts, AssemblageName) :-
   owl_subclass_of(AssemblageType, assembly:'AtomicPart'),
   member(AssemblageName, AvailableAtomicParts),
-  owl_individual_of(AssemblageName, AssemblageType),
+  owl_individual_of(AssemblageName, AssemblageType),!,
   delete(AvailableAtomicParts, AssemblageName, NewAvailableAtomicParts).
 
 create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, NewAvailableAtomicParts, AssemblageName) :-
