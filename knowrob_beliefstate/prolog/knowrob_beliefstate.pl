@@ -232,20 +232,18 @@ get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
   temporal_extent_active(TempRei),
   rdf_has(TempRei, assembly:'hasReferencePart', Ref),
+  get_object_transform(ObjectId, TempRei, Ref, Transform).
+
+% The several branches here are meant to 'sort' how results are returned: grasp-referenced transforms first, connections next.
+get_object_transform(ObjectId, TempRei, Ref, Transform) :-
   owl_individual_of(Ref, assembly:'TemporaryGrasp'),
   get_associated_transform(_, ObjectId, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
-get_object_transform(ObjectId, Transform) :-
-  rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
-  temporal_extent_active(TempRei),
-  rdf_has(TempRei, assembly:'hasReferencePart', Ref),
+get_object_transform(ObjectId, TempRei, Ref, Transform) :-
   owl_individual_of(Ref, assembly:'AssemblyConnection'),
   get_associated_transform(_, ObjectId, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
-get_object_transform(ObjectId, Transform) :-
-  rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
-  temporal_extent_active(TempRei),
-  rdf_has(TempRei, assembly:'hasReferencePart', Ref),
+get_object_transform(ObjectId, TempRei, Ref, Transform) :-
   owl_same_as(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
   get_associated_transform(_, ObjectId, _, TempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform).
 
@@ -350,7 +348,7 @@ get_tf_transform(ReferenceFrame, TargetFrame, TFTransform) :-
 %
 get_object_at_location(ObjectType, Transform, TranThreshold, RotThreshold, ObjectId) :-
   rdfs_individual_of(Object, ObjectType),
-  get_object_transform(Object, ObjTransform),
+  get_object_reference_frame(Object, TargetFrame),
   nth0(1, ObjTransform, TargetFrame),
   nth0(0, Transform, ReferenceFrame),
   nth0(2, Transform, ArgTranslation),
@@ -435,8 +433,7 @@ get_active_grasp_description(Object, Grasp) :-
   rdf_has(TempRei, paramserver:'hasRobotType', literal(type(xsd:'anyURI', R))),
   rdf_has(TempRei, assembly:'hasSpecification', GraspSpec),
   get_associated_transform(G, O, R, GraspSpec, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
-  % TODO: resolve the issue of how TF frame names are constructed here; for now, assume we can deref. syms to a complete frame name
-  % Also resolve whether the Robot "Type" is actually the ID; currently assuming it is.
+  % TODO: resolve whether the Robot "Type" is actually the ID; currently assuming it is.
   =(Grasp, [G, O, R, Transform, TempRei]).
 
 get_object_in_gripper(G, O) :-
@@ -613,9 +610,7 @@ deactivate_temporal_extension(TemporalObject) :-
 deactivate_temporal_extensions([]) :-
   !.
 
-deactivate_temporal_extensions(TemporalObjects) :-
-  \+ =(TemporalObjects, []),
-  nth0(0, TemporalObjects, TO, RestTOs),
+deactivate_temporal_extensions([TO|RestTOs]) :-
   deactivate_temporal_extension(TO),
   deactivate_temporal_extensions(RestTOs),
   !.
@@ -711,6 +706,7 @@ ensure_no_active_mapref_transform(Object) :-
 ensure_no_active_mapref_transform(Object) :-
   active_mapref_transform(Object, MapRefTr),
   deactivate_temporal_extension(MapRefTr),
+  % There will be at most one MapRef transform active at any time.
   !.
 
 add_transform_to_object(Object, TransformData, Reference, TransformId) :-
@@ -750,7 +746,7 @@ get_reference_frame(Ref, RefFrame) :-
 
 add_transform_to_object_by_reference(Object, Ref, TObj) :-
   get_reference_frame(Ref, RefFrame),
-  =(TObj, [OldRefFrame, _, _, _]),
+  nth0(0, TObj, OldRefFrame),
   get_tf_transform(RefFrame, OldRefFrame, RefTransform),
   multiply_transforms(RefTransform, TObj, TransformData),
   add_transform_to_object(Object, TransformData, Ref),
@@ -768,6 +764,7 @@ remove_transform_from_object_by_reference(Object, Ref) :-
   findall(T, active_transform(Object, T), ActTrs),
   findall(RT, active_referenced_transform(Object, Ref, RT), RefActTrs),
   subtract(ActTrs, RefActTrs, RemainingActives),
+  % We only need one active transform here
   get_object_transform(Object, TransformData),!,
   deactivate_temporal_extensions(RefActTrs),
   ensure_some_active_transform(Object, RemainingActives, TransformData),
@@ -826,9 +823,7 @@ replace_object_transform(O, T, NT) :-
 replace_object_transforms(_, [], _) :-
   !.
 
-replace_object_transforms(Object, Ts, NT) :-
-  \+ =(Ts, []),
-  nth0(0, Ts, T, RTs),
+replace_object_transforms(Object, [T|RTs], NT) :-
   replace_object_transform(Object, T, NT),
   replace_object_transforms(Object, RTs, NT),
   !.
@@ -883,13 +878,13 @@ get_connection_transform(ConnectionType, ReferenceObject, SubRef, Transform) :-
   get_object_property_value_restriction(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#usesTransform', _, Restr),
   get_associated_transform(_, ReferenceObject, _, Restr, _, 'http://www.w3.org/2002/07/owl#hasValue', TrMngl),
   =(TrMngl, [_, _, Trnsl, Rot]),
-  =(Transform, [ReferenceObject, SubRef, Trnsl, Rot]).
+  get_object_reference_frame(ReferenceObject, ReferenceObjectFrame),
+  get_object_reference_frame(SubRef, SubRefFrame),
+  =(Transform, [ReferenceObjectFrame, SubRefFrame, Trnsl, Rot]).
 
 create_object_affordances(_, []).
 
-create_object_affordances(Object, AffordanceTypes) :-
-  \+ =(AffordanceTypes, []),
-  nth0(0, AffordanceTypes, Aff, Rest),
+create_object_affordances(Object, [Aff|Rest]) :-
   get_new_object_id(Aff, AffId),
   atom_string(AffIdAt, AffId),
   atom_string(ObjectAt, Object),
@@ -917,9 +912,7 @@ get_object_type_shapedatas(ObjectType, Shapes) :-
 
 link_object_to_shapes(_, []).
 
-link_object_to_shapes(Object, Shapes) :-
-  \+ =(Shapes, []),
-  nth0(0, Shapes, Shape, Rest),
+link_object_to_shapes(Object, [Shape|Rest]) :-
   atom_string(ObjectAt, Object),
   atom_string(ShapeAt, Shape),
   rdf_assert(ObjectAt, paramserver:'hasShape', ShapeAt),
@@ -1203,8 +1196,9 @@ assert_subassemblage(Assemblage, Component) :-
 %
 % If the object exists already, simply update its active transform.
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
-  owl_individual_of(ObjectId, ObjectType),
-  nth0(1, Transform, ObjectId),!,
+  owl_individual_of(ObjectId, ObjectType),!,
+  get_object_reference_frame(ObjectId, TargetFrame),
+  nth0(1, Transform, TargetFrame),!,
   replace_object_transforms(ObjectId, Transform),
   mark_dirty_objects([ObjectId]),
   !.
@@ -1213,7 +1207,8 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
 % WARNING: an assumption is made about the status of newly created objects: a new object is free, ie. outside of grasps or assemblies.
 % You can use subsequent queries to assert grasps and asseblage status.
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
-  nth0(1, Transform, ObjectId),
+  % Extract what the name for the object frame should be ...
+  nth0(1, Transform, ObjectFrame),
   % Assert that the object exists ...
   atom_string(ObjectIdAt, ObjectId),
   rdf_assert(ObjectIdAt, rdf:type, ObjectType),
@@ -1223,7 +1218,7 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
   get_new_object_id('http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName', ObjFrameName),
   atom_string(ObjFrameNameAt, ObjFrameName),
   rdf_assert(ObjFrameNameAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
-  rdf_assert(ObjFrameNameAt, paramserver:'hasValue', literal(type(xsd:'string', ObjectId))),
+  rdf_assert(ObjFrameNameAt, paramserver:'hasValue', literal(type(xsd:'string', ObjectFrame))),
   rdf_assert(ObjFrameNameAt, paramserver:'validForObjectType', literal(type(xsd:'anyURI', ObjectId))),
   rdf_assert(paramserver:'ObjectReferenceFrameSymbol', paramserver:'standsFor', ObjFrameNameAt),
   % ... assert color for the object in accordance to its class restrictions ...
@@ -1253,9 +1248,9 @@ assert_grasp_on_object(Gripper, Object, Robot, GraspSpecification, GraspRei) :-
   create_temporary_grasp(Gripper, Object, Robot, GraspSpecification, GraspRei),
   get_associated_transform(Gripper, Object, Robot, GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', Transform),
   add_transform_to_object(Object, Transform, GraspRei),
-  get_mobile_objects_connected_to_object(Object, MobileReferenceParts),
+  get_mobile_objects_connected_to_object(Object, MobileParts),
   % We need two lists here: one that definitely does NOT contain Object, and one that does
-  delete(MobileReferenceParts, Object, MRPs),
+  delete(MobileParts, Object, MRPs),
   append(MRPs, [Object], DirtyObjects),
   atom_string(GraspReiAt, GraspRei),
   apply_grasp(MRPs, GraspReiAt),
@@ -1299,13 +1294,9 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   nonvar(ReferenceObject),
   nonvar(PrimaryObject),
   nonvar(SecondaryObject),
-print_debug_string(huh),
   owl_subclass_of(AssemblageType, 'http://knowrob.org/kb/knowrob_assembly.owl#Assemblage'),
-print_debug_string(hah),
   owl_subclass_of(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection'),
-print_debug_string(heh),
   owl_instance_of(ReferenceObject, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
-print_debug_string(hih),
   % Get active reference parts of each assembly, and check that ReferenceObject is one of them
   get_reference_part(PrimaryObject, PrimRef),
   get_reference_part(SecondaryObject, SecRef),
@@ -1368,10 +1359,10 @@ assert_assemblage_destroyed(Assemblage) :-
   rdf_has(Connection, paramserver:'hasTransform', TransformId),
   rdf_has(TransformId, paramserver:'hasReferenceFrame', RefFrId),
   rdf_has(TransformId, paramserver:'hasTargetFrame', TgFrId),
-  % TODO: perhaps replace this with a cleaner association between object name and object frame
-  % Currently, such an association is via the ObjectReferenceFrameSymbol and the get_object_reference_frame predicate.
-  rdf_has(RefFrId, paramserver:'hasValue', literal(type(xsd:'string', ReferenceObject))),
-  rdf_has(TgFrId, paramserver:'hasValue', literal(type(xsd:'string', SubRef))),
+  rdf_has(RefFrId, paramserver:'hasValue', literal(type(xsd:'string', ReferenceObjectFrame))),
+  rdf_has(TgFrId, paramserver:'hasValue', literal(type(xsd:'string', SubRefFrame))),
+  get_object_reference_frame(ReferenceObject, ReferenceObjectFrame),
+  get_object_reference_frame(SubRef, SubRefFrame),
   remove_transform_from_object_by_reference(SubRef, Connection),
   % Now that the assemblage is no more, we can get two different lists of mobile reference parts starting from
   % those two objects
