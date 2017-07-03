@@ -38,7 +38,7 @@ class ThorinObject(object):
         marker.type = marker.MESH_RESOURCE
         marker.action = Marker.ADD
         marker.id = 1337
-        marker.ns = self.get_short_name()
+        marker.ns = self.object_name
         marker.color = self.color
         marker.scale.x = 1
         marker.scale.y = 1
@@ -49,10 +49,6 @@ class ThorinObject(object):
         marker.mesh_resource = self.mesh_path[:-4] + '.dae'
         return marker
 
-    def get_short_name(self):
-        return self.object_name.split('#')[1]
-
-
 class ObjectStatePublisher(object):
     def __init__(self, tf_frequency):
         rospy.wait_for_service('/json_prolog/query')
@@ -62,29 +58,14 @@ class ObjectStatePublisher(object):
         self.marker_publisher = rospy.Publisher('/visualization_marker', Marker, queue_size=10)
         self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
         self.objects = defaultdict(lambda: ThorinObject())
-        # self.test_srv = rospy.Service('~asdf', SetBool, self.test_srv_cb)
-
-    # for testing purpose, can be deleted...
-    # def test_srv_cb(self, srv_msg):
-    #     objectid = 'http://knowrob.org/kb/thorin_simulation.owl#PorscheBody1'
-    #     object_type = 'http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart'
-    #     new_transform = ['left_gripper_tool_frame', objectid, [0, 0, 0], [0, 0, 0, 1]]
-    #     q = "assert_object_at_location('{}', '{}', {})".format(object_type, objectid, new_transform)
-    #     print('test queue: {}'.format(q))
-    #     sol = self.prolog_query(q)
-    #     for s in sol:
-    #         print(s)
-    #     print('---------------------------------------------------')
-    #     asdf = DirtyObjectRequest()
-    #     asdf.object_ids = [objectid]
-    #     self.dirty_cb(asdf)
-    #     return SetBoolResponse()
 
     def dirty_cb(self, srv_msg):
+        rospy.logdebug('got dirty object request {}'.format(srv_msg))
         r = DirtyObjectResponse()
         r.error_code = r.SUCCESS
         for object_id in srv_msg.object_ids:
             if not self.load_object(object_id):
+                rospy.logdebug("object '{}' unknown".format(object_id))
                 r.error_code = r.UNKNOWN_OBJECT
             else:
                 rospy.loginfo("object '{}' updated".format(object_id))
@@ -125,9 +106,9 @@ class ObjectStatePublisher(object):
         solutions = self.prolog_query(q)
         for object_id in solutions[0]['A']:
             #TODO: remove this dirty hack when the test objects are removed from the knowledge base
-            if 'Test' not in object_id:
+            if 'Test' not in object_id and object_id not in self.objects.keys():
                 self.objects[object_id] = ThorinObject()
-        rospy.loginfo('Loaded object ids: {}'.format(self.objects.keys()))
+        rospy.loginfo('Loaded object ids: {}'.format([str(x) for x in self.objects.keys()]))
 
     def load_object_color(self, object_id):
         q = "get_object_color('{}', A)".format(object_id)
@@ -144,8 +125,9 @@ class ObjectStatePublisher(object):
     def load_object_mesh(self, object_id):
         q = "get_object_mesh_path('{}', A)".format(object_id)
         solutions = self.prolog_query(q)
-        self.objects[object_id].mesh_path = str(solutions[0]['A'])
-        rospy.logdebug("'{}' has mesh path: {}".format(object_id, self.objects[object_id].mesh_path))
+        if len(solutions) > 0:
+            self.objects[object_id].mesh_path = str(solutions[0]['A'])
+            rospy.logdebug("'{}' has mesh path: {}".format(object_id, self.objects[object_id].mesh_path))
 
     def publish_object_markers(self):
         for object_id, v in self.objects.items():
@@ -157,7 +139,7 @@ class ObjectStatePublisher(object):
             self.tf_broadcaster.sendTransform(translation,
                                               rotation,
                                               rospy.Time.now(),
-                                              thorin_object.object_name,
+                                              object_frame,
                                               ref_frame)
 
     def loop(self):
@@ -169,6 +151,7 @@ class ObjectStatePublisher(object):
 
 
 if __name__ == '__main__':
+    # rospy.init_node('object_state_publisher', log_level=rospy.DEBUG)
     rospy.init_node('object_state_publisher')
     hz = rospy.get_param('~hz', default='1')
     object_state_publisher = ObjectStatePublisher(int(hz))
