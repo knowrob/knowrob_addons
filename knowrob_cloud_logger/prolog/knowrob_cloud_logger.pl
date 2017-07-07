@@ -37,6 +37,7 @@
         send_prolog_query/3,
         send_prolog_query_solution/3,
         send_prolog_assert_query/3,
+        send_prolog_assert_query/4,
         send_next_solution/1,
         send_finish_query/1,
         read_next_prolog_query/1,
