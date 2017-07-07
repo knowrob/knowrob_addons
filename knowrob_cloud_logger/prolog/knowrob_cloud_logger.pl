@@ -35,7 +35,10 @@
         start_user_container/0,
         connect_to_user_container/0,
         send_prolog_query/3,
+        send_prolog_query_solution/3,
+        send_prolog_assert_query/3,
         send_next_solution/1,
+        send_finish_query/1,
         read_next_prolog_query/1,
         read_next_prolog_query/2
     ]).
@@ -58,7 +61,10 @@
 :-  rdf_meta
     cloud_interface(+,+,+),
     send_prolog_query(+,+,-),
+    send_prolog_query_solution(+,+,-),
+    send_prolog_assert_query(+,+,-),
     send_next_solution(+),
+    send_finish_query(+),
     read_next_prolog_query(-),
     read_next_prolog_query(+,-).
 
@@ -83,6 +89,27 @@ connect_to_user_container :-
     cloud_interface(CL),
     jpl_call(CL, 'connectToUserContainer', [], _R).
 
+send_prolog_assert_query(Prolog, Incremental, Result) :-
+    send_prolog_query_solution(Prolog, Incremental, Result, Id),
+    send_finish_query(Id).
+
+send_prolog_assert_query(Prolog, Incremental, Field, Result) :-
+    send_prolog_query_solution(Prolog, Incremental, Field, Result, Id),
+    send_finish_query(Id).
+
+send_prolog_query_solution(Prolog, Incremental, Result) :-
+    send_prolog_query_solution(Prolog, Incremental, Result, _Id).
+
+send_prolog_query_solution(Prolog, Incremental, Result, Id) :-
+    send_prolog_query(Prolog, Incremental, Id),
+    send_next_solution(Id),
+    read_next_prolog_query(Result).
+
+send_prolog_query_solution(Prolog, Incremental, Field, Result, Id) :-
+    send_prolog_query(Prolog, Incremental, Id),
+    send_next_solution(Id),
+    read_next_prolog_query(Field, Result).
+
 send_prolog_query(Prolog, Incremental, Id) :-
     cloud_interface(CL),
     jpl_call(CL, 'sendPrologQuery', [Prolog, Incremental], Id).
@@ -90,6 +117,10 @@ send_prolog_query(Prolog, Incremental, Id) :-
 send_next_solution(Id) :-
     cloud_interface(CL),
     jpl_call(CL, 'sendPrologNextSolution', [Id], _).
+
+send_finish_query(Id) :-
+    cloud_interface(CL),
+    jpl_call(CL, 'sendPrologFinish', [Id], _).
 
 read_next_prolog_query(Result) :-
     cloud_interface(CL),
