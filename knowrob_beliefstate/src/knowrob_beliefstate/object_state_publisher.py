@@ -19,6 +19,7 @@ class ThorinObject(object):
         self.transform = None
         self.mesh_path = ''
         self.color = ColorRGBA()
+        self.initialized = False
 
     def update_color(self, r, g, b, a):
         self.color = ColorRGBA()
@@ -46,7 +47,8 @@ class ThorinObject(object):
         marker.frame_locked = True
         marker.pose.position = Point(*self.transform[-2])
         marker.pose.orientation = Quaternion(*self.transform[-1])
-        marker.mesh_resource = self.mesh_path[:-4] + '.dae'
+        # marker.mesh_resource = self.mesh_path[:-4] + '.dae'
+        marker.mesh_resource = self.mesh_path
         return marker
 
 class ObjectStatePublisher(object):
@@ -57,7 +59,15 @@ class ObjectStatePublisher(object):
         self.tf_broadcaster = tf.TransformBroadcaster()
         self.marker_publisher = rospy.Publisher('/visualization_marker', Marker, queue_size=10)
         self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
+        self.update_positions_srv = rospy.Service('~update_object_positions', Trigger, self.update_object_positions_cb)
         self.objects = defaultdict(lambda: ThorinObject())
+        rospy.loginfo('object state publisher is running')
+
+    def update_object_positions_cb(self, trigger):
+        self.load_objects()
+        r = TriggerResponse()
+        r.success = True
+        return r
 
     def dirty_cb(self, srv_msg):
         rospy.logdebug('got dirty object request {}'.format(srv_msg))
@@ -87,6 +97,7 @@ class ObjectStatePublisher(object):
         self.load_object_ids()
         for object_id in self.objects.keys():
             self.load_object(object_id)
+            self.objects[object_id].initialized = True
         self.publish_object_frames()
         self.publish_object_markers()
 
@@ -130,20 +141,23 @@ class ObjectStatePublisher(object):
             rospy.logdebug("'{}' has mesh path: {}".format(object_id, self.objects[object_id].mesh_path))
 
     def publish_object_markers(self):
+        r = rospy.Rate(10)
         for object_id, v in self.objects.items():
             self.marker_publisher.publish(v.get_marker())
+            r.sleep()
 
     def publish_object_frames(self):
         for object_id, thorin_object in self.objects.items():
-            ref_frame, object_frame, translation, rotation = thorin_object.transform
-            self.tf_broadcaster.sendTransform(translation,
-                                              rotation,
-                                              rospy.Time.now(),
-                                              object_frame,
-                                              ref_frame)
+            if thorin_object.initialized:
+                ref_frame, object_frame, translation, rotation = thorin_object.transform
+                self.tf_broadcaster.sendTransform(translation,
+                                                  rotation,
+                                                  rospy.Time.now(),
+                                                  object_frame,
+                                                  ref_frame)
 
     def loop(self):
-        self.load_objects()
+        # self.load_objects()
         rate = rospy.Rate(self.tf_frequency)
         while not rospy.is_shutdown():
             self.publish_object_frames()
