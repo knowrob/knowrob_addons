@@ -34,7 +34,7 @@
     [
       owl_specializable/2,
       owl_specialization_of/2,
-      owl_satisfies_restriction_up_to/4,
+      owl_satisfies_restriction_up_to/3,
       owl_most_specific_specialization/3,
       owl_restriction_on_property/3
     ]).
@@ -50,7 +50,7 @@
       owl_most_specific_specialization(r,t,r),
       owl_specializable(r,r),
       owl_specialization_of(r,r),
-      owl_satisfies_restriction_up_to(r,r,r,t),
+      owl_satisfies_restriction_up_to(r,r,t),
       owl_restriction_on_property(r,r,r).
 
 
@@ -200,7 +200,7 @@ owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % or specializable if one of the existing values can be specialized to Cls
   owl_description(Cls, Cls_descr),
   owl_has(Resource, P, O),
-  owl_specializable_(Resource, Cls_descr), !.
+  owl_specializable_(O, Cls_descr), !.
 
 owl_specializable_(Resource, restriction(P,cardinality(Min,Max,Cls))) :-
   % specializable if cardinality is ok already
@@ -212,9 +212,7 @@ owl_specializable_(Resource, restriction(P,cardinality(Min,_,Cls))) :-
   owl_cardinality(Resource, P, Cls, Count_Cls),
   Count_Cls < Min,
   Count_decompose is Min - Count_Cls,
-  owl_decomposable_on_subject(Resource, P, Cls, Count_decompose),
-  owl_property_range_on_subject(Resource, P, Domain),
-  owl_individual_of(O, Domain), !.
+  owl_decomposable_on_subject(Resource, P, Cls, Count_decompose), !.
 
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   % specializable if P already has this value
@@ -227,9 +225,10 @@ owl_specializable_(Resource, restriction(P,has_value(O))) :-
   owl_decomposable_on_subject(Resource, P, Cls), !.
 
 
-owl_decomposable_on_subject(Resource, P, Cls) :- owl_decomposable_on_subject(Resource, P, 1).
+owl_decomposable_on_subject(Resource, P, Cls) :-
+  owl_decomposable_on_subject(Resource, P, Cls, 1).
 owl_decomposable_on_subject(Resource, P, Cls, Count_decompose) :-
-  ( owl_cardinality_on_subject(Resource, P, Cls, cardinality(_,Max)), % infer cardinality restriction
+  ( owl_cardinality_on_subject(Resource, P, Cls, cardinality(_,Max)) % infer cardinality restriction
   -> (
     owl_cardinality(Resource, P, Cls, Count),
     Max >= Count + Count_decompose

@@ -46,7 +46,7 @@
       agenda_item_description/2,
       agenda_item_strategy/2,
       agenda_item_domain_compute/2,
-      agenda_item_project/2,
+      agenda_item_project/3,
       agenda_item_update/2,
       agenda_item_continuity_value/2,
       agenda_item_inhibition_value/2,
@@ -82,7 +82,7 @@
       agenda_item_strategy(r,r),
       agenda_item_domain_compute(r,r),
       agenda_item_update(r,+),
-      agenda_item_project(r,r),
+      agenda_item_project(r,r,r),
       agenda_item_inhibit(r),
       agenda_item_inhibition_value(r,?),
       agenda_item_continuity_value(r,?),
@@ -220,8 +220,8 @@ assert_agenda_item(classify(S,Domain), Item) :-
   
 assert_agenda_item_P(Item, (S,P,Domain,Count)) :-
   rdf_assert(Item, knowrob_planning:'itemOf', S),
-  rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int, Count))).,
-  rdf_assert(Item, P, Domain)
+  rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int, Count))),
+  rdf_assert(Item, P, Domain).
 assert_agenda_item_D(Item, (S,Domain)) :-
   rdf_assert(Item, knowrob_planning:'itemOf', S),
   rdf_assert(Item, knowrob_planning:'itemDomain', Domain).
@@ -243,7 +243,7 @@ agenda_item_valid(Item) :-
 %
 agenda_item_description(Item, item(integrate,S,P,Domain,(Cause,Restr))) :-
   rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr)))
+  agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr))).
 agenda_item_description(Item, item(decompose,S,P,Domain,(Cause,Restr))) :-
   rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'),
   agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr))).
@@ -300,8 +300,8 @@ agenda_item_domain(Item,Domain) :-
 agenda_item_cardinality(Item,Card) :-
   rdf_has(Item, knowrob_planning:'itemCardinality', V),
   strip_literal_type(V, V_),
-  atom_number(V_,Cardinality), !.
-agenda_item_cardinality(Item,1).
+  atom_number(V_,Card), !.
+agenda_item_cardinality(_,1).
 
 agenda_item_update_cardinality(Item,Card) :-
   rdf_retract(Item, knowrob_planning:'itemCardinality', _),
@@ -336,6 +336,7 @@ agenda_item_in_focus(Item) :-
 
 agenda_item_in_focus_internal(item(T,S,P,O,_), Focus) :-
   rdfs_individual_of(Focus, knowrob_planning:'PatternFocus'), !,
+  rdf_has(Focus, knowrob_planning:'pattern', Pattern),
   agenda_item_matches_pattern_internal(item(T,S,P,O,_), Pattern).
 
 % build a tree following any relations focussed in the control strategy
@@ -464,7 +465,7 @@ agenda_item_matches_object(Item,Pattern) :-
   owl_restriction_on_property(Pattern, knowrob_planning:'itemOf', Restr)
   -> (
     rdf_has(Item, knowrob_planning:'itemOf', S),
-    rdf_has(Restriction, owl:onClass, Cls),
+    rdf_has(Restr, owl:onClass, Cls),
     owl_individual_of(S,Cls)
   ) ; true.
 
@@ -537,10 +538,10 @@ agenda_perform(Item) :-
   agenda_item_domain_compute(Item, DomainIn),
   agenda_item_cardinality(Item, Card),
   % Perform domain specialization Card times and project the specialized domain
-  bagof( DomainOut, (
+  bagof( Selected, (
     between(1,Card,_),
     agenda_perform_specialization(Item, DomainIn, DomainOut),
-    agenda_item_project(Item, DomainOut)
+    agenda_item_project(Item, DomainOut, Selected)
   ), Selection ),
   % Update agenda according to newly asserted knowledge
   (  agenda_item_domain_atomic(Item, Selection)
@@ -569,30 +570,30 @@ agenda_perform_description(Item,Descr,Perform,DomainIn,DomainOut) :-
   rdf_has(Perform, knowrob_planning:'command', literal(type(_,Goal))),
   call(Goal, Item, Descr, DomainIn, DomainOut).
 
-agenda_perform_just_do_it(_,item(classify,S,_,_,_), Domain, Domain).
-agenda_perform_just_do_it(_,item(decompose,S,P,_,_), Domain, Domain).
+agenda_perform_just_do_it(_,item(classify,_,_,_,_), Domain, Domain).
+agenda_perform_just_do_it(_,item(decompose,_,_,_,_), Domain, Domain).
 agenda_perform_just_do_it(_,item(detach,S,P,_,_), Domain, Domain) :-
   owl_has(S,P,O), owl_individual_of(O,Domain).
-agenda_perform_just_do_it(_,item(integrate,S,P,_,_), Domain, O) :-
+agenda_perform_just_do_it(_,item(integrate,_,P,_,_), Domain, O) :-
   owl_individual_of(O,Domain), \+ owl_has(_,P,O).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Agenda item projection
 
-%% agenda_item_project(+Item,+Domain)
+%% agenda_item_project(+Item,+Domain,-Selected)
 %
-agenda_item_project(Item, Domain) :-
+agenda_item_project(Item, Domain, Selected) :-
   atom(Item),
   agenda_item_description(Item, Descr),
   (  agenda_item_domain_atomic(Item, Domain)
-  -> agenda_item_project_internal(Descr, Domain)
+  -> agenda_item_project_internal(Descr, Domain, Selected)
   ;  agenda_item_specialize_domain(Item, Domain) ).
 
-agenda_item_project_internal(item(integrate,S,P,_,_), O)   :- rdf_assert(S,P,O).
-agenda_item_project_internal(item(decompose,S,P,_,_), Cls) :- decompose(S,P,Domain,O).
-agenda_item_project_internal(item(detach,S,P,_,_), O)      :- rdf_retract(S,P,O).
-agenda_item_project_internal(item(classify,S,_,_,_), Cls)  :- rdf_assert(S,rdf:'type',Cls).
+agenda_item_project_internal(item(integrate,S,P,_,_), O, O)    :- rdf_assert(S,P,O).
+agenda_item_project_internal(item(decompose,S,P,_,_), Cls, O)  :- decompose(S,P,Cls,O).
+agenda_item_project_internal(item(detach,S,P,_,_), O, O)       :- rdf_retract(S,P,O).
+agenda_item_project_internal(item(classify,S,_,_,_), Cls, Cls) :- rdf_assert(S,rdf:'type',Cls).
 
 class_statements(class(Cls), [Cls]).
 class_statements(intersection_of(Intersection), List) :-
@@ -631,7 +632,7 @@ agenda_item_update(Item,Selection) :-
   forall( member(X,GeneralItems), retract_agenda_item(X) ).
 
 agenda_item_update(Item,Selection) :-
-  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !
+  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !,
   % find more general items
   agenda_item_generalizations(Item, Selection, GeneralItems),
   % retract old items
@@ -725,7 +726,7 @@ agenda_write([X|Xs]) :-
   writeln('agenda('),
   forall(member(Item,[X|Xs]), (
     agenda_item_description(Item,Descr),
-    write('  o '), agenda_item_write(Descr), nl,
+    write('  o '), agenda_item_write(Descr), nl
   )), writeln(')').
   
 agenda_item_write(item(classify,S,_,Domain,_)) :-
