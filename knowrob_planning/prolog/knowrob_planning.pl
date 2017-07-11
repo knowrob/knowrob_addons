@@ -145,7 +145,7 @@ agenda_pop(Agenda, Item)  :-
   ( agenda_item_valid(X)
   -> (
     agenda_item_inhibit(X), % count how often item was selected
-    rdf_retract(Agenda, knowrob_planning:'agendaItem', X),
+    rdf_retractall(Agenda, knowrob_planning:'agendaItem', X),
     assert_last_selected_item(X),
     Item=X
   ) ; (
@@ -153,7 +153,7 @@ agenda_pop(Agenda, Item)  :-
   )).
 
 agenda_remove(Agenda, Item)  :-
-  ingore( rdf_retract(Agenda, knowrob_planning:'agendaItem', Item) ).
+  ingore( rdf_retractall(Agenda, knowrob_planning:'agendaItem', Item) ).
 
 %% agenda_pop(+Agenda,+Item)
 %
@@ -187,8 +187,8 @@ agenda_remove_object(Agenda, Object) :-
   )).
 
 retract_agenda_item(Item) :-
-  forall(( rdf_retract(Item, _, _);
-           rdf_retract(_, _, Item)), true).
+  rdf_retractall(Item, _, _),
+  rdf_retractall(_, _, Item).
 
 assert_agenda_item(Item, Agenda, Cause, Cause_restriction, ItemId) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
@@ -228,16 +228,18 @@ assert_agenda_item_D(Item, (S,Domain)) :-
 
 agenda_item_valid(Item) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
-  rdf_assert(Item, knowrob_planning:'itemOf', S),
+  rdf_has(Item, knowrob_planning:'itemOf', S),
   rdf_has(Item, knowrob_planning:'itemDomain', Domain),
   \+ owl_individual_of(S,Domain).
 agenda_item_valid(Item) :-
   rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !,
   agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  owl_satisfies_restriction_up_to(Cause, Restr, unspecify(S,P,Domain,_)).
+  % FIXME: what if item domain was specialized?
+  once(owl_satisfies_restriction_up_to(Cause, Restr, unspecify(S,P,Domain,_))).
 agenda_item_valid(Item) :-
   agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  owl_satisfies_restriction_up_to(Cause, Restr, specify(S,P,Domain,_)).
+  % FIXME: what if item domain was specialized?
+  once(owl_satisfies_restriction_up_to(Cause, Restr, specify(S,P,Domain,_))).
 
 %% agenda_item_description(?Item,?Description)
 %
@@ -304,7 +306,7 @@ agenda_item_cardinality(Item,Card) :-
 agenda_item_cardinality(_,1).
 
 agenda_item_update_cardinality(Item,Card) :-
-  rdf_retract(Item, knowrob_planning:'itemCardinality', _),
+  rdf_retractall(Item, knowrob_planning:'itemCardinality', _),
   rdf_assert(Item, knowrob_planning:'itemCardinality', litela(type(xsd:int,Card))), !.
 
 %% agenda_item_strategy(?Item,?Strategy)
@@ -315,11 +317,11 @@ agenda_item_strategy(Item, Strategy) :-
 
 agenda_item_specialize_domain(Item, Domain) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
-  rdf_retract(Item, knowrob_planning:'itemDomain', _),
+  rdf_retractall(Item, knowrob_planning:'itemDomain', _),
   rdf_assert(Item, knowrob_planning:'itemDomain', Domain).
 agenda_item_specialize_domain(Item, Domain) :-
   agenda_item_property(Item,P),
-  ignore( rdf_retract(Item, P, _) ),
+  ignore( rdf_retractall(Item, P, _) ),
   rdf_assert(Item, P, Domain), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -437,7 +439,7 @@ agenda_item_inhibit(Item) :-
   assert_agenda_item_inhibition(Item, New).
 
 assert_agenda_item_inhibition(Item, Val) :-
-  ignore( rdf_retract(Item, knowrob_planning:'inhibitionValue', _) ),
+  ignore( rdf_retractall(Item, knowrob_planning:'inhibitionValue', _) ),
   rdf_assert(Item, knowrob_planning:'inhibitionValue', literal(type(xsd:float, Val))).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -512,7 +514,7 @@ agenda_item_domain_compute(Item, Domain) :-
     once(rdfs_subproperty_of(P, P_X)),
     agenda_item_domain(X, D)
   ), Domains),
-  owl_most_specific_specialization(D_item, Domains, Domain).
+  owl_most_specific_specializations(D_item, Domains, [Domain|_]).
 
 
 agenda_item_domain_atomic(Item, [X|Xs]) :-
@@ -592,7 +594,7 @@ agenda_item_project(Item, Domain, Selected) :-
 
 agenda_item_project_internal(item(integrate,S,P,_,_), O, O)    :- rdf_assert(S,P,O).
 agenda_item_project_internal(item(decompose,S,P,_,_), Cls, O)  :- decompose(S,P,Cls,O).
-agenda_item_project_internal(item(detach,S,P,_,_), O, O)       :- rdf_retract(S,P,O).
+agenda_item_project_internal(item(detach,S,P,_,_), O, O)       :- rdf_retractall(S,P,O).
 agenda_item_project_internal(item(classify,S,_,_,_), Cls, Cls) :- rdf_assert(S,rdf:'type',Cls).
 
 class_statements(class(Cls), [Cls]).
@@ -604,8 +606,8 @@ decompose(S,P,Domain,O) :-
   owl_description(Domain, Descr),
   class_statements(Descr,Types),
   % create an instance, use most specific specialization of property range
-  once(rdf_phas(P, rdfs:'range', Range) ; Types=[Range|_]),
-  owl_most_specific_specialization(Range, Types, O_type),
+  once(rdf_phas(P, rdfs:'range', Range) ; Types=[]),
+  owl_most_specific_specializations(Range, Types, [O_type|_]),
   rdf_instance_from_class(O_type, O),
   % assert additional types
   forall((member(Type,Types), Type \= O_type), rdf_assert(O,rdf:'type',Type)),
