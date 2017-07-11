@@ -1,0 +1,2443 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY computable "http://knowrob.org/kb/computable.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY knowrob_paramserver "http://knowrob.org/kb/knowrob_paramserver.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://knowrob.org/kb/knowrob_paramserver#"
+     xml:base="http://knowrob.org/kb/knowrob_paramserver"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasAlpha -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasAlpha">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasBlue -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasBlue">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasColor -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasColor"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasComponent -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasComponent"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasElement -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasElement"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasFrame -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasFrame"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasGraspTransform">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasTransform"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGreen -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasGreen">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasPostgraspTransform -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasPostgraspTransform">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasTransform"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasPregraspTransform -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasPregraspTransform">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasTransform"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRed -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasRed">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasReferenceFrame">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasFrame"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRotation -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasRotation">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasShape -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasShape">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasSuccessor -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasSuccessor">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasTargetFrame">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasFrame"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasTransform"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTranslation -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasTranslation">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasUnit">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasW -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasW">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasX -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasX">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasY -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasY">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasZ -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;hasZ">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#standsFor -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;standsFor"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForJointGroup -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;validForJointGroup"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForSide -->
+
+    <owl:ObjectProperty rdf:about="&knowrob_paramserver;validForSide"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasGripperType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasName -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasName"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasObjectType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasPath -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasPath">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasRobotType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;hasValue">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#needsShapeType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;needsShapeType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validFor -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validFor"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForAnnotatorType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForAnnotatorType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForControllerType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForControllerType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForGripperType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForGripperType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForManeuverType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForManeuverType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForObjectComponentType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForObjectComponentType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForObjectType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForObjectType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#validForRobotType -->
+
+    <owl:DatatypeProperty rdf:about="&knowrob_paramserver;validForRobotType">
+        <rdfs:subPropertyOf rdf:resource="&knowrob_paramserver;validFor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Acceleration -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Acceleration">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;AccelerationUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;AccelerationUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Angle"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Duration"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Force"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Length"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Velocity"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#AccelerationUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;AccelerationUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;MeterPerSecondSquared"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;AngleUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;ForceUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;LengthUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;TimeUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Adimensional">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                                        <owl:hasValue rdf:resource="&knowrob_paramserver;Radian"/>
+                                    </owl:Restriction>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Duration"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Force"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Length"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Velocity"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Angle -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Angle">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;AngleUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;AngleUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Duration"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Force"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Length"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Velocity"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#AngleUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;AngleUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
+                    <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;ForceUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;LengthUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;TimeUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#AngularVelocity -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;AngularVelocity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;AngularVelocityUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;AngularVelocityUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#AngularVelocityUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;AngularVelocityUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;RadianPerSecond"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#AnnotatedWaypoint -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;AnnotatedWaypoint">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PositionalParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForManeuverType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForManeuverType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#AnnotatorConfidenceThreshold -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;AnnotatorConfidenceThreshold">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PerceptionParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForAnnotatorType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForAnnotatorType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;ReferenceShapeData"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ArmJoints -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ArmJoints">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;JointGroup"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;EEFJointListElement"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Color -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Color">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Vector"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Adimensional"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasAlpha"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasBlue"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">4</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasGreen"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasRed"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControlParameter -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControlParameter">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Parameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForControllerType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForControllerType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerBaseFrame -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerBaseFrame">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControlParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerConvergenceThreshold -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerConvergenceThreshold">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerThreshold"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Angle"/>
+                    <rdf:Description rdf:about="&knowrob_paramserver;Length"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;MinimumConvergenceTime"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerDurationParameter -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerDurationParameter">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControlParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Duration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerMotionOld -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerMotionOld">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerDurationParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerThreshold"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Duration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerSpecification -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerSpecification">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControlParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerStillMovingThreshold -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerStillMovingThreshold">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerThreshold"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;AngularVelocity"/>
+                    <rdf:Description rdf:about="&knowrob_paramserver;Velocity"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForJointGroup"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;JointGroup"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForJointGroup"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;JointGroup"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ControllerThreshold -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ControllerThreshold">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControlParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;CoordinateFrameName">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
+                <owl:allValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameSpecification -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;CoordinateFrameSpecification">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Parameter"/>
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;CoordinateFrameName"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;CoordinateFrameSymbol"/>
+        </owl:disjointUnionOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameSymbol -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;CoordinateFrameSymbol">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;standsFor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;DAEFile">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;File"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;TexturedShape"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;OBJFile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#DataStructure -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;DataStructure"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Duration -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Duration">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TimeUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;TimeUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Force"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Length"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Velocity"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#EEFJointListElement -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;EEFJointListElement">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;JointListElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;EEFJointName"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#EEFJointName -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;EEFJointName">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;JointName"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForSide"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Side"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForSide"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Side"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#File -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;File">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPath"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;MathematicalObject"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Force -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Force">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;ForceUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;ForceUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Length"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Velocity"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ForceUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ForceUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Newton"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;LengthUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;TimeUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Frequency -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Frequency">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;FrequencyUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;FrequencyUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#FrequencyUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;FrequencyUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Herz"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#GeometricObject -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;GeometricObject">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MathematicalObject"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Quantity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;GraspSpecification">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PositionalParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasGraspTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Transform"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPregraspTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasGraspTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPostgraspTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;TransformListElement"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForGripperType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPostgraspTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasPregraspTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;TransformListElement"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;ObjectComponentPlacement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#JointGroup -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;JointGroup">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControlParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;RobotJointDescription"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasName"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;JointListElement"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;JointListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasName"/>
+                <owl:allValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;JointListElement"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;JointName"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#JointListElement -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;JointListElement">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ListElement"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;RobotJointDescription"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;JointName"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;JointListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;JointName"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;PoseListElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#JointName -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;JointName">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;RobotJointDescription"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
+                <owl:allValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForRobotType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Length -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Length">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;LengthUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;LengthUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Velocity"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#LengthUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;LengthUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Meter"/>
+                    <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;TimeUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ListElement -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ListElement">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;DataStructure"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;ListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;ListElement"/>
+                <owl:maxQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MathematicalObject -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;MathematicalObject">
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MeasurementUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;MeasurementUnit"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MinimumConvergenceTime -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;MinimumConvergenceTime">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerDurationParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Duration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#NWSR -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;NWSR">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControlParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#OBJFile -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;OBJFile">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;File"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;TexturedShape"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ObjectComponentPlacement -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ObjectComponentPlacement">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PositionalParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Pose"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTransform"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Pose"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectComponentType"/>
+                <owl:allValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;PCDFile">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;File"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PointCloud"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Parameter -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Parameter"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#PerceptionParameter -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;PerceptionParameter">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#PointCloud -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;PointCloud">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ReferenceShapeData"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Shape"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Pose -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Pose">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;GeometricObject"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasReferenceFrame"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTranslation"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Translation"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRotation"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Quaternion"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasRotation"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;Quaternion"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTranslation"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Translation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasReferenceFrame"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Side"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Vector"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#PoseListElement -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;PoseListElement">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ListElement"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PositionalParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;Pose"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;PoseListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#PositionalParameter -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;PositionalParameter">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Quantity -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Quantity">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MathematicalObject"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasValue"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Quaternion">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Vector"/>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Adimensional"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">4</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasW"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasX"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasY"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasZ"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Adimensional"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Translation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ReferenceShapeData -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ReferenceShapeData">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PerceptionParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;validForObjectType"/>
+                <owl:someValuesFrom rdf:resource="&xsd;anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#RobotJointDescription -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;RobotJointDescription">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#STLFile -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;STLFile">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;File"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;UntexturedShape"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ServerTimeout -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;ServerTimeout">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerDurationParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Shape -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Shape">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ReferenceShapeData"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Side -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Side">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Center"/>
+                    <rdf:Description rdf:about="&knowrob_paramserver;Right"/>
+                    <rdf:Description rdf:about="&knowrob_paramserver;Left"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;GeometricObject"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Vector"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TexturedShape -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;TexturedShape">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Shape"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;UntexturedShape"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TimeUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;TimeUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Second"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Transform -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Transform">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Pose"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTargetFrame"/>
+                <owl:onClass rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasTargetFrame"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;CoordinateFrameSpecification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TransformListElement -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;TransformListElement">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;PoseListElement"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasSuccessor"/>
+                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;TransformListElement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob_paramserver;hasElement"/>
+                <owl:someValuesFrom rdf:resource="&knowrob_paramserver;Transform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Translation -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Translation">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Vector"/>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                                <owl:allValuesFrom rdf:resource="&knowrob_paramserver;Length"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasComponent"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Length"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasX"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Length"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasY"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Length"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&knowrob_paramserver;hasZ"/>
+                                <owl:onClass rdf:resource="&knowrob_paramserver;Length"/>
+                                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#UntexturedShape -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;UntexturedShape">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Shape"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#UpdatePeriod -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;UpdatePeriod">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerDurationParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Duration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Vector -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Vector">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;GeometricObject"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Velocity -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Velocity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;Weight"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#VelocityUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;VelocityUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;MeterPerSecond"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+        <owl:disjointWith rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#WatchdogPeriod -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;WatchdogPeriod">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerDurationParameter"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;Duration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Weight -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;Weight">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Quantity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:allValuesFrom rdf:resource="&knowrob_paramserver;WeightUnit"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&knowrob_paramserver;hasUnit"/>
+                        <owl:onClass rdf:resource="&knowrob_paramserver;WeightUnit"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#WeightUnit -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;WeightUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&knowrob_paramserver;Kilogram"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;MeasurementUnit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#YAMLFile -->
+
+    <owl:Class rdf:about="&knowrob_paramserver;YAMLFile">
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;ControllerSpecification"/>
+        <rdfs:subClassOf rdf:resource="&knowrob_paramserver;File"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Center -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Center">
+        <rdf:type rdf:resource="&knowrob_paramserver;Side"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Degree -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Degree">
+        <rdf:type rdf:resource="&knowrob_paramserver;AngleUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#GripperToolFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;GripperToolFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Herz -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Herz">
+        <rdf:type rdf:resource="&knowrob_paramserver;FrequencyUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Kilogram -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Kilogram">
+        <rdf:type rdf:resource="&knowrob_paramserver;WeightUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Left -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Left">
+        <rdf:type rdf:resource="&knowrob_paramserver;Side"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;MapFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Meter -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Meter">
+        <rdf:type rdf:resource="&knowrob_paramserver;LengthUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MeterPerSecond -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;MeterPerSecond">
+        <rdf:type rdf:resource="&knowrob_paramserver;VelocityUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MeterPerSecondSquared -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;MeterPerSecondSquared">
+        <rdf:type rdf:resource="&knowrob_paramserver;AccelerationUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Millimeter -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Millimeter">
+        <rdf:type rdf:resource="&knowrob_paramserver;LengthUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Newton -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Newton">
+        <rdf:type rdf:resource="&knowrob_paramserver;ForceUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;ObjectReferenceFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Radian -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Radian">
+        <rdf:type rdf:resource="&knowrob_paramserver;AngleUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#RadianPerSecond -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;RadianPerSecond">
+        <rdf:type rdf:resource="&knowrob_paramserver;AngularVelocityUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Right -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Right">
+        <rdf:type rdf:resource="&knowrob_paramserver;Side"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#RobotBaseFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;RobotBaseFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#RobotCameraFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;RobotCameraFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#RobotTorsoFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;RobotTorsoFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Second -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;Second">
+        <rdf:type rdf:resource="&knowrob_paramserver;TimeUnit"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestAnnotatedWaypoint -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestAnnotatedWaypoint">
+        <rdf:type rdf:resource="&knowrob_paramserver;AnnotatedWaypoint"/>
+        <knowrob_paramserver:validForManeuverType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestManeuverType</knowrob_paramserver:validForManeuverType>
+        <knowrob_paramserver:validForRobotType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestRobotType</knowrob_paramserver:validForRobotType>
+        <knowrob_paramserver:hasTransform rdf:resource="&knowrob_paramserver;TestGraspTransform"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestAnnotator -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestAnnotator">
+        <knowrob_paramserver:needsShapeType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TexturedShape</knowrob_paramserver:needsShapeType>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestArmGroup -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestArmGroup">
+        <rdf:type rdf:resource="&knowrob_paramserver;ArmJoints"/>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:validForRobotType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestRobotType</knowrob_paramserver:validForRobotType>
+        <knowrob_paramserver:hasName rdf:datatype="&xsd;string">left_arm</knowrob_paramserver:hasName>
+        <knowrob_paramserver:hasComponent rdf:resource="&knowrob_paramserver;TestEEFListElement"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestBaseFrameName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestBaseFrameName">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:validForObjectType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestObjectType</knowrob_paramserver:validForObjectType>
+        <knowrob_paramserver:validForRobotType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestRobotType</knowrob_paramserver:validForRobotType>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">robot_base_frame</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestBaseFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestBaseFrameSymbol">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameSymbol"/>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType2</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:standsFor rdf:resource="&knowrob_paramserver;TestBaseFrameName"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestComponentPlacement -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestComponentPlacement">
+        <rdf:type rdf:resource="&knowrob_paramserver;ObjectComponentPlacement"/>
+        <knowrob_paramserver:validForObjectComponentType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestComponentType</knowrob_paramserver:validForObjectComponentType>
+        <knowrob_paramserver:validForObjectType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestObjectType</knowrob_paramserver:validForObjectType>
+        <knowrob_paramserver:hasTransform rdf:resource="&knowrob_paramserver;TestGraspTransform"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestConfidenceThreshold -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestConfidenceThreshold">
+        <rdf:type rdf:resource="&knowrob_paramserver;AnnotatorConfidenceThreshold"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;float">0.814</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForAnnotatorType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestAnnotatorType</knowrob_paramserver:validForAnnotatorType>
+        <knowrob_paramserver:validForObjectType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestObjectType</knowrob_paramserver:validForObjectType>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerSpecification -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestControllerSpecification">
+        <rdf:type rdf:resource="&knowrob_paramserver;YAMLFile"/>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_paramserver/config/dummy.yaml</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestEEFJointName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestEEFJointName">
+        <rdf:type rdf:resource="&knowrob_paramserver;EEFJointName"/>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:validForRobotType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestRobotType</knowrob_paramserver:validForRobotType>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">left_eef_joint</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForSide rdf:resource="&knowrob_paramserver;Left"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestEEFListElement -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestEEFListElement">
+        <rdf:type rdf:resource="&knowrob_paramserver;EEFJointListElement"/>
+        <knowrob_paramserver:hasElement rdf:resource="&knowrob_paramserver;TestEEFJointName"/>
+        <knowrob_paramserver:hasSuccessor rdf:resource="&knowrob_paramserver;TestJointListElement"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestGraspSpecification -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestGraspSpecification">
+        <rdf:type rdf:resource="&knowrob_paramserver;GraspSpecification"/>
+        <knowrob_paramserver:validForGripperType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestGripperType</knowrob_paramserver:validForGripperType>
+        <knowrob_paramserver:validForObjectType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestObjectType</knowrob_paramserver:validForObjectType>
+        <knowrob_paramserver:hasGraspTransform rdf:resource="&knowrob_paramserver;TestGraspTransform"/>
+        <knowrob_paramserver:hasPregraspTransform rdf:resource="&knowrob_paramserver;TestTrListEl1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestGraspTransform -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestGraspTransform">
+        <rdf:type rdf:resource="&knowrob_paramserver;Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="&knowrob_paramserver;TestBaseFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="&knowrob_paramserver;TestGripperFrameName"/>
+        <knowrob_paramserver:hasRotation rdf:resource="&knowrob_paramserver;TestRotation"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="&knowrob_paramserver;TestTranslation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestGripperFrameName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestGripperFrameName">
+        <rdf:type rdf:resource="&knowrob_paramserver;CoordinateFrameName"/>
+        <knowrob_paramserver:validForRobotType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestRobotType</knowrob_paramserver:validForRobotType>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">left_eef_joint</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestJointListElement -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestJointListElement">
+        <rdf:type rdf:resource="&knowrob_paramserver;JointListElement"/>
+        <knowrob_paramserver:hasElement rdf:resource="&knowrob_paramserver;TestJointName"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestJointName -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestJointName">
+        <rdf:type rdf:resource="&knowrob_paramserver;JointName"/>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:validForRobotType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestRobotType</knowrob_paramserver:validForRobotType>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;string">left_base_joint</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestMinimumConvergenceTime -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestMinimumConvergenceTime">
+        <rdf:type rdf:resource="&knowrob_paramserver;MinimumConvergenceTime"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">2.15</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Second"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestMotionOldThreshold -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestMotionOldThreshold">
+        <rdf:type rdf:resource="&knowrob_paramserver;ControllerMotionOld"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">1.25</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Second"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestNWSR -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestNWSR">
+        <rdf:type rdf:resource="&knowrob_paramserver;NWSR"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">10.0</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestObject -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestObject">
+        <knowrob_paramserver:hasShape rdf:resource="&knowrob_paramserver;TestShapeData"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestPregraspTransform -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestPregraspTransform">
+        <rdf:type rdf:resource="&knowrob_paramserver;Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="&knowrob_paramserver;TestBaseFrameName"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="&knowrob_paramserver;TestGripperFrameName"/>
+        <knowrob_paramserver:hasRotation rdf:resource="&knowrob_paramserver;TestRotation"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="&knowrob_paramserver;TestTranslation2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestRotation -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestRotation">
+        <rdf:type rdf:resource="&knowrob_paramserver;Quaternion"/>
+        <knowrob_paramserver:hasW rdf:resource="&knowrob_paramserver;TestRw"/>
+        <knowrob_paramserver:hasX rdf:resource="&knowrob_paramserver;TestRx"/>
+        <knowrob_paramserver:hasY rdf:resource="&knowrob_paramserver;TestRy"/>
+        <knowrob_paramserver:hasZ rdf:resource="&knowrob_paramserver;TestRz"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestRw -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestRw">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.3</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestRx -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestRx">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">-0.15</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestRy -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestRy">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.15</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestRz -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestRz">
+        <rdf:type rdf:resource="&knowrob_paramserver;Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.8</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestServerTimeout -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestServerTimeout">
+        <rdf:type rdf:resource="&knowrob_paramserver;ServerTimeout"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">5.12</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Second"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestShapeData -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestShapeData">
+        <rdf:type rdf:resource="&knowrob_paramserver;DAEFile"/>
+        <knowrob_paramserver:validForObjectType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestObjectType</knowrob_paramserver:validForObjectType>
+        <knowrob_paramserver:hasPath rdf:datatype="&xsd;anyURI">package://knowrob_paramserver/shapes/dummy.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestStillMoving -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestStillMoving">
+        <rdf:type rdf:resource="&knowrob_paramserver;ControllerStillMovingThreshold"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.001</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;RadianPerSecond"/>
+        <knowrob_paramserver:validForJointGroup rdf:resource="&knowrob_paramserver;TestArmGroup"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTrListEl1 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTrListEl1">
+        <rdf:type rdf:resource="&knowrob_paramserver;TransformListElement"/>
+        <knowrob_paramserver:hasElement rdf:resource="&knowrob_paramserver;TestPregraspTransform"/>
+        <knowrob_paramserver:hasSuccessor rdf:resource="&knowrob_paramserver;TestTrListEl2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTrListEl2 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTrListEl2">
+        <rdf:type rdf:resource="&knowrob_paramserver;TransformListElement"/>
+        <knowrob_paramserver:hasElement rdf:resource="&knowrob_paramserver;TestGraspTransform"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTranslation -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTranslation">
+        <rdf:type rdf:resource="&knowrob_paramserver;Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="&knowrob_paramserver;TestTx"/>
+        <knowrob_paramserver:hasY rdf:resource="&knowrob_paramserver;TestTy"/>
+        <knowrob_paramserver:hasZ rdf:resource="&knowrob_paramserver;TestTz"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTranslation2 -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTranslation2">
+        <rdf:type rdf:resource="&knowrob_paramserver;Translation"/>
+        <knowrob_paramserver:hasZ rdf:resource="&knowrob_paramserver;TestTx"/>
+        <knowrob_paramserver:hasX rdf:resource="&knowrob_paramserver;TestTy"/>
+        <knowrob_paramserver:hasY rdf:resource="&knowrob_paramserver;TestTz"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTx -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTx">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">-2.7</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTy -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTy">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">-0.015</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestTz -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestTz">
+        <rdf:type rdf:resource="&knowrob_paramserver;Length"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.72</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Meter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestUpdatePeriod -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestUpdatePeriod">
+        <rdf:type rdf:resource="&knowrob_paramserver;UpdatePeriod"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.01</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Second"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#TestWatchdogPeriod -->
+
+    <owl:NamedIndividual rdf:about="&knowrob_paramserver;TestWatchdogPeriod">
+        <rdf:type rdf:resource="&knowrob_paramserver;WatchdogPeriod"/>
+        <knowrob_paramserver:hasValue rdf:datatype="&xsd;double">0.512</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForControllerType rdf:datatype="&xsd;anyURI">http://knowrob.org/kb/knowrob_paramserver.owl#TestControllerType</knowrob_paramserver:validForControllerType>
+        <knowrob_paramserver:hasUnit rdf:resource="&knowrob_paramserver;Second"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Meter"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Degree"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Kilogram"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Meter"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Millimeter"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Radian"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Second"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&knowrob_paramserver;Color"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Quaternion"/>
+            <rdf:Description rdf:about="&knowrob_paramserver;Translation"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
