@@ -31,5 +31,8 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_paramserver).
+:- register_ros_package(knowrob_planning).
+
+:- use_module(library('knowrob_assembly')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
