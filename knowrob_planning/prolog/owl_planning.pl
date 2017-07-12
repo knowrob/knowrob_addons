@@ -60,10 +60,14 @@ owl_restriction_on_property(Resource, Property, Restriction) :-
   rdf_has(Restriction, owl:onProperty, Property).
 
   
-%% owl_most_specific_specializations(?Resource, ?Restr, ?UpTo)
+%% owl_most_specific_specializations(?Base, ?Types, ?List)
 %
 owl_most_specific_specializations(Base, Types, List) :-
   % TODO: redundant with owl_type_of
+  % TODO: would this work:
+  %             owl_most_specific_specializations(`P some Thing`, [`P (1 1) Thing`], _)])
+  %             owl_most_specific_specializations(`P any Thing`, [`P (1 1) Thing`], _)])
+  %             owl_most_specific_specializations(`P (0 2) Thing`, [`P (1 1) Thing`], _)])
   bagof(Cls, (
     member(Cls, [Base|Types]),
     once(owl_subclass_of(Cls,Base)),

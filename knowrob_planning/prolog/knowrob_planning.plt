@@ -156,6 +156,7 @@ test(owl_specializable_has_value4) :-
 %%%%%%% test owl_specialization_of
 
 test(owl_specialization_of_Class_Class1) :-
+  owl_specialization_of(knowrob:'Container', knowrob:'Container'),
   owl_specialization_of(knowrob:'Container', knowrob:'SpatialThing'),
   owl_specialization_of(knowrob:'Sink', knowrob:'Container'),
   owl_specialization_of(knowrob:'Sink', knowrob:'HumanScaleObject').
