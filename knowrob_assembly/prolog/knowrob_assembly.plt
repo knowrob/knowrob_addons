@@ -11,7 +11,7 @@
 :- owl_parser:owl_parse('package://thorin_simulation/owl/thorin_simulation.owl').
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/assembly_test.owl').
 
-:- rdf_db:rdf_register_prefix(test, 'http://knowrob.org/kb/assembly_test.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(assembly_test, 'http://knowrob.org/kb/assembly_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(sim, 'http://knowrob.org/kb/thorin_simulation.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(assembly, 'http://knowrob.org/kb/thorin_assemblages.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
@@ -145,17 +145,17 @@ test_BodyOnChassis_uses_connection(Obj) :-
           restr(knowrob_assembly:'linksAssemblage',some,assembly:'ChassisWithAxles')]))).
 
 test(assembly_AxleWithLeftWheel_uses_connection1, [nondet]) :-
-  test_AxleWithLeftWheel_uses_connection(test:'AxleWithLeftWheel1'),
-  test_AxleWithLeftWheel_uses_connection(test:'AxleWithLeftWheel2').
+  test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel1'),
+  test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel2').
 test(assembly_AxleWithWheels_uses_connection1, [nondet]) :-
-  test_AxleWithWheels_uses_connection(test:'AxleWithWheels1'),
-  test_AxleWithWheels_uses_connection(test:'AxleWithWheels2').
+  test_AxleWithWheels_uses_connection(assembly_test:'AxleWithWheels1'),
+  test_AxleWithWheels_uses_connection(assembly_test:'AxleWithWheels2').
 test(assembly_ChassisWithFrontAxle_uses_connection1, [nondet]) :-
-  test_ChassisWithFrontAxle_uses_connection(test:'ChassisWithFrontAxle1').
+  test_ChassisWithFrontAxle_uses_connection(assembly_test:'ChassisWithFrontAxle1').
 test(assembly_ChassisWithAxles_uses_connection1, [nondet]) :-
-  test_ChassisWithAxles_uses_connection(test:'ChassisWithAxles1').
+  test_ChassisWithAxles_uses_connection(assembly_test:'ChassisWithAxles1').
 test(assembly_BodyOnChassis_uses_connection1, [nondet]) :-
-  test_BodyOnChassis_uses_connection(test:'BodyOnChassis1').
+  test_BodyOnChassis_uses_connection(assembly_test:'BodyOnChassis1').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% Test consistency of usesConnection property after asserting connections
@@ -179,26 +179,26 @@ assert_connection(Part, Conn) :-
   rdf_instance_from_class(Conn, Conn_Instance),
   rdf_assert(Part, knowrob_assembly:usesConnection, Conn_Instance).
 test(assert_connections) :-
-  assert_connection(test:'AxleWithLeftWheel1',    parts:'WheelSnapInOnLeft'),
-  assert_connection(test:'AxleWithLeftWheel2',    parts:'WheelSnapInOnLeft'),
-  assert_connection(test:'AxleWithWheels1',       parts:'WheelSnapInOnRight',      [test:'AxleWithLeftWheel1']),
-  assert_connection(test:'AxleWithWheels2',       parts:'WheelSnapInOnRight',      [test:'AxleWithLeftWheel2']),
-  assert_connection(test:'ChassisWithFrontAxle1', parts:'AxleSnapInFront',         [test:'AxleWithWheels1']),
-  assert_connection(test:'ChassisWithAxles1',     parts:'AxleSnapInBack',          [test:'AxleWithWheels1', test:'ChassisWithFrontAxle1']),
-  assert_connection(test:'BodyOnChassis1',        parts:'ChassisSnapInConnection', [test:'ChassisWithAxles1']).
+  assert_connection(assembly_test:'AxleWithLeftWheel1',    parts:'WheelSnapInOnLeft'),
+  assert_connection(assembly_test:'AxleWithLeftWheel2',    parts:'WheelSnapInOnLeft'),
+  assert_connection(assembly_test:'AxleWithWheels1',       parts:'WheelSnapInOnRight',      [assembly_test:'AxleWithLeftWheel1']),
+  assert_connection(assembly_test:'AxleWithWheels2',       parts:'WheelSnapInOnRight',      [assembly_test:'AxleWithLeftWheel2']),
+  assert_connection(assembly_test:'ChassisWithFrontAxle1', parts:'AxleSnapInFront',         [assembly_test:'AxleWithWheels1']),
+  assert_connection(assembly_test:'ChassisWithAxles1',     parts:'AxleSnapInBack',          [assembly_test:'AxleWithWheels1', assembly_test:'ChassisWithFrontAxle1']),
+  assert_connection(assembly_test:'BodyOnChassis1',        parts:'ChassisSnapInConnection', [assembly_test:'ChassisWithAxles1']).
 
 test(assembly_AxleWithLeftWheel_uses_connection2, [nondet]) :-
-  \+ test_AxleWithLeftWheel_uses_connection(test:'AxleWithLeftWheel1'),
-  \+ test_AxleWithLeftWheel_uses_connection(test:'AxleWithLeftWheel2').
+  \+ test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel1'),
+  \+ test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel2').
 test(assembly_AxleWithWheels_uses_connection2, [nondet]) :-
-  \+ test_AxleWithWheels_uses_connection(test:'AxleWithWheels1'),
-  \+ test_AxleWithWheels_uses_connection(test:'AxleWithWheels2').
+  \+ test_AxleWithWheels_uses_connection(assembly_test:'AxleWithWheels1'),
+  \+ test_AxleWithWheels_uses_connection(assembly_test:'AxleWithWheels2').
 test(assembly_ChassisWithFrontAxle_uses_connection2, [nondet]) :-
-  \+ test_ChassisWithFrontAxle_uses_connection(test:'ChassisWithFrontAxle1').
+  \+ test_ChassisWithFrontAxle_uses_connection(assembly_test:'ChassisWithFrontAxle1').
 test(assembly_ChassisWithAxles_uses_connection2, [nondet]) :-
-  \+ test_ChassisWithAxles_uses_connection(test:'ChassisWithAxles1').
+  \+ test_ChassisWithAxles_uses_connection(assembly_test:'ChassisWithAxles1').
 test(assembly_BodyOnChassis_uses_connection2, [nondet]) :-
-  \+ test_BodyOnChassis_uses_connection(test:'BodyOnChassis1').
+  \+ test_BodyOnChassis_uses_connection(assembly_test:'BodyOnChassis1').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% Test consistency of consumesAffordance property of created connections
@@ -227,17 +227,17 @@ test_BodyOnChassis_needsAffordance(Obj) :-
     restr(knowrob_assembly:'consumesAffordance', (1,1), parts:'BodyChassisSnapInF')).
 
 test(assembly_AxleWithLeftWheel_needsAffordance1, [nondet]) :-
-  test_Wheel_needsAffordance(test:'AxleWithLeftWheel1'),
-  test_Wheel_needsAffordance(test:'AxleWithLeftWheel2').
+  test_Wheel_needsAffordance(assembly_test:'AxleWithLeftWheel1'),
+  test_Wheel_needsAffordance(assembly_test:'AxleWithLeftWheel2').
 test(assembly_AxleWithWheels_needsAffordance1, [nondet]) :-
-  test_Wheel_needsAffordance(test:'AxleWithWheels1'),
-  test_Wheel_needsAffordance(test:'AxleWithWheels2').
+  test_Wheel_needsAffordance(assembly_test:'AxleWithWheels1'),
+  test_Wheel_needsAffordance(assembly_test:'AxleWithWheels2').
 test(assembly_ChassisWithFrontAxle_needsAffordance1, [nondet]) :-
-  test_Axle_needsAffordance(test:'ChassisWithFrontAxle1').
+  test_Axle_needsAffordance(assembly_test:'ChassisWithFrontAxle1').
 test(assembly_ChassisWithAxles_needsAffordance1, [nondet]) :-
-  test_Axle_needsAffordance(test:'ChassisWithAxles1').
+  test_Axle_needsAffordance(assembly_test:'ChassisWithAxles1').
 test(assembly_BodyOnChassis_needsAffordance1, [nondet]) :-
-  test_BodyOnChassis_needsAffordance(test:'BodyOnChassis1').
+  test_BodyOnChassis_needsAffordance(assembly_test:'BodyOnChassis1').
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,26 +250,26 @@ assert_affordances(Part, Xs) :-
   rdf_has(Part, knowrob_assembly:usesConnection, Conn),
   forall(member(X,Xs), rdf_assert(Conn, knowrob_assembly:consumesAffordance, X)).
 test(assert_affordances, [nondet]) :-
-  assert_affordances(test:'AxleWithLeftWheel1', [sim:'Axle1WheelSnapInMLeft', sim:'Wheel1SnapInF']),
-  assert_affordances(test:'AxleWithLeftWheel2', [sim:'Axle2WheelSnapInMLeft', sim:'Wheel3SnapInF']),
-  assert_affordances(test:'AxleWithWheels1', [sim:'Axle1WheelSnapInMRight', sim:'Wheel2SnapInF']),
-  assert_affordances(test:'AxleWithWheels2', [sim:'Axle2WheelSnapInMRight', sim:'Wheel4SnapInF']),
-  assert_affordances(test:'ChassisWithFrontAxle1', [sim:'Axle1SnapInM', sim:'Chassis1AxleSnapInFFront']),
-  assert_affordances(test:'ChassisWithAxles1', [sim:'Axle2SnapInM', sim:'Chassis1AxleSnapInFBack']),
-  assert_affordances(test:'BodyOnChassis1', [sim:'Chassis1BodySnapInM', sim:'PorscheBody1ChassisSnapInF']).
+  assert_affordances(assembly_test:'AxleWithLeftWheel1', [sim:'Axle1WheelSnapInMLeft', sim:'Wheel1SnapInF']),
+  assert_affordances(assembly_test:'AxleWithLeftWheel2', [sim:'Axle2WheelSnapInMLeft', sim:'Wheel3SnapInF']),
+  assert_affordances(assembly_test:'AxleWithWheels1', [sim:'Axle1WheelSnapInMRight', sim:'Wheel2SnapInF']),
+  assert_affordances(assembly_test:'AxleWithWheels2', [sim:'Axle2WheelSnapInMRight', sim:'Wheel4SnapInF']),
+  assert_affordances(assembly_test:'ChassisWithFrontAxle1', [sim:'Axle1SnapInM', sim:'Chassis1AxleSnapInFFront']),
+  assert_affordances(assembly_test:'ChassisWithAxles1', [sim:'Axle2SnapInM', sim:'Chassis1AxleSnapInFBack']),
+  assert_affordances(assembly_test:'BodyOnChassis1', [sim:'Chassis1BodySnapInM', sim:'PorscheBody1ChassisSnapInF']).
 
 test(assembly_AxleWithLeftWheel_needsAffordance2, [nondet]) :-
-  \+ test_Wheel_needsAffordance(test:'AxleWithLeftWheel1'),
-  \+ test_Wheel_needsAffordance(test:'AxleWithLeftWheel2').
+  \+ test_Wheel_needsAffordance(assembly_test:'AxleWithLeftWheel1'),
+  \+ test_Wheel_needsAffordance(assembly_test:'AxleWithLeftWheel2').
 test(assembly_AxleWithWheels_needsAffordance2, [nondet]) :-
-  \+ test_Wheel_needsAffordance(test:'AxleWithWheels1'),
-  \+ test_Wheel_needsAffordance(test:'AxleWithWheels2').
+  \+ test_Wheel_needsAffordance(assembly_test:'AxleWithWheels1'),
+  \+ test_Wheel_needsAffordance(assembly_test:'AxleWithWheels2').
 test(assembly_ChassisWithFrontAxle_needsAffordance2, [nondet]) :-
-  \+ test_Axle_needsAffordance(test:'ChassisWithFrontAxle1').
+  \+ test_Axle_needsAffordance(assembly_test:'ChassisWithFrontAxle1').
 test(assembly_ChassisWithAxles_needsAffordance2, [nondet]) :-
-  \+ test_Axle_needsAffordance(test:'ChassisWithAxles1').
+  \+ test_Axle_needsAffordance(assembly_test:'ChassisWithAxles1').
 test(assembly_BodyOnChassis_needsAffordance2, [nondet]) :-
-  \+ test_BodyOnChassis_needsAffordance(test:'BodyOnChassis1').
+  \+ test_BodyOnChassis_needsAffordance(assembly_test:'BodyOnChassis1').
 
 fully_specified(Obj) :-
   once((unsatisfied_restrictions(Obj, []) ; (
@@ -280,31 +280,31 @@ fully_specified(Obj) :-
     fail
   ))).
   
-test(specified_AxleWithLeftWheel1) :-    fully_specified(test:'AxleWithLeftWheel1').
-test(specified_AxleWithLeftWheel2) :-    fully_specified(test:'AxleWithLeftWheel2').
-test(specified_AxleWithWheels1) :-       fully_specified(test:'AxleWithWheels1').
-test(specified_AxleWithWheels2) :-       fully_specified(test:'AxleWithWheels2').
-test(specified_ChassisWithFrontAxle) :-  fully_specified(test:'ChassisWithFrontAxle1').
-test(specified_ChassisWithAxles) :-      fully_specified(test:'ChassisWithAxles1').
-test(specified_BodyOnChassis) :-         fully_specified(test:'BodyOnChassis1').
+test(specified_AxleWithLeftWheel1) :-    fully_specified(assembly_test:'AxleWithLeftWheel1').
+test(specified_AxleWithLeftWheel2) :-    fully_specified(assembly_test:'AxleWithLeftWheel2').
+test(specified_AxleWithWheels1) :-       fully_specified(assembly_test:'AxleWithWheels1').
+test(specified_AxleWithWheels2) :-       fully_specified(assembly_test:'AxleWithWheels2').
+test(specified_ChassisWithFrontAxle) :-  fully_specified(assembly_test:'ChassisWithFrontAxle1').
+test(specified_ChassisWithAxles) :-      fully_specified(assembly_test:'ChassisWithAxles1').
+test(specified_BodyOnChassis) :-         fully_specified(assembly_test:'BodyOnChassis1').
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Test generating agenda
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 test(assembly_agenda_assemblages1) :-
-  agenda(test:'BodyOnChassis_a', Agenda0),
+  agenda(assembly_test:'BodyOnChassis_a', Agenda0),
   agenda_write(Agenda0),
   agenda_item(Agenda0, classify(Conn0, parts:'ChassisSnapInConnection')),
-  agenda_item(Agenda0, decompose(test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn0)),
+  agenda_item(Agenda0, decompose(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn0)),
   % manually process the items
   rdf_assert(Conn0, rdf:type, parts:'ChassisSnapInConnection'),
-  rdf_assert(test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn0),
+  rdf_assert(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn0),
   % FIXME: something not working here classify/decompose connection still there and
   %        no item generated for linksAssemblage!
-  agenda(test:'BodyOnChassis_a', Agenda1),
+  agenda(assembly_test:'BodyOnChassis_a', Agenda1),
   agenda_write(Agenda1),
   \+ agenda_item(Agenda1, classify(Conn1, parts:'ChassisSnapInConnection')),
-  \+ agenda_item(Agenda1, decompose(test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn1)).
+  \+ agenda_item(Agenda1, decompose(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn1)).
 
 :- end_tests(knowrob_assembly).

@@ -10,7 +10,7 @@
 :- owl_parser:owl_parse('package://knowrob_planning/owl/planning_test.owl').
 :- owl_parser:owl_parse('package://knowrob_common/owl/knowrob.owl').
 
-:- rdf_db:rdf_register_prefix(test, 'http://knowrob.org/kb/planning_test.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(planning_test, 'http://knowrob.org/kb/planning_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -71,85 +71,85 @@ test(owl_specializable_union_of1) :-
   rdf_retractall(X1, _, _).
 
 test(owl_specializable_some_values1) :-
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', some_values_from(knowrob:'Container'))),
-  owl_specializable(test:'TestSomeRestr_2',
-    restriction(test:'testProperty', some_values_from(knowrob:'Container'))).
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Container'))),
+  owl_specializable(planning_test:'TestSomeRestr_2',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Container'))).
 test(owl_specializable_some_values2) :-
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', some_values_from(knowrob:'Sink'))),
-  owl_specializable(test:'TestSomeRestr_2',
-    restriction(test:'testProperty', some_values_from(knowrob:'Sink'))).
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Sink'))),
+  owl_specializable(planning_test:'TestSomeRestr_2',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Sink'))).
 test(owl_specializable_some_values3) :-
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', some_values_from(knowrob:'SpatialThing'))),
-  owl_specializable(test:'TestSomeRestr_2',
-    restriction(test:'testProperty', some_values_from(knowrob:'SpatialThing'))).
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'SpatialThing'))),
+  owl_specializable(planning_test:'TestSomeRestr_2',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'SpatialThing'))).
 test(owl_specializable_some_values4) :-
-  \+ owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', some_values_from(knowrob:'HumanScaleObject'))).
+  \+ owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject'))).
 test(owl_specializable_some_values5) :-
-  rdf_instance_from_class(test:'TestSomeRestrA', X1),
+  rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
   owl_specializable(X1, 
-    restriction(test:'testProperty', some_values_from(knowrob:'Sink'))),
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Sink'))),
   rdf_retractall(X1, _, _).
 test(owl_specializable_some_values6) :-
-  rdf_instance_from_class(test:'TestSomeRestrA', X1),
+  rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
   \+ owl_specializable(X1,
-    restriction(test:'testProperty', some_values_from(knowrob:'HumanScaleObject'))),
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject'))),
   rdf_retractall(X1, _, _).
 
 test(owl_specializable_all_values1) :-
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', all_values_from(knowrob:'SpatialThing'))),
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', all_values_from(knowrob:'Container'))),
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', all_values_from(knowrob:'Sink'))).
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'SpatialThing'))),
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'Container'))),
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'Sink'))).
 test(owl_specializable_all_values2) :-
-  \+ owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', all_values_from(knowrob:'HumanScaleObject'))).
+  \+ owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'HumanScaleObject'))).
 test(owl_specializable_all_values3) :-
-  rdf_instance_from_class(test:'TestSomeRestrA', X1),
+  rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
   owl_specializable(X1,
-    restriction(test:'testProperty', all_values_from(knowrob:'HumanScaleObject'))),
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'HumanScaleObject'))),
   owl_specializable(X1,
-    restriction(test:'testProperty', all_values_from(knowrob:'Container'))),
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'Container'))),
   rdf_retractall(X1, _, _).
 
 test(owl_specializable_cardinality1) :-
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', cardinality(2,2,knowrob:'Container'))).
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container'))).
 test(owl_specializable_cardinality2) :-
-  owl_specializable(test:'TestSomeRestr_2',
-    restriction(test:'testProperty', cardinality(1,1,knowrob:'Container'))).
+  owl_specializable(planning_test:'TestSomeRestr_2',
+    restriction(planning_test:'testProperty', cardinality(1,1,knowrob:'Container'))).
 test(owl_specializable_cardinality3) :-
-  owl_specializable(test:'TestSomeRestr_2',
-    restriction(test:'testProperty', cardinality(1,1,knowrob:'Sink'))).
+  owl_specializable(planning_test:'TestSomeRestr_2',
+    restriction(planning_test:'testProperty', cardinality(1,1,knowrob:'Sink'))).
 test(owl_specializable_cardinality4) :-
-  \+ owl_specializable(test:'TestSomeRestr_2',
-    restriction(test:'testProperty', cardinality(2,2,knowrob:'Container'))).
+  \+ owl_specializable(planning_test:'TestSomeRestr_2',
+    restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container'))).
 test(owl_specializable_cardinality5) :-
-  \+ owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', cardinality(2,4,knowrob:'HumanScaleObject'))).
+  \+ owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', cardinality(2,4,knowrob:'HumanScaleObject'))).
 
 test(owl_specializable_has_value1) :-
-  rdf_instance_from_class(test:'TestSomeRestrA', X1),
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', has_value(test:'TestContainer_1'))),
+  rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', has_value(planning_test:'TestContainer_1'))),
   rdf_retractall(X1, _, _).
 test(owl_specializable_has_value2) :-
-  rdf_instance_from_class(test:'TestSomeRestrB', X1),
-  owl_specializable(test:'TestSomeRestr_1',
-    restriction(test:'testProperty', has_value(test:'TestContainer_1'))),
+  rdf_instance_from_class(planning_test:'TestSomeRestrB', X1),
+  owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', has_value(planning_test:'TestContainer_1'))),
   rdf_retractall(X1, _, _).
 test(owl_specializable_has_value3) :-
   rdf_instance_from_class(knowrob:'Container', C1),
-  owl_specializable(test:'TestSomeRestr_1', restriction(test:'testProperty', has_value(C1))),
+  owl_specializable(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', has_value(C1))),
   rdf_retractall(C1, _, _).
 test(owl_specializable_has_value4) :-
   rdf_instance_from_class(knowrob:'Container', C1),
-  \+ owl_specializable(test:'TestSomeRestr_2', restriction(test:'testProperty', has_value(C1))),
+  \+ owl_specializable(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty', has_value(C1))),
   rdf_retractall(C1, _, _).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -175,15 +175,15 @@ test_restriction_up_to(S,Restr,UpTo) :-
   member( (S,Restr_id,UpTo), Xs ).
 
 test(owl_satisfies_restriction_up_to_class1) :-
-  test_restriction_up_to(test:'TestContainer_1', class(knowrob:'Sink'),
-                         classify(test:'TestContainer_1', knowrob:'Sink')).
+  test_restriction_up_to(planning_test:'TestContainer_1', class(knowrob:'Sink'),
+                         classify(planning_test:'TestContainer_1', knowrob:'Sink')).
 test(owl_satisfies_restriction_up_to_class2) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestContainer_1', class(knowrob:'Container'), _).
+  \+ test_restriction_up_to(planning_test:'TestContainer_1', class(knowrob:'Container'), _).
 
 test(owl_satisfies_restriction_up_to_intersection1) :-
   % not possible because Container can't be specialized to HumanScaleObject
-  \+ owl_satisfies_restriction_up_to(test:'TestContainer_1', intersection_of([knowrob:'Container',knowrob:'HumanScaleObject']), _).
+  \+ owl_satisfies_restriction_up_to(planning_test:'TestContainer_1', intersection_of([knowrob:'Container',knowrob:'HumanScaleObject']), _).
 test(owl_satisfies_restriction_up_to_intersection2, [nondet]) :-
   rdf_instance_from_class(knowrob:'SpatialThing', X),
   test_restriction_up_to(X, intersection_of([knowrob:'Container',knowrob:'HumanScaleObject']),
@@ -192,20 +192,20 @@ test(owl_satisfies_restriction_up_to_intersection2, [nondet]) :-
                          classify(X, knowrob:'HumanScaleObject')).
 test(owl_satisfies_restriction_up_to_intersection3) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestContainer_1', intersection_of([knowrob:'Container']), _).
+  \+ test_restriction_up_to(planning_test:'TestContainer_1', intersection_of([knowrob:'Container']), _).
 
 test(owl_satisfies_restriction_up_to_union1) :-
-  test_restriction_up_to(test:'TestContainer_1', union_of([knowrob:'Sink', knowrob:'HumanScaleObject']),
-                         classify(test:'TestContainer_1', knowrob:'Sink')).
+  test_restriction_up_to(planning_test:'TestContainer_1', union_of([knowrob:'Sink', knowrob:'HumanScaleObject']),
+                         classify(planning_test:'TestContainer_1', knowrob:'Sink')).
 test(owl_satisfies_restriction_up_to_union2) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestContainer_1', union_of([knowrob:'Container']), _).
+  \+ test_restriction_up_to(planning_test:'TestContainer_1', union_of([knowrob:'Container']), _).
 test(owl_satisfies_restriction_up_to_union3) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestContainer_1', union_of([knowrob:'Container', knowrob:'HumanScaleObject']), _).
+  \+ test_restriction_up_to(planning_test:'TestContainer_1', union_of([knowrob:'Container', knowrob:'HumanScaleObject']), _).
 test(owl_satisfies_restriction_up_to_union4) :-
   % not possible because Container can't be specialized to HumanScaleObject
-  \+ test_restriction_up_to(test:'TestContainer_1', union_of([knowrob:'HumanScaleObject']), _).
+  \+ test_restriction_up_to(planning_test:'TestContainer_1', union_of([knowrob:'HumanScaleObject']), _).
 test(owl_satisfies_restriction_up_to_union5) :-
   rdf_instance_from_class(knowrob:'SpatialThing', X),
   test_restriction_up_to(X, union_of([knowrob:'HumanScaleObject']), classify(X, knowrob:'HumanScaleObject')).
@@ -216,66 +216,66 @@ test(owl_satisfies_restriction_up_to_union6, [nondet]) :-
 
 test(owl_satisfies_restriction_up_to_has_value1) :-
   rdf_instance_from_class(owl:'Thing', X),
-  test_restriction_up_to(X, restriction(test:'testProperty', has_value(test:'TestContainer_1')),
-                         integrate(X, test:'testProperty', test:'TestContainer_1', 1)).
+  test_restriction_up_to(X, restriction(planning_test:'testProperty', has_value(planning_test:'TestContainer_1')),
+                         integrate(X, planning_test:'testProperty', planning_test:'TestContainer_1', 1)).
 test(owl_satisfies_restriction_up_to_has_value2) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', has_value(test:'TestContainer_1')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', has_value(planning_test:'TestContainer_1')), _).
 
 test(owl_satisfies_restriction_up_to_all_values1) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty
-  \+ test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', all_values_from(knowrob:'Event')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', all_values_from(knowrob:'Event')), _).
 test(owl_satisfies_restriction_up_to_all_values2) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', all_values_from(knowrob:'Sink')),
-                         classify(test:'TestContainer_1',knowrob:'Sink')).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', all_values_from(knowrob:'Sink')),
+                         classify(planning_test:'TestContainer_1',knowrob:'Sink')).
 test(owl_satisfies_restriction_up_to_all_values3) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty',
-                         all_values_from(restriction(test:'testProperty',has_value(test:'TestContainer_1')))),
-                         integrate(test:'TestContainer_1',test:'testProperty',test:'TestContainer_1',1)).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty',
+                         all_values_from(restriction(planning_test:'testProperty',has_value(planning_test:'TestContainer_1')))),
+                         integrate(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
 test(owl_satisfies_restriction_up_to_all_values4) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', all_values_from(knowrob:'Container')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', all_values_from(knowrob:'Container')), _).
 test(owl_satisfies_restriction_up_to_all_values5) :-
   rdf_instance_from_class(owl:'Thing', X),
   % already specific enough
-  \+ test_restriction_up_to(X, restriction(test:'testProperty', all_values_from(knowrob:'Container')), _).
+  \+ test_restriction_up_to(X, restriction(planning_test:'testProperty', all_values_from(knowrob:'Container')), _).
 
 test(owl_satisfies_restriction_up_to_some_values1) :-
   rdf_instance_from_class(owl:'Thing', X),
-  test_restriction_up_to(X, restriction(test:'testProperty', some_values_from(knowrob:'Container')),
-                         integrate(X, test:'testProperty', knowrob:'Container', 1)).
+  test_restriction_up_to(X, restriction(planning_test:'testProperty', some_values_from(knowrob:'Container')),
+                         integrate(X, planning_test:'testProperty', knowrob:'Container', 1)).
 test(owl_satisfies_restriction_up_to_some_values2) :-
   % already specific enough
-  \+ test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', some_values_from(knowrob:'Container')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'Container')), _).
 test(owl_satisfies_restriction_up_to_some_values3) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', some_values_from(knowrob:'Sink')),
-                         classify(test:'TestContainer_1', knowrob:'Sink')).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'Sink')),
+                         classify(planning_test:'TestContainer_1', knowrob:'Sink')).
 test(owl_satisfies_restriction_up_to_some_values4) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty
-  \+ test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
 test(owl_satisfies_restriction_up_to_some_values5) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty',
-                         some_values_from(restriction(test:'testProperty',has_value(test:'TestContainer_1')))),
-                         integrate(test:'TestContainer_1',test:'testProperty',test:'TestContainer_1',1)).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty',
+                         some_values_from(restriction(planning_test:'testProperty',has_value(planning_test:'TestContainer_1')))),
+                         integrate(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
 test(owl_satisfies_restriction_up_to_some_values7) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty
-  \+ test_restriction_up_to(test:'TestSomeRestr_2', restriction(test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
 
 test(owl_satisfies_restriction_up_cardinality_values1) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', cardinality(2,2,knowrob:'Container')),
-                         integrate(test:'TestSomeRestr_1',test:'testProperty',knowrob:'Container',1)).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container')),
+                         integrate(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
 test(owl_satisfies_restriction_up_cardinality_values2) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', cardinality(3,3,knowrob:'Container')),
-                         integrate(test:'TestSomeRestr_1',test:'testProperty',knowrob:'Container',2)).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(3,3,knowrob:'Container')),
+                         integrate(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',2)).
 test(owl_satisfies_restriction_up_cardinality_values2) :-
-  test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', cardinality(2,3,knowrob:'Container')),
-                         integrate(test:'TestSomeRestr_1',test:'testProperty',knowrob:'Container',1)).
+  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(2,3,knowrob:'Container')),
+                         integrate(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty range
-  \+ test_restriction_up_to(test:'TestSomeRestr_1', restriction(test:'testProperty', cardinality(1,1,knowrob:'HumanScaleObject')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(1,1,knowrob:'HumanScaleObject')), _).
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   % not allowed because cardinality restriction (1,1) can't be specialized to (2,2)
-  \+ test_restriction_up_to(test:'TestSomeRestr_2', restriction(test:'testProperty', cardinality(2,2,knowrob:'Container')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container')), _).
 
 % TODO: test detach item generation
 % TODO: test crazy nested restrictions
