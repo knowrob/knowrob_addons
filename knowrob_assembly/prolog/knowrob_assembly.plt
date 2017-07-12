@@ -166,19 +166,12 @@ test(assembly_BodyOnChassis_uses_connection1, [nondet]) :-
 assert_connection(Part, Conn, SubAssemblies) :-
   rdf_instance_from_class(Conn, Conn_Instance),
   rdf_assert(Part, knowrob_assembly:usesConnection, Conn_Instance),
-  % TODO: this is a bit ugly since we not only have to create an individual but also to integrate.
-  %       should be done with two individual items, but the part that offers the connection restricts the linksAssemblage.
-  %       GENERIC APPROACH: Compute range by taking into account restrictions imposed by related instances?
-  %                         XXX: how deep should we look?
-  %                   e.g.: connection has unspecified linksAssemblage, is used by a part and part restricts linksAssemblage to given type.
-  % APPROACH: specify usesConnection, make consistency check again, find out that the restriction is still not fullfilled,
-  %           then go deeper in the restriction.
   forall(member(SubAssembly,SubAssemblies),
          rdf_assert(Conn_Instance, knowrob_assembly:'linksAssemblage', SubAssembly)).
 assert_connection(Part, Conn) :-
   rdf_instance_from_class(Conn, Conn_Instance),
   rdf_assert(Part, knowrob_assembly:usesConnection, Conn_Instance).
-test(assert_connections) :-
+test(assembly_assert_connections) :-
   assert_connection(assembly_test:'AxleWithLeftWheel1',    parts:'WheelSnapInOnLeft'),
   assert_connection(assembly_test:'AxleWithLeftWheel2',    parts:'WheelSnapInOnLeft'),
   assert_connection(assembly_test:'AxleWithWheels1',       parts:'WheelSnapInOnRight',      [assembly_test:'AxleWithLeftWheel1']),
@@ -249,7 +242,7 @@ test(assembly_BodyOnChassis_needsAffordance1, [nondet]) :-
 assert_affordances(Part, Xs) :-
   rdf_has(Part, knowrob_assembly:usesConnection, Conn),
   forall(member(X,Xs), rdf_assert(Conn, knowrob_assembly:consumesAffordance, X)).
-test(assert_affordances, [nondet]) :-
+test(assembly_assert_affordances, [nondet]) :-
   assert_affordances(assembly_test:'AxleWithLeftWheel1', [sim:'Axle1WheelSnapInMLeft', sim:'Wheel1SnapInF']),
   assert_affordances(assembly_test:'AxleWithLeftWheel2', [sim:'Axle2WheelSnapInMLeft', sim:'Wheel3SnapInF']),
   assert_affordances(assembly_test:'AxleWithWheels1', [sim:'Axle1WheelSnapInMRight', sim:'Wheel2SnapInF']),
@@ -292,19 +285,31 @@ test(specified_BodyOnChassis) :-         fully_specified(assembly_test:'BodyOnCh
 %%%%%%%%%% Test generating agenda
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-test(assembly_agenda_assemblages1) :-
-  agenda(assembly_test:'BodyOnChassis_a', Agenda0),
-  agenda_write(Agenda0),
-  agenda_item(Agenda0, classify(Conn0, parts:'ChassisSnapInConnection')),
-  agenda_item(Agenda0, decompose(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn0)),
-  % manually process the items
-  rdf_assert(Conn0, rdf:type, parts:'ChassisSnapInConnection'),
-  rdf_assert(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn0),
-  % FIXME: something not working here classify/decompose connection still there and
-  %        no item generated for linksAssemblage!
-  agenda(assembly_test:'BodyOnChassis_a', Agenda1),
-  agenda_write(Agenda1),
-  \+ agenda_item(Agenda1, classify(Conn1, parts:'ChassisSnapInConnection')),
-  \+ agenda_item(Agenda1, decompose(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn1)).
+:- rdf_meta test_agenda_items(t).
+test_agenda_items(Assumed) :-
+  assembly_test_agenda(Agenda),
+  agenda_items_sorted(Agenda,Actual),
+  test_agenda_items(Actual,Assumed), !.
+test_agenda_items([],[]).
+test_agenda_items([A|As],[B|Bs]) :-
+  agenda_item_description(A,B),
+  test_agenda_items(As,Bs).
+
+test(assembly_agenda_create_BodyOnChassis) :-
+  create_agenda(assembly_test:'BodyOnChassis_a', assembly_test:'AgendaStrategy_1', Agenda),
+  once(( rdfs_individual_of(Item, knowrob_planning:'Agenda'),
+         rdf_has(Agenda, knowrob_planning:'strategy', assembly_test:'AgendaStrategy_1') )),
+  assertz(assembly_test_agenda(Agenda)),
+  test_agenda_items([
+      item(decompose,assembly_test:'BodyOnChassis_a',knowrob_assembly:'usesConnection',_,_)
+  ]),
+  agenda_write(Agenda).
+
+test(assembly_perform_BodyOnChassis_usesConnection) :-
+  assembly_test_agenda(Agenda),
+  writeln(assembly_perform_BodyOnChassis_usesConnection1),
+  agenda_perform_next(Agenda),
+  writeln(assembly_perform_BodyOnChassis_usesConnection2),
+  agenda_write(Agenda).
 
 :- end_tests(knowrob_assembly).
