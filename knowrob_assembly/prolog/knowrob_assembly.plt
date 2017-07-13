@@ -280,6 +280,26 @@ test(specified_AxleWithWheels2) :-       fully_specified(assembly_test:'AxleWith
 test(specified_ChassisWithFrontAxle) :-  fully_specified(assembly_test:'ChassisWithFrontAxle1').
 test(specified_ChassisWithAxles) :-      fully_specified(assembly_test:'ChassisWithAxles1').
 test(specified_BodyOnChassis) :-         fully_specified(assembly_test:'BodyOnChassis1').
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+test(owl_most_specific_specializations5) :-
+  owl_most_specific_specializations(owl:'Thing', [parts:'ChassisSnapInConnection'], List),
+  rdf_global_term([parts:'ChassisSnapInConnection'],List).
+
+:- rdf_meta test_restriction_up_to(r,t,t).
+test_restriction_up_to(S,Restr,UpTo) :-
+  findall( (S,Restr,UpTo), owl_satisfies_restriction_up_to(S,Restr,UpTo), Xs),
+  member( (S,Restr,UpTo), Xs ).
+
+test(chassis_snap_connection_unstattisfied_up_to1) :-
+  rdf_instance_from_class(parts:'ChassisSnapInConnection', Conn),
+  test_restriction_up_to(Conn, intersection_of([
+    class(parts:'ChassisSnapInConnection'),
+    restriction(knowrob_assembly:'linksAssemblage',some_values_from(assembly:'ChassisWithAxles'))]),
+    decompose(Conn,knowrob_assembly:'linksAssemblage',assembly:'ChassisWithAxles',1)).
+
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Test generating agenda
@@ -300,16 +320,20 @@ test(assembly_agenda_create_BodyOnChassis) :-
   once(( rdfs_individual_of(Item, knowrob_planning:'Agenda'),
          rdf_has(Agenda, knowrob_planning:'strategy', assembly_test:'AgendaStrategy_1') )),
   assertz(assembly_test_agenda(Agenda)),
+  agenda_write(Agenda),
   test_agenda_items([
       item(decompose,assembly_test:'BodyOnChassis_a',knowrob_assembly:'usesConnection',_,_)
-  ]),
-  agenda_write(Agenda).
+  ]).
 
 test(assembly_perform_BodyOnChassis_usesConnection) :-
   assembly_test_agenda(Agenda),
-  writeln(assembly_perform_BodyOnChassis_usesConnection1),
   agenda_perform_next(Agenda),
-  writeln(assembly_perform_BodyOnChassis_usesConnection2),
-  agenda_write(Agenda).
+  agenda_write(Agenda),
+  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', Conn),
+  test_agenda_items([
+      item(decompose,Conn, knowrob_assembly:'linksAssemblage',_,_),
+      item(integrate,Conn, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_),
+      item(integrate,Conn, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
+  ]).
 
 :- end_tests(knowrob_assembly).

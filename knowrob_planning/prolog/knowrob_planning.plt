@@ -29,6 +29,9 @@ test(owl_most_specific_specializations2) :-
 test(owl_most_specific_specializations3) :-
   owl_most_specific_specializations(knowrob:'Container', [knowrob:'Sink', knowrob:'HumanScaleObject'], List),
   rdf_global_term([knowrob:'Sink'],List).
+test(owl_most_specific_specializations4) :-
+  owl_most_specific_specializations(owl:'Thing', [knowrob:'Sink'], List),
+  rdf_global_term([knowrob:'Sink'],List).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% test owl_specializable
