@@ -319,6 +319,7 @@
         <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_usesConnection"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#ContinuitySelection_1"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#InhibitionSelection_1"/>
+        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#DepthSelection_1"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_linksAssemblage"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_needsAffordance"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_usesConnection"/>
@@ -443,6 +444,14 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#ContinuitySelection_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
         <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</knowrob_planning:selectionPriority>
+    </owl:NamedIndividual>
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#DepthSelection_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#DepthSelection_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DepthSelection"/>
+        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</knowrob_planning:selectionPriority>
     </owl:NamedIndividual>
     
 
