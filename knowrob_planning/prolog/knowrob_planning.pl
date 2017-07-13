@@ -739,9 +739,9 @@ agenda_item_update_specify(Item,Selection) :-
     rdf_has(C, knowrob_planning:'causedByRestriction', Cause_restriction),
     rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
     forall((
-      member(O,Selection), \+ owl_individual_of(O,O_descr)
+      member(O,Selection), \+ owl_individual_of(O,O_descr),
+      owl_satisfies_restriction_up_to(O,O_descr,NewItem)
     ),(
-      owl_satisfies_restriction_up_to(O,O_descr,NewItem),
       assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, _)
     ))
   )).
