@@ -253,16 +253,18 @@ test(owl_satisfies_restriction_up_to_some_values2) :-
 test(owl_satisfies_restriction_up_to_some_values3) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'Sink')),
                          classify(planning_test:'TestContainer_1', knowrob:'Sink')).
-test(owl_satisfies_restriction_up_to_some_values4) :-
-  % not allowed due to TestSomeRestr_1 restrictions on testProperty
-  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
 test(owl_satisfies_restriction_up_to_some_values5) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty',
                          some_values_from(restriction(planning_test:'testProperty',has_value(planning_test:'TestContainer_1')))),
                          integrate(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
-test(owl_satisfies_restriction_up_to_some_values7) :-
+test(owl_satisfies_restriction_up_to_some_values4) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty
-  \+ test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
+test(owl_satisfies_restriction_up_to_some_values7) :-
+  % exactly 1 Container restriction still allows other value types
+  test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty',
+                         some_values_from(knowrob:'HumanScaleObject')),
+                         integrate(planning_test:'TestSomeRestr_2',planning_test:'testProperty',knowrob:'HumanScaleObject',1)).
 
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container')),
