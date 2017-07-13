@@ -121,7 +121,7 @@ create_agenda(Obj, Agenda) :-
 create_agenda(Obj, Strategy, Agenda) :-
   rdf_instance_from_class(knowrob_planning:'Agenda', Agenda),
   rdf_assert(Agenda, knowrob_planning:'strategy', Strategy),
-  agenda_add_object(Agenda, Obj).
+  agenda_add_object(Agenda, Obj, 0).
 
 %% agenda_items(+Agenda,-Items)
 %
@@ -150,7 +150,6 @@ agenda_pop(Agenda, Item)  :-
   agenda_items_sorted(Agenda, [X|_]),
   ( agenda_item_valid(X)
   -> (
-    write('    [SELECT] '), writeln(X),
     agenda_item_inhibit(X), % count how often item was selected
     %rdf_retractall(Agenda, knowrob_planning:'agendaItem', X),
     assert_last_selected_item(X),
@@ -166,13 +165,13 @@ agenda_push(Agenda, Item) :-
   once(( rdf_has(Agenda, knowrob_planning:'agendaItem', Item) ;
          rdf_assert(Agenda, knowrob_planning:'agendaItem', Item) )).
 
-agenda_add_object(Agenda, Root) :-
+agenda_add_object(Agenda, Root, Depth) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
   % compute the current part tree
-  bagof( Part, part_of_workpiece(Root, Strategy, Part), Parts ),
+  bagof( Part, part_of_workpiece(Root, Strategy, Depth, Part), Parts ),
   % for each part infer agenda items
   forall((
-    member(Obj, Parts),
+    member((Obj,Obj_depth), Parts),
     owl_unsatisfied_restriction(Obj, Descr),
     owl_satisfies_restriction_up_to(Obj, Descr, Item),
     % only assert relevant items
@@ -182,28 +181,28 @@ agenda_add_object(Agenda, Root) :-
       agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus)
     ))
   ) , ( % assert RDF triples
-    assert_agenda_item(Item, Agenda, Obj, Descr, _)
+    assert_agenda_item(Item, Agenda, Obj, Descr, Obj_depth, _)
   )).
 
 agenda_remove_object(Agenda, Object) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
   % compute the current part tree
-  bagof( Part, part_of_workpiece(Object, Strategy, Part), Parts ),
+  bagof( Part, part_of_workpiece(Object, Strategy, 0, Part), Parts ),
   % for each part infer agenda items
   forall((
-    member(Obj, Parts),
+    member((Obj,_), Parts),
     rdf_has(Item, knowrob_planning:'itemOf', Obj)
   ) , ( % retract RDF triples
     retract_agenda_item(Item)
   )).
 
 retract_agenda_item(Item) :-
-  write('    [RETRACT] '), writeln(Item),
   rdf_retractall(Item, _, _),
   rdf_retractall(_, _, Item).
 
-assert_agenda_item(Item, Agenda, Cause, Cause_restriction, ItemId) :-
+assert_agenda_item(Item, Agenda, Cause, Cause_restriction, Depth, ItemId) :-
   assert_agenda_item(Item,ItemId),
+  agenda_item_depth_assert(ItemId,Depth),
   % the violated restriction that caused the item
   rdf_instance_from_class(knowrob_planning:'AgendaCondition', Condition),
   rdf_assert(Condition, knowrob_planning:'causedByRestrictionOn', Cause),
@@ -299,6 +298,7 @@ agenda_item_property(Item,P) :-
   P \= inverse_of(_),
   \+ rdfs_subproperty_of(P, knowrob_planning:'agendaPredicate'),
   \+ rdfs_subproperty_of(P, knowrob_planning:'itemCardinality'),
+  \+ rdfs_subproperty_of(P, knowrob_planning:'itemDepth'),
   \+ rdf_equal(P, rdf:type), !.
   
 %% agenda_item_domain(?Item,?Domain)
@@ -386,14 +386,15 @@ agenda_item_in_focus_internal(Item, Focus) :-
   agenda_item_matches_pattern(Item, Pattern).
 
 % build a tree following any relations focussed in the control strategy
-part_of_workpiece(S, Strategy, Part) :- part_of_workpiece(S, Strategy, Part, []).
-part_of_workpiece(Root, _, Root, []).
-part_of_workpiece(S, Strategy, Part, Cache) :-
+part_of_workpiece(S, Strategy, Depth, Part) :- part_of_workpiece(S, Strategy, Depth, Part, []).
+part_of_workpiece(Root, _, Depth, (Root,Depth), []).
+part_of_workpiece(S, Strategy, Depth, Part, Cache) :-
   \+ member(S, Cache), owl_has(S, P, O),
   rdfs_individual_of(P, owl:'ObjectProperty'),
   % ignore triples that are not part of current focus
   agenda_item_in_focus_internal(item(_,S,P,O,_),Strategy),
-  part_of_workpiece(O, Strategy, Part, [S|Cache]).
+  Depth_next is Depth + 1,
+  part_of_workpiece(O, Strategy, Depth_next, Part, [S|Cache]).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -450,6 +451,21 @@ agenda_item_selection_value(Item, Criterium, Val) :-
 agenda_item_selection_value(Item, Criterium, Val) :-
   rdfs_individual_of(Criterium, knowrob_planning:'ContinuitySelection'), !,
   agenda_item_continuity_value(Item, Val).
+
+agenda_item_selection_value(Item, Criterium, Val) :-
+  rdfs_individual_of(Criterium, knowrob_planning:'DepthSelection'), !,
+  agenda_item_depth_value(Item, Val).
+
+
+%% agenda_item_depth_value(+Item,?DepthValue)
+%
+agenda_item_depth_value(Item,DepthValue) :-
+  rdf_has(Item, knowrob_planning:'itemDepth', literal(type(_,V))),
+  ( number(V) -> DepthValue=V ; atom_number(V, DepthValue) ).
+
+agenda_item_depth_assert(Item,DepthValue) :-
+  rdf_retractall(Item, knowrob_planning:'itemDepth', _),
+  rdf_assert(Item, knowrob_planning:'itemDepth', literal(type(xsd:int, DepthValue))).
 
 %% agenda_item_continuity_value(+Item,?ContinuityValue)
 %
@@ -549,7 +565,7 @@ agenda_item_domain_compute(Item, Domain) :-
   agenda_item_property(Item, P),
   agenda_item_domain(Item, D_item),
   % find set of restrictions that caused items of S with property P
-  bagof(D, (
+  findall(D, (
     agenda_item_match(Item, X),
     agenda_item_property(X, P_X),
     once(rdfs_subproperty_of(P, P_X)),
@@ -659,11 +675,11 @@ decompose(S,P,Domain,O) :-
   debug_assertion(S,P,O).
 
 debug_retraction(S,P,O) :-
-  write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
+  write('      [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
 debug_assertion(S,P,O) :-
-  write('    [ASSERT] '),  write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
+  write('      [ASSERT] '),  write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
 debug_type_assertion(S,Cls) :-
-  write('    [ASSERT] '),  write_name(S), write(' type '), write_name(Cls), writeln('.').
+  write('      [ASSERT] '),  write_name(S), write(' type '), write_name(Cls), writeln('.').
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -704,6 +720,7 @@ agenda_item_update(Item,Selection) :-
 
 agenda_item_update(Item,Selection) :- % decompose or integrate
   rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
+  agenda_item_depth_value(Item,Depth), Depth_next is Depth + 1,
   % find more general items
   agenda_item_generalizations(Item, Selection, GeneralItems),
   %%% For each more general item add "deeper" items
@@ -721,7 +738,7 @@ agenda_item_update(Item,Selection) :- % decompose or integrate
     ))
   )),
   %%% Add selected object items
-  forall( member(X,Selection), agenda_add_object(Agenda,X) ).
+  forall( member(X,Selection), agenda_add_object(Agenda,X,Depth_next) ).
 
 
 agenda_item_update_specify(Item,Selection) :-
@@ -729,6 +746,7 @@ agenda_item_update_specify(Item,Selection) :-
   agenda_item_domain(Item, O_descr),
   agenda_item_property(Item, P),
   agenda_item_cardinality(Item, Card),
+  agenda_item_depth_value(Item, Depth),
   rdf_has(Item, knowrob_planning:'itemOf', S),
   owl_cardinality(S,P,O_descr,Count),
   % nothing todo if cardinality fully specified already
@@ -742,7 +760,7 @@ agenda_item_update_specify(Item,Selection) :-
       member(O,Selection), \+ owl_individual_of(O,O_descr),
       owl_satisfies_restriction_up_to(O,O_descr,NewItem)
     ),(
-      assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, _)
+      assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, Depth, _)
     ))
   )).
 
@@ -783,7 +801,10 @@ agenda_write([X|Xs]) :-
   writeln('    [AGENDA]'),
   forall(member(Item,[X|Xs]), (
     agenda_item_description(Item,Descr),
-    write('        o '), agenda_item_write(Descr), nl
+    write('        o '), agenda_item_write(Descr),
+    agenda_item_depth_value(Item,Depth),
+    write(' d='), write(Depth),
+    nl
   )).
 
 agenda_item_write(item(classify,S,_,Domain,_)) :-
