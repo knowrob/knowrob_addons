@@ -94,9 +94,10 @@ owl_satisfies_restriction_up_to(Resource, Restr, UpTo) :-
   owl_satisfies_restriction_up_to_internal(Resource, Descr, X),
   ( X=specify(S,P,Domain,Card)
   -> (
-    once(rdfs_subproperty_of(P, knowrob_planning:'decomposablePredicate')) ->
-      UpTo=decompose(S,P,Domain,Card) ;
-      UpTo=integrate(S,P,Domain,Card)
+    P \= inverse_of(_),
+    (once(rdfs_subproperty_of(P, knowrob_planning:'decomposablePredicate')) ->
+       UpTo=decompose(S,P,Domain,Card) ;
+       UpTo=integrate(S,P,Domain,Card))
   ) ; (
     UpTo=X
   )).
@@ -108,7 +109,7 @@ owl_satisfies_restriction_up_to_internal(S, intersection_of(List), UpTo) :-
   %forall(member(Cls,List), owl_specializable(S,Cls)),
   % for each class description Cls, check up to where S fullfills the description
   member(Cls,List),
-  \+ owl_individual_of(S,Cls),
+  %\+ owl_individual_of(S,Cls), % FIXME: List elements might be Prolog terms, not IRIs
   owl_description(Cls, Cls_descr),
   owl_satisfies_restriction_up_to_internal(S, Cls_descr, UpTo).
 
@@ -117,7 +118,7 @@ owl_satisfies_restriction_up_to_internal(S, union_of(List), UpTo) :-
   % note that it is not really possible to provide a class selection list from within this methhod because
   % descriptions in List could be complex class descriptions -> must be handled in item domain computation
   member(Cls,List),
-  \+ owl_individual_of(S,Cls),
+  %\+ owl_individual_of(S,Cls), % FIXME: List elements might be Prolog terms, not IRIs
   owl_description(Cls, Cls_descr),
   owl_specializable_(S, Cls_descr),
   owl_satisfies_restriction_up_to_internal(S, Cls_descr, UpTo).
@@ -227,8 +228,8 @@ owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if it is consistent to add a new value of type Cls for P
   owl_decomposable_on_subject(Resource, P, Cls),
-  owl_property_range_on_subject(Resource, P, intersection_of(List)),
-  forall(member(Range,List), owl_subclass_of(Cls, Range)), !.
+  owl_property_range_on_subject(Resource, P, List),
+  once((member(Range,List), owl_subclass_of(Cls, Range))), !.
 
 owl_specializable_(Resource, restriction(P,cardinality(Min,Max,Cls))) :-
   % specializable if cardinality is ok already
@@ -241,16 +242,16 @@ owl_specializable_(Resource, restriction(P,cardinality(Min,_,Cls))) :-
   Count_Cls < Min,
   Count_decompose is Min - Count_Cls,
   owl_decomposable_on_subject(Resource, P, Cls, Count_decompose),
-  owl_property_range_on_subject(Resource, P, intersection_of(List)),
-  forall(member(Range,List), owl_subclass_of(Cls, Range)), !.
+  owl_property_range_on_subject(Resource, P, List),
+  once((member(Range,List), owl_subclass_of(Cls, Range))), !.
 
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   % specializable if P already has this value
   owl_has(Resource,P,O), !.
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   % or specializable if we can add O as new value
-  owl_property_range_on_subject(Resource, P, intersection_of(List)),
-  forall(member(Range,List), owl_individual_of(O, Range)),
+  owl_property_range_on_subject(Resource, P, List),
+  once((member(Range,List), owl_individual_of(O, Range))),
   owl_type_of(O, Cls),
   owl_decomposable_on_subject(Resource, P, Cls), !.
 
