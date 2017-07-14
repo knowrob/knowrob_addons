@@ -300,6 +300,10 @@ test(chassis_snap_connection_unstattisfied_up_to1) :-
     restriction(knowrob_assembly:'linksAssemblage',some_values_from(assembly:'ChassisWithAxles'))]),
     decompose(Conn,knowrob_assembly:'linksAssemblage',assembly:'ChassisWithAxles',1)).
 
+test(retract_some_facts) :-
+  rdf_retractall(_, knowrob_assembly:'linksAssemblage', _),
+  rdf_retractall(_, knowrob_assembly:'usesConnection', _),
+  rdf_retractall(_, knowrob_assembly:'consumesAffordance', _).
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Test generating agenda
@@ -546,5 +550,14 @@ test(assembly_perform_decompose_second_axle) :-
       item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
       item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
   ]).
+
+test(assembly_perform_integrate_WheelSnapInF) :-
+  assembly_test_agenda(Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
 
 :- end_tests(knowrob_assembly).
