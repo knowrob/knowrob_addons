@@ -56,6 +56,7 @@
       assert_grasp_on_object/5,
       assert_ungrasp/1,
       assert_assemblage_created/6,
+      ensure_assemblage_transforms/5,
       assert_assemblage_destroyed/1,
 
       create_assembly_agenda/3
@@ -415,15 +416,27 @@ get_assemblages_with_object(Object, Assemblages) :-
 
 %% get_objects_in_assemblage(+Assemblage, -Objects) is det.
 %
-% Returns a list of Object Ids such that for every Object in the list we have Assemblage hasPart Object or Assemblage hasSubassemblage Assemblage2 hasPart Object.
+% Returns a list of Object Ids such that for every Object in the list we have Assemblage hasPart Object or Assemblage hasSubassemblage Assemblage2 hasPart Object,
+% if Assemblage is actually of the Assemblage type. If it is instead an AtomicPart, returns a list containing only Assemblage.
 % Only active assemblages are considered: their Connection has no temporalExtent, or a temporalExtent to an Interval with no endsAtTime.
 %
 % @param Assemblage anyURI, the assemblage id
 % @param Objects    [anyURI*], object ids
 %
 get_objects_in_assemblage(Assemblage, Objects) :-
+  owl_individual_of(Assemblage, assembly:'AtomicPart'),
+  =(Objects, [Assemblage]),
+  !.
+
+get_objects_in_assemblage(Assemblage, Objects) :-
+  \+ owl_individual_of(Assemblage, assembly:'AtomicPart'),
   findall(P, assemblage_has_part(Assemblage, P), DupList),
   list_to_set(DupList, Objects).
+
+get_mobile_objects_in_assemblage(Assemblage, MobileParts) :-
+  get_objects_in_assemblage(Assemblage, Parts),
+  findall(X, (member(X, Parts), is_mobile_object(X)), MobilePartsL),
+  list_to_set(MobilePartsL, MobileParts).
 
 get_active_grasp_description(Object, Grasp) :-
   rdf_has(Object, assembly:'isGrasped', TempRei),
@@ -1296,7 +1309,7 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   nonvar(SecondaryObject),
   owl_subclass_of(AssemblageType, 'http://knowrob.org/kb/knowrob_assembly.owl#Assemblage'),
   owl_subclass_of(ConnectionType, 'http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection'),
-  owl_instance_of(ReferenceObject, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
+  owl_individual_of(ReferenceObject, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
   % Get active reference parts of each assembly, and check that ReferenceObject is one of them
   get_reference_part(PrimaryObject, PrimRef),
   get_reference_part(SecondaryObject, SecRef),
@@ -1338,6 +1351,103 @@ assert_assemblage_created(AssemblageType, ConnectionType, ReferenceObject, Prima
   assert_subassemblage(Assemblage, PrimaryObject),!,
   assert_subassemblage(Assemblage, SecondaryObject),!,
   mark_dirty_objects(AssemblageComponents),
+  !.
+
+
+%% ensure_assemblage_transforms(+Assemblage, +ConnectionType, +ReferenceObject, +PrimaryObject, +SecondaryObject) is det.
+%
+% Updates individuals representing parts of an Assemblage by making sure that:
+%   - for each of the two objects (sub-Assemblages or AtomicParts) brought together in the Assemblage, the reference part
+%   is either ReferenceObject or has a transform in the frame of ReferenceObject, where this transform hasReference the
+%   Assemblage connection
+%   - there is one consistent set of tranforms referenced to grasps for every mobile component AtomicPart in Assemblage
+%   (ie., every AtomicPart that is a component of either Primary or SecondaryObject and is not an individual of FixedPart)
+%
+% ASSUMPTION: Assemblage already exists and was created by putting together PrimaryObject and SecondaryObject, with
+% ReferenceObject as reference part. This means that if someone calls get_objects_in_assemblage with the Assemblage as
+% parameter, they will receive a set of objects that is the union of those in PrimaryObject, SecondaryObject.
+%
+% @param Assemblage         anyURI representing the Assemblage
+% @param ConnectionType     anyURI representing the ConnectionType
+% @param ReferenceObject    anyURI an Object Id which must be an AtomicPart and is used as the reference for the assemblage connection; should be equal to either one of PrimaryObject
+%                           or SecondaryObject, or one of their reference parts
+% @param PrimaryObject      anyURI an Object Id, which can be an individual of type MechanicalPart (Atomic and Assemblage included); one of the parts of the assemblage
+% @param SecondaryObject    anyURI an Object Id, which can be an individual of type MechanicalPart (Atomic and Assemblage included); one of the parts of the assemblage
+%
+ensure_assemblage_transforms(Assemblage, ConnectionType, ReferenceObject, PrimaryObject, SecondaryObject) :-
+  % Some basic sanity checks ...
+  nonvar(Assemblage),
+  nonvar(ConnectionType),
+  nonvar(ReferenceObject),
+  nonvar(PrimaryObject),
+  nonvar(SecondaryObject),
+  owl_individual_of(Assemblage, 'http://knowrob.org/kb/knowrob_assembly.owl#Assemblage'),
+  owl_individual_of(PrimaryObject, 'http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart'),
+  owl_individual_of(SecondaryObject, 'http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart'),
+  owl_individual_of(ReferenceObject, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
+  % Get active reference parts of each assembly, and check that ReferenceObject is one of them
+  get_reference_part(PrimaryObject, PrimRef),
+  get_reference_part(SecondaryObject, SecRef),
+  member(ReferenceObject, [PrimRef, SecRef]),
+  % Get the reference object that will be secondary in the connection
+  delete([PrimRef, SecRef], ReferenceObject, [SubRef]),
+  % Get mobile reference parts of each assembly
+  get_mobile_objects_in_assemblage(PrimaryObject, MRPPrimary),
+  get_mobile_objects_in_assemblage(SecondaryObject, MRPSecondary),
+  % Note: we CANNOT use the assemblage references PrimRef, SecRef here, since either of these may be a fixed part
+  % to which grasps will never apply
+  % Inside one of the subassemblages however all mobile parts should share the same grasps.
+  nth0(0, MRPPrimary, POR),
+  nth0(0, MRPSecondary, SOR),
+  get_indirect_grasps_on_object(POR, PGrasps),!,
+  get_indirect_grasps_on_object(SOR, SGrasps),!,
+  subtract(PGrasps, SGrasps, PSpecGrasps),
+  subtract(SGrasps, PGrasps, SSpecGrasps),
+  % Unlike assert_assemblage_created, we assume we already have the components placed in the assemblage at this point
+  get_objects_in_assemblage(Assemblage, AssemblageComponents),
+  % Unlike assert_assemblage_created, we assume the connection already exists for assemblage-- so use it :)
+  rdf_has(Assemblage, assembly:'usesConnection', C),
+  atom_string(CAt, C),
+  atom_string(ReferenceObjectAt, ReferenceObject),
+  % TOCHECK: The Connection should already have a reference object associated with it, so the next line is commented out
+  %% rdf_assert(CAt, assembly:'hasReferencePart', ReferenceObjectAt),
+  % Add the connection transform to the connection itself and to the SubRef
+  ensure_subref_transform(ConnectionType, C, ReferenceObject, SubRef, TransformId),
+  ensure_connection_transform(C, TransformId),
+  % To each of Primary, SecondaryObject: apply the grasps specific to the other
+  % Note: if somehow this function was called previously on this Assemblage, then all its mobile components already have the same
+  % set of grasps, meaning the SSpecGrasps, PSpecGrasps sets are empty and nothing will change.
+  apply_grasp_list(MRPPrimary, SSpecGrasps),!,
+  apply_grasp_list(MRPSecondary, PSpecGrasps),!,
+  % TOCHECK: The consistency-check control loop probably takes care of this, so the following lines are commented out
+  %% assert_subassemblage(Assemblage, PrimaryObject),!,
+  %% assert_subassemblage(Assemblage, SecondaryObject),!,
+  % Still need to republish transforms and viz. markers though
+  mark_dirty_objects(AssemblageComponents),
+  !.
+
+ensure_subref_transform(_, Connection, _, SubRef, TransformId) :-
+  % There is an assumption here: that if an active transform exists for SubRef and it is referenced to Connection, then it is a transform
+  % with the correct ReferenceObject as the reference
+  active_referenced_transform(SubRef, Connection, TempRei),
+  rdf_has(TempRei, paramserver:'hasTransform', TransformId),
+  !.
+
+ensure_subref_transform(ConnectionType, Connection, ReferenceObject, SubRef, TransformId) :-
+  get_connection_transform(ConnectionType, ReferenceObject, SubRef, Transform),
+  add_transform_to_object(SubRef, Transform, Connection, TransformId),
+  !.
+
+ensure_connection_transform(Connection, _) :-
+  % There is an assumption here: that once there is a hasTransform from this connection it is the correct one. 
+  rdf_has(Connection, paramserver:'hasTransform', _),
+  !.
+
+ensure_connection_transform(Connection, TransformId) :-
+  % TOCHECK: The consistency-check control loop probably does not assert a transform for the connection, we put that in here
+  atom_string(CAt, Connection),
+  atom_string(TransformIdAt, TransformId),
+  rdf_assert(CAt, paramserver:'hasTransform', TransformIdAt),
   !.
 
 %% assert_assemblage_destroyed(+Assemblage) is det.
