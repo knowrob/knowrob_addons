@@ -175,20 +175,25 @@ get_known_assemblage_ids(AssemblageIds) :-
 % @param Color   the transform data
 %
 get_object_color(ObjectId, Color) :-
-  \+ rdf_has(ObjectId, paramserver:'hasColor', _),
-  =(Color, [0.5, 0.5, 0.5, 1.0]).
+  rdf_has(ObjectId, paramserver:'hasColor', ColInd),
+  rdf_has(ColInd, 'http://knowrob.org/kb/knowrob.owl#vector', literal(type(_, V))), 
+  knowrob_math:parse_vector(V, Color), !.
 
 get_object_color(ObjectId, Color) :-
-  rdf_has(ObjectId, paramserver:'hasColor', ColInd),
-  rdf_has(ColInd, paramserver:'hasRed', RedInd),
-  rdf_has(ColInd, paramserver:'hasGreen', GreenInd),
-  rdf_has(ColInd, paramserver:'hasBlue', BlueInd),
-  rdf_has(ColInd, paramserver:'hasAlpha', AlphaInd),
-  rdf_has(RedInd, paramserver:'hasValue', literal(type(_, Red))),
-  rdf_has(GreenInd, paramserver:'hasValue', literal(type(_, Green))),
-  rdf_has(BlueInd, paramserver:'hasValue', literal(type(_, Blue))),
-  rdf_has(AlphaInd, paramserver:'hasValue', literal(type(_, Alpha))),
-  =(Color, [Red, Green, Blue, Alpha]).
+  \+ rdf_has(ObjectId, paramserver:'hasColor', _),
+  Color = [0.5, 0.5, 0.5, 1.0], !.
+
+%% get_object_color(ObjectId, Color) :-
+%%   rdf_has(ObjectId, paramserver:'hasColor', ColInd),
+%%   rdf_has(ColInd, paramserver:'hasRed', RedInd),
+%%   rdf_has(ColInd, paramserver:'hasGreen', GreenInd),
+%%   rdf_has(ColInd, paramserver:'hasBlue', BlueInd),
+%%   rdf_has(ColInd, paramserver:'hasAlpha', AlphaInd),
+%%   rdf_has(RedInd, paramserver:'hasValue', literal(type(_, Red))),
+%%   rdf_has(GreenInd, paramserver:'hasValue', literal(type(_, Green))),
+%%   rdf_has(BlueInd, paramserver:'hasValue', literal(type(_, Blue))),
+%%   rdf_has(AlphaInd, paramserver:'hasValue', literal(type(_, Alpha))),
+%%   =(Color, [Red, Green, Blue, Alpha]).
 
 %% get_object_mesh_path(+ObjectId, -FilePath) is det.
 %

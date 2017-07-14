@@ -513,31 +513,48 @@ get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation,
   rdf_has(TrIn, paramserver:'hasReferenceFrame', RFS),
   resolve_frame_specification(GripperType, ObjectType, RobotType, RFS, RefFrame),!,
   % obtain translation and rotation components
-  rdf_has(TrIn, paramserver:'hasTranslation', Tran),
-  rdf_has(TrIn, paramserver:'hasRotation', Rot),
-  rdf_has(Tran, paramserver:'hasX', TxIn),
-  rdf_has(Tran, paramserver:'hasY', TyIn),
-  rdf_has(Tran, paramserver:'hasZ', TzIn),
-  rdf_has(Rot, paramserver:'hasX', RxIn),
-  rdf_has(Rot, paramserver:'hasY', RyIn),
-  rdf_has(Rot, paramserver:'hasZ', RzIn),
-  rdf_has(Rot, paramserver:'hasW', RwIn),
-  rdf_has(TxIn, paramserver:'hasValue', literal(type(_, TxA))),
-  ensure_number(TxA, Tx),
-  rdf_has(TyIn, paramserver:'hasValue', literal(type(_, TyA))),
-  ensure_number(TyA, Ty),
-  rdf_has(TzIn, paramserver:'hasValue', literal(type(_, TzA))),
-  ensure_number(TzA, Tz),
-  rdf_has(RxIn, paramserver:'hasValue', literal(type(_, RxA))),
-  ensure_number(RxA, Rx),
-  rdf_has(RyIn, paramserver:'hasValue', literal(type(_, RyA))),
-  ensure_number(RyA, Ry),
-  rdf_has(RzIn, paramserver:'hasValue', literal(type(_, RzA))),
-  ensure_number(RzA, Rz),
-  rdf_has(RwIn, paramserver:'hasValue', literal(type(_, RwA))),
-  ensure_number(RwA, Rw),
+  rdf_has(TrIn, 'http://knowrob.org/kb/knowrob.owl#translation', literal(type(_, Tran))),
+  knowrob_math:parse_vector(Tran, TransformationVector),
+  rdf_has(TrIn, 'http://knowrob.org/kb/knowrob.owl#quaternion', literal(type(_, Rot))),
+  knowrob_math:parse_vector(Rot, RotationVector),
   % assemble return value
-  =(Pose, [RefFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),!.
+  =(Pose, [RefFrame, TransformationVector, RotationVector]),!.
+
+%% get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Pose) :-
+%%   % find a transform individual based on Relation to ParSpec
+%%   rdf_has(ParSpec, Relation, TrIn),
+%%   % resolve reference frame
+%%   rdf_has(TrIn, paramserver:'hasReferenceFrame', RFS),
+%%   resolve_frame_specification(GripperType, ObjectType, RobotType, RFS, RefFrame),!,
+%%   % obtain translation and rotation components
+%%   %% rdf_has(TrIn, 'http://knowrob.org/kb/knowrob.owl#translation', literal(type(_, A)),
+%%   %% rdf_has(ColInd, 'http://knowrob.org/kb/knowrob.owl#vector', literal(type(_, V)))
+%%   %% rdf_has(TrIn, 'http://knowrob.org/kb/knowrob.owl#quatnion', literal(type(_, Rot)),
+%%   rdf_has(TrIn, paramserver:'hasTranslation', Tran),
+%%   rdf_has(TrIn, paramserver:'hasRotation', Rot),
+%%   rdf_has(Tran, paramserver:'hasX', TxIn),
+%%   rdf_has(Tran, paramserver:'hasY', TyIn),
+%%   rdf_has(Tran, paramserver:'hasZ', TzIn),
+%%   rdf_has(Rot, paramserver:'hasX', RxIn),
+%%   rdf_has(Rot, paramserver:'hasY', RyIn),
+%%   rdf_has(Rot, paramserver:'hasZ', RzIn),
+%%   rdf_has(Rot, paramserver:'hasW', RwIn),
+%%   rdf_has(TxIn, paramserver:'hasValue', literal(type(_, TxA))),
+%%   ensure_number(TxA, Tx),
+%%   rdf_has(TyIn, paramserver:'hasValue', literal(type(_, TyA))),
+%%   ensure_number(TyA, Ty),
+%%   rdf_has(TzIn, paramserver:'hasValue', literal(type(_, TzA))),
+%%   ensure_number(TzA, Tz),
+%%   rdf_has(RxIn, paramserver:'hasValue', literal(type(_, RxA))),
+%%   ensure_number(RxA, Rx),
+%%   rdf_has(RyIn, paramserver:'hasValue', literal(type(_, RyA))),
+%%   ensure_number(RyA, Ry),
+%%   rdf_has(RzIn, paramserver:'hasValue', literal(type(_, RzA))),
+%%   ensure_number(RzA, Rz),
+%%   rdf_has(RwIn, paramserver:'hasValue', literal(type(_, RwA))),
+%%   ensure_number(RwA, Rw),
+%%   % assemble return value
+%%   =(Pose, [RefFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),!.
   
 get_associated_transform(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Transform) :-
   % find a transform individual based on Relation to ParSpec
