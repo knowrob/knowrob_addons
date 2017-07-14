@@ -635,7 +635,16 @@ agenda_perform_just_do_it(_,item(decompose,_,_,_,_), Domain, Domain) :- !.
 agenda_perform_just_do_it(_,item(detach,S,P,_,_), Domain, O) :-
   owl_has(S,P,O), owl_individual_of(O,Domain), !.
 agenda_perform_just_do_it(_,item(integrate,_,P,_,_), Domain, O) :-
-  owl_individual_of(O,Domain), \+ owl_has(_,P,O), !.
+  agenda_item_consistent_selection(Domain,P,O), !.
+
+% TODO: use this at other places?
+agenda_item_consistent_selection(Domain, Property, Selection) :-
+  owl_individual_of(Selection,Domain),
+  % enforce unique values for inverse functional properties
+  once((( rdfs_subproperty_of(Property, Super),
+          rdfs_individual_of(Super, owl:'InverseFunctionalProperty') )
+  -> \+ rdf_has(_, Property, Selection) ; true )).
+  
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -668,6 +677,7 @@ decompose(S,P,Domain,O) :-
          Range='http://www.w3.org/2002/07/owl#Thing' )),
   owl_most_specific_specializations(Range, Types, [O_type|_]),
   rdf_instance_from_class(O_type, O),
+  debug_type_assertion(O,O_type),
   % assert additional types
   forall((member(Type,Types), Type \= O_type), rdf_assert(O,rdf:'type',Type)),
   % assert decomposition
@@ -820,6 +830,8 @@ write_description(Domain) :-
   owl_description(Domain,Descr),
   rdf_readable(Descr,Readable),
   write(Readable).
+
+rdf_write_readable(X) :- rdf_readable(X,Readable), write(Readable).
 
 rdf_readable(class(Cls),Out) :- rdf_readable_internal(Cls,Out), !.
 rdf_readable(Descr,Out) :-
