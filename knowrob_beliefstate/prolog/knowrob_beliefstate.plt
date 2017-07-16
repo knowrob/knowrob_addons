@@ -75,10 +75,27 @@ test(get_object_transform1) :-
   get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),
   T=["map", "AccessoryHolder1", [-1.166, 1.457, 0.883], [0.0, 0.0, 0.0, 1.0]].
 
-test(get_object_transform1) :-
+test(get_object_transform2) :-
   assert_object_at_location(_, 'http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', ["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]]),
   get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),
   T=["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]].
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% test create_transform
+test(create_transform1) :- 
+  knowrob_beliefstate:create_transform(["map", "AccessoryHolder1", [1.0, 2.0, 2.0], [1.0, 0.0, 0.0, 0.0]], T),
+  rdf_has(T, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame', RefFrame),
+  rdf_has(RefFrame, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xml:string, RefFrameValue))),
+  RefFrameValue="map",
+  rdf_has(T, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame', TargetFrame),
+  rdf_has(TargetFrame, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xml:string, TargetFrameValue))),
+  TargetFrameValue="AccessoryHolder1",
+  rdf_has(T, 'http://knowrob.org/kb/knowrob.owl#translation', literal(type(xml:string, Translation))),
+  knowrob_math:parse_vector(Translation, TranslationValue),
+  rdf_has(T, 'http://knowrob.org/kb/knowrob.owl#quaternion', literal(type(xml:string, Rotation))),
+  knowrob_math:parse_vector(Rotation, RotationValue),
+  TranslationValue=[1.0, 2.0, 2.0],
+  RotationValue=[1.0, 0.0, 0.0, 0.0].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_beliefstate).
