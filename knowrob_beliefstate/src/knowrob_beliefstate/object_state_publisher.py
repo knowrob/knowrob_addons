@@ -41,6 +41,10 @@ class ThorinObject(object):
         marker.id = 1337
         marker.ns = self.object_name
         marker.color = self.color
+        # marker.color.r = 1
+        # marker.color.g = 1
+        # marker.color.b = 1
+
         marker.scale.x = 1
         marker.scale.y = 1
         marker.scale.z = 1
@@ -97,7 +101,6 @@ class ObjectStatePublisher(object):
         self.load_object_ids()
         for object_id in self.objects.keys():
             self.load_object(object_id)
-            self.objects[object_id].initialized = True
         self.publish_object_frames()
         self.publish_object_markers()
 
@@ -108,6 +111,7 @@ class ObjectStatePublisher(object):
             self.load_object_color(object_id)
             self.load_object_mesh(object_id)
             self.load_object_transform(object_id)
+            self.objects[object_id].initialized = True
             return True
         rospy.logwarn("object with id:'{}' not found in database".format(object_id))
         return False
@@ -143,8 +147,9 @@ class ObjectStatePublisher(object):
     def publish_object_markers(self):
         r = rospy.Rate(10)
         for object_id, v in self.objects.items():
-            self.marker_publisher.publish(v.get_marker())
-            r.sleep()
+            if v.initialized:
+                self.marker_publisher.publish(v.get_marker())
+                r.sleep()
 
     def publish_object_frames(self):
         for object_id, thorin_object in self.objects.items():
@@ -157,7 +162,7 @@ class ObjectStatePublisher(object):
                                                   ref_frame)
 
     def loop(self):
-        # self.load_objects()
+        self.load_objects()
         rate = rospy.Rate(self.tf_frequency)
         while not rospy.is_shutdown():
             self.publish_object_frames()
