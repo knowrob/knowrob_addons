@@ -72,12 +72,12 @@ test(get_object_color2) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% test get_object_transform
 test(get_object_transform1) :-
-  get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),
+  get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),!,
   T=["map", "AccessoryHolder1", [-1.166, 1.457, 0.883], [0.0, 0.0, 0.0, 1.0]].
 
 test(get_object_transform2) :-
   assert_object_at_location(_, 'http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', ["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]]),
-  get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),
+  get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),!,
   T=["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
