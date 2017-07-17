@@ -36,8 +36,14 @@
       owl_specialization_of/2,
       owl_satisfies_restriction_up_to/3,
       owl_most_specific_specializations/3,
-      owl_restriction_on_property/3
+      owl_restriction_on_property/3,
+      owl_description_recursice/2,
+      rdf_readable/2,
+      rdf_write_readable/1,
+      owl_atomic/1,
+      owl_consistent_selection/3
     ]).
+
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
@@ -51,7 +57,14 @@
       owl_specializable(r,t),
       owl_specialization_of(r,r),
       owl_satisfies_restriction_up_to(r,t,t),
-      owl_restriction_on_property(r,r,r).
+      owl_restriction_on_property(r,r,r),
+      owl_restriction_assert(t,r),
+      owl_description_recursice(r,t),
+      owl_consistent_selection(r,r,r),
+      owl_atomic(t),
+      rdf_assert_literal(r,r,+),
+      rdf_readable(r,-),
+      rdf_write_readable(r).
 
 
 owl_restriction_on_property(Resource, Property, Restriction) :-
@@ -123,6 +136,15 @@ owl_satisfies_restriction_up_to_internal(S, union_of(List), UpTo) :-
   owl_specializable_(S, Cls_descr),
   owl_satisfies_restriction_up_to_internal(S, Cls_descr, UpTo).
 
+owl_satisfies_restriction_up_to_internal(S, restriction(P,Facet), UpTo) :-
+  % unwrap property chains into nested some_values_from restrictions
+  rdf_has(P, owl:propertyChainAxiom, RDFList), !,
+  rdfs_list_to_prolog_list(RDFList, PropChain),
+  owl_propery_chain_restriction(PropChain, Facet, ChainRestr),
+  owl_restriction_assert(ChainRestr, ChainRestrId),
+  owl_description(ChainRestrId, ChainRestr_descr),
+  owl_satisfies_restriction_up_to_internal(S, ChainRestr_descr, UpTo).
+
 owl_satisfies_restriction_up_to_internal(S, restriction(P,has_value(O)), specify(S,P,O,1)) :-
   \+ owl_has(S, P, O). % violation if value is not specified
 
@@ -182,9 +204,11 @@ owl_satisfies_min_cardinality_up_to(S, Card, Os, restriction(P,cardinality(Min,_
 %% owl_specialization_of(+Specific, +General)
 % 
 owl_specialization_of(Specific, General) :-
+  atom(Specific), atom(General),
   rdfs_individual_of(Specific, owl:'Class'),!,
   owl_subclass_of(Specific,General).
 owl_specialization_of(Specific, General) :-
+  atom(Specific), atom(General),
   rdfs_individual_of(General, owl:'Class'),!,
   owl_individual_of(Specific, General).
 owl_specialization_of(Resource, Resource).
@@ -193,10 +217,15 @@ owl_specialization_of(Resource, Resource).
 %
 % 
 owl_specializable(Resource, Description) :-
+  owl_specialization_of(Resource, Description), !.
+owl_specializable(Resource, Description) :-
   owl_description(Description, Description_pl),
-  owl_specializable_(Resource, Description_pl).
+  owl_specializable_(Resource, Description_pl), !.
 
+owl_specializable_(Resource, class(_)) :-
+  rdfs_individual_of(Resource, owl:'Restriction'), !.
 owl_specializable_(Resource, class(Cls)) :-
+  \+ rdfs_individual_of(Resource, owl:'Class'),
   owl_individual_of(Resource, Cls), !.
 owl_specializable_(Resource, class(Cls)) :-
   rdfs_individual_of(Resource, owl:'Class'),!,
@@ -214,6 +243,11 @@ owl_specializable_(Resource, union_of(List)) :-
   % specializable if resource is specializable to at least one of the classes of the union
   member(Cls,List), owl_specializable(Resource, Cls), !.
 
+owl_specializable_(Resource, restriction(P,Facet)) :-
+  rdfs_individual_of(Resource, owl:'Restriction'), !,
+  owl_description(Resource, Restr),
+  owl_specializable_restriction_(Restr, restriction(P,Facet)).
+
 owl_specializable_(Resource, restriction(P,all_values_from(Cls))) :-
   % specializable if all values of P are specializable to Cls
   owl_description(Cls, Cls_descr),
@@ -227,9 +261,16 @@ owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   owl_specializable_(O, Cls_descr), !.
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if it is consistent to add a new value of type Cls for P
-  owl_decomposable_on_subject(Resource, P, Cls),
-  owl_property_range_on_subject(Resource, P, List),
-  once((member(Range,List), owl_subclass_of(Cls, Range))), !.
+  once((
+    owl_decomposable_on_subject(Resource, P, Cls),
+    owl_property_range_on_subject(Resource, P, List),
+    member(Range,List), owl_subclass_of(Cls, Range) )),
+  % and if Resource is a consistent value for inverse_of(P) on instances of Cls
+  once((
+    owl_inverse_property(P,P_inv),
+    owl_property_range_on_class(Cls, P_inv, List_inv),
+    member(Range_inv,List_inv),
+    owl_specializable(Resource, Range_inv) )).
 
 owl_specializable_(Resource, restriction(P,cardinality(Min,Max,Cls))) :-
   % specializable if cardinality is ok already
@@ -238,6 +279,7 @@ owl_specializable_(Resource, restriction(P,cardinality(Min,Max,Cls))) :-
   Count_Cls >= Min, !.
 owl_specializable_(Resource, restriction(P,cardinality(Min,_,Cls))) :-
   % specializable if we can add `Count_decompose` instances of Cls to satisfy min cardinality
+  % TODO: and if Resource is a consistent value for inverse_of(P) on instances of Cls
   owl_cardinality(Resource, P, Cls, Count_Cls),
   Count_Cls < Min,
   Count_decompose is Min - Count_Cls,
@@ -250,10 +292,24 @@ owl_specializable_(Resource, restriction(P,has_value(O))) :-
   owl_has(Resource,P,O), !.
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   % or specializable if we can add O as new value
+  % TODO: and if Resource is a consistent value for inverse_of(P) on instance O
   owl_property_range_on_subject(Resource, P, List),
   once((member(Range,List), owl_individual_of(O, Range))),
   owl_type_of(O, Cls),
   owl_decomposable_on_subject(Resource, P, Cls), !.
+
+
+owl_specializable_restriction_(restriction(P1,Facet1), restriction(P2,Facet2)) :-
+  rdfs_subproperty_of(P2,P1),
+  owl_specializable_restriction_facet_(Facet1,Facet2), !.
+owl_specializable_restriction_facet_(some_values_from(Cls1), some_values_from(Cls2)) :-
+  owl_specializable(Cls1,Cls2).
+owl_specializable_restriction_facet_(all_values_from(Cls1), all_values_from(Cls2)) :-
+  owl_specializable(Cls1,Cls2).
+owl_specializable_restriction_facet_(cardinality(Min1,Max1,Cls1), cardinality(Min2,Max2,Cls2)) :-
+  Min1 =< Min2, Max1 >= Max2,
+  owl_specializable(Cls1,Cls2).
+owl_specializable_restriction_facet_(has_value(V), has_value(V)).
 
 
 owl_decomposable_on_subject(Resource, P, Cls) :-
@@ -265,14 +321,167 @@ owl_decomposable_on_subject(Resource, P, Cls, Count_decompose) :-
     Max >= Count + Count_decompose
   ) ; true ).
 
+owl_propery_chain_restriction(Chain, Facet, Restr) :-
+  owl_propery_chain_restriction_(Chain, Facet, some_values_from(Restr)).
+owl_propery_chain_restriction_([], Facet, Facet) :- !.
+owl_propery_chain_restriction_([P|Rest], Facet, Restr) :-
+  rdf_has(P, owl:inverseOf, P_inv), !,
+  ( rdf_has(P_inv, owl:propertyChainAxiom, RDFList)
+  -> (
+    rdfs_list_to_prolog_list(RDFList, PropChain),
+    owl_inverse_property_chain(PropChain, PropChain_inv),
+    append(PropChain_inv,Rest,Expanded),
+    owl_propery_chain_restriction_(Expanded, Facet, Restr)
+  ) ; (
+    owl_propery_chain_restriction_(Rest, Facet, Sub),
+    Restr=some_values_from(restriction(P,Sub))
+  )).
+owl_propery_chain_restriction_([P|Rest], Facet, Restr) :-
+  rdf_has(P, owl:propertyChainAxiom, RDFList), !,
+  rdfs_list_to_prolog_list(RDFList, PropChain),
+  append(PropChain,Rest,Expanded),
+  owl_propery_chain_restriction_(Expanded, Facet, Restr).
+owl_propery_chain_restriction_([P|Rest], Facet, some_values_from(restriction(P,Sub))) :-
+  owl_propery_chain_restriction_(Rest, Facet, Sub).
+
+
+owl_inverse_property_chain(PropChain, PropChain_inv) :-
+  reverse(PropChain, PropChain_reversed),
+  owl_inverse_property_chain_(PropChain_reversed,PropChain_inv).
+owl_inverse_property_chain_([], []) :- !.
+owl_inverse_property_chain_([P|Rest],[P_inv|Rest_inv]) :-
+  owl_inverse_property(P, P_inv),
+  owl_inverse_property_chain_(Rest,Rest_inv).
+  
+
+owl_restriction_assert(restriction(P,all_values_from(Cls)), Id) :-
+  owl_description_assert(Cls, ClsId),
+  rdf_instance_from_class(owl:'Restriction', Id),
+  rdf_assert(Id, owl:onProperty, P),
+  rdf_assert(Id, owl:allValuesFrom, ClsId), !.
+owl_restriction_assert(restriction(P,some_values_from(Cls)), Id) :-
+  owl_description_assert(Cls, ClsId),
+  rdf_instance_from_class(owl:'Restriction', Id),
+  rdf_assert(Id, owl:onProperty, P),
+  rdf_assert(Id, owl:someValuesFrom, ClsId), !.
+owl_restriction_assert(restriction(P,cardinality(Card,Card,Cls)), Id) :- !,
+  owl_description_assert(Cls, ClsId),
+  rdf_instance_from_class(owl:'Restriction', Id),
+  rdf_assert(Id, owl:onProperty, P),
+  rdf_assert(Id, owl:onClass, ClsId),
+  rdf_assert_literal(Id, owl:cardinality, Card), !.
+owl_restriction_assert(restriction(P,cardinality(Min,Max,Cls)), Id) :-
+  owl_description_assert(Cls, ClsId),
+  rdf_instance_from_class(owl:'Restriction', Id),
+  rdf_assert(Id, owl:onProperty, P),
+  rdf_assert(Id, owl:onClass, ClsId),
+  once(( Min is 0 ;  rdf_assert_literal(Id, owl:minCardinality, Min) )),
+  once(( Max = inf ; rdf_assert_literal(Id, owl:maxCardinality, Max) )), !.
+owl_restriction_assert(restriction(P,has_value(V)), Id) :-
+  rdf_instance_from_class(owl:'Restriction', Id),
+  rdf_assert(Id, owl:onProperty, P),
+  rdf_assert(Id, owl:hasValue, V), !.
+
+
+owl_description_assert(Cls, Cls) :- atom(Cls), !.
+owl_description_assert(class(Cls), Cls) :- !.
+owl_description_assert(thing, 'http://www.w3.org/2002/07/owl#Thing') :- !.
+owl_description_assert(nothing, 'http://www.w3.org/2002/07/owl#Nothing') :- !.
+owl_description_assert(restriction(P,Facet), Id) :-
+  owl_restriction_assert(restriction(P,Facet), Id), !.
+owl_description_assert(union_of(List), Id) :-
+  rdf_instance_from_class(owl:'Class', Id),
+  owl_description_list_assert(List,ListId),
+  rdf_assert(Id, owl:unionOf, ListId), !.
+owl_description_assert(intersection_of(List), Id) :-
+  rdf_instance_from_class(owl:'Class', Id),
+  owl_description_list_assert(List,ListId),
+  rdf_assert(Id, owl:intersectionOf, ListId), !.
+owl_description_assert(complement_of(Cls), Id) :-
+  rdf_instance_from_class(owl:'Class', Id),
+  owl_description_assert(Cls,ClsId),
+  rdf_assert(Id, owl:complementOf, ClsId), !.
+owl_description_assert(one_of(List), Id) :-
+  rdf_instance_from_class(owl:'Class', Id),
+  owl_description_list_assert(List,ListId),
+  rdf_assert(Id, owl:oneOf, ListId), !.
+
+
+owl_description_list_assert([], 'http://www.w3.org/1999/02/22-rdf-syntax-ns#nil') :- !.
+owl_description_list_assert(List, ListId) :-
+  rdf_instance_from_class(rdf:'List', ListId),
+  owl_description_list_assert_(ListId, List).
+
+owl_description_list_assert_(Id, [First|Rest]) :-
+  owl_description_assert(First, FirstId),
+  owl_description_list_assert(Rest, RestId),
+  rdf_assert(Id, 'rdf:first', FirstId),
+  rdf_assert(Id, 'rdf:rest', RestId).
+
+
+rdf_assert_literal(S,P,V) :-
+  once(( (atom(V), V_atom=V) ; atom_number(V_atom,V) )),
+  rdf_assert(S, P, literal(V_atom)).
+
 
 owl_type_of(Resource, Cls) :-
   bagof(X, rdf_has(Resource, rdf:type, X), Types),
   member(Cls, Types),
   % ensure there is no class in Types that is more specific then Cls
   forall((
-    member(Cls_other, Types),
-    Cls \= Cls_other
-  ), (
-    \+ owl_subclass_of(Cls_other, Cls)
-  )).
+     member(Cls_other, Types),
+     Cls \= Cls_other
+  ), \+ owl_subclass_of(Cls_other, Cls)).
+
+rdf_write_readable(X) :- rdf_readable(X,Readable), write(Readable).
+
+rdf_readable(class(Cls),Out) :- rdf_readable_internal(Cls,Out), !.
+rdf_readable(Descr,Out) :-
+  (is_list(Descr) -> X=Descr ; Descr=..X),
+  findall(Y_, (member(X_,X), once(rdf_readable_internal(X_,Y_))), Y),
+  Out=Y.
+rdf_readable_internal(P,P_readable) :-
+  atom(P), rdf_has(P, owl:inverseOf, P_inv),
+  rdf_readable_internal(P_inv, P_inv_),
+  atomic_list_concat(['inverse_of(',P_inv_,')'], '', P_readable), !.
+rdf_readable_internal(class(X),Y) :- rdf_readable_internal(X,Y).
+rdf_readable_internal(X,Y) :- atom(X), rdf_split_url(_, Y, X).
+rdf_readable_internal(X,X) :- atom(X).
+rdf_readable_internal(X,Y) :- compound(X), rdf_readable(X,Y).
+
+
+owl_description_recursice(Resource,Descr) :-
+  owl_description(Resource,Resource_x),
+  owl_description_recursice_(Resource_x,Descr), !.
+owl_description_recursice_(class(Cls), Cls).
+owl_description_recursice_(thing, 'http://www.w3.org/2002/07/owl#Thing').
+owl_description_recursice_(nothing, 'http://www.w3.org/2002/07/owl#Nothing').
+owl_description_recursice_(union_of(List), union_of(List)).
+owl_description_recursice_(intersection_of(List), intersection_of(List)).
+owl_description_recursice_(complement_of(Cls), complement_of(Cls_descr)) :-
+  owl_description_recursice(Cls, Cls_descr).
+owl_description_recursice_(one_of(List), one_of(List)).
+owl_description_recursice_(restriction(P,has_value(V)), restriction(P,has_value(V))).
+owl_description_recursice_(restriction(P,some_values_from(Cls)),
+                           restriction(P,some_values_from(Cls_descr))) :-
+  owl_description_recursice(Cls, Cls_descr).
+owl_description_recursice_(restriction(P,all_values_from(Cls)),
+                           restriction(P,all_values_from(Cls_descr))) :-
+  owl_description_recursice(Cls, Cls_descr).
+owl_description_recursice_(restriction(P,cardinality(Min,Max,Cls)),
+                           restriction(P,cardinality(Min,Max,Cls_descr))) :-
+  owl_description_recursice(Cls, Cls_descr).
+
+
+owl_atomic([]).
+owl_atomic([X|Xs]) :- owl_atomic(X), owl_atomic(Xs).
+owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', owl:'Class'), !.
+owl_atomic(Domain) :- atom(Domain), owl_individual_of(Domain, _), !.
+
+
+owl_consistent_selection(Domain, Property, Selection) :-
+  owl_individual_of(Selection,Domain),
+  % enforce unique values for inverse functional properties
+  once((( rdfs_subproperty_of(Property, Super),
+          rdfs_individual_of(Super, owl:'InverseFunctionalProperty') )
+    -> \+ rdf_has(_, Property, Selection) ; true )).

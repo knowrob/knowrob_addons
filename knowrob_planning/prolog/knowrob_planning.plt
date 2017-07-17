@@ -54,8 +54,8 @@ test(owl_specializable_Cls_Cls1) :-
   owl_specializable(knowrob:'SpatialThing', knowrob:'Container'),
   owl_specializable(knowrob:'SpatialThing', knowrob:'SpatialThing-Localized').
 test(owl_specializable_Cls_Cls2) :-
-  \+ owl_specializable(knowrob:'Container', knowrob:'SpatialThing'),
-  \+ owl_specializable(knowrob:'SpatialThing-Localized', knowrob:'SpatialThing').
+  owl_specializable(knowrob:'Container', knowrob:'SpatialThing'),
+  owl_specializable(knowrob:'SpatialThing-Localized', knowrob:'SpatialThing').
 
 test(owl_specializable_intersection_of1) :-
   rdf_instance_from_class(knowrob:'SpatialThing', X1),
@@ -171,8 +171,6 @@ test(owl_specialization_of_Class_Class2) :-
 
 :- rdf_meta test_restriction_up_to(r,t,t).
 test_restriction_up_to(S,Restr,UpTo) :-
-  % FIXME asserting does not work
-  %assert_owl_description(Restr, Restr_id),
   Restr_id=Restr,
   findall( (S,Restr_id,UpTo), owl_satisfies_restriction_up_to(S,Restr_id,UpTo), Xs),
   member( (S,Restr_id,UpTo), Xs ).
@@ -231,10 +229,6 @@ test(owl_satisfies_restriction_up_to_all_values1) :-
 test(owl_satisfies_restriction_up_to_all_values2) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', all_values_from(knowrob:'Sink')),
                          classify(planning_test:'TestContainer_1',knowrob:'Sink')).
-test(owl_satisfies_restriction_up_to_all_values3) :-
-  test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty',
-                         all_values_from(restriction(planning_test:'testProperty',has_value(planning_test:'TestContainer_1')))),
-                         integrate(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
 test(owl_satisfies_restriction_up_to_all_values4) :-
   % already specific enough
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', all_values_from(knowrob:'Container')), _).
