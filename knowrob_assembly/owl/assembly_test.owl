@@ -13,9 +13,9 @@
      xmlns:computable="http://knowrob.org/kb/computable.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/assembly_test.owl">
         <owl:imports rdf:resource="package://thorin_simulation/owl/thorin_simulation.owl"/>
+        <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
         <owl:imports rdf:resource="package://thorin_ontologies/owl/thorin_assemblages.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
-        <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
     </owl:Ontology>
     
 
@@ -28,6 +28,15 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#neededByConnection -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/assembly_test.owl#neededByConnection">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
+        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+    </owl:ObjectProperty>
     
 
 
@@ -117,6 +126,51 @@
     
 
 
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_linksAssemblage -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_linksAssemblage">
@@ -177,6 +231,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
@@ -186,6 +246,12 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthSelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthSelection"/>
     
 
 
@@ -275,6 +341,30 @@
     
 
 
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify_0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify_0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_linksAssemblage_0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_linksAssemblage_0">
@@ -318,8 +408,11 @@
         <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaFocus_usesConnection"/>
         <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_usesConnection"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#ContinuitySelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#InhibitionSelection_1"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#DepthSelection_1"/>
+        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#InhibitionSelection_1"/>
+        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_classify"/>
+        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_inverse_needsAffordance"/>
+        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_inverse_usesConnection"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_linksAssemblage"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_needsAffordance"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#PatternSelection_usesConnection"/>
@@ -445,6 +538,7 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
         <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</knowrob_planning:selectionPriority>
     </owl:NamedIndividual>
+    
 
 
     <!-- http://knowrob.org/kb/assembly_test.owl#DepthSelection_1 -->
@@ -461,6 +555,36 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#InhibitionSelection_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection"/>
         <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">99.0</knowrob_planning:selectionPriority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#PatternSelection_classify -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#PatternSelection_classify">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify_0"/>
+        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">19.0</knowrob_planning:selectionPriority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#PatternSelection_inverse_needsAffordance -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#PatternSelection_inverse_needsAffordance">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance_1"/>
+        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</knowrob_planning:selectionPriority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#PatternSelection_inverse_usesConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#PatternSelection_inverse_usesConnection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection_1"/>
+        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">7.0</knowrob_planning:selectionPriority>
     </owl:NamedIndividual>
     
 
