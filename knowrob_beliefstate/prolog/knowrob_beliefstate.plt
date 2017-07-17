@@ -97,5 +97,11 @@ test(create_transform1) :-
   TranslationValue=[1.0, 2.0, 2.0],
   RotationValue=[1.0, 0.0, 0.0, 0.0].
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% test get_grasp_position
+test(get_grasp_position1) :-
+  get_grasp_position('http://knowrob.org/kb/thorin_parameters.owl#TopGraspChassis', T),!,
+  T=["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.70711, 0.70711, 0.0, 0.0]].
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_beliefstate).
