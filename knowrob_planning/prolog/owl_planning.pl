@@ -210,15 +210,36 @@ owl_specialization_of(Resource, Resource).
 owl_specializable(Resource, Description) :-
   % already at least as specific as Description
   owl_specialization_of(Resource, Description), !.
+owl_specializable(_, Description) :-
+  atom(Description),
+  \+ rdfs_individual_of(Description, owl:'Class'),!,
+  fail.
 owl_specializable(Resource, Description) :-
   owl_description(Description, Description_pl),
   owl_specializable_(Resource, Description_pl), !.
 
-owl_specializable_(Resource, class(_)) :-
-  rdfs_individual_of(Resource, owl:'Restriction'), !.
+owl_specializable_('http://www.w3.org/2002/07/owl#Thing', _) :- !.
+owl_specializable_(Resource, class(Cls)) :-
+  % TODO: cardinality 0 restrictions always specializable?
+  % - inverse property range could restrict the class
+  rdfs_individual_of(Resource, owl:'Restriction'), !,
+  % infer restricted class and inverse of restricted property
+  owl_restriction(Resource, restriction(P, Facet)),
+  once(( Facet=all_values_from(Restr_cls) ;
+         Facet=some_values_from(Restr_cls) ;
+       ( Facet=cardinality(Min,_,Restr_cls), Min > 0 ) )),
+  owl_inverse_property(P, P_inv),
+  % only specializable if the restricted class is
+  % in fact a valid value for property P of Cls instances
+  forall( owl_property_range_on_class(Cls, P, Cls_P_range),
+          owl_specializable(Cls_P_range, Restr_cls) ),
+  % trick: infer range of inverse P on restricted class Cls_inferred, which is a type of Resource.
+  %        Cls_inferred must be specializable to Cls.
+  forall( owl_property_range_on_class(Restr_cls, P_inv, Cls_inferred),
+          owl_specializable(Cls_inferred, Cls) ).
 owl_specializable_(Resource, class(Cls)) :-
   rdfs_individual_of(Resource, owl:'Class'),!,
-  once(owl_subclass_of(Cls, Resource)).
+  owl_specializable_class(Resource, class(Cls)).
 owl_specializable_(Resource, class(Cls)) :-
   owl_individual_of(Resource, Cls), !.
 owl_specializable_(Resource, class(Cls)) :-
@@ -229,10 +250,15 @@ owl_specializable_(Resource, class(Cls)) :-
 owl_specializable_(Resource, intersection_of(List)) :-
   % specializable if resource is specializable to all classes of the intersection
   forall( member(Cls,List), owl_specializable(Resource, Cls) ).
-
 owl_specializable_(Resource, union_of(List)) :-
   % specializable if resource is specializable to at least one of the classes of the union
   member(Cls,List), owl_specializable(Resource, Cls), !.
+
+owl_specializable_(Resource, complement_of(Cls)) :-
+  rdfs_individual_of(Resource, owl:'Class'),!,
+  \+ owl_subclass_of(Resource, Cls).
+owl_specializable_(Resource, complement_of(Cls)) :-
+  \+ owl_individual_of(Resource, Cls).
 
 owl_specializable_(Resource, restriction(P,Facet)) :-
   rdfs_individual_of(Resource, owl:'Restriction'), !,
@@ -246,14 +272,15 @@ owl_specializable_(Resource, restriction(P,all_values_from(Cls))) :-
 
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if one of the existing values can be specialized to Cls
+  \+ rdfs_individual_of(Resource, owl:'Class'),
   owl_description(Cls, Cls_descr),
-  owl_has(Resource, P, O),
+  owl_has(Resource, P, O), % TODO: check inverse property triples
   owl_specializable_(O, Cls_descr), !.
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if it is consistent to add a new value of type Cls for P
-  owl_decomposable_on_subject(Resource, P, Cls),
-  forall( owl_property_range_on_subject(Resource, P, Range),
-          owl_subclass_of(Cls, Range) ),
+  owl_decomposable_on_resource(Resource, P, Cls),
+  forall( owl_property_range_on_resource(Resource, P, Range),
+          owl_specializable(Cls, Range) ),
   % and if Resource is a consistent value for inverse_of(P) on instances of Cls
   owl_inverse_property(P,P_inv),
   forall( owl_property_range_on_class(Cls, P_inv, Range_inv),
@@ -261,15 +288,15 @@ owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
 
 owl_specializable_(Resource, restriction(P,cardinality(Min,Max,Cls))) :-
   % specializable if cardinality is ok already
-  owl_cardinality(Resource, P, Cls, Count_Cls),
+  resource_cardinality(Resource, P, Cls, Count_Cls),
   Count_Cls =< Max, Count_Cls >= Min, !.
 owl_specializable_(Resource, restriction(P,cardinality(Min,_,Cls))) :-
   % specializable if we can add `Count_decompose` instances of Cls to satisfy min cardinality ...
-  owl_cardinality(Resource, P, Cls, Count_Cls), Count_Cls < Min,
+  resource_cardinality(Resource, P, Cls, Count_Cls), Count_Cls < Min,
   Count_decompose is Min - Count_Cls,
-  owl_decomposable_on_subject(Resource, P, Cls, Count_decompose),
-  forall( owl_property_range_on_subject(Resource, P, Range),
-          owl_subclass_of(Cls, Range) ),
+  owl_decomposable_on_resource(Resource, P, Cls, Count_decompose),
+  forall( owl_property_range_on_resource(Resource, P, Range),
+          owl_specializable(Cls, Range) ),
   % ... and if Resource is a consistent value for inverse_of(P) on instances of Cls
   owl_inverse_property(P,P_inv),
   forall( owl_property_range_on_class(Cls, P_inv, Range_inv),
@@ -281,15 +308,31 @@ owl_specializable_(Resource, restriction(P,has_value(O))) :-
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   once((
     owl_type_of(O, Cls),
-    owl_decomposable_on_subject(Resource, P, Cls)
+    owl_decomposable_on_resource(Resource, P, Cls)
   )),
   % specializable if we can add O as new value ...
-  forall( owl_property_range_on_subject(Resource, P, Range),
+  forall( owl_property_range_on_resource(Resource, P, Range),
           owl_specializable(O, Range) ),
   % ... and if Resource is a consistent value for inverse_of(P) on instance O
   owl_inverse_property(P,P_inv),
   forall( owl_property_range_on_subject(O, P_inv, Range_inv),
           owl_specializable(Resource, Range_inv) ).
+
+owl_specializable_class(Intersection,class(Cls_b)) :-
+  rdf_has(Intersection, owl:intersectionOf, Set), !,
+  rdfs_list_to_prolog_list(Set, Members),
+  forall( member(Cls_a,Members), owl_specializable_(Cls_a,class(Cls_b)) ).
+owl_specializable_class(Union,class(Cls_b)) :-
+  rdf_has(Union, owl:unionOf, Set), !,
+  rdfs_list_to_prolog_list(Set, Members),
+  member(Cls_a,Members), owl_specializable_(Cls_a,class(Cls_b)), !.
+owl_specializable_class(Cls_a,class(Cls_b)) :-
+  (  owl_subclass_of(Cls_b, Cls_a) ; (
+    % check if there is a subclass of Resource that is also a subclass of Cls
+    % FIXME: could be many subclasses! limit search somehow?
+    rdfs_subclass_of(Sub, Cls_a),
+    owl_subclass_of(Sub, Cls_b)
+  )), !.
 
 owl_specializable_restriction_(restriction(P1,Facet1), restriction(P2,Facet2)) :-
   rdfs_subproperty_of(P2,P1),
@@ -304,15 +347,20 @@ owl_specializable_restriction_facet_(cardinality(Min1,Max1,Cls1), cardinality(Mi
 owl_specializable_restriction_facet_(has_value(V), has_value(V)).
 
 
-owl_decomposable_on_subject(Resource, P, Cls) :-
-  owl_decomposable_on_subject(Resource, P, Cls, 1).
-owl_decomposable_on_subject(Resource, P, Cls, Count_decompose) :-
-  owl_cardinality_on_subject(Resource, P, Cls, cardinality(_,Max)), !,
+owl_decomposable_on_resource(Resource, P, Cls) :-
+  owl_decomposable_on_resource(Resource, P, Cls, 1).
+owl_decomposable_on_resource(Resource, P, Cls, Count_decompose) :-
+  owl_cardinality_on_resource(Resource, P, Cls, cardinality(_,Max)), !,
   ( Max = infinite ; (
-    owl_cardinality(Resource, P, Cls, Count),
+    resource_cardinality(Resource, P, Cls, Count),
     Max >= Count + Count_decompose
   )).
-owl_decomposable_on_subject(_, _, _, _).
+owl_decomposable_on_resource(_, _, _, _).
+
+resource_cardinality(Resource, _, _, 0) :-
+  rdfs_individual_of(Resource, owl:'Class'),!.
+resource_cardinality(Resource, P, Cls, Card) :-
+  owl_cardinality(Resource, P, Cls, Card).
 
 
 owl_propery_chain_restriction(Chain, Facet, Restr) :-
