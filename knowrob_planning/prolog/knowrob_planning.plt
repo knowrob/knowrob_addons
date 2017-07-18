@@ -218,7 +218,7 @@ test(owl_satisfies_restriction_up_to_union6, [nondet]) :-
 test(owl_satisfies_restriction_up_to_has_value1) :-
   rdf_instance_from_class(owl:'Thing', X),
   test_restriction_up_to(X, restriction(planning_test:'testProperty', has_value(planning_test:'TestContainer_1')),
-                         integrate(X, planning_test:'testProperty', planning_test:'TestContainer_1', 1)).
+                         specify(X, planning_test:'testProperty', planning_test:'TestContainer_1', 1)).
 test(owl_satisfies_restriction_up_to_has_value2) :-
   % already specific enough
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', has_value(planning_test:'TestContainer_1')), _).
@@ -240,7 +240,7 @@ test(owl_satisfies_restriction_up_to_all_values5) :-
 test(owl_satisfies_restriction_up_to_some_values1) :-
   rdf_instance_from_class(owl:'Thing', X),
   test_restriction_up_to(X, restriction(planning_test:'testProperty', some_values_from(knowrob:'Container')),
-                         integrate(X, planning_test:'testProperty', knowrob:'Container', 1)).
+                         specify(X, planning_test:'testProperty', knowrob:'Container', 1)).
 test(owl_satisfies_restriction_up_to_some_values2) :-
   % already specific enough
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'Container')), _).
@@ -250,7 +250,7 @@ test(owl_satisfies_restriction_up_to_some_values3) :-
 test(owl_satisfies_restriction_up_to_some_values5) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty',
                          some_values_from(restriction(planning_test:'testProperty',has_value(planning_test:'TestContainer_1')))),
-                         integrate(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
+                         specify(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
 test(owl_satisfies_restriction_up_to_some_values4) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
@@ -258,17 +258,17 @@ test(owl_satisfies_restriction_up_to_some_values7) :-
   % exactly 1 Container restriction still allows other value types
   test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty',
                          some_values_from(knowrob:'HumanScaleObject')),
-                         integrate(planning_test:'TestSomeRestr_2',planning_test:'testProperty',knowrob:'HumanScaleObject',1)).
+                         specify(planning_test:'TestSomeRestr_2',planning_test:'testProperty',knowrob:'HumanScaleObject',1)).
 
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container')),
-                         integrate(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
+                         specify(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
 test(owl_satisfies_restriction_up_cardinality_values2) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(3,3,knowrob:'Container')),
-                         integrate(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',2)).
+                         specify(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',2)).
 test(owl_satisfies_restriction_up_cardinality_values2) :-
   test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(2,3,knowrob:'Container')),
-                         integrate(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
+                         specify(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty range
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(1,1,knowrob:'HumanScaleObject')), _).
