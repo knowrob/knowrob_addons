@@ -669,13 +669,29 @@ agenda_item_project_internal(item(classify,S,_,_,_), Cls, Cls) :- rdf_assert(S,r
 
 decompose(S,P,Domain,O) :-
   owl_description(Domain, Descr),
-  class_statements(Descr, Types),
-  once(( rdf_phas(P, rdfs:'range', Range) ;
-         Range='http://www.w3.org/2002/07/owl#Thing' )),
-  % FIXME: items not merged correctly like this :/
-  %owl_property_range_on_subject(S,P,Range),
-  %owl:owl_most_specific([Range|Types], [Domain|_]),
-  owl_most_specific_specializations(Range, Types, [O_type|_]),
+  % infer type of O
+  class_statements(Descr, Types_Explicit),
+  findall(Type, ((
+    member(Type,Types_Explicit) ;
+    owl_property_range_on_subject(S,P,Type) ; (
+      % if domain is a restriction, check if restricted
+      % class has a backward restriction on the domain
+      rdfs_individual_of(Domain, owl:'Restriction'),
+      owl_restriction(Domain, restriction(P_restr, Facet)),
+      once(( Facet=all_values_from(Restr_cls) ;
+             Facet=some_values_from(Restr_cls) ;
+           ( Facet=cardinality(Min,_,Restr_cls), Min > 0 ) )),
+      owl_inverse_property(P_restr,P_restr_inv),
+      owl_property_range_on_class(Restr_cls, P_restr_inv, Type)
+    )),
+    Type \= 'http://www.w3.org/2002/07/owl#Thing',
+    \+ rdfs_individual_of(Type, owl:'Restriction')
+  ), Types),
+  owl:owl_most_specific(Types, [O_type|_]),
+  % TODO infer more specific P: needsAffordance -> consumesAffordane.
+  %         - based on cardinality restrictions on
+  %               O_type=AxleSnapInBack[Connection] consumesAffordane(subprop of P_inv=needs)
+  %               with matching restriction class
   % assert decomposition facts
   rdf_instance_from_class(O_type, O), debug_type_assertion(O,O_type),
   forall((member(Type,Types), Type \= O_type), rdf_assert(O,rdf:'type',Type)),
@@ -740,7 +756,7 @@ agenda_item_update(Item,Selection) :-
   )),
   forall( member(X,Selection), agenda_remove_object(X) ).
 
-agenda_item_update(Item,Selection) :- % decompose or integrate
+agenda_item_update(Item,Selection) :- % decompose DecomposeAgendaItem_UkKPxwlH,DecomposeAgendaItem_QEycFNmXor integrate
   rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
   agenda_item_depth_value(Item,Depth), Depth_next is Depth + 1,
   % for each more general item add "deeper" items
@@ -781,15 +797,15 @@ agenda_item_generalizations(Item, Selection, GeneralItems) :-
   agenda_item_property(Item, P),
   findall(X, (
     agenda_item_match(Item, X),
-    agenda_item_property(X, P_X),
-    agenda_item_domain(X, Domain_X),
-    once((
+    once((X=Item ; (
+      agenda_item_property(X, P_X),
+      agenda_item_domain(X, Domain_X),
       rdfs_subproperty_of(P, P_X),
       member(O,Selection),
       % domain could impose some unsattisfied restriction,
       % thus check for specializable and not for individual_of
       owl_specializable(O, Domain_X)
-    ))
+    )))
   ), GeneralItems).
 
 agenda_item_match(Item, Match) :-
