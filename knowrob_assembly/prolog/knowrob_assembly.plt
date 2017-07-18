@@ -333,10 +333,29 @@ test(assembly_AxleSnapInBack_needsAffordance_domain) :-
   % o AxleSnapInBack consumesAffordance 1 AxleSnapInF
   % o AxleSnapInBack consumesAffordance 1 AxleSnapInM
   % --> infer that range(needsAffordance) = (AxleSnapInFBack or AxleSnapInM)
-  owl_property_range_on_class(parts:'AxleSnapInBack', knowrob_assembly:'needsAffordance', Ranges),
-  write(' ranges:'), rdf_write_readable(Ranges), nl,
-  member(X,Ranges), rdf_equal(X,parts:'AxleSnapInFBack'),
-  member(Y,Ranges), rdf_equal(Y,parts:'AxleSnapInM').
+  owl_property_range_on_class(parts:'AxleSnapInBack', knowrob_assembly:'needsAffordance', Range),
+  owl_description(Range, union_of(List)),
+  once(( member(X,Ranges), rdf_equal(X,parts:'AxleSnapInFBack') )),
+  once(( member(Y,Ranges), rdf_equal(Y,parts:'AxleSnapInM') )),
+  length(List,2).
+
+test(assembly_Chassis1AxleSnapInFBack_specializable) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
+  owl_planning:owl_restriction_assert(restriction(NeedsInv, some_values_from(
+                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+  owl_specializable(sim:'Chassis1AxleSnapInFBack', Restr).
+test(assembly_Chassis1AxleSnapInFFront_not_specializable) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
+  owl_planning:owl_restriction_assert(restriction(NeedsInv, some_values_from(
+                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+  % o ChassisWithAxles usesConnection only(AxleSnapInBack)
+  % o AxleSnapInBack consumesAffordance 1 AxleSnapInFBack
+  % o AxleSnapInBack consumesAffordance 1 AxleSnapInF
+  % o AxleSnapInBack consumesAffordance 1 AxleSnapInM
+  % --> fail because AxleSnapInFFront not in range(AxleSnapInBack,needsAffordance)
+  \+ owl_specializable(parts:'AxleSnapInFFront', Restr).
 
 test(retract_some_facts) :-
   rdf_retractall(_, knowrob_assembly:'linksAssemblage', _),
@@ -372,8 +391,8 @@ test(assembly_agenda_create_BodyOnChassis) :-
 test(assembly_perform_BodyOnChassis_usesConnection) :-
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
-  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
   agenda_write(Agenda),
+  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
   test_agenda_items([
       item(classify,ChassisSnapInConnection, _, parts:'ChassisSnapInConnection',_),
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _, _), % hasPart CarBody
@@ -383,8 +402,8 @@ test(assembly_perform_BodyOnChassis_usesConnection) :-
 test(assembly_perform_ChassisSnapInConnection_classify) :-
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
-  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
   agenda_write(Agenda),
+  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
   test_agenda_items([
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF', _),
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM', _),
@@ -408,6 +427,7 @@ test(assembly_perform_ChassisSnapInConnection_consumesAffordance2) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
+  agenda_write(Agenda),
   once((
     rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
     rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
@@ -415,241 +435,43 @@ test(assembly_perform_ChassisSnapInConnection_consumesAffordance2) :-
     rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
     rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM')
   )),
-  agenda_write(Agenda),
-  % FIXME: Chassis1AxleSnapInFFront can't be used:
-  % o ChassisWithAxles usesConnection only AxleSnapInBack
-  % o AxleSnapInBack needsAffordance only AxleSnapInAffordance
-  % o AxleSnapInBack consumesAffordance 1 AxleSnapInFBack
-  % o AxleSnapInBack consumesAffordance 1 AxleSnapInF
-  % o AxleSnapInBack consumesAffordance 1 AxleSnapInM
-  % o cardinality restriction also implies that every AxleSnapInBack consumesAffordance AxleSnapInF must also be AxleSnapInFBack
-  %     ----> infer range(AxleSnapInBack, needsAffordance) = [AxleSnapInFBack, AxleSnapInM]
-  %     ----> list subclasses of AxleSnapInAffordance, check if cardinality restriction exists for each if so check deeper
-  % FIXME: support inverse properties in knowrob_planning:decompose !
   test_agenda_items([
-      item(decompose,sim:'Chassis1AxleSnapInFBack',  NeedsInv, _, _) % linksAssemblage ChassisWithAxles
-      %,item(decompose,sim:'Chassis1AxleSnapInFFront', NeedsInv, _,_)   % linksAssemblage ChassisWithAxles
+      item(decompose,sim:'Chassis1AxleSnapInFBack', NeedsInv, _, _) % linksAssemblage ChassisWithAxles
   ]).
 
-test(assembly_perform_BodyOnChassis_inv_usesConnection) :-
+test(assembly_perform_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
   agenda_write(Agenda),
+  once((
+    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
+    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
+    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
+    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
+    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
+    rdf_has(Connection, knowrob_assembly:'needsAffordance', sim:'Chassis1AxleSnapInFBack')
+  )),
   test_agenda_items([
-      item(decompose,ChassisWithAxles,        knowrob_assembly:'usesConnection',_,_),
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_),
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
+      item(decompose, Connection, UsesInv, assembly:'ChassisWithAxles', _) % linksAssemblage ChassisWithAxles
   ]).
 
-%test(assembly_perform_AxleSnapInBack_usesConnection) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-  %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-  %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-  %test_agenda_items([
-      %item(decompose,AxleSnapInBack,          knowrob_assembly:'linksAssemblage', assembly:'AxleWithWheels',_),
-      %item(decompose,AxleSnapInBack,          knowrob_assembly:'linksAssemblage', assembly:'ChassisWithFrontAxle',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
+test(assembly_perform_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
+  assembly_test_agenda(Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda),
+  once((
+    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
+    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
+    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
+    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
+    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
+    rdf_has(Connection, knowrob_assembly:'needsAffordance', sim:'Chassis1AxleSnapInFBack')
+  )),
+  test_agenda_items([
+      item(decompose, Connection, UsesInv, assembly:'ChassisWithAxles', _) % linksAssemblage ChassisWithAxles
+  ]).
 
-%test(assembly_perform_AxleSnapInBack_linksAssemblage1) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-  %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-  %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-  %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', AxleWithWheels),
-  %rdfs_individual_of(AxleWithWheels, assembly:'AxleWithWheels'),
-  %test_agenda_items([
-      %item(decompose,AxleSnapInBack,          knowrob_assembly:'linksAssemblage', assembly:'ChassisWithFrontAxle',_),
-      %item(decompose,AxleWithWheels,          knowrob_assembly:'usesConnection', _, _),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_AxleSnapInBack_linksAssemblage2) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %once((
-    %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-    %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', AxleWithWheels),
-    %rdfs_individual_of(AxleWithWheels, assembly:'AxleWithWheels'),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', ChassisWithFrontAxle),
-    %rdfs_individual_of(ChassisWithFrontAxle, assembly:'ChassisWithFrontAxle')
-  %)),
-  %test_agenda_items([
-      %item(decompose,AxleWithWheels,          knowrob_assembly:'usesConnection', _, _),
-      %item(decompose,ChassisWithFrontAxle,    knowrob_assembly:'usesConnection', _, _),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_AxleWithWheels_usesConnection) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %once((
-    %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-    %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', AxleWithWheels),
-    %rdfs_individual_of(AxleWithWheels, assembly:'AxleWithWheels'),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', ChassisWithFrontAxle),
-    %rdfs_individual_of(ChassisWithFrontAxle, assembly:'ChassisWithFrontAxle'),
-    %rdf_has(AxleWithWheels, knowrob_assembly:'usesConnection', WheelSnapInOnRight)
-  %)),
-  %test_agenda_items([
-      %item(decompose,WheelSnapInOnRight,      knowrob_assembly:'linksAssemblage', assembly:'AxleWithLeftWheel',_),
-      %item(decompose,ChassisWithFrontAxle,    knowrob_assembly:'usesConnection', _, _),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=3
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMRight',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_WheelSnapInOnRight_linksAssemblage) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %once((
-    %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-    %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', AxleWithWheels),
-    %rdfs_individual_of(AxleWithWheels, assembly:'AxleWithWheels'),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', ChassisWithFrontAxle),
-    %rdfs_individual_of(ChassisWithFrontAxle, assembly:'ChassisWithFrontAxle'),
-    %rdf_has(AxleWithWheels, knowrob_assembly:'usesConnection', WheelSnapInOnRight),
-    %rdf_has(WheelSnapInOnRight, knowrob_assembly:'linksAssemblage', AxleWithLeftWheel)
-  %)),
-  %test_agenda_items([
-      %item(decompose,AxleWithLeftWheel,       knowrob_assembly:'usesConnection', _,_),
-      %item(decompose,ChassisWithFrontAxle,    knowrob_assembly:'usesConnection', _, _),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=3
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMRight',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_AxleWithLeftWheel_usesConnection) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %once((
-    %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-    %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', AxleWithWheels),
-    %rdfs_individual_of(AxleWithWheels, assembly:'AxleWithWheels'),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', ChassisWithFrontAxle),
-    %rdfs_individual_of(ChassisWithFrontAxle, assembly:'ChassisWithFrontAxle'),
-    %rdf_has(AxleWithWheels, knowrob_assembly:'usesConnection', WheelSnapInOnRight),
-    %rdf_has(WheelSnapInOnRight, knowrob_assembly:'linksAssemblage', AxleWithLeftWheel),
-    %rdf_has(AxleWithLeftWheel, knowrob_assembly:'usesConnection', WheelSnapInOnLeft)
-  %)),
-  %test_agenda_items([
-      %item(decompose,ChassisWithFrontAxle,    knowrob_assembly:'usesConnection', _,_),
-      %item(integrate,WheelSnapInOnLeft,       knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=4
-      %item(integrate,WheelSnapInOnLeft,       knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,WheelSnapInOnLeft,       knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMLeft',_),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=3
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMRight',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_ChassisWithFrontAxle_usesConnection) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %once((
-    %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'linksAssemblage', ChassisWithAxles),
-    %rdf_has(ChassisWithAxles, knowrob_assembly:'usesConnection', AxleSnapInBack),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', AxleWithWheels),
-    %rdfs_individual_of(AxleWithWheels, assembly:'AxleWithWheels'),
-    %rdf_has(AxleSnapInBack, knowrob_assembly:'linksAssemblage', ChassisWithFrontAxle),
-    %rdfs_individual_of(ChassisWithFrontAxle, assembly:'ChassisWithFrontAxle'),
-    %rdf_has(AxleWithWheels, knowrob_assembly:'usesConnection', WheelSnapInOnRight),
-    %rdf_has(WheelSnapInOnRight, knowrob_assembly:'linksAssemblage', AxleWithLeftWheel),
-    %rdf_has(AxleWithLeftWheel, knowrob_assembly:'usesConnection', WheelSnapInOnLeft),
-    %rdf_has(ChassisWithFrontAxle, knowrob_assembly:'usesConnection', AxleSnapInFront)
-  %)),
-  %test_agenda_items([
-      %item(decompose,AxleSnapInFront,         knowrob_assembly:'linksAssemblage', assembly:'AxleWithWheels', _),
-      %item(integrate,WheelSnapInOnLeft,       knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=4
-      %item(integrate,WheelSnapInOnLeft,       knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,WheelSnapInOnLeft,       knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMLeft',_),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=3
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,WheelSnapInOnRight,      knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMRight',_),
-      %item(integrate,AxleSnapInFront,         knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),        % depth=3
-      %item(integrate,AxleSnapInFront,         knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,AxleSnapInFront,         knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFFront',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,AxleSnapInBack,          knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_decompose_second_axle) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %agenda_perform_next(Agenda),
-  %agenda_perform_next(Agenda),
-  %agenda_perform_next(Agenda),
-  %test_agenda_items([
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=5
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMLeft',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=4
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMLeft',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=4
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMRight',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF',_),       % depth=3
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInM',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'WheelSnapInMRight',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),        % depth=3
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFFront',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'AxleSnapInFBack',_),    % depth=2
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'AxleSnapInF',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM',_),
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF',_), % depth=1
-      %item(integrate,_,  knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM',_)
-  %]).
-
-%test(assembly_perform_integrate_WheelSnapInF) :-
-  %assembly_test_agenda(Agenda),
-  %agenda_perform_next(Agenda),
-  %agenda_write(Agenda),
-  %agenda_perform_next(Agenda),
-  %agenda_write(Agenda),
-  %agenda_perform_next(Agenda),
-  %agenda_write(Agenda).
 
 :- end_tests(knowrob_assembly).
