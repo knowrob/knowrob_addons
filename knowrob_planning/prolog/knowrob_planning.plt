@@ -89,17 +89,22 @@ test(owl_specializable_some_values3) :-
   owl_specializable(planning_test:'TestSomeRestr_2',
     restriction(planning_test:'testProperty', some_values_from(knowrob:'SpatialThing'))).
 test(owl_specializable_some_values4) :-
-  \+ owl_specializable(planning_test:'TestSomeRestr_1',
+  % specializable because there is a subclass of HumanScaleObject that is also a Container
+  owl_specializable(planning_test:'TestSomeRestr_1',
     restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject'))).
 test(owl_specializable_some_values5) :-
+  % dough has no Container specializations
+  \+ owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Dough'))).
+test(owl_specializable_some_values6) :-
   rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
   owl_specializable(X1, 
     restriction(planning_test:'testProperty', some_values_from(knowrob:'Sink'))),
   rdf_retractall(X1, _, _).
-test(owl_specializable_some_values6) :-
+test(owl_specializable_some_values7) :-
   rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
   \+ owl_specializable(X1,
-    restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject'))),
+    restriction(planning_test:'testProperty', some_values_from(knowrob:'Dough'))),
   rdf_retractall(X1, _, _).
 
 test(owl_specializable_all_values1) :-
@@ -134,7 +139,7 @@ test(owl_specializable_cardinality4) :-
     restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container'))).
 test(owl_specializable_cardinality5) :-
   \+ owl_specializable(planning_test:'TestSomeRestr_1',
-    restriction(planning_test:'testProperty', cardinality(2,4,knowrob:'HumanScaleObject'))).
+    restriction(planning_test:'testProperty', cardinality(2,4,knowrob:'Dough'))).
 
 test(owl_specializable_has_value1) :-
   rdf_instance_from_class(planning_test:'TestSomeRestrA', X1),
@@ -253,7 +258,7 @@ test(owl_satisfies_restriction_up_to_some_values5) :-
                          specify(planning_test:'TestContainer_1',planning_test:'testProperty',planning_test:'TestContainer_1',1)).
 test(owl_satisfies_restriction_up_to_some_values4) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty
-  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'HumanScaleObject')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', some_values_from(knowrob:'Dough')), _).
 test(owl_satisfies_restriction_up_to_some_values7) :-
   % exactly 1 Container restriction still allows other value types
   test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty',
@@ -271,7 +276,7 @@ test(owl_satisfies_restriction_up_cardinality_values2) :-
                          specify(planning_test:'TestSomeRestr_1',planning_test:'testProperty',knowrob:'Container',1)).
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   % not allowed due to TestSomeRestr_1 restrictions on testProperty range
-  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(1,1,knowrob:'HumanScaleObject')), _).
+  \+ test_restriction_up_to(planning_test:'TestSomeRestr_1', restriction(planning_test:'testProperty', cardinality(1,1,knowrob:'Dough')), _).
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   % not allowed because cardinality restriction (1,1) can't be specialized to (2,2)
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container')), _).

@@ -282,6 +282,12 @@ test(specified_ChassisWithFrontAxle) :-  fully_specified(assembly_test:'ChassisW
 test(specified_ChassisWithAxles) :-      fully_specified(assembly_test:'ChassisWithAxles1').
 test(specified_BodyOnChassis) :-         fully_specified(assembly_test:'BodyOnChassis1').
 
+test(retract_some_facts) :-
+  rdf_retractall(_, knowrob_assembly:'linksAssemblage', _),
+  rdf_retractall(_, knowrob_assembly:'needsAffordance', _),
+  rdf_retractall(_, knowrob_assembly:'usesConnection', _),
+  rdf_retractall(_, knowrob_assembly:'consumesAffordance', _).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -314,17 +320,6 @@ test(assembly_PorscheBody1SideGrasp_not_specializable2) :-
   % --> fail because PorscheBody1SideGrasp not specializable to AxleSnapInAffordance
   \+ owl_specializable(sim:'PorscheBody1SideGrasp', Restr).
 
-test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
-  % and another affordance that is used by ChassisWithAxles assembly?
-  owl_planning:owl_restriction_assert(restriction(HasInv, some_values_from(
-                                      restriction(knowrob_assembly:'hasAffordance', some_values_from(
-                                      restriction(NeedsInv, some_values_from(
-                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))))), Restr),
-  \+ owl_specializable(sim:'PorscheBody1ChassisSnapInF', Restr).
-
 test(assembly_AxleSnapInBack_needsAffordance_domain) :-
   % o AxleSnapInBack needsAffordance only AxleSnapInAffordance
   % o {AxleSnapInF,AxleSnapInM} subClassOf AxleSnapInBack
@@ -339,6 +334,11 @@ test(assembly_AxleSnapInBack_needsAffordance_domain) :-
   once(( member(Y,Ranges), rdf_equal(Y,parts:'AxleSnapInM') )),
   length(List,2).
 
+% o ChassisWithAxles usesConnection only(AxleSnapInBack)
+% o AxleSnapInBack consumesAffordance 1 AxleSnapInFBack
+% o AxleSnapInBack consumesAffordance 1 AxleSnapInF
+% o AxleSnapInBack consumesAffordance 1 AxleSnapInM
+% --> fail because AxleSnapInFFront not in range(AxleSnapInBack,needsAffordance)
 test(assembly_Chassis1AxleSnapInFBack_specializable) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
@@ -350,17 +350,48 @@ test(assembly_Chassis1AxleSnapInFFront_not_specializable) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_planning:owl_restriction_assert(restriction(NeedsInv, some_values_from(
                                       restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
-  % o ChassisWithAxles usesConnection only(AxleSnapInBack)
-  % o AxleSnapInBack consumesAffordance 1 AxleSnapInFBack
-  % o AxleSnapInBack consumesAffordance 1 AxleSnapInF
-  % o AxleSnapInBack consumesAffordance 1 AxleSnapInM
-  % --> fail because AxleSnapInFFront not in range(AxleSnapInBack,needsAffordance)
   \+ owl_specializable(parts:'AxleSnapInFFront', Restr).
+  
+% o CarBody hasAffordance 1 BodyChassisSnapInF
+% o BodyChassisSnapInF subClassOf BodySnapInAffordance
+% o ChassisSnapInConnection needsAffordance only BodySnapInAffordance
+test(assembly_ChassisSnapInConnection_specializable1) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
+  owl_planning:owl_restriction_assert(restriction(knowrob_assembly:'needsAffordance', some_values_from(
+                                      restriction(HasInv,
+                                      cardinality(1, 1, parts:'CarBody')))), Restr),
+  owl_specializable(parts:'ChassisSnapInConnection', Restr).
+test(assembly_ChassisSnapInConnection_specializable2) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
+  owl_planning:owl_restriction_assert(restriction(knowrob_assembly:'needsAffordance', some_values_from(
+                                      restriction(HasInv,
+                                      cardinality(1, 1, parts:'CarBody')))), Restr),
+  rdf_instance_from_class(parts:'ChassisSnapInConnection', ChassisSnapInConnection),
+  owl_specializable(ChassisSnapInConnection, Restr).
 
-test(retract_some_facts) :-
-  rdf_retractall(_, knowrob_assembly:'linksAssemblage', _),
-  rdf_retractall(_, knowrob_assembly:'usesConnection', _),
-  rdf_retractall(_, knowrob_assembly:'consumesAffordance', _).
+test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
+  owl_planning:owl_restriction_assert(restriction(knowrob_assembly:'hasAffordance', some_values_from(
+                                      restriction(NeedsInv, some_values_from(
+                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))), Restr),
+  % o ChassisWithAxles usesConnection AxleSnapInBack
+  % o AxleSnapInBack needsAffordance AxleSnapInAffordance
+  % o PorscheBody1 hasAffordance 1 PorscheBody1ChassisSnapInF
+  % o CarBody hasAffordance CarBodyAffordance
+  % ---> fail because PorscheBody can only have CarBodyAffordance, no AxleSnapInAffordance allowed
+  \+ owl_specializable(parts:'PorscheBody', Restr).
+
+test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
+  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
+  owl_planning:owl_restriction_assert(restriction(HasInv, some_values_from(
+                                      restriction(knowrob_assembly:'hasAffordance', some_values_from(
+                                      restriction(NeedsInv, some_values_from(
+                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))))), Restr),
+  \+ owl_specializable(sim:'PorscheBody1ChassisSnapInF', Restr).
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Test generating agenda
@@ -394,36 +425,27 @@ test(assembly_perform_BodyOnChassis_usesConnection) :-
   agenda_write(Agenda),
   rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
   test_agenda_items([
-      item(classify,ChassisSnapInConnection, _, parts:'ChassisSnapInConnection',_),
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _, _), % hasPart CarBody
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _,_)   % linksAssemblage ChassisWithAxles
-  ]).
-
-test(assembly_perform_ChassisSnapInConnection_classify) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  agenda_write(Agenda),
-  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-  test_agenda_items([
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF', _),
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM', _),
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _, _), % hasPart CarBody
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _,_)   % linksAssemblage ChassisWithAxles
   ]).
 
-test(assembly_perform_ChassisSnapInConnection_consumesAffordance1) :-
+test(assembly_ChassisSnapInConnection_consumesAffordance_BodyChassisSnapInF) :-
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
-  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-  rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-  rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
   agenda_write(Agenda),
+  once((
+    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
+    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
+    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF')
+  )),
   test_agenda_items([
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM', _),
       item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _,_)   % linksAssemblage ChassisWithAxles
   ]).
 
-test(assembly_perform_ChassisSnapInConnection_consumesAffordance2) :-
+test(assembly_ChassisSnapInConnection_consumesAffordance_BodyChassisSnapInM) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
@@ -439,7 +461,7 @@ test(assembly_perform_ChassisSnapInConnection_consumesAffordance2) :-
       item(decompose,sim:'Chassis1AxleSnapInFBack', NeedsInv, _, _) % linksAssemblage ChassisWithAxles
   ]).
 
-test(assembly_perform_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
+test(assembly_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
@@ -456,22 +478,22 @@ test(assembly_perform_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
       item(decompose, Connection, UsesInv, assembly:'ChassisWithAxles', _) % linksAssemblage ChassisWithAxles
   ]).
 
-test(assembly_perform_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  agenda_write(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(Connection, knowrob_assembly:'needsAffordance', sim:'Chassis1AxleSnapInFBack')
-  )),
-  test_agenda_items([
-      item(decompose, Connection, UsesInv, assembly:'ChassisWithAxles', _) % linksAssemblage ChassisWithAxles
-  ]).
+%test(assembly_perform_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
+  %owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
+  %assembly_test_agenda(Agenda),
+  %agenda_perform_next(Agenda),
+  %agenda_write(Agenda),
+  %once((
+    %rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
+    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
+    %rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
+    %rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
+    %rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
+    %rdf_has(Connection, knowrob_assembly:'needsAffordance', sim:'Chassis1AxleSnapInFBack')
+  %)),
+  %test_agenda_items([
+      %item(decompose, Connection, UsesInv, assembly:'ChassisWithAxles', _) % linksAssemblage ChassisWithAxles
+  %]).
 
 
 :- end_tests(knowrob_assembly).
