@@ -32,13 +32,11 @@
 
 :- module(knowrob_planning,
     [
-      create_agenda/2,
       create_agenda/3,
       agenda_items/2,
       agenda_items_sorted/2,
       agenda_perform_next/1,
       agenda_write/1,
-      agenda_item/1,
       agenda_item_type/2,
       agenda_item_property/2,
       agenda_item_domain/2,
@@ -67,13 +65,11 @@
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 
 :-  rdf_meta
-      create_agenda(r,r),
       create_agenda(r,r,r),
       agenda_items(r,t),
       agenda_items_sorted(r,t),
       agenda_perform_next(r),
       agenda_write(r),
-      agenda_item(r),
       agenda_item_type(r,r),
       agenda_item_property(r,r),
       agenda_item_domain(r,r),
@@ -110,12 +106,6 @@
 %       - use owl_specialization_of for pattern matching
 %
 
-%% create_agenda(+Obj,-Agenda)
-%
-create_agenda(Obj, Agenda) :-
-  rdf_instance_from_class(knowrob_planning:'AgendaStrategy', Strategy),
-  create_agenda(Obj, Strategy, Agenda).
-
 %% create_agenda(+Obj,+Strategy,-Agenda)
 %
 create_agenda(Obj, Strategy, Agenda) :-
@@ -128,11 +118,9 @@ create_agenda(Obj, Strategy, Agenda) :-
 agenda_items([X|Xs], [X|Xs]) :- !.
 agenda_items(Agenda, Items)  :- findall(X, rdf_has(Agenda,knowrob_planning:'agendaItem',X), Items).
 
-%% agenda_item(?Item)
-%
-agenda_item(Item) :- rdfs_individual_of(Item, knowrob_planning:'AgendaItem').
-
 %% agenda_item_last_selected(?Item)
+%
+% remember last performed item (for inhibition selection)
 %
 agenda_item_last_selected(Item) :-
   current_predicate(agenda_item_last_selected_, _),
@@ -153,7 +141,7 @@ agenda_pop(Agenda, Item)  :-
     agenda_item_inhibit(X),
     assert_last_selected_item(X),
     Item=X
-  ) ; ( % retract invlid, pop next
+  ) ; ( % retract invalid, pop next
     retract_agenda_item(X),
     agenda_pop(Agenda, Item)
   )).
@@ -172,15 +160,10 @@ agenda_add_object(Agenda, Root, Depth) :-
          agenda_add_object_without_children(Agenda, Obj, Obj_depth)).
 
 agenda_add_object_without_children(Agenda, Obj, Depth) :-
-  rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
-  forall(( % for each unsattidfied restriction add agenda items
+  forall(( % for each unsattisfied restriction add agenda items
      owl_unsatisfied_restriction(Obj, Descr),
-     owl_satisfies_restriction_up_to(Obj, Descr, Item),
-     once(( % only proceed for focussed items
-       Item=..[T,S,P,Domain|_],
-       rdf_has(Strategy, knowrob_planning:'focus', Focus),
-       agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus)
-     ))
+     satisfies_restriction_up_to(Obj, Descr, Item),
+     item_description_focussed(Agenda, Item)
   ), assert_agenda_item(Item, Agenda, Obj, Descr, Depth, _)).
 
 agenda_remove_object(Agenda, Object) :-
@@ -188,7 +171,7 @@ agenda_remove_object(Agenda, Object) :-
   bagof( Part, part_of_workpiece(Object, Strategy, 0, Part), Parts ),
   forall(( % for each part retract agenda items
      member((Obj,_), Parts),
-     rdf_has(Item, knowrob_planning:'itemOf', Obj)
+     agenda_item_object(Item,Obj)
   ), retract_agenda_item(Item)).
 
 retract_agenda_item(Item) :-
@@ -290,6 +273,13 @@ agenda_item_property(Item,P) :-
   \+ rdfs_subproperty_of(P, knowrob_planning:'itemCardinality'),
   \+ rdfs_subproperty_of(P, knowrob_planning:'itemDepth'),
   \+ rdf_equal(P, rdf:type), !.
+
+decomposable_property(P) :-
+  rdfs_subproperty_of(P, knowrob_planning:'decomposablePredicate'), !.
+decomposable_property(P1) :-
+  rdf_has(P1, owl:inverseOf, P_inv),
+  rdf_has(P2, owl:inverseOf, P_inv),
+  rdfs_subproperty_of(P2, knowrob_planning:'decomposablePredicate'), !.
   
 %% agenda_item_domain(?Item,?Domain)
 %
@@ -310,7 +300,8 @@ agenda_item_cardinality(_,1).
 
 agenda_item_update_cardinality(Item,Card) :-
   rdf_retractall(Item, knowrob_planning:'itemCardinality', _),
-  rdf_assert(Item, knowrob_planning:'itemCardinality', litela(type(xsd:int,Card))), !.
+  ( atom(Card) -> Card_atom=Card ; atom_number(Card_atom,Card) ),
+  rdf_assert(Item, knowrob_planning:'itemCardinality', litela(type(xsd:int,Card_atom))), !.
 
 %% agenda_item_strategy(?Item,?Strategy)
 %
@@ -336,6 +327,16 @@ agenda_item_specialize_domain(Item, Domain) :-
     rdf_assert(Item, P, Domain)
   ))).
 
+satisfies_restriction_up_to(Cause, Restr, UpTo) :-
+  owl_satisfies_restriction_up_to(Cause, Restr, X),
+  ( X=specify(S,P,Domain,Card)
+  -> ( decomposable_property(P) ->
+         UpTo=decompose(S,P,Domain,Card) ;
+         UpTo=integrate(S,P,Domain,Card)
+  ) ; (
+    UpTo=X
+  )).
+
 %% agenda_item_valid(?Item)
 %
 % NOTE: `agenda_item_update` ensures (to some extend) that agenda items are valid 
@@ -349,19 +350,19 @@ agenda_item_valid(Item) :-
 agenda_item_valid(Item) :-
   rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !,
   agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  owl_satisfies_restriction_up_to(Cause, Restr, unspecify(S,P,UpToDomain,_)),
+  satisfies_restriction_up_to(Cause, Restr, unspecify(S,P,UpToDomain,_)),
   owl_specializable(Domain,UpToDomain),
   agenda_item_specialize_domain(Item,UpToDomain), !.
 agenda_item_valid(Item) :-
   rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'), !,
   agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  owl_satisfies_restriction_up_to(Cause, Restr, decompose(S,P,UpToDomain,_)),
+  satisfies_restriction_up_to(Cause, Restr, decompose(S,P,UpToDomain,_)),
   owl_specializable(Domain,UpToDomain),
   agenda_item_specialize_domain(Item,UpToDomain), !.
 agenda_item_valid(Item) :-
   rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'), !,
   agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  owl_satisfies_restriction_up_to(Cause, Restr, integrate(S,P,UpToDomain,_)),
+  satisfies_restriction_up_to(Cause, Restr, integrate(S,P,UpToDomain,_)),
   owl_specializable(Domain,UpToDomain),
   agenda_item_specialize_domain(Item,UpToDomain), !.
 
@@ -376,6 +377,17 @@ agenda_item_in_focus(Item) :-
   rdf_has(Strategy, knowrob_planning:'focus', Focus),
   agenda_item_description(Item,Descr),
   agenda_item_in_focus_internal(Descr,Focus), !.
+
+item_description_focussed(Agenda,Item) :-
+  rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
+  (( Item=..[item,T,S,P,Domain|_] ;
+   ( Item=..[T,S,P,Domain|_] ) ;
+   ( Item=..[T,S,Domain], P=nil ))),
+  rdf_has(Strategy, knowrob_planning:'focus', Focus),
+  ( agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus) ; (
+    rdf_has(P, owl:'inverseOf', P_inv), % also focus if inverse property focussed
+    agenda_item_in_focus_internal(item(T,S,P_inv,Domain,_), Focus)
+  )), !.
 
 agenda_item_in_focus_internal(Item, Focus) :-
   rdfs_individual_of(Focus, knowrob_planning:'PatternFocus'), !,
@@ -425,8 +437,7 @@ strategy_selection_criteria(Strategy, Criteria) :-
   predsort(compare_selection_criteria, Cs, Criteria).
 
 compare_selection_criteria(Delta, C1, C2) :-
-  selection_priority(C1, V1),
-  selection_priority(C2, V2),
+  selection_priority(C1, V1), selection_priority(C2, V2),
   ( V1 < V2 -> Delta='>' ; Delta='<' ). % high priority first
 
 selection_priority(C,V) :-
@@ -462,7 +473,8 @@ agenda_item_depth_value(Item,DepthValue) :-
 
 agenda_item_depth_assert(Item,DepthValue) :-
   rdf_retractall(Item, knowrob_planning:'itemDepth', _),
-  rdf_assert(Item, knowrob_planning:'itemDepth', literal(type(xsd:int, DepthValue))).
+  ( atom(DepthValue) -> DepthValue_atom=DepthValue ; atom_number(DepthValue_atom,DepthValue) ),
+  rdf_assert(Item, knowrob_planning:'itemDepth', literal(type(xsd:int, DepthValue_atom))).
 
 %% agenda_item_continuity_value(+Item,?ContinuityValue)
 %
@@ -471,8 +483,7 @@ agenda_item_continuity_value(Item,ContinuityValue) :-
   agenda_item_continuity_value_internal(Item,LastItem,ContinuityValue), !.
 agenda_item_continuity_value(_,0.0).
 
-agenda_item_continuity_value_internal(Item1, item(_,S,_,_,_), 1.0) :-
-  rdf_has(Item1, knowrob_planning:itemOf, S), !.
+agenda_item_continuity_value_internal(Item1, item(_,S,_,_,_), 1.0) :- agenda_item_object(Item1,S), !.
 agenda_item_continuity_value_internal(_, _, 0.0).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -497,7 +508,8 @@ agenda_item_inhibit(Item) :-
 
 assert_agenda_item_inhibition(Item, Val) :-
   rdf_retractall(Item, knowrob_planning:'inhibitionValue', _),
-  rdf_assert(Item, knowrob_planning:'inhibitionValue', literal(type(xsd:float, Val))).
+  ( atom(Val) -> Val_atom=Val ; atom_number(Val_atom,Val) ),
+  rdf_assert(Item, knowrob_planning:'inhibitionValue', literal(type(xsd:float, Val_atom))).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -572,6 +584,7 @@ agenda_item_domain_compute(Item, Domain) :-
     once(rdfs_subproperty_of(P, P_X)),
     agenda_item_domain(X, D)
   ), Domains),
+  %owl:owl_most_specific(Domains, [Domain|_]).
   owl_most_specific_specializations(D_item, Domains, [Domain|_]).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -654,18 +667,14 @@ agenda_item_project_internal(item(decompose,S,P,_,_), Cls, O)  :- decompose(S,P,
 agenda_item_project_internal(item(detach,S,P,_,_), O, O)       :- rdf_retractall(S,P,O), debug_retraction(S,P,O).
 agenda_item_project_internal(item(classify,S,_,_,_), Cls, Cls) :- rdf_assert(S,rdf:'type',Cls), debug_type_assertion(S,Cls).
 
-class_statements(class(Cls), [Cls]).
-class_statements(intersection_of(Intersection), List) :-
-  findall(X, member(class(X), Intersection), List).
-class_statements(_, []).
-
 decompose(S,P,Domain,O) :-
   owl_description(Domain, Descr),
   class_statements(Descr, Types),
   once(( rdf_phas(P, rdfs:'range', Range) ;
          Range='http://www.w3.org/2002/07/owl#Thing' )),
   % FIXME: items not merged correctly like this :/
-  %owl_property_range_on_subject(S,P,[Range|_]),
+  %owl_property_range_on_subject(S,P,Range),
+  %owl:owl_most_specific([Range|Types], [Domain|_]),
   owl_most_specific_specializations(Range, Types, [O_type|_]),
   % assert decomposition facts
   rdf_instance_from_class(O_type, O), debug_type_assertion(O,O_type),
@@ -674,6 +683,11 @@ decompose(S,P,Domain,O) :-
   -> ( rdf_assert(O,P_inv,S), debug_assertion(O,P_inv,S) )
   ;  ( rdf_assert(S,P,O),     debug_assertion(S,P,O) )
   ).
+
+class_statements(class(Cls), [Cls]).
+class_statements(intersection_of(Intersection), List) :-
+  findall(X, member(class(X), Intersection), List).
+class_statements(_, []).
 
 debug_retraction(S,P,O) :-
   write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
@@ -747,27 +761,21 @@ agenda_item_update(Item,Selection) :- % decompose or integrate
   % Add selected object items
   forall( member(X,Selection), agenda_add_object(Agenda,X,Depth_next) ).
 
-
 agenda_item_update_specify(Item,Selection) :-
-  rdf_has(Item, knowrob_planning:'itemOf', S),
-  agenda_item_domain(Item, O_descr),
-  agenda_item_property(Item, P),
+  agenda_item_description(Item, item(_,S,P,O_descr,(Cause,Cause_restriction))),
   agenda_item_cardinality(Item, Card),
   agenda_item_depth_value(Item, Depth),
   owl_cardinality(S,P,O_descr,Count),
   % nothing todo if cardinality fully specified already
   ( Count >= Card ;
   ( % add items for each of the selected values which are not subclass of O description
-    rdf_has(Item, knowrob_planning:'itemCondition', C),
-    rdf_has(C, knowrob_planning:'causedByRestrictionOn', Cause),
-    rdf_has(C, knowrob_planning:'causedByRestriction', Cause_restriction),
     rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
-    Depth_next is Depth + 1,
     forall((
        member(O,Selection), \+ owl_individual_of(O,O_descr),
-       owl_satisfies_restriction_up_to(O,O_descr,NewItem)
-    ), assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, Depth_next, _))
+       satisfies_restriction_up_to(O,O_descr,NewItem)
+    ), assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, Depth, _))
   )), !.
+
 
 agenda_item_generalizations(Item, Selection, GeneralItems) :-
   agenda_item_property(Item, P),
@@ -801,11 +809,11 @@ agenda_item_match(Item, Match) :-
 agenda_write(Agenda) :-
   atom(Agenda),
   agenda_items_sorted(Agenda,Items),
-  agenda_write(Items).
-agenda_write([X|Xs]) :-
+  agenda_write_(Items).
+agenda_write_(Items) :-
   writeln('    [AGENDA]'),
   writeln('    -------------------------------------------------'),
-  forall(member(Item,[X|Xs]), (
+  forall(member(Item,Items), (
     agenda_item_description(Item,Descr),
     write('    o '), agenda_item_write(Descr),
     agenda_item_depth_value(Item,Depth),
