@@ -605,6 +605,8 @@ agenda_perform(Item) :-
   ))),
   agenda_item_domain_compute(Item, DomainIn),
   agenda_item_cardinality(Item, Card),
+  % TODO: for decompose/integrate check if there is a value for more general property
+  %       then just specialize the property in the triple and go on ?
   % Perform domain specialization Card times and project the specialized domain
   bagof( Selected, (
     between(1,Card,_),
@@ -662,7 +664,7 @@ agenda_item_project(Item, Domain, Selected) :-
   -> agenda_item_project_internal(Descr, Domain, Selected)
   ;  agenda_item_specialize_domain(Item, Domain) ), !.
 
-agenda_item_project_internal(item(integrate,S,P,_,_), O, O)    :- rdf_assert(S,P,O), debug_assertion(S,P,O).
+agenda_item_project_internal(item(integrate,S,P,_,_), O, O)    :- agenda_assert_triple(S,P,O).
 agenda_item_project_internal(item(decompose,S,P,_,_), Cls, O)  :- decompose(S,P,Cls,O).
 agenda_item_project_internal(item(detach,S,P,_,_), O, O)       :- rdf_retractall(S,P,O), debug_retraction(S,P,O).
 agenda_item_project_internal(item(classify,S,_,_,_), Cls, Cls) :- rdf_assert(S,rdf:'type',Cls), debug_type_assertion(S,Cls).
@@ -677,10 +679,8 @@ decompose(S,P,Domain,O) :-
       % if domain is a restriction, check if restricted
       % class has a backward restriction on the domain
       rdfs_individual_of(Domain, owl:'Restriction'),
-      owl_restriction(Domain, restriction(P_restr, Facet)),
-      once(( Facet=all_values_from(Restr_cls) ;
-             Facet=some_values_from(Restr_cls) ;
-           ( Facet=cardinality(Min,_,Restr_cls), Min > 0 ) )),
+      rdf_has(Domain, owl:onProperty, P_restr),
+      owl_restriction_implied_class(Domain, Restr_cls),
       owl_inverse_property(P_restr,P_restr_inv),
       owl_property_range_on_class(Restr_cls, P_restr_inv, Type)
     )),
@@ -688,17 +688,35 @@ decompose(S,P,Domain,O) :-
     \+ rdfs_individual_of(Type, owl:'Restriction')
   ), Types),
   owl:owl_most_specific(Types, [O_type|_]),
-  % TODO infer more specific P: needsAffordance -> consumesAffordane.
-  %         - based on cardinality restrictions on
-  %               O_type=AxleSnapInBack[Connection] consumesAffordane(subprop of P_inv=needs)
-  %               with matching restriction class
   % assert decomposition facts
   rdf_instance_from_class(O_type, O), debug_type_assertion(O,O_type),
   forall((member(Type,Types), Type \= O_type), rdf_assert(O,rdf:'type',Type)),
-  (  rdf_has(P, owl:'inverseOf', P_inv)
-  -> ( rdf_assert(O,P_inv,S), debug_assertion(O,P_inv,S) )
-  ;  ( rdf_assert(S,P,O),     debug_assertion(S,P,O) )
-  ).
+  agenda_assert_triple(S,P,O).
+
+agenda_assert_triple(S,P,O) :-
+  rdf_has(P, owl:'inverseOf', P_inv), !,
+  agenda_assert_triple_(O,P_inv,S).
+agenda_assert_triple(S,P,O) :-
+  agenda_assert_triple_(S,P,O).
+agenda_assert_triple_(S,P,O) :-
+  % infer more specific property type
+  findall(P_restr, (
+    rdf_has(S, rdf:type, Type),
+    rdfs_subclass_of(Type, Restr),
+    once((
+      rdfs_individual_of(Restr, owl:'Restriction'),
+      % restriction on subproperty of P
+      rdf_has(Restr, owl:onProperty, P_restr),
+      rdfs_subproperty_of(P_restr, P),
+      % and O is an individual of the restricted range
+      owl_restriction_implied_class(Restr, Restr_cls),
+      owl_individual_of(O, Restr_cls)
+    ))
+  ), Predicates),
+  owl_most_specific_predicate([P|Predicates], P_specific),
+  % assert the relation with more specific predicate P_specific
+  rdf_assert(S,P_specific,O),
+  debug_assertion(S,P_specific,O), !.
 
 class_statements(class(Cls), [Cls]).
 class_statements(intersection_of(Intersection), List) :-
