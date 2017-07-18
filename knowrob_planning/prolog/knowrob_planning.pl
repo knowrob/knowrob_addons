@@ -444,12 +444,12 @@ selection_priority(C,V) :-
   rdf_has(C, knowrob_planning:'selectionPriority', Val),
   strip_literal_type(Val, Val_stripped),
   atom_number(Val_stripped, V), !.
-selection_priority(_,0.0).
+selection_priority(_,0).
 
 agenda_item_selection_value(Item, Criterium, Val) :-
   rdfs_individual_of(Criterium, knowrob_planning:'PatternSelection'), !,
   rdf_has(Criterium, knowrob_planning:'pattern', Pattern),
-  ( agenda_item_matches_pattern(Item, Pattern) -> Val=1.0 ; Val=0.0 ).
+  ( agenda_item_matches_pattern(Item, Pattern) -> Val=1 ; Val=0 ).
 
 agenda_item_selection_value(Item, Criterium, Val) :-
   rdfs_individual_of(Criterium, knowrob_planning:'InhibitionSelection'), !,
@@ -481,10 +481,10 @@ agenda_item_depth_assert(Item,DepthValue) :-
 agenda_item_continuity_value(Item,ContinuityValue) :-
   agenda_item_last_selected(LastItem),
   agenda_item_continuity_value_internal(Item,LastItem,ContinuityValue), !.
-agenda_item_continuity_value(_,0.0).
+agenda_item_continuity_value(_,0).
 
-agenda_item_continuity_value_internal(Item1, item(_,S,_,_,_), 1.0) :- agenda_item_object(Item1,S), !.
-agenda_item_continuity_value_internal(_, _, 0.0).
+agenda_item_continuity_value_internal(Item1, item(_,S,_,_,_), 1) :- agenda_item_object(Item1,S), !.
+agenda_item_continuity_value_internal(_, _, 0).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -496,7 +496,7 @@ agenda_item_inhibition_value(Item, InhibitionValue) :-
   rdf_has(Item, knowrob_planning:'inhibitionValue', X),
   strip_literal_type(X,X_stripped),
   (number(X_stripped) -> InhibitionValue=X_stripped ; atom_number(X_stripped, InhibitionValue)), !.
-agenda_item_inhibition_value(_, 0.0).
+agenda_item_inhibition_value(_, 0).
 
 %% agenda_item_inhibit(+Item)
 %
@@ -509,7 +509,7 @@ agenda_item_inhibit(Item) :-
 assert_agenda_item_inhibition(Item, Val) :-
   rdf_retractall(Item, knowrob_planning:'inhibitionValue', _),
   ( atom(Val) -> Val_atom=Val ; atom_number(Val_atom,Val) ),
-  rdf_assert(Item, knowrob_planning:'inhibitionValue', literal(type(xsd:float, Val_atom))).
+  rdf_assert(Item, knowrob_planning:'inhibitionValue', literal(type(xsd:int, Val_atom))).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -540,7 +540,12 @@ agenda_item_matches_object(Item,Pattern) :-
 
 agenda_item_matches_property(Item, Pattern) :-
   agenda_pattern_property(Pattern,P_Pattern)
-  -> ( agenda_item_property(Item,P), rdfs_subproperty_of(P, P_Pattern) )
+  -> (
+    agenda_item_property(Item,P),
+    ( rdfs_subproperty_of(P, P_Pattern) ;
+    ( rdf_has(P, owl:inverseOf, P_inv),
+      rdf_has(P_Pattern, owl:inverseOf, P_Pattern_inv),
+      rdfs_subproperty_of(P_inv, P_Pattern_inv) )))
   ;  true.
 
 agenda_item_matches_domain(Item, Pattern) :-
@@ -849,10 +854,17 @@ agenda_write_(Items) :-
   writeln('    -------------------------------------------------'),
   forall(member(Item,Items), (
     agenda_item_description(Item,Descr),
-    write('    o '), agenda_item_write(Descr),
-    agenda_item_depth_value(Item,Depth),
-    write(' d='), write(Depth),
-    nl
+    write('    o '),
+    
+    agenda_item_strategy(Item,Strategy),
+    strategy_selection_criteria(Strategy, Criteria),
+    findall(Val, (
+      member(C,Criteria),
+      once(agenda_item_selection_value(Item,C,Val))
+    ), SelectionVals),
+    write(SelectionVals), write(' '),
+    
+    agenda_item_write(Descr), nl
   )),
   writeln('    -------------------------------------------------').
 
