@@ -99,9 +99,13 @@ test(create_transform1) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%% test get_grasp_position
+test(get_pre_grasp_position1) :-
+  get_pre_grasp_position('left_gripper', 'http://knowrob.org/kb/thorin_simulation.owl#Axle1', 'http://knowrob.org/kb/thorin_parameters.owl#TopGraspCenterReferencedPart', T),!,
+  T=["left_gripper_tool_frame", "Axle1", [0.0, 0.0, 0.116], [1.0, 0.0, 0.0, 0.0]].
+  
 test(get_grasp_position1) :-
-  get_grasp_position('http://knowrob.org/kb/thorin_parameters.owl#TopGraspChassis', T),!,
-  T=["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.70711, 0.70711, 0.0, 0.0]].
+  get_grasp_position('left_gripper', 'http://knowrob.org/kb/thorin_simulation.owl#Axle1', 'http://knowrob.org/kb/thorin_parameters.owl#TopGraspCenterReferencedPart', T),!,
+  T=["left_gripper_tool_frame", "Axle1", [0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_beliefstate).

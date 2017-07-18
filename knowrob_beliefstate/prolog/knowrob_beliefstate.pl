@@ -49,6 +49,7 @@
       get_assemblages_with_object/2,
       get_objects_in_assemblage/2,
       get_objects_connected_to_object/2,
+      get_pre_grasp_position/4,
       get_grasp_position/4,
 
       get_object_reference_frame/2,
@@ -1229,9 +1230,11 @@ assert_grasp_on_object(Gripper, Object, Robot, GraspSpecification, GraspRei) :-
   mark_dirty_objects(DirtyObjects),
   !.
 
-get_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
+get_pre_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
   get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasPregraspTransform', T).
-  %% get_associated_transform('left_gripper', 'http://knowrob.org/kb/thorin_simulation.owl#Axle1', _ , 'http://knowrob.org/kb/thorin_parameters.owl#TopGraspCenterReferencedPart', _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', T).
+
+get_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
+  get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', T).
 
 %% assert_ungrasp(+Grasp) is det.
 %
