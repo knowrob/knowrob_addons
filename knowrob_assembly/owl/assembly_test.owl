@@ -40,6 +40,15 @@
     
 
 
+    <!-- http://knowrob.org/kb/assembly_test.owl#usedByAssemblage -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/assembly_test.owl#usedByAssemblage">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
+        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage">
