@@ -386,8 +386,9 @@ item_description_focussed(Agenda,Item) :-
   rdf_has(Strategy, knowrob_planning:'focus', Focus),
   ( agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus) ; (
     rdf_has(P, owl:'inverseOf', P_inv), % also focus if inverse property focussed
-    agenda_item_in_focus_internal(item(T,S,P_inv,Domain,_), Focus)
-  )), !.
+    owl_planning:owl_type_of(S, Type),
+    agenda_item_in_focus_internal(item(T,S,P_inv,Type,_), Focus)
+  )).
 
 agenda_item_in_focus_internal(Item, Focus) :-
   rdfs_individual_of(Focus, knowrob_planning:'PatternFocus'), !,
@@ -545,12 +546,12 @@ agenda_item_matches_property(Item, Pattern) :-
     ( rdfs_subproperty_of(P, P_Pattern) ;
     ( rdf_has(P, owl:inverseOf, P_inv),
       rdf_has(P_Pattern, owl:inverseOf, P_Pattern_inv),
-      rdfs_subproperty_of(P_inv, P_Pattern_inv) )))
-  ;  true.
+      rdfs_subproperty_of(P_inv, P_Pattern_inv) ))
+  ) ;  true.
 
 agenda_item_matches_domain(Item, Pattern) :-
   agenda_pattern_domain(Pattern,Domain_Pattern)
-  -> ( agenda_item_domain(Item,Domain), owl_specializable(Domain, Domain_Pattern) )
+  -> ( agenda_item_domain(Item,Domain), owl_specializable(Domain_Pattern, Domain) )
   ;  true.
 
 %% agenda_pattern_property(?Item,?P)
@@ -568,7 +569,9 @@ agenda_pattern_property(Pattern,P) :-
 agenda_pattern_domain(Pattern,Domain) :-
   agenda_pattern_property(Pattern,P),
   owl_restriction_on_property(Pattern,P,Restr),
-  once(( rdf_has(Restr, owl:onClass, Domain) ;
+  once(( rdf_has(Restr, owl:someValuesFrom, Domain) ;
+         rdf_has(Restr, owl:allValuesFrom, Domain) ;
+         rdf_has(Restr, owl:onClass, Domain) ;
          rdf_has(Restr, owl:hasValue, Domain) )),
   \+ rdf_equal(Domain, owl:'Thing'), !.
 agenda_pattern_domain(Pattern,Domain) :-
