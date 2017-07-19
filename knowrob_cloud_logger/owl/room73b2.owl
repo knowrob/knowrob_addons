@@ -151,7 +151,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-73b2-ground_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-73b2-ground/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-73b2-ground/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -172,7 +172,7 @@
         <srdl2-comp:urdfName>room73b2-locker2_0_ROOT_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-locker2_0_DOOR"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-locker2/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-locker2/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -192,7 +192,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-locker2_0_ROOM73B2-LOCKER2-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-locker2/meshes/ROOM73B2-LOCKER2-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-locker2/meshes/ROOM73B2-LOCKER2-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -213,7 +213,7 @@
         <srdl2-comp:urdfName>room73b2-locker1_0_ROOT_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-locker1_0_DOOR"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-locker1/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-locker1/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -233,7 +233,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-locker1_0_ROOM73B2-LOCKER1-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-locker1/meshes/ROOM73B2-LOCKER1-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-locker1/meshes/ROOM73B2-LOCKER1-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -254,7 +254,7 @@
         <srdl2-comp:urdfName>room73b2-door-left_0_ROOM73B2-DOOR-LEFT-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-door-left_0_DOOR"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-door-left/meshes/ROOM73B2-DOOR-LEFT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-door-left/meshes/ROOM73B2-DOOR-LEFT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -274,7 +274,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-door-left_0_ROOM73B2-DOOR-LEFT-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-door-left/meshes/ROOM73B2-DOOR-LEFT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-door-left/meshes/ROOM73B2-DOOR-LEFT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -295,7 +295,7 @@
         <srdl2-comp:urdfName>room73b2-door-right_0_ROOM73B2-DOOR-RIGHT-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-door-right_0_DOOR"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -316,7 +316,7 @@
         <srdl2-comp:urdfName>room73b2-door-right_0_ROOM73B2-DOOR-RIGHT-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-door-right_0_KNOB"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -337,7 +337,7 @@
         <srdl2-comp:urdfName>room73b2-door-right_0_ROOM73B2-DOOR-RIGHT-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-door-right_0_LOCK"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -357,7 +357,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-door-right_0_ROOM73B2-DOOR-RIGHT-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-door-right/meshes/ROOM73B2-DOOR-RIGHT-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -377,7 +377,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-foldable-desk_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-foldable-desk/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-foldable-desk/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -397,7 +397,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-gifuplastic-900-cart_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-gifuplastic-900-cart/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-gifuplastic-900-cart/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -417,7 +417,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kirin-steppy-black-ladder_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kirin-steppy-black-ladder/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kirin-steppy-black-ladder/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -437,7 +437,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-broom_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -457,7 +457,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bamboo-broom_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bamboo-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bamboo-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -477,7 +477,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-azuma-broom_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-azuma-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-azuma-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -497,7 +497,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-azuma-short-broom_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-azuma-short-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-azuma-short-broom/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -517,7 +517,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-coe-800-shelf_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-coe-800-shelf/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-coe-800-shelf/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -537,7 +537,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-coe-450-shelf_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-coe-450-shelf/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-coe-450-shelf/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -557,7 +557,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1100_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1100/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1100/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -577,7 +577,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -597,7 +597,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_1_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -617,7 +617,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_2_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -637,7 +637,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_3_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -657,7 +657,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_4_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -677,7 +677,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_5_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -697,7 +697,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-right_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-right/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-right/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -717,7 +717,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-middle3-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-middle3-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-middle3-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -737,7 +737,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-middle3-1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-middle3-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-middle3-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -757,7 +757,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-middle2_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-middle2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-middle2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -777,7 +777,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-middle-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-middle-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-middle-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -797,7 +797,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-middle-1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-middle-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-middle-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -817,7 +817,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-middle-2_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-middle-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-middle-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -837,7 +837,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1200-corner_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1200-corner/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1200-corner/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1083,7 +1083,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-chair1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-chair1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-chair1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1103,7 +1103,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-chair0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-chair0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-chair0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1123,7 +1123,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-empty-box_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-empty-box/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-empty-box/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1143,7 +1143,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bottle_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bottle/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bottle/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1163,7 +1163,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-sushi-cup2_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-sushi-cup2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-sushi-cup2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1183,7 +1183,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-trashbox0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-trashbox0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-trashbox0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1203,7 +1203,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-karimoku-table_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-karimoku-table/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-karimoku-table/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1228,7 +1228,7 @@
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-hrp2-parts-drawer_0_DRAWER2"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-hrp2-parts-drawer_0_DRAWER3"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-hrp2-parts-drawer_0_DRAWER4"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hrp2-parts-drawer/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-hrp2-parts-drawer/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1248,7 +1248,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-hrp2-parts-drawer_0_ROOM73B2-HRP2-PARTS-DRAWER-BODYSET6_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1268,7 +1268,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-hrp2-parts-drawer_0_ROOM73B2-HRP2-PARTS-DRAWER-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1288,7 +1288,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-hrp2-parts-drawer_0_ROOM73B2-HRP2-PARTS-DRAWER-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1308,7 +1308,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-hrp2-parts-drawer_0_ROOM73B2-HRP2-PARTS-DRAWER-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1328,7 +1328,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-hrp2-parts-drawer_0_ROOM73B2-HRP2-PARTS-DRAWER-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-hrp2-parts-drawer/meshes/ROOM73B2-HRP2-PARTS-DRAWER-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1350,7 +1350,7 @@
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-plus-590-locker_0_DOOR-LEFT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-plus-590-locker_0_DOOR-RIGHT"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-plus-590-locker/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-plus-590-locker/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1370,7 +1370,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-plus-590-locker_0_ROOM73B2-PLUS-590-LOCKER-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-plus-590-locker/meshes/ROOM73B2-PLUS-590-LOCKER-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-plus-590-locker/meshes/ROOM73B2-PLUS-590-LOCKER-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1390,7 +1390,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-plus-590-locker_0_ROOM73B2-PLUS-590-LOCKER-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-plus-590-locker/meshes/ROOM73B2-PLUS-590-LOCKER-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-plus-590-locker/meshes/ROOM73B2-PLUS-590-LOCKER-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1410,7 +1410,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-sharp-52-aquostv_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-sharp-52-aquostv/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-sharp-52-aquostv/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1430,7 +1430,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1450,7 +1450,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1470,7 +1470,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-2_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1490,7 +1490,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-3_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-3/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-3/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1510,7 +1510,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-4_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-4/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-4/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1530,7 +1530,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-5_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-5/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-5/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1550,7 +1550,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-6_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-6/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-6/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1570,7 +1570,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1100_1_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1100/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1100/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1590,7 +1590,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1000x700-desk_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1000x700-desk/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1000x700-desk/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1610,7 +1610,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-uchida-shelf-1300_6_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-uchida-shelf-1300/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1630,7 +1630,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1200x700-desk-7_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1200x700-desk-7/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1200x700-desk-7/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1655,7 +1655,7 @@
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-cupboard-right_0_DOOR-UPPER-LEFT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-cupboard-right_0_DOOR-UPPER-RIGHT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-cupboard-right_0_DRAWER"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-right/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-right/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1675,7 +1675,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-right_0_ROOM73B2-CUPBOARD-RIGHT-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1695,7 +1695,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-right_0_ROOM73B2-CUPBOARD-RIGHT-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1715,7 +1715,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-right_0_ROOM73B2-CUPBOARD-RIGHT-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1735,7 +1735,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-right_0_ROOM73B2-CUPBOARD-RIGHT-BODYSET6_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1755,7 +1755,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-right_0_ROOM73B2-CUPBOARD-RIGHT-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-right/meshes/ROOM73B2-CUPBOARD-RIGHT-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1779,7 +1779,7 @@
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-cupboard-left_0_DOOR-LOWER-RIGHT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-cupboard-left_0_DOOR-UPPER-LEFT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-cupboard-left_0_DOOR-UPPER-RIGHT"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-left/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-left/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1799,7 +1799,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-left_0_ROOM73B2-CUPBOARD-LEFT-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1819,7 +1819,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-left_0_ROOM73B2-CUPBOARD-LEFT-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1839,7 +1839,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-left_0_ROOM73B2-CUPBOARD-LEFT-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1859,7 +1859,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cupboard-left_0_ROOM73B2-CUPBOARD-LEFT-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cupboard-left/meshes/ROOM73B2-CUPBOARD-LEFT-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1884,7 +1884,7 @@
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-toshiba-clacio-refrigerator_0_DRAWER-LOWER2"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-toshiba-clacio-refrigerator_0_DRAWER-MIDDLE-LEFT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-toshiba-clacio-refrigerator_0_DRAWER-MIDDLE-RIGHT"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-toshiba-clacio-refrigerator/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-toshiba-clacio-refrigerator/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1904,7 +1904,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-toshiba-clacio-refrigerator_0_ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET6_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1924,7 +1924,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-toshiba-clacio-refrigerator_0_ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1944,7 +1944,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-toshiba-clacio-refrigerator_0_ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1964,7 +1964,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-toshiba-clacio-refrigerator_0_ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -1984,7 +1984,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-toshiba-clacio-refrigerator_0_ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-toshiba-clacio-refrigerator/meshes/ROOM73B2-TOSHIBA-CLACIO-REFRIGERATOR-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2004,7 +2004,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-1400-middle_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-1400-middle/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-1400-middle/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2024,7 +2024,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-900-middle-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-900-middle-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-900-middle-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2044,7 +2044,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-900-middle-1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-900-middle-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-900-middle-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2064,7 +2064,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-bariera-900-left_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-bariera-900-left/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-bariera-900-left/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2084,7 +2084,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-askul-1400-desk_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-askul-1400-desk/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-askul-1400-desk/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2104,7 +2104,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-desk-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-desk-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-desk-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2124,7 +2124,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-desk-1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-desk-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-desk-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2144,7 +2144,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-desk-2_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-desk-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-desk-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2164,7 +2164,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-unknown-1200-desk-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-unknown-1200-desk-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-unknown-1200-desk-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2184,7 +2184,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-unknown-1200-desk-1_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-unknown-1200-desk-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-unknown-1200-desk-1/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2204,7 +2204,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-unknown-1200-desk-2_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-unknown-1200-desk-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-unknown-1200-desk-2/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2224,7 +2224,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-unknown-1200-desk-3_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-unknown-1200-desk-3/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-unknown-1200-desk-3/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2244,7 +2244,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-unknown-1200-desk-4_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-unknown-1200-desk-4/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-unknown-1200-desk-4/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2264,7 +2264,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-panelwall-0_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-panelwall-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-panelwall-0/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2284,7 +2284,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-sushi-cup_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-sushi-cup/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-sushi-cup/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2304,7 +2304,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-mug-cup_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-mug-cup/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-mug-cup/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2324,7 +2324,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-tray_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-tray/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-tray/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2345,7 +2345,7 @@
         <srdl2-comp:urdfName>room73b2-kettle_0_ROOM73B2-KETTLE-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kettle_0_HANDLE-JOINT"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kettle/meshes/ROOM73B2-KETTLE-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kettle/meshes/ROOM73B2-KETTLE-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2365,7 +2365,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kettle_0_ROOM73B2-KETTLE-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kettle/meshes/ROOM73B2-KETTLE-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kettle/meshes/ROOM73B2-KETTLE-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2385,7 +2385,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-knife_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-knife/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-knife/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2405,7 +2405,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-sponge_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-sponge/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-sponge/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2425,7 +2425,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-cup_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-cup/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-cup/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2445,7 +2445,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-dish_0_nil_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-dish/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-dish/meshes/nil_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2471,7 +2471,7 @@
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kitchen-shelf_0_DOOR-3"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kitchen-shelf_0_DOOR-4"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kitchen-shelf_0_DOOR-5"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2491,7 +2491,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen-shelf_0_ROOM73B2-KITCHEN-SHELF-BODYSET7_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET7_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET7_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2511,7 +2511,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen-shelf_0_ROOM73B2-KITCHEN-SHELF-BODYSET6_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2531,7 +2531,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen-shelf_0_ROOM73B2-KITCHEN-SHELF-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2551,7 +2551,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen-shelf_0_ROOM73B2-KITCHEN-SHELF-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2571,7 +2571,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen-shelf_0_ROOM73B2-KITCHEN-SHELF-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2591,7 +2591,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen-shelf_0_ROOM73B2-KITCHEN-SHELF-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen-shelf/meshes/ROOM73B2-KITCHEN-SHELF-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2622,7 +2622,7 @@
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kitchen_0_DRAWER-3"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kitchen_0_TAP-HANDLE-JOINT"/>
         <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-kitchen_0_TAP-TUBE-JOINT"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOT_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2642,7 +2642,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET3_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET3_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2662,7 +2662,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET2_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET2_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2682,7 +2682,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET8_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET8_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET8_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2702,7 +2702,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET9_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET9_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET9_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2722,7 +2722,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET10_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET10_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET10_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2742,7 +2742,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET4_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET4_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2762,7 +2762,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2782,7 +2782,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET6_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2802,7 +2802,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET7_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET7_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET7_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2822,7 +2822,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET12_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET12_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET12_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
@@ -2842,7 +2842,7 @@
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-kitchen_0_ROOM73B2-KITCHEN-BODYSET11_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
-        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET11_link_mesh.dae</knowrob:pathToCadModel>
+        <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/models/room73b2-kitchen/meshes/ROOM73B2-KITCHEN-BODYSET11_link_mesh.dae</knowrob:pathToCadModel>
         <srdl2-comp:mesh_scale rdf:datatype="&xsd;string">1.000000 1.000000 1.000000</srdl2-comp:mesh_scale>
     </owl:NamedIndividual>
 
