@@ -51,6 +51,7 @@
       get_objects_connected_to_object/2,
       get_pre_grasp_position/4,
       get_grasp_position/4,
+      get_post_grasp_position/4,
 
       get_object_reference_frame/2,
 
@@ -1249,6 +1250,9 @@ get_pre_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
 
 get_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
   get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', T).
+
+get_post_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
+  get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasPostgraspTransform', T).
 
 %% assert_ungrasp(+Grasp) is det.
 %
