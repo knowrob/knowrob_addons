@@ -313,8 +313,8 @@ test(assembly_PorscheBody1SideGrasp_not_specializable1) :-
 test(assembly_PorscheBody1SideGrasp_not_specializable2) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  owl_planning:owl_restriction_assert(restriction(NeedsInv, some_values_from(
-                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+  owl_restriction_assert(restriction(NeedsInv, some_values_from(
+                         restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
   % o ChassisWithAxles usesConnection only(AxleSnapInBack)
   % o AxleSnapInBack consumesAffordance_1(AxleSnapInFBack), needsAffordance_only(AxleSnapInAffordance)
   % --> fail because PorscheBody1SideGrasp not specializable to AxleSnapInAffordance
@@ -342,14 +342,14 @@ test(assembly_AxleSnapInBack_needsAffordance_domain) :-
 test(assembly_Chassis1AxleSnapInFBack_specializable) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  owl_planning:owl_restriction_assert(restriction(NeedsInv, some_values_from(
-                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+  owl_restriction_assert(restriction(NeedsInv, some_values_from(
+                         restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
   owl_specializable(sim:'Chassis1AxleSnapInFBack', Restr).
 test(assembly_Chassis1AxleSnapInFFront_not_specializable) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  owl_planning:owl_restriction_assert(restriction(NeedsInv, some_values_from(
-                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+  owl_restriction_assert(restriction(NeedsInv, some_values_from(
+                         restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
   \+ owl_specializable(parts:'AxleSnapInFFront', Restr).
   
 % o CarBody hasAffordance 1 BodyChassisSnapInF
@@ -357,13 +357,13 @@ test(assembly_Chassis1AxleSnapInFFront_not_specializable) :-
 % o ChassisSnapInConnection needsAffordance only BodySnapInAffordance
 test(assembly_ChassisSnapInConnection_specializable1) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
-  owl_planning:owl_restriction_assert(restriction(knowrob_assembly:'needsAffordance', some_values_from(
-                                      restriction(HasInv,
-                                      cardinality(1, 1, parts:'CarBody')))), Restr),
+  owl_restriction_assert(restriction(knowrob_assembly:'needsAffordance', some_values_from(
+                         restriction(HasInv,
+                         cardinality(1, 1, parts:'CarBody')))), Restr),
   owl_specializable(parts:'ChassisSnapInConnection', Restr).
 test(assembly_ChassisSnapInConnection_specializable2) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
-  owl_planning:owl_restriction_assert(restriction(knowrob_assembly:'needsAffordance', some_values_from(
+  owl_restriction_assert(restriction(knowrob_assembly:'needsAffordance', some_values_from(
                                       restriction(HasInv,
                                       cardinality(1, 1, parts:'CarBody')))), Restr),
   rdf_instance_from_class(parts:'ChassisSnapInConnection', ChassisSnapInConnection),
@@ -372,7 +372,7 @@ test(assembly_ChassisSnapInConnection_specializable2) :-
 test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  owl_planning:owl_restriction_assert(restriction(knowrob_assembly:'hasAffordance', some_values_from(
+  owl_restriction_assert(restriction(knowrob_assembly:'hasAffordance', some_values_from(
                                       restriction(NeedsInv, some_values_from(
                                       restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))), Restr),
   % o ChassisWithAxles usesConnection AxleSnapInBack
@@ -386,7 +386,7 @@ test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance', HasInv),
-  owl_planning:owl_restriction_assert(restriction(HasInv, some_values_from(
+  owl_restriction_assert(restriction(HasInv, some_values_from(
                                       restriction(knowrob_assembly:'hasAffordance', some_values_from(
                                       restriction(NeedsInv, some_values_from(
                                       restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))))), Restr),
