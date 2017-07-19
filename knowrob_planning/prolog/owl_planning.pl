@@ -92,6 +92,7 @@ owl_most_specific_specializations(Base, Types, List) :-
 owl_type_of(Resource, Cls) :-
   bagof(X, rdf_has(Resource, rdf:type, X), Types),
   member(Cls, Types),
+  Cls \= 'http://www.w3.org/2002/07/owl#NamedIndividual',
   % ensure there is no class in Types that is more specific then Cls
   forall((
      member(Cls_other, Types),
