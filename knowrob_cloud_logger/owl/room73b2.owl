@@ -147,6 +147,18 @@
         <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
 
+    <owl:NamedIndividual rdf:about="&room73b2;SemanticMapPerception_22pi9QPg">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:eventOccursAt rdf:resource="&room73b2;Transformation_aEUccQGV"/>
+        <knowrob:startTime rdf:resource="&room73b2;timepoint_0000000001"/>
+        <knowrob:objectActedOn rdf:resource="&room73b2;room73b2_1_room73b2_root_link"/>
+    </owl:NamedIndividual>
+    <owl:NamedIndividual rdf:about="&room73b2;Transformation_aEUccQGV">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">0 2 0.000000</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
+    </owl:NamedIndividual>
+
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-73b2-ground_0_nil_link">
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-73b2-ground_0_nil_link</srdl2-comp:urdfName>
