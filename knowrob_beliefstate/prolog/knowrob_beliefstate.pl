@@ -58,6 +58,7 @@
       assert_object_at_location/3,
       assert_grasp_on_object/5,
       assert_ungrasp/1,
+      assert_ungrasp/2,
       assert_assemblage_created/6,
       ensure_assemblage_transforms/5,
       assert_assemblage_destroyed/1,
@@ -1254,21 +1255,30 @@ get_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
 get_post_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
   get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasPostgraspTransform', T).
 
-%% assert_ungrasp(+Grasp) is det.
+%% assert_ungrasp(+ObjectId, +GripperId) is det.
 %
-% Ensures Grasp becomes inactive and releases any objects it affects.
+% Ensures that the Grasp for ObjectId becomes inactive and releases any objects it affects.
+% GripperId should be used, if the Object is held with multiple hands.
 % 
 %
 % @param Grasp  anyURI, the Grasp id
 %
-assert_ungrasp(Grasp) :-
-  owl_individual_of(Grasp, assembly:'TemporaryGrasp'),
+assert_ungrasp(ObjectId) :-
+  assert_ungrasp(ObjectId, _).
+
+assert_ungrasp(ObjectId, GripperId) :-
+  get_current_grasps_on_object(ObjectId, GraspsList),
+  member(Grasp, GraspsList),
+  nth0(0, Grasp, GripperId),
+  nth0(1, Grasp, ObjectId),
+  nth0(4, Grasp, GraspId),
+  owl_individual_of(GraspId, assembly:'TemporaryGrasp'),
   % First, get all the objects in the Grasp (note: if Grasp is already destroyed, this list is empty),
-  get_objects_in_grasp(Grasp, Objects),
+  get_objects_in_grasp(GraspId, Objects),
   % deactivate the grasp for each object; must also remove it from any mobile reference parts linked to the objects
-  ungrasp_objects(Objects, Grasp, [], DirtyObjects),
+  ungrasp_objects(Objects, GraspId, [], DirtyObjects),
   % finally deactivate the grasp itself
-  deactivate_temporal_extension(Grasp),
+  deactivate_temporal_extension(GraspId),
   mark_dirty_objects(DirtyObjects),
   !.
 
