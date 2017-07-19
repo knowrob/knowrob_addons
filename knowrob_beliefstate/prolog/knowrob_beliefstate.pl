@@ -852,7 +852,8 @@ get_object_property_value_restriction(Type, Rel, Aff, Rest) :-
   findall(SP, owl_has(SP, 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf', Rel), SPs),
   member(RelX, [Rel|SPs]),
   % Find a superclass that is a restriction
-  owl_subclass_of(Type, Super),
+  %% owl_subclass_of(Type, Super),
+  rdfs_subclass_of(Type, Super),
   rdfs_individual_of(Super, owl:'Restriction'),
   % of the form RelX hasValue Aff
   rdf_has(Super, owl:'onProperty', RelX),
