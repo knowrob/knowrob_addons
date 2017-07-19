@@ -108,7 +108,6 @@ owl_type_of(Resource, Cls) :-
 
 owl_satisfies_restriction_up_to(Resource, Restr, UpTo) :-
   owl_description(Restr, Descr),
-  % TODO: think about this, caller can't distinguish between "can't" and "no need to"
   owl_specializable_(Resource,Descr),
   owl_satisfies_restriction_up_to_internal(Resource, Descr, UpTo).
 
