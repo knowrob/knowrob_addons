@@ -519,7 +519,7 @@ get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation,
   knowrob_math:parse_vector(Rot, RotationVector),
   % assemble return value
   =(Pose, [RefFrame, TransformationVector, RotationVector]),!.
-  
+
 get_associated_transform(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation, Transform) :-
   % find a transform individual based on Relation to ParSpec
   rdf_has(ParSpec, Relation, TrIn),
