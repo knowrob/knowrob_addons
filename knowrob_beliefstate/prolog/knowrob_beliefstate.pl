@@ -63,7 +63,8 @@
       ensure_assemblage_transforms/5,
       assert_assemblage_destroyed/1,
 
-      create_assembly_agenda/3
+      create_assembly_agenda/3,
+      reset_beliefstate/0
     ]).
 
 :- use_module(library('jpl')).
@@ -1581,3 +1582,17 @@ create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, Ne
 create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
   create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _).
 
+reset_beliefstate() :-
+  (assert_assemblage_destroyed(_); true),
+  (assert_ungrasp(_,_); true),
+  get_known_object_ids(ObjectIds),
+  (forall(member(ObjectId, ObjectIds),(
+  rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
+  rdf_has(TempRei, assembly:'hasReferencePart', Ref), 
+  get_object_transform(ObjectId, TempRei, Ref, Transform),
+  owl_individual_of(ObjectId, ObjectType),!,
+  get_object_reference_frame(ObjectId, TargetFrameAtom),
+  atom_string(TargetFrameAtom, TargetFrameStr),
+  nth0(1, Transform, TargetFrameStr),!,
+  replace_object_transforms(ObjectId, Transform))); true),
+  mark_dirty_objects(ObjectIds).
