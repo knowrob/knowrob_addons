@@ -64,7 +64,7 @@ generate_heat_maps :-
 
 generate_feature_files(Features) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
-  jpl_call(GausInterface, 'writeFeature', [Features], _X).
+  jpl_call(GausInterface, 'writeSimpleFeatures', [Features], _X).
 
 generate_feature_files(FloatFeatures, StringFeatures) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),

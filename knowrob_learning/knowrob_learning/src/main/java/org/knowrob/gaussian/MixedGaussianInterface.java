@@ -66,6 +66,36 @@ public class MixedGaussianInterface
 
 		}
 		else System.out.println("Feature size is not correct!");
+	}
+
+        public void writeSimpleFeatures(float[][] features)
+	{
+		if(features[0].length == 7)
+		{
+                        try
+			{
+				PrintWriter writer = new PrintWriter( "/home/ros/user_data/relative_poses.csv", "UTF-8");
+				writer.println("REL-X,REL-Y,REL-Z,REL-THETA");
+				
+				for(int i = 0; i < features.length; i++)
+				{
+					 //z = qz / sqrt(1-qw*qw)
+					float theta = features[i][5] / (float)Math.sqrt(1 - features[i][6] * features[i][6]);
+					writer.println(features[i][0] + ", " +  features[i][1] + ", " + features[i][2] + ", " + theta);
+				}
+				writer.close();			
+
+
+			}
+			catch (Exception e)
+			{
+			       e.printStackTrace();
+			}
+
+
+
+		}
+		else System.out.println("Feature size is not correct!");
 	}	
 
 	public void writeFeature(float[][] floatFeatures, String[][] stringFeatures)
