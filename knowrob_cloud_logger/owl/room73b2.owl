@@ -983,7 +983,7 @@
 
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET6_link">
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
-        <rdf:type rdf:resource="&knowrob;IAIFridgeDoor"/>
+        <rdf:type rdf:resource="&knowrob;IAIDrawer"/>
         <srdl2-comp:urdfName>room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET6_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hitachi-fiesta-refrigerator/meshes/ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET6_link_mesh.dae</knowrob:pathToCadModel>
@@ -1004,7 +1004,7 @@
 
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET5_link">
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
-        <rdf:type rdf:resource="&knowrob;IAIFridgeDoor"/>
+        <rdf:type rdf:resource="&knowrob;IAIDrawer"/>
         <srdl2-comp:urdfName>room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET5_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://eusurdf/textured_models/room73b2-hitachi-fiesta-refrigerator/meshes/ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET5_link_mesh.dae</knowrob:pathToCadModel>
