@@ -34,7 +34,7 @@ public class MixedGaussianInterface
 
 	}
 
-	public void writeFeature(float[][] features)
+	public void writeFeature(double[][] features)
 	{
 		if(features[0].length == 4)
 		{
@@ -68,7 +68,7 @@ public class MixedGaussianInterface
 		else System.out.println("Feature size is not correct!");
 	}	
 
-	public void writeFeature(float[][] floatFeatures, String[][] stringFeatures)
+	public void writeFeature(double[][] floatFeatures, String[][] stringFeatures)
 	{
 		if(floatFeatures.length == stringFeatures.length && floatFeatures[0].length == 4 && stringFeatures[0].length == 2)
 		{
