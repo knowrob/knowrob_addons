@@ -74,7 +74,7 @@ class ObjectStatePublisher(object):
         return r
 
     def dirty_cb(self, srv_msg):
-        rospy.logdebug('got dirty object request {}'.format(srv_msg))
+        rospy.loginfo('got dirty object request {}'.format(srv_msg))
         r = DirtyObjectResponse()
         r.error_code = r.SUCCESS
         for object_id in srv_msg.object_ids:
@@ -134,8 +134,12 @@ class ObjectStatePublisher(object):
     def load_object_transform(self, object_id):
         q = "get_object_transform('{}', A)".format(object_id)
         solutions = self.prolog_query(q)
-        self.objects[object_id].update_transform(*solutions[0]['A'])
-        rospy.logdebug("'{}' has transform: {}".format(object_id, self.objects[object_id].transform))
+        if len(solutions) > 0:
+            self.objects[object_id].update_transform(*solutions[0]['A'])
+            rospy.logdebug("'{}' has transform: {}".format(object_id, self.objects[object_id].transform))
+        else:
+            self.objects[object_id].update_transform(object_id, 'map', [0,0,0],[0,0,0,1])
+            rospy.logerr("'{}' has no active transform!".format(object_id))
 
     def load_object_mesh(self, object_id):
         q = "get_object_mesh_path('{}', A)".format(object_id)

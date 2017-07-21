@@ -1268,6 +1268,11 @@ assert_ungrasp(ObjectId) :-
   assert_ungrasp(ObjectId, _).
 
 assert_ungrasp(ObjectId, GripperId) :-
+  assert_ungrasp_without_service_call(ObjectId, GripperId, DirtyObjects),
+  mark_dirty_objects(DirtyObjects),
+  !.
+
+assert_ungrasp_without_service_call(ObjectId, GripperId, DirtyObjects) :-
   get_current_grasps_on_object(ObjectId, GraspsList),
   member(Grasp, GraspsList),
   nth0(0, Grasp, GripperId),
@@ -1280,7 +1285,6 @@ assert_ungrasp(ObjectId, GripperId) :-
   ungrasp_objects(Objects, GraspId, [], DirtyObjects),
   % finally deactivate the grasp itself
   deactivate_temporal_extension(GraspId),
-  mark_dirty_objects(DirtyObjects),
   !.
 
 %% assert_assemblage_created(+AssemblageType, +ConnectionType, +ReferenceObject, +PrimaryObject, +SecondaryObject, -Assemblage) is det.
@@ -1453,6 +1457,11 @@ ensure_connection_transform(Connection, TransformId) :-
 % @param Assemblage  anyURI, the Assemblage id
 %
 assert_assemblage_destroyed(Assemblage) :-
+  assert_assemblage_destroyed_without_service_call(Assemblage, DirtyObjects),
+  mark_dirty_objects(DirtyObjects),
+  !.
+
+assert_assemblage_destroyed_without_service_call(Assemblage, DirtyObjects) :-
   owl_individual_of(Assemblage, assembly:'Assemblage'),
   % First, get all the objects in the Assemblage (note: if Assemblage is already destroyed, this list is empty),
   get_objects_in_assemblage(Assemblage, DirtyObjects),
@@ -1483,9 +1492,7 @@ assert_assemblage_destroyed(Assemblage) :-
   get_invalid_grasps_on_object(SOR, SInvalidGrasps),
   remove_grasp_list(MRPPrimary, PInvalidGrasps),
   remove_grasp_list(MRPSecondary, SInvalidGrasps),
-  mark_dirty_objects(DirtyObjects),
   !.
-
 
 get_leaf_subtype(SuperType, LeafSubType) :-
   =(SuperType, LeafSubType).
@@ -1583,16 +1590,14 @@ create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
   create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _).
 
 reset_beliefstate() :-
-  (assert_assemblage_destroyed(_); true),
-  (assert_ungrasp(_,_); true),
-  get_known_object_ids(ObjectIds),
-  (forall(member(ObjectId, ObjectIds),(
-  rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
-  rdf_has(TempRei, assembly:'hasReferencePart', Ref), 
-  get_object_transform(ObjectId, TempRei, Ref, Transform),
-  owl_individual_of(ObjectId, ObjectType),!,
-  get_object_reference_frame(ObjectId, TargetFrameAtom),
-  atom_string(TargetFrameAtom, TargetFrameStr),
-  nth0(1, Transform, TargetFrameStr),!,
-  replace_object_transforms(ObjectId, Transform))); true),
+  (assert_assemblage_destroyed_without_service_call(_,_) -> true; true),
+  (assert_ungrasp_without_service_call(_,_,_) -> true; true),
+  findall(ObjectId, 
+    (rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
+    rdf_retractall(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',_), 
+    rdf_retractall(TempRei,'http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent',_),
+    rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
+    rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',TempRei)), ObjectIds),
   mark_dirty_objects(ObjectIds).
+
+
