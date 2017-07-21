@@ -1858,6 +1858,8 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#GripperToolFrameSymbol">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameSymbol"/>
+        <knowrob_paramserver:standsFor rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#LeftGripperFrameName"/>
+        <knowrob_paramserver:standsFor rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#RightGripperFrameName"/>
     </owl:NamedIndividual>
     
 
@@ -1882,6 +1884,16 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Left">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Side"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#LeftGripperFrameName -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#LeftGripperFrameName">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">left_gripper_tool_frame</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForGripperType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">left_gripper</knowrob_paramserver:validForGripperType>
     </owl:NamedIndividual>
     
 
@@ -1962,6 +1974,16 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Right">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Side"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#RightGripperFrameName -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#RightGripperFrameName">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">right_gripper_tool_frame</knowrob_paramserver:hasValue>
+        <knowrob_paramserver:validForGripperType rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">right_gripper</knowrob_paramserver:validForGripperType>
     </owl:NamedIndividual>
     
 

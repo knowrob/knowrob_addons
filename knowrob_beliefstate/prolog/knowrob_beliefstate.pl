@@ -95,10 +95,10 @@ quote_id(X, O) :-
   string_concat(Ox, '"', O).
 
 % TODO: send a ros service call to the ROS object state publisher node. Parameter is a list of object ids to mark as dirty.
-mark_dirty_objects([]).
+%% mark_dirty_objects([]).
 
 mark_dirty_objects(Objs) :-
-  \+ =(Objs, []),
+  %% \+ =(Objs, []),
 %  service_call_mark_dirty_objects(Objs),
   findall(O, (member(X, Objs), quote_id(X, O)), Os),
   atomic_list_concat(Os, ',', OsS),
@@ -1589,15 +1589,32 @@ create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, Ne
 create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
   create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _).
 
+%% reset_beliefstate() :-
+%%   (assert_assemblage_destroyed_without_service_call(_,_) -> true; true),
+%%   (assert_ungrasp_without_service_call(_,_,_) -> true; true),
+%%   findall(ObjectId, 
+%%     (
+%%       rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
+%%       rdf_retractall(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',_), 
+%%       rdf_retractall(TempRei,'http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent',_),
+%%       rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
+%%       rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',TempRei)
+%%       ), 
+%%     ObjectIds),
+%%   mark_dirty_objects(ObjectIds).
+
 reset_beliefstate() :-
   (assert_assemblage_destroyed_without_service_call(_,_) -> true; true),
   (assert_ungrasp_without_service_call(_,_,_) -> true; true),
   findall(ObjectId, 
-    (rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
-    rdf_retractall(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',_), 
-    rdf_retractall(TempRei,'http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent',_),
-    rdf_has(ObjectId, paramserver:'hasInitialTransform', TempRei), 
-    rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',TempRei)), ObjectIds),
-  mark_dirty_objects(ObjectIds).
-
-
+    (
+      rdfs_individual_of(ObjectId, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
+      rdf_has(ObjectId, paramserver:'hasTransform', TempRei), 
+      rdf_retractall(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',_), 
+      rdf_retractall(TempRei,'http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent',_),
+      (rdf_has(ObjectId, paramserver:'hasInitialTransform', InitialTempRei) -> 
+        rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', InitialTempRei);
+        (rdf_retractall(ObjectId,_,_),false))
+      ), 
+    DirtyObjectIds),
+  mark_dirty_objects(DirtyObjectIds).

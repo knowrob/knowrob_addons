@@ -41,9 +41,6 @@ class ThorinObject(object):
         marker.id = 1337
         marker.ns = self.object_name
         marker.color = self.color
-        # marker.color.r = 1
-        # marker.color.g = 1
-        # marker.color.b = 1
 
         marker.scale.x = 1
         marker.scale.y = 1
@@ -51,8 +48,14 @@ class ThorinObject(object):
         marker.frame_locked = True
         marker.pose.position = Point(*self.transform[-2])
         marker.pose.orientation = Quaternion(*self.transform[-1])
-        # marker.mesh_resource = self.mesh_path[:-4] + '.dae'
         marker.mesh_resource = self.mesh_path
+        return marker
+
+    def get_del_marker(self):
+        marker = Marker()
+        marker.action = Marker.DELETE
+        marker.id = 1337
+        marker.ns = self.object_name
         return marker
 
 class ObjectStatePublisher(object):
@@ -77,6 +80,7 @@ class ObjectStatePublisher(object):
         rospy.loginfo('got dirty object request {}'.format(srv_msg))
         r = DirtyObjectResponse()
         r.error_code = r.SUCCESS
+        self.load_object_ids()
         for object_id in srv_msg.object_ids:
             if not self.load_object(object_id):
                 rospy.logdebug("object '{}' unknown".format(object_id))
@@ -105,8 +109,8 @@ class ObjectStatePublisher(object):
         self.publish_object_markers()
 
     def load_object(self, object_id):
-        if object_id not in self.objects.keys():
-            self.load_object_ids()
+        # if object_id not in self.objects.keys():
+        #     self.load_object_ids()
         if object_id in self.objects.keys():
             self.load_object_color(object_id)
             self.load_object_mesh(object_id)
@@ -120,9 +124,12 @@ class ObjectStatePublisher(object):
         q = 'get_known_object_ids(A)'
         solutions = self.prolog_query(q)
         for object_id in solutions[0]['A']:
-            #TODO: remove this dirty hack when the test objects are removed from the knowledge base
-            if 'Test' not in object_id and object_id not in self.objects.keys():
+            if object_id not in self.objects.keys():
                 self.objects[object_id] = ThorinObject()
+        for object_id in self.objects.keys():
+            if object_id not in solutions[0]['A']:
+                self.marker_publisher.publish(self.objects[object_id].get_del_marker())
+                self.objects.pop(object_id)
         rospy.loginfo('Loaded object ids: {}'.format([str(x) for x in self.objects.keys()]))
 
     def load_object_color(self, object_id):
