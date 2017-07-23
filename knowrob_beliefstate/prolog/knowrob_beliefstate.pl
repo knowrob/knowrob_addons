@@ -52,6 +52,7 @@
       get_pre_grasp_position/4,
       get_grasp_position/4,
       get_post_grasp_position/4,
+      get_connection_transform/4,
 
       get_object_reference_frame/2,
 
