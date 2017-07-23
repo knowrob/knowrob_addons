@@ -80,7 +80,7 @@ public class MixedGaussianInterface
 				for(int i = 0; i < features.length; i++)
 				{
 					 //z = qz / sqrt(1-qw*qw)
-					float theta = features[i][5] / (float)Math.sqrt(1 - features[i][6] * features[i][6]);
+					float theta = 180 *  features[i][5] / (float)Math.sqrt(1 - features[i][6] * features[i][6]);
 					writer.println(features[i][0] + ", " +  features[i][1] + ", " + features[i][2] + ", " + theta);
 				}
 				writer.close();			
