@@ -18,7 +18,6 @@ public class CRAMServiceClient extends AbstractNodeMain {
 	
 	
 	public static CRAMServiceClient get() {
-		System.out.println("CRAMServiceClient");
 		if(instance==null) instance = new CRAMServiceClient();
 		return instance;
 	}
