@@ -52,6 +52,9 @@
       get_pre_grasp_position/4,
       get_grasp_position/4,
       get_post_grasp_position/4,
+      get_connection_transform/4,
+      get_possible_grasps_on_object/2,
+      get_possible_grasps_on_object/3,
 
       get_object_reference_frame/2,
 
@@ -594,6 +597,25 @@ get_currently_possible_grasps_on_object(Object, Grasps) :-
 %
 get_currently_possible_grasps_on_object(Object, Gripper, Grasps) :-
   findall(A, get_free_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
+  findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
+
+%% get_currently_possible_grasps_on_object(+Object, -Grasps) is det.
+%
+% Returns a list of GraspSpecification Ids for Object.
+% A GraspSpecification is returned if all the affordances it needs are not blocked
+% by an active grasp or connection.
+%
+% @param Object  anyURI, the object id
+% @param Grasps  [anyURI*], grasps descriptions
+%
+get_possible_grasps_on_object(Object, Grasps) :-
+  findall(A, get_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
+  findall(G, get_valid_grasp_for_object(Object, _, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
+
+get_possible_grasps_on_object(Object, Gripper, Grasps) :-
+  findall(A, get_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
   findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), GraspsList),
   list_to_set(GraspsList, Grasps).
 
