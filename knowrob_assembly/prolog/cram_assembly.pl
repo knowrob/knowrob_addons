@@ -16,6 +16,22 @@
 
 :- rdf_db:rdf_register_prefix(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
 
+
+cram_service_client(Client) :-
+  (\+ current_predicate(v_service_client, _)),
+  jpl_call('org.knowrob.assembly.CRAMServiceClient', get, [], Client),
+  jpl_list_to_array(['org.knowrob.assembly.CRAMServiceClient'], Arr),
+  jpl_call('org.knowrob.utils.ros.RosUtilities', runRosjavaNode, [Client, Arr], _),
+  assert(v_service_client(Client)),!.
+cram_service_client(Client) :-
+  current_predicate(v_service_client, _),
+  v_service_client(Client).
+
+cram_service_perform(Designator) :-
+  cram_service_client(Client),
+  jpl_call(Client, 'performDesignator', [Designator], _).
+
+
 cram_assembly_agenda_perform(_, item(integrate,S,P,_,_), Domain, O) :-
   once((
     cram_assembly_part_select(Domain,P,O) ;
@@ -47,7 +63,8 @@ cram_assembly_perform(Assemblage) :-
   
 cram_assembly_perform_(Parts) :-
   % TODO: call perform action designator service
-  write('      CRAM: perform assembly '), rdf_write_readable(Parts), nl.
+  write('      CRAM: perform assembly '), rdf_write_readable(Parts), nl,
+  catch(cram_service_perform('foo bar baz'), _, true).
 
 assemblage_parent(Assemblage, Parent) :-
   rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn1),
