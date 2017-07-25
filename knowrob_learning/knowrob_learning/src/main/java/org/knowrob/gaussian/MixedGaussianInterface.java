@@ -17,15 +17,18 @@ public class MixedGaussianInterface
 		
 		try
 		{
-			Runtime.getRuntime().exec("rm " + "/home/ros/user_data/heatmap_mixture.pdf" + " " + "/home/ros/user_data/heatmap_mixture.jpg"
+			Process p_clean = Runtime.getRuntime().exec("rm " + "/home/ros/user_data/heatmap_mixture.pdf" + " " + "/home/ros/user_data/heatmap_mixture.jpg"
 				+ "/home/ros/user_data/heatmap_multivar.pdf" + " " + "/home/ros/user_data/heatmap_multivar.jpg"
 				, null, new File(script_path));
-			Runtime.getRuntime().exec(script_path + "/plot.sh", null, new File(script_path));
-			Runtime.getRuntime().exec("convert -density 800 " + "/home/ros/user_data/heatmap_mixture.pdf" + " " + "/home/ros/user_data/heatmap_mixture.jpg"
+                        p_clean.waitFor();
+			Process p_plot = Runtime.getRuntime().exec(script_path + "/plot.sh", null, new File(script_path));
+                        p_plot.waitFor();
+			Process p_convert1 = Runtime.getRuntime().exec("convert -density 800 " + "/home/ros/user_data/heatmap_mixture.pdf" + " " + "/home/ros/user_data/heatmap_mixture.jpg"
 				, null, new File(script_path));
-			Runtime.getRuntime().exec("convert -density 800 " + "/home/ros/user_data/heatmap_multivar.pdf" + " " + "/home/ros/user_data/heatmap_multivar.jpg"
+                        p_convert1.waitFor();
+			Process p_convert2 = Runtime.getRuntime().exec("convert -density 800 " + "/home/ros/user_data/heatmap_multivar.pdf" + " " + "/home/ros/user_data/heatmap_multivar.jpg"
 				, null, new File(script_path));
-			
+			p_convert2.waitFor();
 		}
 		catch (Exception e)
 		{
