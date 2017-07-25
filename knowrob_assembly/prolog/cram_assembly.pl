@@ -63,8 +63,27 @@ cram_assembly_perform(Assemblage) :-
   
 cram_assembly_perform_(Parts) :-
   % TODO: call perform action designator service
-  write('      CRAM: perform assembly '), rdf_write_readable(Parts), nl,
-  catch(cram_service_perform('foo bar baz'), _, true).
+  write('    [CRAM] perform assembly '), rdf_write_readable(Parts), nl,
+  cram_assembly_designator(Parts, Designator),
+  catch(cram_service_perform(Designator), _, true).
+
+cram_assembly_designator(Parts, Designator) :-
+  atomic_list_concat([
+      '[    type: assembly,'
+  ], '', Head),
+  findall(X, cram_assembly_part_designator(Parts,X), Part_designators),
+  append([Head|Part_designators], [']'], List),
+  atomic_list_concat(List, '\n', Designator).
+
+cram_assembly_part_designator(Parts, Designator) :-
+  member([Affordance,Part],Parts),
+  ( last(Parts,[Affordance,Part]) -> Trailing='' ; Trailing=',' ),
+  atomic_list_concat([
+      '     obj: [\n',
+      '         name: \'', Part, '\',\n',
+      '         affordance: [ name: \'', Affordance, '\' ]\n',
+      '     ]',Trailing
+  ], '', Designator).
 
 assemblage_parent(Assemblage, Parent) :-
   rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn1),
@@ -90,7 +109,7 @@ assemblage_parent(Assemblage, Parent) :-
 
 assemblage_parts(Assemblage, Parts) :-
   rdf_has(Assemblage, knowrob_assembly:'usesConnection', Connection),
-  findall((Affordance,Part), (
+  findall([Affordance,Part], (
     rdf_has(Connection, knowrob_assembly:'consumesAffordance', Affordance),
     rdf_has(Part, knowrob_assembly:'hasAffordance', Affordance)
   ), Parts).

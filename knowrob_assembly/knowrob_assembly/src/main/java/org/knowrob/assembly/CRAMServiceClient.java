@@ -39,7 +39,7 @@ public class CRAMServiceClient extends AbstractNodeMain {
 	
 	public void performDesignator(final String designator) {
 		waitForNode();
-		System.out.println("    CRAM: perform-designator");
+		System.out.println("    [CRAM] perform-designator");
 		System.out.println(designator);
 		/*
 		final std_msgs.String request = client.newMessage();
