@@ -123,6 +123,7 @@ class ObjectStatePublisher(object):
     def load_object_ids(self):
         q = 'get_known_object_ids(A)'
         solutions = self.prolog_query(q)
+        # self.objects = defaultdict(lambda: ThorinObject())
         for object_id in solutions[0]['A']:
             if object_id not in self.objects.keys():
                 self.objects[object_id] = ThorinObject()
