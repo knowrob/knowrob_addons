@@ -738,6 +738,14 @@ get_reference_frame(Ref, RefFrame) :-
   % rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
   rdf_has(Ref, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
 
+get_reference_frame(Ref, RefFrame) :-
+  owl_same_as(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
+  %% TODO: currently we are using this FrameSymbol directly. In the future we may want to indirect on environment, for example.
+  % rdf_has(Ref, paramserver:'standsFor', F),
+  % rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
+  \+ rdf_has(Ref, paramserver:'hasValue', literal(type(xsd:'string', _))),
+  =(RefFrame, 'map').
+
 add_transform_to_object_by_reference(Object, Ref, TObj) :-
   get_reference_frame(Ref, RefFrame),
   nth0(0, TObj, OldRefFrame),
@@ -1179,7 +1187,7 @@ ungrasp_objects([Object|RestObjects], Grasp, CrDirtyObjects, DirtyObjects) :-
 
 %% Find all the active TemporaryTransforms that use an active TemporaryGrasp as reference, then collect all these TemporaryGrasps
 get_indirect_grasps_on_object(Object, Grasps) :-
-  findall(G, (rdf_has(Object, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', T), temporal_extent_active(T), rdf_has(T, 'http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart', G)), GraspList),
+  findall(G, (rdf_has(Object, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', T), temporal_extent_active(T), rdf_has(T, 'http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart', G), rdfs_individual_of(G, 'http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp')), GraspList),
   list_to_set(GraspList, Grasps).
 
 %% Ensures that an Assemblage has an assembly:'hasSubassemblage' relation to its component assemblages
@@ -1219,6 +1227,11 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
 % WARNING: an assumption is made about the status of newly created objects: a new object is free, ie. outside of grasps or assemblies.
 % You can use subsequent queries to assert grasps and asseblage status.
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
+  assert_object_at_location_without_service_call(ObjectType, ObjectId, Transform),
+  mark_dirty_objects([ObjectId]),
+  !.
+
+assert_object_at_location_without_service_call(ObjectType, ObjectId, Transform) :-
   % Extract what the name for the object frame should be ...
   nth0(1, Transform, ObjectFrame),
   % Assert that the object exists ...
@@ -1239,7 +1252,6 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
   ensure_object_shape_data(ObjectType, ObjectId),
   % ... create affordances for the object in accordance to its class restrictions ...
   ensure_object_affordances(ObjectType, ObjectId),
-  mark_dirty_objects([ObjectId]),
   !.
 
 %% assert_grasp_on_object(+Gripper, +Object, +Robot, +GraspSpecification, -GraspRei) is det.
@@ -1623,15 +1635,15 @@ reset_beliefstate() :-
       rdf_retractall(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',_), 
       rdf_retractall(TempRei,'http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent',_),
       (rdf_has(ObjectId, paramserver:'hasInitialTransform', InitialTempRei) -> 
-        rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', InitialTempRei);
+        (owl_individual_of(ObjectId, ObjectType),
+          get_associated_transform(_, ObjectId, _, InitialTempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
+          owl_direct_subclass_of(ObjectType, 'http://knowrob.org/kb/thorin_parts.owl#PlasticPiece'),!,
+          rdf_retractall(ObjectId,_,_),
+          assert_object_at_location_without_service_call(ObjectType, ObjectId, Transform),
+          rdf_assert(ObjectId, paramserver:'hasInitialTransform', InitialTempRei)
+          );
         (rdf_retractall(ObjectId,_,_),false))
       ), 
     DirtyObjectIds),
   mark_dirty_objects(DirtyObjectIds).
-        %% (owl_individual_of(ObjectId, ObjectType),
-        %%   get_associated_transform(_, ObjectId, _, InitialTempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
-        %%   owl_direct_subclass_of(ObjectType, 'http://knowrob.org/kb/thorin_parts.owl#PlasticPiece'),!,
-        %%   rdf_retractall(ObjectId,_,_),
-        %%   assert_object_at_location(ObjectType, ObjectId, Transform),
-        %%   rdf_assert(ObjectId, paramserver:'hasInitialTransform', InitialTempRei)
-        %%   );
+          %% rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', InitialTempRei)
