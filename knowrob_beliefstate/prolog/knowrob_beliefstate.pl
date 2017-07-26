@@ -1217,8 +1217,8 @@ assert_subassemblage(Assemblage, Component) :-
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
   owl_individual_of(ObjectId, ObjectType),!,
   get_object_reference_frame(ObjectId, TargetFrameAtom),
-  atom_string(TargetFrameAtom, TargetFrameStr),
-  nth0(1, Transform, TargetFrameStr),!,
+  %% atom_string(TargetFrameAtom, TargetFrameStr),
+  nth0(1, Transform, TargetFrameAtom),!,
   replace_object_transforms(ObjectId, Transform),
   mark_dirty_objects([ObjectId]),
   !.
