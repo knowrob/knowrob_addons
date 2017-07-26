@@ -695,7 +695,7 @@ decompose(S,P,Domain,O) :-
     Type \= 'http://www.w3.org/2002/07/owl#Thing',
     \+ rdfs_individual_of(Type, owl:'Restriction')
   ), Types),
-  owl:owl_most_specific(Types, [O_type|_]),
+  once( owl_most_specific(Types, O_type) ),
   % assert decomposition facts
   rdf_instance_from_class(O_type, O), debug_type_assertion(O,O_type),
   forall((member(Type,Types), Type \= O_type), rdf_assert(O,rdf:'type',Type)),

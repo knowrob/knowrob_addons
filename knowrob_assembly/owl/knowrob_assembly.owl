@@ -4,6 +4,7 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:knowrob_planning="http://knowrob.org/kb/knowrob_planning.owl#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
@@ -282,6 +283,12 @@
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#command -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#command"/>
     
 
 
@@ -797,6 +804,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -805,6 +818,15 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM"/>
+        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cram_assembly:cram_assembly_agenda_perform</knowrob_planning:command>
+    </owl:NamedIndividual>
     
 
 

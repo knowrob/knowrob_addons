@@ -367,6 +367,16 @@
     
 
 
+    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPerform_needsAffordance -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_needsAffordance">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
+        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance_0"/>
+        <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPerform_usesConnection -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_usesConnection">
@@ -383,6 +393,7 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy"/>
         <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaFocus_needsAffordance"/>
         <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaFocus_usesConnection"/>
+        <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_needsAffordance"/>
         <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_usesConnection"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#ContinuitySelection_1"/>
         <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/assembly_test.owl#DepthSelection_1"/>
@@ -582,6 +593,12 @@
         <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_usesConnection_0"/>
         <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">5.0</knowrob_planning:selectionPriority>
     </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction"/>
     
 
 
