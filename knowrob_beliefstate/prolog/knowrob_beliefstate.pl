@@ -49,17 +49,25 @@
       get_assemblages_with_object/2,
       get_objects_in_assemblage/2,
       get_objects_connected_to_object/2,
+      get_pre_grasp_position/4,
+      get_grasp_position/4,
+      get_post_grasp_position/4,
+      get_connection_transform/4,
+      get_possible_grasps_on_object/2,
+      get_possible_grasps_on_object/3,
 
       get_object_reference_frame/2,
 
       assert_object_at_location/3,
       assert_grasp_on_object/5,
       assert_ungrasp/1,
+      assert_ungrasp/2,
       assert_assemblage_created/6,
       ensure_assemblage_transforms/5,
       assert_assemblage_destroyed/1,
 
-      create_assembly_agenda/3
+      create_assembly_agenda/3,
+      reset_beliefstate/0
     ]).
 
 :- use_module(library('jpl')).
@@ -90,10 +98,10 @@ quote_id(X, O) :-
   string_concat(Ox, '"', O).
 
 % TODO: send a ros service call to the ROS object state publisher node. Parameter is a list of object ids to mark as dirty.
-mark_dirty_objects([]).
+%% mark_dirty_objects([]).
 
 mark_dirty_objects(Objs) :-
-  \+ =(Objs, []),
+  %% \+ =(Objs, []),
 %  service_call_mark_dirty_objects(Objs),
   findall(O, (member(X, Objs), quote_id(X, O)), Os),
   atomic_list_concat(Os, ',', OsS),
@@ -176,20 +184,25 @@ get_known_assemblage_ids(AssemblageIds) :-
 % @param Color   the transform data
 %
 get_object_color(ObjectId, Color) :-
-  \+ rdf_has(ObjectId, paramserver:'hasColor', _),
-  =(Color, [0.5, 0.5, 0.5, 1.0]).
+  rdf_has(ObjectId, paramserver:'hasColor', ColInd),
+  rdf_has(ColInd, 'http://knowrob.org/kb/knowrob.owl#vector', literal(type(_, V))), 
+  knowrob_math:parse_vector(V, Color), !.
 
 get_object_color(ObjectId, Color) :-
-  rdf_has(ObjectId, paramserver:'hasColor', ColInd),
-  rdf_has(ColInd, paramserver:'hasRed', RedInd),
-  rdf_has(ColInd, paramserver:'hasGreen', GreenInd),
-  rdf_has(ColInd, paramserver:'hasBlue', BlueInd),
-  rdf_has(ColInd, paramserver:'hasAlpha', AlphaInd),
-  rdf_has(RedInd, paramserver:'hasValue', literal(type(_, Red))),
-  rdf_has(GreenInd, paramserver:'hasValue', literal(type(_, Green))),
-  rdf_has(BlueInd, paramserver:'hasValue', literal(type(_, Blue))),
-  rdf_has(AlphaInd, paramserver:'hasValue', literal(type(_, Alpha))),
-  =(Color, [Red, Green, Blue, Alpha]).
+  \+ rdf_has(ObjectId, paramserver:'hasColor', _),
+  Color = [0.5, 0.5, 0.5, 1.0], !.
+
+%% get_object_color(ObjectId, Color) :-
+%%   rdf_has(ObjectId, paramserver:'hasColor', ColInd),
+%%   rdf_has(ColInd, paramserver:'hasRed', RedInd),
+%%   rdf_has(ColInd, paramserver:'hasGreen', GreenInd),
+%%   rdf_has(ColInd, paramserver:'hasBlue', BlueInd),
+%%   rdf_has(ColInd, paramserver:'hasAlpha', AlphaInd),
+%%   rdf_has(RedInd, paramserver:'hasValue', literal(type(_, Red))),
+%%   rdf_has(GreenInd, paramserver:'hasValue', literal(type(_, Green))),
+%%   rdf_has(BlueInd, paramserver:'hasValue', literal(type(_, Blue))),
+%%   rdf_has(AlphaInd, paramserver:'hasValue', literal(type(_, Alpha))),
+%%   =(Color, [Red, Green, Blue, Alpha]).
 
 %% get_object_mesh_path(+ObjectId, -FilePath) is det.
 %
@@ -587,6 +600,25 @@ get_currently_possible_grasps_on_object(Object, Gripper, Grasps) :-
   findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), GraspsList),
   list_to_set(GraspsList, Grasps).
 
+%% get_currently_possible_grasps_on_object(+Object, -Grasps) is det.
+%
+% Returns a list of GraspSpecification Ids for Object.
+% A GraspSpecification is returned if all the affordances it needs are not blocked
+% by an active grasp or connection.
+%
+% @param Object  anyURI, the object id
+% @param Grasps  [anyURI*], grasps descriptions
+%
+get_possible_grasps_on_object(Object, Grasps) :-
+  findall(A, get_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
+  findall(G, get_valid_grasp_for_object(Object, _, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
+
+get_possible_grasps_on_object(Object, Gripper, Grasps) :-
+  findall(A, get_affordance(Object, A, 'http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance'), GraspAffordances),
+  findall(G, get_valid_grasp_for_object(Object, Gripper, GraspAffordances, G), GraspsList),
+  list_to_set(GraspsList, Grasps).
+
 %% WARNING: the following functions assert entities and relations in the knowledge base.
 %% As a result, one must be careful to avoid asserting things multiple times because of
 %% Prologs backtracking mechanisms. The cut operator is used to this purpose.
@@ -628,77 +660,26 @@ deactivate_temporal_extensions([TO|RestTOs]) :-
   deactivate_temporal_extensions(RestTOs),
   !.
 
-create_transform(Transform, TransformId) :-
-  get_new_object_id('http://knowrob.org/kb/knowrob_paramserver.owl#Transform', TransformId),
-  atom_string(TransformIdAt, TransformId),
-  rdf_assert(TransformIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Transform'),
-  get_new_object_id('Reference_Frame', ReferenceFrameId),
-  atom_string(ReferenceFrameIdAt, ReferenceFrameId),
-  rdf_assert(ReferenceFrameIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
-  get_new_object_id('Target_Frame', TargetFrameId),
-  atom_string(TargetFrameIdAt, TargetFrameId),
-  rdf_assert(TargetFrameIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName'),
-  get_new_object_id('Translation', TranslationId),
-  atom_string(TranslationIdAt, TranslationId),
-  rdf_assert(TranslationIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Translation'),
-  get_new_object_id('Quaternion', QuaternionId),
-  atom_string(QuaternionIdAt, QuaternionId),
-  rdf_assert(QuaternionIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion'),
-  get_new_object_id('X', XId),
-  atom_string(XIdAt, XId),
-  rdf_assert(XIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
-  get_new_object_id('Y', YId),
-  atom_string(YIdAt, YId),
-  rdf_assert(YIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
-  get_new_object_id('Z', ZId),
-  atom_string(ZIdAt, ZId),
-  rdf_assert(ZIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Length'),
-  get_new_object_id('QX', QXId),
-  atom_string(QXIdAt, QXId),
-  rdf_assert(QXIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
-  get_new_object_id('QY', QYId),
-  atom_string(QYIdAt, QYId),
-  rdf_assert(QYIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
-  get_new_object_id('QZ', QZId),
-  atom_string(QZIdAt, QZId),
-  rdf_assert(QZIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
-  get_new_object_id('QW', QWId),
-  atom_string(QWIdAt, QWId),
-  rdf_assert(QWIdAt, rdf:type, 'http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional'),
+create_transform(Transform, TransformIdAt) :-
+  rdf_instance_from_class('http://knowrob.org/kb/knowrob_paramserver.owl#Transform', TransformIdAt),
+
   nth0(0, Transform, ReferenceFrame),
-  nth0(1, Transform, TargetFrame),
-  nth0(2, Transform, Translation),
-  nth0(3, Transform, Rotation),
-  nth0(0, Translation, X),
-  nth0(1, Translation, Y),
-  nth0(2, Translation, Z),
-  nth0(0, Rotation, QX),
-  nth0(1, Rotation, QY),
-  nth0(2, Rotation, QZ),
-  nth0(3, Rotation, QW),
+  rdf_instance_from_class('http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName', ReferenceFrameIdAt),
   rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame', ReferenceFrameIdAt),
-  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame', TargetFrameIdAt),
-  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTranslation', TranslationIdAt),
-  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasRotation', QuaternionIdAt),
-  rdf_assert(TranslationIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasX', XIdAt),
-  rdf_assert(TranslationIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasY', YIdAt),
-  rdf_assert(TranslationIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasZ', ZIdAt),
-  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasX', QXIdAt),
-  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasY', QYIdAt),
-  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasZ', QZIdAt),
-  rdf_assert(QuaternionIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasW', QWIdAt),
-  rdf_assert(XIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit', paramserver:'Meter'),
-  rdf_assert(YIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit', paramserver:'Meter'),
-  rdf_assert(ZIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit', paramserver:'Meter'),
   rdf_assert(ReferenceFrameIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'string', ReferenceFrame))),
+
+  nth0(1, Transform, TargetFrame),
+  rdf_instance_from_class('http://knowrob.org/kb/knowrob_paramserver.owl#CoordinateFrameName', TargetFrameIdAt),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame', TargetFrameIdAt),
   rdf_assert(TargetFrameIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'string', TargetFrame))),
-  rdf_assert(XIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', X))),
-  rdf_assert(YIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', Y))),
-  rdf_assert(ZIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', Z))),
-  rdf_assert(QXIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QX))),
-  rdf_assert(QYIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QY))),
-  rdf_assert(QZIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QZ))),
-  rdf_assert(QWIdAt, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xsd:'double', QW))),
+  
+  nth0(2, Transform, Translation),
+  atomic_list_concat(Translation, ' ', TranslationString),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob.owl#translation', literal(type(xsd:'string', TranslationString))),
+  
+  nth0(3, Transform, Rotation),
+  atomic_list_concat(Rotation, ' ', RotationString),
+  rdf_assert(TransformIdAt, 'http://knowrob.org/kb/knowrob.owl#quaternion', literal(type(xsd:'string', RotationString))),
   !.
 
 active_transform(O, T) :-
@@ -756,6 +737,14 @@ get_reference_frame(Ref, RefFrame) :-
   % rdf_has(Ref, paramserver:'standsFor', F),
   % rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
   rdf_has(Ref, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
+
+get_reference_frame(Ref, RefFrame) :-
+  owl_same_as(Ref, 'http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol'),
+  %% TODO: currently we are using this FrameSymbol directly. In the future we may want to indirect on environment, for example.
+  % rdf_has(Ref, paramserver:'standsFor', F),
+  % rdf_has(F, paramserver:'hasValue', literal(type(xsd:'string', RefFrame))).
+  \+ rdf_has(Ref, paramserver:'hasValue', literal(type(xsd:'string', _))),
+  =(RefFrame, 'map').
 
 add_transform_to_object_by_reference(Object, Ref, TObj) :-
   get_reference_frame(Ref, RefFrame),
@@ -832,6 +821,22 @@ replace_object_transform(O, T, NT) :-
   deactivate_temporal_extension(T),
   add_transform_to_object(O, UpdatedTransform, Ref),
   !.  
+%% replace_object_transform(O, T, NT) :-
+%%   % Get ref frame of new transform
+%%   nth0(0, NT, NRefFrame),
+%%   % Get the transform data associated to the TemporaryTransform T, and the reference object it has
+%%   get_associated_transform(_, O, _, T, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Td),
+%%   rdf_has(T, assembly:'hasReferencePart', Ref),
+%%   % Get the reference frame of that
+%%   nth0(0, Td, ORefFrame),
+%%   % See how the new reference frame relates to the pre-existing one
+%%   get_tf_transform(ORefFrame, NRefFrame, TON),
+%%   % Update the transform that should exist between the old reference frame and the object
+%%   multiply_transforms(TON, NT, UpdatedTransform),
+%%   % Replace the TemporaryTransform with a new one
+%%   deactivate_temporal_extension(T),
+%%   add_transform_to_object(O, UpdatedTransform, Ref),
+%%   !.  
 
 replace_object_transforms(_, [], _) :-
   !.
@@ -880,7 +885,8 @@ get_object_property_value_restriction(Type, Rel, Aff, Rest) :-
   findall(SP, owl_has(SP, 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf', Rel), SPs),
   member(RelX, [Rel|SPs]),
   % Find a superclass that is a restriction
-  owl_subclass_of(Type, Super),
+  %% owl_subclass_of(Type, Super),
+  rdfs_subclass_of(Type, Super),
   rdfs_individual_of(Super, owl:'Restriction'),
   % of the form RelX hasValue Aff
   rdf_has(Super, owl:'onProperty', RelX),
@@ -1181,7 +1187,7 @@ ungrasp_objects([Object|RestObjects], Grasp, CrDirtyObjects, DirtyObjects) :-
 
 %% Find all the active TemporaryTransforms that use an active TemporaryGrasp as reference, then collect all these TemporaryGrasps
 get_indirect_grasps_on_object(Object, Grasps) :-
-  findall(G, (rdf_has(Object, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', T), temporal_extent_active(T), rdf_has(T, 'http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart', G)), GraspList),
+  findall(G, (rdf_has(Object, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', T), temporal_extent_active(T), rdf_has(T, 'http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart', G), rdfs_individual_of(G, 'http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp')), GraspList),
   list_to_set(GraspList, Grasps).
 
 %% Ensures that an Assemblage has an assembly:'hasSubassemblage' relation to its component assemblages
@@ -1210,8 +1216,9 @@ assert_subassemblage(Assemblage, Component) :-
 % If the object exists already, simply update its active transform.
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
   owl_individual_of(ObjectId, ObjectType),!,
-  get_object_reference_frame(ObjectId, TargetFrame),
-  nth0(1, Transform, TargetFrame),!,
+  get_object_reference_frame(ObjectId, TargetFrameAtom),
+  %% atom_string(TargetFrameAtom, TargetFrameStr),
+  nth0(1, Transform, TargetFrameAtom),!,
   replace_object_transforms(ObjectId, Transform),
   mark_dirty_objects([ObjectId]),
   !.
@@ -1220,6 +1227,11 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
 % WARNING: an assumption is made about the status of newly created objects: a new object is free, ie. outside of grasps or assemblies.
 % You can use subsequent queries to assert grasps and asseblage status.
 assert_object_at_location(ObjectType, ObjectId, Transform) :-
+  assert_object_at_location_without_service_call(ObjectType, ObjectId, Transform),
+  mark_dirty_objects([ObjectId]),
+  !.
+
+assert_object_at_location_without_service_call(ObjectType, ObjectId, Transform) :-
   % Extract what the name for the object frame should be ...
   nth0(1, Transform, ObjectFrame),
   % Assert that the object exists ...
@@ -1240,7 +1252,6 @@ assert_object_at_location(ObjectType, ObjectId, Transform) :-
   ensure_object_shape_data(ObjectType, ObjectId),
   % ... create affordances for the object in accordance to its class restrictions ...
   ensure_object_affordances(ObjectType, ObjectId),
-  mark_dirty_objects([ObjectId]),
   !.
 
 %% assert_grasp_on_object(+Gripper, +Object, +Robot, +GraspSpecification, -GraspRei) is det.
@@ -1270,22 +1281,44 @@ assert_grasp_on_object(Gripper, Object, Robot, GraspSpecification, GraspRei) :-
   mark_dirty_objects(DirtyObjects),
   !.
 
-%% assert_ungrasp(+Grasp) is det.
+get_pre_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
+  get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasPregraspTransform', T).
+
+get_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
+  get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform', T).
+
+get_post_grasp_position(Gripper, ObjectId, GraspSpecification, T) :-
+  get_associated_transform(Gripper, ObjectId, _ , GraspSpecification, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasPostgraspTransform', T).
+
+%% assert_ungrasp(+ObjectId, +GripperId) is det.
 %
-% Ensures Grasp becomes inactive and releases any objects it affects.
+% Ensures that the Grasp for ObjectId becomes inactive and releases any objects it affects.
+% GripperId should be used, if the Object is held with multiple hands.
 % 
 %
 % @param Grasp  anyURI, the Grasp id
 %
-assert_ungrasp(Grasp) :-
-  owl_individual_of(Grasp, assembly:'TemporaryGrasp'),
-  % First, get all the objects in the Grasp (note: if Grasp is already destroyed, this list is empty),
-  get_objects_in_grasp(Grasp, Objects),
-  % deactivate the grasp for each object; must also remove it from any mobile reference parts linked to the objects
-  ungrasp_objects(Objects, Grasp, [], DirtyObjects),
-  % finally deactivate the grasp itself
-  deactivate_temporal_extension(Grasp),
+assert_ungrasp(ObjectId) :-
+  assert_ungrasp(ObjectId, _).
+
+assert_ungrasp(ObjectId, GripperId) :-
+  assert_ungrasp_without_service_call(ObjectId, GripperId, DirtyObjects),
   mark_dirty_objects(DirtyObjects),
+  !.
+
+assert_ungrasp_without_service_call(ObjectId, GripperId, DirtyObjects) :-
+  get_current_grasps_on_object(ObjectId, GraspsList),
+  member(Grasp, GraspsList),
+  nth0(0, Grasp, GripperId),
+  nth0(1, Grasp, ObjectId),
+  nth0(4, Grasp, GraspId),
+  owl_individual_of(GraspId, assembly:'TemporaryGrasp'),
+  % First, get all the objects in the Grasp (note: if Grasp is already destroyed, this list is empty),
+  get_objects_in_grasp(GraspId, Objects),
+  % deactivate the grasp for each object; must also remove it from any mobile reference parts linked to the objects
+  ungrasp_objects(Objects, GraspId, [], DirtyObjects),
+  % finally deactivate the grasp itself
+  deactivate_temporal_extension(GraspId),
   !.
 
 %% assert_assemblage_created(+AssemblageType, +ConnectionType, +ReferenceObject, +PrimaryObject, +SecondaryObject, -Assemblage) is det.
@@ -1458,6 +1491,11 @@ ensure_connection_transform(Connection, TransformId) :-
 % @param Assemblage  anyURI, the Assemblage id
 %
 assert_assemblage_destroyed(Assemblage) :-
+  assert_assemblage_destroyed_without_service_call(Assemblage, DirtyObjects),
+  mark_dirty_objects(DirtyObjects),
+  !.
+
+assert_assemblage_destroyed_without_service_call(Assemblage, DirtyObjects) :-
   owl_individual_of(Assemblage, assembly:'Assemblage'),
   % First, get all the objects in the Assemblage (note: if Assemblage is already destroyed, this list is empty),
   get_objects_in_assemblage(Assemblage, DirtyObjects),
@@ -1488,9 +1526,7 @@ assert_assemblage_destroyed(Assemblage) :-
   get_invalid_grasps_on_object(SOR, SInvalidGrasps),
   remove_grasp_list(MRPPrimary, PInvalidGrasps),
   remove_grasp_list(MRPSecondary, SInvalidGrasps),
-  mark_dirty_objects(DirtyObjects),
   !.
-
 
 get_leaf_subtype(SuperType, LeafSubType) :-
   =(SuperType, LeafSubType).
@@ -1587,3 +1623,27 @@ create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, Ne
 create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
   create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _).
 
+reset_beliefstate() :-
+  (assert_assemblage_destroyed_without_service_call(_,_) -> true; true),
+  (assert_ungrasp_without_service_call(_,_,_) -> true; true),
+  ((owl_has(Blocker, assembly:'blocksAffordance', A), 
+    rdf_retractall(Blocker, assembly:'blocksAffordance', _))-> true; true),
+  findall(ObjectId, 
+    (
+      rdfs_individual_of(ObjectId, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'),
+      rdf_has(ObjectId, paramserver:'hasTransform', TempRei), 
+      rdf_retractall(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform',_), 
+      rdf_retractall(TempRei,'http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent',_),
+      (rdf_has(ObjectId, paramserver:'hasInitialTransform', InitialTempRei) -> 
+        (owl_individual_of(ObjectId, ObjectType),
+          get_associated_transform(_, ObjectId, _, InitialTempRei, _, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', Transform),
+          owl_direct_subclass_of(ObjectType, 'http://knowrob.org/kb/thorin_parts.owl#PlasticPiece'),!,
+          rdf_retractall(ObjectId,_,_),
+          assert_object_at_location_without_service_call(ObjectType, ObjectId, Transform),
+          rdf_assert(ObjectId, paramserver:'hasInitialTransform', InitialTempRei)
+          );
+        (rdf_retractall(ObjectId,_,_),false))
+      ), 
+    DirtyObjectIds),
+  mark_dirty_objects(DirtyObjectIds).
+          %% rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', InitialTempRei)

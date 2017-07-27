@@ -30,10 +30,9 @@
 
 
 :- register_ros_package(knowrob_common).
-:- register_ros_package(knowrob_paramserver).
-:- register_ros_package(knowrob_planning).
 
-:- use_module(library('knowrob_assembly')).
-:- use_module(library('cram_assembly')).
+:- use_module(library('knowrob_planning')).
+:- use_module(library('owl_planning')).
 
-:- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
+:- owl_parser:owl_parse('package://knowrob_planning/owl/knowrob_planning.owl').
+:- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
