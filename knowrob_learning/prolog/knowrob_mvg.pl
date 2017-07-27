@@ -35,7 +35,8 @@
       generate_multivar_gaussian/2,
       generate_heat_maps/0,
       generate_feature_files/1,
-      generate_feature_files/2
+      generate_feature_files/2,
+      get_divided_subtasks_with_goal/4
     ]).
 
 :- use_module(library('jpl')).
@@ -69,3 +70,12 @@ generate_feature_files(Features) :-
 generate_feature_files(FloatFeatures, StringFeatures) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'writeFeature', [FloatFeatures, StringFeatures], _X).
+
+get_divided_subtasks_with_goal(Parent, Goal, SuccInst, NegInsts) :-
+  findall(ST, (subtask(Act, ST),
+  entity(ST, [an, action, ['task_context', Goal]])), AllInstances),
+  member(SuccInst, AllInstances),
+  occurs(SuccInst, [SuccBegin, _])
+  append([SuccInst], NegInsts, AllInstances), 
+  rdf_has(SuccInst, knowrob:'startTime', SuccBegin),
+  forall(member(A,NegInsts), (occurs(A, [Begin, _]), SuccBegin > Begin)). 
