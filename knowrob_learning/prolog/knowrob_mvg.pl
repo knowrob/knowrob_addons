@@ -72,9 +72,9 @@ generate_feature_files(FloatFeatures, StringFeatures) :-
   jpl_call(GausInterface, 'writeFeature', [FloatFeatures, StringFeatures], _X).
 
 get_divided_subtasks_with_goal(Parent, Goal, SuccInst, NegInsts) :-
-  findall(ST, (subtask(Act, ST),
+  findall(ST, (subtask(Parent, ST),
   entity(ST, [an, action, ['task_context', Goal]])), AllInstances),
-  member(SuccInst, AllInstances),
+  member(SuccInst, AllSet),
+  subtract(AllSet, [SuccInst], NegInsts),
   occurs(SuccInst, [SuccBegin, _]),
-  append([SuccInst], NegInsts, AllInstances), 
   forall(member(A,NegInsts), (occurs(A, [Begin, _]), SuccBegin > Begin)). 
