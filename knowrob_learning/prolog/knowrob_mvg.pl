@@ -77,5 +77,4 @@ get_divided_subtasks_with_goal(Parent, Goal, SuccInst, NegInsts) :-
   member(SuccInst, AllInstances),
   occurs(SuccInst, [SuccBegin, _]),
   append([SuccInst], NegInsts, AllInstances), 
-  rdf_has(SuccInst, knowrob:'startTime', SuccBegin),
   forall(member(A,NegInsts), (occurs(A, [Begin, _]), SuccBegin > Begin)). 
