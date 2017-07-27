@@ -74,6 +74,7 @@ generate_feature_files(FloatFeatures, StringFeatures) :-
 get_divided_subtasks_with_goal(Parent, Goal, SuccInst, NegInsts) :-
   findall(ST, (subtask(Parent, ST),
   entity(ST, [an, action, ['task_context', Goal]])), AllInstances),
+  list_to_set(AllInstances, AllSet),
   member(SuccInst, AllSet),
   subtract(AllSet, [SuccInst], NegInsts),
   occurs(SuccInst, [SuccBegin, _]),
