@@ -71,13 +71,16 @@ public class MixedGaussianInterface
 		else System.out.println("Feature size is not correct!");
 	}
 
-        public void writeSimpleFeatures(float[][] features)
+        public void writeSimpleFeatures(float[][] features, String filename)
 	{
 		if(features[0].length == 7)
 		{
                         try
 			{
-				PrintWriter writer = new PrintWriter( "/home/ros/user_data/relative_poses.csv", "UTF-8");
+				PrintWriter writer;
+
+				if(filename.startsWith("/home/")) writer = new PrintWriter( filename, "UTF-8");
+				else writer = new PrintWriter( "/home/ros/user_data/" + filename, "UTF-8");
 				writer.println("REL-X,REL-Y,REL-Z,REL-THETA");
 				
 				for(int i = 0; i < features.length; i++)
