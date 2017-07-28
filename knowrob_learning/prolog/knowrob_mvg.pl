@@ -32,6 +32,7 @@
     [
       generate_mixed_gaussian/1,
       generate_mixed_gaussian/2,
+      mixed_gaussian_with_failure/5,
       generate_multivar_gaussian/2,
       generate_heat_maps/0,
       generate_feature_files/1,
@@ -54,6 +55,10 @@ generate_multivar_gaussian(InFile, OutFile) :-
 generate_mixed_gaussian(InFile, OutFile) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'analyzeCluster', [InFile, OutFile], _X).  
+
+mixed_gaussian_with_failure(PosFile, PosCluster, NegFile, NegCluster, OutFile) :-
+  jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
+  jpl_call(GausInterface, 'analyzeTrials', [PosFile, NegFile, OutFile, PosCluster, NegCluster], _X).  
 
 generate_mixed_gaussian(OutFile) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
