@@ -1,6 +1,6 @@
 /** <module> knowrob_mvg
 
-  Copyright (C) 2016 Asil Kaan Bozcuoglu
+  Copyright (C) 2016-17 Asil Kaan Bozcuoglu
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@
     [
       generate_mixed_gaussian/1,
       generate_mixed_gaussian/2,
-      mixed_gaussian_with_failure/5,
+      mixed_gaussian_with_failure/7,
       generate_multivar_gaussian/2,
       generate_heat_maps/0,
       generate_feature_files/1,
