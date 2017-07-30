@@ -56,9 +56,10 @@ generate_mixed_gaussian(InFile, OutFile) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'analyzeCluster', [InFile, OutFile], _X).  
 
-mixed_gaussian_with_failure(PosFile, PosCluster, NegFile, NegCluster, OutFile) :-
+mixed_gaussian_with_failure(PosFile, PosCluster, NegFile, NegCluster, OutFile, MaxX, MaxY) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
-  jpl_call(GausInterface, 'analyzeTrials', [PosFile, NegFile, OutFile, PosCluster, NegCluster], _X).  
+  jpl_call(GausInterface, 'analyzeTrials', [PosFile, NegFile, OutFile, PosCluster, NegCluster], _X),
+  jpl_array_to_list(_X, [MaxX, MaxY]).  
 
 generate_mixed_gaussian(OutFile) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
