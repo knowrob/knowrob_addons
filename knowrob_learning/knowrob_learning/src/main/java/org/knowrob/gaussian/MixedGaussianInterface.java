@@ -9,7 +9,7 @@ public class MixedGaussianInterface
 	public native void createMixedGaussians(String outputPath);
 	public native void createMultiVarGaussians(String inputPath, String outputPath);
 	public native void analyzeCluster(String inputPath, String outputPath);
-	public native void analyzeTrials(String posPath, String negPath, String outputPath, int posClusters, int negClusters);
+	public native double[] analyzeTrials(String posPath, String negPath, String outputPath, int posClusters, int negClusters);
 	
 	public void createHeatMaps()
 	{
