@@ -12,9 +12,9 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:computable="http://knowrob.org/kb/computable.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/assembly_test.owl">
-        <owl:imports rdf:resource="package://thorin_simulation/owl/thorin_simulation.owl"/>
         <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
-        <owl:imports rdf:resource="package://thorin_ontologies/owl/thorin_assemblages.owl"/>
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/assembly_map_test.owl"/>
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/assemblages_test.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
     </owl:Ontology>
     
@@ -268,33 +268,33 @@
     
 
 
-    <!-- http://knowrob.org/kb/thorin_assemblages.owl#AxleWithLeftWheel -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithLeftWheel"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
     
 
 
-    <!-- http://knowrob.org/kb/thorin_assemblages.owl#AxleWithWheels -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithWheels"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
     
 
 
-    <!-- http://knowrob.org/kb/thorin_assemblages.owl#BodyOnChassis -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/thorin_assemblages.owl#BodyOnChassis"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis"/>
     
 
 
-    <!-- http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithAxles -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithAxles"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles"/>
     
 
 
-    <!-- http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithFrontAxle -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithFrontAxle"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle"/>
     
 
 
@@ -372,7 +372,10 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPerform_needsAffordance">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
         <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance_0"/>
+        <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt"/>
+        <!--
         <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction"/>
+        -->
     </owl:NamedIndividual>
     
 
@@ -410,7 +413,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithLeftWheel"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
     </owl:NamedIndividual>
     
 
@@ -418,7 +421,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel2 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel2">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithLeftWheel"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
     </owl:NamedIndividual>
     
 
@@ -426,7 +429,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel_a -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel_a">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithLeftWheel"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
     </owl:NamedIndividual>
     
 
@@ -434,7 +437,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel_b -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithLeftWheel_b">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithLeftWheel"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
     </owl:NamedIndividual>
     
 
@@ -442,7 +445,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithWheels1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithWheels1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithWheels"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
     </owl:NamedIndividual>
     
 
@@ -450,7 +453,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithWheels2 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithWheels2">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithWheels"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
     </owl:NamedIndividual>
     
 
@@ -458,7 +461,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithWheels_a -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithWheels_a">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithWheels"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
     </owl:NamedIndividual>
     
 
@@ -466,7 +469,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AxleWithWheels_b -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AxleWithWheels_b">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#AxleWithWheels"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
     </owl:NamedIndividual>
     
 
@@ -474,7 +477,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#BodyOnChassis1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#BodyOnChassis1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#BodyOnChassis"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis"/>
     </owl:NamedIndividual>
     
 
@@ -482,7 +485,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#BodyOnChassis_a -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#BodyOnChassis_a">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#BodyOnChassis"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis"/>
     </owl:NamedIndividual>
     
 
@@ -490,7 +493,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#ChassisWithAxles1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#ChassisWithAxles1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithAxles"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles"/>
     </owl:NamedIndividual>
     
 
@@ -498,7 +501,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#ChassisWithAxles_a -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#ChassisWithAxles_a">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithAxles"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles"/>
     </owl:NamedIndividual>
     
 
@@ -506,7 +509,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#ChassisWithFrontAxle1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#ChassisWithFrontAxle1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithFrontAxle"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle"/>
     </owl:NamedIndividual>
     
 
@@ -514,7 +517,7 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#ChassisWithFrontAxle_a -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#ChassisWithFrontAxle_a">
-        <rdf:type rdf:resource="http://knowrob.org/kb/thorin_assemblages.owl#ChassisWithFrontAxle"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle"/>
     </owl:NamedIndividual>
     
 
