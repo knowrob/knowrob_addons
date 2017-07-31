@@ -35,7 +35,6 @@
       mixed_gaussian_with_failure/7,
       generate_multivar_gaussian/2,
       generate_heat_maps/0,
-      generate_feature_files/1,
       generate_feature_files/2,
       get_divided_subtasks_with_goal/4
     ]).
