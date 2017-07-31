@@ -111,6 +111,12 @@ send_prolog_query_solution(Prolog, Incremental, Field, Result, Id) :-
     send_next_solution(Id),
     read_next_prolog_query(Field, Result).
 
+send_prolog_query_solution(Prolog, Incremental, Fields, Result, Id) :-
+    send_prolog_query(Prolog, Incremental, Id),
+    send_next_solution(Id),
+    Result = [],
+    forall(member(F, Fields), (read_next_prolog_query(F, R), append(Result, R, Result))).
+
 send_prolog_query(Prolog, Incremental, Id) :-
     cloud_interface(CL),
     jpl_call(CL, 'sendPrologQuery', [Prolog, Incremental], Id).
