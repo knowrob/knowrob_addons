@@ -344,25 +344,17 @@ satisfies_restriction_up_to(Cause, Restr, UpTo) :-
 %
 agenda_item_valid(Item) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
-  rdf_has(Item, knowrob_planning:'itemOf', S),
-  rdf_has(Item, knowrob_planning:'itemDomain', Domain),
-  \+ owl_individual_of(S,Domain).
-agenda_item_valid(Item) :-
-  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !,
-  agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  satisfies_restriction_up_to(Cause, Restr, unspecify(S,P,UpToDomain,_)),
+  agenda_item_description(Item, Descr),
+  Descr = item(_,S,_,Domain,(Cause,Restr)),
+  satisfies_restriction_up_to(Cause, Restr, classify(S,UpToDomain)),
   owl_specializable(Domain,UpToDomain),
   agenda_item_specialize_domain(Item,UpToDomain), !.
+
 agenda_item_valid(Item) :-
-  rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'), !,
-  agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  satisfies_restriction_up_to(Cause, Restr, decompose(S,P,UpToDomain,_)),
-  owl_specializable(Domain,UpToDomain),
-  agenda_item_specialize_domain(Item,UpToDomain), !.
-agenda_item_valid(Item) :-
-  rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'), !,
-  agenda_item_description(Item, item(_,S,P,Domain,(Cause,Restr))),
-  satisfies_restriction_up_to(Cause, Restr, integrate(S,P,UpToDomain,_)),
+  agenda_item_description(Item, Descr),
+  Descr = item(_,S,P,Domain,(Cause,Restr)),
+  satisfies_restriction_up_to(Cause, Restr, X),
+  X=..[_,S,P,UpToDomain,_],
   owl_specializable(Domain,UpToDomain),
   agenda_item_specialize_domain(Item,UpToDomain), !.
 
@@ -680,7 +672,7 @@ agenda_item_project_internal(item(classify,S,_,_,_), Cls, Cls) :- rdf_assert(S,r
 decompose(S,P,Domain,O) :-
   owl_description(Domain, Descr),
   % infer type of O
-  class_statements(Descr, Types_Explicit),
+  class_statements(Domain, Descr, Types_Explicit),
   findall(Type, ((
     member(Type,Types_Explicit) ;
     owl_property_range_on_subject(S,P,Type) ; (
@@ -695,10 +687,24 @@ decompose(S,P,Domain,O) :-
     Type \= 'http://www.w3.org/2002/07/owl#Thing',
     \+ rdfs_individual_of(Type, owl:'Restriction')
   ), Types),
-  once( owl_most_specific(Types, O_type) ),
+  once((
+    owl_most_specific(Types, O_type),
+    (( O_type \= 'http://www.w3.org/2002/07/owl#Thing',
+       rdf_has(O_type, owl:unionOf, Union) )
+    -> (
+      rdfs_list_to_prolog_list(Union, Members),
+      owl:owl_common_ancestor(Members, Type_selected)
+    ) ; Type_selected = O_type )
+  )),
   % assert decomposition facts
-  rdf_instance_from_class(O_type, O), debug_type_assertion(O,O_type),
-  forall((member(Type,Types), Type \= O_type), rdf_assert(O,rdf:'type',Type)),
+  rdf_instance_from_class(Type_selected, O), debug_type_assertion(O,Type_selected),
+  forall((
+    member(Type,Types), 
+    Type \= Type_selected,
+    \+ rdf_has(Type, owl:unionOf, _)), (
+    rdf_assert(O,rdf:'type',Type),
+    debug_type_assertion(O,Type)
+  )),
   agenda_assert_triple(S,P,O).
 
 agenda_assert_triple(S,P,O) :-
@@ -726,10 +732,11 @@ agenda_assert_triple_(S,P,O) :-
   rdf_assert(S,P_specific,O),
   debug_assertion(S,P_specific,O), !.
 
-class_statements(class(Cls), [Cls]).
-class_statements(intersection_of(Intersection), List) :-
+class_statements(_, class(Cls), [Cls]).
+class_statements(_, intersection_of(Intersection), List) :-
   findall(X, member(class(X), Intersection), List).
-class_statements(_, []).
+class_statements(Cls, union_of(_), [Cls]).
+class_statements(_, _, []).
 
 debug_retraction(S,P,O) :-
   write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
@@ -745,6 +752,7 @@ debug_type_assertion(S,Cls) :-
 %% agenda_item_update(+Item,+Selection)
 %
 agenda_item_update(Item,Selection) :-
+  % FIXME: remove other items created for disjunction of classes? or classify domain union?
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
   rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
   rdf_has(Item, knowrob_planning:'itemOf', S),
@@ -758,13 +766,14 @@ agenda_item_update(Item,Selection) :-
   % collect all genralizations of selected item and retract
   bagof(X, (
     agenda_item_match(Item, X),
-    agenda_item_domain(X, Domain_X),
-    once((
-      member(Cls,Selection),
-      owl_subclass_of(Cls,Domain_X)
-    ))
-  ), GeneralItems),
-  forall( member(X,GeneralItems), retract_agenda_item(X) ).
+    \+ agenda_item_valid(X)
+    %agenda_item_domain(X, Domain_X),
+    %once((
+    %  member(Cls,Selection),
+    %  owl_subclass_of(Cls,Domain_X)
+    %))
+  ), ObsoloteItems),
+  forall( member(X,ObsoloteItems), retract_agenda_item(X) ).
 
 agenda_item_update(Item,Selection) :-
   rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !,
@@ -782,7 +791,7 @@ agenda_item_update(Item,Selection) :-
   )),
   forall( member(X,Selection), agenda_remove_object(X) ).
 
-agenda_item_update(Item,Selection) :- % decompose DecomposeAgendaItem_UkKPxwlH,DecomposeAgendaItem_QEycFNmXor integrate
+agenda_item_update(Item,Selection) :-
   rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
   agenda_item_depth_value(Item,Depth), Depth_next is Depth + 1,
   % for each more general item add "deeper" items
