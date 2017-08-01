@@ -114,7 +114,7 @@ public class LoggerClient {
 
     public String readPrologNextSolution()
     {
-         return (String)readFromPrologResponse("solution");;
+         return (String)readFromPrologResponse("solution");
     }
 
     public Object readPrologNextSolution(String field)
