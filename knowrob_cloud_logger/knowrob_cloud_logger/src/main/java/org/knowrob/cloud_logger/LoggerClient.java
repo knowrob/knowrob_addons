@@ -114,14 +114,14 @@ public class LoggerClient {
 
     public String readPrologNextSolution()
     {
-         return (String)readFromPrologResponse("solution");
+         return (String)readFromPrologResponse("solution");;
     }
 
-    public String readPrologNextSolution(String field)
+    public Object readPrologNextSolution(String field)
     {
          String jsonSolution = readPrologNextSolution();
          JSONObject jsonObj = new JSONObject(jsonSolution);
-         return jsonObj.getString(field);
+         return jsonObj.get(field);
     }
 
     public int readPrologNextSolutionStatus()
@@ -236,7 +236,6 @@ public class LoggerClient {
     private Object readFromPrologResponse(String field)
     {
         String jsonString = prologResponse.toString();
-        
         JSONObject jsonObj = new JSONObject(jsonString);
 
         if(field.equals("solution") || field.equals("message"))
