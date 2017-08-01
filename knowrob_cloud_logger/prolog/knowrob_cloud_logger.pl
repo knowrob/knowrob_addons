@@ -107,11 +107,13 @@ send_prolog_query_solution(Prolog, Incremental, Result, Id) :-
     read_next_prolog_query(Result).
 
 send_prolog_query_solution(Prolog, Incremental, Field, Result, Id) :-
+    atom(Field),
     send_prolog_query(Prolog, Incremental, Id),
     send_next_solution(Id),
     read_next_prolog_query(Field, Result).
 
 send_prolog_query_solution(Prolog, Incremental, Fields, Result, Id) :-
+    is_list(Fields),
     send_prolog_query(Prolog, Incremental, Id),
     send_next_solution(Id),
     Result = [],
