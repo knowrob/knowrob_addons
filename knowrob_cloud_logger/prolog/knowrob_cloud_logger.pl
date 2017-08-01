@@ -116,8 +116,7 @@ send_prolog_query_solution(Prolog, Incremental, Fields, Result, Id) :-
     is_list(Fields),
     send_prolog_query(Prolog, Incremental, Id),
     send_next_solution(Id),
-    Result = [],
-    forall(member(F, Fields), (read_next_prolog_query(F, R), append(Result, R, Result))).
+    findall(R, (member(F, Fields), read_next_prolog_query(F, R)), Result).
 
 send_prolog_query(Prolog, Incremental, Id) :-
     cloud_interface(CL),
