@@ -147,8 +147,7 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,all_values_from(Cls)),
   -> (  % O is specializable to Cls, thus restr. is fullfilled up to were O violates Cls
      owl_satisfies_restriction_up_to_internal(O, Cls_descr, UpTo)
   ) ; ( % O is not specializable, thus restr. is fullfilled up to (S P O)
-     %owl_specializable_(S,restriction(P,some_values_from(Cls))),
-     UpTo=detach(S,P,O,1) % FIXME: this will never be the case because owl_specializable_ called in owl_satisfies_restriction_up_to
+     UpTo=detach(S,P,O,1)
   )).
 
 owl_satisfies_restriction_up_to_internal(S, restriction(P,some_values_from(Cls)), UpTo) :-
@@ -158,7 +157,6 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,some_values_from(Cls))
     member(O,Os),
     owl_satisfies_restriction_up_to_internal(O, Cls_descr, UpTo)
   ) ; ( % no value of P is specializable to Cls, thus fullfilled up to (S P O)
-    %owl_specializable_(S,restriction(P,some_values_from(Cls))),
     UpTo=specify(S,P,Cls,1)
   )).
 
@@ -167,7 +165,7 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
   ( Card < Min
   -> (  % not enough values of type Cls
   owl_specializable_(S,restriction(P,some_values_from(Cls))),
-    % find values of P that can be specializable to Cls
+    % find values of P that can be specialized to Cls
     once((bagof(O, (
       owl_has(S, P, O),
       \+ owl_individual_of(O, Cls),
@@ -177,7 +175,7 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
         restriction(P,cardinality(Min,Max,Cls)), UpTo)
   ) ; ( % to many values of type Cls
     Count is Card - Max, Count > 0,
-    UpTo=detach(S,P,Cls,Card) % FIXME: this will never be the case because owl_specializable_ called in owl_satisfies_restriction_up_to
+    UpTo=detach(S,P,Cls,Card)
   )).
 
 owl_satisfies_min_cardinality_up_to(_, _, Os, restriction(_,cardinality(_,_,Cls)), UpTo) :-
@@ -206,7 +204,8 @@ owl_specialization_of(Resource, Resource).
 
 %% owl_specializable(?Resource, ?Description)
 %
-% 
+% TODO(DB): separate code into owl_specializable_class and owl_specializable_subject -> avoid redundant checks if resource is a class
+%
 owl_specializable(Resource, Description) :-
   % already at least as specific as Description
   owl_specialization_of(Resource, Description), !.
@@ -219,6 +218,7 @@ owl_specializable(Resource, Description) :-
   owl_specializable_(Resource, Description_pl), !.
 
 owl_specializable_('http://www.w3.org/2002/07/owl#Thing', _) :- !.
+
 owl_specializable_(Resource, class(Cls)) :-
   % TODO: cardinality 0 restrictions always specializable?
   % - inverse property range could restrict the class
@@ -240,8 +240,6 @@ owl_specializable_(Resource, class(Cls)) :-
 owl_specializable_(Resource, class(Cls)) :-
   rdfs_individual_of(Resource, owl:'Class'),!,
   owl_specializable_class(Resource, class(Cls)).
-owl_specializable_(Resource, class(Cls)) :-
-  owl_individual_of(Resource, Cls), !.
 owl_specializable_(Resource, class(Cls)) :-
   % specializable if one of the most specific types of resource is a generalization of Cls
   owl_type_of(Resource, Resource_type),
@@ -331,7 +329,7 @@ owl_specializable_class(Cls_a,class(Cls_b)) :-
     % check if there is a subclass of Resource that is also a subclass of Cls
     % FIXME: could be many subclasses! limit search somehow?
     rdfs_subclass_of(Sub, Cls_a),
-    owl_subclass_of(Sub, Cls_b)
+    rdfs_subclass_of(Sub, Cls_b)
   )), !.
 
 owl_specializable_restriction_(restriction(P1,Facet1), restriction(P2,Facet2)) :-

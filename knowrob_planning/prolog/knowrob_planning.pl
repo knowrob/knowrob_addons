@@ -93,13 +93,11 @@
 % TODO(DB): some ideas ...
 %   - Think about support for computables properties/SWRL
 %   - Also add items caused by specializable type?
-%   - Keep history of decisions. This would be required for stuff like truth maintanance system
+%   - Keep history of decisions. for instance union descriptions may require this!
 %   - Keep sorted structure of agenda, sort-in new agenda items
 %       - owl based representation requires many db interactions
 %       - use prolog list simply?
 %       - use foreign language instead?
-%   - pre-sort selection criteria in create_agenda
-%       - link them with nextSelection property (would disallow them to appear in multiple agendas)
 %   - Make agenda items valid OWL 
 %       - biggest issue is the domain value that is a class description, not an individual
 %       - annotation properties could be used but would disable standart OWL reasoning
@@ -139,7 +137,7 @@ assert_last_selected_item(Item) :-
 agenda_pop(Agenda, Item)  :-
   agenda_items_sorted(Agenda, [X|_]),
   ( agenda_item_valid(X)
-  -> ( % count how often item was selected, and asser as last selected item
+  -> ( % count how often item was selected, and assert as last selected item
     agenda_item_inhibit(X),
     assert_last_selected_item(X),
     Item=X
