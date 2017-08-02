@@ -64,6 +64,8 @@
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 
+:- dynamic strategy_selection_criteria_sorted/2.
+
 :-  rdf_meta
       create_agenda(r,r,r),
       agenda_items(r,t),
@@ -425,9 +427,12 @@ compare_agenda_items(Delta, [Criterium|Rest], Item1, Item2) :-
   )).
 
 strategy_selection_criteria(Strategy, Criteria) :-
+  strategy_selection_criteria_sorted(Strategy, Criteria), !.
+strategy_selection_criteria(Strategy, Criteria) :-
   % sort criteria according to their priority (high priority first)
   findall(C, rdf_has(Strategy, knowrob_planning:'selection', C), Cs),
-  predsort(compare_selection_criteria, Cs, Criteria).
+  predsort(compare_selection_criteria, Cs, Criteria),
+  assertz(strategy_selection_criteria_sorted(Strategy, Criteria)).
 
 compare_selection_criteria(Delta, C1, C2) :-
   selection_priority(C1, V1), selection_priority(C2, V2),
