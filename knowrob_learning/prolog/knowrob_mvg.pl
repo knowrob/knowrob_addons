@@ -33,6 +33,7 @@
       generate_mixed_gaussian/1,
       generate_mixed_gaussian/2,
       mixed_gaussian_with_failure/6,
+      get_likely_closest/7,
       generate_multivar_gaussian/2,
       generate_heat_maps/0,
       generate_feature_files/2,
@@ -58,6 +59,11 @@ generate_mixed_gaussian(InFile, OutFile) :-
 mixed_gaussian_with_failure(PosFile, PosCluster, NegFile, NegCluster, OutFile, Pose) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'analyzeTrials', [PosFile, NegFile, OutFile, PosCluster, NegCluster], _X),
+  jpl_array_to_list(_X, Pose). 
+
+get_likely_closest(PosFile, PosCluster, NegFile, NegCluster, X, Y, Pose) :-
+  jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
+  jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster, X, Y], _X),
   jpl_array_to_list(_X, Pose).  
 
 generate_mixed_gaussian(OutFile) :-
