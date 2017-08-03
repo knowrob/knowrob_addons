@@ -378,7 +378,7 @@ item_description_focussed(Agenda,Item) :-
   rdf_has(Strategy, knowrob_planning:'focus', Focus),
   ( agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus) ; (
     rdf_has(P, owl:'inverseOf', P_inv), % also focus if inverse property focussed
-    owl_planning:owl_type_of(S, Type),
+    rdfs_type_of(S, Type),
     agenda_item_in_focus_internal(item(T,S,P_inv,Type,_), Focus)
   )).
 
@@ -530,7 +530,7 @@ agenda_item_matches_item_type(Item, Pattern) :-
   ; true.
 
 agenda_item_matches_object(Item,Pattern) :-
-  owl_restriction_on_property(Pattern, knowrob_planning:'itemOf', Restr)
+  owl_restriction_on(Pattern, knowrob_planning:'itemOf', Restr)
   -> ( agenda_item_object(Item,S), owl_individual_of(S, Restr) )
   ;  true.
 
@@ -563,7 +563,7 @@ agenda_pattern_property(Pattern,P) :-
 %
 agenda_pattern_domain(Pattern,Domain) :-
   agenda_pattern_property(Pattern,P),
-  owl_restriction_on_property(Pattern,P,Restr),
+  owl_restriction_on(Pattern,P,Restr),
   once(( rdf_has(Restr, owl:someValuesFrom, Domain) ;
          rdf_has(Restr, owl:allValuesFrom, Domain) ;
          rdf_has(Restr, owl:onClass, Domain) ;
@@ -654,7 +654,11 @@ agenda_perform_just_do_it(_,item(decompose,_,_,_,_), Domain, Domain) :- !.
 agenda_perform_just_do_it(_,item(detach,S,P,_,_), Domain, O) :-
   owl_has(S,P,O), owl_individual_of(O,Domain), !.
 agenda_perform_just_do_it(_,item(integrate,_,P,_,_), Domain, O) :-
-  owl_consistent_selection(Domain,P,O), !.
+  owl_individual_of(O, Domain),
+  % enforce unique values for inverse functional properties
+  once((( rdfs_subproperty_of(P, Super),
+          rdfs_individual_of(Super, owl:'InverseFunctionalProperty') )
+    -> \+ rdf_has(_, P, O) ; true )), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -756,7 +760,7 @@ debug_type_assertion(S,Cls) :-
 
 %% agenda_item_update(+Item,+Selection)
 %
-agenda_item_update(Item,Selection) :-
+agenda_item_update(Item,_Selection) :-
   % FIXME: remove other items created for disjunction of classes? or classify domain union?
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
   rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
@@ -900,5 +904,15 @@ write_name(literal(type(_,V))) :- write(V), !.
 write_name(X) :- atom(X), rdf_split_url(_, X_, X), write(X_).
 write_description(Domain) :-
   atom(Domain),
-  owl_description_recursice(Domain,Descr),
+  owl_description_recursive(Domain,Descr),
   rdf_readable(Descr,Readable), write(Readable).
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Utility predicates
+
+owl_atomic([]).
+owl_atomic([X|Xs]) :- owl_atomic(X), owl_atomic(Xs).
+owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', owl:'Class'), !.
+owl_atomic(Domain) :- atom(Domain), owl_individual_of(Domain, _), !.

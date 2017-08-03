@@ -689,14 +689,6 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
   agenda_write(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack')
-  )),
   test_agenda_items([
       item(decompose, assembly_map:'Axle2WheelSnapInMRight', NeedsInv, _, _) % AxleWithWheels
   ]).
