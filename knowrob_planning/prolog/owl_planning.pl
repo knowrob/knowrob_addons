@@ -324,11 +324,3 @@ owl_propery_chain_restriction_([P|Rest], Facet, Restr) :-
 owl_propery_chain_restriction_([P|Rest], Facet, some_values_from(restriction(P,Sub))) :-
   owl_propery_chain_restriction_(Rest, Facet, Sub).
 
-owl_inverse_property_chain(PropChain, PropChain_inv) :-
-  reverse(PropChain, PropChain_reversed),
-  owl_inverse_property_chain_(PropChain_reversed,PropChain_inv).
-owl_inverse_property_chain_([], []) :- !.
-owl_inverse_property_chain_([P|Rest],[P_inv|Rest_inv]) :-
-  owl_inverse_property(P, P_inv),
-  owl_inverse_property_chain_(Rest,Rest_inv).
-
