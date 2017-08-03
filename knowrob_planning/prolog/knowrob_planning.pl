@@ -587,8 +587,10 @@ agenda_item_domain_compute(Item, Domain) :-
     once(rdfs_subproperty_of(P, P_X)),
     agenda_item_domain(X, D)
   ), Domains),
-  %owl:owl_most_specific(Domains, [Domain|_]).
-  owl_most_specific_specializations(D_item, Domains, [Domain|_]).
+  once((
+    owl_most_specific(Domains, Domain),
+    owl_subclass_of(Domain, D_item)
+  )).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %

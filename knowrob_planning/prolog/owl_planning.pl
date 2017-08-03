@@ -35,7 +35,6 @@
       owl_specializable/2,
       owl_specialization_of/2,
       owl_satisfies_restriction_up_to/3,
-      owl_most_specific_specializations/3,
       owl_restriction_on_property/3,
       owl_description_recursice/2,
       rdf_readable/2,
@@ -53,7 +52,6 @@
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 
 :-  rdf_meta
-      owl_most_specific_specializations(r,t,-),
       owl_specializable(r,t),
       owl_specialization_of(r,r),
       owl_satisfies_restriction_up_to(r,t,t),
@@ -72,30 +70,13 @@ owl_restriction_on_property(Resource, Property, Restriction) :-
   rdfs_individual_of(Cls, owl:'Restriction'),
   rdf_has(Restriction, owl:onProperty, Property).
 
-  
-%% owl_most_specific_specializations(?Base, ?Types, ?List)
-%
-owl_most_specific_specializations(Base, Types, List) :-
-  % TODO: redundant with owl_type_of
-  % TODO: redundant owl:owl_most_generic
-  bagof(Cls, (
-    member(Cls, [Base|Types]),
-    once(owl_subclass_of(Cls,Base)),
-    % ensure there is no class in Types that is more specific then Cls
-    forall((
-       member(Cls_other, Types),
-       Cls \= Cls_other
-    ), \+ owl_subclass_of(Cls_other, Cls))
-  ), List).
-
 
 owl_type_of(Resource, Cls) :-
-  bagof(X, rdf_has(Resource, rdf:type, X), Types),
-  member(Cls, Types),
+  rdf_has(Resource, rdf:type, Cls),
   Cls \= 'http://www.w3.org/2002/07/owl#NamedIndividual',
   % ensure there is no class in Types that is more specific then Cls
   forall((
-     member(Cls_other, Types),
+     rdf_has(Resource, rdf:type, Cls_other),
      Cls \= Cls_other
   ), \+ owl_subclass_of(Cls_other, Cls)).
 

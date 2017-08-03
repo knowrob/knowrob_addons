@@ -292,8 +292,8 @@ test(retract_some_facts) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 test(owl_most_specific_specializations5) :-
-  owl_most_specific_specializations(owl:'Thing', [parts:'ChassisSnapInConnection'], List),
-  rdf_global_term([parts:'ChassisSnapInConnection'],List).
+  owl_most_specific([parts:'ChassisSnapInConnection'], Specific),
+  rdf_equal(parts:'ChassisSnapInConnection', Specific).
 
 :- rdf_meta test_restriction_up_to(r,t,t).
 test_restriction_up_to(S,Restr,UpTo) :-
