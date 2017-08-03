@@ -34,13 +34,7 @@
     [
       owl_specializable/2,
       owl_specialization_of/2,
-      owl_satisfies_restriction_up_to/3,
-      owl_restriction_on_property/3,
-      owl_description_recursice/2,
-      rdf_readable/2,
-      rdf_write_readable/1,
-      owl_atomic/1,
-      owl_consistent_selection/3
+      owl_satisfies_restriction_up_to/3
     ]).
 
 
@@ -54,31 +48,7 @@
 :-  rdf_meta
       owl_specializable(r,t),
       owl_specialization_of(r,r),
-      owl_satisfies_restriction_up_to(r,t,t),
-      owl_restriction_on_property(r,r,r),
-      owl_description_recursice(r,t),
-      owl_consistent_selection(r,r,r),
-      owl_atomic(t),
-      rdf_readable(r,-),
-      rdf_write_readable(r).
-
-
-%% owl_restriction_on_property(?Resource, ?Property, ?Restriction)
-%
-owl_restriction_on_property(Resource, Property, Restriction) :-
-  rdfs_individual_of(Resource, Cls),
-  rdfs_individual_of(Cls, owl:'Restriction'),
-  rdf_has(Restriction, owl:onProperty, Property).
-
-
-owl_type_of(Resource, Cls) :-
-  rdf_has(Resource, rdf:type, Cls),
-  Cls \= 'http://www.w3.org/2002/07/owl#NamedIndividual',
-  % ensure there is no class in Types that is more specific then Cls
-  forall((
-     rdf_has(Resource, rdf:type, Cls_other),
-     Cls \= Cls_other
-  ), \+ owl_subclass_of(Cls_other, Cls)).
+      owl_satisfies_restriction_up_to(r,t,t).
 
 %% owl_satisfies_restriction_up_to(?Resource, ?Restr, ?UpTo)
 %
@@ -185,8 +155,6 @@ owl_specialization_of(Resource, Resource).
 
 %% owl_specializable(?Resource, ?Description)
 %
-% TODO(DB): separate code into owl_specializable_class and owl_specializable_subject -> avoid redundant checks if resource is a class
-%
 owl_specializable(Resource, Description) :-
   % already at least as specific as Description
   owl_specialization_of(Resource, Description), !.
@@ -223,7 +191,7 @@ owl_specializable_(Resource, class(Cls)) :-
   owl_specializable_class(Resource, class(Cls)).
 owl_specializable_(Resource, class(Cls)) :-
   % specializable if one of the most specific types of resource is a generalization of Cls
-  owl_type_of(Resource, Resource_type),
+  rdfs_type_of(Resource, Resource_type),
   owl_subclass_of(Cls, Resource_type), !.
 
 owl_specializable_(Resource, intersection_of(List)) :-
@@ -286,7 +254,7 @@ owl_specializable_(Resource, restriction(P,has_value(O))) :-
   owl_has(Resource,P,O), !.
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   once((
-    owl_type_of(O, Cls),
+    rdfs_type_of(O, Cls),
     owl_decomposable_on_resource(Resource, P, Cls)
   )),
   % specializable if we can add O as new value ...
@@ -373,50 +341,3 @@ owl_inverse_property_chain_([P|Rest],[P_inv|Rest_inv]) :-
   owl_inverse_property(P, P_inv),
   owl_inverse_property_chain_(Rest,Rest_inv).
 
-
-rdf_write_readable(X) :- rdf_readable(X,Readable), write(Readable).
-
-rdf_readable(class(Cls),Out) :- rdf_readable_internal(Cls,Out), !.
-rdf_readable(Descr,Out) :-
-  (is_list(Descr) -> X=Descr ; Descr=..X),
-  findall(Y_, (member(X_,X), once(rdf_readable_internal(X_,Y_))), Y),
-  Out=Y.
-rdf_readable_internal(P,P_readable) :-
-  atom(P), rdf_has(P, owl:inverseOf, P_inv),
-  rdf_readable_internal(P_inv, P_inv_),
-  atomic_list_concat(['inverse_of(',P_inv_,')'], '', P_readable), !.
-rdf_readable_internal(class(X),Y) :- rdf_readable_internal(X,Y).
-rdf_readable_internal(X,Y) :- atom(X), rdf_split_url(_, Y, X).
-rdf_readable_internal(X,X) :- atom(X).
-rdf_readable_internal(X,Y) :- compound(X), rdf_readable(X,Y).
-
-
-owl_description_recursice(Resource,Descr) :-
-  owl_description(Resource,Resource_x),
-  owl_description_recursice_(Resource_x,Descr), !.
-owl_description_recursice_(complement_of(Cls), complement_of(Cls_descr)) :-
-  owl_description_recursice(Cls, Cls_descr), !.
-owl_description_recursice_(restriction(P,some_values_from(Cls)),
-                           restriction(P,some_values_from(Cls_descr))) :-
-  owl_description_recursice(Cls, Cls_descr), !.
-owl_description_recursice_(restriction(P,all_values_from(Cls)),
-                           restriction(P,all_values_from(Cls_descr))) :-
-  owl_description_recursice(Cls, Cls_descr), !.
-owl_description_recursice_(restriction(P,cardinality(Min,Max,Cls)),
-                           restriction(P,cardinality(Min,Max,Cls_descr))) :-
-  owl_description_recursice(Cls, Cls_descr), !.
-owl_description_recursice_(Cls, Cls).
-
-
-owl_atomic([]).
-owl_atomic([X|Xs]) :- owl_atomic(X), owl_atomic(Xs).
-owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', owl:'Class'), !.
-owl_atomic(Domain) :- atom(Domain), owl_individual_of(Domain, _), !.
-
-
-owl_consistent_selection(Domain, Property, Selection) :-
-  owl_individual_of(Selection,Domain),
-  % enforce unique values for inverse functional properties
-  once((( rdfs_subproperty_of(Property, Super),
-          rdfs_individual_of(Super, owl:'InverseFunctionalProperty') )
-    -> \+ rdf_has(_, Property, Selection) ; true )).
