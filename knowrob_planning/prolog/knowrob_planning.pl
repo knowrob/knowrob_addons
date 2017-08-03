@@ -64,7 +64,8 @@
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 
-:- dynamic strategy_selection_criteria_sorted/2.
+:- dynamic strategy_selection_criteria_sorted/2,
+           agenda_items_sorted/2.
 
 :-  rdf_meta
       create_agenda(r,r,r),
@@ -94,10 +95,6 @@
 %   - Think about support for computables properties/SWRL
 %   - Also add items caused by specializable type?
 %   - Keep history of decisions. for instance union descriptions may require this!
-%   - Keep sorted structure of agenda, sort-in new agenda items
-%       - owl based representation requires many db interactions
-%       - use prolog list simply?
-%       - use foreign language instead?
 %   - Make agenda items valid OWL 
 %       - biggest issue is the domain value that is a class description, not an individual
 %       - annotation properties could be used but would disable standart OWL reasoning
@@ -111,6 +108,7 @@
 create_agenda(Obj, Strategy, Agenda) :-
   rdf_instance_from_class(knowrob_planning:'Agenda', Agenda),
   rdf_assert(Agenda, knowrob_planning:'strategy', Strategy),
+  assertz(agenda_items_sorted(Agenda,[])),
   agenda_add_object(Agenda, Obj, 0).
 
 %% agenda_items(+Agenda,-Items)
@@ -135,7 +133,8 @@ assert_last_selected_item(Item) :-
 %% agenda_pop(+Agenda,-Item)
 %
 agenda_pop(Agenda, Item)  :-
-  agenda_items_sorted(Agenda, [X|_]),
+  agenda_items_sorted(Agenda, [X|RestItems]),
+  agenda_items_sorted_update(Agenda, RestItems),
   ( agenda_item_valid(X)
   -> ( % count how often item was selected, and assert as last selected item
     agenda_item_inhibit(X),
@@ -150,7 +149,8 @@ agenda_pop(Agenda, Item)  :-
 %
 agenda_push(Agenda, Item) :-
   once(( rdf_has(Agenda, knowrob_planning:'agendaItem', Item) ;
-         rdf_assert(Agenda, knowrob_planning:'agendaItem', Item) )).
+         rdf_assert(Agenda, knowrob_planning:'agendaItem', Item) )),
+  agenda_sort_in(Agenda, Item).
 
 agenda_add_object(Agenda, Root, Depth) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
@@ -175,6 +175,12 @@ agenda_remove_object(Agenda, Object) :-
   ), retract_agenda_item(Item)).
 
 retract_agenda_item(Item) :-
+  % make sure item is deleted from the agenda item list
+  rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
+  agenda_items_sorted(Agenda, Items),
+  delete(Items, Item, Items_new),
+  agenda_items_sorted_update(Agenda, Items_new),
+  % retract all the rdf facts
   rdf_retractall(Item, _, _),
   rdf_retractall(_, _, Item).
 
@@ -402,11 +408,22 @@ part_of_workpiece(S, Strategy, Depth, Part, Cache) :-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Agenda sorting based on selection criteria
 
-%% agenda_items_sorted(+Agenda,-Sorted)
-%
-agenda_items_sorted(Agenda, Sorted) :-
-  agenda_items(Agenda, Items),
-  predsort(compare_agenda_items, Items, Sorted).
+agenda_items_sorted_update(Agenda, Items) :-
+  retractall(agenda_items_sorted(Agenda,_)),
+  assertz(agenda_items_sorted(Agenda,Items)).
+
+agenda_sort_in(Agenda, Item) :-
+  rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
+  strategy_selection_criteria(Strategy, Criteria),
+  agenda_items_sorted(Agenda, Items),
+  agenda_sort_in_(Criteria, Item, Items, Items_new),
+  agenda_items_sorted_update(Agenda, Items_new).
+
+agenda_sort_in_(_, Elem, [], [Elem]) :- !.
+agenda_sort_in_(Criteria, Elem, [Head|Tail], [Elem,Head|Tail]) :-
+  compare_agenda_items('<', Criteria, Elem, Head), !.
+agenda_sort_in_(Criteria, Elem, [Head|Tail], [Head|Tail_sorted]) :-
+  agenda_sort_in_(Criteria, Elem, Tail, Tail_sorted).
 
 compare_agenda_items(Delta, Item1, Item2) :-
   agenda_item_strategy(Item1, Startegy),
@@ -414,7 +431,7 @@ compare_agenda_items(Delta, Item1, Item2) :-
   strategy_selection_criteria(Startegy, Criteria),
   compare_agenda_items(Delta, Criteria, Item1, Item2).
 
-compare_agenda_items('<', [], _, _) :- !. % random selection
+compare_agenda_items('>', [], _, _) :- !. % random selection
 compare_agenda_items(Delta, [Criterium|Rest], Item1, Item2) :-
   agenda_item_selection_value(Item1, Criterium, Val1),
   agenda_item_selection_value(Item2, Criterium, Val2),
@@ -434,7 +451,7 @@ strategy_selection_criteria(Strategy, Criteria) :-
 
 compare_selection_criteria(Delta, C1, C2) :-
   selection_priority(C1, V1), selection_priority(C2, V2),
-  ( V1 < V2 -> Delta='>' ; Delta='<' ). % high priority first
+  ( V1 =< V2 -> Delta='>' ; Delta='<' ). % high priority first
 
 selection_priority(C,V) :-
   rdf_has(C, knowrob_planning:'selectionPriority', Val),
