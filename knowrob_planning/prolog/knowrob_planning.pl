@@ -65,7 +65,8 @@
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 
 :- dynamic strategy_selection_criteria_sorted/2,
-           agenda_items_sorted/2.
+           agenda_items_sorted/2,
+           agenda_item_last_selected/1.
 
 :-  rdf_meta
       create_agenda(r,r,r),
@@ -116,29 +117,19 @@ create_agenda(Obj, Strategy, Agenda) :-
 agenda_items([X|Xs], [X|Xs]) :- !.
 agenda_items(Agenda, Items)  :- findall(X, rdf_has(Agenda,knowrob_planning:'agendaItem',X), Items).
 
-%% agenda_item_last_selected(?Item)
-%
-% remember last performed item (for inhibition selection)
-%
-agenda_item_last_selected(Item) :-
-  current_predicate(agenda_item_last_selected_, _),
-  agenda_item_last_selected_(Item).
-
-assert_last_selected_item(Item) :-
-  once(( \+ current_predicate(agenda_item_last_selected_, _) ;
-         retract(agenda_item_last_selected_(_)) )),
-  agenda_item_description(Item, Descr),
-  assertz( agenda_item_last_selected_(Descr) ).
-
 %% agenda_pop(+Agenda,-Item)
 %
 agenda_pop(Agenda, Item)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   ( agenda_item_valid(X)
-  -> ( % count how often item was selected, and assert as last selected item
+  -> (
+    % count how often item was selected
     agenda_item_inhibit(X),
-    assert_last_selected_item(X),
+    % remember last selected item
+    retractall(agenda_item_last_selected(_)),
+    agenda_item_description(X, Descr),
+    assertz(agenda_item_last_selected(Descr)),
     Item=X
   ) ; ( % retract invalid, pop next
     retract_agenda_item(X),
@@ -148,9 +139,10 @@ agenda_pop(Agenda, Item)  :-
 %% agenda_push(+Agenda,+Item)
 %
 agenda_push(Agenda, Item) :-
-  once(( rdf_has(Agenda, knowrob_planning:'agendaItem', Item) ;
-         rdf_assert(Agenda, knowrob_planning:'agendaItem', Item) )),
-  agenda_sort_in(Agenda, Item).
+  rdf_has(Agenda, knowrob_planning:'agendaItem', Item) ; (
+    rdf_assert(Agenda, knowrob_planning:'agendaItem', Item),
+    agenda_sort_in(Agenda, Item)
+  ), !.
 
 agenda_add_object(Agenda, Root, Depth) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
@@ -240,26 +232,19 @@ agenda_item_description_internal_D(Item, item(S,Domain,(Cause,Restr))) :-
 
 %% agenda_item_type(?Item,?Type)
 %
-agenda_item_type(item(integrate,_,_,_,_), Type) :-
-  rdf_equal(Type, knowrob_planning:'IntegrateAgendaItem'), !.
-agenda_item_type(item(decompose,_,_,_,_), Type) :-
-  rdf_equal(Type, knowrob_planning:'DecomposeAgendaItem'), !.
-agenda_item_type(item(detach,_,_,_,_), Type) :-
-  rdf_equal(Type, knowrob_planning:'DetachAgendaItem'), !.
-agenda_item_type(item(classify,_,_,_,_), Type) :-
-  rdf_equal(Type, knowrob_planning:'ClassifyAgendaItem'), !.
-agenda_item_type(Item, Type) :-
-  rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'),
-  rdf_equal(Type, knowrob_planning:'IntegrateAgendaItem'), !.
-agenda_item_type(Item, Type) :-
-  rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'),
-  rdf_equal(Type, knowrob_planning:'DecomposeAgendaItem'), !.
-agenda_item_type(Item, Type) :-
-  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'),
-  rdf_equal(Type, knowrob_planning:'DetachAgendaItem'), !.
-agenda_item_type(Item, Type) :-
-  rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'),
-  rdf_equal(Type, knowrob_planning:'ClassifyAgendaItem'), !.
+agenda_item_type(item(integrate,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#IntegrateAgendaItem') :- !.
+agenda_item_type(item(decompose,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem') :- !.
+agenda_item_type(item(detach,_,_,_,_),    'http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem')    :- !.
+agenda_item_type(item(classify,_,_,_,_),  'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem')  :- !.
+
+agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#IntegrateAgendaItem') :-
+  rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'), !.
+agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem') :-
+  rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'), !.
+agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem') :-
+  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !.
+agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem') :-
+  rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !.
 
 %% agenda_item_object(?Item,?S)
 %
@@ -280,6 +265,8 @@ agenda_item_property(Item,P) :-
   \+ rdfs_subproperty_of(P, knowrob_planning:'itemDepth'),
   \+ rdf_equal(P, rdf:type), !.
 
+%% decomposable_property(?P)
+%
 decomposable_property(P) :-
   rdfs_subproperty_of(P, knowrob_planning:'decomposablePredicate'), !.
 decomposable_property(P1) :-
@@ -408,9 +395,9 @@ part_of_workpiece(S, Strategy, Depth, Part, Cache) :-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Agenda sorting based on selection criteria
 
-agenda_items_sorted_update(Agenda, Items) :-
+agenda_items_sorted_update(Agenda, SortedItems) :-
   retractall(agenda_items_sorted(Agenda,_)),
-  assertz(agenda_items_sorted(Agenda,Items)).
+  assertz(agenda_items_sorted(Agenda,SortedItems)).
 
 agenda_sort_in(Agenda, Item) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
@@ -431,14 +418,14 @@ compare_agenda_items(Delta, Item1, Item2) :-
   strategy_selection_criteria(Startegy, Criteria),
   compare_agenda_items(Delta, Criteria, Item1, Item2).
 
-compare_agenda_items('>', [], _, _) :- !. % random selection
+compare_agenda_items('>', [], _, _) :- !. % no selection criterium left -> random selection
 compare_agenda_items(Delta, [Criterium|Rest], Item1, Item2) :-
   agenda_item_selection_value(Item1, Criterium, Val1),
   agenda_item_selection_value(Item2, Criterium, Val2),
   (  Val1 is Val2
   -> compare_agenda_items(Delta, Rest, Item1, Item2)
   ; ( % "smaller" elements (higher priority) first
-    Val1 > Val2 -> Delta='<' ;  Delta='>'
+     Val1 > Val2 -> Delta='<' ;  Delta='>'
   )).
 
 strategy_selection_criteria(Strategy, Criteria) :-
