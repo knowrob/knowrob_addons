@@ -588,12 +588,23 @@ agenda_item_domain_compute(Item, Domain) :-
   findall(D, ( % find set of restrictions that caused items of S with property P
     agenda_item_match(Item, X),
     agenda_item_property(X, P_X),
-    once(rdfs_subproperty_of(P, P_X)),
-    agenda_item_domain(X, D)
+    once(rdfs_subproperty_of(P, P_X) ;
+         rdfs_subproperty_of(P_X, P)),
+    agenda_item_domain(X, X_D),
+    % infer domain implied by restriction class
+    % TODO: redundant with other code here
+    (( rdfs_individual_of(X_D, owl:'Restriction'),
+       rdf_has(X_D, owl:onProperty, P_restr),
+       owl_restriction_implied_class(X_D, Restr_cls) )
+    -> (
+      owl_inverse_property(P_restr,P_restr_inv),
+      owl_property_range_on_class(Restr_cls, P_restr_inv, D)
+    ); D=X_D )
   ), Domains),
   once((
     owl_most_specific(Domains, Domain),
-    owl_subclass_of(Domain, D_item)
+    owl_specializable(D_item, Domain)
+    %owl_subclass_of(Domain, D_item)
   )).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
