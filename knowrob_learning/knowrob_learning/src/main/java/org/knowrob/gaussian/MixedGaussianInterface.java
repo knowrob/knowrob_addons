@@ -10,7 +10,7 @@ public class MixedGaussianInterface
 	public native void createMultiVarGaussians(String inputPath, String outputPath);
 	public native void analyzeCluster(String inputPath, String outputPath);
 	public native double[] analyzeTrials(String posPath, String negPath, String outputPath, int posClusters, int negClusters);
-	public native double[] likelyLocationClosest(String posPath, String negPath, int posClusters, int negClusters, float x, float y);
+	public native double[] likelyLocationClosest(String posPath, String negPath, int posClusters, int negClusters, float[] x);
 	
 	public void createHeatMaps()
 	{
