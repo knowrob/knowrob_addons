@@ -63,6 +63,7 @@ mixed_gaussian_with_failure(PosFile, PosCluster, NegFile, NegCluster, OutFile, P
   jpl_array_to_list(_X, Pose). 
 
 get_likely_location(PosFile, PosCluster, NegFile, NegCluster, Mean, Covariance) :-
+  jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], _X),
   jpl_array_to_list(_X, [MX, MY, C1, C2, C3, C4]),
   Mean = [MX, MY],
