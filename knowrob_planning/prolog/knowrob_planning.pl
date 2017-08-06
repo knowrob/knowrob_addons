@@ -666,11 +666,11 @@ agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
 agenda_item_project(Item, Descr, Domain, Selected) :-
   (  owl_atomic(Domain)
   -> agenda_item_project_internal(Descr, Domain, Selected)
-  ;  agenda_item_specialize_domain(Item, Domain) ), !. % FIXME selected may not be bound!
+  ; (agenda_item_specialize_domain(Item, Domain), Selected=Domain) ), !.
 
 agenda_item_project_internal(decompose(S,P), Cls, O)   :- decompose(S,P,Cls,O), !.
 agenda_item_project_internal(integrate(S,P),   O, O)   :- agenda_assert_triple(S,P,O), !.
-agenda_item_project_internal( classify(S,_), Cls, Cls) :- planning_assert(S,rdf:'type',Cls), !.
+agenda_item_project_internal( classify(S,_), Cls, Cls) :- planning_assert(S,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',Cls), !.
 agenda_item_project_internal(   detach(S,P),   O, O)   :- planning_retract(S,P,O), !.
 
 decompose(S,P,Domain,O) :-
@@ -692,12 +692,13 @@ decompose(S,P,Domain,O) :-
     ) ; Type_selected = O_type )
   )),
   % assert decomposition facts
-  rdf_instance_from_class(Type_selected, O), debug_type_assertion(O,Type_selected),
+  rdf_unique_id(Type_selected, O),
+  planning_assert(O,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Type_selected),
   forall((
     member(Type,Types), 
     Type \= Type_selected,
     \+ rdf_has(Type, owl:unionOf, _)),
-    planning_assert(O,rdf:'type',Type)
+    planning_assert(O, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Type)
   ),
   agenda_assert_triple(S,P,O).
 

@@ -110,7 +110,7 @@ owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if one of the existing values can be specialized to Cls
   \+ rdfs_individual_of(Resource, owl:'Class'),
   owl_description(Cls, Cls_descr),
-  owl_has(Resource, P, O), % TODO: check inverse property triples
+  owl_has(Resource, P, O),
   owl_specializable_(O, Cls_descr), !.
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if it is consistent to add a new value of type Cls for P
