@@ -114,6 +114,9 @@ agenda_create(Obj, Strategy, Agenda) :-
 %       causedByRestrictionOn CauseSubject
 %       causedByRestriction   CauseRestriction     # FIXME: not valid OWL!
 %
+% Agenda item patterns have the same structure. Each item which is a specialization
+% of the pattern is matched.
+%
 % @param Agenda Planning agenda
 % @param Items  Unordered agenda items
 %
@@ -191,13 +194,14 @@ assert_agenda_item(detach(S,P,Domain,Count), Item) :-
 assert_agenda_item(classify(S,Domain), Item) :-
   rdf_instance_from_class(knowrob_planning:'ClassifyAgendaItem', Item),
   rdf_assert(Item, knowrob_planning:'itemOf', S),
-  assert_agenda_item_domain_classify(Item, Domain).
+  assert_agenda_item_domain(Item, nil, Domain).
 assert_agenda_item_P(Item, (S,P,Domain,Count)) :-
   rdf_assert(Item, knowrob_planning:'itemOf', S),
   rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int, Count))),
   assert_agenda_item_domain(Item, P, Domain).
 
-assert_agenda_item_domain_classify(Item, Domain) :-
+% TODO: wouldn't it be more elegant to use rdf:type instead of nil?
+assert_agenda_item_domain(Item, nil, Domain) :-
   rdf_node(Id),
   rdf_assert(Id, rdf:type, owl:'Restriction'),
   rdf_assert(Id, owl:onProperty, knowrob_planning:'itemOf'),
@@ -256,21 +260,19 @@ agenda_item_description(item(T,S,P,Domain,Reason),
                         item(T,S,P,Domain,Reason)) :- !.
 agenda_item_description(Item, item(integrate,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)), !.
+  agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description(Item, item(decompose,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)), !.
+  agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description(Item, item(detach,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)), !.
+  agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description(Item, item(classify,S,nil,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'),
-  agenda_item_description_internal_D(Item, item(S,Domain,Reason)), !.
-agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)) :-
-  agenda_item_property(Item,P),
-  agenda_item_description_internal_D(Item, item(S,Domain,Reason)).
-agenda_item_description_internal_D(Item, item(S,Domain,Reason)) :-
+  agenda_item_description_internal(Item, item(S,Domain,Reason)), !.
+agenda_item_description_internal(Item, item(S,P,Domain,Reason)) :-
   rdf(Item, knowrob_planning:'itemOf', S),
+  agenda_item_property(Item,P),
   agenda_item_domain(Item,Domain),
   agenda_item_reason(Item,Reason).
 
@@ -314,6 +316,7 @@ agenda_item_property(Item,P) :-
   rdf(Restr, owl:onProperty, knowrob_planning:'itemOf'),
   rdf(Restr, owl:allValuesFrom, PropertyRestr),
   rdf(PropertyRestr, owl:onProperty, P), !.
+agenda_item_property(_Item,nil).
   
 %% agenda_item_domain(?Item,?Domain)
 %
@@ -334,10 +337,6 @@ agenda_item_domain(Item,Domain) :-
 
 % NOTE: it is assumed that the domain is in fact a specialization.
 %       May need to be enforced before calling this.
-agenda_item_specialize_domain(Item, Domain) :-
-  rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
-  retract_agenda_item_domain(Item),
-  assert_agenda_item_domain(Item,Domain).
 agenda_item_specialize_domain(Item, Domain) :-
   agenda_item_property(Item,P),
   retract_agenda_item_domain(Item),
@@ -631,7 +630,7 @@ agenda_item_matches_domain(Item, Pattern) :-
   -> ( agenda_item_domain(Item,Domain), owl_specializable(Domain_Pattern, Domain) )
   ;  true.
 
-agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P).
+agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P), P \= nil.
 agenda_pattern_domain(Pattern,Domain) :- agenda_item_domain(Pattern,Domain).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -655,7 +654,6 @@ agenda_item_domain_compute(Items, Domain) :-
 
 %% agenda_item_domain_compute(+Items,?P_specific)
 %
-% FIXME: classify items
 agenda_item_property_compute(Items, P_specific) :-
   findall(P, (
     member(Item, Items),
@@ -683,7 +681,6 @@ agenda_perform_next(Agenda) :-
 agenda_perform(Agenda, Item, Descr) :-
   agenda_item_siblings(Item, Siblings),
   agenda_item_domain_compute(Siblings, Domain_inferred),
-  % FIXME: what about the classify items? might yield false now for these
   agenda_item_property_compute(Siblings, P_inferred),
   agenda_item_cardinality(Item, Card),
   % build term Operation(S,P_inferred) with Operation one of integrate, classify, ...
@@ -852,7 +849,7 @@ agenda_item_update(detach(_,_),Agenda,_Item,Siblings,Selection) :- !,
   forall( member(X,Siblings), (
     agenda_item_cardinality(X,Card),
     ( Selection_count >= Card ->
-    % FIXME: ensure that selection matches item domain!
+    % FIXME: ensure that selection matches item domain
     ( retract_agenda_item(X) ) ; (
       NewCard is Card - Selection_count, 
       agenda_item_update_cardinality(X,NewCard),
@@ -896,7 +893,6 @@ agenda_item_update_specify(Agenda,Item,Selection) :-
 
 %% agenda_item_siblings(+Item,-Siblings)
 %
-% FIXME: classify items
 agenda_item_siblings(Item, Siblings) :-
   agenda_item_property(Item, P),
   agenda_item_domain(Item, Domain),
@@ -904,7 +900,8 @@ agenda_item_siblings(Item, Siblings) :-
     agenda_item_match(Item, X),
     once((X=Item ; (
       agenda_item_property(X, P_X),
-      ( rdfs_subproperty_of(P, P_X) ;
+      ( P=P_X ; % NOTE: needed for classify items (P=nil)
+        rdfs_subproperty_of(P, P_X) ;
         rdfs_subproperty_of(P_X, P) ),
       agenda_item_domain(X, Domain_X),
       % TODO: need to check in both directions?
