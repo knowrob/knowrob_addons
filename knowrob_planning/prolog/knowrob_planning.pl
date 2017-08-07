@@ -105,13 +105,14 @@ agenda_create(Obj, Strategy, Agenda) :-
 %
 % The OWL representation of agenda item individuals is given by:
 %   AgendaItem_XYY
-%     type ItemType
-%     type (itemOf only (Predicate some Domain))
-%     itemOf Subject
-%     itemCardinality Cardinality
-%     itemCondition Condition
+%     type ItemType                                # one of DecomposeAgendaItem,...
+%     type (itemOf only (Predicate some Domain))   # for decompose/integrate/detach items
+%     type (itemOf only Domain)                    # for classify items
+%     itemOf Subject                               # underspecified individual
+%     itemCardinality Cardinality                  # needed additional cardinality or 1 for classify items
+%     itemCondition Condition                      # description of unsattisfied restriction that caused the item
 %       causedByRestrictionOn CauseSubject
-%       causedByRestriction   CauseRestriction
+%       causedByRestriction   CauseRestriction     # FIXME: not valid OWL!
 %
 % @param Agenda Planning agenda
 % @param Items  Unordered agenda items
@@ -389,6 +390,7 @@ agenda_item_strategy(Item, Strategy) :-
 %
 % NOTE: `agenda_item_update` ensures (to some extend) that agenda items are valid 
 %       or else deleted. This is just an additional test to be safe before performing the item.
+%
 agenda_item_valid(item(classify,S,_,Domain,(Cause,Restr)), _Item) :- !,
   satisfies_restriction_up_to(Cause, Restr, classify(S,UpToDomain)),
   owl_specializable(Domain,UpToDomain), !.
@@ -443,7 +445,7 @@ part_of_workpiece(Root, _, Depth, (Root,Depth), []).
 part_of_workpiece(S, Strategy, Depth, Part, Cache) :-
   \+ member(S, Cache),
   once((
-    rdf_has(S, P, O), atom(P),
+    rdf(S, P, O), atom(P),
     rdfs_individual_of(P, owl:'ObjectProperty'),
     % ignore "unfocussed" triples
     agenda_item_description_in_focus(item(_,S,P,O,_),Strategy)
@@ -584,6 +586,12 @@ assert_agenda_item_inhibition(Item, Val) :-
 % Patterns are OWL class descriptions with restrictions imposed
 % on different properties of agenda items.
 %
+% NOTE: Item might be a Prolog term which is not suitable for `owl_specializable`.
+%       This is to allow checking if a not yet generated item matches a pattern
+%       without actually asserting the item to RDF store.
+%       RDF agenda items can be matched with the following code:
+%          owl_specializable(Pattern, Item).
+%
 % @param Item Agenda item
 % @param Item Agenda item pattern
 %
@@ -595,23 +603,23 @@ agenda_item_matches_pattern(Item, Pattern) :-
   once(agenda_item_matches_domain(Descr, Pattern)).
 
 agenda_item_matches_item_type(Item, Pattern) :-
-  rdfs_individual_of(Pattern, knowrob_planning:'AgendaItem')
-  -> (
+  ( rdf(Pattern, rdf:type, Pattern_Type),
+    rdfs_subclass_of(Pattern_Type, knowrob_planning:'AgendaItem') )
+  *-> (
     agenda_item_type(Item, Type),
-    rdf_has(Pattern, rdf:type, Pattern_Type),
-    rdf_has(Pattern_Type, rdfs:subClassOf, Pattern_ItemType),
-    rdfs_subclass_of(Type, Pattern_ItemType) )
+    rdfs_subclass_of(Type, Pattern_Type) )
   ; true.
 
 agenda_item_matches_object(Item,Pattern) :-
-  owl_restriction_on(Pattern, knowrob_planning:'itemOf', Restr)
-  -> ( agenda_item_subject(Item,S), owl_individual_of(S, Restr) )
+  rdf_has(Pattern, knowrob_planning:'itemOf', S)
+  -> agenda_item_subject(Item,S)
   ;  true.
 
 agenda_item_matches_property(Item, Pattern) :-
   agenda_pattern_property(Pattern,P_Pattern)
   -> (
     agenda_item_property(Item,P),
+    % TODO: this should be code of owl_subproperty_of, and be used by owl_specializable
     ( rdfs_subproperty_of(P, P_Pattern) ;
     ( rdf_has(P, owl:inverseOf, P_inv),
       rdf_has(P_Pattern, owl:inverseOf, P_Pattern_inv),
@@ -623,25 +631,8 @@ agenda_item_matches_domain(Item, Pattern) :-
   -> ( agenda_item_domain(Item,Domain), owl_specializable(Domain_Pattern, Domain) )
   ;  true.
 
-%% agenda_pattern_property(?Item,?P)
-%
-agenda_pattern_property(Pattern,P) :-
-  % NOTE: same remark as for `agenda_item_property`. This could potentially yield unwanted properties.
-  rdfs_individual_of(Pattern, Cls),
-  rdfs_individual_of(Cls, owl:'Restriction'),
-  rdf(Cls, owl:onProperty, P),
-  \+ rdfs_subproperty_of(P, knowrob_planning:'agendaPredicate'),
-  \+ rdf_equal(P, rdf:type).
-
-%% agenda_pattern_domain(?Item,?P)
-%
-agenda_pattern_domain(Pattern,Domain) :-
-  agenda_pattern_property(Pattern,P),
-  owl_restriction_on(Pattern,P,Restr),
-  owl_restriction_object_domain(Restr, Domain),
-  \+ rdf_equal(Domain, owl:'Thing'), !.
-agenda_pattern_domain(Pattern,Domain) :-
-  rdf_has(Pattern, knowrob_planning:'itemDomain', Domain).
+agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P).
+agenda_pattern_domain(Pattern,Domain) :- agenda_item_domain(Pattern,Domain).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
