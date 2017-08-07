@@ -85,7 +85,10 @@
 %       - biggest issue is the domain value that is a class description, not an individual
 %       - annotation properties could be used but would disable standart OWL reasoning
 %       - cleanest solution is to make agenda items class descriptions instead of individuals,
-%         but still issues with item property representation
+%         AgendaItem_XYZ
+%             subClassOf IntegrateAgendaItem
+%             subClassOf (itemOf value Subject)
+%             subClassOf (itemOf only (Predicate exactly Cardinality Domain))
 %       - use owl_specialization_of for pattern matching
 %
 
