@@ -1,4 +1,4 @@
-/** <module> Planning and configuration in technical domains
+/** <module> Planning according to OWL specifications
   
   Copyright (C) 2017 Daniel Beßler
   All rights reserved.
