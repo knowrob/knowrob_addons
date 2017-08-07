@@ -81,15 +81,6 @@
 %   - Think about support for computables properties/SWRL
 %   - Also add items caused by specializable type?
 %   - Keep history of decisions. for instance union descriptions may require this!
-%   - Make agenda items valid OWL 
-%       - biggest issue is the domain value that is a class description, not an individual
-%       - annotation properties could be used but would disable standart OWL reasoning
-%       - cleanest solution is to make agenda items class descriptions instead of individuals,
-%         AgendaItem_XYZ
-%             subClassOf IntegrateAgendaItem
-%             subClassOf (itemOf value Subject)
-%             subClassOf (itemOf only (Predicate exactly Cardinality Domain))
-%       - use owl_specialization_of for pattern matching
 %
 
 %% agenda_create(+Obj,+Strategy,-Agenda)
@@ -111,6 +102,16 @@ agenda_create(Obj, Strategy, Agenda) :-
   agenda_add_object(Agenda, Obj, 0).
 
 %% agenda_items(+Agenda,-Items)
+%
+% The OWL representation of agenda item individuals is given by:
+%   AgendaItem_XYY
+%     type ItemType
+%     type (itemOf only (Predicate some Domain))
+%     itemOf Subject
+%     itemCardinality Cardinality
+%     itemCondition Condition
+%       causedByRestrictionOn CauseSubject
+%       causedByRestriction   CauseRestriction
 %
 % @param Agenda Planning agenda
 % @param Items  Unordered agenda items
@@ -189,11 +190,36 @@ assert_agenda_item(detach(S,P,Domain,Count), Item) :-
 assert_agenda_item(classify(S,Domain), Item) :-
   rdf_instance_from_class(knowrob_planning:'ClassifyAgendaItem', Item),
   rdf_assert(Item, knowrob_planning:'itemOf', S),
-  rdf_assert(Item, knowrob_planning:'itemDomain', Domain).
+  assert_agenda_item_domain_classify(Item, Domain).
 assert_agenda_item_P(Item, (S,P,Domain,Count)) :-
   rdf_assert(Item, knowrob_planning:'itemOf', S),
   rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int, Count))),
-  rdf_assert(Item, P, Domain).
+  assert_agenda_item_domain(Item, P, Domain).
+
+assert_agenda_item_domain_classify(Item, Domain) :-
+  rdf_node(Id),
+  rdf_assert(Id, rdf:type, owl:'Restriction'),
+  rdf_assert(Id, owl:onProperty, knowrob_planning:'itemOf'),
+  rdf_assert(Id, owl:allValuesFrom, Domain),
+  rdf_assert(Item, rdf:'type', Id).
+assert_agenda_item_domain(Item, P, Domain) :-
+  rdf_node(Id1), rdf_node(Id2),
+  rdf_assert(Id1, rdf:type, owl:'Restriction'),
+  rdf_assert(Id1, owl:onProperty, knowrob_planning:'itemOf'),
+  rdf_assert(Id1, owl:allValuesFrom, Id2),
+  rdf_assert(Id2, rdf:type, owl:'Restriction'),
+  rdf_assert(Id2, owl:onProperty, P),
+  rdf_assert(Id2, owl:someValuesFrom, Domain),
+  rdf_assert(Item, rdf:'type', Id1).
+
+retract_agenda_item_domain(Item) :-
+  forall((
+    rdfs_individual_of(Item, Restr),
+    rdf_has(Restr, owl:onProperty, knowrob_planning:'itemOf')
+  ),(
+    rdf_retractall(_, _, Restr),
+    rdf_retractall(Restr, _, _)
+  )).
 
 %% agenda_remove_object(+Agenda,+Object)
 %
@@ -225,29 +251,27 @@ retract_agenda_item(Item) :-
 % @param Item        RDF agenda item
 % @param Description Prolog agenda item
 %
-agenda_item_description(item(T,S,P,Domain,Cause),
-                        item(T,S,P,Domain,Cause)) :- !.
-agenda_item_description(Item, item(integrate,S,P,Domain,(Cause,Restr))) :-
+agenda_item_description(item(T,S,P,Domain,Reason),
+                        item(T,S,P,Domain,Reason)) :- !.
+agenda_item_description(Item, item(integrate,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr))), !.
-agenda_item_description(Item, item(decompose,S,P,Domain,(Cause,Restr))) :-
+  agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)), !.
+agenda_item_description(Item, item(decompose,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr))), !.
-agenda_item_description(Item, item(detach,S,P,Domain,(Cause,Restr))) :-
+  agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)), !.
+agenda_item_description(Item, item(detach,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'),
-  agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr))), !.
-agenda_item_description(Item, item(classify,S,nil,Domain,(Cause,Restr))) :-
+  agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)), !.
+agenda_item_description(Item, item(classify,S,nil,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'),
-  agenda_item_description_internal_D(Item, item(S,Domain,(Cause,Restr))), !.
-agenda_item_description_internal_P(Item, item(S,P,Domain,(Cause,Restr))) :-
+  agenda_item_description_internal_D(Item, item(S,Domain,Reason)), !.
+agenda_item_description_internal_P(Item, item(S,P,Domain,Reason)) :-
   agenda_item_property(Item,P),
-  agenda_item_description_internal_D(Item, item(S,Domain,(Cause,Restr))).
-agenda_item_description_internal_D(Item, item(S,Domain,(Cause,Restr))) :-
+  agenda_item_description_internal_D(Item, item(S,Domain,Reason)).
+agenda_item_description_internal_D(Item, item(S,Domain,Reason)) :-
+  rdf(Item, knowrob_planning:'itemOf', S),
   agenda_item_domain(Item,Domain),
-  rdf_has(Item, knowrob_planning:'itemOf', S),
-  rdf_has(Item, knowrob_planning:'itemCondition', Condition),
-  rdf_has(Condition, knowrob_planning:'causedByRestrictionOn', Cause),
-  rdf_has(Condition, knowrob_planning:'causedByRestriction', Restr).
+  agenda_item_reason(Item,Reason).
 
 %% agenda_item_type(?Item,?Type)
 %
@@ -260,15 +284,9 @@ agenda_item_type(item(integrate,_,_,_,_), 'http://knowrob.org/kb/knowrob_plannin
 agenda_item_type(item(decompose,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem') :- !.
 agenda_item_type(item(detach,_,_,_,_),    'http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem')    :- !.
 agenda_item_type(item(classify,_,_,_,_),  'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem')  :- !.
-
-agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#IntegrateAgendaItem') :-
-  rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'), !.
-agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem') :-
-  rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'), !.
-agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem') :-
-  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'), !.
-agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem') :-
-  rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !.
+agenda_item_type(Item, Type) :-
+  rdf(Item, rdf:type, Type),
+  rdfs_subclass_of(Type, knowrob_planning:'AgendaItem'), !.
 
 %% agenda_item_subject(?Item,?S)
 %
@@ -291,15 +309,10 @@ agenda_item_subject(Item,S) :- rdf_has(Item, knowrob_planning:'itemOf', S), !.
 %
 agenda_item_property(item(_,_,P,_,_),P) :- !.
 agenda_item_property(Item,P) :-
-  % FIXME: it's not so nice to query for the property IRI like this.
-  %        could yield unwanted triples if there are non agendaPredicate properties defined.
-  %        maybe use annotation property instead/additionally?
-  rdf_has(Item, P, _),
-  P \= inverse_of(_),
-  \+ rdfs_subproperty_of(P, knowrob_planning:'agendaPredicate'),
-  \+ rdfs_subproperty_of(P, knowrob_planning:'itemCardinality'),
-  \+ rdfs_subproperty_of(P, knowrob_planning:'itemDepth'),
-  \+ rdf_equal(P, rdf:type), !.
+  rdf(Item, rdf:type, Restr),
+  rdf(Restr, owl:onProperty, knowrob_planning:'itemOf'),
+  rdf(Restr, owl:allValuesFrom, PropertyRestr),
+  rdf(PropertyRestr, owl:onProperty, P), !.
   
 %% agenda_item_domain(?Item,?Domain)
 %
@@ -311,22 +324,23 @@ agenda_item_property(Item,P) :-
 %
 agenda_item_domain(item(_,_,_,Domain,_),Domain) :- !.
 agenda_item_domain(Item,Domain) :-
-  rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'),
-  rdf_has(Item, knowrob_planning:'itemDomain', Domain), !.
-agenda_item_domain(Item,Domain) :-
-  agenda_item_property(Item,P),
-  rdf_has(Item,P,Domain), !.
+  rdf(Item, rdf:type, Restr),
+  rdf(Restr, owl:onProperty, knowrob_planning:'itemOf'),
+  rdf(Restr, owl:allValuesFrom, ItemOfType),
+  ( rdf(ItemOfType, owl:someValuesFrom, Domain) ;
+    Domain = ItemOfType % classify item
+  ), !.
 
 % NOTE: it is assumed that the domain is in fact a specialization.
 %       May need to be enforced before calling this.
 agenda_item_specialize_domain(Item, Domain) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'), !,
-  rdf_retractall(Item, knowrob_planning:'itemDomain', _),
-  rdf_assert(Item, knowrob_planning:'itemDomain', Domain).
+  retract_agenda_item_domain(Item),
+  assert_agenda_item_domain(Item,Domain).
 agenda_item_specialize_domain(Item, Domain) :-
   agenda_item_property(Item,P),
-  rdf_retractall(Item, P, _),
-  rdf_assert(Item, P, Domain).
+  retract_agenda_item_domain(Item),
+  assert_agenda_item_domain(Item,P,Domain).
   
 %% agenda_item_reason(?Item,?Reason)
 %
@@ -338,9 +352,9 @@ agenda_item_specialize_domain(Item, Domain) :-
 %
 agenda_item_reason(item(_,_,_,_,Reason),Reason) :- !.
 agenda_item_reason(Item, (Cause,Restr)) :-
-  rdf_has(Item, knowrob_planning:'itemCondition', Condition),
-  rdf_has(Condition, knowrob_planning:'causedByRestrictionOn', Cause),
-  rdf_has(Condition, knowrob_planning:'causedByRestriction', Restr), !.
+  rdf(Item, knowrob_planning:'itemCondition', Condition),
+  rdf(Condition, knowrob_planning:'causedByRestrictionOn', Cause),
+  rdf(Condition, knowrob_planning:'causedByRestriction', Restr), !.
 
 %% agenda_item_cardinality(?Item,?Card)
 %
@@ -351,7 +365,7 @@ agenda_item_reason(Item, (Cause,Restr)) :-
 % @param Card  The cardinality of the agenda item
 %
 agenda_item_cardinality(Item,Card) :-
-  rdf_has(Item, knowrob_planning:'itemCardinality', literal(type(_,V))),
+  rdf(Item, knowrob_planning:'itemCardinality', literal(type(_,V))),
   ( number(V) -> Card is V ; atom_number(V,Card) ), !.
 agenda_item_cardinality(_,1).
 
@@ -375,16 +389,14 @@ agenda_item_strategy(Item, Strategy) :-
 %
 % NOTE: `agenda_item_update` ensures (to some extend) that agenda items are valid 
 %       or else deleted. This is just an additional test to be safe before performing the item.
-agenda_item_valid(item(classify,S,_,Domain,(Cause,Restr)), Item) :- !,
+agenda_item_valid(item(classify,S,_,Domain,(Cause,Restr)), _Item) :- !,
   satisfies_restriction_up_to(Cause, Restr, classify(S,UpToDomain)),
-  owl_specializable(Domain,UpToDomain),
-  agenda_item_specialize_domain(Item,UpToDomain), !.
+  owl_specializable(Domain,UpToDomain), !.
 
-agenda_item_valid(item(_,S,P,Domain,(Cause,Restr)), Item) :-
+agenda_item_valid(item(_,S,P,Domain,(Cause,Restr)), _Item) :-
   satisfies_restriction_up_to(Cause, Restr, X),
   X=..[_,S,P,UpToDomain,_],
-  owl_specializable(Domain,UpToDomain),
-  agenda_item_specialize_domain(Item,UpToDomain), !.
+  owl_specializable(Domain,UpToDomain), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -617,7 +629,7 @@ agenda_pattern_property(Pattern,P) :-
   % NOTE: same remark as for `agenda_item_property`. This could potentially yield unwanted properties.
   rdfs_individual_of(Pattern, Cls),
   rdfs_individual_of(Cls, owl:'Restriction'),
-  rdf_has(Cls, owl:onProperty, P),
+  rdf(Cls, owl:onProperty, P),
   \+ rdfs_subproperty_of(P, knowrob_planning:'agendaPredicate'),
   \+ rdf_equal(P, rdf:type).
 
@@ -652,6 +664,7 @@ agenda_item_domain_compute(Items, Domain) :-
 
 %% agenda_item_domain_compute(+Items,?P_specific)
 %
+% FIXME: classify items
 agenda_item_property_compute(Items, P_specific) :-
   findall(P, (
     member(Item, Items),
@@ -679,6 +692,7 @@ agenda_perform_next(Agenda) :-
 agenda_perform(Agenda, Item, Descr) :-
   agenda_item_siblings(Item, Siblings),
   agenda_item_domain_compute(Siblings, Domain_inferred),
+  % FIXME: what about the classify items? might yield false now for these
   agenda_item_property_compute(Siblings, P_inferred),
   agenda_item_cardinality(Item, Card),
   % build term Operation(S,P_inferred) with Operation one of integrate, classify, ...
@@ -891,6 +905,7 @@ agenda_item_update_specify(Agenda,Item,Selection) :-
 
 %% agenda_item_siblings(+Item,-Siblings)
 %
+% FIXME: classify items
 agenda_item_siblings(Item, Siblings) :-
   agenda_item_property(Item, P),
   agenda_item_domain(Item, Domain),
