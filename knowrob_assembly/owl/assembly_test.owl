@@ -14,8 +14,8 @@
     <owl:Ontology rdf:about="http://knowrob.org/kb/assembly_test.owl">
         <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/assembly_map_test.owl"/>
-        <owl:imports rdf:resource="package://knowrob_assembly/owl/assemblages_test.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/assemblages_test.owl"/>
     </owl:Ontology>
     
 
@@ -83,6 +83,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemOf -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#pattern -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#pattern"/>
@@ -135,76 +141,33 @@
     
 
 
-    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem"/>
-    </owl:Class>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
     
 
 
-    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-                    </rdf:Description>
-                </owl:onProperty>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
     
 
 
-    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                    </rdf:Description>
-                </owl:onProperty>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis"/>
     
 
 
-    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles"/>
     
 
 
-    <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_usesConnection -->
+    <!-- http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_usesConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
+    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle"/>
     
 
 
@@ -268,36 +231,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#AxleWithLeftWheel"/>
-    
-
-
-    <!-- http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#AxleWithWheels"/>
-    
-
-
-    <!-- http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#BodyOnChassis"/>
-    
-
-
-    <!-- http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#ChassisWithAxles"/>
-    
-
-
-    <!-- http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/assemblages_test.owl#ChassisWithFrontAxle"/>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -330,7 +263,8 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify_0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_classify"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem"/>
     </owl:NamedIndividual>
     
 
@@ -338,7 +272,22 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance_1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_needsAffordance"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdf:type>
     </owl:NamedIndividual>
     
 
@@ -346,7 +295,22 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection_1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_inverse_usesConnection"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdf:type>
     </owl:NamedIndividual>
     
 
@@ -354,7 +318,18 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance_0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdf:type>
     </owl:NamedIndividual>
     
 
@@ -362,7 +337,18 @@
     <!-- http://knowrob.org/kb/assembly_test.owl#AgendaPattern_usesConnection_0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_usesConnection_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_usesConnection"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
+                <owl:allValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+                    </owl:Restriction>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdf:type>
     </owl:NamedIndividual>
     
 
@@ -373,9 +359,6 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
         <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#AgendaPattern_needsAffordance_0"/>
         <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt"/>
-        <!--
-        <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction"/>
-        -->
     </owl:NamedIndividual>
     
 

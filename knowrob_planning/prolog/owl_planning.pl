@@ -1,4 +1,4 @@
-/** <module> Planning and configuration in technical domains
+/** <module> Planning according to OWL specifications
   
   Copyright (C) 2017 Daniel Beßler
   All rights reserved.
@@ -61,6 +61,15 @@ owl_specialization_of(Specific, General) :-
 
 %% owl_specializable(?Resource, ?Description)
 %
+% Infers if a resource can be specialized to a class description
+% only with adding some facts (and without removing facts).
+% Thus the resource is specializable if we can add facts to it
+% so that it is transformed to a individual of or subclass of
+% the class description.
+%
+% @param Resource RDF resource (class description or named individual)
+% @param Description OWL class description
+%
 owl_specializable(Resource, Description) :-
   % already at least as specific as Description
   owl_specialization_of(Resource, Description), !.
@@ -110,7 +119,7 @@ owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if one of the existing values can be specialized to Cls
   \+ rdfs_individual_of(Resource, owl:'Class'),
   owl_description(Cls, Cls_descr),
-  owl_has(Resource, P, O), % TODO: check inverse property triples
+  owl_has(Resource, P, O),
   owl_specializable_(O, Cls_descr), !.
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if it is consistent to add a new value of type Cls for P
@@ -211,7 +220,13 @@ resource_cardinality(Resource, P, Cls, Card) :-
   owl_cardinality(Resource, P, Cls, Card).
 
 %% owl_satisfies_restriction_up_to(?Resource, ?Restr, ?UpTo)
+% 
+% Infers at which points in a restriction description there are
+% unsattisfied conditions for the provided resource.
 %
+% @param Resource OWL resource that does not sattisfy a restriction
+% @param Restr    OWL resource of the unsattisfied restriction
+% @param UpTo     Prolog term describing how to resolve the inconsistency
 % 
 % TODO: generate detach items for objects that vialote restrictions and are not specializable.
 %       seems that it might be best to exclusively generate detach items with this mechanism.

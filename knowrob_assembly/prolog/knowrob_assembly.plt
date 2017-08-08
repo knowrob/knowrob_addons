@@ -408,7 +408,7 @@ test_agenda_items([A|As],[B|Bs]) :-
 
 
 test(assembly_agenda_create_BodyOnChassis) :-
-  create_agenda(assembly_test:'BodyOnChassis_a', assembly_test:'AgendaStrategy_1', Agenda),
+  agenda_create(assembly_test:'BodyOnChassis_a', assembly_test:'AgendaStrategy_1', Agenda),
   once(( rdfs_individual_of(Agenda, knowrob_planning:'Agenda'),
          rdf_has(Agenda, knowrob_planning:'strategy', assembly_test:'AgendaStrategy_1') )),
   assertz(assembly_test_agenda(Agenda)),
@@ -768,6 +768,5 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
   agenda_perform_next(Agenda),
   agenda_write(Agenda),
   test_agenda_items([]).
-
 
 :- end_tests(knowrob_assembly).
