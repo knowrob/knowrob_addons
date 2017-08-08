@@ -72,7 +72,8 @@
       agenda_item_in_focus(r),
       agenda_pattern_property(r,r),
       agenda_pattern_domain(r,r),
-      agenda_write(r).
+      agenda_write(r),
+      planning_assert(r,r,r).
 
 :- dynamic agenda_selection_criteria_sorted/2,
            agenda_item_last_selected/1.
@@ -194,33 +195,32 @@ assert_agenda_item(detach(S,P,Domain,Count), Item) :-
 assert_agenda_item(classify(S,Domain), Item) :-
   rdf_instance_from_class(knowrob_planning:'ClassifyAgendaItem', Item),
   rdf_assert(Item, knowrob_planning:'itemOf', S),
-  assert_agenda_item_domain(Item, nil, Domain).
+  assert_agenda_item_domain(Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Domain).
 assert_agenda_item_P(Item, (S,P,Domain,Count)) :-
   rdf_assert(Item, knowrob_planning:'itemOf', S),
   rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int, Count))),
   assert_agenda_item_domain(Item, P, Domain).
 
-% TODO: wouldn't it be more elegant to use rdf:type instead of nil?
-assert_agenda_item_domain(Item, nil, Domain) :-
+assert_agenda_item_domain(Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Domain) :-
   rdf_node(Id),
-  rdf_assert(Id, rdf:type, owl:'Restriction'),
-  rdf_assert(Id, owl:onProperty, knowrob_planning:'itemOf'),
-  rdf_assert(Id, owl:allValuesFrom, Domain),
+  rdf_assert(Id, rdf:'type', owl:'Restriction'),
+  rdf_assert(Id, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf_assert(Id, owl:'allValuesFrom', Domain),
   rdf_assert(Item, rdf:'type', Id).
 assert_agenda_item_domain(Item, P, Domain) :-
   rdf_node(Id1), rdf_node(Id2),
-  rdf_assert(Id1, rdf:type, owl:'Restriction'),
-  rdf_assert(Id1, owl:onProperty, knowrob_planning:'itemOf'),
-  rdf_assert(Id1, owl:allValuesFrom, Id2),
-  rdf_assert(Id2, rdf:type, owl:'Restriction'),
-  rdf_assert(Id2, owl:onProperty, P),
-  rdf_assert(Id2, owl:someValuesFrom, Domain),
+  rdf_assert(Id1, rdf:'type', owl:'Restriction'),
+  rdf_assert(Id1, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf_assert(Id1, owl:'allValuesFrom', Id2),
+  rdf_assert(Id2, rdf:'type', owl:'Restriction'),
+  rdf_assert(Id2, owl:'onProperty', P),
+  rdf_assert(Id2, owl:'someValuesFrom', Domain),
   rdf_assert(Item, rdf:'type', Id1).
 
 retract_agenda_item_domain(Item) :-
   forall((
     rdfs_individual_of(Item, Restr),
-    rdf_has(Restr, owl:onProperty, knowrob_planning:'itemOf')
+    rdf_has(Restr, owl:'onProperty', knowrob_planning:'itemOf')
   ),(
     rdf_retractall(_, _, Restr),
     rdf_retractall(Restr, _, _)
@@ -229,7 +229,7 @@ retract_agenda_item_domain(Item) :-
 %% agenda_remove_object(+Agenda,+Object)
 %
 agenda_remove_object(Agenda, Object) :-
-  rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
+  rdf(Agenda, knowrob_planning:'strategy', Strategy),
   bagof( Part, part_of_workpiece(Object, Strategy, 0, Part), Parts ),
   forall(( % for each part retract agenda items
      member((Obj,_), Parts),
@@ -238,7 +238,7 @@ agenda_remove_object(Agenda, Object) :-
 
 retract_agenda_item(Item) :-
   % make sure item is deleted from the agenda item list
-  rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
+  rdf(Agenda, knowrob_planning:'agendaItem', Item),
   agenda_items_sorted(Agenda, Items),
   delete(Items, Item, Items_new),
   agenda_items_sorted_update(Agenda, Items_new),
@@ -267,9 +267,9 @@ agenda_item_description(Item, item(decompose,S,P,Domain,Reason)) :-
 agenda_item_description(Item, item(detach,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'),
   agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
-agenda_item_description(Item, item(classify,S,nil,Domain,Reason)) :-
+agenda_item_description(Item, item(classify,S,P,Domain,Reason)) :-
   rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'),
-  agenda_item_description_internal(Item, item(S,Domain,Reason)), !.
+  agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description_internal(Item, item(S,P,Domain,Reason)) :-
   rdf(Item, knowrob_planning:'itemOf', S),
   agenda_item_property(Item,P),
@@ -288,7 +288,7 @@ agenda_item_type(item(decompose,_,_,_,_), 'http://knowrob.org/kb/knowrob_plannin
 agenda_item_type(item(detach,_,_,_,_),    'http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem')    :- !.
 agenda_item_type(item(classify,_,_,_,_),  'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem')  :- !.
 agenda_item_type(Item, Type) :-
-  rdf(Item, rdf:type, Type),
+  rdf(Item, rdf:'type', Type),
   rdfs_subclass_of(Type, knowrob_planning:'AgendaItem'), !.
 
 %% agenda_item_subject(?Item,?S)
@@ -300,7 +300,7 @@ agenda_item_type(Item, Type) :-
 % @param S    The subject of the agenda item
 %
 agenda_item_subject(item(_,S,_,_,_),S) :- !.
-agenda_item_subject(Item,S) :- rdf_has(Item, knowrob_planning:'itemOf', S), !.
+agenda_item_subject(Item,S) :- rdf(Item, knowrob_planning:'itemOf', S), !.
 
 %% agenda_item_property(?Item,?P)
 %
@@ -312,11 +312,11 @@ agenda_item_subject(Item,S) :- rdf_has(Item, knowrob_planning:'itemOf', S), !.
 %
 agenda_item_property(item(_,_,P,_,_),P) :- !.
 agenda_item_property(Item,P) :-
-  rdf(Item, rdf:type, Restr),
-  rdf(Restr, owl:onProperty, knowrob_planning:'itemOf'),
-  rdf(Restr, owl:allValuesFrom, PropertyRestr),
-  rdf(PropertyRestr, owl:onProperty, P), !.
-agenda_item_property(_Item,nil).
+  rdf(Item, rdf:'type', Restr),
+  rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf(Restr, owl:'allValuesFrom', PropertyRestr),
+  rdf(PropertyRestr, owl:'onProperty', P), !.
+agenda_item_property(_Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'). % classify item
   
 %% agenda_item_domain(?Item,?Domain)
 %
@@ -328,10 +328,10 @@ agenda_item_property(_Item,nil).
 %
 agenda_item_domain(item(_,_,_,Domain,_),Domain) :- !.
 agenda_item_domain(Item,Domain) :-
-  rdf(Item, rdf:type, Restr),
-  rdf(Restr, owl:onProperty, knowrob_planning:'itemOf'),
-  rdf(Restr, owl:allValuesFrom, ItemOfType),
-  ( rdf(ItemOfType, owl:someValuesFrom, Domain) ;
+  rdf(Item, rdf:'type', Restr),
+  rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf(Restr, owl:'allValuesFrom', ItemOfType),
+  ( rdf(ItemOfType, owl:'someValuesFrom', Domain) ;
     Domain = ItemOfType % classify item
   ), !.
 
@@ -426,7 +426,7 @@ agenda_item_in_focus_internal(Item, Focus) :-
 agenda_item_description_in_focus(Item,Strategy) :-
   (( Item=..[item,T,S,P,Domain|_] ;
    ( Item=..[T,S,P,Domain|_] ) ;
-   ( Item=..[T,S,Domain], P=nil ))),
+   ( Item=..[T,S,Domain], rdf_equal(P,rdf:'type') ))),
   rdf_has(Strategy, knowrob_planning:'focus', Focus),
   ( agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus) ; (
     rdf_has(P, owl:'inverseOf', P_inv), % also focus if inverse property focussed
@@ -602,7 +602,7 @@ agenda_item_matches_pattern(Item, Pattern) :-
   once(agenda_item_matches_domain(Descr, Pattern)).
 
 agenda_item_matches_item_type(Item, Pattern) :-
-  ( rdf(Pattern, rdf:type, Pattern_Type),
+  ( rdf(Pattern, rdf:'type', Pattern_Type),
     rdfs_subclass_of(Pattern_Type, knowrob_planning:'AgendaItem') )
   *-> (
     agenda_item_type(Item, Type),
@@ -630,7 +630,7 @@ agenda_item_matches_domain(Item, Pattern) :-
   -> ( agenda_item_domain(Item,Domain), owl_specializable(Domain_Pattern, Domain) )
   ;  true.
 
-agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P), P \= nil.
+agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P).
 agenda_pattern_domain(Pattern,Domain) :- agenda_item_domain(Pattern,Domain).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -684,7 +684,8 @@ agenda_perform(Agenda, Item, Descr) :-
   agenda_item_property_compute(Siblings, P_inferred),
   agenda_item_cardinality(Item, Card),
   % build term Operation(S,P_inferred) with Operation one of integrate, classify, ...
-  Descr=..[_,Operation,S|_], PerformDescr=..[Operation,S,P_inferred],
+  Descr=..[_,Operation,S|_],
+  PerformDescr=..[Operation,S,P_inferred],
   % Perform domain specialization Card times and project the specialized domain
   findall(Selected, (
     between(1,Card,_),
@@ -745,13 +746,15 @@ agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
 %% agenda_item_project(+Item,+Domain,-Selected)
 %
 agenda_item_project(Item, Descr, Domain, Selected) :-
-  (  owl_atomic(Domain)
-  -> agenda_item_project_internal(Descr, Domain, Selected)
-  ; (agenda_item_specialize_domain(Item, Domain), Selected=Domain) ), !.
+  owl_atomic(Domain)
+  -> agenda_item_project_internal(Descr, Domain, Selected) ; (
+     agenda_item_specialize_domain(Item, Domain),
+     Selected=Domain
+  ), !.
 
 agenda_item_project_internal(decompose(S,P), Cls, O)   :- decompose(S,P,Cls,O), !.
 agenda_item_project_internal(integrate(S,P),   O, O)   :- agenda_assert_triple(S,P,O), !.
-agenda_item_project_internal( classify(S,_), Cls, Cls) :- planning_assert(S,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',Cls), !.
+agenda_item_project_internal( classify(S,_), Cls, Cls) :- planning_assert(S,rdf:'type',Cls), !.
 agenda_item_project_internal(   detach(S,P),   O, O)   :- planning_retract(S,P,O), !.
 
 decompose(S,P,Domain,O) :-
@@ -775,12 +778,12 @@ decompose(S,P,Domain,O) :-
   )),
   % assert decomposition facts
   rdf_unique_id(Type_selected, O),
-  planning_assert(O,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Type_selected),
+  planning_assert(O, rdf:'type', Type_selected),
   forall((
     member(Type,Types), 
     Type \= Type_selected,
     \+ rdf_has(Type, owl:unionOf, _)),
-    planning_assert(O, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Type)
+    planning_assert(O, rdf:'type', Type)
   ),
   agenda_assert_triple(S,P,O).
 
@@ -801,7 +804,7 @@ agenda_assert_triple_(S,P,O) :-
     once((
       rdfs_individual_of(Restr, owl:'Restriction'),
       % restriction on subproperty of P
-      rdf_has(Restr, owl:onProperty, P_restr),
+      rdf_has(Restr, owl:'onProperty', P_restr),
       rdfs_subproperty_of(P_restr, P),
       % and O is an individual of the restricted range
       owl_restriction_object_domain(Restr, Restr_cls),
@@ -859,7 +862,8 @@ agenda_item_update(detach(_,_),Agenda,_Item,Siblings,Selection) :- !,
   forall( member(X,Selection), agenda_remove_object(X) ).
 
 agenda_item_update(_,Agenda,Item,Siblings,Selection) :-
-  agenda_item_depth_value(Item,Depth), Depth_next is Depth + 1,
+  agenda_item_depth_value(Item,Depth),
+  Depth_next is Depth + 1,
   % for each more general item add "deeper" items
   length(Selection, Selection_count),
   forall( member(X,Siblings), (
@@ -900,8 +904,7 @@ agenda_item_siblings(Item, Siblings) :-
     agenda_item_match(Item, X),
     once((X=Item ; (
       agenda_item_property(X, P_X),
-      ( P=P_X ; % NOTE: needed for classify items (P=nil)
-        rdfs_subproperty_of(P, P_X) ;
+      ( rdfs_subproperty_of(P, P_X) ;
         rdfs_subproperty_of(P_X, P) ),
       agenda_item_domain(X, Domain_X),
       % TODO: need to check in both directions?
@@ -912,10 +915,10 @@ agenda_item_siblings(Item, Siblings) :-
   ), Siblings).
 
 agenda_item_match(Item, Match) :-
-  rdf_has(Item,  knowrob_planning:'itemOf', S),
-  rdf_has(Match, knowrob_planning:'itemOf', S),
-  rdf_has(Agenda, knowrob_planning:'agendaItem', Item),
-  rdf_has(Agenda, knowrob_planning:'agendaItem', Match),
+  rdf(Item,  knowrob_planning:'itemOf', S),
+  rdf(Match, knowrob_planning:'itemOf', S),
+  rdf(Agenda, knowrob_planning:'agendaItem', Item),
+  rdf(Agenda, knowrob_planning:'agendaItem', Match),
   agenda_item_type(Item,Type),
   agenda_item_type(Match,Type).
 

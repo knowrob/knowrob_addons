@@ -769,5 +769,4 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
   agenda_write(Agenda),
   test_agenda_items([]).
 
-
 :- end_tests(knowrob_assembly).
