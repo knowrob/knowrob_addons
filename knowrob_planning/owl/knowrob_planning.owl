@@ -53,25 +53,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#causedByRestriction -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#causedByRestriction">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemConditionPredicate"/>
-        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaConditionRestrictionViolated"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#causedByRestrictionOn -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#causedByRestrictionOn">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemConditionPredicate"/>
-        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaConditionRestrictionViolated"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
@@ -87,28 +68,11 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemCondition -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemCause -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemCondition">
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemCause">
         <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemPredicate"/>
-        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaCondition"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemConditionPredicate -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemConditionPredicate">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#agendaPredicate"/>
-        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaCondition"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemDomain -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemDomain">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemPredicate"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     </owl:ObjectProperty>
     
 
@@ -270,33 +234,6 @@
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#InformationBearingThing"/>
         <rdfs:comment>Each instance of Agenda-IBT is an item that contains information on how an inconsistency in the knowledge base can be resolved.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaCondition -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaCondition">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
-        <rdfs:comment>The collection of all conditions under which an agenda item for the specialization of resources can be generated during the planning process.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaConditionRestrictionViolated -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaConditionRestrictionViolated">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaCondition"/>
-        <rdfs:comment>Each AgendaConditionRestrictionViolated is given by a inconsistent resource and a restriction violated by the resource. The agenda item caused by this violation describes how to resolve the violation so that the resource is consistent with the restriction description.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaConditionTypeSpecializable -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaConditionTypeSpecializable">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaCondition"/>
-        <rdfs:comment>Each AgendaConditionTypeSpecializable is given by a resource and its non terminal (i.e., without any subclasses) class label.</rdfs:comment>
     </owl:Class>
     
 

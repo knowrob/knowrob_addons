@@ -111,9 +111,8 @@ agenda_create(Obj, Strategy, Agenda) :-
 %     type (itemOf only Domain)                    # for classify items
 %     itemOf Subject                               # underspecified individual
 %     itemCardinality Cardinality                  # needed additional cardinality or 1 for classify items
-%     itemCondition Condition                      # description of unsattisfied restriction that caused the item
-%       causedByRestrictionOn CauseSubject
-%       causedByRestriction   CauseRestriction     # FIXME: not valid OWL!
+%     itemCause CauseSubject                       # the underspecified object causing this item
+%     itemCause only CauseRestriction              # description of unsattisfied restriction that caused the item
 %
 % Agenda item patterns have the same structure. Each item which is a specialization
 % of the pattern is matched.
@@ -178,10 +177,12 @@ assert_agenda_item(Item, Agenda, Cause, Cause_restriction, Depth, ItemId) :-
   assert_agenda_item(Item,ItemId),
   agenda_item_depth_assert(ItemId,Depth),
   % the violated restriction that caused the item
-  rdf_instance_from_class(knowrob_planning:'AgendaCondition', Condition),
-  rdf_assert(Condition, knowrob_planning:'causedByRestrictionOn', Cause),
-  rdf_assert(Condition, knowrob_planning:'causedByRestriction', Cause_restriction),
-  rdf_assert(ItemId, knowrob_planning:'itemCondition', Condition),
+  rdf_assert(ItemId, knowrob_planning:'itemCause', Cause),
+  rdf_node(Restr),
+  rdf_assert(Restr, rdf:'type', owl:'Restriction'),
+  rdf_assert(Restr, owl:'onProperty', knowrob_planning:'itemCause'),
+  rdf_assert(Restr, owl:'allValuesFrom', Cause_restriction),
+  rdf_assert(ItemId, rdf:'type', Restr),
   agenda_push(Agenda, ItemId).
 assert_agenda_item(integrate(S,P,Domain,Count), Item) :-
   rdf_instance_from_class(knowrob_planning:'IntegrateAgendaItem', Item),
@@ -351,10 +352,11 @@ agenda_item_specialize_domain(Item, Domain) :-
 % @param Reason  Tuple of a resource and restriction on resource that caused the item
 %
 agenda_item_reason(item(_,_,_,_,Reason),Reason) :- !.
-agenda_item_reason(Item, (Cause,Restr)) :-
-  rdf(Item, knowrob_planning:'itemCondition', Condition),
-  rdf(Condition, knowrob_planning:'causedByRestrictionOn', Cause),
-  rdf(Condition, knowrob_planning:'causedByRestriction', Restr), !.
+agenda_item_reason(Item, (Cause,CauseRestr)) :-
+  rdf(Item, knowrob_planning:'itemCause', Cause),
+  rdf(Item, rdf:'type', Restr),
+  rdf(Restr, owl:'onProperty', knowrob_planning:'itemCause'),
+  rdf(Restr, owl:'allValuesFrom', CauseRestr), !.
 
 %% agenda_item_cardinality(?Item,?Card)
 %
