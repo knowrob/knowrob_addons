@@ -834,7 +834,10 @@ debug_type_assertion(S,Cls) :-
 %% agenda_item_update(+Agenda,+Item,+Siblings,+Selection)
 %
 agenda_item_update(classify(S,_),Agenda,Item,_Siblings,_Selection) :- !,
-  % FIXME: remove other items created for disjunction of classes? or classify domain union?
+  % FIXME: Handling of union classes:
+  %            - Classification to one of the members removes the choice to classify to other union members
+  %            - Can't be trivially taken back in follow up steps
+  %            - Maybe best: Just assert union as type and decide later?
   agenda_item_reason(Item, (Cause,_)),
   agenda_item_depth_value(Item,Depth),
   % the new class of the object could have additional restrictions on properties
@@ -851,10 +854,14 @@ agenda_item_update(classify(S,_),Agenda,Item,_Siblings,_Selection) :- !,
 
 agenda_item_update(detach(_,_),Agenda,_Item,Siblings,Selection) :- !,
   length(Selection, Selection_count),
-  forall( member(X,Siblings), (
-    agenda_item_cardinality(X,Card),
+  forall((
+      member(X,Siblings),
+      agenda_item_cardinality(X,Card),
+      % ensure that we in fact detached an object of the items domain
+      agenda_item_domain(X,Domain),
+      once(( member(Obj,Selection),
+             owl_individual_of(Obj,Domain )))),(
     ( Selection_count >= Card ->
-    % FIXME: ensure that selection matches item domain
     ( retract_agenda_item(X) ) ; (
       NewCard is Card - Selection_count, 
       agenda_item_update_cardinality(X,NewCard),
