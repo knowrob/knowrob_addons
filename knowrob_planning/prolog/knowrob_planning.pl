@@ -735,7 +735,20 @@ agenda_perform_just_do_it(integrate(_,P), _, Domain, O) :-
   (( rdfs_subproperty_of(P, Super),
      rdfs_individual_of(Super, owl:'InverseFunctionalProperty'))
   -> \+ rdf_has(_, P, O) ; true ), !.
-agenda_perform_just_do_it(decompose(_,_), _, Domain, Domain) :- !.
+agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
+  owl_description(Domain, Descr),
+  class_statements(Domain, Descr, Types_Explicit),
+  findall(Type, ((
+    member(Type,Types_Explicit) ;
+    owl_property_range_on_subject(S,P,Type) ),
+    Type \= 'http://www.w3.org/2002/07/owl#Thing',
+    \+ rdfs_individual_of(Type, owl:'Restriction')
+  ), Types),
+  % create intersection class of inferred types
+  rdf_node(DecomposeTypes),
+  rdf_assert(DecomposeTypes, rdf:'type', owl:'Class'),
+  owl_description_list_assert(Types,ListId),
+  rdf_assert(DecomposeTypes, owl:intersectionOf, ListId), !.
 agenda_perform_just_do_it( classify(_,_), _, Domain, Domain) :- !.
 agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
   rdf_has(S,P,O), owl_individual_of(O,Domain), !.
@@ -760,16 +773,9 @@ agenda_item_project_internal( classify(S,_), Cls, Cls) :- planning_assert(S,rdf:
 agenda_item_project_internal(   detach(S,P),   O, O)   :- planning_retract(S,P,O), !.
 
 decompose(S,P,Domain,O) :-
+  % find type statements
   owl_description(Domain, Descr),
-  % infer type of O
-  class_statements(Domain, Descr, Types_Explicit),
-  % TODO: better do this in perform method -> generate intersection of types to be asserted
-  findall(Type, ((
-    member(Type,Types_Explicit) ;
-    owl_property_range_on_subject(S,P,Type) ),
-    Type \= 'http://www.w3.org/2002/07/owl#Thing',
-    \+ rdfs_individual_of(Type, owl:'Restriction')
-  ), Types),
+  class_statements(Domain, Descr, Types),
   once((
     owl_most_specific(Types, O_type),
     ( rdf_has(O_type, owl:unionOf, Union)
@@ -778,7 +784,7 @@ decompose(S,P,Domain,O) :-
       owl:owl_common_ancestor(Members, Type_selected)
     ) ; Type_selected = O_type )
   )),
-  % assert decomposition facts
+  % create individual and assert type(s)
   rdf_unique_id(Type_selected, O),
   planning_assert(O, rdf:'type', Type_selected),
   forall((
