@@ -929,7 +929,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_WogBi7BD">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.420000 7.680000 0.000000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.620000 7.980000 0.000000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -956,7 +956,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_c9Um0Mzt">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.420000 7.680000 0.000000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.620000 7.980000 0.000000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -977,7 +977,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_hNN54P7q">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">4.819999 7.185002 1.700000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.019999 7.485002 1.700000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 -0.000001 -0.706825 0.707388</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -998,7 +998,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_qIAhMZCy">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.320000 7.680000 1.320000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.520000 7.980000 1.320000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -1019,7 +1019,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_Sc8KgwS4">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.300000 7.680000 0.480000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.500000 7.980000 0.480000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -1039,7 +1039,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_mzRfhqy2">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.610000 7.679999 2.550000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.810000 7.979999 2.550000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -1059,7 +1059,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_vQR9KjgW">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.610000 7.679999 2.170000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.810000 7.979999 2.170000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
@@ -1079,7 +1079,7 @@
     </owl:NamedIndividual>
     <owl:NamedIndividual rdf:about="&room73b2;Transformation_SVFIFETr">
         <rdf:type rdf:resource="&knowrob;Transformation"/>
-        <knowrob:translation rdf:datatype="&xsd;string">5.610000 7.679999 1.870000</knowrob:translation>
+        <knowrob:translation rdf:datatype="&xsd;string">5.810000 7.979999 1.870000</knowrob:translation>
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
