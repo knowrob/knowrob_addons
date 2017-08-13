@@ -960,8 +960,39 @@
         <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.000000 0.000000 1.000000</knowrob:quaternion>
     </owl:NamedIndividual>
 
+    <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-Handle">
+        <rdf:type rdf:resource="&knowrob;&knowrob;IAIHandleVert"/>
+        <knowrob:depthOfObject rdf:datatype="&xsd;double">0.05</knowrob:depthOfObject>
+        <knowrob:heightOfObject rdf:datatype="&xsd;double">0.4</knowrob:heightOfObject>
+        <knowrob:widthOfObject rdf:datatype="&xsd;double">0.02</knowrob:widthOfObject>
+        <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&room73b2;SemanticMapPerception_N3KIEmWBv">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:eventOccursAt rdf:resource="&room73b2;Transformation_hNN58P7q"/>
+        <knowrob:startTime rdf:resource="&room73b2;timepoint_0000000001"/>
+        <knowrob:objectActedOn rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-Handle"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&room73b2;Transformation_hNN58P7q">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">4.945 7.685002 1.650000</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.00000 0.000000 1.0000</knowrob:quaternion>
+    </owl:NamedIndividual>
+ 
+    <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1">
+        <rdf:type rdf:resource="&knowrob;HingedJoint"/>
+        <knowrob:openningDirection>CCW</knowrob:openningDirection>
+    </owl:NamedIndividual>    
+
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET7_link">
         <rdf:type rdf:resource="&knowrob;IAIFridgeDoor"/>
+        <knowrob:doorHingedTo rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOT_link"/>
+        <knowrob:doorHingedWith rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1"/>
+        <knowrob:depthOfObject rdf:datatype="&xsd;double">0.1</knowrob:depthOfObject>
+        <knowrob:heightOfObject rdf:datatype="&xsd;double">0.6</knowrob:heightOfObject>
+        <knowrob:widthOfObject rdf:datatype="&xsd;double">0.5</knowrob:widthOfObject>
         <rdf:type rdf:resource="&srdl2-comp;UrdfLink"/>
         <srdl2-comp:urdfName>room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET7_link</srdl2-comp:urdfName>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
