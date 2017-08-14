@@ -966,6 +966,7 @@
         <knowrob:heightOfObject rdf:datatype="&xsd;double">0.4</knowrob:heightOfObject>
         <knowrob:widthOfObject rdf:datatype="&xsd;double">0.02</knowrob:widthOfObject>
         <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&room73b2;SemanticMapPerception_N3KIEmWBv">
