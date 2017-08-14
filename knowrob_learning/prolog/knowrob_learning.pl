@@ -285,9 +285,9 @@ color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
   marker(trajectory(Lnk), T, TrajId), 
   marker_update(T, interval(Start, ChunkEnd, dt(Interval))),
   marker_highlight(T, [R,G,B]), 
-  color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R+Scale,G-Scale,B]).
+  !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R+Scale,G-Scale,B]).
 
 color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
   ChunkEnd is Start + 1,
-  End < ChunkEnd.
+  End < ChunkEnd, true.
 
