@@ -45,7 +45,7 @@
 %      featurize_gaussian_place/3,
       featurize_gaussian_places/3,
       featurize_gaussian_place/3,
-      color_directed_trajectory/3
+      color_directed_trajectory/4
     ]).
 
 :- use_module(library('jpl')).
@@ -273,10 +273,10 @@ featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
   FloatFeatures = [RobotX, RobotY, RobotZ, DeltaRobotAngle],	
   jpl_new( '[Ljava.lang.String;', [TskType, ObjType], StringFeatures).
 
-color_directed_trajectory(Lnk, Start, End) :-
+color_directed_trajectory(Lnk, Start, End, Interval) :-
   Diff is  End - Start,
   DiffScaled is 1.0/Diff,
-  color_directed_trajectory(Lnk, Start, End, Scale, [0, 1.0, 0.0]).
+  color_directed_trajectory(Lnk, Start, End, Scale, Interval, [0, 1.0, 0.0]).
   
 color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
   ChunkEnd is Start + (End-Start) * Scale,
@@ -284,9 +284,9 @@ color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
   rdf_instance_from_class(Lnk, TrajId),
   marker(trajectory(Lnk), T, TrajId), 
   marker_color(T, [R,G,B]),
-  marker_update(T, interval(Start, End, dt(0.1))),
-  !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, [R+Scale,G-Scale,B]) .
+  marker_update(T, interval(Start, End, dt(Interval))),
+  !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R+Scale,G-Scale,B]) .
 
-color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
+color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
   ChunkEnd >= End.
 
