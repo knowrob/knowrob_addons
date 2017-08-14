@@ -288,5 +288,6 @@ color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
   !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R+Scale,G-Scale,B]) .
 
 color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
-  End =< ChunkEnd.
+  ChunkEnd is Start + (End-Start) * Scale,
+  (End =< ChunkEnd).
 
