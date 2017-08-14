@@ -278,7 +278,7 @@ color_directed_trajectory(Lnk, Start, End, Interval) :-
   DiffScaled is 1.0/Diff,
   color_directed_trajectory(Lnk, Start, End, DiffScaled, Interval, [0, 1.0, 0.0]).
   
-color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
+color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
   ChunkEnd is Start + (End-Start) * Scale,
   ChunkEnd < End,
   rdf_instance_from_class(Lnk, TrajId),
