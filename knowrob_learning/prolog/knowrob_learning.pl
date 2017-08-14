@@ -44,7 +44,8 @@
 %      featurize_gaussian_places/3,
 %      featurize_gaussian_place/3,
       featurize_gaussian_places/3,
-      featurize_gaussian_place/3
+      featurize_gaussian_place/3,
+      color_directed_trajectory/3
     ]).
 
 :- use_module(library('jpl')).
@@ -271,3 +272,21 @@ featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
   DeltaRobotAngle is atan2((2.0*(QY*QZ + QW*QX)), (QW*QW - QX*QX - QY*QY + QZ*QZ)),
   FloatFeatures = [RobotX, RobotY, RobotZ, DeltaRobotAngle],	
   jpl_new( '[Ljava.lang.String;', [TskType, ObjType], StringFeatures).
+
+color_directed_trajectory(Lnk, Start, End) :-
+  Diff is  End - Start,
+  DiffScaled is 1.0/Diff,
+  color_directed_trajectory(Lnk, Start, End, Scale, [0, 1.0, 0.0]).
+  
+color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
+  ChunkEnd is Start + (End-Start) * Scale,
+  ChunkEnd < End,
+  rdf_instance_from_class(Lnk, TrajId),
+  marker(trajectory(Lnk), T, TrajId), 
+  marker_color(T, [R,G,B]),
+  marker_update(T, interval(Start, End, dt(0.1))),
+  !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, [R+Scale,G-Scale,B]) .
+
+color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
+  ChunkEnd >= End.
+

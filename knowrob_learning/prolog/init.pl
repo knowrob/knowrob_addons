@@ -1,5 +1,5 @@
 /** 
-  Copyright (C) 2016 Asil Kaan Bozcuoglu
+  Copyright (C) 2016-17 Asil Kaan Bozcuoglu
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
+:- register_ros_package(knowrob_vis).
 
 :- register_ros_package(knowrob_learning).
 :- use_module(library('knowrob_learning')).
