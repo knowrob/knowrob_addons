@@ -276,7 +276,7 @@ featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
 color_directed_trajectory(Lnk, Start, End, Interval) :-
   Diff is  End - Start,
   DiffScaled is 1.0/Diff,
-  color_directed_trajectory(Lnk, Start, End, Scale, Interval, [0, 1.0, 0.0]).
+  color_directed_trajectory(Lnk, Start, End, DiffScaled, Interval, [0, 1.0, 0.0]).
   
 color_directed_trajectory(Lnk, Start, End, Scale, [R,G,B]) :-
   ChunkEnd is Start + (End-Start) * Scale,
