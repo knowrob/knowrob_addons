@@ -991,6 +991,7 @@
         <rdf:type rdf:resource="&knowrob;IAIFridgeDoor"/>
         <knowrob:doorHingedTo rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOT_link"/>
         <knowrob:doorHingedWith rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1"/>
+        <srdl2-comp:succeedingJoint rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-Handle"/>
         <knowrob:depthOfObject rdf:datatype="&xsd;double">0.1</knowrob:depthOfObject>
         <knowrob:heightOfObject rdf:datatype="&xsd;double">0.6</knowrob:heightOfObject>
         <knowrob:widthOfObject rdf:datatype="&xsd;double">0.5</knowrob:widthOfObject>
