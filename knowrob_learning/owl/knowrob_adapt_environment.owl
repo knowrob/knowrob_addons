@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='US-ASCII'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY computable 'http://knowrob.org/kb/computable.owl#'>
+    <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
+    <!ENTITY dc 'http://purl.org/dc/elements/1.1/'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+    <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+]>
+
+<rdf:RDF
+    xmlns:computable="&computable;"
+    xmlns:knowrob="&knowrob;"
+    xmlns:dc="&dc;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:xsd="&xsd;"
+    xmlns:owl="&owl;"
+>
+<rdf:Description rdf:about="Defining some rules for adapting changes in objects in different semantic maps "/>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningSomething"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#fromState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateClosed"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#toState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateOpen"/>
+      </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#IAIFridgeDoor"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCCW">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleLocationOnDoor"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#RightSide"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCW">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleLocation"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#LeftSide"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeGripperPerpendicular">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCW"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCCW"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleShapeOnDoor"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#Thin"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeGripperParallel">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCW"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCCW"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleShapeOnDoor"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#Thick"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+</rdf:RDF>

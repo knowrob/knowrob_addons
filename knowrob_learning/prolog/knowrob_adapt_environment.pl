@@ -1,0 +1,73 @@
+/** <module> knowrob_adapt_environment
+
+  Copyright (C) 2017 Asil Kaan Bozcuoglu
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+      * Neither the name of the <organization> nor the
+        names of its contributors may be used to endorse or promote products
+        derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+  @author Asil Kaan Bozcuoglu
+  @license BSD
+*/
+
+:- module(knowrob_adapt_environment,
+    [
+        %generic_adapt/3,
+        adapt_trajectory_for_position_hinge_joint/4
+        %rule_dimensions_hinge_joint/5
+    ]).
+
+:- use_module(library('semweb/rdf_db')).
+:- use_module(library('semweb/rdfs')).
+:- use_module(library('owl')).
+:- use_module(library('rdfs_computable')).
+:- use_module(library('owl_parser')).
+
+check_joint_type(Door, Tsk) :-
+    rdf_has(Door, knowrob:'doorHingedWith', Hinge),
+    ((rdf_has(Hinge, knowrob:'openningDirection', literal('CCW')),
+      rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeDoorCCW'));
+     (rdf_has(Hinge, knowrob:'openningDirection', literal('CW')),
+      rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeDoorCW'))).
+
+check_handle_type(Door, Tsk) :-
+    rdf_has(Door, srdl2-comp:'succeedingJoint', Handle),
+    rdf_has(Handle, knowrob:'widthOfObject', literal(type(_, W))),
+    rdf_has(Handle, knowrob:'heightOfObject', literal(type(_, H)))
+    (((W => H),
+      rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperParallel'));
+     ((H > W),
+      rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperPerpendicular'))).
+ 
+
+adapt_trajectory_for_position_hinge_joint(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
+    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
+    rdf_has(SourceDoor, srdl2-comp:'succeedingJoint', SourceHandle),
+    owl_individual_of(SourceHandle, knowrob:'IAIHandleVert'),
+    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+    rdf_has(TargetDoor, srdl2-comp:'succeedingJoint', TargetHandle),
+    owl_individual_of(TargetHandle, knowrob:'IAIHandleVert'),
+    rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
+    check_joint_type(SourceDoor, EpisodicMemoryTask),
+    check_joint_type(TargetDoor, TargetAction),
+    check_handle_type(SourceDoor, EpisodicMemoryTask),
+    check_joint_type(TargetDoor, TargetAction).
