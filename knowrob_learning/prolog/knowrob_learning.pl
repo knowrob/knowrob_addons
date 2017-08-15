@@ -275,19 +275,18 @@ featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
 
 color_directed_trajectory(Lnk, Start, End, Interval) :-
   Diff is  End - Start,
-  DiffScaled is 1.0/Diff,
-  color_directed_trajectory(Lnk, Start, End, DiffScaled, Interval, [0, 0.0, 1.0]).
+  DiffScaled is 0.2/Diff,
+  color_directed_trajectory(Lnk, Start, End, DiffScaled, Interval, [1.0, 1.0, 0.0]).
   
 color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
-  ChunkEnd is Start + 1,
+  ChunkEnd is Start + 0.2,
   ChunkEnd =< End,
   rdf_instance_from_class(Lnk, TrajId),
   marker(trajectory(Lnk), T, TrajId), 
   marker_color(T, [R,G,B]),
   marker_update(T, interval(Start, ChunkEnd, dt(Interval))),
-  R_new is R+Scale,
-  B_new is B-Scale, 
-  !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R_new,G,B_new]).
+  G_new is G-Scale, 
+  !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R,G_new,B]).
 
 color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
   ChunkEnd is Start + 1,
