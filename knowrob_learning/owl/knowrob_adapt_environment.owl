@@ -20,6 +20,46 @@
 >
 <rdf:Description rdf:about="Defining some rules for adapting changes in objects in different semantic maps "/>
 
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#AdaptingEpisodicMemoryData">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RuleType"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#AdaptingEpisodicMemoryData"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#NullChangeTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#NullChangeEndEffector">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectoryInX">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RotateTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectoryInY">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RotateTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectoryInZ">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RotateTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateEndEffector">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose"/> 
+</owl:Class>
+
 <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric">
   <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningSomething"/>
   <rdfs:subClassOf>
@@ -83,5 +123,13 @@
      </owl:Restriction>
    </rdfs:subClassOf>
 </owl:Class>
+
+<owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#turnDegreeTrajectory">
+   <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#turnRadius"/>
+ </owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#turnDegreeEndEffector">
+   <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#turnRadius"/>
+</owl:DatatypeProperty>
 
 </rdf:RDF>

@@ -32,7 +32,8 @@
 :- module(knowrob_adapt_environment,
     [
         %generic_adapt/3,
-        adapt_trajectory_for_position_hinge_joint/4
+        estimate_action_by_comparing/4,
+        apply_rule_for_adapt/3
         %rule_dimensions_hinge_joint/5
     ]).
 
@@ -41,6 +42,55 @@
 :- use_module(library('owl')).
 :- use_module(library('rdfs_computable')).
 :- use_module(library('owl_parser')).
+
+apply_rule_for_adapt(SourceAction, TargetAction, RuleOut) :-
+    rdf_instance_from_class(knowrob:'AdaptingEpisodicMemoryData', RuleOut),
+    apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut),
+    apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut).
+
+apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeGripperPerpendicular'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeGripperParallel'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'RotateEndEffector'),
+    rdf_assert(RuleOut, knowrob:'turnDegreeEndEffector', literal(type(xsd:'float', 90))).
+
+apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeGripperParallel'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeGripperPerpendicular'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'RotateEndEffector'),
+    rdf_assert(RuleOut, knowrob:'turnDegreeEndEffector', literal(type(xsd:'float', 90))).
+
+apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeGripperPerpendicular'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeGripperPerpendicular'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'NullChangeEndEffector').
+
+apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeGripperParallel'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeGripperParallel'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'NullChangeEndEffector').
+
+apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeDoorCCW'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeDoorCW'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'RotateTrajectoryInY'),
+    rdf_assert(RuleOut, knowrob:'turnDegreeTrajectory', literal(type(xsd:'float', 180))).
+
+apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeDoorCW'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeDoorCCW'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'RotateTrajectoryInY'),
+    rdf_assert(RuleOut, knowrob:'turnDegreeTrajectory', literal(type(xsd:'float', 180))).
+
+apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeDoorCW'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeDoorCW'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'NullChangeTrajectory').
+
+apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
+    owl_individual_of(SourceAction, knowrob:'OpeningAFridgeDoorCCW'),
+    owl_individual_of(TargetAction, knowrob:'OpeningAFridgeDoorCCW'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'NullChangeTrajectory').
 
 check_joint_type(Door, Tsk) :-
     rdf_has(Door, knowrob:'doorHingedWith', Hinge),
@@ -59,7 +109,7 @@ check_handle_type(Door, Tsk) :-
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperPerpendicular'))).
  
 
-adapt_trajectory_for_position_hinge_joint(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
+estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
     owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
     rdf_has(SourceDoor, srdl2-comp:'succeedingJoint', SourceHandle),
     owl_individual_of(SourceHandle, knowrob:'IAIHandleVert'),
