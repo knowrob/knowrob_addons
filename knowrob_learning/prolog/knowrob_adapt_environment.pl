@@ -33,7 +33,7 @@
     [
         %generic_adapt/3,
         estimate_action_by_comparing/4,
-        apply_rule_for_adapt/3
+        apply_rule_for_adapt/5
         %rule_dimensions_hinge_joint/5
     ]).
 
@@ -43,10 +43,31 @@
 :- use_module(library('rdfs_computable')).
 :- use_module(library('owl_parser')).
 
-apply_rule_for_adapt(SourceAction, TargetAction, RuleOut) :-
+apply_rule_for_adapt(SourceAction, TargetAction, SourceDoor, TargetDoor, RuleOut) :-
     rdf_instance_from_class(knowrob:'AdaptingEpisodicMemoryData', RuleOut),
     apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut),
-    apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut).
+    apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut),
+    apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut).
+
+apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
+    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
+    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+    rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
+    rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
+    SourceWidth < TargetWidth,
+    Increase is TargetWidth - SourceWidth,
+    rdf_assert(RuleOut, rdf:type, knowrob:'IncreaseRadiusOfTrajectory'),
+    rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Increase))).
+
+apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
+    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
+    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+    rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
+    rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
+    SourceWidth => TargetWidth,
+    Decrease is SourceWidth - TargetWidth,
+    rdf_assert(RuleOut, rdf:type, knowrob:'DecreaseRadiusOfTrajectory'),
+    rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Decrease))).
 
 apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
     owl_individual_of(SourceAction, knowrob:'OpeningAFridgeGripperPerpendicular'),

@@ -37,4 +37,8 @@
 :- use_module(library('knowrob_learning')).
 :- use_module(library('knowrob_reinforcement')).
 :- use_module(library('knowrob_mvg')).
+:- use_module(library('knowrob_adapt_environment')).
 
+:- owl_parser:owl_parse('package://knowrob_learning/owl/knowrob_adapt_environment.owl').
+
+:- rdf_db:rdf_register_ns(srdl2-comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).

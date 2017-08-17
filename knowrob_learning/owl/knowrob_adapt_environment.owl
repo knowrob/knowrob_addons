@@ -36,6 +36,14 @@
   <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose"/> 
 </owl:Class>
 
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#IncreaseRadiusOfTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#DecreaseRadiusOfTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
 <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectory">
   <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
 </owl:Class>
