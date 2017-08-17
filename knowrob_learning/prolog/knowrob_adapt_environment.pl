@@ -64,7 +64,7 @@ apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
     owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
     rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
     rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
-    SourceWidth => TargetWidth,
+    SourceWidth >= TargetWidth,
     Decrease is SourceWidth - TargetWidth,
     rdf_assert(RuleOut, rdf:type, knowrob:'DecreaseRadiusOfTrajectory'),
     rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Decrease))).
@@ -121,10 +121,10 @@ check_joint_type(Door, Tsk) :-
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeDoorCW'))).
 
 check_handle_type(Door, Tsk) :-
-    rdf_has(Door, srdl2-comp:'succeedingJoint', Handle),
+    rdf_has(Door, srdl2comp:'succeedingJoint', Handle),
     rdf_has(Handle, knowrob:'widthOfObject', literal(type(_, W))),
     rdf_has(Handle, knowrob:'heightOfObject', literal(type(_, H)))
-    (((W => H),
+    (((W >= H),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperParallel'));
      ((H > W),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperPerpendicular'))).
@@ -132,10 +132,10 @@ check_handle_type(Door, Tsk) :-
 
 estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
     owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(SourceDoor, srdl2-comp:'succeedingJoint', SourceHandle),
+    rdf_has(SourceDoor, srdl2comp:'succeedingJoint', SourceHandle),
     owl_individual_of(SourceHandle, knowrob:'Handle'),
     owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(TargetDoor, srdl2-comp:'succeedingJoint', TargetHandle),
+    rdf_has(TargetDoor, srdl2comp:'succeedingJoint', TargetHandle),
     owl_individual_of(TargetHandle, knowrob:'Handle'),
     rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
     check_joint_type(SourceDoor, EpisodicMemoryTask),
