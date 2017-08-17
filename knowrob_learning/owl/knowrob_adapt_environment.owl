@@ -18,6 +18,12 @@
     xmlns:xsd="&xsd;"
     xmlns:owl="&owl;"
 >
+
+<owl:Ontology rdf:about="http://knowrob.org/kb/room73b2.owl">
+      <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-comp.owl"/>
+      <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+</owl:Ontology>
+
 <rdf:Description rdf:about="Defining some rules for adapting changes in objects in different semantic maps "/>
 
 <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#AdaptingEpisodicMemoryData">
