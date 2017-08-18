@@ -115,9 +115,9 @@ apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
 
 check_joint_type(Door, Tsk) :-
     rdf_has(Door, knowrob:'doorHingedWith', Hinge),
-    ((rdf_has(Hinge, knowrob:'openningDirection', literal('CCW')),
+    ((rdf_has(Hinge, knowrob:'openingDirection', literal('CCW')),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeDoorCCW'));
-     (rdf_has(Hinge, knowrob:'openningDirection', literal('CW')),
+     (rdf_has(Hinge, knowrob:'openingDirection', literal('CW')),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeDoorCW'))).
 
 check_handle_type(Door, Tsk) :-
