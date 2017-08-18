@@ -53,9 +53,11 @@ apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
     owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
     owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
     rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
+    atom_number(SourceWidth, SourceWidthN),
     rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
-    SourceWidth < TargetWidth,
-    Increase is TargetWidth - SourceWidth,
+    atom_number(TargetWidth, TargetWidthN),
+    SourceWidthN < TargetWidthN,
+    Increase is TargetWidthN - SourceWidthN,
     rdf_assert(RuleOut, rdf:type, knowrob:'IncreaseRadiusOfTrajectory'),
     rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Increase))).
 
@@ -63,9 +65,11 @@ apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
     owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
     owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
     rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
+    atom_number(SourceWidth, SourceWidthN),
     rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
-    SourceWidth >= TargetWidth,
-    Decrease is SourceWidth - TargetWidth,
+    atom_number(TargetWidth, TargetWidthN),
+    SourceWidthN >= TargetWidthN,
+    Decrease is SourceWidthN - TargetWidthN,
     rdf_assert(RuleOut, rdf:type, knowrob:'DecreaseRadiusOfTrajectory'),
     rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Decrease))).
 
@@ -122,10 +126,12 @@ check_joint_type(Door, Tsk) :-
 
 check_handle_type(Handle, Tsk) :-
     rdf_has(Handle, knowrob:'widthOfObject', literal(type(_, W))),
+    atom_number(W, WN),
     rdf_has(Handle, knowrob:'heightOfObject', literal(type(_, H))),
-    (((W >= H),
+    atom_number(H, HN),
+    (((WN >= HN),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperParallel'));
-     ((H > W),
+     ((HN > WN),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperPerpendicular'))).
  
 
