@@ -98,13 +98,13 @@ apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
 apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
     owl_individual_of(SourceAction, knowrob:'OpeningAFridgeDoorCCW'),
     owl_individual_of(TargetAction, knowrob:'OpeningAFridgeDoorCW'),
-    rdf_assert(RuleOut, rdf:type, knowrob:'RotateTrajectoryInY'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'RotateTrajectoryInX'),
     rdf_assert(RuleOut, knowrob:'turnDegreeTrajectory', literal(type(xsd:'float', 180))).
 
 apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-
     owl_individual_of(SourceAction, knowrob:'OpeningAFridgeDoorCW'),
     owl_individual_of(TargetAction, knowrob:'OpeningAFridgeDoorCCW'),
-    rdf_assert(RuleOut, rdf:type, knowrob:'RotateTrajectoryInY'),
+    rdf_assert(RuleOut, rdf:type, knowrob:'RotateTrajectoryInX'),
     rdf_assert(RuleOut, knowrob:'turnDegreeTrajectory', literal(type(xsd:'float', 180))).
 
 apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut) :-

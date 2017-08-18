@@ -117,8 +117,7 @@
 </owl:Class>
 
 <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeGripperPerpendicular">
-  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCW"/>
-  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCCW"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
   <rdfs:subClassOf>
      <owl:Restriction>
         <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleShapeOnDoor"/>
@@ -128,8 +127,7 @@
 </owl:Class>
 
 <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeGripperParallel">
-  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCW"/>
-  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCCW"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
   <rdfs:subClassOf>
      <owl:Restriction>
         <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleShapeOnDoor"/>
