@@ -962,7 +962,7 @@
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-Handle">
-        <rdf:type rdf:resource="&knowrob;IAIHandleVert"/>
+        <rdf:type rdf:resource="&knowrob;IAIFridgeDoorHandle"/>
         <knowrob:depthOfObject rdf:datatype="&xsd;double">0.05</knowrob:depthOfObject>
         <knowrob:heightOfObject rdf:datatype="&xsd;double">0.4</knowrob:heightOfObject>
         <knowrob:widthOfObject rdf:datatype="&xsd;double">0.02</knowrob:widthOfObject>

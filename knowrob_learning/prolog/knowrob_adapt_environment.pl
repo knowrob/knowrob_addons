@@ -132,11 +132,13 @@ check_handle_type(Door, Tsk) :-
 
 estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
     owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(SourceDoor, srdl2comp:'succeedingJoint', SourceHandle),
-    owl_individual_of(SourceHandle, knowrob:'Handle'),
+    rdf_has(SourceDoor, knowrob:'describedInMap', SourceMap),
+    owl_individual_of(SourceHandle, knowrob:'IAIFridgeDoorHandle'),
+    rdf_has(SourceHandle, knowrob:'describedInMap', SourceMap),
     owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(TargetDoor, srdl2comp:'succeedingJoint', TargetHandle),
-    owl_individual_of(TargetHandle, knowrob:'Handle'),
+    rdf_has(TargetDoor, knowrob:'describedInMap', TargetMap),
+    owl_individual_of(TargetHandle, knowrob:'IAIFridgeDoorHandle'),
+    rdf_has(TargetHandle, knowrob:'describedInMap', TargetMap),
     rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
     check_joint_type(SourceDoor, EpisodicMemoryTask),
     check_joint_type(TargetDoor, TargetAction),
