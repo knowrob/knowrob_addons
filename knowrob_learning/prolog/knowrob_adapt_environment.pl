@@ -122,7 +122,7 @@ check_joint_type(Door, Tsk) :-
 
 check_handle_type(Handle, Tsk) :-
     rdf_has(Handle, knowrob:'widthOfObject', literal(type(_, W))),
-    rdf_has(Handle, knowrob:'heightOfObject', literal(type(_, H)))
+    rdf_has(Handle, knowrob:'heightOfObject', literal(type(_, H))),
     (((W >= H),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperParallel'));
      ((H > W),
