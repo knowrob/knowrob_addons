@@ -120,8 +120,7 @@ check_joint_type(Door, Tsk) :-
      (rdf_has(Hinge, knowrob:'openingDirection', literal(type(_, 'CW'))),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeDoorCW'))).
 
-check_handle_type(Door, Tsk) :-
-    rdf_has(Door, srdl2comp:'succeedingJoint', Handle),
+check_handle_type(Handle, Tsk) :-
     rdf_has(Handle, knowrob:'widthOfObject', literal(type(_, W))),
     rdf_has(Handle, knowrob:'heightOfObject', literal(type(_, H)))
     (((W >= H),
@@ -142,5 +141,5 @@ estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetA
     rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
     check_joint_type(SourceDoor, EpisodicMemoryTask),
     check_joint_type(TargetDoor, TargetAction),
-    check_handle_type(SourceDoor, EpisodicMemoryTask),
-    check_joint_type(TargetDoor, TargetAction).
+    check_handle_type(SourceHandle, EpisodicMemoryTask),
+    check_handle_type(TargetHandle, TargetAction).
