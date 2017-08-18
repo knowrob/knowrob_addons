@@ -985,7 +985,7 @@
  
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1">
         <rdf:type rdf:resource="&knowrob;HingedJoint"/>
-        <knowrob:openingDirection>CCW</knowrob:openningDirection>
+        <knowrob:openingDirection>CCW</knowrob:openingDirection>
     </owl:NamedIndividual>    
 
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET7_link">
