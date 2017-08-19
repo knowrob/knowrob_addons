@@ -985,8 +985,31 @@
  
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1">
         <rdf:type rdf:resource="&knowrob;HingedJoint"/>
+        <knowrob:describedInMap rdf:resource="&room73b2;room73b2_1"/>
         <knowrob:openingDirection>CCW</knowrob:openingDirection>
+        <knowrob:minJointValue rdf:datatype="&xsd;double">0.0</knowrob:minJointValue>
+        <knowrob:depthOfObject rdf:datatype="&xsd;double">0.0</knowrob:depthOfObject>
+        <knowrob:turnRadius rdf:datatype="&xsd;double">0.50</knowrob:turnRadius>
+        <knowrob:widthOfObject rdf:datatype="&xsd;double">0.0</knowrob:widthOfObject>
+        <knowrob:maxJointValue rdf:datatype="&xsd;double">2.0</knowrob:maxJointValue>
+        <knowrob:heightOfObject rdf:datatype="&xsd;double">0.0</knowrob:heightOfObject>
+        <knowrob:connectedTo-Rigidly rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET7_link"/>
+        <knowrob:connectedTo-Rigidly rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOT_link"/>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>    
+
+    <owl:NamedIndividual rdf:about="&room73b2;SemanticMapPerception_N3KIEmsBa">
+        <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+        <knowrob:startTime rdf:resource="&iai-map;timepoint_0000000001"/>
+        <knowrob:objectActedOn rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1"/>
+        <knowrob:eventOccursAt rdf:resource="&room73b2;Transformation_N3KIEmsBa"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&room73b2;Transformation_N3KIEmsBa">
+        <rdf:type rdf:resource="&knowrob;Transformation"/>
+        <knowrob:translation rdf:datatype="&xsd;string">5.295 7.685002 1.150000</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="&xsd;string">0.000001 0.00000 0.000000 1.0000</knowrob:quaternion>
+    </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_ROOM73B2-HITACHI-FIESTA-REFRIGERATOR-BODYSET7_link">
         <rdf:type rdf:resource="&knowrob;IAIFridgeDoor"/>
