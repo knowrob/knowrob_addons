@@ -40,6 +40,7 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
+
     
 
 
@@ -64,6 +65,12 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasPart -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasPart"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#linkedByAssemblage -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linkedByAssemblage"/>
     
 
 
@@ -621,13 +628,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltThreadAffordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatThreadAffordanceF"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -696,6 +696,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#BottomWingChassisTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingF"/>
@@ -731,12 +737,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#NutScrewConnection"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasPart"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatNut"/>
@@ -749,6 +749,20 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassis"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftFixedOnChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftFixedOnChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelFixedOnChassis"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelLeftScrewedOnChassis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
@@ -756,14 +770,59 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#NutScrewConnection"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelLeftScrewedOnChassis"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
-                                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelLooseOnChassis"/>
+                                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftLooseOnChassis"/>
                             </owl:Restriction>
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:onClass>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftLooseOnChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftLooseOnChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelLooseOnChassis"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftSlideInChassis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftSlideInChassis"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
+                                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneBody"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:onClass>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftSlideInChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftSlideInChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelSlideInChassis"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelChassisTransform_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -789,12 +848,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelSlideInChassis"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasPart"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassis"/>
@@ -807,6 +860,20 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheel"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWheelRightFixedOnChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelRightFixedOnChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelFixedOnChassis"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelRightScrewedOnChassis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
@@ -814,7 +881,38 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelSlideInChassis"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelRightScrewedOnChassis"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
+                                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelLeftLooseOnChassis"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:onClass>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWheelRightLooseOnChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelRightLooseOnChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelLooseOnChassis"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelRightSlideInChassis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelRightSlideInChassis"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
                                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneBody"/>
@@ -822,6 +920,20 @@
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:onClass>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWheelRightSlideInChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelRightSlideInChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWheelSlideInChassis"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelChassisTransform_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -870,7 +982,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#FrontWingsScrewedOnBody"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -894,7 +1006,7 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWingsScrewedOnBody"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
                                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopWingLooseOnBody"/>
@@ -902,6 +1014,27 @@
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:onClass>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#FrontWingsScrewedOnBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWingsScrewedOnBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWingBodyTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodyThreadWing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -972,6 +1105,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#MotorGrillUnderBodyTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInF"/>
@@ -997,13 +1136,6 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatNutThreadAffordance"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatThreadAffordanceM"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1122,6 +1254,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#BodyHorizontalHolderTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHSlideInChassisF"/>
@@ -1166,6 +1304,12 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInVerticalHolder">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#BodyVerticalHolderTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1415,6 +1559,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#ChassisHolderTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHSlideInChassisF"/>
@@ -1514,6 +1664,48 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelAffordance">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatAffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelLeftScrewedOnChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelLeftScrewedOnChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#NutScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelLeftChassisTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisThreadWheel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelRightScrewedOnChassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelRightScrewedOnChassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#NutScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelRightChassisTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisThreadWheel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -2604,7 +2796,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowScrewedOnBody"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2628,7 +2820,7 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWindowScrewedOnBody"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
                                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowLooseOnBody"/>
@@ -2702,6 +2894,27 @@
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:onClass>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneWindowScrewedOnBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWindowScrewedOnBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneWindowBodyTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodyThreadWindow"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2798,7 +3011,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PropellerScrewedOnMotorGrill"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2822,7 +3035,7 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#PropellerScrewedOnMotorGrill"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
                                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PropellerLooseOnMotorGrill"/>
@@ -2894,10 +3107,37 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#PropellerScrewedOnMotorGrill -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PropellerScrewedOnMotorGrill">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PropellerMotorGrillTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillThread"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#PropellerSlideInMotorGrill -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PropellerSlideInMotorGrill">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PropellerMotorGrillTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
@@ -2922,6 +3162,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelWingTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelSlideInWingF"/>
@@ -2942,6 +3188,12 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWheelSlideInWingAndWheel">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelWingAndWheelTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
@@ -2994,7 +3246,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#RearWingScrewedOnBody"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3018,7 +3270,7 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWingScrewedOnBody"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
                                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodyOnUnderBody"/>
@@ -3080,10 +3332,37 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#RearWingScrewedOnBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWingScrewedOnBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingBodyTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWingThread"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#RearWingSlideInHolder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWingSlideInHolder">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingHolderTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
@@ -3122,7 +3401,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#WheelsScrewedOnRearWing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3146,7 +3425,7 @@
                 <owl:onClass>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/battat_toys.owl#WheelsScrewedOnRearWing"/>
                             <owl:Restriction>
                                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
                                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#RearWingWithLooseWheels"/>
@@ -3337,6 +3616,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#TopWingUpperBodyTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSlideInF"/>
@@ -3357,6 +3642,12 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#UnderBodySlideInFrame">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#UnderBodySlideInTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
@@ -3409,6 +3700,12 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#UpperBodySlideInTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInF"/>
@@ -3439,10 +3736,37 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#WheelsScrewedOnRearWing -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#WheelsScrewedOnRearWing">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#WheelRearWingTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelThread"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#WindowSlideInBody -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#WindowSlideInBody">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#WindowBodyTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
@@ -3601,6 +3925,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Transform -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -3609,6 +3939,246 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#BodyHorizontalHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#BodyHorizontalHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#BodyVerticalHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#BodyVerticalHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#BottomWingChassisTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#BottomWingChassisTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#ChassisHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#ChassisHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelChassisTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelChassisTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelLeftChassisTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelLeftChassisTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelRightChassisTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWheelRightChassisTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWingBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#FrontWingBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#MotorGrillUnderBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#MotorGrillUnderBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneWindowBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneWindowBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PropellerMotorGrillTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PropellerMotorGrillTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelWingAndWheelTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelWingAndWheelTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelWingTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelWingTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#TopWingUpperBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#TopWingUpperBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#UnderBodySlideInTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#UnderBodySlideInTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#UpperBodySlideInTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#UpperBodySlideInTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#WheelRearWingTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#WheelRearWingTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#WindowBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#WindowBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
     
 
 
@@ -3969,6 +4539,12 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
         <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 1.0</knowrob:vector>
     </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
 </rdf:RDF>
 
 

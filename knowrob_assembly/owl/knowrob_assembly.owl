@@ -463,26 +463,13 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                        <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -993,15 +980,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM"/>
-        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cram_assembly:cram_assembly_agenda_perform</knowrob_planning:command>
-    </owl:NamedIndividual>
     
 
 
