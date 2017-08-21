@@ -374,7 +374,7 @@ agenda_item_cardinality(_,1).
 agenda_item_update_cardinality(Item,Card) :-
   rdf_retractall(Item, knowrob_planning:'itemCardinality', _),
   ( atom(Card) -> Card_atom=Card ; atom_number(Card_atom,Card) ),
-  rdf_assert(Item, knowrob_planning:'itemCardinality', litela(type(xsd:int,Card_atom))), !.
+  rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int,Card_atom))), !.
 
 %% agenda_item_strategy(?Item,?Strategy)
 %
