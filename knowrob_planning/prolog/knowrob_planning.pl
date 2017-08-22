@@ -136,10 +136,11 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
+  write('    [POP] '), agenda_item_write(X_Descr), nl,
+  % count how often item was selected
+  agenda_item_inhibit(X),
   ( agenda_item_valid(X_Descr, X)
   -> (
-    % count how often item was selected
-    agenda_item_inhibit(X),
     % remember last selected item
     retractall(agenda_item_last_selected(_)),
     assertz(   agenda_item_last_selected(X_Descr)),
@@ -652,6 +653,7 @@ agenda_item_domain_compute(Items, Domain) :-
      -> owl_restriction_subject_type(Item_D, D)
     ;  D = Item_D )))
   ), Domains),
+  % TODO(DB): there is a inconsistency in the model in case domains are not compatible?
   owl_most_specific(Domains, Domain), !.
 
 %% agenda_item_domain_compute(+Items,?P_specific)
