@@ -88,7 +88,8 @@ start_user_container :-
 
 connect_to_user_container :-
     cloud_interface(CL),
-    jpl_call(CL, 'connectToUserContainer', [], _R).
+    jpl_call(CL, 'connectToUserContainer', [], _R),
+    sleep(1).
 
 send_prolog_assert_query(Prolog, Incremental, Result) :-
     send_prolog_query_solution(Prolog, Incremental, Result, Id),
