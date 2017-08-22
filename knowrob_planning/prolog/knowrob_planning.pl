@@ -699,7 +699,7 @@ agenda_perform(Agenda, Item, Descr) :-
   % Update agenda according to asserted knowledge
   (  owl_atomic(Selection)
   -> agenda_item_update(PerformDescr, Agenda, Item, Siblings, Selection)
-  ;  agenda_push(Agenda, Item) ).
+  ;  agenda_sort_in(Agenda, Item) ).
 
 agenda_perform_specialization(Item, Descr, PerformDescr, DomainIn, DomainOut) :-
   agenda_item_strategy(Item,Strategy),
