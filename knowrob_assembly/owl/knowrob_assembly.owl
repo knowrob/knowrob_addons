@@ -370,16 +370,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#Affordance -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Affordance">
-        <owl:equivalentClass>
-            <owl:Restriction>
-                <owl:onProperty>
-                    <rdf:Description>
-                        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                    </rdf:Description>
-                </owl:onProperty>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
-            </owl:Restriction>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
