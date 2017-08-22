@@ -925,18 +925,18 @@ agenda_item_update_specify(Agenda,Item,Selection) :-
 %
 agenda_item_siblings(Item, Siblings) :-
   agenda_item_property(Item, P),
-  agenda_item_domain(Item, Domain),
+  %%%%agenda_item_domain(Item, Domain),
   findall(X, (
     agenda_item_match(Item, X),
     once((X=Item ; (
       agenda_item_property(X, P_X),
       ( rdfs_subproperty_of(P, P_X) ;
-        rdfs_subproperty_of(P_X, P) ),
-      agenda_item_domain(X, Domain_X),
+        rdfs_subproperty_of(P_X, P) )%%%%,
+      %%%%agenda_item_domain(X, Domain_X),
       % TODO: need to check in both directions?
       %( owl_specializable(Domain, Domain_X) ;
       %  owl_specializable(Domain_X, Domain) )
-      owl_specializable(Domain_X, Domain)
+      %%%%owl_specializable(Domain_X, Domain)
     )))
   ), Siblings).
 
