@@ -35,12 +35,97 @@ test_agenda_items([A|As],[B|Bs]) :-
 
 
 test(assembly_agenda_create_BattatPlaneBody) :-
-  rdf_instance_from_class(battat_toys:'PlaneUpperBodyOnUnderBody', BattatPlaneBody),
+  rdf_instance_from_class(battat_toys:'BattatPlaneBodyWithoutWindow', BattatPlaneBody),
   rdf_assert(BattatPlaneBody, rdf:type, owl:'NamedIndividual'),
   agenda_create(BattatPlaneBody, battat_test:'AgendaStrategy_1', Agenda),
   once(( rdfs_individual_of(Agenda, knowrob_planning:'Agenda'),
          rdf_has(Agenda, knowrob_planning:'strategy', battat_test:'AgendaStrategy_1') )),
   assertz(assembly_test_agenda(BattatPlaneBody,Agenda)),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
   agenda_write(Agenda).
 
 test(assembly_perform_BattatPlaneBody_usesConnection) :-
