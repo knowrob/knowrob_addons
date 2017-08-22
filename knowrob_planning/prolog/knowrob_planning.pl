@@ -925,6 +925,7 @@ agenda_item_update_specify(Agenda,Item,Selection) :-
 %
 agenda_item_siblings(Item, Siblings) :-
   agenda_item_property(Item, P),
+  %% TODO: really save to ignore domain entirely?
   %%%%agenda_item_domain(Item, Domain),
   findall(X, (
     agenda_item_match(Item, X),
