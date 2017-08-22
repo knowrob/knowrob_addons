@@ -645,12 +645,12 @@ agenda_item_domain_compute(Items, Domain) :-
   findall(D, (
     member(Item, Items),
     agenda_item_domain(Item, Item_D),
-    % TODO: also consider range of P on S here?
-    %owl_property_range_on_subject(S,P,Domain)
-    (  rdfs_individual_of(Item_D, owl:'Restriction')
-    -> owl_restriction_subject_type(Item_D, D)
-    ;  D = Item_D
-    )
+    agenda_item_property(Item, P),
+    agenda_item_subject(Item, S),
+    (  owl_property_range_on_subject(S,P,D) ; ((
+       rdfs_individual_of(Item_D, owl:'Restriction')
+     -> owl_restriction_subject_type(Item_D, D)
+    ;  D = Item_D )))
   ), Domains),
   owl_most_specific(Domains, Domain), !.
 
