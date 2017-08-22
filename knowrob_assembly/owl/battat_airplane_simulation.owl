@@ -107,6 +107,7 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
+
     
 
 
@@ -278,9 +279,27 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInM -->
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInFUnder -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInM"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInFUnder"/>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInFUpper -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInFUpper"/>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInMUnder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInMUnder"/>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInMUpper -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInMUpper"/>
     
 
 
@@ -691,6 +710,7 @@
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
     </owl:NamedIndividual>
+    
 
 
     <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#NutInitialTransform_1 -->
@@ -782,7 +802,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWing_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWing"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWingSlideInUnderBodyM_1"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWing_1"/>
+        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingF_1"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWingInitialTransform_1"/>
         <knowrob_paramserver:hasTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWingInitialTransform_1"/>
         <srdl2-comp:urdfName>PlaneBottomWing_1</srdl2-comp:urdfName>
@@ -802,18 +822,18 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingM_1 -->
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingF_1 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingM_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingM"/>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingF_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingF"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWing_1 -->
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingM_1 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWing_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingF"/>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInBottomWingM_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingM"/>
     </owl:NamedIndividual>
     
 
@@ -1012,10 +1032,26 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInF_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInF_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInFUnder"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInF_2 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInF_2">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInFUpper"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInM_1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInM_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInM"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInMUnder"/>
     </owl:NamedIndividual>
     
 
@@ -1023,7 +1059,7 @@
     <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInM_2 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInM_2">
-        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInM"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSlideInMUpper"/>
     </owl:NamedIndividual>
     
 
@@ -1309,6 +1345,7 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBody"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBodySlideInM_1"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWingSlideInUnderBodyF_1"/>
+        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInF_1"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneRearWingSlideInUnderBodyF_1"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneUnderBodyInitialTransform_1"/>
         <knowrob_paramserver:hasTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneUnderBodyInitialTransform_1"/>
@@ -1336,6 +1373,7 @@
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBodySlideInF_1"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBodyThreadWindow_1"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBodyThreadWing_1"/>
+        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneMotorGrillSlideInF_2"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneRearWingSlideInUpperBodyM_1"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneTopWingSlideInF_1"/>
         <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneWindowSlideinBodyF_1"/>
