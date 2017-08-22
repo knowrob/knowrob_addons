@@ -146,6 +146,15 @@ agenda_pop(Agenda, Item, Descr)  :-
     assertz(   agenda_item_last_selected(X_Descr)),
     Item=X, Descr=X_Descr
   ) ; ( % retract invalid, pop next
+    % FIXME: redundant with validity check
+    % FIXME: slows down planning!
+    writeln('    [INVALID]'),
+    agenda_item_reason(X,(Cause,Cause_restriction)),
+    agenda_item_depth_value(X, Depth),
+    forall(
+       satisfies_restriction_up_to(Cause, Cause_restriction, NewItem),
+       assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, Depth, _)
+    ),
     retract_agenda_item(X),
     agenda_pop(Agenda, Item, Descr)
   )).
