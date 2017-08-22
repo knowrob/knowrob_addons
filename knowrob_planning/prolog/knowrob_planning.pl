@@ -989,10 +989,12 @@ write_description(Domain) :-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Utility predicates
 
-owl_atomic([]).
-owl_atomic([X|Xs]) :- owl_atomic(X), owl_atomic(Xs).
+owl_atomic_list([]).
+owl_atomic_list([X|Xs]) :- owl_atomic(X), owl_atomic_list(Xs).
+owl_atomic([X|Xs]) :- owl_atomic_list([X|Xs]).
 owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', owl:'Class'), !.
-owl_atomic(Domain) :- atom(Domain), owl_individual_of(Domain, _), !.
+owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', Type),
+                                    rdf_has(Type,   rdf:'type', owl:'Class'), !.
 
 decomposable_property(P) :-
   rdfs_subproperty_of(P, knowrob_planning:'decomposablePredicate'), !.
