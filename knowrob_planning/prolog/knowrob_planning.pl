@@ -80,8 +80,18 @@
 %
 % TODO(DB): some ideas ...
 %   - Think about support for computables properties/SWRL
+%       - computed predicates should not yield agenda items
+%         but should be used when checking if a restriction is sattisfied or not
+%   - Generic approach for mapping agenda items to actions
+%       - use OWL representation of actions
+%       - generate action designator from action description
+%       - problematic: mapping between agenda item and action description
+%              - common parameters: type, objectActedOn
+%              - there could be unusual parameters!
+%              - mapping knowledge must be represented in processing knowledge of strategy
 %   - Also add items caused by specializable type?
-%   - Keep history of decisions. for instance union descriptions may require this!
+%   - Keep history of decisions, allow (chronological) backtracking on decisions
+%       - for instance union descriptions may require this!
 %
 
 %% agenda_create(+Obj,+Strategy,-Agenda)
@@ -624,23 +634,21 @@ agenda_item_matches_item_type(Item, Pattern) :-
 agenda_item_matches_object(Item,Pattern) :-
   rdf_has(Pattern, knowrob_planning:'itemOf', S)
   -> agenda_item_subject(Item,S)
-  ;  true.
+  ; true.
 
 agenda_item_matches_property(Item, Pattern) :-
   agenda_pattern_property(Pattern,P_Pattern)
   -> (
     agenda_item_property(Item,P),
-    % TODO: this should be code of owl_subproperty_of, and be used by owl_specializable
-    ( rdfs_subproperty_of(P, P_Pattern) ;
-    ( rdf_has(P, owl:inverseOf, P_inv),
-      rdf_has(P_Pattern, owl:inverseOf, P_Pattern_inv),
-      rdfs_subproperty_of(P_inv, P_Pattern_inv) ))
-  ) ;  true.
+    owl_subproperty_of(P, P_Pattern) )
+  ; true.
 
 agenda_item_matches_domain(Item, Pattern) :-
   agenda_pattern_domain(Pattern,Domain_Pattern)
-  -> ( agenda_item_domain(Item,Domain), owl_specializable(Domain_Pattern, Domain) )
-  ;  true.
+  -> (
+    agenda_item_domain(Item,Domain), 
+    owl_specializable(Domain_Pattern, Domain) )
+  ; true.
 
 agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P).
 agenda_pattern_domain(Pattern,Domain) :- agenda_item_domain(Pattern,Domain).
