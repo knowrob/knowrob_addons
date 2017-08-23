@@ -299,10 +299,17 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
     ), Os) ; Os=[] )),
     owl_satisfies_min_cardinality_up_to(S, Card, Os,
         restriction(P,cardinality(Min,Max,Cls)), UpTo)
-  ) ; ( % to many values of type Cls
+  ) ; (( % to many values of type Cls
     Count is Card - Max, Count > 0,
     UpTo=detach(S,P,Cls,Card)
-  )).
+  ) ; (
+    % cardinality is fine, check if restriction fails at a deeper level
+    owl_description(Cls, Cls_descr),
+    rdf_has(S,P,O),
+    owl_individual_of(O,Cls),
+    owl_satisfies_restriction_up_to_internal(O,Cls_descr,UpTo)
+  ))
+  ).
 
 owl_satisfies_min_cardinality_up_to(_, _, Os, restriction(_,cardinality(_,_,Cls)), UpTo) :-
   % some values of P could be specializable to Cls, for those Restr is fullfilled up to were they violate Cls 
