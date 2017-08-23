@@ -48,7 +48,10 @@ class ThorinObject(object):
         marker.frame_locked = True
         marker.pose.position = Point(*self.transform[-2])
         marker.pose.orientation = Quaternion(*self.transform[-1])
-        marker.mesh_resource = self.mesh_path
+        if len(self.mesh_path)>2 and self.mesh_path[0] == "'":
+            marker.mesh_resource = self.mesh_path[1:-1]
+        else:
+            marker.mesh_resource = self.mesh_path
         return marker
 
     def get_del_marker(self):
