@@ -212,9 +212,11 @@ get_object_color(ObjectId, Color) :-
 % @param FilePath    anyURI, the path (usually a package:// path)
 %
 get_object_mesh_path(ObjectId, FilePath) :-
-  rdf_has(ObjectId, paramserver:'hasShape', ShapeCan),
-  rdfs_individual_of(ShapeCan, paramserver:'TexturedShape'),
-  rdf_has(ShapeCan, paramserver:'hasPath', literal(type(xsd:'anyURI', FP))),
+  once((
+    owl_has(ObjectId, paramserver:'hasShape', ShapeCan),
+    rdfs_individual_of(ShapeCan, paramserver:'TexturedShape'),
+    rdf_has(ShapeCan, paramserver:'hasPath', literal(type(xsd:'anyURI', FP)))
+  )),
   atom_string(FP, FilePath).  
 
 %% get_object_transform(+ObjectId, -Transform) is det.
@@ -1623,7 +1625,7 @@ create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, Ne
 create_assembly_agenda(AssemblageType, AvailableAtomicParts, Agenda) :-
   create_assembly_agenda_internal(AssemblageType, AvailableAtomicParts, Agenda, _, _).
 
-reset_beliefstate() :-
+reset_beliefstate :-
   (assert_assemblage_destroyed_without_service_call(_,_) -> true; true),
   (assert_ungrasp_without_service_call(_,_,_) -> true; true),
   ((owl_has(Blocker, assembly:'blocksAffordance', A), 
