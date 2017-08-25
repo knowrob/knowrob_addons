@@ -158,4 +158,24 @@ test(assembly_perform_BattatPlaneBody_usesConnection) :-
   agenda_perform_next(Agenda),
   agenda_write(Agenda).
 
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
+test(assembly_perform_BattatPlaneBody_usesConnection) :-
+  assembly_test_agenda(_,Agenda),
+  agenda_perform_next(Agenda),
+  agenda_write(Agenda).
+
 :- end_tests(knowrob_battat).

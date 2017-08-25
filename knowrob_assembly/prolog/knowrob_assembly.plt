@@ -684,7 +684,7 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
       item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)       % AxleWithWheels
   ]).
 
-test(assembly_AxleSnapInBack_inv_usesConnection) :-
+test(assembly_AxleSnapInBack_inv_consumesAffordance_AxleSnapInM) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   assembly_test_agenda(Agenda),
   agenda_perform_next(Agenda),
