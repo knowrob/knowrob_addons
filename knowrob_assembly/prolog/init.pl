@@ -31,6 +31,7 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_paramserver).
+:- register_ros_package(knowrob_beliefstate).
 :- register_ros_package(knowrob_planning).
 
 :- use_module(library('knowrob_assembly')).
