@@ -13,7 +13,7 @@
 
 :- rdf_db:rdf_register_prefix(assembly_test, 'http://knowrob.org/kb/assembly_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(assembly_map, 'http://knowrob.org/kb/assembly_map_test.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(assembly, 'http://knowrob.org/kb/assemblages_test.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(assemblages_test, 'http://knowrob.org/kb/assemblages_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(parts, 'http://knowrob.org/kb/assembly_parts_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(params, 'http://knowrob.org/kb/knowrob_paramserver.owl#', [keep(true)]).
@@ -126,23 +126,23 @@ test_AxleWithWheels_uses_connection(Obj) :-
   test_unsattisfied_restriction(Obj,
     restr(knowrob_assembly:'usesConnection', (1,1), intersect([
           parts:'WheelSnapInOnRight',
-          restr(knowrob_assembly:'linksAssemblage',some,assembly:'AxleWithLeftWheel')]))).
+          restr(knowrob_assembly:'linksAssemblage',some,assemblages_test:'AxleWithLeftWheel')]))).
 test_ChassisWithFrontAxle_uses_connection(Obj) :-
   test_unsattisfied_restriction(Obj,
     restr(knowrob_assembly:'usesConnection', (1,1), intersect([
           parts:'AxleSnapInFront',
-          restr(knowrob_assembly:'linksAssemblage',some,assembly:'AxleWithWheels')]))).
+          restr(knowrob_assembly:'linksAssemblage',some,assemblages_test:'AxleWithWheels')]))).
 test_ChassisWithAxles_uses_connection(Obj) :-
   test_unsattisfied_restriction(Obj,
     restr(knowrob_assembly:'usesConnection', (1,1), intersect([
           parts:'AxleSnapInBack',
-          restr(knowrob_assembly:'linksAssemblage',some,assembly:'AxleWithWheels'),
-          restr(knowrob_assembly:'linksAssemblage',some,assembly:'ChassisWithFrontAxle')]))).
+          restr(knowrob_assembly:'linksAssemblage',some,assemblages_test:'AxleWithWheels'),
+          restr(knowrob_assembly:'linksAssemblage',some,assemblages_test:'ChassisWithFrontAxle')]))).
 test_BodyOnChassis_uses_connection(Obj) :-
   test_unsattisfied_restriction(Obj,
     restr(knowrob_assembly:'usesConnection', (1,1), intersect([
           parts:'ChassisSnapInConnection',
-          restr(knowrob_assembly:'linksAssemblage',some,assembly:'ChassisWithAxles')]))).
+          restr(knowrob_assembly:'linksAssemblage',some,assemblages_test:'ChassisWithAxles')]))).
 
 test(assembly_AxleWithLeftWheel_uses_connection1, [nondet]) :-
   test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel1'),
@@ -304,7 +304,7 @@ test_restriction_up_to(S,Restr,UpTo) :-
   %rdf_instance_from_class(parts:'ChassisSnapInConnection', Conn),
   %test_restriction_up_to(Conn, intersection_of([
     %class(parts:'ChassisSnapInConnection'),
-    %restriction(knowrob_assembly:'linksAssemblage',some_values_from(assembly:'ChassisWithAxles'))]),
+    %restriction(knowrob_assembly:'linksAssemblage',some_values_from(assemblages_test:'ChassisWithAxles'))]),
     %integrate(Conn,knowrob_assembly:'needsAffordance',_,1)).
     
 test(assembly_PorscheBody1SideGrasp_not_specializable1) :-
@@ -314,7 +314,7 @@ test(assembly_PorscheBody1SideGrasp_not_specializable2) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_restriction_assert(restriction(NeedsInv, some_values_from(
-                         restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+                         restriction(UsesInv,  some_values_from(assemblages_test:'ChassisWithAxles')))), Restr),
   % o ChassisWithAxles usesConnection only(AxleSnapInBack)
   % o AxleSnapInBack consumesAffordance_1(AxleSnapInFBack), needsAffordance_only(AxleSnapInAffordance)
   % --> fail because PorscheBody1SideGrasp not specializable to AxleSnapInAffordance
@@ -343,13 +343,13 @@ test(assembly_Chassis1AxleSnapInFBack_specializable) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_restriction_assert(restriction(NeedsInv, some_values_from(
-                         restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+                         restriction(UsesInv,  some_values_from(assemblages_test:'ChassisWithAxles')))), Restr),
   owl_specializable(assembly_map:'Chassis1AxleSnapInFBack', Restr).
 test(assembly_Chassis1AxleSnapInFFront_not_specializable) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
   owl_restriction_assert(restriction(NeedsInv, some_values_from(
-                         restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))), Restr),
+                         restriction(UsesInv,  some_values_from(assemblages_test:'ChassisWithAxles')))), Restr),
   \+ owl_specializable(parts:'AxleSnapInFFront', Restr).
   
 % o CarBody hasAffordance 1 BodyChassisSnapInF
@@ -374,7 +374,7 @@ test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
   owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
   owl_restriction_assert(restriction(knowrob_assembly:'hasAffordance', some_values_from(
                                       restriction(NeedsInv, some_values_from(
-                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))), Restr),
+                                      restriction(UsesInv,  some_values_from(assemblages_test:'ChassisWithAxles')))))), Restr),
   % o ChassisWithAxles usesConnection AxleSnapInBack
   % o AxleSnapInBack needsAffordance AxleSnapInAffordance
   % o PorscheBody1 hasAffordance 1 PorscheBody1ChassisSnapInF
@@ -389,7 +389,7 @@ test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
   owl_restriction_assert(restriction(HasInv, some_values_from(
                                       restriction(knowrob_assembly:'hasAffordance', some_values_from(
                                       restriction(NeedsInv, some_values_from(
-                                      restriction(UsesInv,  some_values_from(assembly:'ChassisWithAxles')))))))), Restr),
+                                      restriction(UsesInv,  some_values_from(assemblages_test:'ChassisWithAxles')))))))), Restr),
   \+ owl_specializable(assembly_map:'PorscheBody1ChassisSnapInF', Restr).
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -474,7 +474,7 @@ test(assembly_Chassis1AxleSnapInFBack_inv_needsAffordance) :-
     rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack')
   )),
   test_agenda_items([
-      item(decompose, AxleSnapInBack, UsesInv, assembly:'ChassisWithAxles', _), % linksAssemblage ChassisWithAxles
+      item(decompose, AxleSnapInBack, UsesInv, assemblages_test:'ChassisWithAxles', _), % linksAssemblage ChassisWithAxles
       item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _)
   ]).
 
@@ -572,7 +572,7 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
     rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMRight')
   )),
   test_agenda_items([
-      item(decompose, WheelSnapInOnRight, UsesInv, assembly:'AxleWithWheels', _),
+      item(decompose, WheelSnapInOnRight, UsesInv, assemblages_test:'AxleWithWheels', _),
       item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
       item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
       item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)    % linksAssemblage AxleWithWheels
@@ -616,7 +616,7 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
     rdf_has(WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMLeft')
   )),
   test_agenda_items([
-      item(decompose, WheelSnapInOnLeft, UsesInv, assembly:'AxleWithLeftWheel', _),
+      item(decompose, WheelSnapInOnLeft, UsesInv, assemblages_test:'AxleWithLeftWheel', _),
       item(integrate, WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
       item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
       item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _),  % Wheel
@@ -702,7 +702,7 @@ test(assembly_AxleSnapInBack_inv_usesConnection) :-
     rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMRight')
   )),
   test_agenda_items([
-      item(decompose, WheelSnapInOnRight, UsesInv, assembly:'AxleWithWheels', _),
+      item(decompose, WheelSnapInOnRight, UsesInv, assemblages_test:'AxleWithWheels', _),
       item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _)
   ]).
 
