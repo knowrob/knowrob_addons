@@ -91,6 +91,7 @@
 :- rdf_db:rdf_register_ns(paramserver, 'http://knowrob.org/kb/knowrob_paramserver.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
@@ -184,7 +185,7 @@ get_known_assemblage_ids(AssemblageIds) :-
 % @param Color   the transform data
 %
 get_object_color(ObjectId, Color) :-
-  rdf_has(ObjectId, paramserver:'hasColor', ColInd),
+  owl_has(ObjectId, paramserver:'hasColor', ColInd),
   rdf_has(ColInd, 'http://knowrob.org/kb/knowrob.owl#vector', literal(type(_, V))), 
   knowrob_math:parse_vector(V, Color), !.
 
@@ -244,6 +245,9 @@ get_object_mesh_path(ObjectId, FilePath) :-
 % @param ObjectId    anyURI, the object id
 % @param Transform   the transform data
 %
+get_object_transform(ObjectId, Transform) :-
+  object_current_transform(Obj, Transform), !.
+
 get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
   temporal_extent_active(TempRei),
@@ -407,46 +411,6 @@ get_new_object_id(ObjectType, ObjectId) :-
   string_concat(ObjectId5, C6, ObjectId6),
   string_concat(ObjectId6, C7, ObjectId7),
   string_concat(ObjectId7, C8, ObjectId).
-
-assemblage_has_part(Assemblage, Part) :-
-  get_active_assemblage(Assemblage),
-  owl_has(Assemblage, assembly:'hasPart', Part).
-
-assemblage_has_part(Assemblage, Part) :-
-  get_active_assemblage(Assemblage),
-  owl_has(Assemblage, assembly:'hasSubassemblage', SubA),
-  assemblage_has_part(SubA, Part).
-
-%% get_assemblages_with_object(+Object, -Assemblages) is det.
-%
-% Returns a list of Assemblage Ids such that every Assemblage in the list hasPart Object
-% Only active assemblages are returned: their Connection has no temporalExtent, or a temporalExtent to an Interval with no endsAtTime.
-%
-% @param Object      anyURI, the object id
-% @param Assemblages [anyURI*], assemblages id
-%
-get_assemblages_with_object(Object, Assemblages) :-
-  findall(A, assemblage_has_part(A, Object), AssemblagesL),
-  list_to_set(AssemblagesL, Assemblages).
-
-%% get_objects_in_assemblage(+Assemblage, -Objects) is det.
-%
-% Returns a list of Object Ids such that for every Object in the list we have Assemblage hasPart Object or Assemblage hasSubassemblage Assemblage2 hasPart Object,
-% if Assemblage is actually of the Assemblage type. If it is instead an AtomicPart, returns a list containing only Assemblage.
-% Only active assemblages are considered: their Connection has no temporalExtent, or a temporalExtent to an Interval with no endsAtTime.
-%
-% @param Assemblage anyURI, the assemblage id
-% @param Objects    [anyURI*], object ids
-%
-get_objects_in_assemblage(Assemblage, Objects) :-
-  owl_individual_of(Assemblage, assembly:'AtomicPart'),
-  =(Objects, [Assemblage]),
-  !.
-
-get_objects_in_assemblage(Assemblage, Objects) :-
-  \+ owl_individual_of(Assemblage, assembly:'AtomicPart'),
-  findall(P, assemblage_has_part(Assemblage, P), DupList),
-  list_to_set(DupList, Objects).
 
 get_mobile_objects_in_assemblage(Assemblage, MobileParts) :-
   get_objects_in_assemblage(Assemblage, Parts),
@@ -1649,3 +1613,162 @@ reset_beliefstate :-
     DirtyObjectIds),
   mark_dirty_objects(DirtyObjectIds).
           %% rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', InitialTempRei)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% new code starts here
+% TODO: rework get_object_at_location/assert_object_at_location for real robot case!
+%           - assert_object_at_location maps to object_update_transform
+% TODO: grasping/ungrasping handle affordances
+% old predicates: get_currently_possible_grasps_on_object
+%                 get_current_grasps_on_object
+%                 get_current_objects_in_gripper
+%                 assert_grasp_on_object / assert_ungrasp
+% ungrasp needs to unblock, grasping needs to block affordances.
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% transitive Assemblage hasPart AtomicPart relation
+assemblage_has_part(Assemblage, Part) :-
+  var(Assemblage), !, % first bind Assemblage object if not specified
+  rdfs_individual_of(Assemblage, assembly:'Assemblage'),
+  assemblage_has_part(Assemblage, Part).
+assemblage_has_part(Assemblage, Part) :-
+  ground(Part), !, % both ground
+  once(assemblage_has_part_(Assemblage, Part)).
+assemblage_has_part(Assemblage, Part) :-
+  bagof(P, assemblage_has_part_(Assemblage, P), Parts), % eliminate redundant solutions
+  member(Part,Parts).
+assemblage_has_part_(Part, Part) :-
+  rdfs_individual_of(Part, assembly:'AtomicPart'), !.
+assemblage_has_part_(Assemblage, Part) :-
+  owl_has(Assemblage, assembly:'hasPart', Part).
+assemblage_has_part_(Assemblage, Part) :-
+  owl_has(Assemblage, assembly:'hasSubassemblage', SubA),
+  assemblage_has_part_(SubA, Part).
+
+%% get_assemblages_with_object(+Object, -Assemblages) is det.
+%
+% Returns a list of Assemblage Ids such that every Assemblage in the list hasPart Object
+% Only active assemblages are returned: their Connection has no temporalExtent, or a temporalExtent to an Interval with no endsAtTime.
+%
+% @param Object      anyURI, the object id
+% @param Assemblages [anyURI*], assemblages id
+%
+get_assemblages_with_object(Object, Assemblages) :-
+  bagof(A, assemblage_has_part(A, Object), Assemblages).
+
+%% get_objects_in_assemblage(+Assemblage, -Objects) is det.
+%
+% Returns a list of Object Ids such that for every Object in the list we have Assemblage hasPart Object or Assemblage hasSubassemblage Assemblage2 hasPart Object,
+% if Assemblage is actually of the Assemblage type. If it is instead an AtomicPart, returns a list containing only Assemblage.
+% Only active assemblages are considered: their Connection has no temporalExtent, or a temporalExtent to an Interval with no endsAtTime.
+%
+% @param Assemblage anyURI, the assemblage id
+% @param Objects    [anyURI*], object ids
+%
+get_objects_in_assemblage(Assemblage, Objects) :-
+  findall(Obj, assemblage_has_part(Assemblage,Obj), Objects).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Beliefstate manipulation
+
+create_transform(_Translation, _Rotation, _TransformId) :-
+  fail.
+
+transform_reference_frame(TransformId, Ref) :-
+  rdf_has(TransformId, knowrob:'relativeTo', RefObjId),
+  rdf_has(RefObjId, srdl2comp:'urdfName', literal(Ref)), !.
+transform_reference_frame(_TransformId, 'map').
+
+transform_data(TransformId, (Translation, Rotation)) :-
+  rdf_has(TransformId, knowrob:'translation', literal(type(_,Translation_atom))),
+  rdf_has(TransformId, knowrob:'quaternion', literal(type(_,Rotation_atom))),
+  knowrob_math:parse_vector(Translation_atom, Translation),
+  knowrob_math:parse_vector(Rotation_atom, Rotation).
+
+connection_transform_data(Connection, TransformData) :-
+  rdf_has(Connection, paramserver:'hasTransform', TransformId),
+  transform_data(TransformId, TransformData).
+connection_reference_object(Connection, TargetObj, ReferenceObj) :-
+  % select random other object that participates an affordance in the connection
+  % FIXME: random selection won't work with fixed transform data! need to encode reference object in connection!
+  %          - could restrict hasTransform: hasTransform only (relativeTo some PartType)
+  %            XXX: won't work if part type appears multiple times in connection
+  rdf_has(Connection, assembly:'needsAffordance', Aff),
+  rdf_has(ReferenceObj, assembly:'hasAffordance', Aff),
+  TargetObj \= ReferenceObj.
+
+grasp_transform_data(GraspSpecification, TransformData) :-
+  rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),
+  transform_data(TransformId, TransformData).
+
+% NOTE: replaces get_object_transform
+object_current_transform(Obj, [ReferenceFrame, TargetFrame, Translation, Rotation]) :-
+  rdf_has(Obj, paramserver:'hasTransform', TransformId),
+  rdf_has(Obj, srdl2comp:'urdfName', literal(TargetFrame)),
+  transform_data(TransformId, (Translation, Rotation)),
+  transform_reference_frame(TransformId, ReferenceFrame).
+
+object_update_transform(Obj, TransformData, RelativeTo) :-
+  update_object_transform_(Obj, TransformData, TransformId),
+  rdf_assert(TransformId, knowrob:'relativeTo', RelativeTo).
+object_update_transform(Obj, TransformData) :-
+  update_object_transform_(Obj, TransformData, _).
+object_update_transform_(Obj, (Translation, Rotation), TransformId) :-
+  rdf_retractall(Obj, paramserver:'hasTransform', _),
+  create_transform(Translation, Rotation, TransformId),
+  rdf_assert(Obj, paramserver:'hasTransform', TransformId).
+
+% TODO: redundant
+object_possible_grasp(_Obj, _GraspSpecification) :-
+  fail.
+
+% TODO: grasp blocks affordances, grasp specification names them
+object_acquire_grasp(Obj, Gripper, GraspSpecification) :-
+  object_update_grasp_transform(Obj, Gripper, GraspSpecification).
+
+% TODO: mark all connected objects dirty and update their transforms!
+object_update_grasp_transform(Obj, Gripper, GraspSpecification) :-
+  grasp_transform_data(GraspSpecification, TransformData),
+  
+  % TODO: what means relative to grasp ?
+  %              is the idea to express all relative to gripper?
+  %              why not everything relative to grasped part?
+  %add_transform_to_object(Object, Transform, GraspRei),
+  object_update_transform(Obj, TransformData, Gripper),
+  
+  get_mobile_objects_connected_to_object(Obj, MobileParts),
+  
+  apply_grasp____(MobileParts, GraspRei),
+  
+  mark_dirty_objects([Obj|MobileParts]).
+
+apply_grasp____([Object|RestObjects], Grasp) :-
+  object_current_transform(Object, TObj),
+  
+  rdf_has(Object, srdl2comp:'urdfName', literal(OldRefFrame)),
+  grasp_ref_frame(Grasp, RefFrame), % TODO: what is this?
+  
+  get_tf_transform(RefFrame, OldRefFrame, RefTransform),
+  multiply_transforms(RefTransform, TObj, TransformData),
+  %add_transform_to_object(Object, TransformData, Grasp),
+  object_update_transform(Object, TransformData, Grasp),
+  
+  %add_transform_to_object_by_reference(Object, Grasp, TObj),
+  apply_grasp(RestObjects, Grasp),
+  !.
+
+object_update_connection_transform(Obj, Connection) :-
+  connection_transform_data(Connection, TransformData),
+  connection_reference_object(Connection, Obj, ReferenceObject),
+  object_update_transform(Obj, TransformData, ReferenceObject),
+  mark_dirty_objects([Obj]).
+
+% TODO: also offer variant that estimates put down pose by taking into account
+%       hasTransform relativeTo some Gripper and the current pose of the gripper?
+object_update_putdown_transform(Obj, TransformData) :-
+  object_update_transform(Obj, TransformData),
+  mark_dirty_objects([Obj]).
+  
