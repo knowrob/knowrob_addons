@@ -67,7 +67,12 @@
       assert_assemblage_destroyed/1,
 
       create_assembly_agenda/3,
-      reset_beliefstate/0
+      reset_beliefstate/0,
+      
+      %%%%%%%%%%%% new stuff
+      
+      object_update_transform/2,
+      object_update_transform/3
     ]).
 
 :- use_module(library('jpl')).
@@ -82,7 +87,7 @@
 :- use_module(library('tf_prolog')).
 :- use_module(library('random')).
 
-:- load_foreign_library('libkr_beliefstate.so').
+%:- load_foreign_library('libkr_beliefstate.so').
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
@@ -92,6 +97,10 @@
 :- rdf_db:rdf_register_ns(assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
+
+:-  rdf_meta
+    object_update_transform(r,+,r),
+    object_update_transform(r,+).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
@@ -215,7 +224,6 @@ get_object_color(ObjectId, Color) :-
 get_object_mesh_path(ObjectId, FilePath) :-
   once((
     owl_has(ObjectId, paramserver:'hasShape', ShapeCan),
-    rdfs_individual_of(ShapeCan, paramserver:'TexturedShape'),
     rdf_has(ShapeCan, paramserver:'hasPath', literal(type(xsd:'anyURI', FP)))
   )),
   atom_string(FP, FilePath).  
@@ -246,7 +254,7 @@ get_object_mesh_path(ObjectId, FilePath) :-
 % @param Transform   the transform data
 %
 get_object_transform(ObjectId, Transform) :-
-  object_current_transform(Obj, Transform), !.
+  object_current_transform(ObjectId, Transform), !.
 
 get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
@@ -1674,8 +1682,12 @@ get_objects_in_assemblage(Assemblage, Objects) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Beliefstate manipulation
 
-create_transform(_Translation, _Rotation, _TransformId) :-
-  fail.
+create_transform(Translation, Rotation, TransformId) :-
+  rdf_instance_from_class('http://knowrob.org/kb/knowrob_paramserver.owl#Transform', TransformId),
+  atomic_list_concat(Translation, ' ', Translation_atom),
+  atomic_list_concat(Rotation, ' ', Rotation_atom),
+  rdf_assert(TransformId, knowrob:'translation', literal(type(xsd:string,Translation_atom))),
+  rdf_assert(TransformId, knowrob:'quaternion', literal(type(xsd:string,Rotation_atom))).
 
 transform_reference_frame(TransformId, Ref) :-
   rdf_has(TransformId, knowrob:'relativeTo', RefObjId),
@@ -1712,10 +1724,17 @@ object_current_transform(Obj, [ReferenceFrame, TargetFrame, Translation, Rotatio
   transform_reference_frame(TransformId, ReferenceFrame).
 
 object_update_transform(Obj, TransformData, RelativeTo) :-
-  update_object_transform_(Obj, TransformData, TransformId),
-  rdf_assert(TransformId, knowrob:'relativeTo', RelativeTo).
+  object_update_transform_internal(Obj, TransformData, RelativeTo),
+  mark_dirty_objects([Obj]).
 object_update_transform(Obj, TransformData) :-
-  update_object_transform_(Obj, TransformData, _).
+  object_update_transform_internal(Obj, TransformData),
+  mark_dirty_objects([Obj]).
+
+object_update_transform_internal(Obj, TransformData, RelativeTo) :-
+  object_update_transform_(Obj, TransformData, TransformId),
+  rdf_assert(TransformId, knowrob:'relativeTo', RelativeTo).
+object_update_transform_internal(Obj, TransformData) :-
+  object_update_transform_(Obj, TransformData, _).
 object_update_transform_(Obj, (Translation, Rotation), TransformId) :-
   rdf_retractall(Obj, paramserver:'hasTransform', _),
   create_transform(Translation, Rotation, TransformId),
@@ -1737,7 +1756,7 @@ object_update_grasp_transform(Obj, Gripper, GraspSpecification) :-
   %              is the idea to express all relative to gripper?
   %              why not everything relative to grasped part?
   %add_transform_to_object(Object, Transform, GraspRei),
-  object_update_transform(Obj, TransformData, Gripper),
+  object_update_transform_internal(Obj, TransformData, Gripper),
   
   get_mobile_objects_connected_to_object(Obj, MobileParts),
   
@@ -1754,7 +1773,7 @@ apply_grasp____([Object|RestObjects], Grasp) :-
   get_tf_transform(RefFrame, OldRefFrame, RefTransform),
   multiply_transforms(RefTransform, TObj, TransformData),
   %add_transform_to_object(Object, TransformData, Grasp),
-  object_update_transform(Object, TransformData, Grasp),
+  object_update_transform_internal(Object, TransformData, Grasp),
   
   %add_transform_to_object_by_reference(Object, Grasp, TObj),
   apply_grasp(RestObjects, Grasp),
@@ -1763,12 +1782,12 @@ apply_grasp____([Object|RestObjects], Grasp) :-
 object_update_connection_transform(Obj, Connection) :-
   connection_transform_data(Connection, TransformData),
   connection_reference_object(Connection, Obj, ReferenceObject),
-  object_update_transform(Obj, TransformData, ReferenceObject),
+  object_update_transform_internal(Obj, TransformData, ReferenceObject),
   mark_dirty_objects([Obj]).
 
 % TODO: also offer variant that estimates put down pose by taking into account
 %       hasTransform relativeTo some Gripper and the current pose of the gripper?
 object_update_putdown_transform(Obj, TransformData) :-
-  object_update_transform(Obj, TransformData),
+  object_update_transform_internal(Obj, TransformData),
   mark_dirty_objects([Obj]).
   

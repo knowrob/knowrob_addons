@@ -119,6 +119,7 @@ class ObjectStatePublisher(object):
             self.load_object_mesh(object_id)
             self.load_object_transform(object_id)
             self.objects[object_id].initialized = True
+            self.objects[object_id].object_name = object_id
             return True
         rospy.logwarn("object with id:'{}' not found in database".format(object_id))
         return False
