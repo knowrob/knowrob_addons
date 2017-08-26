@@ -39,6 +39,7 @@
       agenda_item_type/2,
       agenda_item_property/2,
       agenda_item_domain/2,
+      agenda_item_subject/2,
       agenda_item_cardinality/2,
       agenda_item_description/2,
       agenda_item_strategy/2,
@@ -46,7 +47,9 @@
       agenda_item_in_focus/1,
       agenda_pattern_property/2,
       agenda_pattern_domain/2,
-      agenda_write/1
+      agenda_write/1,
+      agenda_pop/3,
+      agenda_perform/3
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -64,6 +67,7 @@
       agenda_items_sorted(r,-),
       agenda_item_type(t,r),
       agenda_item_property(t,r),
+      agenda_item_subject(t,r),
       agenda_item_domain(t,r),
       agenda_item_cardinality(t,?),
       agenda_item_description(r,t),
@@ -73,6 +77,8 @@
       agenda_pattern_property(r,r),
       agenda_pattern_domain(r,r),
       agenda_write(r),
+      agenda_pop(r,r,t),
+      agenda_perform(r,r,t),
       planning_assert(r,r,r).
 
 :- dynamic agenda_selection_criteria_sorted/2,
