@@ -138,9 +138,15 @@ read_next_prolog_query(Result) :-
 read_next_prolog_query(Field, R) :-
     cloud_interface(CL),
     jpl_call(CL, 'readPrologNextSolution', [Field], J),
+    read_jni_value(J, R).
+
+read_jni_value(J, R) :-
     jpl_object_to_class(J, C),
     ((atom(J), R=J);
      (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Float'), jpl_call(J,'doubleValue',[],R));
      (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Double'), jpl_call(J,'doubleValue',[],R));
      (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Integer'), jpl_call(J,'intValue',[],R));
-     (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Boolean'), jpl_call(J,'booleanValue',[],R))).
+     (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Boolean'), jpl_call(J,'booleanValue',[],R));
+     (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'javax.json.JsonArray'), jpl_call(J,'size',[],Size),
+       Upper = Size - 1, R = [],
+       foreach(between(0, Upper, I), (jpl_call(J,'get',[I], JSub), read_jni_value(JSub, RSub), append(R, [RSub], R))))).
