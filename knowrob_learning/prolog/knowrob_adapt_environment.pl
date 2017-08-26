@@ -133,19 +133,48 @@ check_handle_type(Handle, Tsk) :-
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperParallel'));
      ((HN > WN),
       rdf_assert(Tsk, rdf:type, knowrob:'OpeningAFridgeGripperPerpendicular'))).
- 
+
+check_trajectory_props(Tsk, Door) :-
+    owl_individual_of(Tsk, Cls),
+    class_properties(Cls, knowrob:'openingTrajectory', Trj),
+    rdf_instance_from_class(Trj, TrjInst),
+    rdf_assert(TrjInst, rdf:type, Trj),
+    class_properties(Trj, _X, HJoint),
+    owl_individual_of(HJInst, HJoint),
+    rdf_has(Door, _Y, HJInst),
+    rdf_assert(TrjInst, knowrob:'center', HJInst).
+
+find_handle_of_doors(Door, Handle) :-
+    owl_individual_of(Door, knowrob:'FridgeDoor'),
+    (rdf_has(Door, 'http://knowrob.org/kb/srdl2-comp.owl#succeedingJoint', Handle);
+    (rdf_has(Frd, 'http://knowrob.org/kb/srdl2-comp.owl#subComponent', Door),
+     rdf_has(Frd, 'http://knowrob.org/kb/srdl2-comp.owl#subComponent', Handle),
+     owl_individual_of(Handle, knowrob:'IAIFridgeDoorHandle'))).
 
 estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
+    entity(EpisodicMemoryTask, [an, action, ['task_context', 'ReachAndOpenFridgeDoor']]), 
     owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(SourceDoor, knowrob:'describedInMap', SourceMap),
-    owl_individual_of(SourceHandle, knowrob:'IAIFridgeDoorHandle'),
-    rdf_has(SourceHandle, knowrob:'describedInMap', SourceMap),
     owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(TargetDoor, knowrob:'describedInMap', TargetMap),
-    owl_individual_of(TargetHandle, knowrob:'IAIFridgeDoorHandle'),
-    rdf_has(TargetHandle, knowrob:'describedInMap', TargetMap),
+    find_handle_of_doors(SourceDoor, SourceHandle),
+    find_handle_of_doors(TargetDoor, TargetHandle),
     rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
     check_joint_type(SourceDoor, EpisodicMemoryTask),
     check_joint_type(TargetDoor, TargetAction),
     check_handle_type(SourceHandle, EpisodicMemoryTask),
-    check_handle_type(TargetHandle, TargetAction).
+    check_handle_type(TargetHandle, TargetAction),
+    check_trajectory_props(EpisodicMemoryTask, SourceDoor), 
+    check_trajectory_props(TargetAction, TargetDoor).
+
+estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
+    entity(EpisodicMemoryTask, [an, action, ['task_context', 'CloseFridgeDoor']]), 
+    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
+    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+    find_handle_of_doors(SourceDoor, SourceHandle),
+    find_handle_of_doors(TargetDoor, TargetHandle),
+    rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
+    check_joint_type(SourceDoor, EpisodicMemoryTask),
+    check_joint_type(TargetDoor, TargetAction),
+    check_handle_type(SourceHandle, EpisodicMemoryTask),
+    check_handle_type(TargetHandle, TargetAction),
+    check_trajectory_props(EpisodicMemoryTask, SourceDoor), 
+    check_trajectory_props(TargetAction, TargetDoor).
