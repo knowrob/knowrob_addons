@@ -36,6 +36,5 @@
 
 :- use_module(library('knowrob_assembly')).
 :- use_module(library('knowrob_battat')).
-:- use_module(library('cram_assembly')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
