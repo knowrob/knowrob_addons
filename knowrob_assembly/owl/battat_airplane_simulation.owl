@@ -459,6 +459,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#WoodenPlate -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#WoodenPlate"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
@@ -1449,6 +1455,26 @@
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneWindowInitialTransform_1"/>
         <knowrob_paramserver:hasTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneWindowInitialTransform_1"/>
         <srdl2-comp:urdfName>PlaneWindow_1</srdl2-comp:urdfName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#WoodenPlate1InitialTempRei -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#WoodenPlate1InitialTempRei">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.70710678 0.70710678</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1.175 1.677 0.865</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#WoodenPlate_9842z5ew -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#WoodenPlate_9842z5ew">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#WoodenPlate"/>
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#WoodenPlate1InitialTempRei"/>
+        <knowrob_paramserver:hasTransform rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#WoodenPlate1InitialTempRei"/>
     </owl:NamedIndividual>
     
 
