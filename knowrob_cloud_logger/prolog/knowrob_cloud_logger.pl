@@ -136,9 +136,17 @@ read_next_prolog_query(Result) :-
     jpl_call(CL, 'readPrologNextSolution', [], Result).
 
 read_next_prolog_query(Field, R) :-
+    atom(Field),
     cloud_interface(CL),
     jpl_call(CL, 'readPrologNextSolution', [Field], J),
     read_jni_value(J, R).
+
+read_next_prolog_query(Fields, Rs) :-
+    is_list(Fields),
+    cloud_interface(CL),
+    findall(R, ( member(Field, Fields),
+    jpl_call(CL, 'readPrologNextSolution', [Field], J),
+    read_jni_value(J, R)), Rs).
 
 read_jni_value(J, R) :-
     jpl_object_to_class(J, C),
