@@ -1704,13 +1704,14 @@ connection_transform_data(Connection, TransformData) :-
   rdf_has(Connection, paramserver:'hasTransform', TransformId),
   transform_data(TransformId, TransformData).
 connection_reference_object(Connection, TargetObj, ReferenceObj) :-
-  % select random other object that participates an affordance in the connection
-  % FIXME: random selection won't work with fixed transform data! need to encode reference object in connection!
-  %          - could restrict hasTransform: hasTransform only (relativeTo some PartType)
-  %            XXX: won't work if part type appears multiple times in connection
-  rdf_has(Connection, assembly:'needsAffordance', Aff),
-  rdf_has(ReferenceObj, assembly:'hasAffordance', Aff),
-  TargetObj \= ReferenceObj.
+  rdf_has(Connection, paramserver:'hasTransform', TransformId),
+  rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
+connection_reference_object(Connection, TargetObj, ReferenceObj) :-
+  rdf_has(Connection, paramserver:'hasTransform', TransformId),
+  rdfs_individual_of(TransformId, Restr),
+  rdfs_individual_of(Restr, owl:'Restriction'),
+  rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
+  rdf_has(Restr, owl:'onClass', ReferenceObj), !.
 
 grasp_transform_data(GraspSpecification, TransformData) :-
   rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),
