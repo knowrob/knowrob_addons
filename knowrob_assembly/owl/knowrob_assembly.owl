@@ -109,6 +109,15 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#graspAt -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#graspAt">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance">
@@ -285,6 +294,14 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType"/>
@@ -304,14 +321,6 @@
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
-    </owl:DatatypeProperty>
-
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
-        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
     </owl:DatatypeProperty>
     
 

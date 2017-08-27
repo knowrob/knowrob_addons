@@ -62,6 +62,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#graspAt -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
@@ -1597,8 +1603,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspChassisTransform_1"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspChassis_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2372,8 +2378,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspRearWingTransform_1"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspRearWing_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -4167,6 +4173,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#STLFile -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
@@ -4801,6 +4813,15 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspChassis_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspChassis_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspChassisTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspRearWingTransform_1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspRearWingTransform_1">
@@ -4814,6 +4835,15 @@
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 .0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspRearWing_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspRearWing_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspRearWingTransform_1"/>
     </owl:NamedIndividual>
     
 
