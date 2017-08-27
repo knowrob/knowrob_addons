@@ -5,7 +5,7 @@
       cram_assembly_next_action/2,
       cram_assembly_apply_connection/2,
       cram_assembly_apply_grasp/3,
-      cram_assembly_possible_grasp/2,
+      cram_assembly_apply_ungrasp/2,
       cram_assembly_designator/2
     ]).
 
@@ -31,12 +31,16 @@
             cram_assembly_next_action(r,t),
             cram_assembly_apply_connection(r,r),
             cram_assembly_apply_grasp(r,r,r),
-            cram_assembly_possible_grasp(r,-),
+            cram_assembly_apply_ungrasp(r,r),
             cram_assembly_designator(r,-).
 
 % TODO(DB): it is in general problematic that the planner has to select atomic parts along
 %           the model during top-down planning (i.e., linksAssemblage inserts this)
 %           before the actual action was performed.
+%           also some predicates here do assertions with influence on agenda items,
+%           could also cause isses in planner.
+% TODO(DB): atm. grasping only breaks connections to fixtures.
+%           can we express somehow when this happens for non permanent connections?
 
 %% cram_assembly_initialize(+AssemblageType, -Agenda) is det.
 %
@@ -130,18 +134,21 @@ part_attached_to_fixture(_Part, 0).
 part_blocked_affordances(Part, Blocked) :-
   findall(Aff, assemblage_part_blocked_affordance(Part,Aff), Blocked).
 
+cram_assembly_belief_connected(Obj) :-
+  findall(MobilePart, (
+      assemblage_part_links_part(Obj, MobilePart),
+      \+ assemblage_fixed_part(MobilePart)), MobileParts),
+  belief_connected_to(Obj, MobileParts).
+
 %% cram_assembly_apply_connection(+PrimaryObject, +Connection) is det.
 %
 cram_assembly_apply_connection(PrimaryObject, Connection) :-
-% TODO: ungrasp object:
-%   - check if current transform is relative to a connected object
-%   - update all transforms relativeTo PrimaryObject
-%   - unblock affordances
-
   once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
   transform_data(TransformId, TransformData),
   connection_reference_object(Connection, TransformId, ReferenceObject),
-  belief_at(PrimaryObject, TransformData, ReferenceObject).
+  belief_at(PrimaryObject, TransformData, ReferenceObject),
+  % apply transform relative to GraspedObject to all connected mobile parts
+  cram_assembly_belief_connected(PrimaryObject).
 
 transform_data(TransformId, (Translation, Rotation)) :-
   % TODO: should be part of knowrob_common
@@ -161,35 +168,61 @@ connection_reference_object(Connection, TransformId, ReferenceObj) :-
   rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
   rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
   owl_individual_of(ReferenceObj,ReferenceCls), !.
-
-%% cram_assembly_possible_grasp(+GraspedObject, -GraspSpec) is det.
-%
-% TODO discuss with GraspSpec gaya
-cram_assembly_possible_grasp(GraspedObject, GraspSpec) :-
-  rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', Affordance),
-  rdfs_individual_of(Affordance, knowrob_assembly:'GraspingAffordance'),
-  \+ assemblage_part_blocked_affordance(GraspedObject, Affordance),
-  owl_has(Affordance, knowrob_assembly:'graspAt', GraspSpec).
   
 %% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpec) is det.
 %
 cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
   % retract connections to fixed objects
+  cram_assembly_remove_fixtures(GraspedObject),
+  % apply grasp transform on grasped object
+  rdf_has(GraspSpec, paramserver:'hasGraspTransform', TransformId),
+  transform_data(TransformId, TransformData),
+  belief_at(GraspedObject, TransformData, Gripper),
+  % apply transform relative to GraspedObject to all connected mobile parts
+  cram_assembly_belief_connected(GraspedObject),
+  % assert temporary connections that consume affordances blocked by the grasp
+  cram_assembly_block_grasp_affordances(GraspedObject, GraspSpec).
+  
+%% cram_assembly_apply_ungrasp(+GraspedObject, GraspSpec) is det.
+%
+cram_assembly_apply_ungrasp(GraspedObject, GraspSpec) :-
+  % set transform to current map frame transform
+  rdf_has(GraspedObject, srdl2comp:'urdfName', literal(ObjFrame)),
+  get_current_tf('map', ObjFrame, Tx,Ty,Tz, Rx,Ry,Rz,Rw),
+  belief_at(GraspedObject, ([Tx,Ty,Tz], [Rx,Ry,Rz,Rw])),
+  % retract temporary connections that consume affordances blocked by the grasp
+  cram_assembly_unblock_grasp_affordances(GraspedObject, GraspSpec).
+  
+% TODO: handle additional affordances blocked during the grasp
+% NOTE: planner should not be called during grasp!
+cram_assembly_block_grasp_affordances(GraspedObject, GraspSpec) :-
+  % block the affordance that is grasped
+  once((
+    rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', GraspedAffordance),
+    owl_has(GraspedAffordance, knowrob_assembly:'graspAt', GraspSpec)
+  )),
+  rdf_instance_from_class(knowrob_assembly:'GraspingConnection', GraspConnection),
+  rdf_assert(GraspConnection, knowrob_assembly:'consumesAffordance', GraspedAffordance).
+cram_assembly_unblock_grasp_affordances(GraspedObject, GraspSpec) :-
+  once((
+    rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', GraspedAffordance),
+    owl_has(GraspedAffordance, knowrob_assembly:'graspAt', GraspSpec)
+  )),
+  rdf_has(GraspConnection, knowrob_assembly:'consumesAffordance', GraspedAffordance),
+  rdfs_individual_of(GraspConnection, knowrob_assembly:'GraspingConnection'),
+  rdf_retractall(GraspConnection, _, _).
+
+cram_assembly_remove_fixtures(GraspedObject) :-
   assemblage_part_links_fixtures(GraspedObject, FixedParts),
   forall((
     member(Fixture,FixedParts),
     rdf_has(Fixture, knowrob_assembly:'hasAffordance', Aff1),
     rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff1),
+    assemblage_connection_established(Connection),
     rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff2),
     rdf_has(OtherPart, knowrob_assembly:'hasAffordance', Aff2),
     once(assemblage_part_links_part(GraspedObject, OtherPart))
-  ), assemblage_destroy(Connection)), % FIXME: not safe to do outside planner
-  % apply grasp transform
-  rdf_has(GraspSpec, paramserver:'hasGraspTransform', TransformId),
-  transform_data(TransformId, TransformData),
-  belief_at_gripper(GraspedObject, Gripper, TransformData),
-  % TODO  grasp blocks affordances, grasp specification names them
-  true.
+  ), assemblage_destroy(Connection)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%% Designator formatting
