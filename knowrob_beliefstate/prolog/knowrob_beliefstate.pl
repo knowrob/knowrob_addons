@@ -72,7 +72,8 @@
       %%%%%%%%%%%% new stuff
       
       object_update_transform/2,
-      object_update_transform/3
+      object_update_transform/3,
+      object_update_connection_transform/2
     ]).
 
 :- use_module(library('jpl')).
@@ -100,7 +101,8 @@
 
 :-  rdf_meta
     object_update_transform(r,+,r),
-    object_update_transform(r,+).
+    object_update_transform(r,+),
+    object_update_connection_transform(r,r).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
@@ -1700,18 +1702,17 @@ transform_data(TransformId, (Translation, Rotation)) :-
   knowrob_math:parse_vector(Translation_atom, Translation),
   knowrob_math:parse_vector(Rotation_atom, Rotation).
 
-connection_transform_data(Connection, TransformData) :-
-  rdf_has(Connection, paramserver:'hasTransform', TransformId),
-  transform_data(TransformId, TransformData).
-connection_reference_object(Connection, TargetObj, ReferenceObj) :-
-  rdf_has(Connection, paramserver:'hasTransform', TransformId),
+connection_reference_object(_Connection, TransformId, ReferenceObj) :-
   rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
-connection_reference_object(Connection, TargetObj, ReferenceObj) :-
-  rdf_has(Connection, paramserver:'hasTransform', TransformId),
+connection_reference_object(Connection, TransformId, ReferenceObj) :-
+  % FIXME: won't work when multiple instances of the reference object class are linked in the connection
   rdfs_individual_of(TransformId, Restr),
   rdfs_individual_of(Restr, owl:'Restriction'),
   rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
-  rdf_has(Restr, owl:'onClass', ReferenceObj), !.
+  rdf_has(Restr, owl:'onClass', ReferenceCls),
+  rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
+  rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
+  owl_individual_of(ReferenceObj,ReferenceCls), !.
 
 grasp_transform_data(GraspSpecification, TransformData) :-
   rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),
@@ -1741,13 +1742,12 @@ object_update_transform_(Obj, (Translation, Rotation), TransformId) :-
   create_transform(Translation, Rotation, TransformId),
   rdf_assert(Obj, paramserver:'hasTransform', TransformId).
 
-% TODO: redundant
-object_possible_grasp(_Obj, _GraspSpecification) :-
-  fail.
-
-% TODO: grasp blocks affordances, grasp specification names them
-object_acquire_grasp(Obj, Gripper, GraspSpecification) :-
-  object_update_grasp_transform(Obj, Gripper, GraspSpecification).
+object_update_connection_transform(Obj, Connection) :-
+  once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
+  transform_data(TransformId, TransformData),
+  connection_reference_object(Connection, TransformId, ReferenceObject),
+  object_update_transform_internal(Obj, TransformData, ReferenceObject),
+  mark_dirty_objects([Obj]).
 
 % TODO: mark all connected objects dirty and update their transforms!
 object_update_grasp_transform(Obj, Gripper, GraspSpecification) :-
@@ -1765,6 +1765,14 @@ object_update_grasp_transform(Obj, Gripper, GraspSpecification) :-
   
   mark_dirty_objects([Obj|MobileParts]).
 
+% TODO: redundant
+object_possible_grasp(_Obj, _GraspSpecification) :-
+  fail.
+
+% TODO: grasp blocks affordances, grasp specification names them
+object_acquire_grasp(Obj, Gripper, GraspSpecification) :-
+  object_update_grasp_transform(Obj, Gripper, GraspSpecification).
+
 apply_grasp____([Object|RestObjects], Grasp) :-
   object_current_transform(Object, TObj),
   
@@ -1779,12 +1787,6 @@ apply_grasp____([Object|RestObjects], Grasp) :-
   %add_transform_to_object_by_reference(Object, Grasp, TObj),
   apply_grasp(RestObjects, Grasp),
   !.
-
-object_update_connection_transform(Obj, Connection) :-
-  connection_transform_data(Connection, TransformData),
-  connection_reference_object(Connection, Obj, ReferenceObject),
-  object_update_transform_internal(Obj, TransformData, ReferenceObject),
-  mark_dirty_objects([Obj]).
 
 % TODO: also offer variant that estimates put down pose by taking into account
 %       hasTransform relativeTo some Gripper and the current pose of the gripper?
