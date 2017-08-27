@@ -71,9 +71,9 @@
       
       %%%%%%%%%%%% new stuff
       
-      object_update_transform/2,
-      object_update_transform/3,
-      object_update_connection_transform/2
+      belief_at/2,
+      belief_at/3,
+      belief_at_gripper/3
     ]).
 
 :- use_module(library('jpl')).
@@ -100,9 +100,9 @@
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
 :-  rdf_meta
-    object_update_transform(r,+,r),
-    object_update_transform(r,+),
-    object_update_connection_transform(r,r).
+    belief_at(r,+,r),
+    belief_at(r,+),
+    belief_at_gripper(r,r,r).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
@@ -256,7 +256,7 @@ get_object_mesh_path(ObjectId, FilePath) :-
 % @param Transform   the transform data
 %
 get_object_transform(ObjectId, Transform) :-
-  object_current_transform(ObjectId, Transform), !.
+  belief_at(ObjectId, Transform), !.
 
 get_object_transform(ObjectId, Transform) :-
   rdf_has(ObjectId, paramserver:'hasTransform', TempRei),
@@ -354,9 +354,9 @@ matrix_to_quaternion(M00, M01, M02, M10, M11, M12, M20, M21, M22, QX, QY, QZ, QW
   copy_sign(Zu, Zs, QZ),
   =(Wu, QW).
 
-get_tf_transform(ReferenceFrame, TargetFrame, TFTransform) :-
-  get_current_tf(ReferenceFrame, TargetFrame, Tx, Ty, Tz, Rx, Ry, Rz, Rw),
-  =(TFTransform, [ReferenceFrame, TargetFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]).
+get_tf_transform(ReferenceFrame, TargetFrame,
+                [ReferenceFrame, TargetFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]) :-
+  get_current_tf(ReferenceFrame, TargetFrame, Tx, Ty, Tz, Rx, Ry, Rz, Rw).
   
 
 %% get_object_at_location(+ObjectType, +Transform, +TranThreshold, +RotThreshold, -ObjectId) is det.
@@ -693,8 +693,7 @@ add_transform_to_object(Object, TransformData, Reference, TransformId) :-
   !.
 
 add_transform_to_object(Object, TransformData, Reference) :-
-  add_transform_to_object(Object, TransformData, Reference, TransformId),
-  =(TransformId, _).
+  add_transform_to_object(Object, TransformData, Reference, _TransformId).
 
 get_reference_frame(Ref, RefFrame) :-
   owl_individual_of(Ref, assembly:'TemporaryGrasp'),
@@ -1624,19 +1623,6 @@ reset_beliefstate :-
   mark_dirty_objects(DirtyObjectIds).
           %% rdf_assert(ObjectId,'http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform', InitialTempRei)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%% new code starts here
-% TODO: rework get_object_at_location/assert_object_at_location for real robot case!
-%           - assert_object_at_location maps to object_update_transform
-% TODO: grasping/ungrasping handle affordances
-% old predicates: get_currently_possible_grasps_on_object
-%                 get_current_grasps_on_object
-%                 get_current_objects_in_gripper
-%                 assert_grasp_on_object / assert_ungrasp
-% ungrasp needs to unblock, grasping needs to block affordances.
-%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % transitive Assemblage hasPart AtomicPart relation
@@ -1682,7 +1668,7 @@ get_objects_in_assemblage(Assemblage, Objects) :-
   findall(Obj, assemblage_has_part(Assemblage,Obj), Objects).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Beliefstate manipulation
+%%% Beliefs about the spatial location of things
 
 create_transform(Translation, Rotation, TransformId) :-
   rdf_instance_from_class('http://knowrob.org/kb/knowrob_paramserver.owl#Transform', TransformId),
@@ -1697,100 +1683,64 @@ transform_reference_frame(TransformId, Ref) :-
 transform_reference_frame(_TransformId, 'map').
 
 transform_data(TransformId, (Translation, Rotation)) :-
+  % TODO: should be part of knowrob_common
   rdf_has(TransformId, knowrob:'translation', literal(type(_,Translation_atom))),
   rdf_has(TransformId, knowrob:'quaternion', literal(type(_,Rotation_atom))),
   knowrob_math:parse_vector(Translation_atom, Translation),
   knowrob_math:parse_vector(Rotation_atom, Rotation).
 
-connection_reference_object(_Connection, TransformId, ReferenceObj) :-
-  rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
-connection_reference_object(Connection, TransformId, ReferenceObj) :-
-  % FIXME: won't work when multiple instances of the reference object class are linked in the connection
-  rdfs_individual_of(TransformId, Restr),
-  rdfs_individual_of(Restr, owl:'Restriction'),
-  rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
-  rdf_has(Restr, owl:'onClass', ReferenceCls),
-  rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
-  rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
-  owl_individual_of(ReferenceObj,ReferenceCls), !.
+%% belief_at(+Obj, +TransformData, +RelativeTo) is det.
+%% belief_at(+Obj, +TransformData) is det.
+%
+belief_at(Obj, TransformData, RelativeTo) :-
+  ground(TransformData), !,
+  belief_at_internal(Obj, TransformData, RelativeTo),
+  mark_dirty_objects([Obj]).
+belief_at(Obj, TransformData, RelativeTo) :-
+  belief_at(Obj, TransformData),
+  rdf_has(Obj, paramserver:'hasTransform', TransformId),
+  rdf_has(TransformId, knowrob:'relativeTo', RelativeTo).
 
-grasp_transform_data(GraspSpecification, TransformData) :-
-  rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),
-  transform_data(TransformId, TransformData).
-
-% NOTE: replaces get_object_transform
-object_current_transform(Obj, [ReferenceFrame, TargetFrame, Translation, Rotation]) :-
+belief_at(Obj, TransformData) :-
+  ground(TransformData), !,
+  belief_at_internal(Obj, TransformData),
+  mark_dirty_objects([Obj]).
+belief_at(Obj, [ReferenceFrame, TargetFrame, Translation, Rotation]) :-
   rdf_has(Obj, paramserver:'hasTransform', TransformId),
   rdf_has(Obj, srdl2comp:'urdfName', literal(TargetFrame)),
   transform_data(TransformId, (Translation, Rotation)),
   transform_reference_frame(TransformId, ReferenceFrame).
 
-object_update_transform(Obj, TransformData, RelativeTo) :-
-  object_update_transform_internal(Obj, TransformData, RelativeTo),
-  mark_dirty_objects([Obj]).
-object_update_transform(Obj, TransformData) :-
-  object_update_transform_internal(Obj, TransformData),
-  mark_dirty_objects([Obj]).
-
-object_update_transform_internal(Obj, TransformData, RelativeTo) :-
-  object_update_transform_(Obj, TransformData, TransformId),
+belief_at_internal(Obj, TransformData, RelativeTo) :-
+  belief_at_internal_(Obj, TransformData, TransformId),
   rdf_assert(TransformId, knowrob:'relativeTo', RelativeTo).
-object_update_transform_internal(Obj, TransformData) :-
-  object_update_transform_(Obj, TransformData, _).
-object_update_transform_(Obj, (Translation, Rotation), TransformId) :-
+belief_at_internal(Obj, TransformData) :-
+  belief_at_internal_(Obj, TransformData, _).
+belief_at_internal_(Obj, (Translation, Rotation), TransformId) :-
   rdf_retractall(Obj, paramserver:'hasTransform', _),
   create_transform(Translation, Rotation, TransformId),
   rdf_assert(Obj, paramserver:'hasTransform', TransformId).
 
-object_update_connection_transform(Obj, Connection) :-
-  once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
-  transform_data(TransformId, TransformData),
-  connection_reference_object(Connection, TransformId, ReferenceObject),
-  object_update_transform_internal(Obj, TransformData, ReferenceObject),
-  mark_dirty_objects([Obj]).
-
-% TODO: mark all connected objects dirty and update their transforms!
-object_update_grasp_transform(Obj, Gripper, GraspSpecification) :-
+%% belief_at_gripper(+GraspedObject, +Gripper, +GraspSpecification) is det.
+%
+belief_at_gripper(GraspedObject, Gripper, GraspSpecification) :-
+  % apply grasp transform on grasped object
   grasp_transform_data(GraspSpecification, TransformData),
-  
-  % TODO: what means relative to grasp ?
-  %              is the idea to express all relative to gripper?
-  %              why not everything relative to grasped part?
-  %add_transform_to_object(Object, Transform, GraspRei),
-  object_update_transform_internal(Obj, TransformData, Gripper),
-  
-  get_mobile_objects_connected_to_object(Obj, MobileParts),
-  
-  apply_grasp____(MobileParts, GraspRei),
-  
-  mark_dirty_objects([Obj|MobileParts]).
+  belief_at_internal(GraspedObject, TransformData, Gripper),
+  % apply transform relative to GraspedObject to all connected mobile parts
+  assembly_part_linked_mobile_parts(GraspedObject, MobileParts),
+  belief_at_gripper_(MobileParts, GraspedObject),
+  mark_dirty_objects([GraspedObject|MobileParts]).
 
-% TODO: redundant
-object_possible_grasp(_Obj, _GraspSpecification) :-
-  fail.
-
-% TODO: grasp blocks affordances, grasp specification names them
-object_acquire_grasp(Obj, Gripper, GraspSpecification) :-
-  object_update_grasp_transform(Obj, Gripper, GraspSpecification).
-
-apply_grasp____([Object|RestObjects], Grasp) :-
-  object_current_transform(Object, TObj),
-  
+belief_at_gripper_([Object|RestObjects], RefObj) :-
+  % find transform from RefObj to Object
   rdf_has(Object, srdl2comp:'urdfName', literal(OldRefFrame)),
-  grasp_ref_frame(Grasp, RefFrame), % TODO: what is this?
-  
-  get_tf_transform(RefFrame, OldRefFrame, RefTransform),
-  multiply_transforms(RefTransform, TObj, TransformData),
-  %add_transform_to_object(Object, TransformData, Grasp),
-  object_update_transform_internal(Object, TransformData, Grasp),
-  
-  %add_transform_to_object_by_reference(Object, Grasp, TObj),
-  apply_grasp(RestObjects, Grasp),
-  !.
+  rdf_has(RefObj, srdl2comp:'urdfName', literal(RefFrame)),
+  get_tf_transform(RefFrame, OldRefFrame, TransformData),
+  belief_at_internal(Object, TransformData, RefObj),
+  belief_at_gripper_(RestObjects, RefObj).
 
-% TODO: also offer variant that estimates put down pose by taking into account
-%       hasTransform relativeTo some Gripper and the current pose of the gripper?
-object_update_putdown_transform(Obj, TransformData) :-
-  object_update_transform_internal(Obj, TransformData),
-  mark_dirty_objects([Obj]).
-  
+grasp_transform_data(GraspSpecification, TransformData) :-
+  rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),
+  transform_data(TransformId, TransformData).
+
