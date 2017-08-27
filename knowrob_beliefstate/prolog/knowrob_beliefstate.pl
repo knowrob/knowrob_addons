@@ -73,7 +73,7 @@
       
       belief_at/2,
       belief_at/3,
-      belief_at_gripper/3
+      belief_connected_to/2
     ]).
 
 :- use_module(library('jpl')).
@@ -102,7 +102,7 @@
 :-  rdf_meta
     belief_at(r,+,r),
     belief_at(r,+),
-    belief_at_gripper(r,r,r).
+    belief_connected_to(r,+).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
@@ -1721,28 +1721,20 @@ belief_at_internal_(Obj, (Translation, Rotation), TransformId) :-
   create_transform(Translation, Rotation, TransformId),
   rdf_assert(Obj, paramserver:'hasTransform', TransformId).
 
-%% belief_at_gripper(+GraspedObject, +Gripper, +TransformData) is det.
+%% belief_connected_to(+RefObj, +ConnectedObjects) is det.
 %
-belief_at_gripper(GraspedObject, Gripper, TransformData) :-
-  % apply grasp transform on grasped object
-  belief_at_internal(GraspedObject, TransformData, Gripper),
-  % apply transform relative to GraspedObject to all connected mobile parts
-  findall(MobilePart, (
-      assemblage_part_links_part(GraspedObject, MobilePart),
-      \+ assemblage_fixed_part(MobilePart)), MobileParts),
-  belief_at_gripper_(MobileParts, GraspedObject),
-  mark_dirty_objects([GraspedObject|MobileParts]).
-
-belief_at_gripper_([Object|RestObjects], RefObj) :-
+belief_connected_to(_RefObj, []) :- !.
+belief_connected_to(RefObj, ConnectedObjects) :-
+  belief_connected_to_(RefObj, ConnectedObjects),
+  mark_dirty_objects([RefObj|ConnectedObjects]).
+belief_connected_to_(RefObj, [RefObj|RestObjects]) :-
+  belief_connected_to_(RefObj, RestObjects), !.
+belief_connected_to_(_RefObj, []) :- !.
+belief_connected_to_(RefObj, [Object|RestObjects]) :-
   % find transform from RefObj to Object
   rdf_has(Object, srdl2comp:'urdfName', literal(OldRefFrame)),
   rdf_has(RefObj, srdl2comp:'urdfName', literal(RefFrame)),
   get_tf_transform(RefFrame, OldRefFrame, [_,_,Translation,Rotation]),
   belief_at_internal(Object, (Translation,Rotation), RefObj),
-  belief_at_gripper_(RestObjects, RefObj).
-belief_at_gripper_([], _RefObj).
-
-grasp_transform_data(GraspSpecification, TransformData) :-
-  rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),
-  transform_data(TransformId, TransformData).
+  belief_connected_to_(RefObj, RestObjects).
 
