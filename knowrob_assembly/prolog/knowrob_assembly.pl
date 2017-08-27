@@ -98,8 +98,15 @@ subassemblage(Assemblage, ChildAssemblage) :-
     owl_individual_of(ChildAssemblage, ChildAssemblageType))).
 
 assemblage_linksAssemblage(Assemblage, Linked) :-
-  rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn),
-  findall(X, owl_has(Conn, knowrob_assembly:'linksAssemblage', X), Links),
+  rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn1),
+  findall(X, (
+    rdf_has(Conn1, knowrob_assembly:'consumesAffordance', Aff1),
+    rdf_has(Part1, knowrob_assembly:'hasAffordance', Aff1),
+    rdf_has(Part1, knowrob_assembly:'hasAffordance', Aff2),
+    rdf_has(Conn2, knowrob_assembly:'consumesAffordance', Aff2),
+    Conn1 \= Conn2,
+    rdf_has(X, knowrob_assembly:'usesConnection', Conn2)
+  ), Links),
   list_to_set(Links, Links_set),
   member(Linked, Links_set).
 
