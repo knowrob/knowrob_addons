@@ -305,6 +305,14 @@
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
     </owl:DatatypeProperty>
+
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+    </owl:DatatypeProperty>
     
 
 

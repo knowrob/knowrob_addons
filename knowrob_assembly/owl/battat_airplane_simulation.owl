@@ -894,6 +894,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisOnHorizontalHolder_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisOnHorizontalHolder"/>
         <knowrob_assembly:usesConnection rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInHolder_1"/>
+        <knowrob_assembly:assemblageEstablished rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</knowrob_assembly:assemblageEstablished>
     </owl:NamedIndividual>
 
     <!-- http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneChassisSlideInHolder_1 -->
@@ -1430,6 +1431,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingOnHorizontalHolder_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#RearWingOnHorizontalHolder"/>
         <knowrob_assembly:usesConnection rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingSlideInHolder_1"/>
+        <knowrob_assembly:assemblageEstablished rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</knowrob_assembly:assemblageEstablished>
     </owl:NamedIndividual>
 
 
@@ -1447,6 +1449,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingWithFixedWheels_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#RearWingWithFixedWheels"/>
         <knowrob_assembly:usesConnection rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#WheelsScrewedOnRearWing_1"/>
+        <knowrob_assembly:assemblageEstablished rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</knowrob_assembly:assemblageEstablished>
     </owl:NamedIndividual>
 
 
@@ -1455,6 +1458,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingWithLooseWheels_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#RearWingWithLooseWheels"/>
         <knowrob_assembly:usesConnection rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelSlideInWingAndWheel_1"/>
+        <knowrob_assembly:assemblageEstablished rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</knowrob_assembly:assemblageEstablished>
     </owl:NamedIndividual>
 
 
@@ -1463,6 +1467,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWingWithRightWheel_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#RearWingWithRightWheel"/>
         <knowrob_assembly:usesConnection rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#RearWheelSlideInWing_1"/>
+        <knowrob_assembly:assemblageEstablished rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</knowrob_assembly:assemblageEstablished>
     </owl:NamedIndividual>
 
 
