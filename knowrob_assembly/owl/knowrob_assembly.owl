@@ -108,7 +108,6 @@
     </owl:ObjectProperty>
     
 
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#graspAt -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#graspAt">
@@ -293,7 +292,6 @@
 
     
 
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
@@ -321,6 +319,14 @@
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
     </owl:DatatypeProperty>
     
 
@@ -443,6 +449,13 @@
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
+    </owl:Class>
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
     </owl:Class>
     
 
