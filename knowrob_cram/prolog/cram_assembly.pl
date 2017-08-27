@@ -26,7 +26,7 @@
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 
 :- dynamic cram_agenda_actions/2.
-:- rdf_meta cram_initialize_assembly(r,r),
+:- rdf_meta cram_assembly_initialize(r,r),
             cram_assembly_next_action(r,t),
             cram_assembly_apply_connection(r,r),
             cram_assembly_apply_grasp(r,r,r),
