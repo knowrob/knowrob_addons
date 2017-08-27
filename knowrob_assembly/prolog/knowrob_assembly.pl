@@ -86,18 +86,24 @@ assemblage_parent(Assemblage, ParentAssemblage) :-
 %        thus I need to check on restrictions here instead of using just linksAssemblage property.
 subassemblage(Assemblage, ChildAssemblage) :-
   ground(Assemblage), !,
-  assemblage_linksAssemblage_types(Assemblage, ChildAssemblageType),
-  rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn),
-  owl_has(Conn, knowrob_assembly:'linksAssemblage', ChildAssemblage),
-  once(owl_individual_of(ChildAssemblage, ChildAssemblageType)).
-subassemblage(Assemblage, ChildAssemblage) :-
-  rdf_has(ChildAssemblage, knowrob_assembly:'usesConnection', Conn),
-  owl_has(Conn, knowrob_assembly:'linksAssemblage', Assemblage),
+  assemblage_linksAssemblage(Assemblage, ChildAssemblage),
   once((
-    assemblage_linksAssemblage_types(Assemblage, ChildAssemblageType),
+    assemblage_linksAssemblage_restriction(Assemblage, ChildAssemblageType),
+    owl_individual_of(ChildAssemblage, ChildAssemblageType))).
+subassemblage(Assemblage, ChildAssemblage) :-
+  ground(ChildAssemblage), !,
+  assemblage_linksAssemblage(ChildAssemblage, Assemblage),
+  once((
+    assemblage_linksAssemblage_restriction(Assemblage, ChildAssemblageType),
     owl_individual_of(ChildAssemblage, ChildAssemblageType))).
 
-assemblage_linksAssemblage_types(Assemblage, ChildAssemblageType) :-
+assemblage_linksAssemblage(Assemblage, Linked) :-
+  rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn),
+  findall(X, owl_has(Conn, knowrob_assembly:'linksAssemblage', X), Links),
+  list_to_set(Links, Links_set),
+  member(Linked, Links_set).
+
+assemblage_linksAssemblage_restriction(Assemblage, ChildAssemblageType) :-
   rdfs_individual_of(Assemblage, Restr),
   rdfs_individual_of(Restr, owl:'Restriction'),
   rdf_has(Restr, owl:'onProperty', knowrob_assembly:'usesConnection'),
