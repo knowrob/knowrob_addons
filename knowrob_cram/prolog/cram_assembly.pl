@@ -5,6 +5,7 @@
       cram_assembly_next_action/2,
       cram_assembly_apply_connection/2,
       cram_assembly_apply_grasp/3,
+      cram_assembly_possible_grasp/2,
       cram_assembly_designator/2
     ]).
 
@@ -30,6 +31,7 @@
             cram_assembly_next_action(r,t),
             cram_assembly_apply_connection(r,r),
             cram_assembly_apply_grasp(r,r,r),
+            cram_assembly_possible_grasp(r,-),
             cram_assembly_designator(r,-).
 
 % TODO(DB): it is in general problematic that the planner has to select atomic parts along
@@ -159,10 +161,19 @@ connection_reference_object(Connection, TransformId, ReferenceObj) :-
   rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
   rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
   owl_individual_of(ReferenceObj,ReferenceCls), !.
-  
-%% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpecification) is det.
+
+%% cram_assembly_possible_grasp(+GraspedObject, -GraspSpec) is det.
 %
-cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpecification) :-
+% TODO discuss with GraspSpec gaya
+cram_assembly_possible_grasp(GraspedObject, GraspSpec) :-
+  rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', Affordance),
+  rdfs_individual_of(Affordance, knowrob_assembly:'GraspingAffordance'),
+  \+ assemblage_part_blocked_affordance(GraspedObject, Affordance),
+  owl_has(Affordance, knowrob_assembly:'graspAt', GraspSpec).
+  
+%% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpec) is det.
+%
+cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
   % retract connections to fixed objects
   assemblage_part_links_fixtures(GraspedObject, FixedParts),
   forall((
@@ -170,11 +181,13 @@ cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpecification) :-
     rdf_has(Fixture, knowrob_assembly:'hasAffordance', Aff1),
     rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff1),
     rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff2),
-    % FIXME: not grasped object but some connected to grasped object
-    rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', Aff2)
+    rdf_has(OtherPart, knowrob_assembly:'hasAffordance', Aff2),
+    once(assemblage_part_links_part(GraspedObject, OtherPart))
   ), assemblage_destroy(Connection)), % FIXME: not safe to do outside planner
   % apply grasp transform
-  belief_at_gripper(GraspedObject, Gripper, GraspSpecification),
+  rdf_has(GraspSpec, paramserver:'hasGraspTransform', TransformId),
+  transform_data(TransformId, TransformData),
+  belief_at_gripper(GraspedObject, Gripper, TransformData),
   % TODO  grasp blocks affordances, grasp specification names them
   true.
 

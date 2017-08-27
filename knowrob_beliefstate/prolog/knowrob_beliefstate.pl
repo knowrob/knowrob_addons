@@ -1721,14 +1721,15 @@ belief_at_internal_(Obj, (Translation, Rotation), TransformId) :-
   create_transform(Translation, Rotation, TransformId),
   rdf_assert(Obj, paramserver:'hasTransform', TransformId).
 
-%% belief_at_gripper(+GraspedObject, +Gripper, +GraspSpecification) is det.
+%% belief_at_gripper(+GraspedObject, +Gripper, +TransformData) is det.
 %
-belief_at_gripper(GraspedObject, Gripper, GraspSpecification) :-
+belief_at_gripper(GraspedObject, Gripper, TransformData) :-
   % apply grasp transform on grasped object
-  grasp_transform_data(GraspSpecification, TransformData),
   belief_at_internal(GraspedObject, TransformData, Gripper),
   % apply transform relative to GraspedObject to all connected mobile parts
-  assembly_part_linked_mobile_parts(GraspedObject, MobileParts),
+  findall(MobilePart, (
+      assemblage_part_links_part(GraspedObject, MobilePart),
+      \+ assemblage_fixed_part(MobilePart)), MobileParts),
   belief_at_gripper_(MobileParts, GraspedObject),
   mark_dirty_objects([GraspedObject|MobileParts]).
 
@@ -1736,9 +1737,10 @@ belief_at_gripper_([Object|RestObjects], RefObj) :-
   % find transform from RefObj to Object
   rdf_has(Object, srdl2comp:'urdfName', literal(OldRefFrame)),
   rdf_has(RefObj, srdl2comp:'urdfName', literal(RefFrame)),
-  get_tf_transform(RefFrame, OldRefFrame, TransformData),
-  belief_at_internal(Object, TransformData, RefObj),
+  get_tf_transform(RefFrame, OldRefFrame, [_,_,Translation,Rotation]),
+  belief_at_internal(Object, (Translation,Rotation), RefObj),
   belief_at_gripper_(RestObjects, RefObj).
+belief_at_gripper_([], _RefObj).
 
 grasp_transform_data(GraspSpecification, TransformData) :-
   rdf_has(GraspSpecification, paramserver:'hasTransform', TransformId),

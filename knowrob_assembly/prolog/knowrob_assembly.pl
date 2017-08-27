@@ -176,13 +176,17 @@ assemblage_part_links_fixtures(Part, Parts) :-
   ), Parts_list),
   list_to_set(Parts_list, Parts).
 
-assemblage_part_links_part(Part, Parts) :-
+%% assemblage_part_links_part(+Part, ?OtherPart) is det.
+%
+assemblage_part_links_part(Part, OtherPart) :-
   assemblage_part_links_assemblages(Part, Assemblages),
   findall(X, (
     member(Assemblage, Assemblages),
     assemblage_part(Assemblage,X)
   ), Parts_list),
-  list_to_set(Parts_list, Parts).
+  list_to_set(Parts_list, Parts),
+  member(OtherPart, Parts),
+  OtherPart \= Part.
 
 assemblage_part_links_assemblages(Part, Assemblages) :-
   assemblage_part_links_assemblages(Part, [], Assemblages_list),
