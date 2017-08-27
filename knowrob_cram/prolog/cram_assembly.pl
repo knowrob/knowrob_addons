@@ -1,11 +1,15 @@
 
 :- module(cram_assembly,
     [
-      cram_initialize_assembly/2,
-      cram_next_assembly_action/2
+      cram_assembly_initialize/2,
+      cram_assembly_next_action/2,
+      cram_assembly_apply_connection/2,
+      cram_assembly_apply_grasp/3,
+      cram_assembly_designator/2
     ]).
 
 :- register_ros_package(knowrob_assembly).
+:- register_ros_package(knowrob_beliefstate).
 
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
@@ -14,6 +18,7 @@
 :- use_module(library('knowrob_owl')).
 :- use_module(library('knowrob_assembly')).
 :- use_module(library('knowrob_planning')).
+:- use_module(library('knowrob_beliefstate')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
 
@@ -22,21 +27,29 @@
 
 :- dynamic cram_agenda_actions/2.
 :- rdf_meta cram_initialize_assembly(r,r),
-            cram_next_assembly_action(r,t).
+            cram_assembly_next_action(r,t),
+            cram_assembly_apply_connection(r,r),
+            cram_assembly_apply_grasp(r,r,r),
+            cram_assembly_designator(r,-).
 
-% TODO(DB): There might be some issues about asserting assemblages before CRAM actually performed the action.
-%           SOLUTION: assert into separate planning KB and project back when action was performed.
+% TODO(DB): it is in general problematic that the planner has to select atomic parts along
+%           the model during top-down planning (i.e., linksAssemblage inserts this)
+%           before the actual action was performed.
 
-cram_initialize_assembly(AssemblageType, Agenda) :-
+%% cram_assembly_initialize(+AssemblageType, -Agenda) is det.
+%
+cram_assembly_initialize(AssemblageType, Agenda) :-
   rdf_instance_from_class(AssemblageType, Assemblage),
   rdf_assert(Assemblage, rdf:type, owl:'NamedIndividual'),
   % TODO: declar strategy in knowrob_cram
   agenda_create(Assemblage, 'http://knowrob.org/kb/battat_airplane_test.owl#AgendaStrategy_1', Agenda).
 
-cram_next_assembly_action(Agenda, ActionDesignator) :-
+%% cram_assembly_next_action(+Agenda, -ActionDesignator) is det.
+%
+cram_assembly_next_action(Agenda, ActionDesignator) :-
   cram_assembly_pop_action(Agenda, ActionDesignator), !.
 
-cram_next_assembly_action(Agenda, ActionDesignator) :-
+cram_assembly_next_action(Agenda, ActionDesignator) :-
   agenda_pop(Agenda, Item, Descr),
   agenda_item_subject(Item, S),
   agenda_perform(Agenda, Item, Descr),
@@ -44,7 +57,7 @@ cram_next_assembly_action(Agenda, ActionDesignator) :-
   ( cram_assembly_possible_actions(Assemblage, ActionSequence),
     cram_assembly_update_actions(Agenda, ActionSequence),
     cram_assembly_pop_action(Agenda, ActionDesignator) ) ;
-  ( cram_next_assembly_action(Agenda, ActionDesignator) )).
+  ( cram_assembly_next_action(Agenda, ActionDesignator) )).
 
 cram_assembly_update_actions(Agenda, ActionSequence) :-
   retractall(cram_agenda_actions(Agenda, _)),
@@ -70,24 +83,32 @@ cram_assembly_specified_parent(Assemblage, Finalized) :-
   assemblage_specified(Parent),
   cram_assembly_specified_parent(Parent, Finalized)).
 
+%% cram_assembly_designator(+Assemblage, -Designator) is det.
+%
+cram_assembly_designator(Assemblage, Designator) :-
+  phrase(assemblage_designator(Assemblage), Tokens),
+  atomic_list_concat(Tokens, '', Designator).
+
 cram_assembly_format_designators([], []).
 cram_assembly_format_designators([Assemblage|X], [(Assemblage,Designator)|Y]) :-
-  phrase(assemblage_designator(Assemblage), Tokens),
-  atomic_list_concat(Tokens, '', Designator),
+  cram_assembly_designator(Assemblage,Designator),
   cram_assembly_format_designators(X,Y).
   
-cram_assemblage_parts(Assemblage, PrimaryPart, SecondaryParts) :-
+%% cram_assembly_primary_part(+Assemblage, -PrimaryPart, -PrimaryPart) is det.
+%
+% Find the primary part of an assembly action, i.e., the part that needs to be moved into some other part
+%
+cram_assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts) :-
   % find part with minimum number of blocked affordances,
   % prefer parts not attached to a fixture and
   % require parts with non blocked grasping affordances
   % TODO: what if none of the parts are graspable?
   % FIXME: BUG: planner will fail when holder blocks required affordance.
-  %             --> need to retract connections blocking required affordance if possible! 
-  %             --> PROBLEM: need to retract for planning before the object was actually detached from holder
+  %             --> need to generate retract items in planner!!!
   findall(Fixed-NumBlocked-Part, (
-    assemblage_atomic_part(Assemblage, Part),
-    \+ assemblage_fixture(Part),
-    assemblage_graspable(Part),
+    assemblage_part(Assemblage, Part),
+    \+ assemblage_fixed_part(Part),
+    assemblage_graspable_part(Assemblage,Part),
     part_attached_to_fixture(Part, Fixed),  % primary sort key
     part_blocked_affordances(Part, Blocked),
     length(Blocked, NumBlocked)             % secondary sort key
@@ -95,45 +116,67 @@ cram_assemblage_parts(Assemblage, PrimaryPart, SecondaryParts) :-
   sort(BlockedParts, [_-_-PrimaryPart|_]),
   % find secondary parts
   findall(Secondary, (
-    assemblage_atomic_part(Assemblage, Secondary),
+    assemblage_part(Assemblage, Secondary),
     Secondary \= PrimaryPart
   ), SecondaryParts_list),
   list_to_set(SecondaryParts_list, SecondaryParts).
 
 part_attached_to_fixture(Part, 1) :-
-  part_established_assemblages(Part, Assemblages),
-  member(Assemblage, Assemblages),
-  assemblage_atomic_part(Assemblage, Fixture),
-  assemblage_fixture(Fixture), !.
+  assemblage_part_links_fixtures(Part, Fixtures), Fixtures \= [], !.
 part_attached_to_fixture(_Part, 0).
 
-part_established_assemblages(Part, Assemblages) :-
-  part_established_assemblages(Part, [], Assemblages_list),
-  list_to_set(Assemblages_list, Assemblages).
-part_established_assemblages(Part, Blacklist, LinkedAssemblages) :-
-  % find all assemblages with connections consuming an affordance of the part
-  findall(Direct_assemblage, (
-    assemblage_atomic_part(Direct_assemblage, Part),
-    assemblage_established(Direct_assemblage),
-    \+ member(Direct_assemblage,Blacklist)
-  ), LinkedAssemblages_direct),
-  append(Blacklist, LinkedAssemblages_direct, NewBlacklist),
-  % find all other parts used in linked assemablages
-  findall(Direct_part, (
-    member(Direct_assemblage,LinkedAssemblages_direct),
-    assemblage_atomic_part(Direct_assemblage, Direct_part),
-    Direct_part \= Part
-  ), LinkedParts_list),
-  list_to_set(LinkedParts_list, LinkedParts),
-  % recursively find linked assemblages for linked parts
-  findall(LinkedAssemblages_sibling, (
-    member(Direct_part,LinkedParts),
-    part_established_assemblages(Direct_part,NewBlacklist,LinkedAssemblages_sibling)
-  ), LinkedAssemblages_indirect),
-  flatten([LinkedAssemblages_direct|LinkedAssemblages_indirect], LinkedAssemblages).
-
 part_blocked_affordances(Part, Blocked) :-
-  findall(Aff, assemblage_blocked_affordance(Part,Aff), Blocked).
+  findall(Aff, assemblage_part_blocked_affordance(Part,Aff), Blocked).
+
+%% cram_assembly_apply_connection(+PrimaryObject, +Connection) is det.
+%
+cram_assembly_apply_connection(PrimaryObject, Connection) :-
+% TODO: ungrasp object:
+%   - check if current transform is relative to a connected object
+%   - update all transforms relativeTo PrimaryObject
+%   - unblock affordances
+
+  once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
+  transform_data(TransformId, TransformData),
+  connection_reference_object(Connection, TransformId, ReferenceObject),
+  belief_at(PrimaryObject, TransformData, ReferenceObject).
+
+transform_data(TransformId, (Translation, Rotation)) :-
+  % TODO: should be part of knowrob_common
+  rdf_has(TransformId, knowrob:'translation', literal(type(_,Translation_atom))),
+  rdf_has(TransformId, knowrob:'quaternion', literal(type(_,Rotation_atom))),
+  knowrob_math:parse_vector(Translation_atom, Translation),
+  knowrob_math:parse_vector(Rotation_atom, Rotation).
+
+connection_reference_object(_Connection, TransformId, ReferenceObj) :-
+  rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
+connection_reference_object(Connection, TransformId, ReferenceObj) :-
+  % FIXME: won't work when multiple instances of the reference object class are linked in the connection
+  rdfs_individual_of(TransformId, Restr),
+  rdfs_individual_of(Restr, owl:'Restriction'),
+  rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
+  rdf_has(Restr, owl:'onClass', ReferenceCls),
+  rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
+  rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
+  owl_individual_of(ReferenceObj,ReferenceCls), !.
+  
+%% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpecification) is det.
+%
+cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpecification) :-
+  % retract connections to fixed objects
+  assemblage_part_links_fixtures(GraspedObject, FixedParts),
+  forall((
+    member(Fixture,FixedParts),
+    rdf_has(Fixture, knowrob_assembly:'hasAffordance', Aff1),
+    rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff1),
+    rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff2),
+    % FIXME: not grasped object but some connected to grasped object
+    rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', Aff2)
+  ), assemblage_destroy(Connection)), % FIXME: not safe to do outside planner
+  % apply grasp transform
+  belief_at_gripper(GraspedObject, Gripper, GraspSpecification),
+  % TODO  grasp blocks affordances, grasp specification names them
+  true.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%% Designator formatting
@@ -141,7 +184,7 @@ part_blocked_affordances(Part, Blocked) :-
 assemblage_designator([])         --> [].
 assemblage_designator(Assemblage) -->
   { atom(Assemblage),
-    cram_assemblage_parts(Assemblage, PrimaryPart, SecondaryParts),
+    cram_assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts),
     rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn) },
   ['[an, action,'], newline,
   ['  [type: '],       enquote(connecting),            ['],'], newline,
