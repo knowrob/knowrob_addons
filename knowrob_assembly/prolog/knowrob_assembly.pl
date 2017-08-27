@@ -3,8 +3,13 @@
     [
         assemblage_underspecified/1,
         assemblage_specified/1,
+        assemblage_established/1,
         assemblage_parts/2,
-        assemblage_parent/2
+        assemblage_atomic_part/2,
+        assemblage_parent/2,
+        assemblage_blocked_affordance/2,
+        assemblage_fixture/1,
+        assemblage_graspable/1
     ]).
 
 :- use_module(library('semweb/rdf_db')).
@@ -22,7 +27,12 @@
 :-  rdf_meta
       assemblage_underspecified(r),
       assemblage_specified(r),
+      assemblage_established(r),
       assemblage_parts(t),
+      assemblage_atomic_part(r,r),
+      assemblage_part_blocked_affordance(r,r),
+      assemblage_fixture(r),
+      assemblage_graspable(r),
       assemblage_parent(r,r).
 
 assemblage_specified(Assemblage) :-
@@ -52,6 +62,16 @@ assemblage_parts(Assemblage, Parts) :-
     rdf_has(Connection, knowrob_assembly:'consumesAffordance', Affordance),
     rdf_has(Part, knowrob_assembly:'hasAffordance', Affordance)
   ), Parts).
+
+assemblage_atomic_part(Assemblage, AtomicPart) :-
+  ground(AtomicPart), !,
+  rdf_has(AtomicPart, knowrob_assembly:'hasAffordance', Affordance),
+  rdf_has(Conn, knowrob_assembly:'consumesAffordance', Affordance),
+  rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn).
+assemblage_atomic_part(Assemblage, AtomicPart) :-
+  rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn),
+  rdf_has(Conn, knowrob_assembly:'consumesAffordance', Affordance),
+  rdf_has(AtomicPart, knowrob_assembly:'hasAffordance', Affordance).
 
 subassemblage(Assemblage, SubAssemblage) :-
   rdfs_individual_of(Assemblage, Restr),
@@ -89,4 +109,19 @@ assemblage_parent(Assemblage, Parent) :-
       member(restriction('http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage', some_values_from(Cls)), List)
     )),
     owl_individual_of(Assemblage, Cls)
+  )).
+
+assemblage_established(Assemblage) :-
+    rdf_has(Assemblage, knowrob_assembly:'assemblageEstablished', literal(type(_,'true'))).
+
+assemblage_fixture(FixedPart) :- rdfs_individual_of(FixedPart, knowrob_assembly:'FixedPart').
+assemblage_graspable(_Part)   :- true. % TODO: check if grasp affordance available
+
+assemblage_blocked_affordance(Part, Affordance) :-
+  rdf_has(Part, knowrob_assembly:'hasAffordance', Affordance),
+  % TODO: handle non connections blocking affordances? (grasps)
+  once((
+    rdf_has(Connection, knowrob_assembly:'blocksAffordance', Affordance),
+    rdf_has(Assemblage, knowrob_assembly:'usesConnection', Connection),
+    assemblage_established(Assemblage)
   )).
