@@ -23,14 +23,9 @@ test(assembly_BattatPlaneBodyWithoutWindow) :-
   rdf_instance_from_class(battat_toys:'BattatPlaneBodyWithoutWindow', BattatPlaneBody),
   rdf_assert(BattatPlaneBody, rdf:type, owl:'NamedIndividual'),
   agenda_create(BattatPlaneBody, battat_test:'AgendaStrategy_1', Agenda),
-  once(( rdfs_individual_of(Agenda, knowrob_planning:'Agenda'),
-         rdf_has(Agenda, knowrob_planning:'strategy', battat_test:'AgendaStrategy_1') )),
-  agenda_write(Agenda),
   test_perform_agenda(Agenda).
 
 test_perform_agenda(Agenda) :-
-  agenda_perform_next(Agenda) -> (
-    %agenda_write(Agenda),
-    test_perform_agenda(Agenda)) ; true.
+  agenda_perform_next(Agenda) -> test_perform_agenda(Agenda) ; true.
 
 :- end_tests(knowrob_battat).
