@@ -31,10 +31,10 @@
 
 :- module(knowrob_adapt_environment,
     [
-        %generic_adapt/3,
         estimate_action_by_comparing/4,
-        apply_rule_for_adapt/3
-        %rule_dimensions_hinge_joint/5
+        apply_rule_for_adapt/3,
+        project_link_for_arch_traj/5,
+        project_arch_trajectory_samples/6
     ]).
 
 :- use_module(library('semweb/rdf_db')).
@@ -50,7 +50,7 @@ apply_rule_for_adapt(SourceAction, TargetAction, RuleOut) :-
     apply_rule_for_radius(SourceAction, TargetAction, RuleOut).
 
 radius_measure_action(Action, Radius) :-
-    (rdf_has(Action, knowrob:'openingTrajectory', Trj); rdf_has(SourceAction, knowrob:'closingTrajectory', Trj)),
+    (rdf_has(Action, knowrob:'openingTrajectory', Trj); rdf_has(Action, knowrob:'closingTrajectory', Trj)),
     rdf_has(Trj, knowrob:'radius', literal(type(_, RadiusA))),
     atom_number(RadiusA, Radius).
 
@@ -202,3 +202,38 @@ estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetA
     check_trajectory_props(EpisodicMemoryTask, SourceDoor), 
     check_trajectory_props(TargetAction, TargetDoor),
     rdf_assert(TargetAction, rdf:type, knowrob:'IntentionalMentalEvent').
+
+project_link_for_arch_traj(Time, Link, Door, Rule, ProjectedPose) :-
+    mng_lookup_transform('/map', Link, Time, Pose),
+    rdf_has(Door, knowrob:'doorHingedWith', Joint),
+    rdf_has(Door, knowrob:'widthOfObject', literal(type(_, Width))),
+    atom_number(Width, Radius),
+    ((owl_individual_of(Rule, knowrob:'DecreaseRadiusOfTrajectory'), rdf_has(Rule, knowrob:'radius', literal(type(_, Change))),
+        NewRadius is Radius - Change);
+    (owl_individual_of(Rule, knowrob:'IncreaseRadiusOfTrajectory'), rdf_has(Rule, knowrob:'radius', literal(type(_, Change))),
+        NewRadius is Radius + Change)),
+    Ratio is NewRadius / Radius,
+    object_pose_at_time(Joint, Time, mat(JointPose)),
+    matrix_translation(Pose, [X,Y,Z]),
+    matrix_translation(JointPose, [X_J, Y_J, _JZ]),
+    Delta_X is X - X_J,
+    Delta_Y is Y - Y_J,
+    Diff_X is Delta_X * Ratio,
+    Diff_Y is Delta_Y * Ratio,
+    Projected_X is Diff_X + X_J,
+    Projected_Y is Diff_Y + Y_J,
+    ProjectedPose = [Projected_X, Projected_Y, Z].
+
+project_arch_trajectory_samples(Task, Link, Door, Rule, ProjectedPose, StepSize) :-
+   occurs(Task, [Begin,End]),
+   project_arch_trajectory_samples(Begin, End, Link, Door, Rule, ProjectedPose, StepSize).
+
+project_arch_trajectory_samples(Start, End, Link, Door, Rule, ProjectedPose, StepSize) :-
+   End >= Start,
+   NewStart is Start + StepSize, 
+   project_arch_trajectory_samples(NewStart, End, Link, Door, Rule, RestPoseLists, StepSize),
+   project_link_for_arch_traj(Start, Link, Door, Rule, Curr),
+   append([Curr], RestPoseLists, ProjectedPose).
+
+project_arch_trajectory_samples(Start, End, _Link, _Door, _Rule, ProjectedPose, _StepSize) :-
+   Start > End, ProjectedPose =[],  true.

@@ -59,21 +59,21 @@ generate_mixed_gaussian(InFile, OutFile) :-
 
 mixed_gaussian_with_failure(PosFile, PosCluster, NegFile, NegCluster, OutFile, Pose) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
-  jpl_call(GausInterface, 'analyzeTrials', [PosFile, NegFile, OutFile, PosCluster, NegCluster], _X),
-  jpl_array_to_list(_X, Pose). 
+  jpl_call(GausInterface, 'analyzeTrials', [PosFile, NegFile, OutFile, PosCluster, NegCluster], X),
+  jpl_array_to_list(X, Pose). 
 
 get_likely_location(PosFile, PosCluster, NegFile, NegCluster, Mean, Covariance) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
-  jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], _X),
-  jpl_array_to_list(_X, [MX, MY, C1, C2, C3, C4]),
+  jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], X),
+  jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),
   Mean = [MX, MY],
   Covariance = [C1, C2, C3, C4].  
 
 get_likely_pose(PosFile, PosCluster, NegFile, NegCluster, CurrentPose, Pose, Covariance) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
-  jpl_list_to_array(CurrentPose, CurrentPoseArr),
-  jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], _X),
-  jpl_array_to_list(_X, [MX, MY, C1, C2, C3, C4]),
+  %jpl_list_to_array(CurrentPose, CurrentPoseArr),
+  jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], X),
+  jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),
   matrix_translation(CurrentPose, [CP_X,CP_Y,_]),
   matrix_translate(CurrentPose, [MX-CP_X , MY-CP_Y,0], Pose),
   Covariance = [C1, C2, C3, C4].

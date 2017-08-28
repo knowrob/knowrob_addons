@@ -1000,7 +1000,7 @@
 
     <owl:NamedIndividual rdf:about="&room73b2;SemanticMapPerception_N3KIEmsBa">
         <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-        <knowrob:startTime rdf:resource="&iai-map;timepoint_0000000001"/>
+        <knowrob:startTime rdf:resource="&room73b2;timepoint_0000000001"/>
         <knowrob:objectActedOn rdf:resource="&room73b2;room73b2_1_room73b2-hitachi-fiesta-refrigerator_0_hinge_joint_t54a1"/>
         <knowrob:eventOccursAt rdf:resource="&room73b2;Transformation_N3KIEmsBa"/>
     </owl:NamedIndividual>

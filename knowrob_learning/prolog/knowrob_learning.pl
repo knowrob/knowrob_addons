@@ -200,7 +200,7 @@ featurize_ar_place(Tsk, Success, Features) :-
   mng_designator_props(DAction, 'OBJ', DObj),
   %add_object_as_semantic_instance(DObj, Loc, StartTime, SemanticMapInstance), 
   designator_assert(SemanticMapInstance, DAction, DObj, 'http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), !,
-  designator_add_perception(SemanticMapInstance, DObj, Matrix, StartTime),
+  designator_add_perception(SemanticMapInstance, DObj, _Matrix, StartTime),
   comp_above_of(SemanticMapInstance, TableTop),
   object_pose_at_time(TableTop, StartTime, mat(TableTopTransform)),
   object_pose_at_time(SemanticMapInstance, StartTime, mat(ObjTransform)),
@@ -210,12 +210,12 @@ featurize_ar_place(Tsk, Success, Features) :-
   object_dimensions(TableTop, TTDepth, TTWidth, _TTHeight),
   TTCenterX is TTDepth / 2,
   TTCenterY is TTWidth / 2,
-  matrix_translation(RobotTransformTT, [RobotX, RobotY, RobotZ]),
+  matrix_translation(RobotTransformTT, [RobotX, RobotY, _RobotZ]),
   DistanceRobotX is abs(RobotX),
   DistanceRobotY is abs(RobotY),
-  matrix_translation(ObjTransformTT, [ObjectX, ObjectY, ObjectZ]),
-  DistanceObjectX is abs(ObjectX),
-  DistanceObjectY is abs(ObjectY),
+  matrix_translation(ObjTransformTT, [ObjectX, ObjectY, _ObjectZ]),
+  %DistanceObjectX is abs(ObjectX),
+  %DistanceObjectY is abs(ObjectY),
   matrix_rotation(ObjTransformTT, [QW, QX, QY, QZ]),
   ((
     DistanceRobotX > TTCenterX,
@@ -263,7 +263,7 @@ featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
   mng_designator_props(DAction, 'OBJ', DObj),
   mng_designator_props(DAction, 'OBJ.TYPE', ObjType),!,
   designator_assert(SemanticMapInstance, DAction, DObj, 'http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j'), !,
-  designator_add_perception(SemanticMapInstance, DObj, Matrix, StartTime),
+  designator_add_perception(SemanticMapInstance, DObj, _Matrix, StartTime),
   object_pose_at_time(SemanticMapInstance, StartTime, mat(ObjTransform)),
   mng_lookup_transform('/map', '/base_footprint', StartTime, RobotTransform),
   pose_into_relative_coord(RobotTransform, ObjTransform, RobotTransformTT),
@@ -275,11 +275,11 @@ featurize_gaussian_place(Tsk, FloatFeatures, StringFeatures) :-
 
 color_directed_trajectory(Lnk, Start, End, Interval) :-
   Diff is  End - Start,
-  DiffScaled is 0.2/Diff,
+  DiffScaled is Interval/Diff,
   color_directed_trajectory(Lnk, Start, End, DiffScaled, Interval, [0.0, 1.0, 0.0]).
   
 color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
-  ChunkEnd is Start + 0.2,
+  ChunkEnd is Start + Interval,
   ChunkEnd =< End,
   rdf_instance_from_class(Lnk, TrajId),
   marker(trajectory(Lnk), T, TrajId), 
@@ -288,7 +288,7 @@ color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
   R_new is R+Scale, G_new is G-Scale, 
   !, color_directed_trajectory(Lnk, ChunkEnd, End, Scale, Interval, [R_new,G_new,B]).
 
-color_directed_trajectory(Lnk, Start, End, Scale, Interval, [R,G,B]) :-
-  ChunkEnd is Start + 0.2,
+color_directed_trajectory(_Lnk, Start, End, _Scale, Interval, _C) :-
+  ChunkEnd is Start + Interval,
   End < ChunkEnd, true.
 
