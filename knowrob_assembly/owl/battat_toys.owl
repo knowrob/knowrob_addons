@@ -316,11 +316,39 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatHolder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">5</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#BattatBoltThreadAffordance -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BattatBoltThreadAffordance">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatThreadAffordanceM"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderM"/>
     </owl:Class>
     
 
@@ -611,6 +639,14 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltHolderAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltHolderAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatAffordanceByPart"/>
+    </owl:Class>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection">
@@ -620,6 +656,132 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltThreadAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideIn -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideIn">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneSlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltHolderAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideIn"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideIn"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder1 -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder1">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder2 -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder2">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_2"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder3 -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder3">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_3"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder4 -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder4">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_4"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder5 -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder5">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_5"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -4589,6 +4751,100 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/BoltHolder.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.0175 0.0125 0.0135</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_2 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_2">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0175 0.0125 0.0135</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_3 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_3">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.035 -0.0125 0.0135</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_4 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_4">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 -0.0125 0.0135</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_5 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_5">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltHolder"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.035 -0.0125 0.0135</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://knowrob.org/kb/battat_toys.owl#BoltSTL -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSTL">
@@ -4873,5 +5129,5 @@
 
 
 
-<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
 
