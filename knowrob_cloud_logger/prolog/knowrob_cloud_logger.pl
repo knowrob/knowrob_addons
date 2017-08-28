@@ -156,5 +156,5 @@ read_jni_value(J, R) :-
      (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Integer'), jpl_call(J,'intValue',[],R));
      (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'java.lang.Boolean'), jpl_call(J,'booleanValue',[],R));
      (jpl_object_to_class(J, C), jpl_class_to_classname(C, 'javax.json.JsonArray'), jpl_call(J,'size',[],Size),
-       Upper = Size - 1, R = [],
-       foreach(between(0, Upper, I), (jpl_call(J,'get',[I], JSub), read_jni_value(JSub, RSub), append(R, [RSub], R))))).
+       Upper = Size - 1,
+       findall(RSub, (between(0, Upper, I), jpl_call(J,'get',[I], JSub), read_jni_value(JSub, RSub)), R))).
