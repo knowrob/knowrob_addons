@@ -1,14 +1,14 @@
 #!/usr/bin/env python
+
 import rospy
 import tf
 from collections import defaultdict
 
 from geometry_msgs.msg._Point import Point
-from geometry_msgs.msg._Pose import Pose
 from geometry_msgs.msg._Quaternion import Quaternion
 from knowrob_beliefstate.srv._DirtyObject import DirtyObject, DirtyObjectResponse, DirtyObjectRequest
+from multiprocessing import Lock
 from std_msgs.msg._ColorRGBA import ColorRGBA
-from std_srvs.srv._SetBool import SetBool, SetBoolResponse
 from std_srvs.srv._Trigger import Trigger, TriggerResponse
 from visualization_msgs.msg._Marker import Marker
 from json_prolog import json_prolog
@@ -69,6 +69,7 @@ class ObjectStatePublisher(object):
         self.tf_broadcaster = tf.TransformBroadcaster()
         self.marker_publisher = rospy.Publisher('/visualization_marker', Marker, queue_size=10)
         self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
+        self.dirty_lock = Lock()
         self.update_positions_srv = rospy.Service('~update_object_positions', Trigger, self.update_object_positions_cb)
         self.objects = defaultdict(lambda: ThorinObject())
         rospy.loginfo('object state publisher is running')
@@ -80,19 +81,20 @@ class ObjectStatePublisher(object):
         return r
 
     def dirty_cb(self, srv_msg):
-        rospy.loginfo('got dirty object request {}'.format(srv_msg))
-        r = DirtyObjectResponse()
-        r.error_code = r.SUCCESS
-        self.load_object_ids()
-        for object_id in srv_msg.object_ids:
-            if not self.load_object(object_id):
-                rospy.logdebug("object '{}' unknown".format(object_id))
-                r.error_code = r.UNKNOWN_OBJECT
-            else:
-                rospy.loginfo("object '{}' updated".format(object_id))
-        self.publish_object_frames()
-        self.publish_object_markers()
-        return r
+        with self.dirty_lock:
+            rospy.loginfo('got dirty object request {}'.format(srv_msg))
+            r = DirtyObjectResponse()
+            r.error_code = r.SUCCESS
+            self.load_object_ids()
+            for object_id in srv_msg.object_ids:
+                if not self.load_object(object_id):
+                    rospy.logdebug("object '{}' unknown".format(object_id))
+                    r.error_code = r.UNKNOWN_OBJECT
+                else:
+                    rospy.loginfo("object '{}' updated".format(object_id))
+            self.publish_object_frames()
+            self.publish_object_markers()
+            return r
 
     def prolog_query(self, q):
         query = self.prolog.query(q)
@@ -112,8 +114,6 @@ class ObjectStatePublisher(object):
         self.publish_object_markers()
 
     def load_object(self, object_id):
-        # if object_id not in self.objects.keys():
-        #     self.load_object_ids()
         if object_id in self.objects.keys():
             self.load_object_color(object_id)
             self.load_object_mesh(object_id)
@@ -127,7 +127,6 @@ class ObjectStatePublisher(object):
     def load_object_ids(self):
         q = 'get_known_object_ids(A)'
         solutions = self.prolog_query(q)
-        # self.objects = defaultdict(lambda: ThorinObject())
         for object_id in solutions[0]['A']:
             if object_id not in self.objects.keys():
                 self.objects[object_id] = ThorinObject()
@@ -186,7 +185,6 @@ class ObjectStatePublisher(object):
 
 
 if __name__ == '__main__':
-    # rospy.init_node('object_state_publisher', log_level=rospy.DEBUG)
     rospy.init_node('object_state_publisher')
     hz = rospy.get_param('~hz', default='1')
     object_state_publisher = ObjectStatePublisher(int(hz))
