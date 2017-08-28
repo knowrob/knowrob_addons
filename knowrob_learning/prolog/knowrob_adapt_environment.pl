@@ -33,7 +33,7 @@
     [
         %generic_adapt/3,
         estimate_action_by_comparing/4,
-        apply_rule_for_adapt/5
+        apply_rule_for_adapt/3
         %rule_dimensions_hinge_joint/5
     ]).
 
@@ -43,35 +43,56 @@
 :- use_module(library('rdfs_computable')).
 :- use_module(library('owl_parser')).
 
-apply_rule_for_adapt(SourceAction, TargetAction, SourceDoor, TargetDoor, RuleOut) :-
+apply_rule_for_adapt(SourceAction, TargetAction, RuleOut) :-
     rdf_instance_from_class(knowrob:'AdaptingEpisodicMemoryData', RuleOut),
     apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut),
     apply_rule_for_adapt_trajectory(SourceAction, TargetAction, RuleOut),
-    apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut).
+    apply_rule_for_radius(SourceAction, TargetAction, RuleOut).
 
-apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
-    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
-    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
-    atom_number(SourceWidth, SourceWidthN),
-    rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
-    atom_number(TargetWidth, TargetWidthN),
-    SourceWidthN < TargetWidthN,
-    Increase is TargetWidthN - SourceWidthN,
+radius_measure_action(Action, Radius) :-
+    (rdf_has(Action, knowrob:'openingTrajectory', Trj); rdf_has(SourceAction, knowrob:'closingTrajectory', Trj)),
+    rdf_has(Trj, knowrob:'radius', literal(type(_, RadiusA))),
+    atom_number(RadiusA, Radius).
+
+apply_rule_for_radius(SourceAction, TargetAction, RuleOut) :-
+    radius_measure_action(SourceAction, SourceRadius),
+    radius_measure_action(TargetAction, TargetRadius),
+    SourceRadius < TargetRadius,
+    Increase is TargetRadius - SourceRadius,
     rdf_assert(RuleOut, rdf:type, knowrob:'IncreaseRadiusOfTrajectory'),
     rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Increase))).
 
-apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
-    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
-    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
-    rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
-    atom_number(SourceWidth, SourceWidthN),
-    rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
-    atom_number(TargetWidth, TargetWidthN),
-    SourceWidthN >= TargetWidthN,
-    Decrease is SourceWidthN - TargetWidthN,
+apply_rule_for_radius(SourceAction, TargetAction, RuleOut) :-
+    radius_measure_action(SourceAction, SourceRadius),
+    radius_measure_action(TargetAction, TargetRadius),
+    SourceRadius >= TargetRadius,
+    Decrease is SourceRadius - TargetRadius,
     rdf_assert(RuleOut, rdf:type, knowrob:'DecreaseRadiusOfTrajectory'),
     rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Decrease))).
+
+%apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
+%    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
+%    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+%    rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
+%    atom_number(SourceWidth, SourceWidthN),
+%    rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
+%    atom_number(TargetWidth, TargetWidthN),
+%    SourceWidthN < TargetWidthN,
+%    Increase is TargetWidthN - SourceWidthN,
+%    rdf_assert(RuleOut, rdf:type, knowrob:'IncreaseRadiusOfTrajectory'),
+%    rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Increase))).
+
+%apply_rule_for_radius(SourceDoor, TargetDoor, RuleOut) :-
+%    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
+%    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+%    rdf_has(SourceDoor, knowrob:'widthOfObject', literal(type(_, SourceWidth))),
+%    atom_number(SourceWidth, SourceWidthN),
+%    rdf_has(TargetDoor, knowrob:'widthOfObject', literal(type(_, TargetWidth))),
+%    atom_number(TargetWidth, TargetWidthN),
+%    SourceWidthN >= TargetWidthN,
+%    Decrease is SourceWidthN - TargetWidthN,
+%    rdf_assert(RuleOut, rdf:type, knowrob:'DecreaseRadiusOfTrajectory'),
+%    rdf_assert(RuleOut, knowrob:'radius', literal(type(xsd:'float', Decrease))).
 
 apply_rule_for_adapt_end_effector(SourceAction, TargetAction, RuleOut) :-
     owl_individual_of(SourceAction, knowrob:'OpeningAFridgeGripperPerpendicular'),
@@ -136,16 +157,19 @@ check_handle_type(Handle, Tsk) :-
 
 check_trajectory_props(Tsk, Door) :-
     owl_individual_of(Tsk, Cls),
-    class_properties(Cls, knowrob:'openingTrajectory', Trj),
-    rdf_instance_from_class(Trj, TrjInst),
+    rdf_instance_from_class(knowrob:'ArmTrajectory', TrjInst),
+    ((class_properties(Cls, knowrob:'openingTrajectory', Trj), rdf_assert(Tsk, knowrob:'openingTrajectory', TrjInst));
+     (class_properties(Cls, knowrob:'closingTrajectory', Trj), rdf_assert(Tsk, knowrob:'closingTrajectory', TrjInst))),
     rdf_assert(TrjInst, rdf:type, Trj),
-    class_properties(Trj, _X, HJoint),
+    class_properties(Trj, knowrob:'center', HJoint),
     owl_individual_of(HJInst, HJoint),
     rdf_has(Door, _Y, HJInst),
-    rdf_assert(TrjInst, knowrob:'center', HJInst).
+    rdf_assert(TrjInst, knowrob:'center', HJInst),
+    rdf_has(Door, knowrob:'widthOfObject', R),
+    rdf_assert(TrjInst, knowrob:'radius', R).
 
 find_handle_of_doors(Door, Handle) :-
-    owl_individual_of(Door, knowrob:'FridgeDoor'),
+    owl_individual_of(Door, knowrob:'IAIFridgeDoor'),
     (rdf_has(Door, 'http://knowrob.org/kb/srdl2-comp.owl#succeedingJoint', Handle);
     (rdf_has(Frd, 'http://knowrob.org/kb/srdl2-comp.owl#subComponent', Door),
      rdf_has(Frd, 'http://knowrob.org/kb/srdl2-comp.owl#subComponent', Handle),
@@ -163,12 +187,11 @@ estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetA
     check_handle_type(SourceHandle, EpisodicMemoryTask),
     check_handle_type(TargetHandle, TargetAction),
     check_trajectory_props(EpisodicMemoryTask, SourceDoor), 
-    check_trajectory_props(TargetAction, TargetDoor).
+    check_trajectory_props(TargetAction, TargetDoor),
+    rdf_assert(TargetAction, rdf:type, knowrob:'IntentionalMentalEvent').
 
 estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetAction) :-
-    entity(EpisodicMemoryTask, [an, action, ['task_context', 'CloseFridgeDoor']]), 
-    owl_individual_of(SourceDoor, knowrob:'IAIFridgeDoor'),
-    owl_individual_of(TargetDoor, knowrob:'IAIFridgeDoor'),
+    entity(EpisodicMemoryTask, [an, action, ['task_context', 'CloseFridgeDoor']]),
     find_handle_of_doors(SourceDoor, SourceHandle),
     find_handle_of_doors(TargetDoor, TargetHandle),
     rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
@@ -177,4 +200,5 @@ estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetA
     check_handle_type(SourceHandle, EpisodicMemoryTask),
     check_handle_type(TargetHandle, TargetAction),
     check_trajectory_props(EpisodicMemoryTask, SourceDoor), 
-    check_trajectory_props(TargetAction, TargetDoor).
+    check_trajectory_props(TargetAction, TargetDoor),
+    rdf_assert(TargetAction, rdf:type, knowrob:'IntentionalMentalEvent').
