@@ -1124,7 +1124,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#BottomWingHolderInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 1.0</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.2 1.0</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -2126,7 +2126,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#WindowHolderInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 1.0</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.1 1.0</knowrob:translation>
     </owl:NamedIndividual>
     
 
