@@ -36,7 +36,34 @@ battat_sim_plane_complete :-
   battat_sim_plane_connection(battat_toys:'MotorGrillSlideInUnderBody', battat_sim:'PlaneMotorGrill_1',
       [battat_sim:'PlaneUnderBody_1',battat_sim:'PlaneMotorGrill_1']),
   battat_sim_plane_connection(battat_toys:'UpperBodySlideInFrame', battat_sim:'PlaneUpperBody_1',
-      [battat_sim:'PlaneUnderBody_1',battat_sim:'PlaneRearWing_1',battat_sim:'PlaneMotorGrill_1']).
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneUnderBody_1',battat_sim:'PlaneRearWing_1',battat_sim:'PlaneMotorGrill_1']),
+  battat_sim_plane_connection(battat_toys:'TopWingSlideInBody', battat_sim:'PlaneTopWing_1',
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneTopWing_1']),
+  battat_sim_plane_connection(battat_toys:'PropellerSlideInMotorGrill', battat_sim:'PlanePropeller_1',
+      [battat_sim:'PlaneMotorGrill_1',battat_sim:'PlanePropeller_1']),
+  battat_sim_plane_connection(battat_toys:'WindowSlideInBody', battat_sim:'PlaneWindow_1',
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneTopWing_1',battat_sim:'PlaneWindow_1']),
+  %%% Front wheels
+  battat_sim_plane_connection(battat_toys:'FrontWheelLeftSlideInChassis', battat_sim:'PlaneFrontWheel_1',
+      [battat_sim:'PlaneChassis_1',battat_sim:'PlaneFrontWheel_1']),
+  battat_sim_plane_connection(battat_toys:'FrontWheelRightSlideInChassis', battat_sim:'PlaneFrontWheel_2',
+      [battat_sim:'PlaneChassis_1',battat_sim:'PlaneFrontWheel_2']),
+  %%% Nuts
+  battat_sim_plane_connection(battat_toys:'PlaneFrontWheelLeftScrewedOnChassis', battat_sim:'BattatNut_1',
+      [battat_sim:'PlaneChassis_1',battat_sim:'BattatNut_1']),
+  battat_sim_plane_connection(battat_toys:'PlaneFrontWheelLeftScrewedOnChassis', battat_sim:'BattatNut_2',
+      [battat_sim:'PlaneChassis_1',battat_sim:'BattatNut_2']),
+  %%% Bolts
+  battat_sim_plane_connection(battat_toys:'FrontWingsScrewedOnBody', battat_sim:'BattatBolt_2',
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneTopWing_1',battat_sim:'BattatBolt_2']),
+  battat_sim_plane_connection(battat_toys:'FrontWingsScrewedOnBody', battat_sim:'BattatBolt_2',
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneTopWing_1',battat_sim:'BattatBolt_2']),
+  battat_sim_plane_connection(battat_toys:'PlaneWindowScrewedOnBody', battat_sim:'BattatBolt_3',
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneWindow_1',battat_sim:'BattatBolt_3']),
+  battat_sim_plane_connection(battat_toys:'PropellerScrewedOnMotorGrill', battat_sim:'BattatBolt_4',
+      [battat_sim:'PlanePropeller_1',battat_sim:'PlaneMotorGrill_1',battat_sim:'BattatBolt_4']),
+  battat_sim_plane_connection(battat_toys:'RearWingScrewedOnBody', battat_sim:'BattatBolt_5',
+      [battat_sim:'PlaneUpperBody_1',battat_sim:'PlaneRearWing_1',battat_sim:'BattatBolt_5']).
 
 battat_sim_plane_connection(ConnType, Primary, Parts) :-
   assemblage_create_connection(ConnType, Parts, Conn),
