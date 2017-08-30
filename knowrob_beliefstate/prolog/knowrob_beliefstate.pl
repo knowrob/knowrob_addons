@@ -73,7 +73,8 @@
       
       belief_at/2,
       belief_at/3,
-      belief_connected_to/2
+      belief_connected_to/2,
+      grasp_transform/4
     ]).
 
 :- use_module(library('jpl')).
@@ -102,7 +103,8 @@
 :-  rdf_meta
     belief_at(r,+,r),
     belief_at(r,+),
-    belief_connected_to(r,+).
+    belief_connected_to(r,+),
+    grasp_transform(r,r,r,-).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
@@ -1688,6 +1690,13 @@ transform_data(TransformId, (Translation, Rotation)) :-
   rdf_has(TransformId, knowrob:'quaternion', literal(type(_,Rotation_atom))),
   knowrob_math:parse_vector(Translation_atom, Translation),
   knowrob_math:parse_vector(Rotation_atom, Rotation).
+
+%% grasp_transform(+GraspedObject, +Gripper, +GraspSpec, -Transform) is det.
+grasp_transform(GraspedObject, Gripper, GraspSpec, [TargetFrame,RefFrame,Translation,Rotation]) :-
+  rdf_has(GraspedObject, srdl2comp:'urdfName', literal(TargetFrame)),
+  rdf_has(Gripper ,      srdl2comp:'urdfName', literal(RefFrame)),
+  rdf_has(GraspSpec, paramserver:'hasGraspTransform', TransformId),
+  transform_data(TransformId, (Translation,Rotation)).
 
 %% belief_at(+Obj, +TransformData, +RelativeTo) is det.
 %% belief_at(+Obj, +TransformData) is det.
