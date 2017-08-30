@@ -242,7 +242,7 @@ project_arch_trajectory_samples(Start, End, _Link, _Door, _Rule, ProjectedPose, 
    Start > End, ProjectedPose =[],  true.
 
 visualize_projected_traj(Traj):-
-   foreach(member(Sample, Traj),
+   forall(member(Sample, Traj),
           (
             nth0(0, Sample, Position),
             nth0(1, Sample, Rot),
