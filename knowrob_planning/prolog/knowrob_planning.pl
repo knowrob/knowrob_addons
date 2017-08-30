@@ -82,7 +82,8 @@
       planning_assert(r,r,r).
 
 :- dynamic agenda_selection_criteria_sorted/2,
-           agenda_item_last_selected/1.
+           agenda_item_last_selected/1,
+           agenda_failing_item/2.
 %
 % TODO(DB): some ideas ...
 %   - Think about support for computables properties/SWRL
@@ -757,6 +758,17 @@ agenda_perform(Agenda, Item, Descr) :-
     agenda_item_project(Item,
         PerformDescr, Domain_computed, Selected)
   ), Selection ),
+  % Print some debug messages for items that can't be processed
+  % and make sure we will not loop forever trying to find a value.
+  ( Selection=[] -> (
+    agenda_failing_item(Agenda,Item) -> (
+      write('    [ERR] giving up on `'), agenda_item_write(Item), write('`'), nl,
+      fail
+    );(
+      write('    [WARN] no consistent value for `'), agenda_item_write(Item), write('`'), nl,
+      assertz(agenda_failing_item(Agenda,Item))
+    )
+  ) ; retractall(agenda_failing_item(Agenda,_)) ),
   % Update agenda according to asserted knowledge
   (  owl_atomic(Selection)
   -> agenda_item_update(PerformDescr, Agenda, Item, Siblings, Selection)
