@@ -31,6 +31,10 @@ test(assembly_BattatPlaneBodyWithoutWindow) :-
 test_perform_agenda_cram(Agenda) :-
   cram_assembly_next_action(Agenda, Action) -> (
     writeln(Action),
-    test_perform_agenda_cram(Agenda)) ; true.
+    agenda_write(Agenda),
+    test_perform_agenda_cram(Agenda)) ; test_agenda_empty(Agenda).
+
+test_agenda_empty(Agenda) :-
+  agenda_items(Agenda, []).
 
 :- end_tests(cram_assembly).
