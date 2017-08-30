@@ -34,7 +34,8 @@
         estimate_action_by_comparing/4,
         apply_rule_for_adapt/3,
         project_link_for_arch_traj/5,
-        project_arch_trajectory_samples/6
+        project_arch_trajectory_samples/6,
+        visualize_projected_traj/1
     ]).
 
 :- use_module(library('semweb/rdf_db')).
@@ -215,6 +216,7 @@ project_link_for_arch_traj(Time, Link, Door, Rule, ProjectedPose) :-
     Ratio is NewRadius / Radius,
     object_pose_at_time(Joint, Time, mat(JointPose)),
     matrix_translation(Pose, [X,Y,Z]),
+    matrix_rotation(Pose, Rot),
     matrix_translation(JointPose, [X_J, Y_J, _JZ]),
     Delta_X is X - X_J,
     Delta_Y is Y - Y_J,
@@ -222,7 +224,8 @@ project_link_for_arch_traj(Time, Link, Door, Rule, ProjectedPose) :-
     Diff_Y is Delta_Y * Ratio,
     Projected_X is Diff_X + X_J,
     Projected_Y is Diff_Y + Y_J,
-    ProjectedPose = [Projected_X, Projected_Y, Z].
+    ProjectedPosition = [Projected_X, Projected_Y, Z],
+    ProjectedPose = [ProjectedPosition, Rot].
 
 project_arch_trajectory_samples(Task, Link, Door, Rule, ProjectedPose, StepSize) :-
    occurs(Task, [Begin,End]),
@@ -237,3 +240,12 @@ project_arch_trajectory_samples(Start, End, Link, Door, Rule, ProjectedPose, Ste
 
 project_arch_trajectory_samples(Start, End, _Link, _Door, _Rule, ProjectedPose, _StepSize) :-
    Start > End, ProjectedPose =[],  true.
+
+visualize_projected_traj(Traj):-
+   foreach(member(Sample, Traj),
+          (
+            nth0(0, Sample, Position),
+            nth0(1, Sample, Rot),
+            rdf_instance_from_class('Traj', Id),
+            show(cube(Id), [ pose(Position,Rot),scale([0.02,0.02,0.02]),color([1.0,1.0,0.0])])
+          )).
