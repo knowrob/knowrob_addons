@@ -6,6 +6,8 @@
         assemblage_parent/2,
         assemblage_established/1,
         assemblage_connection_established/1,
+        assemblage_connection_reference/3,
+        assemblage_connection_transform/3,
         assemblage_destroy/1,
         assemblage_graspable_part/2,
         assemblage_possible_grasp/3,
@@ -36,6 +38,8 @@
       assemblage_parent(r,r),
       assemblage_established(r),
       assemblage_connection_established(r),
+      assemblage_connection_transform(r,r,t),
+      assemblage_connection_reference(r,r,r),
       assemblage_destroy(r),
       assemblage_graspable_part(r,r),
       assemblage_possible_grasp(r,r,t),
@@ -88,6 +92,36 @@ assemblage_connection_established(Connection) :-
   rdf_has(Assemblage, knowrob_assembly:'usesConnection', Connection), !,
   rdf_has(Assemblage, knowrob_assembly:'assemblageEstablished', literal(type(_,'true'))), !.
 assemblage_connection_established(_Connection).
+
+transform_data(TransformId, (Translation, Rotation)) :-
+  % TODO: should be part of knowrob_common
+  rdf_has(TransformId, knowrob:'translation', literal(type(_,Translation_atom))),
+  rdf_has(TransformId, knowrob:'quaternion', literal(type(_,Rotation_atom))),
+  knowrob_math:parse_vector(Translation_atom, Translation),
+  knowrob_math:parse_vector(Rotation_atom, Rotation).
+
+%% assemblage_connection_reference_object(+Connection,+TransformId,-ReferenceObj) is det.
+%
+assemblage_connection_reference(_Connection, TransformId, ReferenceObj) :-
+  rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
+assemblage_connection_reference(Connection, TransformId, ReferenceObj) :-
+  % FIXME: won't work when multiple instances of the reference object class are linked in the connection
+  rdfs_individual_of(TransformId, Restr),
+  rdfs_individual_of(Restr, owl:'Restriction'),
+  rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
+  rdf_has(Restr, owl:'onClass', ReferenceCls),
+  rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
+  rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
+  owl_individual_of(ReferenceObj,ReferenceCls), !.
+
+%% assemblage_connection_transform(+PrimaryObject,+Connection,-Transform) is det.
+%
+assemblage_connection_transform(PrimaryObject, Connection, [TargetFrame,RefFrame,Translation,Rotation]) :-
+  assemblage_connection_reference(Connection, TransformId, ReferenceObj),
+  rdf_has(PrimaryObject, srdl2comp:'urdfName', literal(TargetFrame)),
+  rdf_has(ReferenceObj , srdl2comp:'urdfName', literal(RefFrame)),
+  once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
+  transform_data(TransformId, (Translation, Rotation)).
 
 %% assemblage_parent(?Assemblage,?ParentAssemblage) is det.
 %

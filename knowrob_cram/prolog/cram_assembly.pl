@@ -145,7 +145,7 @@ cram_assembly_belief_connected(Obj) :-
 cram_assembly_apply_connection(PrimaryObject, Connection) :-
   once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
   transform_data(TransformId, TransformData),
-  connection_reference_object(Connection, TransformId, ReferenceObject),
+  assemblag_connection_reference(Connection, TransformId, ReferenceObject),
   belief_at(PrimaryObject, TransformData, ReferenceObject),
   % apply transform relative to GraspedObject to all connected mobile parts
   cram_assembly_belief_connected(PrimaryObject).
@@ -157,18 +157,6 @@ transform_data(TransformId, (Translation, Rotation)) :-
   knowrob_math:parse_vector(Translation_atom, Translation),
   knowrob_math:parse_vector(Rotation_atom, Rotation).
 
-connection_reference_object(_Connection, TransformId, ReferenceObj) :-
-  rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
-connection_reference_object(Connection, TransformId, ReferenceObj) :-
-  % FIXME: won't work when multiple instances of the reference object class are linked in the connection
-  rdfs_individual_of(TransformId, Restr),
-  rdfs_individual_of(Restr, owl:'Restriction'),
-  rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
-  rdf_has(Restr, owl:'onClass', ReferenceCls),
-  rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
-  rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
-  owl_individual_of(ReferenceObj,ReferenceCls), !.
-  
 %% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpec) is det.
 %
 cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
