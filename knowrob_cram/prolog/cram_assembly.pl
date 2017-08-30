@@ -220,12 +220,12 @@ assemblage_designator(Assemblage) -->
   { atom(Assemblage),
     cram_assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts),
     rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn) },
-  ['[an, action,'], newline,
+  ['[an, action, ['], newline,
   ['  [type: '],       enquote(connecting),            ['],'], newline,
   ['  [connection: '], connection_designator(Conn),    ['],'], newline,
   ['  [object: '],     object_designator(PrimaryPart), ['],'], newline,
   with_objects_designator(SecondaryParts),
-  [']'].
+  [']]'].
 
 with_objects_designator([]) --> [].
 with_objects_designator([Obj|Next]) -->
@@ -233,15 +233,15 @@ with_objects_designator([Obj|Next]) -->
   with_objects_designator(Next).
 
 connection_designator(Obj) -->
-  ['[a, thing,'], newline,
+  ['[a, thing, ['], newline,
     ['    '], object_type(Obj), [','], newline,
     ['    '], object_name(Obj), newline,
-  ['  '], [']'].
+  ['  '], [']]'].
 object_designator(Obj) -->
-  ['[an, object,'], newline,
+  ['[an, object, ['], newline,
     ['    '], object_type(Obj), [','], newline,
     ['    '], object_name(Obj), newline,
-  ['  ]'].
+  ['  ]]'].
 object_type(Obj) --> { atom(Obj), rdfs_type_of(Obj,Type) },
   ['[type: '], enquote(Type), [']'].
 object_name(Obj) -->
