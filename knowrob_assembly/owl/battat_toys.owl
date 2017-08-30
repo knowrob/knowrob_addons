@@ -5581,8 +5581,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 -0.7071067811865475 0.0 0.7071067811865475</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0075 -0.01 0.08</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5607,8 +5607,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865475 0.0 -0.7071067811865475 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0075 0.01 0.08</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5633,7 +5633,7 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865475 0.0 0.0 0.7071067811865475</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
     </owl:NamedIndividual>
     
@@ -5659,8 +5659,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.7071067811865475 0.0 0.7071067811865475</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.0625 -0.01 0.03</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5685,8 +5685,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.5 0.5 -0.5 -0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.025 0.08</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5711,8 +5711,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.5 -0.5 -0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 -0.025 0.08</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5737,8 +5737,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 -0.02</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5841,8 +5841,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.7071067811865475 0.0 0.7071067811865475</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.012</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5867,8 +5867,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.7071067811865475 0.0 0.0 0.7071067811865475</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.01</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5919,8 +5919,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.7071067811865475 0.0 0.0 0.7071067811865475</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0135</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -6029,5 +6029,5 @@
 
 
 
-<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
 
