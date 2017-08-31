@@ -47,7 +47,7 @@
 cram_assembly_initialize(AssemblageType, Agenda) :-
   rdf_instance_from_class(AssemblageType, Assemblage),
   rdf_assert(Assemblage, rdf:type, owl:'NamedIndividual'),
-  % TODO: declar strategy in knowrob_cram
+  % TODO: declare strategy in knowrob_cram
   agenda_create(Assemblage, 'http://knowrob.org/kb/battat_airplane_test.owl#AgendaStrategy_1', Agenda).
 
 %% cram_assembly_next_action(+Agenda, -ActionDesignator) is det.
