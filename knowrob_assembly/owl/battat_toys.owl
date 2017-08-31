@@ -775,6 +775,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltScrewConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ScrewConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -818,7 +819,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSlideInHolder">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -965,6 +966,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BottomWingSlideInChassis">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -1248,6 +1250,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#FrontWheelSlideInChassis">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -1360,6 +1363,23 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodyThreadWing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#HolderConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#HolderConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderConnection"/>
     </owl:Class>
     
 
@@ -1501,6 +1521,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#NutScrewConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#NutScrewConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ScrewConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -1509,6 +1530,14 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatNutThreadAffordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#PartConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PartConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
     </owl:Class>
     
 
@@ -1598,6 +1627,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInConnection">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
     </owl:Class>
     
 
@@ -1615,7 +1645,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInHorizontalHolder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInHorizontalHolder">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -1680,7 +1710,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInVerticalHolder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInVerticalHolder">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
@@ -1979,7 +2009,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInHolder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInHolder">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -2177,14 +2207,6 @@
                 <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspFrontWheel_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
     </owl:Class>
     
 
@@ -3850,6 +3872,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PropellerSlideInMotorGrill">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -3884,6 +3907,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWheelSlideInWing">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -3918,6 +3942,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWheelSlideInWingAndWheel">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneSlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -4112,7 +4137,7 @@
     <!-- http://knowrob.org/kb/battat_toys.owl#RearWingSlideInHolder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#RearWingSlideInHolder">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -4727,6 +4752,12 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#Assemblage -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
     
 
 
