@@ -141,6 +141,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/battat_toys.owl#PartConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
@@ -289,6 +295,12 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_test.owl#AgendaPattern_needsAffordance_0">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
+            </owl:Restriction>
+        </rdf:type>
         <rdf:type>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
