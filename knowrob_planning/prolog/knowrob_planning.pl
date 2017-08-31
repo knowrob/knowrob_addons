@@ -1027,15 +1027,6 @@ agenda_item_update(detach(_,_),Agenda,_Item,Siblings,Selection) :- !,
     ))
   )).
 
-agenda_item_update_detach(Agenda,Item,_Selection) :-
-  agenda_item_reason(Item,CausedBy),
-  forall((
-    % TODO(DB): really safe to retract all with same cause ?
-    agenda_items(Agenda, Others),    member(X,Others),
-    agenda_item_reason(X,CausedBy),  X \= Item ),(
-    retract_agenda_item(X)
-  )).
-
 agenda_item_update(_,Agenda,Item,Siblings,Selection) :-
   agenda_item_depth_value(Item,Depth),
   Depth_next is Depth + 1,
@@ -1057,6 +1048,15 @@ agenda_item_update(_,Agenda,Item,Siblings,Selection) :-
   % Add selected object items
   forall(member(X,Selection),
          agenda_add_object(Agenda,X,Depth_next)).
+
+agenda_item_update_detach(Agenda,Item,_Selection) :-
+  agenda_item_reason(Item,CausedBy),
+  forall((
+    % TODO(DB): really safe to retract all with same cause ?
+    agenda_items(Agenda, Others),    member(X,Others),
+    agenda_item_reason(X,CausedBy),  X \= Item ),(
+    retract_agenda_item(X)
+  )).
 
 agenda_item_update_specify(Agenda,Item,Selection) :-
   agenda_item_domain(Item,O_descr),
