@@ -215,7 +215,7 @@ sample_trajectory(Start, End, Link, Samples, StepSize) :-
    End >= Start,
    NewStart is Start + StepSize, 
    sample_trajectory(NewStart, End, Link, RestSamples, StepSize),
-   mng_lookup_transform('/map', Link, Time, Pose),
+   mng_lookup_transform('/map', Link, Start, Pose),
    matrix_translation(Pose, Pos),
    matrix_rotation(Pose, Rot),
    append([Pos, Rot], RestSamples, Samples).
