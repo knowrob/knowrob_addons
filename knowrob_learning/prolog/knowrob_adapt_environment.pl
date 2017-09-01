@@ -218,7 +218,7 @@ sample_trajectory(Start, End, Link, Samples, StepSize) :-
    mng_lookup_transform('/map', Link, Start, Pose),
    matrix_translation(Pose, Pos),
    matrix_rotation(Pose, Rot),
-   append([Pos, Rot], RestSamples, Samples).
+   append([[Pos, Rot]], RestSamples, Samples).
 
 sample_trajectory(Start, End, _Link, Samples, _StepSize) :-
    End < Start, Samples = [], true.
