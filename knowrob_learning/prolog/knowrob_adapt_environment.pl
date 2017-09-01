@@ -35,7 +35,10 @@
         apply_rule_for_adapt/3,
         project_link_for_arch_traj/5,
         project_arch_trajectory_samples/6,
-        visualize_projected_traj/1
+        sample_trajectory/4,
+        sample_trajectory/5,
+        visualize_projected_traj/1,
+        visualize_traj_samples/1
     ]).
 
 :- use_module(library('semweb/rdf_db')).
@@ -204,6 +207,22 @@ estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetA
     check_trajectory_props(TargetAction, TargetDoor),
     rdf_assert(TargetAction, rdf:type, knowrob:'IntentionalMentalEvent').
 
+sample_trajectory(Task, Link, Samples, StepSize) :-
+   occurs(Task, [Begin,End]),
+   sample_trajectory(Begin, End, Link, Samples, StepSize).
+
+sample_trajectory(Start, End, Link, Samples, StepSize) :-
+   End >= Start,
+   NewStart is Start + StepSize, 
+   sample_trajectory(NewStart, End, Link, RestSamples, StepSize),
+   mng_lookup_transform('/map', Link, Time, Pose),
+   matrix_translation(Pose, Pos),
+   matrix_rotation(Pose, Rot),
+   append([Pos, Rot], RestSamples, Samples).
+
+sample_trajectory(Start, End, _Link, Samples, _StepSize) :-
+   End < Start, Samples = [], true.
+
 project_link_for_arch_traj(Time, Link, Door, Rule, ProjectedPose) :-
     mng_lookup_transform('/map', Link, Time, Pose),
     rdf_has(Door, knowrob:'doorHingedWith', Joint),
@@ -249,3 +268,5 @@ visualize_projected_traj(Traj):-
             rdf_instance_from_class('Traj', Id),
             show(cube(Id), [ pose(Position,Rot),scale([0.02,0.02,0.02]),color([1.0,1.0,0.0])])
           )).
+visualize_traj_samples(Traj):-
+    visualize_projected_traj(Traj).
