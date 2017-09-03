@@ -1,11 +1,11 @@
 
 :- module(cram_assembly,
     [
-      cram_assembly_initialize/2,
+      cram_assembly_initialize/3,
       cram_assembly_next_action/2,
       cram_assembly_apply_connection/2,
       cram_assembly_apply_grasp/3,
-      cram_assembly_apply_ungrasp/2,
+      cram_assembly_apply_ungrasp/3,
       cram_assembly_designator/2
     ]).
 
@@ -20,6 +20,7 @@
 :- use_module(library('knowrob_assembly')).
 :- use_module(library('knowrob_planning')).
 :- use_module(library('knowrob_beliefstate')).
+:- use_module(library('knowrob_math')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
 
@@ -27,28 +28,22 @@
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 
 :- dynamic cram_agenda_actions/2.
-:- rdf_meta cram_assembly_initialize(r,r),
+:- rdf_meta cram_assembly_initialize(r,r,r),
             cram_assembly_next_action(r,t),
             cram_assembly_apply_connection(r,r),
             cram_assembly_apply_grasp(r,r,r),
-            cram_assembly_apply_ungrasp(r,r),
+            cram_assembly_apply_ungrasp(r,r,r),
             cram_assembly_designator(r,-).
 
-% TODO(DB): it is in general problematic that the planner has to select atomic parts along
-%           the model during top-down planning (i.e., linksAssemblage inserts this)
-%           before the actual action was performed.
-%           also some predicates here do assertions with influence on agenda items,
-%           could also cause isses in planner.
-% TODO(DB): atm. grasping only breaks connections to fixtures.
+% TODO(DB): grasping only breaks connections to fixtures.
 %           can we express somehow when this happens for non permanent connections?
 
-%% cram_assembly_initialize(+AssemblageType, -Agenda) is det.
+%% cram_assembly_initialize(+AssemblageType, +Strategy, -Agenda) is det.
 %
-cram_assembly_initialize(AssemblageType, Agenda) :-
+cram_assembly_initialize(AssemblageType, Strategy, Agenda) :-
   rdf_instance_from_class(AssemblageType, Assemblage),
   rdf_assert(Assemblage, rdf:type, owl:'NamedIndividual'),
-  % TODO: declare strategy in knowrob_cram
-  agenda_create(Assemblage, 'http://knowrob.org/kb/battat_airplane_test.owl#AgendaStrategy_1', Agenda).
+  agenda_create(Assemblage, Strategy, Agenda).
 
 %% cram_assembly_next_action(+Agenda, -ActionDesignator) is det.
 %
@@ -85,7 +80,7 @@ cram_assembly_possible_actions(Assemblage, ActionSequence) :-
   cram_assembly_format_designators(Finalized_set, ActionSequence).
 cram_assembly_specified_parent(Assemblage, Finalized) :-
   Finalized=Assemblage ; (
-  assemblage_parent(Assemblage, Parent),
+  subassemblage(Parent, Assemblage),
   assemblage_specified(Parent),
   cram_assembly_specified_parent(Parent, Finalized)).
 
@@ -100,17 +95,14 @@ cram_assembly_format_designators([Assemblage|X], [(Assemblage,Designator)|Y]) :-
   cram_assembly_designator(Assemblage,Designator),
   cram_assembly_format_designators(X,Y).
   
-%% cram_assembly_primary_part(+Assemblage, -PrimaryPart, -PrimaryPart) is det.
+%% cram_assembly_primary_part(+Assemblage, -PrimaryPart, -SecondaryParts) is det.
 %
-% Find the primary part of an assembly action, i.e., the part that needs to be moved into some other part
+% Find the primary part of an assembly action, i.e., the part that needs to be moved into some other parts.
+% Prefer part with minimum number of blocked affordances, and parts not attached to a fixture.
+% Furthermore require parts with non blocked grasping affordances.
+% Will fail if none of the parts is graspable or connected to a graspable object.
 %
 cram_assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts) :-
-  % find part with minimum number of blocked affordances,
-  % prefer parts not attached to a fixture and
-  % require parts with non blocked grasping affordances
-  % TODO: what if none of the parts are graspable?
-  % FIXME: BUG: planner will fail when holder blocks required affordance.
-  %             --> need to generate retract items in planner!!!
   findall(Fixed-NumBlocked-Part, (
     assemblage_part(Assemblage, Part),
     \+ assemblage_fixed_part(Part),
@@ -128,56 +120,85 @@ cram_assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts) :-
   list_to_set(SecondaryParts_list, SecondaryParts).
 
 part_attached_to_fixture(Part, 1) :-
-  assemblage_part_links_fixtures(Part, Fixtures), Fixtures \= [], !.
+  once(assemblage_part_links_fixture(Part, _)), !.
 part_attached_to_fixture(_Part, 0).
 
 part_blocked_affordances(Part, Blocked) :-
   findall(Aff, assemblage_part_blocked_affordance(Part,Aff), Blocked).
 
-cram_assembly_belief_connected(Obj) :-
-  findall(MobilePart, (
-      assemblage_part_links_part(Obj, MobilePart),
-      \+ assemblage_fixed_part(MobilePart)), MobileParts),
-  belief_connected_to(Obj, MobileParts).
-
 %% cram_assembly_apply_connection(+PrimaryObject, +Connection) is det.
 %
+% Make PrimaryObject reference object of its TF parent frames and
+% make TF frame of PrimaryObject relative to reference object of the
+% connection.
+%
 cram_assembly_apply_connection(PrimaryObject, Connection) :-
+  %%%% input checking
+  ground(PrimaryObject), ground(Connection),
+  assemblage_mechanical_part(PrimaryObject),
+  assemblage_connection(Connection),
+  %%%%
+  assemblage_remove_fixtures(PrimaryObject),
   once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
   transform_data(TransformId, TransformData),
-  assemblag_connection_reference(Connection, TransformId, ReferenceObject),
-  belief_at(PrimaryObject, TransformData, ReferenceObject),
-  % apply transform relative to GraspedObject to all connected mobile parts
-  cram_assembly_belief_connected(PrimaryObject).
-
-transform_data(TransformId, (Translation, Rotation)) :-
-  % TODO: should be part of knowrob_common
-  rdf_has(TransformId, knowrob:'translation', literal(type(_,Translation_atom))),
-  rdf_has(TransformId, knowrob:'quaternion', literal(type(_,Rotation_atom))),
-  knowrob_math:parse_vector(Translation_atom, Translation),
-  knowrob_math:parse_vector(Rotation_atom, Rotation).
+  assemblage_part_make_reference(PrimaryObject, Parents),
+  assemblage_connection_reference(Connection, TransformId, ReferenceObject),
+  belief_at_internal(PrimaryObject, TransformData, ReferenceObject),
+  belief_at_update([PrimaryObject|Parents]).
 
 %% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpec) is det.
 %
+% Make PrimaryObject reference object of its TF parent frames and
+% ensure that all objects physically connected to GraspedObject are
+% also connected via TF.
+% Finall apply the transform from GraspSpec on GraspedObject relative to Gripper.
+%
 cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
-  % retract connections to fixed objects
-  cram_assembly_remove_fixtures(GraspedObject),
-  % apply grasp transform on grasped object
+  %%%% input checking
+  ground(GraspedObject), ground(Gripper), ground(GraspSpec),
+  assemblage_mechanical_part(GraspedObject),
+  cram_assembly_gripper(Gripper),
+  %%%%
   rdf_has(GraspSpec, paramserver:'hasGraspTransform', TransformId),
   transform_data(TransformId, TransformData),
-  belief_at(GraspedObject, TransformData, Gripper),
-  % apply transform relative to GraspedObject to all connected mobile parts
-  cram_assembly_belief_connected(GraspedObject),
+  % retract connections to fixed objects
+  assemblage_remove_fixtures(GraspedObject),
+  % there could be objects with transforms not connected to GraspedObject.
+  % find the physical bridges to tf unconnected objects and make
+  % tf unconnected objects transforms relative to the bridge.
+  findall(X, assemblage_part_connect_transforms(GraspedObject, X), DirtyUnconnected),
+  % invert the transform topology along the parent frame relation.
+  % GraspedObject is then reference of all phsically connected parts
+  assemblage_part_make_reference(GraspedObject, Parents),
+  % apply grasp transform on grasped object
+  belief_at_internal(GraspedObject, TransformData, Gripper),
+  % accumulate list of dirty objects and cause beliefstate to republich TF frames
+  findall(X, ( member(X, [GraspedObject|Parents]) ;
+    ( member(List, DirtyUnconnected), member(X,List) )), Dirty),
+  belief_at_update(Dirty),
   % assert temporary connections that consume affordances blocked by the grasp
   cram_assembly_block_grasp_affordances(GraspedObject, GraspSpec).
+
+cram_assembly_gripper(Gripper) :-
+  % just require that the object has a TF name for now
+  rdf_has(Gripper, srdl2comp:'urdfName', literal(_)).
   
-%% cram_assembly_apply_ungrasp(+GraspedObject, GraspSpec) is det.
+%% cram_assembly_apply_ungrasp(+GraspedObject, Gripper, GraspSpec) is det.
 %
-cram_assembly_apply_ungrasp(GraspedObject, GraspSpec) :-
-  % set transform to current map frame transform
-  rdf_has(GraspedObject, srdl2comp:'urdfName', literal(ObjFrame)),
-  get_current_tf('map', ObjFrame, Tx,Ty,Tz, Rx,Ry,Rz,Rw),
-  belief_at(GraspedObject, ([Tx,Ty,Tz], [Rx,Ry,Rz,Rw])),
+cram_assembly_apply_ungrasp(GraspedObject, Gripper, GraspSpec) :-
+  %%%% input checking
+  ground(GraspedObject), ground(Gripper), ground(GraspSpec),
+  assemblage_mechanical_part(GraspedObject),
+  cram_assembly_gripper(Gripper),
+  %%%%
+  % make GraspedObject absolute if still relative to gripper
+  rdf_has(GraspedObject, paramserver:'hasTransform', TransformId),
+  ( rdf_has(TransformId, knowrob:'relativeTo', Gripper) -> (
+    rdf_has(GraspedObject, srdl2comp:'urdfName', literal(ObjFrame)),
+    % FIXME: hardcoded map frame name
+    get_current_tf('map', ObjFrame, Tx,Ty,Tz, Rx,Ry,Rz,Rw),
+    belief_at(GraspedObject, ([Tx,Ty,Tz], [Rx,Ry,Rz,Rw]))
+  ) ; true ),
   % retract temporary connections that consume affordances blocked by the grasp
   cram_assembly_unblock_grasp_affordances(GraspedObject, GraspSpec).
   
@@ -199,18 +220,6 @@ cram_assembly_unblock_grasp_affordances(GraspedObject, GraspSpec) :-
   rdf_has(GraspConnection, knowrob_assembly:'consumesAffordance', GraspedAffordance),
   rdfs_individual_of(GraspConnection, knowrob_assembly:'GraspingConnection'),
   rdf_retractall(GraspConnection, _, _).
-
-cram_assembly_remove_fixtures(GraspedObject) :-
-  assemblage_part_links_fixtures(GraspedObject, FixedParts),
-  forall((
-    member(Fixture,FixedParts),
-    rdf_has(Fixture, knowrob_assembly:'hasAffordance', Aff1),
-    rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff1),
-    assemblage_connection_established(Connection),
-    rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff2),
-    rdf_has(OtherPart, knowrob_assembly:'hasAffordance', Aff2),
-    once(assemblage_part_links_part(GraspedObject, OtherPart))
-  ), assemblage_destroy(Connection)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%% Designator formatting
