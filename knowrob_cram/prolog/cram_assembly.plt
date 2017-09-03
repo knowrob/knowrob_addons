@@ -24,7 +24,7 @@
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 
 test(assembly_BattatPlaneBodyWithoutWindow) :-
-  cram_assembly_initialize(battat_toys:'BattatPlaneBodyWithoutWindow', Agenda),
+  cram_assembly_initialize(battat_toys:'BattatPlaneBodyWithoutWindow', battat_test:'AgendaStrategy_1', Agenda),
   agenda_write(Agenda),
   test_perform_agenda_cram(Agenda).
 
