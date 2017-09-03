@@ -122,12 +122,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasColor -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasGraspTransform"/>
@@ -409,8 +403,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Fastener"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatFastenerColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7 0.7 0.7 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -423,8 +417,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PlasticFixture"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7 0.7 0.7 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1548,8 +1542,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePart"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBasePartColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1607,8 +1601,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePart"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodyColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 0.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2331,8 +2325,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2489,8 +2483,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBasePartColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3405,8 +3399,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Wheel"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWheelColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3425,8 +3419,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3710,8 +3704,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePart"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWingColor"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -5282,15 +5276,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#BattatFastenerColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BattatFastenerColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7 0.7 0.7 1.0</knowrob:vector>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL">
@@ -5412,24 +5397,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneBasePartColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBasePartColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</knowrob:vector>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneBodyColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBodyColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 0.0 0.0 1.0</knowrob:vector>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSTL -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSTL">
@@ -5457,15 +5424,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneHolderColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7 0.7 0.7 1.0</knowrob:vector>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://knowrob.org/kb/battat_toys.owl#PlaneHolderHorizontalSTL -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHorizontalSTL">
@@ -5480,15 +5438,6 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderVerticalSTL">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
         <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Airplane_vertical_holder.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:vector>
     </owl:NamedIndividual>
     
 
@@ -5565,38 +5514,11 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneWheelColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWheelColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:vector>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneWindowColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWindowColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</knowrob:vector>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://knowrob.org/kb/battat_toys.owl#PlaneWindowSTL -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWindowSTL">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
         <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Window.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneWingColor -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWingColor">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 1.0</knowrob:vector>
     </owl:NamedIndividual>
     
 

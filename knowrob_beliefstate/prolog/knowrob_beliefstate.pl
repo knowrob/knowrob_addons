@@ -54,6 +54,7 @@
 :- use_module(library('rdfs_computable')).
 :- use_module(library('knowrob_owl')).
 :- use_module(library('knowrob_math')).
+:- use_module(library('knowrob_objects')).
 :- use_module(library('knowrob_paramserver')).
 :- use_module(library('random')).
 
@@ -95,11 +96,6 @@ belief_at_update(ObjectIds) :-
   string_concat(CmdKern, ParStr, Cmd),
   thread_create(shell(Cmd), _, []).
 
-get_gripper_tool_frame(Gr, ToolFrame) :-
-  rdf_has(paramserver:'GripperToolFrameSymbol', paramserver:'standsFor', FNO),
-  rdf_has(FNO, paramserver:validForGripperType, literal(type(xsd:'anyURI', Gr))),
-  rdf_has(FNO, paramserver:hasValue, literal(type(xsd:'string', ToolFrame))).
-
 %% get_known_object_ids(-ObjectIds) is det.
 %
 % Returns a list of strings representing the individuals of type MechanicalPart that are known to the KB.
@@ -120,12 +116,9 @@ get_known_object_ids(ObjectIds) :-
 % @param Color   the transform data
 %
 get_object_color(ObjectId, Color) :-
-  owl_has(ObjectId, paramserver:'hasColor', ColInd),
-  rdf_has(ColInd, 'http://knowrob.org/kb/knowrob.owl#vector', literal(type(_, V))), 
-  knowrob_math:parse_vector(V, Color), !.
-
+  object_color(ObjectId,V), !,
+  knowrob_math:parse_vector(V, Color).
 get_object_color(ObjectId, Color) :-
-  \+ rdf_has(ObjectId, paramserver:'hasColor', _),
   Color = [0.5, 0.5, 0.5, 1.0], !.
 
 %% get_object_mesh_path(+ObjectId, -FilePath) is det.
