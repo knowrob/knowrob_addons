@@ -152,12 +152,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasShape -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame"/>
@@ -287,8 +281,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Bolt.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -344,8 +338,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/BoltHolder.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -381,8 +375,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#BottomWingHolderSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderBottomWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -438,8 +432,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#NutSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Nut.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -587,8 +581,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHorizontalSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Plane_horizontal_holder.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -653,8 +647,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderVerticalSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Airplane_vertical_holder.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -716,8 +710,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopWingHolderSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderTopWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -743,8 +737,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#WindowHolderSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderWindow.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1745,8 +1739,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/BottomWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1866,8 +1860,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Chassis.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2092,8 +2086,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/FrontWheel.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2331,8 +2325,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/MotorGrill.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2489,8 +2483,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Propeller.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2597,8 +2591,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelLeftSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelLeft.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2632,8 +2626,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelRightSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelRight.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2740,8 +2734,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWingSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -2906,8 +2900,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/TopWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3027,8 +3021,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UnderBody.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3193,8 +3187,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodySTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UpperBody.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3425,8 +3419,8 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Window.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -4699,14 +4693,8 @@
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#WoodenFixture"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#WoodenPlateDAE"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#WoodenPlateSTL"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/fixtures/Wooden_Plate.dae</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -4857,27 +4845,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Color -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#STLFile -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
     
 
 
@@ -5276,15 +5246,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltHolderSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/BoltHolder.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltInBoltHolderTransform_1">
@@ -5366,159 +5327,6 @@
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.035 -0.0125 0.0185</knowrob:translation>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#BoltSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BoltSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Bolt.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#BottomWingHolderSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#BottomWingHolderSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderBottomWing.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#NutSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#NutSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Nut.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/BottomWing.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneChassisSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Chassis.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/FrontWheel.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneHolderHorizontalSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHorizontalSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Plane_horizontal_holder.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneHolderVerticalSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderVerticalSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Airplane_vertical_holder.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/MotorGrill.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlanePropellerSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlanePropellerSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Propeller.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelLeftSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelLeftSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelLeft.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelRightSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelRightSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelRight.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneRearWingSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneRearWingSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWing.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/TopWing.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UnderBody.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodySTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodySTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UpperBody.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneWindowSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWindowSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Window.stl</knowrob_paramserver:hasPath>
     </owl:NamedIndividual>
     
 
@@ -5935,42 +5743,6 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspWindow_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
         <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspWindowTransform_1"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#TopWingHolderSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopWingHolderSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderTopWing.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#WindowHolderSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#WindowHolderSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderWindow.stl</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#WoodenPlateDAE -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#WoodenPlateDAE">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/fixtures/Wooden_Plate.dae</knowrob_paramserver:hasPath>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#WoodenPlateSTL -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#WoodenPlateSTL">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
-        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/fixtures/Wooden_Plate.stl</knowrob_paramserver:hasPath>
     </owl:NamedIndividual>
     
 

@@ -129,11 +129,7 @@ get_object_color(ObjectId, Color) :-
 % @param FilePath    anyURI, the path (usually a package:// path)
 %
 get_object_mesh_path(ObjectId, FilePath) :-
-  once((
-    owl_has(ObjectId, paramserver:'hasShape', ShapeCan),
-    rdf_has(ShapeCan, paramserver:'hasPath', literal(type(xsd:'anyURI', FP)))
-  )),
-  atom_string(FP, FilePath).  
+  holds(knowrob:pathToCadModel(ObjectId, literal(type(_, FilePath)))).
 
 %% get_object_transform(+ObjectId, -Transform) is det.
 %
