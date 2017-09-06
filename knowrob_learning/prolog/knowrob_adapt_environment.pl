@@ -198,7 +198,7 @@ estimate_action_by_comparing(EpisodicMemoryTask, SourceDoor, TargetDoor, TargetA
     entity(EpisodicMemoryTask, [an, action, ['task_context', 'CloseFridgeDoor']]),
     find_handle_of_doors(SourceDoor, SourceHandle),
     find_handle_of_doors(TargetDoor, TargetHandle),
-    rdf_instance_from_class(knowrob:'OpeningAFridgeDoorGeneric', TargetAction),
+    rdf_instance_from_class(knowrob:'ClosingAFridgeDoorGeneric', TargetAction),
     check_joint_type(SourceDoor, EpisodicMemoryTask),
     check_joint_type(TargetDoor, TargetAction),
     check_handle_type(SourceHandle, EpisodicMemoryTask),
