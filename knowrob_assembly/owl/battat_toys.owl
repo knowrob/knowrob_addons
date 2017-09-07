@@ -211,6 +211,18 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#mainColorOfObject -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#pathToCadModel -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#quaternion -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quaternion"/>
@@ -281,12 +293,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Bolt.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltHeadGrasp"/>
@@ -297,6 +303,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltThreadAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Bolt.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -338,15 +350,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/BoltHolder.stl</owl:hasValue>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">5</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">5</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BoltSlideInBoltHolderF"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/BoltHolder.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -375,15 +387,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderBottomWing.stl</owl:hasValue>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BottomWingSlideInHolderM"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BottomWingSlideInHolderM"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderBottomWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -432,12 +444,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Nut.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatNutThreadAffordance"/>
@@ -448,6 +454,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatNutTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Nut.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -581,12 +593,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Plane_horizontal_holder.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHSlideInChassisF"/>
@@ -597,6 +603,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHSlideInRearWingF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Plane_horizontal_holder.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -647,15 +659,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Airplane_vertical_holder.stl</owl:hasValue>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderVSlideInRearWingF"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderVSlideInRearWingF"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/Airplane_vertical_holder.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -710,15 +722,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderTopWing.stl</owl:hasValue>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopWingSlideInHolderM"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopWingSlideInHolderM"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderTopWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -737,15 +749,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderWindow.stl</owl:hasValue>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#WindowSlideInHolderM"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#WindowSlideInHolderM"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/HolderWindow.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1739,12 +1751,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/BottomWing.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BottomWingSlideInHolderF"/>
@@ -1776,6 +1782,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/BottomWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1860,12 +1872,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Chassis.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingM"/>
@@ -1897,6 +1903,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisThreadWheel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Chassis.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2086,12 +2098,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/FrontWheel.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInWheelF"/>
@@ -2102,6 +2108,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/FrontWheel.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2319,18 +2331,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/MotorGrill.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillGrasp"/>
@@ -2362,6 +2362,18 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerSlideInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/MotorGrill.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2477,18 +2489,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Propeller.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerCorpusGrasp"/>
@@ -2499,6 +2499,18 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerSlideInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Propeller.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2591,15 +2603,15 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelLeft.stl</owl:hasValue>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelSlideInM"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelSlideInM"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelLeft.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2626,12 +2638,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelRight.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelSlideInF"/>
@@ -2642,6 +2648,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelThread"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWheelRight.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2734,12 +2746,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWing.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderHSlideInRearWingM"/>
@@ -2778,6 +2784,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWheelSlideInWingF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/RearWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -2900,12 +2912,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/TopWing.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSideGraspLeft"/>
@@ -2937,6 +2943,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopWingSlideInHolderF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/TopWing.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3021,12 +3033,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UnderBody.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBodySlideInM"/>
@@ -3057,14 +3063,13 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySideGraspLeft"/>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyTopGrasp"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySideGraspRight"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UnderBody.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3145,30 +3150,15 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySideGraspLeft -->
+    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyTopGrasp -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySideGraspLeft">
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyTopGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyLeft_1"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySideGraspRight -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodySideGraspRight">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyRight_1"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspUnderBody_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3183,12 +3173,6 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodyAffordance"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UpperBody.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -3252,6 +3236,12 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowSlideInBodyF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/UpperBody.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3348,7 +3338,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyLeft_1"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspUpperBody_1"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3360,12 +3350,6 @@
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodySideGraspRight">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodyAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
-                <owl:hasValue rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyRight_1"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -3413,18 +3397,6 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
-                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Window.stl</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowSlideInBodyM"/>
@@ -3449,6 +3421,18 @@
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#WindowSlideInHolderF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#mainColorOfObject"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 1.0 0.0 1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#pathToCadModel"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://assembly_models/battat/plane/Window.stl</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -5487,110 +5471,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyLeftTransform_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyLeftTransform_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 0.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 -0.02</knowrob:translation>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyLeft_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyLeft_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyLeftTransform_1"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyRightTransform_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyRightTransform_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyRight_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyRight_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUnderBodyRightTransform_1"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyLeftTransform_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyLeftTransform_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyLeft_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyLeft_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyLeftTransform_1"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyRightTransform_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyRightTransform_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyRight_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyRight_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#SideGraspUpperBodyRightTransform_1"/>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://knowrob.org/kb/battat_toys.owl#TopGraspBoltHeadTransform_1 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspBoltHeadTransform_1">
@@ -5654,8 +5534,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.5 0.5 0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.005 0.0 -0.01</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -5706,7 +5586,7 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865475 0.7071067811865475 0.0 0.0</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
     </owl:NamedIndividual>
     
@@ -5717,6 +5597,58 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspPropellerCorpus_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
         <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspPropellerCorpusTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#TopGraspUnderBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspUnderBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 -0.02</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#TopGraspUnderBody_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspUnderBody_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspUnderBodyTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#TopGraspUpperBodyTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspUpperBodyTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.7071067811865475 -0.7071067811865475 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0 0.03 -0.02</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_toys.owl#TopGraspUpperBody_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_toys.owl#TopGraspUpperBody_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+        <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspUpperBodyTransform_1"/>
     </owl:NamedIndividual>
     
 
@@ -5732,8 +5664,8 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0</knowrob:translation>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.005</knowrob:translation>
     </owl:NamedIndividual>
     
 

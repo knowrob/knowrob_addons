@@ -155,7 +155,11 @@ cram_assembly_apply_connection(PrimaryObject, Connection) :-
 %
 cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
   %%%% input checking
-  ground(GraspedObject), ground(Gripper), ground(GraspSpec),
+  ground(GraspedObject), ground(Gripper), 
+  once((
+    rdf_has(GraspedObject, knowrob_assembly:'hasAffordance', GraspedAffordance),
+    owl_has(GraspedAffordance, knowrob_assembly:'graspAt', GraspSpec)
+  )),
   assemblage_mechanical_part(GraspedObject),
   cram_assembly_gripper(Gripper),
   %%%%
