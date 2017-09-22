@@ -51,18 +51,21 @@
         <rdf:type rdf:resource="&knowrob;Spoon"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/spoon3.dae</knowrob:pathToCadModel>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;PizzaTray_gesatrh8">
         <rdf:type rdf:resource="&knowrob;PizzaTray"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://kitchen/cooking-vessels/tray.dae</knowrob:pathToCadModel>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
     
     <owl:NamedIndividual rdf:about="&iai-map;HelaKetchupBottle_gdf9478t5">
         <rdf:type rdf:resource="&knowrob;HelaKetchupBottle"/>
         <knowrob:describedInMap rdf:resource="&iai-map;IAIKitchenMap_PM580j"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://kitchen/food-drinks/ketchup/ketchup.dae</knowrob:pathToCadModel>
+        <knowrob:hasVisual rdf:datatype="&xsd;boolean">false</knowrob:hasVisual>
     </owl:NamedIndividual>
     
 </rdf:RDF>
