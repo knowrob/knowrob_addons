@@ -78,7 +78,6 @@ public class EASERos extends Ros {
                         conf);
             }
             container.connectToServer(this, uri);
-            System.out.println("Websocket successfully created!");
             return true;
         } catch (DeploymentException | URISyntaxException | IOException e) {
             // failed connection, return false

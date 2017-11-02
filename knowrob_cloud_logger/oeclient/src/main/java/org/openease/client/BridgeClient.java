@@ -34,7 +34,7 @@ import edu.wpi.rail.jrosbridge.Service;
  */
 public class BridgeClient {
 
-    private static final int REFRESH_TIMEOUT_MILLIES = 250000;
+    private static final int REFRESH_TIMEOUT_MILLIES = 150000;
     private static final int BUF_SIZE = 4096;
     private static final String OPEN_EASE_HOST = "https://data.open-ease.org";
     private static SSLSocketFactory socketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
@@ -224,7 +224,12 @@ public class BridgeClient {
 
         @Override
         public void run() {
+           try {
             refresh();
+            connect();
+           } catch (EASEError e) {
+            // Connection fails!.
+           }
         }
 
     }
