@@ -110,6 +110,7 @@ public class BridgeClient {
             ros = new EASERos(protocol + response.getString("url"));
             refreshWatchdog.scheduleAtFixedRate(new RefreshTask(), REFRESH_TIMEOUT_MILLIES, REFRESH_TIMEOUT_MILLIES);
         } catch (JSONException e) {
+            e.printStackTrace(System.out);
             throw new EASEError("invalid JSON retrieved from server", e);
         }
     }
@@ -169,6 +170,7 @@ public class BridgeClient {
             socketFactory = sslContext.getSocketFactory();
         } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | CertificateException
                 | IOException e) {
+            e.printStackTrace(System.out);
             throw new EASEError("Error while setting own EASE server certificate", e);
         }
     }
@@ -180,6 +182,7 @@ public class BridgeClient {
         try {
             getJson(host + "/api/v1.0/refresh_by_token/" + apiToken);
         } catch (EASEError e) {
+            e.printStackTrace(System.out);
             // Refresh failed. Too bad.
         }
     }
@@ -212,6 +215,7 @@ public class BridgeClient {
             // Return a parsed JSON object
             return new JSONObject(readStream(conn.getInputStream()));
         } catch (IOException e) {
+            e.printStackTrace(System.out);
             throw new EASEError("communication error", e);
         }
     }
@@ -228,6 +232,7 @@ public class BridgeClient {
             refresh();
             connect();
            } catch (EASEError e) {
+            e.printStackTrace(System.out);
             // Connection fails!.
            }
         }
