@@ -39,6 +39,7 @@
         send_prolog_assert_query/3,
         send_prolog_assert_query/4,
         send_next_solution/1,
+        send_next_solution/2,
         send_finish_query/1,
         read_next_prolog_query/1,
         read_next_prolog_query/2
@@ -65,6 +66,7 @@
     send_prolog_query_solution(+,+,-),
     send_prolog_assert_query(+,+,-),
     send_next_solution(+),
+    send_next_solution(+,-),
     send_finish_query(+),
     read_next_prolog_query(-),
     read_next_prolog_query(+,-).
@@ -126,6 +128,10 @@ send_prolog_query(Prolog, Incremental, Id) :-
 send_next_solution(Id) :-
     cloud_interface(CL),
     jpl_call(CL, 'sendPrologNextSolution', [Id], _).
+
+send_next_solution(Id, R) :-
+    cloud_interface(CL),
+    jpl_call(CL, 'sendPrologNextSolution', [Id], R).
 
 send_finish_query(Id) :-
     cloud_interface(CL),

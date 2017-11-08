@@ -102,10 +102,7 @@ public class LoggerClient {
 
     public void sendPrologNextSolution(String id)
     {
-          String[] values = new String[3];
-          values[0] = id;	
-
-	  String json = jsonizerServiceRequests(ServerType.PrologNextSolution, values);
+          String json = jsonizerServiceRequestsForSending(ServerType.PrologNextSolution, id);
 
           prologRequest = new ServiceRequest(json);
           prologResponse = oeClient.getPrologNext().callServiceAndWait(prologRequest);
@@ -115,6 +112,17 @@ public class LoggerClient {
     public String readPrologNextSolution()
     {
          return (String)readFromPrologResponse("solution");
+    }
+
+    public String sendAndReadPrologNextSolution(String id)
+    {
+          String json = jsonizerServiceRequestsForSending(ServerType.PrologNextSolution, id);
+
+          ServiceRequest prologRequestLocal = new ServiceRequest(json);
+          ServiceResponse prologResponseLocal = oeClient.getPrologNext().callServiceAndWait(prologRequest);
+
+          return (String)readFromPrologResponse("solution", prologResponseLocal);
+
     }
 
     public Object readPrologNextSolution(String field)
@@ -133,10 +141,7 @@ public class LoggerClient {
      
     public void sendPrologFinish(String id)
     {
-          String[] values = new String[3];
-          values[0] = id;	
-
-	  String json = jsonizerServiceRequests(ServerType.PrologFinish, values);
+	  String json = jsonizerServiceRequestsForSending(ServerType.PrologFinish, id);
 
           prologRequest = new ServiceRequest(json);
           prologResponse = oeClient.getPrologFinish().callServiceAndWait(prologRequest);
@@ -235,7 +240,12 @@ public class LoggerClient {
 
     private Object readFromPrologResponse(String field)
     {
-        String jsonString = prologResponse.toString();
+        return readFromPrologResponse(field, prologResponse);   
+    }
+
+    private Object readFromPrologResponse(String field, ServiceResponse prologResponseLocal)
+    {
+        String jsonString = prologResponseLocal.toString();
         JSONObject jsonObj = new JSONObject(jsonString);
 
         if(field.equals("solution") || field.equals("message"))
@@ -246,6 +256,14 @@ public class LoggerClient {
            return new Integer(jsonObj.getInt(field));
 
         return null;
+    }
+
+    private String jsonizerServiceRequestsForSending(ServerType mode, String id)
+    {
+          String[] values = new String[3];
+          values[0] = id;	
+
+	  return jsonizerServiceRequests(mode, values);
     }
 
     private String jsonizerServiceRequests(ServerType mode, String[] values)
