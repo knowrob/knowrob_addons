@@ -119,7 +119,7 @@ public class LoggerClient {
           String json = jsonizerServiceRequestsForSending(ServerType.PrologNextSolution, id);
 
           ServiceRequest prologRequestLocal = new ServiceRequest(json);
-          ServiceResponse prologResponseLocal = oeClient.getPrologNext().callServiceAndWait(prologRequest);
+          ServiceResponse prologResponseLocal = oeClient.getPrologNext().callServiceAndWait(prologRequestLocal);
 
           return (String)readFromPrologResponse("solution", prologResponseLocal);
 
