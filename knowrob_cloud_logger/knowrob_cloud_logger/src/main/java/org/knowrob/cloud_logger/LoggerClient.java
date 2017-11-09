@@ -282,8 +282,6 @@ public class LoggerClient {
        else return "";
 
        json += "}";
-
-       System.out.println(json);
        return json;
     }
 

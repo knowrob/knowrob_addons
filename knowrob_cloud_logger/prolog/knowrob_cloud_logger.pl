@@ -131,7 +131,7 @@ send_next_solution(Id) :-
 
 send_next_solution(Id, R) :-
     cloud_interface(CL),
-    jpl_call(CL, 'sendPrologNextSolution', [Id], R).
+    jpl_call(CL, 'sendAndReadPrologNextSolution', [Id], R).
 
 send_finish_query(Id) :-
     cloud_interface(CL),
