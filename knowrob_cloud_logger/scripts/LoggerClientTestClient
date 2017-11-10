@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$(rospack find knowrob_cloud_logger)/knowrob_cloud_logger/build/install/knowrob_cloud_logger/bin/knowrob_cloud_logger org.knowrob.cloud_logger.Tester
