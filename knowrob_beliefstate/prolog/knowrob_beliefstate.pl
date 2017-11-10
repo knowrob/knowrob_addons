@@ -83,6 +83,7 @@
     belief_at_internal(r,+),
     belief_at_invert_topology(r,r),
     belief_at_global(r,-),
+    belief_at_location(r,+,+,r),
     belief_perceived_at(r,+,+,r),
     belief_marker_update(t).
 
@@ -175,7 +176,7 @@ translations_are_close([X1,Y1,Z1], [X2,Y2,Z2], Dmax) :-
   Dz is Z1 - Z2,
   Dsq is Dx*Dx + Dy*Dy + Dz*Dz,
   DmaxSq is Dmax*Dmax,
-  compare(<, Dsq, DmaxSq).
+  Dsq =< DmaxSq.
 
 rotations_are_close([X1,Y1,Z1,W1], [X2,Y2,Z2,W2], Dmax) :-
   % First compare the two quaternions as they are ...
@@ -185,7 +186,7 @@ rotations_are_close([X1,Y1,Z1,W1], [X2,Y2,Z2,W2], Dmax) :-
   Dw is W1 - W2,
   Dsq is Dx*Dx + Dy*Dy + Dz*Dz + Dw*Dw,
   DmaxSq is Dmax*Dmax,
-  compare(<, Dsq, DmaxSq).
+  Dsq =< DmaxSq.
 
 rotations_are_close([X1,Y1,Z1,W1], [X2,Y2,Z2,W2], Dmax) :-
   % ... if that fails, compare R1 with -R2
@@ -195,7 +196,7 @@ rotations_are_close([X1,Y1,Z1,W1], [X2,Y2,Z2,W2], Dmax) :-
   Dw is W1 + W2,
   Dsq is Dx*Dx + Dy*Dy + Dz*Dz + Dw*Dw,
   DmaxSq is Dmax*Dmax,
-  compare(<, Dsq, DmaxSq).
+  Dsq =< DmaxSq.
 
 % TODO(DB) use tf prolog
 get_tf_transform(ReferenceFrame, TargetFrame,

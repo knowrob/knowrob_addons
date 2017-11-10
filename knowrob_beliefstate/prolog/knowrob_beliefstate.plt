@@ -50,16 +50,31 @@
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
+:- dynamic test_object/1.
+
 test(belief_new_object) :-
   belief_new_object(knowrob:'Cup', Cup),
   rdfs_individual_of(Cup, knowrob:'Cup'),
   rdfs_individual_of(Cup, owl:'NamedIndividual'),
-  rdf_has(Cup, srdl2comp:urdfName, _).
+  rdf_has(Cup, srdl2comp:urdfName, _),
+  assertz(test_object(Cup)).
 
-test(belief_at) :-
-  once(rdfs_individual_of(Cup, knowrob:'Cup')),
+test(belief_at_update) :-
+  test_object(Cup),
   belief_at_update(Cup, ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]]),
-  rdf_has(Cup, paramserver:'hasTransform', _).
+  rdf_has(Cup, paramserver:'hasTransform', _), !.
+
+test(belief_at_location_equal) :-
+  belief_at_location(knowrob:'Cup', ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  test_object(Cup), !.
+
+test(belief_at_location_close1, [fail]) :-
+  belief_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  test_object(Cup), !.
+
+test(belief_at_location_close2) :-
+  belief_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.5,0.0], Cup),
+  test_object(Cup), !.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_beliefstate).
