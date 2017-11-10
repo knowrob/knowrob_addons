@@ -144,7 +144,7 @@ cram_assembly_apply_connection(PrimaryObject, Connection) :-
   assemblage_part_make_reference(PrimaryObject, Parents),
   assemblage_connection_reference(Connection, TransformId, ReferenceObject),
   belief_at_internal(PrimaryObject, TransformData, ReferenceObject),
-  belief_at_update([PrimaryObject|Parents]).
+  belief_marker_update([PrimaryObject|Parents]).
 
 %% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpec) is det.
 %
@@ -179,7 +179,7 @@ cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
   % accumulate list of dirty objects and cause beliefstate to republich TF frames
   findall(X, ( member(X, [GraspedObject|Parents]) ;
     ( member(List, DirtyUnconnected), member(X,List) )), Dirty),
-  belief_at_update(Dirty),
+  belief_marker_update(Dirty),
   % assert temporary connections that consume affordances blocked by the grasp
   cram_assembly_block_grasp_affordances(GraspedObject, GraspSpec).
 
@@ -201,7 +201,7 @@ cram_assembly_apply_ungrasp(GraspedObject, Gripper, GraspSpec) :-
     rdf_has(GraspedObject, srdl2comp:'urdfName', literal(ObjFrame)),
     % FIXME: hardcoded map frame name
     get_current_tf('map', ObjFrame, Tx,Ty,Tz, Rx,Ry,Rz,Rw),
-    belief_at(GraspedObject, ([Tx,Ty,Tz], [Rx,Ry,Rz,Rw]))
+    belief_at_update(GraspedObject, ([Tx,Ty,Tz], [Rx,Ry,Rz,Rw]))
   ) ; true ),
   % retract temporary connections that consume affordances blocked by the grasp
   cram_assembly_unblock_grasp_affordances(GraspedObject, GraspSpec).
