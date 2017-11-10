@@ -225,8 +225,7 @@ belief_at_location(ObjectType,
                   [TranThreshold, RotThreshold],
                    ObjectId) :-
   rdfs_individual_of(ObjectId, ObjectType),
-  rdf_has(ObjectId, srdl2comp:'urdfName', literal(TargetFrame)),
-  get_tf_transform(ReferenceFrame, TargetFrame, [_,_,ObjTranslation,ObjRotation]),
+  belief_at(ObjectId, [ReferenceFrame,_,ObjTranslation,ObjRotation]),
   translations_are_close(ArgTranslation, ObjTranslation, TranThreshold),
   rotations_are_close(ArgRotation, ObjRotation, RotThreshold).
 
@@ -250,10 +249,10 @@ transform_reference_frame(_TransformId, 'map').
 %% belief_perceived_at(+ObjectType, +TransformData, +Threshold, -Obj)
 %
 belief_perceived_at(ObjectType, TransformData, Threshold, Obj) :-
-  belief_at_location(ObjectType, TransformData, Threshold, Obj) ; (
+  once((belief_at_location(ObjectType, TransformData, Threshold, Obj) ; (
     belief_new_object(ObjectType, Obj),
     belief_at_update(Obj, TransformData)
-  ).
+  ))).
 
 %% belief_new_object(+Cls, +Obj) is det.
 %
@@ -267,11 +266,14 @@ belief_new_object(ObjectType, Obj) :-
 %% belief_at(+Obj, +TransformData) is det.
 %
 belief_at(Obj, [ReferenceFrame, TargetFrame, Translation, Rotation]) :-
-  % TODO: allow users to specify reference frame and transform to the right one
-  rdf_has(Obj, paramserver:'hasTransform', TransformId),
   rdf_has(Obj, srdl2comp:'urdfName', literal(TargetFrame)),
-  transform_data(TransformId, (Translation, Rotation)),
-  transform_reference_frame(TransformId, ReferenceFrame).
+  rdf_has(Obj, paramserver:'hasTransform', TransformId),
+  transform_reference_frame(TransformId, ReferenceFrame), !,
+  transform_data(TransformId, (Translation, Rotation)).
+belief_at(Obj, [ReferenceFrame, TargetFrame, Translation, Rotation]) :-
+  % TODO: this is slow. could be done in KnowRob memory potentially if all poses are known!
+  rdf_has(Obj, srdl2comp:'urdfName', literal(TargetFrame)),
+  get_tf_transform(ReferenceFrame, TargetFrame, [_,_,Translation,Rotation]).
 
 %% belief_at_global(+Obj, -GlobalPose) is det.
 %
