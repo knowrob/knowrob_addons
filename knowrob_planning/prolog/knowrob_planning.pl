@@ -39,6 +39,7 @@
       agenda_item_type/2,
       agenda_item_property/2,
       agenda_item_domain/2,
+      agenda_item_subject/2,
       agenda_item_cardinality/2,
       agenda_item_description/2,
       agenda_item_strategy/2,
@@ -46,7 +47,10 @@
       agenda_item_in_focus/1,
       agenda_pattern_property/2,
       agenda_pattern_domain/2,
-      agenda_write/1
+      agenda_write/1,
+      agenda_item_write/1,
+      agenda_pop/3,
+      agenda_perform/3
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -64,6 +68,7 @@
       agenda_items_sorted(r,-),
       agenda_item_type(t,r),
       agenda_item_property(t,r),
+      agenda_item_subject(t,r),
       agenda_item_domain(t,r),
       agenda_item_cardinality(t,?),
       agenda_item_description(r,t),
@@ -73,10 +78,13 @@
       agenda_pattern_property(r,r),
       agenda_pattern_domain(r,r),
       agenda_write(r),
+      agenda_pop(r,r,t),
+      agenda_perform(r,r,t),
       planning_assert(r,r,r).
 
 :- dynamic agenda_selection_criteria_sorted/2,
-           agenda_item_last_selected/1.
+           agenda_item_last_selected/1,
+           agenda_failing_item/2.
 %
 % TODO(DB): some ideas ...
 %   - Think about support for computables properties/SWRL
@@ -90,8 +98,12 @@
 %              - there could be unusual parameters!
 %              - mapping knowledge must be represented in processing knowledge of strategy
 %   - Also add items caused by specializable type?
-%   - Keep history of decisions, allow (chronological) backtracking on decisions
-%       - for instance union descriptions may require this!
+%   - Keep history of decisions. for instance union descriptions may require this!
+% FIXME(DB): continuity selection breaks pre-sorted agenda!
+%   - need to re-add all items matching the criterium
+%   - are there other criteria that could swap?
+%       - pattern if values added
+%       - selection by distance when robot or object moves
 %
 
 %% agenda_create(+Obj,+Strategy,-Agenda)
@@ -146,15 +158,25 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
+  write('    [POP] '), agenda_item_write(X_Descr), nl,
+  % count how often item was selected
+  agenda_item_inhibit(X),
   ( agenda_item_valid(X_Descr, X)
   -> (
-    % count how often item was selected
-    agenda_item_inhibit(X),
     % remember last selected item
     retractall(agenda_item_last_selected(_)),
     assertz(   agenda_item_last_selected(X_Descr)),
     Item=X, Descr=X_Descr
   ) ; ( % retract invalid, pop next
+    % FIXME: redundant with validity check
+    % FIXME: won't wotk for causedBy(Item) !
+    writeln('    [INVALID]'),
+    agenda_item_reason(X, causedBy(Cause,Cause_restriction)),
+    agenda_item_depth_value(X, Depth),
+    forall(
+       satisfies_restriction_up_to(Cause, Cause_restriction, NewItem),
+       assert_agenda_item(NewItem, Agenda, causedBy(Cause,Cause_restriction), Depth, _)
+    ),
     retract_agenda_item(X),
     agenda_pop(Agenda, Item, Descr)
   )).
@@ -181,18 +203,12 @@ agenda_add_object_without_children(Agenda, Obj, Depth) :-
      owl_unsatisfied_restriction(Obj, Descr),
      satisfies_restriction_up_to(Obj, Descr, Item),
      agenda_item_description_in_focus(Item,Strategy)
-  ), assert_agenda_item(Item, Agenda, Obj, Descr, Depth, _)).
+  ), assert_agenda_item(Item, Agenda, causedBy(Obj,Descr), Depth, _)).
 
-assert_agenda_item(Item, Agenda, Cause, Cause_restriction, Depth, ItemId) :-
+assert_agenda_item(Item, Agenda, CausedBy, Depth, ItemId) :-
   assert_agenda_item(Item,ItemId),
   agenda_item_depth_assert(ItemId,Depth),
-  % the violated restriction that caused the item
-  rdf_assert(ItemId, knowrob_planning:'itemCause', Cause),
-  rdf_node(Restr),
-  rdf_assert(Restr, rdf:'type', owl:'Restriction'),
-  rdf_assert(Restr, owl:'onProperty', knowrob_planning:'itemCause'),
-  rdf_assert(Restr, owl:'allValuesFrom', Cause_restriction),
-  rdf_assert(ItemId, rdf:'type', Restr),
+  assert_agenda_item_cause(ItemId,CausedBy),
   agenda_push(Agenda, ItemId).
 assert_agenda_item(integrate(S,P,Domain,Count), Item) :-
   rdf_instance_from_class(knowrob_planning:'IntegrateAgendaItem', Item),
@@ -212,21 +228,56 @@ assert_agenda_item_P(Item, (S,P,Domain,Count)) :-
   rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int, Count))),
   assert_agenda_item_domain(Item, P, Domain).
 
-assert_agenda_item_domain(Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Domain) :-
+
+assert_agenda_item_cause(ItemId, causedBy(Cause)) :-
+  rdf_assert(ItemId, knowrob_planning:'itemCause', Cause).
+assert_agenda_item_cause(ItemId, causedBy(Cause,Cause_restriction)) :-
+  rdf_assert(ItemId, knowrob_planning:'itemCause', Cause),
+  rdf_node(Restr),
+  rdf_assert(Restr, rdf:'type', owl:'Restriction'),
+  rdf_assert(Restr, owl:'onProperty', knowrob_planning:'itemCause'),
+  rdf_assert(Restr, owl:'allValuesFrom', Cause_restriction),
+  rdf_assert(ItemId, rdf:'type', Restr).
+  
+
+assert_agenda_item_domain(Item, P, [X]) :-
+  assert_agenda_item_domain(Item, P, X),!.
+assert_agenda_item_domain(Item, P, [X|Xs]) :- !,
+  rdf_node(Id),
+  findall(Id, (
+    member(Y, [X|Xs]),
+    assert_agenda_item_domain_(P,Y,Id)), Ids),
+  owl_description_list_assert(Ids,ListId),
+  rdf_assert(Id, rdf:'type', owl:'Class'),
+  rdf_assert(Id, owl:intersectionOf, ListId),
+  rdf_assert(Item, rdf:'type', Id).
+assert_agenda_item_domain(Item, P, Domain) :-
+  assert_agenda_item_domain_(P, Domain, Id),
+  rdf_assert(Item, rdf:'type', Id).
+
+
+assert_agenda_item_domain_('http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Domain, Id) :-
   rdf_node(Id),
   rdf_assert(Id, rdf:'type', owl:'Restriction'),
   rdf_assert(Id, owl:'onProperty', knowrob_planning:'itemOf'),
-  rdf_assert(Id, owl:'allValuesFrom', Domain),
-  rdf_assert(Item, rdf:'type', Id).
-assert_agenda_item_domain(Item, P, Domain) :-
+  rdf_assert(Id, owl:'allValuesFrom', Domain).
+assert_agenda_item_domain_(P, Domain, Id1) :-
+  rdf_has(Domain, rdf:'type', owl:'Class'), !,
   rdf_node(Id1), rdf_node(Id2),
   rdf_assert(Id1, rdf:'type', owl:'Restriction'),
   rdf_assert(Id1, owl:'onProperty', knowrob_planning:'itemOf'),
   rdf_assert(Id1, owl:'allValuesFrom', Id2),
   rdf_assert(Id2, rdf:'type', owl:'Restriction'),
   rdf_assert(Id2, owl:'onProperty', P),
-  rdf_assert(Id2, owl:'someValuesFrom', Domain),
-  rdf_assert(Item, rdf:'type', Id1).
+  rdf_assert(Id2, owl:'someValuesFrom', Domain).
+assert_agenda_item_domain_(P, Domain, Id1) :-
+  rdf_node(Id1), rdf_node(Id2),
+  rdf_assert(Id1, rdf:'type', owl:'Restriction'),
+  rdf_assert(Id1, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf_assert(Id1, owl:'allValuesFrom', Id2),
+  rdf_assert(Id2, rdf:'type', owl:'Restriction'),
+  rdf_assert(Id2, owl:'onProperty', P),
+  rdf_assert(Id2, owl:'hasValue', Domain).
 
 retract_agenda_item_domain(Item) :-
   forall((
@@ -343,7 +394,8 @@ agenda_item_domain(Item,Domain) :-
   rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
   rdf(Restr, owl:'allValuesFrom', ItemOfType),
   ( rdf(ItemOfType, owl:'someValuesFrom', Domain) ;
-    Domain = ItemOfType % classify item
+    rdf(ItemOfType, owl:'hasValue', Domain) ;
+    ( agenda_item_type(Item, knowrob_planning:'ClassifyAgendaItem'), Domain = ItemOfType )
   ), !.
 
 % NOTE: it is assumed that the domain is in fact a specialization.
@@ -362,11 +414,13 @@ agenda_item_specialize_domain(Item, Domain) :-
 % @param Reason  Tuple of a resource and restriction on resource that caused the item
 %
 agenda_item_reason(item(_,_,_,_,Reason),Reason) :- !.
-agenda_item_reason(Item, (Cause,CauseRestr)) :-
+agenda_item_reason(Item, causedBy(Cause,CauseRestr)) :-
   rdf(Item, knowrob_planning:'itemCause', Cause),
   rdf(Item, rdf:'type', Restr),
   rdf(Restr, owl:'onProperty', knowrob_planning:'itemCause'),
   rdf(Restr, owl:'allValuesFrom', CauseRestr), !.
+agenda_item_reason(Item, causedBy(Cause)) :-
+  rdf(Item, knowrob_planning:'itemCause', Cause), !.
 
 %% agenda_item_cardinality(?Item,?Card)
 %
@@ -384,7 +438,7 @@ agenda_item_cardinality(_,1).
 agenda_item_update_cardinality(Item,Card) :-
   rdf_retractall(Item, knowrob_planning:'itemCardinality', _),
   ( atom(Card) -> Card_atom=Card ; atom_number(Card_atom,Card) ),
-  rdf_assert(Item, knowrob_planning:'itemCardinality', litela(type(xsd:int,Card_atom))), !.
+  rdf_assert(Item, knowrob_planning:'itemCardinality', literal(type(xsd:int,Card_atom))), !.
 
 %% agenda_item_strategy(?Item,?Strategy)
 %
@@ -402,14 +456,19 @@ agenda_item_strategy(Item, Strategy) :-
 % NOTE: `agenda_item_update` ensures (to some extend) that agenda items are valid 
 %       or else deleted. This is just an additional test to be safe before performing the item.
 %
-agenda_item_valid(item(classify,S,_,Domain,(Cause,Restr)), _Item) :- !,
+agenda_item_valid(item(classify,S,_,Domain,causedBy(Cause,Restr)), _Item) :- !,
   satisfies_restriction_up_to(Cause, Restr, classify(S,UpToDomain)),
   owl_specializable(Domain,UpToDomain), !.
 
-agenda_item_valid(item(_,S,P,Domain,(Cause,Restr)), _Item) :-
+agenda_item_valid(item(_,S,P,Domain,causedBy(Cause,Restr)), _Item) :-
   satisfies_restriction_up_to(Cause, Restr, X),
   X=..[_,S,P,UpToDomain,_],
   owl_specializable(Domain,UpToDomain), !.
+
+agenda_item_valid(item(_,_S,_P,_Domain,causedBy(Cause)), _Item) :-
+  rdfs_individual_of(Cause, knowrob_planning:'AgendaItem'),
+  agenda_item_description(Cause, Cause_descr),
+  agenda_item_valid(Cause_descr, Cause), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -426,8 +485,8 @@ agenda_item_valid(item(_,S,P,Domain,(Cause,Restr)), _Item) :-
 %
 agenda_item_in_focus(Item) :-
   agenda_item_strategy(Item,Strategy),
-  rdf_has(Strategy, knowrob_planning:'focus', Focus),
   agenda_item_description(Item,Descr),
+  rdf_has(Strategy, knowrob_planning:'focus', Focus),
   agenda_item_in_focus_internal(Descr,Focus), !.
 
 agenda_item_in_focus_internal(Item, Focus) :-
@@ -443,7 +502,7 @@ agenda_item_description_in_focus(Item,Strategy) :-
   ( agenda_item_in_focus_internal(item(T,S,P,Domain,_), Focus) ; (
     rdf_has(P, owl:'inverseOf', P_inv), % also focus if inverse property focussed
     rdfs_type_of(S, Type),
-    agenda_item_in_focus_internal(item(T,S,P_inv,Type,_), Focus)
+    agenda_item_in_focus_internal(item(T,_,P_inv,Type,_), Focus)
   )).
 
 %% part_of_workpiece(+S,+Strategy,+Depth,-Part)
@@ -509,6 +568,7 @@ strategy_selection_criteria(Strategy, Criteria) :-
   % sort criteria according to their priority (high priority first)
   findall(C, rdf_has(Strategy, knowrob_planning:'selection', C), Cs),
   predsort(compare_selection_criteria, Cs, Criteria),
+  write('    [SELECTION] '), rdf_write_readable(Criteria), nl,
   assertz(agenda_selection_criteria_sorted(Strategy, Criteria)).
 
 compare_selection_criteria(Delta, C1, C2) :-
@@ -622,8 +682,13 @@ agenda_item_matches_item_type(Item, Pattern) :-
   ; true.
 
 agenda_item_matches_object(Item,Pattern) :-
-  rdf_has(Pattern, knowrob_planning:'itemOf', S)
-  -> agenda_item_subject(Item,S)
+  agenda_pattern_subject(Pattern, Pattern_S)
+  -> (
+    agenda_item_subject(Item,S), (\+ ground(S) ; (
+    rdfs_individual_of(Pattern_S, owl:'Class')
+    -> owl_individual_of(S, Pattern_S)
+    ;  S = Pattern_S
+  )))
   ; true.
 
 agenda_item_matches_property(Item, Pattern) :-
@@ -636,9 +701,32 @@ agenda_item_matches_property(Item, Pattern) :-
 agenda_item_matches_domain(Item, Pattern) :-
   agenda_pattern_domain(Pattern,Domain_Pattern)
   -> (
-    agenda_item_domain(Item,Domain), 
-    owl_specializable(Domain_Pattern, Domain) )
-  ; true.
+    agenda_item_domain(Item,Domain), (
+    % special handling of agenda items with hasValue domain description.
+    % in that case it's sufficient if the value is an instance of the patterns domain.
+    rdfs_individual_of(Domain, owl:'Class')
+    -> owl_specializable(Domain_Pattern, Domain)
+    ;  owl_individual_of(Domain, Domain_Pattern)
+  ))
+  ;  true.
+
+agenda_pattern_subject(Pattern, Subject) :-
+  rdf_has(Pattern, knowrob_planning:'itemOf', Subject), !.
+agenda_pattern_subject(Pattern, Subject) :-
+  rdf(Pattern, rdf:'type', Restr),
+  rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf(Restr, owl:'hasValue', Subject), !.
+agenda_pattern_subject(Pattern, Subject) :-
+  bagof(SType, agenda_pattern_subject_type(Pattern, SType), STypes),
+  (STypes=[Subject] ; owl_description_assert(intersection_of(STypes), Subject) ), !.
+
+agenda_pattern_subject_type(Pattern, SType) :-
+  rdf(Pattern, rdf:'type', Restr),
+  rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
+  rdf(Restr, owl:'allValuesFrom', Domain),
+  owl_description(Domain, Domain_x),
+  class_statements(Domain, Domain_x, Types_Explicit),
+  member(SType, Types_Explicit).
 
 agenda_pattern_property(Pattern,P)    :- agenda_item_property(Pattern,P).
 agenda_pattern_domain(Pattern,Domain) :- agenda_item_domain(Pattern,Domain).
@@ -653,14 +741,20 @@ agenda_item_domain_compute(Items, Domain) :-
   findall(D, (
     member(Item, Items),
     agenda_item_domain(Item, Item_D),
-    % TODO: also consider range of P on S here?
-    %owl_property_range_on_subject(S,P,Domain)
-    (  rdfs_individual_of(Item_D, owl:'Restriction')
-    -> owl_restriction_subject_type(Item_D, D)
-    ;  D = Item_D
-    )
+    (  rdfs_individual_of(Item_D, owl:'Class') -> (
+       agenda_item_property(Item, P),
+       agenda_item_subject(Item, S),
+       (  owl_property_range_on_subject(S,P,D) ; ((
+       rdfs_individual_of(Item_D, owl:'Restriction')
+       -> owl_restriction_subject_type(Item_D, D)
+       ;  D=Item_D )))
+    ); D=Item_D )
   ), Domains),
-  owl_most_specific(Domains, Domain), !.
+  % FIXME: owl_most_specific does not work in case Domains holds instances!!
+  % TODO(DB): there is a inconsistency in the model in case domains are not compatible?
+  (( member(Domain,Domains),
+     \+ rdfs_individual_of(Domain, owl:'Class')
+  ); owl_most_specific(Domains, Domain) ), !.
 
 %% agenda_item_domain_compute(+Items,?P_specific)
 %
@@ -704,11 +798,53 @@ agenda_perform(Agenda, Item, Descr) :-
     agenda_item_project(Item,
         PerformDescr, Domain_computed, Selected)
   ), Selection ),
+  % Print some debug messages for items that can't be processed
+  % and make sure we will not loop forever trying to find a value.
+  ( Selection=[] -> (
+    agenda_failing_item(Agenda,Item) -> (
+      write('    [ERR] giving up on `'), agenda_item_write(Item), write('`'), nl,
+      fail
+    );(
+      write('    [WARN] no consistent value for `'), agenda_item_write(Item), write('`'), nl,
+      assertz(agenda_failing_item(Agenda,Item)),
+      % let's see if some facts can be retracted such that a consistent value could be found
+      once(( agenda_add_candidates(Agenda,Item,P_inferred,Domain_inferred) ; (
+        write('    [WARN] no candidate value for `'), agenda_item_write(Item), write('`'), nl
+      )))
+    )
+  ) ; retractall(agenda_failing_item(Agenda,_)) ),
   % Update agenda according to asserted knowledge
   (  owl_atomic(Selection)
   -> agenda_item_update(PerformDescr, Agenda, Item, Siblings, Selection)
-  ;  agenda_push(Agenda, Item) ).
+  ;  agenda_sort_in(Agenda, Item) ).
 
+agenda_add_candidates(Agenda,Item,P,Domain) :-
+  agenda_item_depth_value(Item,Depth),
+  NextDepth is Depth + 1,
+  % find candidate individuals from explicit class statements in domain description if any
+  owl_description(Domain, Domain_Descr),
+  class_statements(Domain, Domain_Descr, Types_Explicit),
+  ( Types_Explicit = [] ->
+    bagof(X, owl_individual_of_all(Types_Explicit,X), Candidates) ;
+    bagof(X, owl_individual_of(X,Domain), Candidates)
+  ),
+  % find out if some facts need to be retracted
+  rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
+  bagof(detach(Villain, P, Candidate, 1), (
+    member(Candidate,Candidates),
+    % check if candidate is already the value of a inverse functional property
+    owl_inverse_functional(P),
+    rdf_has(Villain, P, Candidate),
+    % detach only allowed for unfocussed triples
+    % TODO: also ensure not connected to plan subject?
+    \+ agenda_item_description_in_focus(item(_,Villain,P,Candidate,_),Strategy)
+  ), ToDoItems),
+  forall(
+    member(ToDo,ToDoItems),
+    assert_agenda_item(ToDo, Agenda, causedBy(Item), NextDepth, _)).
+
+agenda_perform_specialization(_, _, _, Domain, Domain) :-
+  \+ rdfs_individual_of(Domain, owl:'Class'), !.
 agenda_perform_specialization(Item, Descr, PerformDescr, DomainIn, DomainOut) :-
   agenda_item_strategy(Item,Strategy),
   findall(Perform, (
@@ -738,11 +874,12 @@ agenda_perform_description(Descr,Item,Perform,DomainIn,DomainOut) :-
 % Perform with random object selection (in case of integrate/detach),
 % and just use the domain for projection otherwhise (in case of decompose/classify).
 agenda_perform_just_do_it(integrate(_,P), _, Domain, O) :-
+  % TODO(DB): Check if there are values that could be specialized so that
+  %               owl_individual_of(O, Domain) holds.
+  %           Then just use one of these values and specialize later...
   owl_individual_of(O, Domain),
   % enforce unique values for inverse functional properties
-  (( rdfs_subproperty_of(P, Super),
-     rdfs_individual_of(Super, owl:'InverseFunctionalProperty'))
-  -> \+ rdf_has(_, P, O) ; true ), !.
+  ( owl_inverse_functional(P) -> \+ rdf_has(_, P, O) ; true ), !.
 agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
   owl_description(Domain, Descr),
   class_statements(Domain, Descr, Types_Explicit),
@@ -759,7 +896,9 @@ agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
   rdf_assert(DecomposeTypes, owl:intersectionOf, ListId), !.
 agenda_perform_just_do_it( classify(_,_), _, Domain, Domain) :- !.
 agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
-  rdf_has(S,P,O), owl_individual_of(O,Domain), !.
+  rdfs_individual_of(Domain, owl:'Class') -> (
+    rdf_has(S,P,O), owl_individual_of(O,Domain)) ;
+    rdf_has(S,P,Domain), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -780,8 +919,12 @@ agenda_item_project_internal(integrate(S,P),   O, O)   :- agenda_assert_triple(S
 agenda_item_project_internal( classify(S,_), Cls, Cls) :- planning_assert(S,rdf:'type',Cls), !.
 agenda_item_project_internal(   detach(S,P),   O, O)   :- planning_retract(S,P,O), !.
 
+decompose(S,P,O,O) :-
+  \+ rdf_has(O, rdf:'type', owl:'Class'),
+  agenda_assert_triple(S,P,O), !.
 decompose(S,P,Domain,O) :-
-  % find type statements
+  % TODO(DB): generally try to integrate first?
+  %            --> would allow to have Assemblage's in sim ontology and use these
   owl_description(Domain, Descr),
   class_statements(Domain, Descr, Types),
   once((
@@ -852,7 +995,8 @@ agenda_item_update(classify(S,_),Agenda,Item,_Siblings,_Selection) :- !,
   %            - Classification to one of the members removes the choice to classify to other union members
   %            - Can't be trivially taken back in follow up steps
   %            - Maybe best: Just assert union as type and decide later?
-  agenda_item_reason(Item, (Cause,_)),
+  once(( agenda_item_reason(Item, causedBy(Cause,_)) ;
+         agenda_item_reason(Item, causedBy(Cause)) )),
   agenda_item_depth_value(Item,Depth),
   % the new class of the object could have additional restrictions on properties
   % just re-add the object so that these cause items on the agenda
@@ -868,21 +1012,20 @@ agenda_item_update(classify(S,_),Agenda,Item,_Siblings,_Selection) :- !,
 
 agenda_item_update(detach(_,_),Agenda,_Item,Siblings,Selection) :- !,
   length(Selection, Selection_count),
-  forall((
-      member(X,Siblings),
-      agenda_item_cardinality(X,Card),
-      % ensure that we in fact detached an object of the items domain
-      agenda_item_domain(X,Domain),
-      once(( member(Obj,Selection),
-             owl_individual_of(Obj,Domain )))),(
-    ( Selection_count >= Card ->
-    ( retract_agenda_item(X) ) ; (
+  % TODO redundant with update specify case
+  forall( member(X,Siblings), (
+    agenda_item_cardinality(X,Card),
+    ( Selection_count >= Card
+    -> ( % remove item and add "deeper" items if enough values were selected
+      (  agenda_item_update_detach(Agenda,X,Selection)
+      -> retract_agenda_item(X)
+      ;  agenda_push(Agenda, X) )
+    ) ; ( % update the cardinality otherwise
       NewCard is Card - Selection_count, 
       agenda_item_update_cardinality(X,NewCard),
       agenda_push(Agenda, X)
     ))
-  )),
-  forall( member(X,Selection), agenda_remove_object(X) ).
+  )).
 
 agenda_item_update(_,Agenda,Item,Siblings,Selection) :-
   agenda_item_depth_value(Item,Depth),
@@ -906,34 +1049,61 @@ agenda_item_update(_,Agenda,Item,Siblings,Selection) :-
   forall(member(X,Selection),
          agenda_add_object(Agenda,X,Depth_next)).
 
+agenda_item_update_detach(Agenda,Item,_Selection) :-
+  agenda_item_reason(Item,CausedBy),
+  forall((
+    % TODO(DB): really safe to retract all with same cause ?
+    agenda_items(Agenda, Others),    member(X,Others),
+    agenda_item_reason(X,CausedBy),  X \= Item ),(
+    retract_agenda_item(X)
+  )).
+
 agenda_item_update_specify(Agenda,Item,Selection) :-
   agenda_item_domain(Item,O_descr),
-  agenda_item_reason(Item,(Cause,Cause_restriction)),
+  agenda_item_reason(Item,CausedBy),
   agenda_item_depth_value(Item, Depth),
+  % also check if there are other items caused by the same restriction and check
+  % whether one of the selected values can be used for the other item as well.
+  agenda_item_property(Item, P),
+  agenda_item_subject(Item, S),
+  length(Selection, Selection_count),
+  forall((
+    agenda_items(Agenda, Others), member(X,Others),
+    agenda_item_reason(X,CausedBy),  X \= Item,
+    agenda_item_subject(X, Subject), S \= Subject,
+    agenda_item_property(X,P),
+    agenda_item_cardinality(X,Card),
+    % TODO(DB): handle case where card is not equal selection count
+    Card is Selection_count,
+    forall(member(O,Selection),
+           owl_specializable(Subject, restriction(P,has_value(O))))),(
+    agenda_item_specialize_domain(X,Selection)
+  )),
   % add items for each of the selected values which are not subclass of O description
   forall((
      member(O,Selection),
      \+ owl_individual_of(O,O_descr)),(
      satisfies_restriction_up_to(O,O_descr,NewItem),
-     assert_agenda_item(NewItem, Agenda, Cause, Cause_restriction, Depth, _)
+     assert_agenda_item(NewItem, Agenda, CausedBy, Depth, _)
   )), !.
-
+  
 %% agenda_item_siblings(+Item,-Siblings)
 %
 agenda_item_siblings(Item, Siblings) :-
   agenda_item_property(Item, P),
-  agenda_item_domain(Item, Domain),
+  %% TODO(DB): really save to ignore domain entirely?
+  %%%%agenda_item_domain(Item, Domain),
   findall(X, (
     agenda_item_match(Item, X),
     once((X=Item ; (
       agenda_item_property(X, P_X),
       ( rdfs_subproperty_of(P, P_X) ;
-        rdfs_subproperty_of(P_X, P) ),
-      agenda_item_domain(X, Domain_X),
+        rdfs_subproperty_of(P_X, P) )%%%%,
+      %%%%agenda_item_domain(X, Domain_X),
       % TODO: need to check in both directions?
       %( owl_specializable(Domain, Domain_X) ;
       %  owl_specializable(Domain_X, Domain) )
-      owl_specializable(Domain_X, Domain)
+      %%%%owl_specializable(Domain_X, Domain)
     )))
   ), Siblings).
 
@@ -990,17 +1160,22 @@ write_name(X) :- atom(X), rdf_split_url(_, X_, X), write(X_).
 write_description(Domain) :-
   atom(Domain),
   owl_description_recursive(Domain,Descr),
-  rdf_readable(Descr,Readable), write(Readable).
+  rdf_readable(Descr,Readable), write(Readable), !.
+write_description(Domain) :-
+  atom(Domain),
+  rdf_readable(Domain,Readable), write(Readable), !.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Utility predicates
 
-owl_atomic([]).
-owl_atomic([X|Xs]) :- owl_atomic(X), owl_atomic(Xs).
+owl_atomic_list([]).
+owl_atomic_list([X|Xs]) :- owl_atomic(X), owl_atomic_list(Xs).
+owl_atomic([X|Xs]) :- owl_atomic_list([X|Xs]).
 owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', owl:'Class'), !.
-owl_atomic(Domain) :- atom(Domain), owl_individual_of(Domain, _), !.
+owl_atomic(Domain) :- atom(Domain), rdf_has(Domain, rdf:'type', Type),
+                                    rdf_has(Type,   rdf:'type', owl:'Class'), !.
 
 decomposable_property(P) :-
   rdfs_subproperty_of(P, knowrob_planning:'decomposablePredicate'), !.
@@ -1009,10 +1184,10 @@ decomposable_property(P1) :-
   rdf_has(P2, owl:inverseOf, P_inv),
   rdfs_subproperty_of(P2, knowrob_planning:'decomposablePredicate'), !.
 
-class_statements(_, class(Cls), [Cls]).
+class_statements(_, class(Cls), [Cls]) :- !.
 class_statements(_, intersection_of(Intersection), List) :-
-  findall(X, member(class(X), Intersection), List).
-class_statements(Cls, union_of(_), [Cls]).
+  findall(X, member(class(X), Intersection), List), !.
+class_statements(Cls, union_of(_), [Cls]) :- !.
 class_statements(_, _, []).
 
 satisfies_restriction_up_to(Cause, Restr, UpTo) :-
