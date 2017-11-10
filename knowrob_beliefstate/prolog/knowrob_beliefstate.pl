@@ -30,20 +30,24 @@
 
 :- module(knowrob_beliefstate,
     [
-      get_known_object_ids/1,
-      get_object_color/2,
-      get_object_mesh_path/2,
-      get_object_transform/2,
-      
-      belief_at/2,
-      belief_at/3,
-      belief_at_update/1,
-      belief_at_location/4,
-      belief_at_internal/2,
-      belief_at_internal/3,
+      belief_new_object/2,          % assert a new object in the belief state
+      belief_at_update/2,           % assign new pose to object
+      belief_at_update/3,
+      belief_at/2,                  % query the current pose of an object
+      belief_at_global/2,           % query the current pose of an object in map frame
+      belief_at_location/4,         % query for existing object at location
       belief_at_invert_topology/2,
-      belief_at_global/2
+      belief_at_internal/2,         % TODO: these should not be exposed
+      belief_at_internal/3,
+      belief_perceived_at/4,        % convinience rule to be called by perception system to inform about perceptions
+      belief_marker_update/1,       % causes marker messages to be generated
+      get_known_object_ids/1,       % TODO: these are used by marker publisher, but are redundant and badly named
+      get_object_color/2,           % --> belief_object_color
+      get_object_mesh_path/2,       % --> belief_object_mesh
+      get_object_transform/2        % --> belief_at
     ]).
+
+% TODO: assert only to separate RDF graph here! such that this can be included in semantic logs.
 
 :- use_module(library('jpl')).
 :- use_module(library('lists')).
@@ -70,22 +74,26 @@
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
 :-  rdf_meta
+    belief_new_object(r,r),
     belief_at(r,+,r),
     belief_at(r,+),
+    belief_at_update(r,+,r),
+    belief_at_update(r,+),
     belief_at_internal(r,+,r),
     belief_at_internal(r,+),
     belief_at_invert_topology(r,r),
     belief_at_global(r,-),
-    belief_at_update(t).
+    belief_perceived_at(r,+,+,r),
+    belief_marker_update(t).
 
 quote_id(X, O) :-
   atom_string(X, Oxx),
   string_concat('"', Oxx, Ox),
   string_concat(Ox, '"', O).
 
-%% belief_at_update(-ObjectIds) is det.
+%% belief_marker_update(-ObjectIds) is det.
 %
-belief_at_update(ObjectIds) :-
+belief_marker_update(ObjectIds) :-
   findall(O, (member(X, ObjectIds), quote_id(X, O)), Os),
   atomic_list_concat(Os, ',', OsS),
   atom_string("'[", LB),
@@ -103,7 +111,9 @@ belief_at_update(ObjectIds) :-
 % @param ObjectIds    [anyURI*], the object ids
 %
 get_known_object_ids(ObjectIds) :-
-  findall(J, rdfs_individual_of(J, 'http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart'), ObjectIds).
+  rdf_default_graph(Old, belief_state),
+  findall(J, rdfs_individual_of(J, knowrob:'SpatialThing'), ObjectIds),
+  rdf_default_graph(_, Old).
 
 %% get_object_color(+ObjectId, -Color) is det.
 %
@@ -118,7 +128,7 @@ get_known_object_ids(ObjectIds) :-
 get_object_color(ObjectId, Color) :-
   object_color(ObjectId,V), !,
   knowrob_math:parse_vector(V, Color).
-get_object_color(ObjectId, Color) :-
+get_object_color(_ObjectId, Color) :-
   Color = [0.5, 0.5, 0.5, 1.0], !.
 
 %% get_object_mesh_path(+ObjectId, -FilePath) is det.
@@ -224,6 +234,8 @@ belief_at_location(ObjectType,
 %%% Beliefs about the spatial location of things
 
 create_transform(Translation, Rotation, TransformId) :-
+  % note: we don't assert to belief_state graph here because pose data is memorized
+  %       subsymbolically, as a TF message dump in a noSQL DB
   rdf_instance_from_class('http://knowrob.org/kb/knowrob_paramserver.owl#Transform', TransformId),
   atomic_list_concat(Translation, ' ', Translation_atom),
   atomic_list_concat(Rotation, ' ', Rotation_atom),
@@ -235,35 +247,71 @@ transform_reference_frame(TransformId, Ref) :-
   rdf_has(RefObjId, srdl2comp:'urdfName', literal(Ref)), !.
 transform_reference_frame(_TransformId, 'map').
 
-%% belief_at(+Obj, +TransformData, +RelativeTo) is det.
+%% belief_perceived_at(+ObjectType, +TransformData, +Threshold, -Obj)
+%
+belief_perceived_at(ObjectType, TransformData, Threshold, Obj) :-
+  belief_at_location(ObjectType, TransformData, Threshold, Obj) ; (
+    belief_new_object(ObjectType, Obj),
+    belief_at_update(Obj, TransformData)
+  ).
+
+%% belief_new_object(+Cls, +Obj) is det.
+%
+belief_new_object(ObjectType, Obj) :-
+  rdf_instance_from_class(ObjectType, belief_state, Obj),
+  rdf_assert(Obj, rdf:type, owl:'NamedIndividual', belief_state),
+  % set TF frame to object name
+  rdf_split_url(_, ObjName, Obj),
+  rdf_assert(Obj, srdl2comp:'urdfName', literal(ObjName), belief_state).
+
 %% belief_at(+Obj, +TransformData) is det.
 %
-belief_at(Obj, TransformData, RelativeTo) :-
-  ground(TransformData), !,
-  belief_at_internal(Obj, TransformData, RelativeTo),
-  belief_at_update([Obj]).
-belief_at(Obj, TransformData, RelativeTo) :-
-  belief_at(Obj, TransformData),
-  rdf_has(Obj, paramserver:'hasTransform', TransformId),
-  rdf_has(TransformId, knowrob:'relativeTo', RelativeTo).
-
-belief_at(Obj, TransformData) :-
-  ground(TransformData), !,
-  belief_at_internal(Obj, TransformData),
-  belief_at_update([Obj]).
 belief_at(Obj, [ReferenceFrame, TargetFrame, Translation, Rotation]) :-
+  % TODO: allow users to specify reference frame and transform to the right one
   rdf_has(Obj, paramserver:'hasTransform', TransformId),
   rdf_has(Obj, srdl2comp:'urdfName', literal(TargetFrame)),
   transform_data(TransformId, (Translation, Rotation)),
   transform_reference_frame(TransformId, ReferenceFrame).
 
+%% belief_at_global(+Obj, -GlobalPose) is det.
+%
+belief_at_global(Obj, GlobalPose) :-
+  rdf_has(Obj, srdl2comp:'urdfName', literal(ChildFrame)),
+  rdf_has(Obj, paramserver:'hasTransform', TransformId),
+  transform_data(TransformId, (T,Q)),
+  ( rdf_has(TransformId, knowrob:'relativeTo', Parent) -> (
+    belief_at_global(Parent, GlobalTransform),
+    rdf_has(Parent, srdl2comp:'urdfName', literal(ParentFrame)),
+    transform_multiply(GlobalTransform, [ParentFrame,ChildFrame,T,Q], GlobalPose)
+  ) ; GlobalPose=['map',ChildFrame,T,Q]).
+
+%% belief_at_update(+Obj, +TransformData) is det.
+%
+belief_at_update(Obj, (Translation, Rotation)) :- !,
+  belief_at_internal(Obj, (Translation, Rotation)),
+  belief_marker_update([Obj]).
+belief_at_update(Obj, ['map',_,Translation,Rotation]) :- !,
+  belief_at_update(Obj, (Translation, Rotation)).
+belief_at_update(Obj, [ReferenceFrame,_,Translation,Rotation]) :-
+  ( rdf_has(RelativeTo, srdl2comp:'urdfName', literal(ReferenceFrame)) ; (
+    write('WARN: Unable to find entity with TF frame "'), write(ReferenceFrame),
+    writeln('", ignoring belief update.'),
+    fail
+  )),
+  belief_at_update(Obj, (Translation, Rotation), RelativeTo).
+belief_at_update(Obj, TransformData, RelativeTo) :-
+  belief_at_internal(Obj, TransformData, RelativeTo),
+  belief_marker_update([Obj]).
+
+%% belief_at_internal(+Obj, +TransformData, +RelativeTo) is det.
+%
 belief_at_internal(Obj, TransformData, RelativeTo) :-
-  belief_at_internal_(Obj, TransformData, TransformId),
+  belief_at_internal_(Obj, TransformData, TransformId), !,
   rdf_assert(TransformId, knowrob:'relativeTo', RelativeTo).
 belief_at_internal(Obj, TransformData) :-
   belief_at_internal_(Obj, TransformData, _).
 belief_at_internal_(Obj, (Translation, Rotation), TransformId) :-
-  rdf_retractall(Obj, paramserver:'hasTransform', _),
+  rdf_retractall(Obj, paramserver:'hasTransform', _), % FIXME: also retract transform!
   create_transform(Translation, Rotation, TransformId),
   rdf_assert(Obj, paramserver:'hasTransform', TransformId).
 
@@ -275,13 +323,3 @@ belief_at_invert_topology(Child, Parent) :-
   X is -TX, Y is -TY, Z is -TZ,
   quaternion_transform(Q_inv,[X,Y,Z],T_inv),
   belief_at_internal(Parent, (T_inv,Q_inv), Child).
-
-belief_at_global(Obj, GlobalPose) :-
-  rdf_has(Obj, srdl2comp:'urdfName', literal(ChildFrame)),
-  rdf_has(Obj, paramserver:'hasTransform', TransformId),
-  transform_data(TransformId, (T,Q)),
-  ( rdf_has(TransformId, knowrob:'relativeTo', Parent) -> (
-    belief_at_global(Parent, GlobalTransform),
-    rdf_has(Parent, srdl2comp:'urdfName', literal(ParentFrame)),
-    transform_multiply(GlobalTransform, [ParentFrame,ChildFrame,T,Q], GlobalPose)
-  ) ; GlobalPose=['map',ChildFrame,T,Q]).
