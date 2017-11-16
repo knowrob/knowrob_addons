@@ -22,7 +22,6 @@
   <build_depend>json_prolog</build_depend>
   <build_depend>knowrob_vis</build_depend>
   <build_depend>knowrob_meshes</build_depend>
-  <build_depend>mjpeg_server</build_depend>
   <build_depend>rosbridge_server</build_depend>
 <!--   <build_depend>beliefstate</build_depend> -->
 <!--   <build_depend>mongodb_log</build_depend> -->
