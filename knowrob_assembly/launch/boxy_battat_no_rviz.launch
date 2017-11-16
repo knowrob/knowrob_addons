@@ -1,0 +1,23 @@
+<launch>
+  <arg name="sim" default="false" />
+  <arg name="plot" default="false" />
+  <arg name="rviz" default="false" />
+
+  <include file="$(find iai_kitchen)/launch/publish_iai_kitchen_on_tf.launch" />
+
+  <include file="$(find giskard_boxy)/launch/interactive_markers.launch" >
+    <arg name="sim" value="$(arg sim)" />
+    <arg name="plot" value="$(arg plot)" />
+    <arg name="rviz" value="$(arg rviz)" />
+  </include>
+
+  <include file="$(find knowrob_assembly)/launch/assembly_knowrob.launch" />
+
+  <!-- <include file="$(find wsg_50_simulation)/launch/wsg_50_for_kinematic_sim.launch" /> -->
+<!--
+  <include file="$(find rs_thorin)/launch/rs_thorin.launch"/>
+-->
+<!--
+  <node name="wiggle_action_server" pkg="wiggle_action_server" type="wiggle.py" output="screen" />
+-->
+</launch>
