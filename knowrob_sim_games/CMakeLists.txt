@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(knowrob_sim_games)
 
-# find_package(catkin REQUIRED rosjava_build_tools rosprolog knowrob_vis)
+find_package(catkin REQUIRED rosjava_build_tools rosprolog knowrob_vis)
 
 catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
 

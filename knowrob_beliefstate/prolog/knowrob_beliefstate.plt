@@ -41,71 +41,40 @@
 :- use_module(library('knowrob_paramserver')).
 :- use_module(library('tf_prolog')).
 :- use_module(library('random')).
-%% :- use_module(library('thorin_ontologies')).
-%% :- use_module(library('thorin_simulation')).
 
-%% :- load_foreign_library('libkr_beliefstate.so').
-
-:- owl_parser:owl_parse('package://thorin_ontologies/owl/thorin_parts.owl').
-:- owl_parser:owl_parse('package://thorin_ontologies/owl/thorin_assemblages.owl').
-:- owl_parser:owl_parse('package://thorin_ontologies/owl/thorin_parameters.owl').
-:- owl_parser:owl_parse('package://thorin_simulation/owl/thorin_simulation.owl').
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
 :- rdf_db:rdf_register_ns(paramserver, 'http://knowrob.org/kb/knowrob_paramserver.owl#',  [keep(true)]).
-:- rdf_db:rdf_register_ns(assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
-%% :- rdf_db:rdf_register_ns(beliefstate, 'http://knowrob.org/kb/knowrob_beliefstate.owl#',  [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%% test get_object_color
-test(get_object_color1) :-
-  get_object_color('asd',B),
-  B=[0.5, 0.5, 0.5, 1.0].
+:- dynamic test_object/1.
 
-test(get_object_color2) :-
-  get_object_color('http://knowrob.org/kb/thorin_simulation.owl#AxleHolder1',B),
-  B=[1.0, 0.0, 0.0, 1.0].
+test(belief_new_object) :-
+  belief_new_object(knowrob:'Cup', Cup),
+  rdfs_individual_of(Cup, knowrob:'Cup'),
+  rdfs_individual_of(Cup, owl:'NamedIndividual'),
+  rdf_has(Cup, srdl2comp:urdfName, _),
+  assertz(test_object(Cup)).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%% test get_object_transform
-test(get_object_transform1) :-
-  get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),!,
-  T=["map", "AccessoryHolder1", [-1.166, 1.457, 0.883], [0.0, 0.0, 0.0, 1.0]].
+test(belief_at_update) :-
+  test_object(Cup),
+  belief_at_update(Cup, ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]]),
+  rdf_has(Cup, paramserver:'hasTransform', _), !.
 
-test(get_object_transform2) :-
-  assert_object_at_location(_, 'http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', ["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]]),
-  get_object_transform('http://knowrob.org/kb/thorin_simulation.owl#AccessoryHolder1', T),!,
-  T=["map", "AccessoryHolder1", [0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]].
+test(belief_at_location_equal) :-
+  belief_at_location(knowrob:'Cup', ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  test_object(Cup), !.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%% test create_transform
-test(create_transform1) :- 
-  knowrob_beliefstate:create_transform(["map", "AccessoryHolder1", [1.0, 2.0, 2.0], [1.0, 0.0, 0.0, 0.0]], T),
-  rdf_has(T, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame', RefFrame),
-  rdf_has(RefFrame, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xml:string, RefFrameValue))),
-  RefFrameValue="map",
-  rdf_has(T, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame', TargetFrame),
-  rdf_has(TargetFrame, 'http://knowrob.org/kb/knowrob_paramserver.owl#hasValue', literal(type(xml:string, TargetFrameValue))),
-  TargetFrameValue="AccessoryHolder1",
-  rdf_has(T, 'http://knowrob.org/kb/knowrob.owl#translation', literal(type(xml:string, Translation))),
-  knowrob_math:parse_vector(Translation, TranslationValue),
-  rdf_has(T, 'http://knowrob.org/kb/knowrob.owl#quaternion', literal(type(xml:string, Rotation))),
-  knowrob_math:parse_vector(Rotation, RotationValue),
-  TranslationValue=[1.0, 2.0, 2.0],
-  RotationValue=[1.0, 0.0, 0.0, 0.0].
+test(belief_at_location_close1, [fail]) :-
+  belief_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  test_object(Cup), !.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%% test get_grasp_position
-test(get_pre_grasp_position1) :-
-  get_pre_grasp_position('left_gripper', 'http://knowrob.org/kb/thorin_simulation.owl#Axle1', 'http://knowrob.org/kb/thorin_parameters.owl#TopGraspCenterReferencedPart', T),!,
-  T=["left_gripper_tool_frame", "Axle1", [0.0, 0.0, 0.116], [1.0, 0.0, 0.0, 0.0]].
-  
-test(get_grasp_position1) :-
-  get_grasp_position('left_gripper', 'http://knowrob.org/kb/thorin_simulation.owl#Axle1', 'http://knowrob.org/kb/thorin_parameters.owl#TopGraspCenterReferencedPart', T),!,
-  T=["left_gripper_tool_frame", "Axle1", [0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 0.0]].
+test(belief_at_location_close2) :-
+  belief_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.5,0.0], Cup),
+  test_object(Cup), !.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_beliefstate).

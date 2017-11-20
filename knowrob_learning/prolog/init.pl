@@ -1,5 +1,5 @@
 /** 
-  Copyright (C) 2016 Asil Kaan Bozcuoglu
+  Copyright (C) 2016-17 Asil Kaan Bozcuoglu
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -31,9 +31,15 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
+:- register_ros_package(knowrob_vis).
 
 :- register_ros_package(knowrob_learning).
 :- use_module(library('knowrob_learning')).
 :- use_module(library('knowrob_reinforcement')).
 :- use_module(library('knowrob_mvg')).
+:- use_module(library('knowrob_adapt_environment')).
 
+:- owl_parser:owl_parse('package://knowrob_learning/owl/knowrob_adapt_environment.owl').
+
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).

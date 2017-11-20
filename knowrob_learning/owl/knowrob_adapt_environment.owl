@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='US-ASCII'?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY computable 'http://knowrob.org/kb/computable.owl#'>
+    <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
+    <!ENTITY dc 'http://purl.org/dc/elements/1.1/'>
+    <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+    <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+    <!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+]>
+
+<rdf:RDF
+    xmlns:computable="&computable;"
+    xmlns:knowrob="&knowrob;"
+    xmlns:dc="&dc;"
+    xmlns:rdf="&rdf;"
+    xmlns:rdfs="&rdfs;"
+    xmlns:xsd="&xsd;"
+    xmlns:owl="&owl;"
+>
+
+<owl:Ontology rdf:about="http://knowrob.org/kb/room73b2.owl">
+      <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-comp.owl"/>
+      <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+</owl:Ontology>
+
+<rdf:Description rdf:about="Defining some rules for adapting changes in objects in different semantic maps "/>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#AdaptingEpisodicMemoryData">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RuleType"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#AdaptingEpisodicMemoryData"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#NullChangeTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#NullChangeEndEffector">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#IncreaseRadiusOfTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#DecreaseRadiusOfTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectoryInX">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RotateTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectoryInY">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RotateTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateTrajectoryInZ">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#RotateTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyTrajectory"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RotateEndEffector">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ModifyEndEffectorPose"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningADrawerGeneric">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningSomething"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ActionWithLineTrajectory"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#fromState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateClosed"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#toState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateOpen"/>
+      </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Drawer"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#openingTrajectory"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#LineTrajectory"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ClosingADrawerGeneric">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ClosingSomething"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ActionWithLineTrajectory"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#fromState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateOpen"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#toState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateClosed"/>
+      </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Drawer"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#closingTrajectory"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#LineTrajectory"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ClosingADrawerGeneric">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ClosingSomething"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ActionWithLineTrajectory"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#fromState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateOpen"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#toState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateClosed"/>
+      </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#FridgeDoor"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#closingTrajectory"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#ArchTrajectory"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningSomething"/>
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ActionWithArchTrajectory"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#fromState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateClosed"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#toState"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#ObjectStateOpen"/>
+      </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#objectActedOn"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#FridgeDoor"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#openingTrajectory"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#ArchTrajectory"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ActionWithArchTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PurposefulAction"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#trajectory-Arm"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#ArchTrajectory"/>
+     </owl:Restriction>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ActionWithLineTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PurposefulAction"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#trajectory-Arm"/>
+        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#LineTrajectory"/>
+     </owl:Restriction>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ArchTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ArmTrajectory"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#radius"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+   <rdfs:subClassOf>
+     <owl:Restriction>
+         <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#center"/>
+         <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#HingedJoint"/>
+      </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#LineTrajectory">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#ArmTrajectory"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#length"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCCW">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleLocationOnDoor"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#RightSide"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorCW">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleLocation"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#LeftSide"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeGripperPerpendicular">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleShapeOnDoor"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#Thin"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeGripperParallel">
+  <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#OpeningAFridgeDoorGeneric"/>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#handleShapeOnDoor"/>
+        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob.owl#Thick"/>
+     </owl:Restriction>
+   </rdfs:subClassOf>
+</owl:Class>
+
+<owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#turnDegreeTrajectory">
+   <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#turnRadius"/>
+ </owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#turnDegreeEndEffector">
+   <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob.owl#turnRadius"/>
+</owl:DatatypeProperty>
+
+</rdf:RDF>
