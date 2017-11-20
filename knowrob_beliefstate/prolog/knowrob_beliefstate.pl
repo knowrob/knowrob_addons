@@ -63,8 +63,6 @@
 :- use_module(library('knowrob_paramserver')).
 :- use_module(library('random')).
 
-%:- load_foreign_library('libkr_beliefstate.so').
-
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
@@ -199,10 +197,19 @@ rotations_are_close([X1,Y1,Z1,W1], [X2,Y2,Z2,W2], Dmax) :-
   DmaxSq is Dmax*Dmax,
   Dsq =< DmaxSq.
 
-% TODO(DB) use tf prolog
 get_tf_transform(ReferenceFrame, TargetFrame,
-                [ReferenceFrame, TargetFrame, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]) :-
-  get_current_tf(ReferenceFrame, TargetFrame, Tx, Ty, Tz, Rx, Ry, Rz, Rw).
+                [ReferenceFrame, TargetFrame, [Tx, Ty, Tz], [Rw, Rx, Ry, Rz]]) :-
+  current_time(Now),
+  lookup_transform(ReferenceFrame, TargetFrame, Now, StampedPose),
+  jpl_call(StampedPose, 'getRotation', [], Quat4d),
+  jpl_get(Quat4d, 'w', Rw),
+  jpl_get(Quat4d, 'x', Rx),
+  jpl_get(Quat4d, 'y', Ry),
+  jpl_get(Quat4d, 'z', Rz),
+  jpl_call(StampedPose, 'getTranslation', [], Vector3d),
+  jpl_get(Vector3d, 'x', Tx),
+  jpl_get(Vector3d, 'y', Ty),
+  jpl_get(Vector3d, 'z', Tz).
   
 
 %% belief_at_location(+ObjectType, +Transform, +Thresholds, -ObjectId) is det.
