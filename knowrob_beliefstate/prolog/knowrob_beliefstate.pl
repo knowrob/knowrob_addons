@@ -53,6 +53,7 @@
 :- use_module(library('lists')).
 :- use_module(library('util')).
 :- use_module(library('semweb/rdfs')).
+:- use_module(library('semweb/rdf_db')).
 :- use_module(library('owl_parser')).
 :- use_module(library('owl')).
 :- use_module(library('rdfs_computable')).
@@ -112,9 +113,9 @@ belief_marker_update(ObjectIds) :-
 % @param ObjectIds    [anyURI*], the object ids
 %
 get_known_object_ids(ObjectIds) :-
-  rdf_default_graph(Old, belief_state),
-  findall(J, rdfs_individual_of(J, knowrob:'SpatialThing'), ObjectIds),
-  rdf_default_graph(_, Old).
+  findall(J, (
+      rdf(J, _, _, belief_state),
+      rdfs_individual_of(J, knowrob:'SpatialThing')), ObjectIds).
 
 %% get_object_color(+ObjectId, -Color) is det.
 %
