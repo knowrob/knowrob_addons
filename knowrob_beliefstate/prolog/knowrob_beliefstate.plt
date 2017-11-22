@@ -65,16 +65,28 @@ test(belief_at_update) :-
   rdf_has(Cup, paramserver:'hasTransform', _), !.
 
 test(belief_at_location_equal) :-
-  belief_at_location(knowrob:'Cup', ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  belief_class_at_location(knowrob:'Cup', ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
   test_object(Cup), !.
 
 test(belief_at_location_close1, [fail]) :-
-  belief_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  belief_class_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
   test_object(Cup), !.
 
 test(belief_at_location_close2) :-
-  belief_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.5,0.0], Cup),
+  belief_class_at_location(knowrob:'Cup', ['map',_,[1.001,0.001,0.0],[1.0,0.0,0.0,0.0]], [0.5,0.0], Cup),
   test_object(Cup), !.
+
+test(belief_at_update_class) :-
+  test_object(Cup),
+  belief_perceived_at(knowrob:'Milk', ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  \+ rdfs_individual_of(Cup, knowrob:'Cup'),
+  rdfs_individual_of(Cup, knowrob:'Milk'), !.
+
+test(belief_at_update_class2) :-
+  test_object(Cup),
+  belief_perceived_at(knowrob:'Cup', ['map',_,[1.0,0.0,0.0],[1.0,0.0,0.0,0.0]], [0.0,0.0], Cup),
+  rdfs_individual_of(Cup, knowrob:'Cup'),
+  \+ rdfs_individual_of(Cup, knowrob:'Milk'), !.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_beliefstate).

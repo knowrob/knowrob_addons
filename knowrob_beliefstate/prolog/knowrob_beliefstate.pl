@@ -35,7 +35,7 @@
       belief_at_update/3,
       belief_at/2,                  % query the current pose of an object
       belief_at_global/2,           % query the current pose of an object in map frame
-      belief_at_location/4,         % query for existing object at location
+      belief_class_at_location/4,   % query for existing object at location
       belief_at_invert_topology/2,
       belief_at_internal/2,         % TODO: these should not be exposed
       belief_at_internal/3,
@@ -82,7 +82,7 @@
     belief_at_internal(r,+),
     belief_at_invert_topology(r,r),
     belief_at_global(r,-),
-    belief_at_location(r,+,+,r),
+    belief_class_at_location(r,+,+,r),
     belief_perceived_at(r,+,+,r),
     belief_marker_update(t).
 
@@ -110,10 +110,11 @@ belief_marker_update(ObjectIds) :-
 %
 % @param ObjectIds    [anyURI*], the object ids
 %
-get_known_object_ids(ObjectIds) :-
+get_known_object_ids(UniqueObjectIds) :-
   findall(J, (
       rdf(J, _, _, belief_state),
-      rdfs_individual_of(J, knowrob:'SpatialThing')), ObjectIds).
+      rdfs_individual_of(J, knowrob:'SpatialThing')), ObjectIds),
+  list_to_set(ObjectIds,UniqueObjectIds).
 
 %% get_object_color(+ObjectId, -Color) is det.
 %
@@ -212,7 +213,7 @@ get_tf_transform(ReferenceFrame, TargetFrame,
   jpl_get(Vector3d, 'z', Tz).
   
 
-%% belief_at_location(+ObjectType, +Transform, +Thresholds, -ObjectId) is det.
+%% belief_class_at_location(+ObjectType, +Transform, +Thresholds, -ObjectId) is det.
 %
 % Checks whether one of the already known objects of ObjectType is located close to Transform.
 % The check uses TranThreshold as a threshold for comparing translation distance, and similarly for
@@ -229,11 +230,13 @@ get_tf_transform(ReferenceFrame, TargetFrame,
 %                     NOTE: this threshold is interpreted as a euclidean distance threshold in a space of quaternions where +Quat and -Quat are the same.
 % @param ObjectId        anyURI, the object id
 %
-belief_at_location(ObjectType,
-                  [ReferenceFrame,_,ArgTranslation,ArgRotation],
-                  [TranThreshold, RotThreshold],
-                   ObjectId) :-
+belief_class_at_location(ObjectType, Transform, Thresholds, ObjectId) :-
   rdfs_individual_of(ObjectId, ObjectType),
+  belief_object_at_location(ObjectId, Transform, Thresholds).
+
+belief_object_at_location(ObjectId,
+                  [ReferenceFrame,_,ArgTranslation,ArgRotation],
+                  [TranThreshold, RotThreshold]) :-
   belief_at(ObjectId, [ReferenceFrame,_,ObjTranslation,ObjRotation]),
   translations_are_close(ArgTranslation, ObjTranslation, TranThreshold),
   rotations_are_close(ArgRotation, ObjRotation, RotThreshold).
@@ -258,10 +261,36 @@ transform_reference_frame(_TransformId, 'map').
 %% belief_perceived_at(+ObjectType, +TransformData, +Threshold, -Obj)
 %
 belief_perceived_at(ObjectType, TransformData, Threshold, Obj) :-
-  once((belief_at_location(ObjectType, TransformData, Threshold, Obj) ; (
-    belief_new_object(ObjectType, Obj),
-    belief_at_update(Obj, TransformData)
-  ))).
+  % TODO: use octree to find the nearest object perceived before (ignore the expected class)
+  belief_existing_object_at(ObjectType, TransformData, Threshold, Obj),
+  % TODO: also update pose? could do smoothing then
+  belief_class_of(Obj, ObjectType), !.
+belief_perceived_at(ObjectType, TransformData, _, Obj) :-
+  belief_new_object(ObjectType, Obj),
+  belief_at_update(Obj, TransformData).
+
+belief_class_of(Obj, ObjType) :-
+  % current classification matches beliefs
+  rdfs_type_of(Obj, ObjType), !.
+belief_class_of(Obj, NewObjType) :-
+  current_time(Now),
+  ignore(once((
+      rdfs_type_of(Obj, CurrObjType),
+      rdfs_subclass_of(CurrObjType, Parent),
+      rdfs_subclass_of(NewObjType, Parent),
+      assert_temporal_part_end(Obj, rdf:type, CurrObjType, Now, belief_state)
+  ))),
+  assert_temporal_part(Obj, rdf:type, nontemporal(NewObjType), Now, belief_state).
+
+belief_existing_object_at(ExpectedType, TransformData, Threshold, Obj) :-
+  % check for typed object
+  belief_class_at_location(ExpectedType, TransformData, Threshold, Obj), !.
+belief_existing_object_at(ExpectedType, TransformData, Threshold, Obj) :-
+  % check for any type
+  get_known_object_ids(KnownObjects),
+  member(Obj,KnownObjects),
+  \+ rdfs_individual_of(Obj, ExpectedType),
+  belief_object_at_location(Obj, TransformData, Threshold), !.
 
 %% belief_new_object(+Cls, +Obj) is det.
 %
