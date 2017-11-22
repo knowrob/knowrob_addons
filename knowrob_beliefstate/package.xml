@@ -22,6 +22,13 @@
   <build_depend>knowrob_paramserver</build_depend>
   <build_depend>knowrob_assembly</build_depend>
   <build_depend>message_generation</build_depend>
+  <!--
+  <build_depend>roslib</build_depend>
+  <build_depend>rospack</build_depend>
+  <build_depend>rosprolog</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+  -->
   
   <run_depend>message_runtime</run_depend>
   <run_depend>knowrob_common</run_depend>
@@ -30,6 +37,12 @@
   <!--
   <run_depend>rosjava_build_tools</run_depend>
   <run_depend>rosjava_bootstrap</run_depend>
+  -->
+  <!--
+  <run_depend>roslib</run_depend>
+  <run_depend>rospack</run_depend>
+  <run_depend>rosprolog</run_depend>
+  <run_depend>roscpp</run_depend>
   -->
 
 </package>
