@@ -41,6 +41,7 @@
       belief_at_internal/3,
       belief_perceived_at/4,        % convinience rule to be called by perception system to inform about perceptions
       belief_marker_update/1,       % causes marker messages to be generated
+      belief_clear/0,
       get_known_object_ids/1,       % TODO: these are used by marker publisher, but are redundant and badly named
       get_object_color/2,           % --> belief_object_color
       get_object_mesh_path/2,       % --> belief_object_mesh
@@ -115,6 +116,14 @@ get_known_object_ids(UniqueObjectIds) :-
       rdf(J, _, _, belief_state),
       rdfs_individual_of(J, knowrob:'SpatialThing')), ObjectIds),
   list_to_set(ObjectIds,UniqueObjectIds).
+
+%% belief_clear is det.
+%
+% Retracts everything asserted to the belief_state RDF graph.
+%
+belief_clear :-
+  forall( rdf(J, _, _, belief_state),
+          retractall(J,_,_) ).
 
 %% get_object_color(+ObjectId, -Color) is det.
 %
@@ -238,8 +247,8 @@ belief_object_at_location(ObjectId,
                   [ReferenceFrame,_,ArgTranslation,ArgRotation],
                   [TranThreshold, RotThreshold]) :-
   belief_at(ObjectId, [ReferenceFrame,_,ObjTranslation,ObjRotation]),
-  translations_are_close(ArgTranslation, ObjTranslation, TranThreshold),
-  rotations_are_close(ArgRotation, ObjRotation, RotThreshold).
+  %rotations_are_close(ArgRotation, ObjRotation, RotThreshold),
+  translations_are_close(ArgTranslation, ObjTranslation, TranThreshold).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Beliefs about the spatial location of things
