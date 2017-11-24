@@ -30,7 +30,7 @@ import edu.wpi.rail.jrosbridge.Ros;
 public class EASERos extends Ros {
     private final String url;
     private SSLContext sslContext = null;
-    private final long timeOutOneHour = 3600000;
+    private final long timeOutOneHour = 14400000;
 
     /**
      * Create a new ROS handle with given web socket URL.

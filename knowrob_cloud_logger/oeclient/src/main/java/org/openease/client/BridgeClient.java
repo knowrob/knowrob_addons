@@ -223,7 +223,7 @@ public class BridgeClient {
     private class RefreshTask extends TimerTask {
 
         int isWebSocketStillAlive; 
-        final int alivenessCount = 14; // 3600000(websocket lifespan)/250000(refresh rate of containers)
+        final int alivenessCount = 56; // 14400000(websocket lifespan)/250000(refresh rate of containers)
         RefreshTask() {
             isWebSocketStillAlive = 0;
         }
