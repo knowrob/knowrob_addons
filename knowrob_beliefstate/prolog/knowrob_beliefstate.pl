@@ -235,8 +235,8 @@ belief_at_location(ObjectType,
                    ObjectId) :-
   rdfs_individual_of(ObjectId, ObjectType),
   belief_at(ObjectId, [ReferenceFrame,_,ObjTranslation,ObjRotation]),
-  translations_are_close(ArgTranslation, ObjTranslation, TranThreshold),
-  rotations_are_close(ArgRotation, ObjRotation, RotThreshold).
+  %rotations_are_close(ArgRotation, ObjRotation, RotThreshold),
+  translations_are_close(ArgTranslation, ObjTranslation, TranThreshold).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Beliefs about the spatial location of things
