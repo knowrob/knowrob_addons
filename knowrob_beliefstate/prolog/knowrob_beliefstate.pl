@@ -311,7 +311,7 @@ belief_new_object(ObjectType, Obj) :-
   rdf_assert(Obj, srdl2comp:'urdfName', literal(ObjName), belief_state),
   ignore(once((
     %% HACK get this infor from somewhere else!
-    rdfs_individual_of(Map, knowrob:'SemanticMap'),
+    rdfs_individual_of(Map, knowrob:'SemanticEnvironmentMap'),
     rdf_assert(Obj, knowrob:'describedInMap', Map, belief_state)
   ))).
 
