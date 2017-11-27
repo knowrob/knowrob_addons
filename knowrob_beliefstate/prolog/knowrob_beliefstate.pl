@@ -279,7 +279,12 @@ belief_new_object(ObjectType, Obj) :-
   rdf_assert(Obj, rdf:type, owl:'NamedIndividual', belief_state),
   % set TF frame to object name
   rdf_split_url(_, ObjName, Obj),
-  rdf_assert(Obj, srdl2comp:'urdfName', literal(ObjName), belief_state).
+  rdf_assert(Obj, srdl2comp:'urdfName', literal(ObjName), belief_state),
+  ignore(once((
+    %% HACK get this infor from somewhere else!
+    rdfs_individual_of(Map, knowrob:'SemanticEnvironmentMap'),
+    rdf_assert(Obj, knowrob:'describedInMap', Map, belief_state)
+  ))).
 
 %% belief_at(+Obj, +TransformData) is det.
 %
