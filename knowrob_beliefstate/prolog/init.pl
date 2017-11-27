@@ -35,7 +35,6 @@
 :- register_ros_package(knowrob_assembly).
 :- register_ros_package(knowrob_beliefstate).
 :- register_ros_package(tf_prolog).
-:- load_foreign_library('libkr_beliefstate.so').
 :- use_module(library('knowrob_beliefstate')).
 
 :- owl_parser:owl_parse('package://knowrob_beliefstate/owl/knowrob_beliefstate.owl').

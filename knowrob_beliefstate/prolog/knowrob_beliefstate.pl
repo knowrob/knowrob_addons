@@ -136,8 +136,8 @@ belief_clear :-
 % @param Color   the transform data
 %
 get_object_color(ObjectId, Color) :-
-  object_color(ObjectId,V), !,
-  knowrob_math:parse_vector(V, Color).
+  object_color(ObjectId,V),
+  knowrob_math:parse_vector(V, Color), !.
 get_object_color(_ObjectId, Color) :-
   Color = [0.5, 0.5, 0.5, 1.0], !.
 
@@ -308,7 +308,12 @@ belief_new_object(ObjectType, Obj) :-
   rdf_assert(Obj, rdf:type, owl:'NamedIndividual', belief_state),
   % set TF frame to object name
   rdf_split_url(_, ObjName, Obj),
-  rdf_assert(Obj, srdl2comp:'urdfName', literal(ObjName), belief_state).
+  rdf_assert(Obj, srdl2comp:'urdfName', literal(ObjName), belief_state),
+  ignore(once((
+    %% HACK get this infor from somewhere else!
+    rdfs_individual_of(Map, knowrob:'SemanticMap'),
+    rdf_assert(Obj, knowrob:'describedInMap', Map, belief_state)
+  ))).
 
 %% belief_at(+Obj, +TransformData) is det.
 %

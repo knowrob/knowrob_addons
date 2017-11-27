@@ -14,7 +14,7 @@ from visualization_msgs.msg._Marker import Marker
 from json_prolog import json_prolog
 
 
-class ThorinObject(object):
+class PerceivedObject(object):
     def __init__(self):
         self.transform = None
         self.mesh_path = ''
@@ -71,7 +71,7 @@ class ObjectStatePublisher(object):
         self.dirty_object_srv = rospy.Service('~mark_dirty_object', DirtyObject, self.dirty_cb)
         self.dirty_lock = Lock()
         self.update_positions_srv = rospy.Service('~update_object_positions', Trigger, self.update_object_positions_cb)
-        self.objects = defaultdict(lambda: ThorinObject())
+        self.objects = defaultdict(lambda: PerceivedObject())
         rospy.loginfo('object state publisher is running')
 
     def update_object_positions_cb(self, trigger):
@@ -129,7 +129,7 @@ class ObjectStatePublisher(object):
         solutions = self.prolog_query(q)
         for object_id in solutions[0]['A']:
             if object_id not in self.objects.keys():
-                self.objects[object_id] = ThorinObject()
+                self.objects[object_id] = PerceivedObject()
         for object_id in self.objects.keys():
             if object_id not in solutions[0]['A']:
                 self.marker_publisher.publish(self.objects[object_id].get_del_marker())
