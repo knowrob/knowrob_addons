@@ -21,6 +21,5 @@ if [ ! -d opencyc-4.0 ]; then
 fi
 
 cd opencyc-4.0/scripts/
-echo "USE http://localhost:3602/cgi-bin/cg?cb-start TO BROWSE OPENCYC."
 ./run-cyc.sh
 
