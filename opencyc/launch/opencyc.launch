@@ -1,4 +1,3 @@
 <launch>
-  ROS_ERROR("USE http://localhost:3602/cgi-bin/cg?cb-start TO BROWSE OPENCYC.");
   <node name="opencyc" pkg="opencyc" type="init_opencyc.sh" output="screen" />
 </launch>
