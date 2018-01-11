@@ -162,10 +162,10 @@ check_handle_type(Handle, Tsk) :-
 check_trajectory_props(Tsk, Door) :-
     owl_individual_of(Tsk, Cls),
     rdf_instance_from_class(knowrob:'ArmTrajectory', TrjInst),
-    ((class_properties(Cls, knowrob:'openingTrajectory', Trj), rdf_assert(Tsk, knowrob:'openingTrajectory', TrjInst));
-     (class_properties(Cls, knowrob:'closingTrajectory', Trj), rdf_assert(Tsk, knowrob:'closingTrajectory', TrjInst))),
+    ((owl_class_properties(Cls, knowrob:'openingTrajectory', Trj), rdf_assert(Tsk, knowrob:'openingTrajectory', TrjInst));
+     (owl_class_properties(Cls, knowrob:'closingTrajectory', Trj), rdf_assert(Tsk, knowrob:'closingTrajectory', TrjInst))),
     rdf_assert(TrjInst, rdf:type, Trj),
-    class_properties(Trj, knowrob:'center', HJoint),
+    owl_class_properties(Trj, knowrob:'center', HJoint),
     owl_individual_of(HJInst, HJoint),
     rdf_has(Door, _Y, HJInst),
     rdf_assert(TrjInst, knowrob:'center', HJInst),

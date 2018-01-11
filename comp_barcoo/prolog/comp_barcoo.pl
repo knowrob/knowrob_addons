@@ -76,7 +76,7 @@ cop_create_perception_instance(ModelTypes, Perception) :-
                rdf_assert(Perception, knowrob:perceivedUsingModel, MC)), _),
 
   % create detection time point
-  get_timepoint(TimePoint),
+  owl_instance_from_class(knowrob:'TimePoint', TimePoint),
   rdf_assert(Perception, knowrob:startTime, TimePoint).
 
 

@@ -57,12 +57,12 @@
 
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('owl_parser')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/beliefstate')).
+:- use_module(library('knowrob/transforms')).
 :- use_module(library('knowrob_planning')).
-:- use_module(library('knowrob_beliefstate')).
-:- use_module(library('knowrob_math')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
@@ -165,7 +165,7 @@ assemblage_destroy(Connection) :-
   assemblage_destroy_connection(Connection).
 
 assemblage_destroy_connection(Connection) :-
-  write('[assembly] detach: '), rdf_write_readable(Connection), nl,
+  write('[assembly] detach: '), owl_write_readable(Connection), nl,
   rdf_retractall(_,_,Connection),
   rdf_retractall(Connection,_,_).
 
@@ -183,8 +183,8 @@ assemblage_connection_create(ConnType, Objects, ConnId) :-
       rdfs_individual_of(Affordance, AffType),
       rdf_assert(ConnId, knowrob_assembly:'consumesAffordance', Affordance)
     ) ; (
-      write('[ERR] Create '), rdf_write_readable(ConnType),
-      write(': affordance '), rdf_write_readable(AffType), write(' missing.'), nl,
+      write('[ERR] Create '), owl_write_readable(ConnType),
+      write(': affordance '), owl_write_readable(AffType), write(' missing.'), nl,
       rdf_retractall(ConnId,_,_),
       fail
     )))).
@@ -403,7 +403,7 @@ assemblage_part_connect_transforms(RefObj, [Bridge|BridgeParents]) :-
   )),
   belief_at_global(Bridge, BridgePoseMap),
   belief_at_global(Other, OtherPoseMap),
-  transform_compute_relative(BridgePoseMap, OtherPoseMap, [_,_,BridgeT,BridgeR]),
+  transform_between(BridgePoseMap, OtherPoseMap, [_,_,BridgeT,BridgeR]),
   assemblage_part_make_reference(Bridge, BridgeParents),
   belief_at_internal(Bridge, (BridgeT,BridgeR), Other).
 

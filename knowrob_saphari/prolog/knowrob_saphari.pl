@@ -87,16 +87,16 @@
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('knowrob_marker')).
-:- use_module(library('knowrob_math')).
-:- use_module(library('srdl2')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/marker_vis')).
+:- use_module(library('knowrob/transforms')).
+:- use_module(library('knowrob/srdl2')).
+:- use_module(library('knowrob/objects')).
 :- use_module(library('knowrob_cram')).
-:- use_module(library('knowrob_objects')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
@@ -136,12 +136,12 @@ action_designator(TaskContext, Timepoint, Designator) :-
     rdf_has(Designator, knowrob:'equationTime', Timepoint)
   )).
 
-agent_marker(Link, Prefix, Identifier, MarkerId) :-
+agent_marker(Link, _Prefix, Identifier, MarkerId) :-
   term_to_atom(object_without_children(Link), LinkAtom),
   atom_concat(Identifier, '_', Buf),
   atom_concat(Buf, LinkAtom, MarkerId).
 
-agent_connection_marker(Link0, Link1, Prefix, Identifier, MarkerId) :-
+agent_connection_marker(Link0, Link1, _Prefix, Identifier, MarkerId) :-
   term_to_atom(cylinder_tf(Link0,Link1), CylinderAtom),
   atom_concat(Identifier, '_', Buf),
   atom_concat(Buf, CylinderAtom, MarkerId).
@@ -335,31 +335,6 @@ vector_mul([X0,Y0,Z0], Scalar, [X2,Y2,Z2]) :-
   number(Scalar),
   X2 is X0*Scalar, Y2 is Y0*Scalar, Z2 is Z0*Scalar.
 
-saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
-  rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
-  rdf_has(Identifier, knowrob:'successorDesignator', Designator),
-  event_before(knowrob:'ReleasingGraspOfSomething', Event, T),
-  rdf_has(Event, knowrob:'objectActedOn', Designator),
-  rdf_has(Event, knowrob:'goalLocation', Loc),
-  mng_designator_props(Loc, 'SLOT-ID', Slot),
-  saphari_slot_pose(Slot, Translation, Orientation), !.
-
-saphari_object_pose_estimate(Identifier, T, _, (Translation,Orientation)) :-
-  rdfs_individual_of(Identifier, knowrob:'CRAMDesignator'),
-  rdf_has(Identifier, knowrob:'successorDesignator', Designator),
-  event_before(knowrob:'GraspingSomething', Event, T),
-  rdf_has(Event, knowrob:'objectActedOn', Designator),
-  mng_lookup_transform('/map', '/gripper_tool_frame', T, Matrix),
-  matrix_translation(Matrix,Translation),
-  matrix_rotation(Matrix,GripperOrientation),
-  % Apply offset quaternion
-  quaternion_multiply(GripperOrientation,
-      [0.0,0.7071067811865476,-0.7071067811865475,0.0], Orientation), !.
-
-saphari_object_pose_estimate(_, PoseIn, PoseIn).
-
-:- knowrob_marker:marker_transform_estimation_add(knowrob_saphari:saphari_object_pose_estimate).
-
 saphari_marker_update(T) :-
   saphari_active_task(Task,T),
   marker_update(agent('http://knowrob.org/kb/Saphari.owl#saphari_robot1'), T),
@@ -491,7 +466,8 @@ saphari_slot_release_action(SlotIdentifier, ReleasingAction) :-
 
 saphari_slot_pose(SlotIdentifier, Translation, Orientation) :-
   get_time(T),
-  object_pose_at_time(SlotIdentifier, T, pose(Translation, Orientation)).
+  map_frame_name(MapFrame),
+  object_pose_at_time(SlotIdentifier, T, [MapFrame, _, Translation, Orientation]).
 
 %saphari_active_task(Task) :-
 %  % for now assume a task is active when no endTime asserted
@@ -575,8 +551,7 @@ saphari_object_properties(DesignatorId, ObjectClass, (FrameId, TimeStamp, (Trans
   )),
   saphari_object_class(DesignatorId, DesignatorJava, ObjectClass),
   mng_designator_location(DesignatorJava, PoseMatrix),
-  matrix_translation(PoseMatrix, Translation),
-  matrix_rotation(PoseMatrix, Orientation),
+  matrix(PoseMatrix, Translation, Orientation),
   mng_designator_props(DesignatorId, DesignatorJava, ['AT', 'POSE'], DesigPoseStamped),
   jpl_get(DesigPoseStamped, 'frameID', FrameId),
   jpl_get(DesigPoseStamped, 'timeStamp', TimeStampIso),
@@ -601,7 +576,7 @@ saphari_object_in_basket(ObjectId, Time) :-
   rdf_has(Release, knowrob:'objectActedOn', ObjectId),
   event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
 
-saphari_object_in_basket(ObjectId, Time, Task) :-
+saphari_object_in_basket(ObjectId, Time, _Task) :-
   rdf_has(ObjectId, knowrob:'successorDesignator', Designator),
   rdf_has(Release, knowrob:'objectActedOn', Designator),
   event_before(knowrob:'ReleasingGraspOfSomething', Release, Time).
@@ -666,9 +641,9 @@ saphari_next_object(SlotId, (SlotTranslation, SlotRotation), ObjectClass, DesigI
   saphari_object_properties(DesigId, ObjectClass, _),
   saphari_object_on_table(DesigId).
 
-saphari_grasping_point(ObjectId, GraspingPose) :-
+saphari_grasping_point(ObjectId, _GraspingPose) :-
   saphari_object_properties(ObjectId, ObjectClass, _),
-  saphari_object_mesh(ObjectClass, ObjectMesh),
+  saphari_object_mesh(ObjectClass, _ObjectMesh),
   % TODO: compute grasping pose. Howto do that? By using CAD model segmentation?
   false.
 
