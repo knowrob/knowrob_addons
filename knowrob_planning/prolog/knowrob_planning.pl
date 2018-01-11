@@ -55,7 +55,7 @@
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('knowrob/owl')).
 :- use_module(library('owl_planning')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
@@ -568,7 +568,7 @@ strategy_selection_criteria(Strategy, Criteria) :-
   % sort criteria according to their priority (high priority first)
   findall(C, rdf_has(Strategy, knowrob_planning:'selection', C), Cs),
   predsort(compare_selection_criteria, Cs, Criteria),
-  write('    [SELECTION] '), rdf_write_readable(Criteria), nl,
+  write('    [SELECTION] '), owl_write_readable(Criteria), nl,
   assertz(agenda_selection_criteria_sorted(Strategy, Criteria)).
 
 compare_selection_criteria(Delta, C1, C2) :-

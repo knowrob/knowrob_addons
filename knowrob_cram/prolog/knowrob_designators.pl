@@ -57,12 +57,12 @@
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('knowrob_objects')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/objects')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).

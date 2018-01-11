@@ -39,9 +39,9 @@
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('rdfs_computable')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/marker_vis')).
 :- use_module(library('jpl')).
-:- use_module(library('knowrob_vis')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).

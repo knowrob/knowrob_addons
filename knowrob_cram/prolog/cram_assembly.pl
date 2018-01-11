@@ -10,17 +10,16 @@
     ]).
 
 :- register_ros_package(knowrob_assembly).
-:- register_ros_package(knowrob_beliefstate).
 
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('owl_parser')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/owl')).
 :- use_module(library('knowrob_assembly')).
 :- use_module(library('knowrob_planning')).
-:- use_module(library('knowrob_beliefstate')).
-:- use_module(library('knowrob_math')).
+:- use_module(library('knowrob/beliefstate')).
+:- use_module(library('knowrob/transforms')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
 
