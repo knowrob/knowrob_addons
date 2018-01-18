@@ -55,7 +55,7 @@
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('knowrob/owl')).
 :- use_module(library('owl_planning')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
@@ -158,7 +158,8 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
-  write('    [POP] '), agenda_item_write(X_Descr), nl,
+% TODO: proper logging, use log4p?
+  %write('    [POP] '), agenda_item_write(X_Descr), nl,
   % count how often item was selected
   agenda_item_inhibit(X),
   ( agenda_item_valid(X_Descr, X)
@@ -568,7 +569,8 @@ strategy_selection_criteria(Strategy, Criteria) :-
   % sort criteria according to their priority (high priority first)
   findall(C, rdf_has(Strategy, knowrob_planning:'selection', C), Cs),
   predsort(compare_selection_criteria, Cs, Criteria),
-  write('    [SELECTION] '), rdf_write_readable(Criteria), nl,
+% TODO: proper logging, use log4p?
+  %write('    [SELECTION] '), owl_write_readable(Criteria), nl,
   assertz(agenda_selection_criteria_sorted(Strategy, Criteria)).
 
 compare_selection_criteria(Delta, C1, C2) :-
@@ -977,12 +979,16 @@ agenda_assert_triple_(S,P,O) :-
 planning_assert(S,P,O)  :- rdf_assert(S,P,O),     debug_assertion(S,P,O).
 planning_retract(S,P,O) :- rdf_retractall(S,P,O), debug_retraction(S,P,O).
 
-debug_retraction(S,P,O) :-
-  write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
-debug_assertion(S,P,O) :-
-  write('    [ASSERT] '),  write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
-debug_type_assertion(S,Cls) :-
-  write('    [ASSERT] '),  write_name(S), write(' type '), write_name(Cls), writeln('.').
+% TODO: proper logging, use log4p?
+debug_retraction(_S,_P,_O) :-
+  true.
+  %write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
+debug_assertion(_S,_P,_O) :-
+  true.
+  %write('    [ASSERT] '),  write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
+debug_type_assertion(_S,_Cls) :-
+  true.
+  %write('    [ASSERT] '),  write_name(S), write(' type '), write_name(Cls), writeln('.').
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -1160,10 +1166,10 @@ write_name(X) :- atom(X), rdf_split_url(_, X_, X), write(X_).
 write_description(Domain) :-
   atom(Domain),
   owl_description_recursive(Domain,Descr),
-  rdf_readable(Descr,Readable), write(Readable), !.
+  owl_readable(Descr,Readable), write(Readable), !.
 write_description(Domain) :-
   atom(Domain),
-  rdf_readable(Domain,Readable), write(Readable), !.
+  owl_readable(Domain,Readable), write(Readable), !.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %

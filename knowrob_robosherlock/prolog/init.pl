@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % dependencies
 :- register_ros_package(knowrob_common).
+:- register_ros_package(knowrob_robosherlock).
 
 :- use_module(library(rs_plan_pipeline)).
 

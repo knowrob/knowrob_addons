@@ -48,6 +48,7 @@
 :- use_module(library('owl_parser')).
 :- use_module(library('comp_temporal')).
 :- use_module(library('knowrob_mongo')).
+:- use_module(library('knowrob_transforms')).
 :- use_module(library('knowrob_math')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -109,24 +110,25 @@ knowrob_temporal:holds(Inner, 'http://knowrob.org/kb/chemlab-map_review-2015.owl
   comp_insideOf_at_time(Inner, Outer, Instant).
 
 comp_insideOf(InnerObj, OuterObj) :-
-  get_timepoint(Instant),
+  current_time(Instant),
   comp_insideOf_at_time(InnerObj, OuterObj, Instant).
 
 comp_insideOf_at_time(InnerObj, OuterObj, [Instant,Instant]) :-
   comp_insideOf_at_time(InnerObj, OuterObj, Instant), !.
 comp_insideOf_at_time(InnerObj, OuterObj, Instant) :-
   ground(Instant),
+  map_frame_name(MapFrame),
   
   rdfs_individual_of(InnerObj, knowrob:'EnduringThing-Localized'),
-  object_pose_at_time(InnerObj, Instant, pose([X_Frame, Y_Frame, Z_Frame], _)),
+  object_pose_at_time(InnerObj, Instant, [MapFrame, _, [X_Frame, Y_Frame, Z_Frame], _]),
   
   rdfs_individual_of(OuterObj, knowrob:'Container'),
-  object_pose_at_time(OuterObj, Instant, pose([X_Out, Y_Out, Z_Out], _)),
+  object_pose_at_time(OuterObj, Instant, [MapFrame, _, [X_Out, Y_Out, Z_Out], _]),
 
   rdf_has(OuterObj, srdl2comp:'box_size', literal(type(_,BoxSize))),
   rdf_has(OuterObj, srdl2comp:'aabb_offset', literal(type(_,Offsets))),
-  parse_vector(BoxSize, [X_Box,Y_Box,Z_Box]),
-  parse_vector(Offsets, [X_Off,Y_Off,Z_Off]),
+  rdf_vector_prolog(BoxSize, [X_Box,Y_Box,Z_Box]),
+  rdf_vector_prolog(Offsets, [X_Off,Y_Off,Z_Off]),
   X_Positive is X_Out + X_Off + X_Box,
   X_Negative is X_Out + X_Off - X_Box,
   Y_Positive is Y_Out + Y_Off + Y_Box,

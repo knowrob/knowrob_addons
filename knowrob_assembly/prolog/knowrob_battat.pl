@@ -9,8 +9,8 @@
 
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
 
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(battat_test, 'http://knowrob.org/kb/battat_airplane_test.owl#', [keep(true)]).
@@ -67,9 +67,9 @@ battat_sim_plane_complete :-
 battat_sim_plane_connection(ConnType, Primary, Parts) :- battat_sim_plane_connection(ConnType, Primary, Parts, _).
 battat_sim_plane_connection(ConnType, Primary, Parts, Conn) :-
   assemblage_connection_create(ConnType, Parts, Conn),
-  write('  connection '), rdf_write_readable(Conn), nl,
-  write('    primary: '), rdf_write_readable(Primary), nl,
-  write('    parts:   '), rdf_write_readable(Parts), nl,
+  write('  connection '), owl_write_readable(Conn), nl,
+  write('    primary: '), owl_write_readable(Primary), nl,
+  write('    parts:   '), owl_write_readable(Parts), nl,
   forall( rdf_has(Conn, knowrob_assembly:'blocksAffordance', Aff), (
-          write('    blocksAffordance '), rdf_write_readable(Aff), nl )),
+          write('    blocksAffordance '), owl_write_readable(Aff), nl )),
   cram_assembly:cram_assembly_apply_connection(Primary, Conn).

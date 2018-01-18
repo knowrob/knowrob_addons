@@ -31,6 +31,7 @@
 
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
+:- register_ros_package(knowrob_srdl).
 :- register_ros_package(knowrob_meshes).
 :- register_ros_package(comp_temporal).
 
