@@ -355,8 +355,8 @@ assemblage_part_links_connections(Part, Blacklist, LinkedConnections) :-
 %
 assemblage_connection_transform(Connection, PrimaryObject, [TargetFrame,RefFrame,Translation,Rotation]) :-
   assemblage_connection_reference(Connection, TransformId, ReferenceObj),
-  rdf_has(PrimaryObject, srdl2comp:'urdfName', literal(TargetFrame)),
-  rdf_has(ReferenceObj , srdl2comp:'urdfName', literal(RefFrame)),
+  rdf_has(PrimaryObject, knowrob:'frameName', literal(TargetFrame)),
+  rdf_has(ReferenceObj , knowrob:'frameName', literal(RefFrame)),
   once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
   transform_data(TransformId, (Translation, Rotation)).
 

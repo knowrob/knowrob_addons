@@ -119,7 +119,7 @@ cram_assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts) :-
   list_to_set(SecondaryParts_list, SecondaryParts).
 
 part_attached_to_fixture(Part, 1) :-
-  once(assemblage_part_links_fixture(Part, _)), !.
+  once(assemblage_part_links_fixture(Part, _, _)), !.
 part_attached_to_fixture(_Part, 0).
 
 part_blocked_affordances(Part, Blocked) :-
@@ -184,7 +184,7 @@ cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
 
 cram_assembly_gripper(Gripper) :-
   % just require that the object has a TF name for now
-  rdf_has(Gripper, srdl2comp:'urdfName', literal(_)).
+  rdf_has(Gripper, knowrob:'frameName', literal(_)).
   
 %% cram_assembly_apply_ungrasp(+GraspedObject, Gripper, GraspSpec) is det.
 %
@@ -197,7 +197,7 @@ cram_assembly_apply_ungrasp(GraspedObject, Gripper, GraspSpec) :-
   % make GraspedObject absolute if still relative to gripper
   rdf_has(GraspedObject, paramserver:'hasTransform', TransformId),
   ( rdf_has(TransformId, knowrob:'relativeTo', Gripper) -> (
-    rdf_has(GraspedObject, srdl2comp:'urdfName', literal(ObjFrame)),
+    rdf_has(GraspedObject, knowrob:'frameName', literal(ObjFrame)),
     % FIXME: hardcoded map frame name
     get_current_tf('map', ObjFrame, Tx,Ty,Tz, Rx,Ry,Rz,Rw),
     belief_at_update(GraspedObject, ([Tx,Ty,Tz], [Rx,Ry,Rz,Rw]))
