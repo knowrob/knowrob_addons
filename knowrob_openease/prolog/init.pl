@@ -35,6 +35,7 @@
 :- register_ros_package(comp_temporal).
 :- register_ros_package(knowrob_vis).
 :- register_ros_package(knowrob_cram).
+:- register_ros_package(knowrob_srdl).
 
 :- register_ros_package(knowrob_openease).
 :- use_module(library('openease_video')).

@@ -39,8 +39,8 @@
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('owl')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('knowrob/owl')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
@@ -52,12 +52,12 @@
 
 %% owl_specialization_of(+Specific, +General)
 % 
-owl_specialization_of(Resource, Resource).
+owl_specialization_of(Resource, Resource) :- !.
 owl_specialization_of(Specific, General) :-
   rdfs_individual_of(Specific, owl:'Class'),!,
-  atom(General), owl_subclass_of(Specific,General).
+  atom(General), owl_subclass_of(Specific,General), !.
 owl_specialization_of(Specific, General) :-
-  atom(General), owl_individual_of(Specific, General).
+  atom(General), owl_individual_of(Specific, General), !.
 
 %% owl_specializable(?Resource, ?Description)
 %

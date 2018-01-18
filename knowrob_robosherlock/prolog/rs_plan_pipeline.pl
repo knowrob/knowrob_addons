@@ -70,14 +70,14 @@ compute_annotators(A) :-
 compute_annotator_outputs(Annotator,Output) :- 
 	% current_robot(R),!,
 	annotators(Annotator), 
-	class_properties(Annotator,rs_components:'perceptualOutput',Output).
+	owl_class_properties(Annotator,rs_components:'perceptualOutput',Output).
 	%  action_feasible_on_robot(Annotator, R).
 
 % Get inputs of Annotator
 compute_annotator_inputs(Annotator,Input) :- 
 	% current_robot(R),!,
 	annotators(Annotator), 
-	class_properties(Annotator,rs_components:'perceptualInputRequired',Input).
+	owl_class_properties(Annotator,rs_components:'perceptualInputRequired',Input).
 	%  action_feasible_on_robot(Annotator, R).
 
 % cache outputs/inputs
@@ -271,48 +271,48 @@ annotators_for_predicates(Predicates, A):-
 	annotators_for_predicate(P, A).
 
 obj_has_predicate(cylindrical_shape, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, rs_components:'CylindricalShape').
 
 obj_has_predicate(shape, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, rs_components:'Shape'),
 	not(O = 'http://knowrob.org/kb/rs_components.owl#CylindricalShape').
 
 obj_has_predicate(color, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, knowrob:'ColoredThing').
 
 obj_has_predicate(size, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, rs_components:'Size').
 
 obj_has_predicate(logo, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, rs_components:'Logo').
 
 obj_has_predicate(text, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, rs_components:'TextOnObject').
 
 obj_has_predicate(handle, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasVisualProperty',O),
 	owl_subclass_of(O, knowrob:'Handle').
 
 obj_has_predicate(location, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/knowrob.owl#aboveOf',_).
+	owl_class_properties(Obj,'http://knowrob.org/kb/knowrob.owl#aboveOf',_).
 
 % Predicates for DetectionClues
 obj_has_predicate(blort, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasDetectionClue',O), 
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasDetectionClue',O), 
 	O = 'http://knowrob.org/kb/rs_components.owl#BlortModel'.
 
 obj_has_predicate(linemod, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasDetectionClue',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasDetectionClue',O),
 	O = 'http://knowrob.org/kb/rs_components.owl#LinemodModel'.
 
 obj_has_predicate(pancakedetector, Obj):- 
-	class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasDetectionClue',O),
+	owl_class_properties(Obj,'http://knowrob.org/kb/rs_components.owl#hasDetectionClue',O),
 	O = 'http://knowrob.org/kb/rs_components.owl#PancakeDetector'.
 
 

@@ -72,12 +72,12 @@
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('knowrob_temporal')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/temporal')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
@@ -547,7 +547,7 @@ successful_tasks_for_goal(Goal, Tasks) :-
 % @param Status Returned status
 % 
 task_status(Task, Status) :-
-    get_timepoint(T),
+    current_time(T),
     knowrob_temporal:holds(task_status(Task, Status), T).
 
 %% holds(task_status(+Task, -Status), +T) is nondet.
