@@ -22,7 +22,7 @@
 
 battat_initialize :-
   owl_parser:owl_parse('package://knowrob_assembly/owl/battat_toys.owl'),
-  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_test.owl'),
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_test.owl', belief_state),
   owl_parser:owl_parse('package://knowrob_srdl/owl/Boxy_08_2016.owl').
 
 battat_initialize_sim :-
