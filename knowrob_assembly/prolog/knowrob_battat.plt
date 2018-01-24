@@ -9,7 +9,7 @@
 :- use_module(library('knowrob_planning')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_test.owl').
-:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_simulation.owl').
+:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_simulation.owl', belief_state).
 
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(battat_test, 'http://knowrob.org/kb/battat_airplane_test.owl#', [keep(true)]).
@@ -18,6 +18,10 @@
 :- rdf_db:rdf_register_prefix(params, 'http://knowrob.org/kb/knowrob_paramserver.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
+
+test(assembly_battat_beliefstate_filled) :-
+  belief_existing_objects(KnownObjects),
+  KnownObjects \= [].
 
 test(assembly_BattatPlaneBodyWithoutWindow) :-
   rdf_instance_from_class(battat_toys:'BattatPlaneBodyWithoutWindow', BattatPlaneBody),
