@@ -49,7 +49,7 @@
 
 :- use_module(library('jpl')).
 :- use_module(library('lists')).
-:- use_module(library('util')).
+:- use_module(library('knowrob/utility/jpl')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
