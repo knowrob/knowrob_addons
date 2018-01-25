@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(semantic_map_to_owl)
 
-find_package(catkin REQUIRED rosjava_build_tools geometry_msgs knowrob_common message_generation)
+find_package(catkin REQUIRED rosjava_build_tools roscpp geometry_msgs knowrob_common message_generation)
 
 
 catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository)
