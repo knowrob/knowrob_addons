@@ -1,6 +1,6 @@
 /** <module> knowrob_mvg
 
-  Copyright (C) 2016 Asil Kaan Bozcuoglu
+  Copyright (C) 2016-17 Asil Kaan Bozcuoglu
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
@@ -32,10 +32,13 @@
     [
       generate_mixed_gaussian/1,
       generate_mixed_gaussian/2,
+      mixed_gaussian_with_failure/6,
+      get_likely_location/6,
+      get_likely_pose/7,
       generate_multivar_gaussian/2,
       generate_heat_maps/0,
-      generate_feature_files/1,
-      generate_feature_files/2
+      generate_feature_files/2,
+      get_divided_subtasks_with_goal/4
     ]).
 
 :- use_module(library('jpl')).
@@ -70,7 +73,7 @@ get_likely_pose(PosFile, PosCluster, NegFile, NegCluster, CurrentPose, Pose, Cov
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   %jpl_list_to_array(CurrentPose, CurrentPoseArr),
   jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], X),
-  jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),
+  jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),\
   matrix(CurrentPose, [CP_X,CP_Y,_], [0,0,0,1]),
   matrix_translate(CurrentPose, [MX-CP_X , MY-CP_Y,0], Pose),
   Covariance = [C1, C2, C3, C4].
@@ -83,10 +86,19 @@ generate_heat_maps :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'createHeatMaps', [], _X).
 
-generate_feature_files(Features) :-
+generate_feature_files(Features, FileName) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
-  jpl_call(GausInterface, 'writeFeature', [Features], _X).
+  jpl_call(GausInterface, 'writeSimpleFeatures', [Features, FileName], _X).
 
 generate_feature_files(FloatFeatures, StringFeatures) :-
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   jpl_call(GausInterface, 'writeFeature', [FloatFeatures, StringFeatures], _X).
+
+get_divided_subtasks_with_goal(Parent, Goal, SuccInst, NegInsts) :-
+  findall(ST, (subtask(Parent, ST),
+  entity(ST, [an, action, ['task_context', Goal]])), AllInstances),
+  list_to_set(AllInstances, AllSet),
+  member(SuccInst, AllSet),
+  subtract(AllSet, [SuccInst], NegInsts),
+  occurs(SuccInst, [SuccBegin, _]),
+  forall(member(A,NegInsts), (occurs(A, [Begin, _]), SuccBegin > Begin)). 

@@ -36,7 +36,7 @@
         load_experiments/1,
         load_experiments/2,
         load_experiments/3,
-        belief_at/2,
+        remember_at/2,
         event/3,
         event_before/3,
         event_after/3,
@@ -72,18 +72,18 @@
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('knowrob_temporal')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/temporal')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
 
-% :- meta_predicate belief_at(0, ?, ?).
-:- discontiguous belief_at/1.
+% :- meta_predicate remember_at(0, ?, ?).
+:- discontiguous remember_at/1.
 
 
 % define predicates as rdf_meta predicates
@@ -116,7 +116,7 @@
     task_start(r,r),
     task_end(r,r),
     task_duration(r,?),
-    belief_at(?,r),
+    remember_at(?,r),
     task_outcome(r,r),
     failure_type(r,r),
     task_failure(r,r),
@@ -547,7 +547,7 @@ successful_tasks_for_goal(Goal, Tasks) :-
 % @param Status Returned status
 % 
 task_status(Task, Status) :-
-    get_timepoint(T),
+    current_time(T),
     knowrob_temporal:holds(task_status(Task, Status), T).
 
 %% holds(task_status(+Task, -Status), +T) is nondet.
@@ -586,7 +586,7 @@ task_status(Task, Status) :-
 %
 
 
-%% belief_at(loc(+Desig,-Loc), ?Time) is nondet.
+%% remember_at(loc(+Desig,-Loc), ?Time) is nondet.
 %
 % Check what the belief of the robot for location of Object at given Time .
 %
@@ -594,10 +594,10 @@ task_status(Task, Status) :-
 % @param Location Pose matrix identifier
 % @param Time     TimePoint
 % 
-belief_at(loc(Desig,Loc), _Time) :-
+remember_at(loc(Desig,Loc), _Time) :-
   mng_designator_location(Desig, Loc).
 
-%% belief_at(robot(+Part,-Loc), +Time) is nondet.
+%% remember_at(robot(+Part,-Loc), +Time) is nondet.
 %
 % Check what the belief of the robot for location of Robot part at given Time .
 %
@@ -605,7 +605,7 @@ belief_at(loc(Desig,Loc), _Time) :-
 % @param Loc   Pose matrix identifier
 % @param Time  TimePoint
 % 
-belief_at(robot(Part,Loc), Time) :-
+remember_at(robot(Part,Loc), Time) :-
   mng_lookup_transform('/map', Part, Time, Loc).
 
 add_object_as_semantic_instance(Designator, Matrix, Time, ObjInstance) :-

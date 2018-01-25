@@ -45,14 +45,14 @@
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/temporal')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/srdl2')).
 :- use_module(library('knowrob_meshes')).
-:- use_module(library('knowrob_temporal')).
-:- use_module(library('srdl2')).
 :- use_module(library('lists')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -60,6 +60,7 @@
 :- rdf_db:rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(boxy2, 'http://knowrob.org/kb/BoxyWithRoller.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(pr2, 'http://knowrob.org/kb/PR2.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
 :-  rdf_meta
   designator_grasped_pose(r,r,r,r),
@@ -95,8 +96,8 @@ human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
   mng_lookup_transform('/map', URDF, T, Transform),
   mng_lookup_transform('/map', URDFParent, T, TransformParent),
   % Find the translation of both joints
-  matrix_translation(Transform, [X,Y,Z]),
-  matrix_translation(TransformParent, [X_Parent,Y_Parent,Z_Parent]),
+  matrix(Transform, [X,Y,Z], _),
+  matrix(TransformParent, [X_Parent,Y_Parent,Z_Parent], _),
   % Estimate rotation based on joint positions
   Dir_X is X - X_Parent,
   Dir_Y is Y - Y_Parent,
@@ -226,8 +227,7 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
     time_earlier_then(Perc_T, Perc2_T)
   )),
   mng_designator_location(ObjId, Transform, T),
-  matrix_rotation(Transform, Rotation),
-  matrix_translation(Transform, Position).
+  matrix(Transform, Position, Rotation).
 
 designator_latest_grasp(ObjId, T, Grasp) :-
   rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
@@ -343,16 +343,3 @@ visualize_rolling_experiment(T) :-
   %  '__recorded', T, [['designator.DOUGH', 'exist', 'true']]),
   %mng_designator(DBObj, Desig),
   %add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).
-  
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-
-% NOTE: this computable also takes action into account: it tries to predict the object pose
-%       based on object designators and grasping events, attaching the object to the gripper while grasped
-% TODO: integrate this idea into knowrob core
-knowrob_temporal:holds(Object, 'http://knowrob.org/kb/knowrob.owl#pose', Pose, [Instant,Instant]) :-
-  ground(Instant),
-  once(designator_estimate_pose(Object, Instant, movable, Position, Rotation)),
-  create_pose(pose(Position, Rotation), Pose).
-

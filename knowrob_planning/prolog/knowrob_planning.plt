@@ -2,9 +2,9 @@
 
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('owl_parser')).
-:- use_module(library('swrl')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/swrl')).
 :- use_module(library('knowrob_planning')).
 
 :- owl_parser:owl_parse('package://knowrob_planning/owl/planning_test.owl').
@@ -20,18 +20,18 @@
 %%%%%%% test owl_most_specific_specialization
 
 test(owl_most_specific_specializations1) :-
-  owl_most_specific_specializations(knowrob:'SpatialThing', [knowrob:'Container', knowrob:'Sink'], List),
-  rdf_global_term([knowrob:'Sink'],List).
+  owl_most_specific([knowrob:'Container', knowrob:'Sink'], Sink),
+  rdf_equal(knowrob:'Sink',Sink).
 test(owl_most_specific_specializations2) :-
-  owl_most_specific_specializations(knowrob:'SpatialThing', [knowrob:'Container', knowrob:'HumanScaleObject'], X),
-  rdf_equal(knowrob:'Container',C1), once(member(C1,X)),
-  rdf_equal(knowrob:'HumanScaleObject',C2), once(member(C2,X)).
+  findall(X, owl_most_specific([knowrob:'Container', knowrob:'HumanScaleObject'], X), Xs),
+  rdf_equal(knowrob:'Container',C1), once(member(C1,Xs)),
+  rdf_equal(knowrob:'HumanScaleObject',C2), once(member(C2,Xs)).
 test(owl_most_specific_specializations3) :-
-  owl_most_specific_specializations(knowrob:'Container', [knowrob:'Sink', knowrob:'HumanScaleObject'], List),
-  rdf_global_term([knowrob:'Sink'],List).
+  owl_most_specific([knowrob:'Sink', knowrob:'HumanScaleObject'], Sink),
+  rdf_equal(knowrob:'Sink',Sink).
 test(owl_most_specific_specializations4) :-
-  owl_most_specific_specializations(owl:'Thing', [knowrob:'Sink'], List),
-  rdf_global_term([knowrob:'Sink'],List).
+  owl_most_specific([knowrob:'Sink'], Sink),
+  rdf_equal(knowrob:'Sink',Sink).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% test owl_specializable
@@ -109,12 +109,13 @@ test(owl_specializable_some_values7) :-
 
 test(owl_specializable_all_values1) :-
   owl_specializable(planning_test:'TestSomeRestr_1',
-    restriction(planning_test:'testProperty', all_values_from(knowrob:'SpatialThing'))),
-  owl_specializable(planning_test:'TestSomeRestr_1',
     restriction(planning_test:'testProperty', all_values_from(knowrob:'Container'))),
   owl_specializable(planning_test:'TestSomeRestr_1',
     restriction(planning_test:'testProperty', all_values_from(knowrob:'Sink'))).
 test(owl_specializable_all_values2) :-
+  % SpatialThing is less specific then Container -> not specializable
+  \+ owl_specializable(planning_test:'TestSomeRestr_1',
+    restriction(planning_test:'testProperty', all_values_from(knowrob:'SpatialThing'))),
   \+ owl_specializable(planning_test:'TestSomeRestr_1',
     restriction(planning_test:'testProperty', all_values_from(knowrob:'HumanScaleObject'))).
 test(owl_specializable_all_values3) :-
@@ -280,9 +281,6 @@ test(owl_satisfies_restriction_up_cardinality_values1) :-
 test(owl_satisfies_restriction_up_cardinality_values1) :-
   % not allowed because cardinality restriction (1,1) can't be specialized to (2,2)
   \+ test_restriction_up_to(planning_test:'TestSomeRestr_2', restriction(planning_test:'testProperty', cardinality(2,2,knowrob:'Container')), _).
-
-% TODO: test detach item generation
-% TODO: test crazy nested restrictions
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- end_tests(knowrob_planning).

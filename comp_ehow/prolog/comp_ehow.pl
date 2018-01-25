@@ -57,10 +57,9 @@
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('semweb/rdfs_computable')).
 :- use_module(library('jpl')).
-:- use_module(library('knowrob_actions')).
-:- jpl_set_default_jvm_opts(['-Xmx2048M']).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/actions')).
 
 :- owl_parser:owl_parse('package://comp_ehow/owl/comp_ehow.owl').
 

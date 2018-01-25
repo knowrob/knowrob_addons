@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>knowrob_robosherlock</name>
+  <version>0.1.0</version>
+  <description>package holding prolog rules relating to robosherlocke
+ 		- planning a pipeline based on keywords
+  </description>
+
+  <maintainer email="balintbe@cs.uni-bremend.de">Ferenc Balint-Benczedi</maintainer>
+  <author>Ferenc Balint-Benczedi</author>
+  <author>Patrick Mania</author>
+
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <depend>knowrob_common</depend>
+  <depend>knowrob_vis</depend>
+  <depend>knowrob_actions</depend>
+  <depend>knowrob_srdl</depend>
+
+</package>
