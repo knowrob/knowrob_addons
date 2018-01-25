@@ -43,7 +43,8 @@
 
 :- use_module(library('jpl')).
 :- use_module(library('lists')).
-:- use_module(library('util')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/mongo')).
 
 choose_map(SemanticMapPath, JavaListMap) :-
    owl_parse(SemanticMapPath),
