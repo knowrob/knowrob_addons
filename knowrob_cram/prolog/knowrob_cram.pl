@@ -109,7 +109,8 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 
 
   % create timepoint instance and set as start time
-  create_timepoint(StartTime, StTime),
+  %create_timepoint(StartTime, StTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=StartTime], StTime),
   rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(ActionInst, knowrob:startTime, StTime, 'LoggingGraph'),
@@ -129,7 +130,8 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 cram_finish_action(ActionInst, EndTime) :-
 
   % create timepoint instance and set as end time
-  create_timepoint(EndTime, ETime),
+  %create_timepoint(EndTime, ETime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=EndTime], ETime),
   rdf_assert(ETime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(ETime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(ActionInst, knowrob:endTime, ETime, 'LoggingGraph').
@@ -217,7 +219,8 @@ cram_add_failure_to_action(ActionInst, FailureType, FailureLabel, FailureTime, F
   rdf_instance_from_class(FailureType, 'LoggingGraph', FailureInst),
   rdf_assert(FailureInst, rdfs:label, literal(type(xsd:string, FailureLabel)), 'LoggingGraph'),
 
-  create_timepoint(FailureTime, StTime),
+  %create_timepoint(FailureTime, StTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=FailureTime], StTime),
   rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(FailureInst, knowrob:startTime, StTime, 'LoggingGraph'),
@@ -251,7 +254,8 @@ cram_create_desig(DesigType, DesigInst) :-
 % @param EquationTime Time to be stored for the equation event
 %
 cram_equate_designators(PreDesig, SuccDesig, EquationTime) :-
-  create_timepoint(EquationTime, EqTime),
+  %create_timepoint(EquationTime, EqTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=FailureTime], StTime),
   rdf_assert(EqTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(EqTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(PreDesig, knowrob:successorDesignator, SuccDesig, 'LoggingGraph'),
