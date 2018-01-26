@@ -30,7 +30,7 @@
   <run_depend>knowrob_roslog_launch</run_depend>
   <run_depend>knowrob_sim</run_depend>
   <run_depend>mod_probcog</run_depend>
-  <run_depend>semantic_map_to_owl</run_depend>
+  <!-- <run_depend>semantic_map_to_owl</run_depend> -->
 
   <!-- Dependencies needed only for running tests. -->
 
