@@ -1,0 +1,751 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/uwsim.map.owl#"
+    xml:base="http://knowrob.org/kb/uwsim.owl"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:map="http://knowrob.org/kb/uwsim.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
+    
+  <!--owl:Ontology rdf:about="http://knowrob.org/kb/galtelli_map.owl#">
+    <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+  </owl:Ontology-->
+
+    <!-- http://ias.cs.tum.edu/kb/knowrob.owl#Vector -->
+
+  
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Transformation"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quaternion"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#translation"/>
+
+    <!-- GENERAL DEFS -->
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#describedInMap"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#depthOfObject"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#heightOfObject"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#widthOfObject"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#vectorX"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#vectorY"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#vectorZ"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SemanticEnvironmentMap"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SemanticMapPerception"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Vector"/>
+    <owl:DatatypeProperty rdf:about="&knowrob;pathToCadModel"/>
+  
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Vector"/>
+    <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#RestingPlace"/>
+    <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#DangerousArea"/>
+    <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#ConiferForest"/>
+    <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#MixedForest"/>
+    <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#BroadLeavedForest"/>
+    <owl:Class rdf:about="http://www.knowrob.org/kb/iai-rescue.owl#HighVictimPropabilityRegion"/>
+  <!-- galtelli specific environment class defs -->
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Underwater_World">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;WaterEnvironment"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <!--owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/UWWaterFloor.dae</owl:hasValue-->
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Floor">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/fishtank_floorandobjects_210916.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Mountain">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+		<owl:onProperty rdfs:label="Mountain"/>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/floor_Mountain.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#BlueDartFrog">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+	<rdf:type rdf:resource="&knowrob;AnimateStationaryCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/bluedartfrog.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#BubbleCoral1">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;BubbleCoral"/> 
+	<rdf:type rdf:resource="&knowrob;Coralreefs"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/bubblecoral1.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#BubbleCoral2">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;BubbleCoral"/> 
+	<rdf:type rdf:resource="&knowrob;Coralreefs"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/bubblecoral2.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Crab">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateStationaryCreatures"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/crab.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PillarCoral1">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;PillarCoral"/> 
+	<rdf:type rdf:resource="&knowrob;Coralreefs"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/pillarcoral1.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PillarCoral2">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;PillarCoral"/>
+	<rdf:type rdf:resource="&knowrob;Coralreefs"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/pillarcoral2.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Rock">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/rock.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#StarFish">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+	<rdf:type rdf:resource="&knowrob;AnimateStationaryCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/starfish.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#RedCoral">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
+	<rdf:type rdf:resource="&knowrob;FishHabitat"/>
+	<rdf:type rdf:resource="&knowrob;Coralreefs"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_stationary_models/red_coral2.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <!--owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish1">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+                <owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Fish1Full.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish2">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/> 
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		<owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Fish2Full.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish3">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		<owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Fish3Full.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish4">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+ 	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		<owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Fish4Full.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish5">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		<owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Fish5Full2.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish6">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		<owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Fish6Full_new.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish7">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish8">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Fish9">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#FishSwarm">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Tortoise">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Shark1">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
+	<rdf:type rdf:resource="&knowrob;AnimateDynamicCreatures"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
+		<owl:hasValue rdf:datatype="&xsd;string">package://uwsim_models/uwsim_fish_urdf/Fish_models/Shark1Full.dae</owl:hasValue>
+                </owl:Restriction>
+        </rdfs:subClassOf>   
+  </owl:Class-->
+
+  <!-- individuals -->
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/uwsim.owl#UWSimSimMap">    <!--GaltelliSimMap-->
+        <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
+    </owl:NamedIndividual>  
+
+<owl:NamedIndividual rdf:about="&knowrob;Underwater_World">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Underwater_World"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Underwater_World">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 -200.0</knowrob:translation>    <!--81.05247</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionUnderwater_World">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Underwater_World"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Underwater_World"/>
+</owl:NamedIndividual>
+
+  
+<owl:NamedIndividual rdf:about="&knowrob;Floor">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Floor"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Floor">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 -200.0</knowrob:translation> <!--81.05247</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFloor">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Floor"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Floor"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Mountain">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Mountain"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Mountain">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string"> -0.0 1.0 0.0 -0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">29.05 0.0 -202.19386</knowrob:translation> <!--83.19386</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionMountain">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Mountain"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Mountain"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;BlueDartFrog">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#BlueDartFrog"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_BlueDartFrog">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-180.0 80.0 -190</knowrob:translation> <!--73.28967</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionBlueDartFrog">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_BlueDartFrog"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;BlueDartFrog"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;BubbleCoral1">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#BubbleCoral1"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+Processing
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_BubbleCoral1">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-273.5 0 -190.5881</knowrob:translation> <!--71.5881</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionBubbleCoral1">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_BubbleCoral1"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;BubbleCoral1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;BubbleCoral2">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#BubbleCoral2"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_BubbleCoral2">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-271.41 61.089 -194.0</knowrob:translation> <!--75.0</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionBubbleCoral2">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_BubbleCoral2"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;BubbleCoral2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Crab">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Crab"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Crab">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-80.18707 -144.0135 -146.5</knowrob:translation> <!--27.5</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionCrab">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Crab"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Crab"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;PillarCoral1">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#PillarCoral1"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_PillarCoral1">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-246.30194 132.32431 -195.46519</knowrob:translation> <!--76.46519</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionPillarCoral1">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_PillarCoral1"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;PillarCoral1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;PillarCoral2">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#PillarCoral2"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_PillarCoral2">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-275 67.18768 -191.57535</knowrob:translation> <!--72.57535</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionPillarCoral2">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_PillarCoral2"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;PillarCoral2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Rock">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Rock"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Rock">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-79.0647 -139.1331 -179.0</knowrob:translation> <!--60.0</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionRock">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Rock"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Rock"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;StarFish">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#StarFish"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_StarFish">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-72.19109 59.24625 -188.80955</knowrob:translation> <!--69.80955</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionStarFish">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_StarFish"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;StarFish"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;RedCoral">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#RedCoral"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_RedCoral">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-220.13539 -102.46047 -205.27846</knowrob:translation> <!--69.80955</knowrob:translation-->
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionRedCoral">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_RedCoral"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;RedCoral"/>
+</owl:NamedIndividual>
+
+<!--owl:NamedIndividual rdf:about="&knowrob;Fish1">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish1"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish1">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-280.0 -10.0 -40.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish1">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish1"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish2">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish2"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish2">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-200.0 -60.0 -40.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish2">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish2"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish3">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish3"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish3">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-100.0 -100.0 -40.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish3">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish3"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish4">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish4"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish4">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-180.0 -23.0 -40.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish4">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish4"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish5">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish5"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish5">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-150.0 -50.0 -40.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish5">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish5"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish5"/>
+</owl:NamedIndividual>
+
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish6">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish6"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish6">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-235.406 -87.0 -110.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish6">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish6"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish6"/>
+</owl:NamedIndividual>
+
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish7">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish7"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish7">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-235.406 -82.0 -110.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish7">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish7"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish7"/>
+</owl:NamedIndividual>
+
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish8">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish8"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish8">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-235.406 -65.0 -110.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish8">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish8"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Fish9">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Fish9"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Fish9">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-228 -50 -110.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFish9">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Fish9"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Fish9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;FishSwarm">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#FishSwarm"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_FishSwarm">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-228 -50 -110.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionFishSwarm">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_FishSwarm"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;FishSwarm"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Shark1">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Shark1"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Shark1">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-100 100 -30.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionShark1">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/uwsim.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Shark1"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Shark1"/>
+</owl:NamedIndividual>
+
+
+<owl:NamedIndividual rdf:about="&knowrob;Tortoise">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Tortoise"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/uwsim.owl#UWSimSimMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_Tortoise">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">0.0 0.0 0.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionTortoise">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/Tortoise.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_Tortoise"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;Tortoise"/>
+</owl:NamedIndividual-->
+</rdf:RDF>
