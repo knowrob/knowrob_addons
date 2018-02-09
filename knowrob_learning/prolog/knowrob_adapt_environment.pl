@@ -43,9 +43,10 @@
 
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/computable')).
 
 apply_rule_for_adapt(SourceAction, TargetAction, RuleOut) :-
     rdf_instance_from_class(knowrob:'AdaptingEpisodicMemoryData', RuleOut),

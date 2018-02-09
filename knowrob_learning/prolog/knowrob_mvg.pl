@@ -43,7 +43,7 @@
 
 :- use_module(library('jpl')).
 :- use_module(library('lists')).
-:- use_module(library('util')).
+:- use_module(library('knowrob/transforms')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
@@ -74,7 +74,7 @@ get_likely_pose(PosFile, PosCluster, NegFile, NegCluster, CurrentPose, Pose, Cov
   %jpl_list_to_array(CurrentPose, CurrentPoseArr),
   jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], X),
   jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),
-  matrix_translation(CurrentPose, [CP_X,CP_Y,_]),
+  matrix(CurrentPose, [CP_X,CP_Y,_], [0,0,0,1]),
   matrix_translate(CurrentPose, [MX-CP_X , MY-CP_Y,0], Pose),
   Covariance = [C1, C2, C3, C4].
 
