@@ -34,7 +34,7 @@
 :- register_ros_package(knowrob_objects).
 :- register_ros_package(knowrob_planning).
 
-:- use_module(library('knowrob_assembly')).
-:- use_module(library('knowrob_battat')).
+:- use_module('knowrob_assembly').
+:- use_module('knowrob_battat').
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
