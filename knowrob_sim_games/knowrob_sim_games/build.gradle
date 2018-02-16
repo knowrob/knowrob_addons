@@ -39,6 +39,7 @@ dependencies {
   //compile 'org.mongodb:mongo-java-driver:2.12.2,)' // ignored since knowrob_vis indirectly includes it
   compile 'java3d:vecmath:1.3.1'
   compile 'org.knowrob.knowrob_vis:knowrob_vis:[0.1,)'
+  compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
   compile 'nz.ac.waikato.cms.weka:weka-dev:3.7.12'
 
   /* Example of a local subproject dependency */ 

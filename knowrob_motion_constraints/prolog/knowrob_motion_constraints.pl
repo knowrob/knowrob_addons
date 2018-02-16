@@ -45,12 +45,12 @@
     ]).
 
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl_parser')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/objects')).
+:- use_module(library('knowrob/perception')).
 :- use_module(library('jpl')).
-:- use_module(library('knowrob_objects')).
-:- use_module(library('knowrob_perception')).
 :- use_module(library('knowrob_mesh_reasoning')).
 
 
@@ -87,7 +87,7 @@
 % @param Constr OWL identifier of the constraint
 %
 motion_constraint(Motion, Constr) :-
-    class_properties(Motion, knowrob:constrainedBy, Constr).
+    owl_class_properties(Motion, knowrob:constrainedBy, Constr).
 
 
 %% motion_constraint(+Motion, +Tool, -C) is nondet.
@@ -101,8 +101,8 @@ motion_constraint(Motion, Constr) :-
 %TODO: ADAPT THIS TO THE FINAL FEATURE REPRESENTATION
 % 
 % motion_constraint(Motion, Tool, Constr) :-
-%     class_properties(Motion, knowrob:constrainedBy, Constr),
-%     class_properties(Constr, constr:toolFeature, Tf),
+%     owl_class_properties(Motion, knowrob:constrainedBy, Constr),
+%     owl_class_properties(Constr, constr:toolFeature, Tf),
 %     once(owl_individual_of(ToolPart, Tf)),
 %     owl_has(Tool, knowrob:properPhysicalParts, ToolPart).
 
@@ -133,16 +133,16 @@ constraint_properties(ToolObjClass, WorldObjClass, Constr, Type, ToolFeature, Wo
     owl_subclass_of(Constr, Type),
     once(owl_direct_subclass_of(Type, constr:'MotionConstraint')),
 
-    (var(ToolFeatureClass)  -> (class_properties(Constr, constr:toolFeature, ToolFeatureClass)) ; true),
+    (var(ToolFeatureClass)  -> (owl_class_properties(Constr, constr:toolFeature, ToolFeatureClass)) ; true),
     (var(ToolFeature)       -> (once(object_feature(ToolFeatureClass, ToolObjClass, ToolFeature))) ; true),
 
-    (var(WorldFeatureClass) -> (class_properties(Constr, constr:worldFeature, WorldFeatureClass)) ; true),
+    (var(WorldFeatureClass) -> (owl_class_properties(Constr, constr:worldFeature, WorldFeatureClass)) ; true),
     (var(WorldFeature)      -> (once(object_feature(WorldFeatureClass, WorldObjClass, WorldFeature))) ; true),
 
-    (var(ReferenceFrame)    -> (once(class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));ReferenceFrame='/torso_lift_link')) ; true),
+    (var(ReferenceFrame)    -> (once(owl_class_properties(Constr, constr:refFeature, literal(type(_, ReferenceFrame)));ReferenceFrame='/torso_lift_link')) ; true),
 
-    (var(Lower) -> (class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))), term_to_atom(Lower, L)) ; true),
-    (var(Upper) -> (class_properties(Constr, constr:constrUpperLimit, literal(type(_, U))), term_to_atom(Upper, U)) ; true),!.
+    (var(Lower) -> (owl_class_properties(Constr, constr:constrLowerLimit, literal(type(_, L))), term_to_atom(Lower, L)) ; true),
+    (var(Upper) -> (owl_class_properties(Constr, constr:constrUpperLimit, literal(type(_, U))), term_to_atom(Upper, U)) ; true),!.
 
 
 % infer most suitable toolFeature given object description
@@ -232,7 +232,8 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
   ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
 
   % todo: use relative pose instead?
-  current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
+  map_frame_name(MapFrame),
+  current_object_pose(Feature, [MapFrame,_,[PX,PY,PZ],_]),
   Position = [PX, PY, PZ],
 
   rdf_triple(knowrob:longitudinalDirection, Feature, Dir),
@@ -253,7 +254,8 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
   ((rdf_has(Feature, knowrob:tfFrame, literal(type(_,TfFrame))),!); (TfFrame = 'torso_lift_link')),
 
   % todo: use relative pose instead?
-  current_object_pose(Feature, [_,_,_,PX,_,_,_,PY,_,_,_,PZ,_,_,_,_]),
+  map_frame_name(MapFrame),
+  current_object_pose(Feature, [MapFrame,_,[PX,PY,PZ],_]),
   Position = [PX, PY, PZ],
 
   rdf_triple(knowrob:normalDirection, Feature, Dir),
@@ -294,7 +296,7 @@ feature_properties(Feature, Type, Label, TfFrame, Position, Direction) :-
 plan_constraints_of_type(Plan, Type, C) :-
    plan_subevents(Plan, Sub),
    member(Motion, Sub),
-   class_properties(Motion, knowrob:constrainedBy, C),
+   owl_class_properties(Motion, knowrob:constrainedBy, C),
    owl_subclass_of(C, Type).
 
 
@@ -302,13 +304,13 @@ plan_constraints_of_type(Plan, Type, C) :-
 features_in_constraints(Plan, O) :-
    plan_subevents(Plan, Sub),
    member(Motion, Sub),
-   class_properties(Motion, knowrob:constrainedBy, C),
-   (class_properties(C, constr:toolFeature, O);
-    class_properties(C, constr:worldFeature, O)).
+   owl_class_properties(Motion, knowrob:constrainedBy, C),
+   (owl_class_properties(C, constr:toolFeature, O);
+    owl_class_properties(C, constr:worldFeature, O)).
 
 % all properties of that constraint
 constraint_property(C, P, O) :-
-   class_properties(C, P, O).
+   owl_class_properties(C, P, O).
 
 
 

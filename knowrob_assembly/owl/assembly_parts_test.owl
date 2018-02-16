@@ -1,0 +1,2501 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/assembly_parts_test.owl#"
+     xml:base="http://knowrob.org/kb/assembly_parts_test.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:assembly_parts_test="http://knowrob.org/kb/assembly_parts_test.owl#"
+     xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/assembly_parts_test.owl">
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasAlpha -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasAlpha"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasBlue -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasBlue"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasColor -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGreen -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasGreen"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRed -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasRed"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasReferenceFrame"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRotation -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasRotation"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasShape -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasTargetFrame"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTranslation -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasTranslation"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasUnit"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasW -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasW"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasX -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasX"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasY -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasY"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasZ -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasZ"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#quaternion -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#quaternion"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#translation -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#translation"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#vector -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob.owl#vector"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasPath -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasPath"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasValue"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#FixedPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart">
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Color -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Length -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#STLFile -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Transform -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Translation -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection"/>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticFixture"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPair"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolderDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolderSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Axle -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Axle">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxlePCD"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeft"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRight"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBody"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Chassis"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticFixture"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Axle"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleOnHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleOnHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSlideInAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Axle1OnHolder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Axle2OnHolder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInBack -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInBack">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisBackAxleTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFBack"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFBack -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFBack">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInF"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFFront -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFFront">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInF"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFront -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFront">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisFrontAxleTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFFront"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodyLightSnapInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodyLightSnapInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodyLightSnapInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodyLightSnapInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodySpoilerSnapInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodySpoilerSnapInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodySpoilerSnapInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodySpoilerSnapInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CabrioBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CabrioBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ExposedSeatbody"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CamaroBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightableBody"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerableBody"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodyDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodySTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CarBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CarBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodySideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Chassis"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CarBodySideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CarBodySideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CarBodyTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBodyAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Chassis -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Chassis">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisPCD"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFBack"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleSnapInFFront"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlatF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolledM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFBack"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFFront"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticFixture"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Chassis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisTrayDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisTraySTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlat -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlat">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlatF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlatF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlat"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlatM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlatM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInFlat"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolled -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolled">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolledF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolledF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolled"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolledM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolledM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisHolderSlideInRolled"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisOnHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisOnHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisOnHolderTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisSideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisSnapInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSnapInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySnapInAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ExposedSeatbody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ExposedSeatbody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBody"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#LightBar -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#LightBar">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightBarAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightBarSideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightBarTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#LightBarAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#LightBarAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#LightBarSideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#LightBarSideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightBarAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#LightBarTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#LightBarTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightBarAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#LightableBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#LightableBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBody"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodyLightSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PlasticFixture -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PlasticFixture">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticParts"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PlasticParts -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PlasticParts">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticParts"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PorscheBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#LightableBody"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerableBody"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyPCD"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodySTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatPair -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatPair">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairSideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatPairAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatPairSideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairSideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatPairTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInBack -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInBack">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSeatBackTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFBack"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFBack -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFBack">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInF"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFFront -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFFront">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInF"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFront -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFront">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSeatFrontTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInFFront"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ShortSeat -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeat">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairTopGrasp"/>
+                            <rdf:Description rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInM"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeatSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatPairTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SeatSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SlideInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SlideInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SlideInFType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SlideInFType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SlideInMType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SlideInMType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SnapInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SnapInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Spoiler -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Spoiler">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerSideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SpoilerAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SpoilerSideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerSideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SpoilerTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#SpoilerableBody -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#SpoilerableBody">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CarBody"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BodySpoilerSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Wheel -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Wheel">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticPiece"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasColor"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelPCD"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSideGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelTopGrasp"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AffordanceByPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelHolder -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelHolder">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PlasticFixture"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelHolderDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelHolderSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeftBack"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeftFront"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRightBack"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRightFront"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSideGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSideGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInF"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInF -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInF">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInFType"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#SnapInMType"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeft -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeft">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeftBack -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeftBack">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeftFront -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeftFront">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRight -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRight">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRightBack -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRightBack">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRightFront -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRightFront">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInM"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInOnLeft -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInOnLeft">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleLeftWheelTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMLeft"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInOnRight -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInOnRight">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInConnection"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleRightWheelTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelSnapInMRight"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelTopGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelTopGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WoodenFixture -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WoodenFixture">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlate -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlate">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WoodenFixture"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlateDAE"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+                <owl:hasValue rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlateSTL"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Meter -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0p707 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0p707">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.70711</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ADimensional1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ADimensionaln0p707 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ADimensionaln0p707">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Adimensional"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.70711</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolderDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolderDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Accessory_Holder.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolderSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AccessoryHolderSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Accessory_Holder.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Axle1OnHolder -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Axle1OnHolder">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Axle2OnHolder -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Axle2OnHolder">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.015 0.0 0.021</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Axle_Full.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Axle_Holder_ASR.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleHolderSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Axle_Holder_ASR.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleLeftWheelTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleLeftWheelTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasRotation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#RotXn90Quaternion"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleLeftWheelTranslation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleLeftWheelTranslation -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleLeftWheelTranslation">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0p026"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0p004"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxlePCD -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxlePCD">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Axle_Full.pcd</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleRightWheelTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleRightWheelTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasRotation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#RotX90Quaternion"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleRightWheelTranslation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleRightWheelTranslation -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleRightWheelTranslation">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Lengthn0p026"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0p004"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#AxleSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#AxleSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Axle_Full.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
+        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.3 0.7 0.9 1.0</knowrob:vector>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Black -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Black">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
+        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:vector>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#BodyChassisTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodyDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodyDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Camaro_Body.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodySTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodySTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Camaro_Body.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisBackAxleTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisBackAxleTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasRotation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#IdentityQuaternion"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisBackAxleTranslation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisBackAxleTranslation -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisBackAxleTranslation">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Lengthn0p043"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0p006"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Chassis.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisFrontAxleTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisFrontAxleTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasRotation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#IdentityQuaternion"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTranslation rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisFrontAxleTranslation"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisFrontAxleTranslation -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisFrontAxleTranslation">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0p043"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0p006"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisOnHolderTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisOnHolderTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.203</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisPCD -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisPCD">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Chassis.pcd</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Chassis.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisSeatBackTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSeatBackTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-0.009 0.0 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisSeatFrontTransform -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisSeatFrontTransform">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
+        <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.009 0.0 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisTrayDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisTrayDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/chassis_holder_tall.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ChassisTraySTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ChassisTraySTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/chassis_holder_tall.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#IdentityQuaternion -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#IdentityQuaternion">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion"/>
+        <knowrob_paramserver:hasW rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional1"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#IdentityTranslation -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#IdentityTranslation">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Length0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Length0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.0</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Length0p004 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Length0p004">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.004</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Length0p006 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Length0p006">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.006</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Length0p026 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Length0p026">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.026</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Length0p043 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Length0p043">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.043</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Lengthn0p026 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Lengthn0p026">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.026</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Lengthn0p043 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Lengthn0p043">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Length"/>
+        <knowrob_paramserver:hasUnit rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Meter"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">-0.043</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Porsche_Body.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyPCD -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyPCD">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Porsche_Body.pcd</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodySTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodySTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Porsche_Body.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Red -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Red">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Color"/>
+        <knowrob:vector rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.0 0.0 0.0 1.0</knowrob:vector>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#RotX180Quaternion -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#RotX180Quaternion">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion"/>
+        <knowrob_paramserver:hasW rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional1"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#RotX90Quaternion -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#RotX90Quaternion">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion"/>
+        <knowrob_paramserver:hasW rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0p707"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0p707"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#RotXn90Quaternion -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#RotXn90Quaternion">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Quaternion"/>
+        <knowrob_paramserver:hasW rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0p707"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensionaln0p707"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ADimensional0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#ShortSeatSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeatSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Seat_Reduced.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#Translation0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#Translation0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Translation"/>
+        <knowrob_paramserver:hasX rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasY rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+        <knowrob_paramserver:hasZ rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Length0"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Wheel_Full.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelHolderDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelHolderDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Wheel_Holder_ASR.dae</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelHolderSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelHolderSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Wheel_Holder_ASR.stl</knowrob_paramserver:hasValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelPCD -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelPCD">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#PCDFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Wheel_Full.pcd</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WheelSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WheelSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/car/Wheel_Full.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlateDAE -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlateDAE">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#DAEFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Wooden_Plate.dae</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlateSTL -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_parts_test.owl#WoodenPlateSTL">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#STLFile"/>
+        <knowrob_paramserver:hasPath rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">package://thorin_models/models/fixtures/Wooden_Plate.stl</knowrob_paramserver:hasPath>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+

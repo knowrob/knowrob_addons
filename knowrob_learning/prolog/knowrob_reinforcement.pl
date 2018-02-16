@@ -43,7 +43,8 @@
 
 :- use_module(library('jpl')).
 :- use_module(library('lists')).
-:- use_module(library('util')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/mongo')).
 
 choose_map(SemanticMapPath, JavaListMap) :-
    owl_parse(SemanticMapPath),
@@ -72,7 +73,7 @@ start_simulation(JavaListMap, algorithm(Alg), NoOfTrials) :-
     nth0(1, JavaListMap, Domain), 
     nth0(3, JavaListMap, KitchenEnv),
     nth0(4, JavaListMap, HashFactory),
-    jpl_call(KitchenEnv, 'getCurrentPoses', [], PoseList),
+    %jpl_call(KitchenEnv, 'getCurrentPoses', [], PoseList),
     %jpl_new('burlap.statehashing.simple.SimpleHashableStateFactory', [], HashFactory),
     jpl_new(Alg, [Domain, 0.99, HashFactory, 0.0, 0.5, 0.3], LearningAgent),
     forall(between(0,NoOfTrials,_J), (run_simulation(LearningAgent, KitchenEnv, _Episode))).
@@ -121,7 +122,7 @@ trajectory_duration(Trial, Duration) :-
     jpl_call(TfMemory, 'setTfTableName', ['tf'], _B).
 
 trajectory_length(Trial, Link, Length) :-
-    get_tf_db(Trial, TfMemory),
+    get_tf_db(Trial, _TfMemory),
     mng_query_latest(Trial, one(DBObjLatest), 'transforms.header.stamp', 'timepoint_1445000000'), %we can set a timepoint which is > 1445000000 since simulation time starts from 0
     jpl_call('org.knowrob.reinforcement.BasicBehavior', 'getTimestamp', [DBObjLatest], EndTime),
     mng_query_earliest(Trial, one(DBObjEarliest), 'transforms.header.stamp', 'timepoint_0'),

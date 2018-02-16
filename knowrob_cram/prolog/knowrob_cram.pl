@@ -31,6 +31,7 @@
 
 :- module(knowrob_cram,
     [
+      cram_start_action/6,
       cram_start_action/5,
       cram_finish_action/2,
       cram_set_subaction/2,
@@ -48,12 +49,13 @@
     ]).
 
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl_parser')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/owl')).
 
 :-  rdf_meta
+    cram_start_action(r, +, +, r, r, r),
     cram_start_action(r, +, +, r, r),
     cram_finish_action(r, +),
     cram_set_subaction(r, r),
@@ -85,23 +87,38 @@
 % @param TaskContext  String describing the task context
 % @param StartTime    POSIX timestamp (number with seconds sine 1970)
 % @param PrevAction   Instance of the previous action in the task (possibly unbound)
+% @param ParentTask   Instance of the parent-task in the task tree hierarchy (possibly unbound)
 % @param ActionInst   Returned reference to the created action instance
 %
+cram_start_action(Type, TaskContext, StartTime, PrevAction, ParentTask, ActionInst) :-
+
+  cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) ,
+
+  %subtask information is asserted
+  (nonvar(ParentTask) -> (
+      cram_set_subaction(ParentTask, ActionInst)) ; (true)).
+
 cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 
   % create action instance
-  rdf_instance_from_class(Type, ActionInst),
-
+  rdf_instance_from_class(Type, 'LoggingGraph', ActionInst),
+  rdf_assert(ActionInst, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  
   % set task context property
-  rdf_assert(ActionInst, knowrob:taskContext, literal(type(xsd:string, TaskContext))),
+  rdf_assert(ActionInst, knowrob:taskContext, literal(type(xsd:string, TaskContext)), 'LoggingGraph'),
+
 
   % create timepoint instance and set as start time
-  create_timepoint(StartTime, StTime),
-  rdf_assert(ActionInst, knowrob:startTime, StTime),
+  %create_timepoint(StartTime, StTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=StartTime], StTime),
+  rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
+  rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  rdf_assert(ActionInst, knowrob:startTime, StTime, 'LoggingGraph'),
 
+  %previous action information is asserted
   (nonvar(PrevAction) -> (
-      rdf_assert(ActionInst, knowrob:previousEvent, PrevAction),
-      rdf_assert(PrevAction, knowrob:nextEvent, ActionInst)) ; (true)).
+      rdf_assert(ActionInst, knowrob:previousEvent, PrevAction, 'LoggingGraph'),
+      rdf_assert(PrevAction, knowrob:nextEvent, ActionInst, 'LoggingGraph')) ; (true)).
 
 %% cram_finish_action(+ActionInst, +EndTime) is det.
 %
@@ -113,8 +130,11 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 cram_finish_action(ActionInst, EndTime) :-
 
   % create timepoint instance and set as end time
-  create_timepoint(EndTime, ETime),
-  rdf_assert(ActionInst, knowrob:endTime, ETime).
+  %create_timepoint(EndTime, ETime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=EndTime], ETime),
+  rdf_assert(ETime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
+  rdf_assert(ETime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  rdf_assert(ActionInst, knowrob:endTime, ETime, 'LoggingGraph').
 
 %% cram_logged_query(+QueryingInst, +Query, -BindingInst) is det.
 %
@@ -129,7 +149,7 @@ cram_finish_action(ActionInst, EndTime) :-
 cram_logged_query(QueryingInst, Query, BindingInst) :-
   % Convert to atom (note: this replaces var names with generated names)
   term_to_atom(Query, QueryAtom),
-  rdf_assert(QueryingInst, knowrob:'queryText', QueryAtom),
+  rdf_assert(QueryingInst, knowrob:'queryText', QueryAtom, 'LoggingGraph'),
   % VarValues contains list of assigned values after the call
   term_variables(Query, VarValues),
   % Read atom back to term in order to find out the generated variable names
@@ -140,13 +160,15 @@ cram_logged_query(QueryingInst, Query, BindingInst) :-
   % run the query
   call(Query),
   % log the query
-  rdf_instance_from_class(knowrob:'QueryBinding', BindingInst),
-  rdf_assert(QueryingInst, knowrob:'queryBinding', BindingInst),
+  rdf_instance_from_class(knowrob:'QueryBinding', 'LoggingGraph', BindingInst),
+  rdf_assert(BindingInst, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  rdf_assert(QueryingInst, knowrob:'queryBinding', BindingInst, 'LoggingGraph'),
   forall( member([Name,Value], Bindings), (
-    rdf_instance_from_class(knowrob:'VariableBinding', VariableBindingInst),
-    rdf_assert(VariableBindingInst, knowrob:'nameString', Name),
-    rdf_assert(VariableBindingInst, knowrob:'variableValue', Value),
-    rdf_assert(BindingInst, knowrob:'variableBinding', VariableBindingInst)
+    rdf_instance_from_class(knowrob:'VariableBinding', 'LoggingGraph', VariableBindingInst),
+    rdf_assert(VariableBindingInst, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+    rdf_assert(VariableBindingInst, knowrob:'nameString', Name, 'LoggingGraph'),
+    rdf_assert(VariableBindingInst, knowrob:'variableValue', Value, 'LoggingGraph'),
+    rdf_assert(BindingInst, knowrob:'variableBinding', VariableBindingInst, 'LoggingGraph')
   )).
 
 %% cram_set_subaction(+Super, +Sub) is det.
@@ -157,7 +179,7 @@ cram_logged_query(QueryingInst, Query, BindingInst) :-
 % @param Sub    Subaction instance
 %
 cram_set_subaction(Super, Sub) :-
-  rdf_assert(Super, knowrob:subAction, Sub).
+  rdf_assert(Super, knowrob:subAction, Sub, 'LoggingGraph').
 
 
 
@@ -169,7 +191,7 @@ cram_set_subaction(Super, Sub) :-
 % @param ImageURL   String with URL of the image (e.g. file://, package://, http://)
 %
 cram_add_image_to_event(Event, ImageURL) :-
-  rdf_assert(Event, knowrob:linkToImageFile, literal(type(xsd:string, ImageURL))).
+  rdf_assert(Event, knowrob:linkToImageFile, literal(type(xsd:string, ImageURL)), 'LoggingGraph').
 
 
 
@@ -194,13 +216,16 @@ cram_add_image_to_event(Event, ImageURL) :-
 %
 cram_add_failure_to_action(ActionInst, FailureType, FailureLabel, FailureTime, FailureInst) :-
 
-  rdf_instance_from_class(FailureType, FailureInst),
-  rdf_assert(FailureInst, rdfs:label, literal(type(xsd:string, FailureLabel))),
+  rdf_instance_from_class(FailureType, 'LoggingGraph', FailureInst),
+  rdf_assert(FailureInst, rdfs:label, literal(type(xsd:string, FailureLabel)), 'LoggingGraph'),
 
-  create_timepoint(FailureTime, StTime),
-  rdf_assert(FailureInst, knowrob:startTime, StTime),
+  %create_timepoint(FailureTime, StTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=FailureTime], StTime),
+  rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
+  rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  rdf_assert(FailureInst, knowrob:startTime, StTime, 'LoggingGraph'),
 
-  rdf_assert(ActionInst, knowrob:eventFailure, FailureInst).
+  rdf_assert(ActionInst, knowrob:eventFailure, FailureInst, 'LoggingGraph').
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -217,7 +242,7 @@ cram_add_failure_to_action(ActionInst, FailureType, FailureLabel, FailureTime, F
 % @param DesigInst  Returned reference to the created designator instance
 %
 cram_create_desig(DesigType, DesigInst) :-
-  rdf_assert(DesigInst, rdf:type, DesigType).
+  rdf_assert(DesigInst, rdf:type, DesigType, 'LoggingGraph').
 
 
 %% cram_equate_designators(+PreDesig, +SuccDesig, +EquationTime) is det.
@@ -229,9 +254,12 @@ cram_create_desig(DesigType, DesigInst) :-
 % @param EquationTime Time to be stored for the equation event
 %
 cram_equate_designators(PreDesig, SuccDesig, EquationTime) :-
-  create_timepoint(EquationTime, EqTime),
-  rdf_assert(PreDesig, knowrob:successorDesignator, SuccDesig),
-  rdf_assert(SuccDesig, knowrob:equationTime, EqTime).
+  %create_timepoint(EquationTime, EqTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=FailureTime], StTime),
+  rdf_assert(EqTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
+  rdf_assert(EqTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  rdf_assert(PreDesig, knowrob:successorDesignator, SuccDesig, 'LoggingGraph'),
+  rdf_assert(SuccDesig, knowrob:equationTime, EqTime, 'LoggingGraph').
 
 
 %% cram_add_desig_to_action(+ActionInst, +DesigInst) is det.
@@ -242,7 +270,7 @@ cram_equate_designators(PreDesig, SuccDesig, EquationTime) :-
 % @param DesigInst  Designator instance to be added
 %
 cram_add_desig_to_action(ActionInst, DesigInst) :-
-  cram_add_desig_to_action(ActionInst, knowrob:designator, DesigInst).
+  cram_add_desig_to_action(ActionInst, knowrob:designator, DesigInst, 'LoggingGraph').
 
 
 %% cram_add_desig_to_action(+ActionInst, +Property, +DesigInst) is det.
@@ -255,7 +283,7 @@ cram_add_desig_to_action(ActionInst, DesigInst) :-
 % @param DesigInst  Designator instance to be added
 %
 cram_add_desig_to_action(ActionInst, Property, DesigInst) :-
-  rdf_assert(ActionInst, Property, DesigInst).
+  rdf_assert(ActionInst, Property, DesigInst, 'LoggingGraph').
 
 
 %% cram_set_object_acted_on(ActionInst, ObjectInst) is det.
@@ -266,7 +294,7 @@ cram_add_desig_to_action(ActionInst, Property, DesigInst) :-
 % @param ObjectInst Object instance (designator instance) to be set as objectActedOn
 %
 cram_set_object_acted_on(ActionInst, ObjectInst) :-
-  rdf_assert(ActionInst, knowrob:objectActedOn, ObjectInst).
+  rdf_assert(ActionInst, knowrob:objectActedOn, ObjectInst, 'LoggingGraph').
 
 
 %% cram_set_detected_object(ActionInst, ObjectType, ObjectInst) is det.
@@ -279,8 +307,9 @@ cram_set_object_acted_on(ActionInst, ObjectInst) :-
 % @param ObjectInst Returned reference to the created object instance
 %
 cram_set_detected_object(ActionInst, ObjectType, ObjectInst) :-
-  rdf_instance_from_class(ObjectType, ObjectInst),
-  rdf_assert(ActionInst, knowrob:detectedObject, ObjectInst).
+  rdf_instance_from_class(ObjectType, 'LoggingGraph', ObjectInst),
+  rdf_assert(ObjectInst, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
+  rdf_assert(ActionInst, knowrob:detectedObject, ObjectInst, 'LoggingGraph').
 
 
 %% cram_set_perception_request(+ActionInst, +Req) is det.
@@ -291,7 +320,7 @@ cram_set_detected_object(ActionInst, ObjectType, ObjectInst) :-
 % @param Req        Instance of perception request designator
 %
 cram_set_perception_request(ActionInst, Req) :-
-  rdf_assert(ActionInst, knowrob:perceptionRequest, Req).
+  rdf_assert(ActionInst, knowrob:perceptionRequest, Req, 'LoggingGraph').
 
 
 %% cram_set_perception_result(+ActionInst, +Res) is det.
@@ -302,7 +331,7 @@ cram_set_perception_request(ActionInst, Req) :-
 % @param Res        Instance of perception result designator
 %
 cram_set_perception_result(ActionInst, Res) :-
-  rdf_assert(ActionInst, knowrob:perceptionResult, Res).
+  rdf_assert(ActionInst, knowrob:perceptionResult, Res, 'LoggingGraph').
 
 
 

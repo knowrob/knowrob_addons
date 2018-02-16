@@ -53,12 +53,12 @@
 
 :- use_module(library('jpl')).
 :- use_module(library('lists')).
-:- use_module(library('util')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl_parser')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('knowrob_owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/transforms')).
 
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -514,9 +514,9 @@ get_associated_pose(GripperType, ObjectType, RobotType, ParSpec, TrIn, Relation,
   resolve_frame_specification(GripperType, ObjectType, RobotType, RFS, RefFrame),!,
   % obtain translation and rotation components
   rdf_has(TrIn, 'http://knowrob.org/kb/knowrob.owl#translation', literal(type(_, Tran))),
-  knowrob_math:parse_vector(Tran, TransformationVector),
+  rdf_vector_prolog(Tran, TransformationVector),
   rdf_has(TrIn, 'http://knowrob.org/kb/knowrob.owl#quaternion', literal(type(_, Rot))),
-  knowrob_math:parse_vector(Rot, RotationVector),
+  rdf_vector_prolog(Rot, RotationVector),
   % assemble return value
   =(Pose, [RefFrame, TransformationVector, RotationVector]),!.
 

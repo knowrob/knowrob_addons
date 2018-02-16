@@ -63,7 +63,7 @@
 %
 comp_missingObjectTypes(Table, PerceivedObjects, MissingInstances, MissingTypes) :-
 
-  get_timepoint(NOW),
+  current_time(NOW),
 
   % call the probabilistic inference engine
   mod_probcog_tablesetting:required_objects(Table, _RequiredObjects),
@@ -96,7 +96,7 @@ comp_missingObjectTypes(PerceivedObjects, MissingInstances, MissingTypes) :-
 % actual version:
 % current_objects_on_table(T, Curr) :-
 %   objects_on_table(_, _),
-%   get_timepoint(NOW),
+%   current_time(NOW),
 %   holds(on_Physical(Curr, T), NOW).
 
 % simplified version for the ROS Fall School

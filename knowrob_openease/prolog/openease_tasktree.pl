@@ -35,9 +35,9 @@
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('knowrob/computable')).
 :- use_module(library('lists')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -52,15 +52,15 @@ visualize_task_tree_in_timeline(StartTime, EndTime, Type ) :-
     atomic_list_concat([TaskContext, TaskGoal], ' ', TaskTip), term_to_atom(T, TaskIdAtom),
     term_to_atom(TaskTip, TaskAtom), term_to_atom(Type, TypeAtom),
     jpl_new( '[Ljava.lang.String;', [TaskAtom, TaskIdAtom, TaskIdAtom, TypeAtom, StartTime, EndTime], TaskDetail),
-    findall(_TaskDetail, (task(_TaskId), subtask(T, _TaskId), task_type(_TaskId, _Type), task_start(_TaskId, _S), task_end(_TaskId, _E),
-                         (rdf_has(_TaskId, knowrob:'taskContext', literal(type(_,_TaskContext))); _TaskContext = ''), 
-                         (rdf_has(_TaskId, knowrob:'goalContext', literal(type(_,_TaskGoal))); _TaskGoal = ''),
-                         atomic_list_concat([_TaskContext, _TaskGoal], ' ', _TaskTip), term_to_atom(_TaskId, _TaskIdAtom), term_to_atom(T, _ParentTaskIdAtom),
-                         term_to_atom(_TaskTip, _TaskAtom), term_to_atom(_Type, _TypeAtom),
-                         jpl_new( '[Ljava.lang.String;', [_TaskAtom, _TaskIdAtom, _ParentTaskIdAtom, _TypeAtom, _S, _E], _TaskDetail)), _TaskDetails),
-    append([TaskDetail], _TaskDetails, _TaskDetailsFinal),
-    jpl_new( '[[Ljava.lang.String;', _TaskDetailsFinal, _Tasks),
-    findall(_TaskAtom, (task(__TaskId), term_to_atom(__TaskId, _TaskAtom)), HighlightedTaskDetails),
-    jpl_new( '[Ljava.lang.String;', HighlightedTaskDetails, _HighlightedTasks),
-    jpl_new( '[Ljava.lang.String;', ['\'http://knowrob.org/kb/knowrob.owl#UIMAPerception\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMAction\'', '\'http://knowrob.org/kb/knowrob.owl#HeadMovement\'', '\'http://knowrob.org/kb/knowrob.owl#ArmMovement\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMPerform\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMAchieve\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMMonitor\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMPerceive\'', '\'http://knowrob.org/kb/knowrob.owl#BaseMovement\'', TypeAtom], _Types),
-    update_task_tree(_Tasks, _HighlightedTasks, _Types).
+    findall(TaskDetail, (task(TaskId), subtask(T, TaskId), task_type(TaskId, Type), task_start(TaskId, S), task_end(TaskId, E),
+                         (rdf_has(TaskId, knowrob:'taskContext', literal(type(_,TaskContext))); TaskContext = ''), 
+                         (rdf_has(TaskId, knowrob:'goalContext', literal(type(_,TaskGoal))); TaskGoal = ''),
+                         atomic_list_concat([TaskContext, TaskGoal], ' ', TaskTip), term_to_atom(TaskId, TaskIdAtom), term_to_atom(T, ParentTaskIdAtom),
+                         term_to_atom(TaskTip, TaskAtom), term_to_atom(Type, TypeAtom),
+                         jpl_new( '[Ljava.lang.String;', [TaskAtom, TaskIdAtom, ParentTaskIdAtom, TypeAtom, S, E], TaskDetail)), TaskDetails),
+    append([TaskDetail], TaskDetails, TaskDetailsFinal),
+    jpl_new( '[[Ljava.lang.String;', TaskDetailsFinal, Tasks),
+    findall(TaskAtom, (task(TaskId), term_to_atom(TaskId, TaskAtom)), HighlightedTaskDetails),
+    jpl_new( '[Ljava.lang.String;', HighlightedTaskDetails, HighlightedTasks),
+    jpl_new( '[Ljava.lang.String;', ['\'http://knowrob.org/kb/knowrob.owl#UIMAPerception\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMAction\'', '\'http://knowrob.org/kb/knowrob.owl#HeadMovement\'', '\'http://knowrob.org/kb/knowrob.owl#ArmMovement\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMPerform\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMAchieve\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMMonitor\'', '\'http://knowrob.org/kb/knowrob.owl#CRAMPerceive\'', '\'http://knowrob.org/kb/knowrob.owl#BaseMovement\'', TypeAtom], Types),
+    update_task_tree(Tasks, HighlightedTasks, Types).
