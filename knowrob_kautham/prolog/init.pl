@@ -36,4 +36,4 @@
 
 :- use_module('knowrob_kautham').
 
-:- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_kautham.owl').
+:- owl_parser:owl_parse('package://knowrob_kautham/owl/knowrob_kautham.owl').

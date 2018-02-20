@@ -13,7 +13,7 @@ project(knowrob_kautham)
 find_package(catkin REQUIRED COMPONENTS
   knowrob_common
   knowrob_paramserver
-  knowrob_planning
+  knowrob_assembly
   roscpp
   roslib
   std_msgs
@@ -31,7 +31,7 @@ generate_messages(DEPENDENCIES roscpp std_msgs geometry_msgs kautham)
 
 catkin_package(
         INCLUDE_DIRS  include
-	DEPENDS knowrob_common knowrob_paramserver knowrob_planning roscpp roslib geometry_msgs std_msgs kautham
+	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly roscpp roslib geometry_msgs std_msgs kautham
 )
 
 add_definitions( "--std=gnu++11" )
