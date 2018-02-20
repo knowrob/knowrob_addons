@@ -16,16 +16,7 @@
 #include <iostream>
 
 // Including Kautham stuff
-#include <kautham/OpenProblem.h>
-#include <kautham/CheckCollision.h>
 #include <kautham/FindIK.h>
-
-// Including YumIK stuff
-#include <yumik/YumIK.h>
-
-#include <eigen3/Eigen/Eigen>
-#include <eigen3/Eigen/Core>
-#include <eigen3/Eigen/Geometry>
-
+#include <kautham/CheckCollision.h>
 
 #endif

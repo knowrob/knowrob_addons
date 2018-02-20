@@ -10,23 +10,34 @@ project(knowrob_kautham)
 ##############################################################################
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common knowrob_paramserver)
-find_package(catkin REQUIRED COMPONENTS knowrob_common knowrob_paramserver knowrob_planning roscpp roslib rospack kautham)
-
-# Set the gradle targets you want catkin's make to run by default, e.g.
-#   catkin_rosjava_setup(installApp)
-# Note that the catkin_create_rosjava_xxx scripts will usually automatically
-# add tasks to this for you when you create subprojects.
-
-catkin_package(
-	DEPENDS knowrob_common knowrob_paramserver knowrob_planning roscpp roslib rospack kautham
-)
+find_package(catkin REQUIRED COMPONENTS
+  knowrob_common
+  knowrob_paramserver
+  knowrob_planning
+  roscpp
+  roslib
+  std_msgs
+  genmsg
+  geometry_msgs
+  message_generation
+  kautham)
 
 find_package(PkgConfig)
 pkg_check_modules(SWIPL REQUIRED swipl)
 
-include_directories(include ${SWIPL_INCLUDE_DIRS} ${CATKIN_INCLUDE_DIRS})
+include_directories(${SWIPL_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS} include)
+
+generate_messages(DEPENDENCIES roscpp std_msgs geometry_msgs kautham)
+
+catkin_package(
+        INCLUDE_DIRS  include
+	DEPENDS knowrob_common knowrob_paramserver knowrob_planning roscpp roslib geometry_msgs std_msgs kautham
+)
+
+add_definitions( "--std=gnu++11" )
 add_library(kauthamwrapper SHARED src/kauthamwrapper.cpp)
-target_link_libraries(kauthamwrapper ${SWIPL_LIBRARIES} ${CATKIN_LIBRARIES})
+target_link_libraries(kauthamwrapper ${SWIPL_LIBRARIES} ${catkin_LIBRARIES})
+add_dependencies(kauthamwrapper ${catkin_EXPORTED_TARGETS} )
 
 ##############################################################################
 # Installation

@@ -1,4 +1,4 @@
-#include "kautham_wrapper.h"
+#include "knowrob_kautham/knowrob_kautham.h"
 
 void ham_product(double ax, double ay, double az, double aw, double bx, double by, double bz, double bw, double &rx, double &ry, double &rz, double &rw)
 {
@@ -69,19 +69,18 @@ PREDICATE(kautham_blocking_objects, 3)
 
     if (Yumi_srv.response.response)
     {
-        ikSol = Yumi_srv.response.conf;
         ros::service::waitForService("/kautham_node/CheckCollisionRob");
-        ros::ServiceClient check_collision_obstacles_client = node.serviceClient<kautham::CheckCollision>("/kautham_node/CheckCollisionRob");
+        ros::ServiceClient check_collision_obstacles_client = n.serviceClient<kautham::CheckCollision>("/kautham_node/CheckCollisionRob");
 
         kautham::CheckCollision check_collision_obstacles_srv;
-        check_collision_obstacles_srv.request.config = ikSol;
+        check_collision_obstacles_srv.request.config = Yumi_srv.response.conf;
         check_collision_obstacles_client.call(check_collision_obstacles_srv);
 
         if(!check_collision_obstacles_srv.response.response)
         {
             unsigned int maxK = check_collision_obstacles_srv.response.collObjs.size();
             for(unsigned int k = 0; k < maxK; k++)
-                colliders.append(check_collision_obstacles_srv.response.collObjs[k]);
+                colliders.append((long int)check_collision_obstacles_srv.response.collObjs[k]);
         }
         colliders.close();
     }
