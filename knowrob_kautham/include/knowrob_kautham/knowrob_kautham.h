@@ -18,5 +18,15 @@
 // Including Kautham stuff
 #include <kautham/FindIK.h>
 #include <kautham/CheckCollision.h>
+#include <kautham/OpenProblem.h>
+#include <kautham/SetQuery.h>
+#include <kautham/GetPath.h>
+#include <kautham/AttachObstacle2RobotLink.h>
+#include <kautham/DetachObstacle.h>
+#include <kautham/ObsPos.h>
+#include <kautham/SetRobotsConfig.h>
+#include <kautham/RemoveObstacle.h>
+#include <kautham/SetInit.h>
+#include <kautham/SetRobControls.h>
 
 #endif

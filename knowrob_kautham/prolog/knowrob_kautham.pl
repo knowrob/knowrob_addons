@@ -30,7 +30,10 @@
 */
 :- module(knowrob_kautham,
     [
-        comp_affordanceocclusion/2
+        comp_affordanceocclusion/2,
+        kautham_init_planning_scene/2,
+        kautham_grab_part/3,
+        kautham_put_part/4,
     ]).
 
 
@@ -51,31 +54,48 @@
 :- rdf_db:rdf_register_ns(knowrob_paramserver, 'http://knowrob.org/kb/knowrob_paramserver.owl#', [keep(true)]).
 
 :-  rdf_meta
-  comp_affordanceocclusion(r, ?).
+  comp_affordanceocclusion(?, r),
+  kautham_init_planning_scene(r, r),
+  kautham_grab_part(r, r, r),
+  kautham_put_part(r, r, r, r).
 
+get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]) :-
+  rdf_has(GraspSpecification, knowrob_paramserver:'hasGraspTransform', GraspTransform),
+  rdf_has(GraspTransform, knowrob:'translation', literal(type(_, GraspTranslation))),
+  rdf_has(GraspTransform, knowrob:'quaternion', literal(type(_, GraspRotation))),
+  rdf_vector_prolog(GraspTranslation, [GTx, GTy, GTz]),
+  rdf_vector_prolog(GraspRotation, [GRx, GRy, GRz, GRw]).
 
-%% comp_affordanceocclusion(+Affordance, ?Part)
+%% comp_affordanceocclusion(?Part, +Affordance)
 %
 comp_affordanceocclusion(Part, GraspingAffordance) :-
 % Retrieve transform associated to GraspingAffordance
   rdf_has(GraspingAffordance, knowrob_assembly:'graspAt', GraspSpecification),
-  rdf_has(GraspSpecification, knowrob_paramserver:'hasGraspTransform', GraspTransform),
-  rdf_has(GraspTransform, knowrob_paramserver:'hasTranslation', GraspTranslation),
-  rdf_has(GraspTransform, knowrob_paramserver:'hasRotation', GraspRotation),
-  rdf_has(GraspTranslation, knowrob_paramserver:'hasX', GTx),
-  rdf_has(GraspTranslation, knowrob_paramserver:'hasY', GTy),
-  rdf_has(GraspTranslation, knowrob_paramserver:'hasZ', GTz),
-  rdf_has(GraspRotation, knowrob_paramserver:'hasX', GRx),
-  rdf_has(GraspRotation, knowrob_paramserver:'hasY', GRy),
-  rdf_has(GraspRotation, knowrob_paramserver:'hasZ', GRz),
-  rdf_has(GraspRotation, knowrob_paramserver:'hasW', GRw),
+  get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
 % Retrieve TargetPart (associated to GraspingAffordance)
   rdf_has(TargetPart, knowrob_assembly:'hasAffordance', GraspingAffordance),
 % Retrieve pose associated to TargetPart
   belief_at(TargetPart, [_, _, [OTx, OTy, OTz], [ORx, ORy, ORz, ORw]]),
 % Call helper program: give transform to TargetPart, return a list of colliding bodies (represented as indices in planning scene)
-  kautham_blocking_objects([OTx, OTy, OTz, ORx, ORy, ORz, ORw], [GTx, GTy, GTz, GRx, GRy, GRz], CollidingObjectIndices),
+  kautham_blocking_objects([OTx, OTy, OTz, ORx, ORy, ORz, ORw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], CollidingObjectIndices),
 % retrieve Part so that it has planningSceneIndex in the list
   member(Index, CollidingObjectIndices),
   rdf_has(Part, knowrob_assembly:'planningSceneIndex', literal(type(_, Index))).
+
+kautham_init_planning_scene(ModelFolder, SceneMap) :-
+  kautham_init_planning_scene_internal(ModelFolder, SceneMap).
+
+kautham_grab_part(GraspingAffordance, GraspSpecification, Result) :-
+  rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
+  belief_at(Part, [_, _, [TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
+  get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
+  rdf_has(Part, knowrob_assembly:'planningSceneIndex', literal(type(_, ObjectIndex)))
+  kautham_grab_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex).
+
+kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, Result) :-
+  rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
+  equal(PartGlobalTargetPose, [[TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
+  get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
+  rdf_has(Part, knowrob_assembly:'planningSceneIndex', literal(type(_, ObjectIndex)))
+  kautham_put_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex).
 
