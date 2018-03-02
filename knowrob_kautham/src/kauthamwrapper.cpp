@@ -247,30 +247,30 @@ tIKanswer get_config_from_pose(double otx, double oty, double otz, double orx, d
     double rrw;
     get_grasp_pose_in_map(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw, rtx, rty, rtz, rrx, rry, rrz, rrw);
 
-    kautham::FindIK Yumi_srv;
+    yumik::YumIK Yumi_srv;
 
-    Yumi_srv.request.maintSameWrist = true;
-    Yumi_srv.request.armType = true;
+    Yumi_srv.request.theta3 = 0.0;
 
-    Yumi_srv.request.pos.resize(8);
+    Yumi_srv.request.pose.position.x = rtx;
+    Yumi_srv.request.pose.position.y = rty;
+    Yumi_srv.request.pose.position.z = rtz;
 
-    Yumi_srv.request.pos.at(0) = rtx;
-    Yumi_srv.request.pos.at(1) = rty;
-    Yumi_srv.request.pos.at(2) = rtz;
+    Yumi_srv.request.pose.orientation.x = rrx;
+    Yumi_srv.request.pose.orientation.y = rry;
+    Yumi_srv.request.pose.orientation.z = rrz;
+    Yumi_srv.request.pose.orientation.w = rrw;
 
-    Yumi_srv.request.pos.at(3) = rrx;
-    Yumi_srv.request.pos.at(4) = rry;
-    Yumi_srv.request.pos.at(5) = rrz;
-    Yumi_srv.request.pos.at(6) = rrw;
-    Yumi_srv.request.pos.at(7) = 0.0;
-
-    ros::service::call("/kautham_node/FindIK", Yumi_srv);
+    ros::service::call("/Yumi/IKSolverLeft", Yumi_srv);
 
     tIKanswer retq;
-    retq.response = Yumi_srv.response.response;
-    retq.conf = Yumi_srv.response.conf;
+    retq.response = Yumi_srv.response.status;
+    unsigned int maxK = Yumi_srv.response.ik_solution.size();
+    retq.conf.resize(maxK);
+    for(unsigned int k = 0; k < maxK; k++)
+        retq.conf[k] = (float)Yumi_srv.response.ik_solution[k];
     retq.armType = true;
-    
+
+    return retq;
 }
 
 PREDICATE(kautham_init_planning_scene_internal, 2)
@@ -322,9 +322,13 @@ PREDICATE(kautham_grab_part_internal, 3)
 
     if(ikConf.response)
     {
+        std::vector<float> goal = ikConf.conf;
         std::vector<float> init;
         getCurrentRobotJointState(init);
-        if(!setQuery(init, ikConf.conf))
+        goal.resize(16);
+        for(int k = 8; k < 16; k++)
+            goal[k] = init[k];
+        if(!setQuery(init, goal))
             return FALSE;
         std::vector<std::vector<float> > path = collisionFreePath();
         if(!path.size())
@@ -364,9 +368,13 @@ PREDICATE(kautham_put_part_internal, 3)
 
     if(ikConf.response)
     {
+        std::vector<float> goal = ikConf.conf;
         std::vector<float> init;
         getCurrentRobotJointState(init);
-        if(!setQuery(init, ikConf.conf))
+        goal.resize(16);
+        for(int k = 8; k < 16; k++)
+            goal[k] = init[k];
+        if(!setQuery(init, goal))
             return FALSE;
         std::vector<std::vector<float> > path = collisionFreePath();
         if(!path.size())
@@ -425,3 +433,4 @@ PREDICATE(kautham_blocking_objects, 3)
     
     return TRUE;
 }
+

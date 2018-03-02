@@ -16,7 +16,7 @@
 #include <iostream>
 
 // Including Kautham stuff
-#include <kautham/FindIK.h>
+#include <yumik/YumIK.h>
 #include <kautham/CheckCollision.h>
 #include <kautham/OpenProblem.h>
 #include <kautham/SetQuery.h>

@@ -20,7 +20,8 @@ find_package(catkin REQUIRED COMPONENTS
   genmsg
   geometry_msgs
   message_generation
-  kautham)
+  kautham
+  yumik)
 
 find_package(PkgConfig)
 pkg_check_modules(SWIPL REQUIRED swipl)
