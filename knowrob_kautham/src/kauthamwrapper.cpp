@@ -104,11 +104,10 @@ std::vector <std::vector<float> > collisionFreePath(void)
 
         path.resize(sizev);
 
-        for(int i=0; i<sizev; i++)
+        for(int i = 0; i < sizev; i++)
         {
             path[i].resize(get_path_srv.response.response[i].v.size());
-            for(int j=0; j
-                <get_path_srv.response.response[i].v.size(); j++)
+            for(int j = 0; j < get_path_srv.response.response[i].v.size(); j++)
             {
                 path[i][j] = get_path_srv.response.response[i].v[j];
             }
@@ -236,7 +235,7 @@ bool pub_rob_motion(std::vector<std::vector<float> > path){
     }
 }
 
-tIKanswer get_config_from_pose(double otx, double oty, double otz, double orx, double ory, double orz, double orw, double gtx, double gty, double gtz, double grx, double gry, double grz, double grw)
+tIKanswer get_config_from_pose(bool leftArm, double otx, double oty, double otz, double orx, double ory, double orz, double orw, double gtx, double gty, double gtz, double grx, double gry, double grz, double grw)
 {
     double rtx;
     double rty;
@@ -260,7 +259,10 @@ tIKanswer get_config_from_pose(double otx, double oty, double otz, double orx, d
     Yumi_srv.request.pose.orientation.z = rrz;
     Yumi_srv.request.pose.orientation.w = rrw;
 
-    ros::service::call("/Yumi/IKSolverLeft", Yumi_srv);
+    if(leftArm)
+        ros::service::call("/Yumi/IKSolverLeft", Yumi_srv);
+    else
+        ros::service::call("/Yumi/IKSolverRight", Yumi_srv);
 
     tIKanswer retq;
     retq.response = Yumi_srv.response.status;
@@ -294,11 +296,17 @@ PREDICATE(kautham_init_planning_scene_internal, 2)
     }
 }
 
-PREDICATE(kautham_grab_part_internal, 3)
+PREDICATE(kautham_grab_part_internal, 4)
 {
+    std::string armName((char*)PL_A4);
+    bool leftArm = true;
+    if(armName == "right")
+        leftArm = false;
     int objectIndex = (int)PL_A3;
     int rob = 0;
     int tcp = 6;
+    if(!leftArm)
+        tcp = 14;
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
     // object pose in map
@@ -318,16 +326,18 @@ PREDICATE(kautham_grab_part_internal, 3)
     grasppose_list.next(value); double grz = value;
     grasppose_list.next(value); double grw = value;
 
-    tIKanswer ikConf = get_config_from_pose(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw);
+    tIKanswer ikConf = get_config_from_pose(leftArm, otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw);
 
     if(ikConf.response)
     {
-        std::vector<float> goal = ikConf.conf;
         std::vector<float> init;
         getCurrentRobotJointState(init);
-        goal.resize(16);
-        for(int k = 8; k < 16; k++)
-            goal[k] = init[k];
+        std::vector<float> goal = init;
+        int b = 0;
+        if(!leftArm)
+            b = 8;
+        for(int k = 0; k < 8; k++)
+            goal[k + b] = ikConf.conf[k];
         if(!setQuery(init, goal))
             return FALSE;
         std::vector<std::vector<float> > path = collisionFreePath();
@@ -342,9 +352,17 @@ PREDICATE(kautham_grab_part_internal, 3)
     return FALSE;
 }
 
-PREDICATE(kautham_put_part_internal, 3)
+PREDICATE(kautham_put_part_internal, 4)
 {
+    std::string armName((char*)PL_A4);
+    bool leftArm = true;
+    if(armName == "right")
+        leftArm = false;
     int objectIndex = (int)PL_A3;
+    int rob = 0;
+    int tcp = 6;
+    if(!leftArm)
+        tcp = 14;
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
     // object pose in map
@@ -364,16 +382,18 @@ PREDICATE(kautham_put_part_internal, 3)
     grasppose_list.next(value); double grz = value;
     grasppose_list.next(value); double grw = value;
 
-    tIKanswer ikConf = get_config_from_pose(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw);
+    tIKanswer ikConf = get_config_from_pose(leftArm, otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw);
 
     if(ikConf.response)
     {
-        std::vector<float> goal = ikConf.conf;
         std::vector<float> init;
         getCurrentRobotJointState(init);
-        goal.resize(16);
-        for(int k = 8; k < 16; k++)
-            goal[k] = init[k];
+        std::vector<float> goal = init;
+        int b = 0;
+        if(!leftArm)
+            b = 8;
+        for(int k = 0; k < 8; k++)
+            goal[k + b] = ikConf.conf[k];
         if(!setQuery(init, goal))
             return FALSE;
         std::vector<std::vector<float> > path = collisionFreePath();
@@ -388,8 +408,12 @@ PREDICATE(kautham_put_part_internal, 3)
     return FALSE;
 }
 
-PREDICATE(kautham_blocking_objects, 3)
+PREDICATE(kautham_blocking_objects, 4)
 {
+    std::string armName((char*)PL_A4);
+    bool leftArm = true;
+    if(armName == "right")
+        leftArm = false;
     PlTail colliders(PL_A3);
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
@@ -410,12 +434,20 @@ PREDICATE(kautham_blocking_objects, 3)
     grasppose_list.next(value); double grz = value;
     grasppose_list.next(value); double grw = value;
 
-    tIKanswer ikConf = get_config_from_pose(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw);
+    tIKanswer ikConf = get_config_from_pose(leftArm, otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw);
 
     if (ikConf.response)
     {
         kautham::CheckCollision check_collision_obstacles_srv;
-        check_collision_obstacles_srv.request.config = ikConf.conf;
+        std::vector<float> init;
+        getCurrentRobotJointState(init);
+        std::vector<float> goal = init;
+        int b = 0;
+        if(!leftArm)
+            b = 8;
+        for(int k = 0; k < 8; k++)
+            goal[k + b] = ikConf.conf[k];
+        check_collision_obstacles_srv.request.config = goal;
         ros::service::call("/kautham_node/CheckCollisionRob", check_collision_obstacles_srv);
 
         if(!check_collision_obstacles_srv.response.response)
