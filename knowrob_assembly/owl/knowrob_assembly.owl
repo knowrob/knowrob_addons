@@ -393,7 +393,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#Affordance -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Affordance">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SpatialThing-Localized"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>

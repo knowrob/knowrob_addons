@@ -73,7 +73,7 @@ get_likely_pose(PosFile, PosCluster, NegFile, NegCluster, CurrentPose, Pose, Cov
   jpl_new('org.knowrob.gaussian.MixedGaussianInterface', [], GausInterface),
   %jpl_list_to_array(CurrentPose, CurrentPoseArr),
   jpl_call(GausInterface, 'likelyLocationClosest', [PosFile, NegFile, PosCluster, NegCluster], X),
-  jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),\
+  jpl_array_to_list(X, [MX, MY, C1, C2, C3, C4]),
   matrix(CurrentPose, [CP_X,CP_Y,_], [0,0,0,1]),
   matrix_translate(CurrentPose, [MX-CP_X , MY-CP_Y,0], Pose),
   Covariance = [C1, C2, C3, C4].
