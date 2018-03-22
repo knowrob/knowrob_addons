@@ -47,6 +47,7 @@
 :- use_module(library('semweb/owl_parser')).
 :- use_module(library('knowrob/owl')).
 :- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/transforms')).
 
 apply_rule_for_adapt(SourceAction, TargetAction, RuleOut) :-
     rdf_instance_from_class(knowrob:'AdaptingEpisodicMemoryData', RuleOut),
@@ -217,8 +218,7 @@ sample_trajectory(Start, End, Link, Samples, StepSize) :-
    NewStart is Start + StepSize, 
    sample_trajectory(NewStart, End, Link, RestSamples, StepSize),
    mng_lookup_transform('/map', Link, Start, Pose),
-   matrix_translation(Pose, Pos),
-   matrix_rotation(Pose, Rot),
+   matrix(Pose, Pos, Rot),
    append([[Pos, Rot]], RestSamples, Samples).
 
 sample_trajectory(Start, End, _Link, Samples, _StepSize) :-
@@ -235,9 +235,8 @@ project_link_for_arch_traj(Time, Link, Door, Rule, ProjectedPose) :-
         NewRadius is Radius + Change)),
     Ratio is NewRadius / Radius,
     object_pose_at_time(Joint, Time, mat(JointPose)),
-    matrix_translation(Pose, [X,Y,Z]),
-    matrix_rotation(Pose, Rot),
-    matrix_translation(JointPose, [X_J, Y_J, _JZ]),
+    matrix(Pose, [X,Y,Z], Rot),
+    matrix(JointPose, [X_J, Y_J, _JZ], _),
     Delta_X is X - X_J,
     Delta_Y is Y - Y_J,
     Diff_X is Delta_X * Ratio,
