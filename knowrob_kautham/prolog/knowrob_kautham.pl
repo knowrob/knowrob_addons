@@ -33,7 +33,7 @@
         comp_affordanceocclusion/3,
         kautham_init_planning_scene/2,
         kautham_grab_part/3,
-        kautham_put_part/4,
+        kautham_put_part/4
     ]).
 
 
@@ -49,6 +49,7 @@
 :- use_module(library('knowrob_assembly')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(knowrob_kautham, 'http://knowrob.org/kb/knowrob_kautham.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_paramserver, 'http://knowrob.org/kb/knowrob_paramserver.owl#', [keep(true)]).
@@ -80,22 +81,35 @@ comp_affordanceocclusion(Part, GraspingAffordance, ArmName) :-
   kautham_blocking_objects([OTx, OTy, OTz, ORx, ORy, ORz, ORw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], CollidingObjectIndices, ArmName),
 % retrieve Part so that it has planningSceneIndex in the list
   member(Index, CollidingObjectIndices),
-  rdf_has(Part, knowrob_assembly:'planningSceneIndex', literal(type(_, Index))).
+  rdf_has(Part, knowrob_kautham:'planningSceneIndex', literal(type(_, Index))).
+
+part_data(Part, Mesh, Pose) :-
+  object_mesh_path(Part, Mesh),
+  belief_at(Part, [_, _, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),
+  equal(Pose, [Tx, Ty, Tz, Rx, Ry, Rz, Rw]).
+
+assert_part_index([Part, Index]) :-
+  owl_assert(Part, knowrob_kautham:'planningSceneIndex', literal(type('http://www.w3.org/2001/XMLSchema#integer', Index))).
 
 kautham_init_planning_scene(ModelFolder, SceneMap) :-
-  kautham_init_planning_scene_internal(ModelFolder, SceneMap).
+  kautham_init_planning_scene_internal(ModelFolder, SceneMap),
+  findall(Part, (owl_individual_of(Part, knowrob_assembly:'AtomicPart')), PartList),
+  list_to_set(PartList, Parts),
+  findall([Part, Mesh, Pose], (member(Part, Parts), part_data(Part, Mesh, Pose)), PartData),
+  kautham_add_obstacles_internal(PartData, Indices),
+  maplist(assert_part_index, Indices).
 
 kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName) :-
   rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
   belief_at(Part, [_, _, [TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
   get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
-  rdf_has(Part, knowrob_assembly:'planningSceneIndex', literal(type(_, ObjectIndex)))
+  rdf_has(Part, knowrob_kautham:'planningSceneIndex', literal(type(_, ObjectIndex))),
   kautham_grab_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName).
 
 kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName) :-
   rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
   equal(PartGlobalTargetPose, [[TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
   get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
-  rdf_has(Part, knowrob_assembly:'planningSceneIndex', literal(type(_, ObjectIndex)))
+  rdf_has(Part, knowrob_kautham:'planningSceneIndex', literal(type(_, ObjectIndex))),
   kautham_put_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName).
 

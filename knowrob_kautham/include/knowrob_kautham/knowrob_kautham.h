@@ -28,5 +28,6 @@
 #include <kautham/RemoveObstacle.h>
 #include <kautham/SetInit.h>
 #include <kautham/SetRobControls.h>
+#include <kautham/AddObstacle.h>
 
 #endif

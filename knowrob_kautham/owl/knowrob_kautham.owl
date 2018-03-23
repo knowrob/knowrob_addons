@@ -15,7 +15,7 @@
     <owl:Ontology rdf:about="http://knowrob.org/kb/knowrob_kautham.owl">
         <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
         <owl:imports rdf:resource="package://knowrob_paramserver/owl/knowrob_paramserver.owl"/>
-        <owl:imports rdf:resource="package://knowrob_paramserver/owl/knowrob_assembly.owl"/>
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
     </owl:Ontology>
     
 
@@ -50,7 +50,7 @@
     </owl:ObjectProperty>
     <computable:PrologProperty rdf:about="http://knowrob.org/kb/knowrob_kautham.owl#computeAtomicPartOccludesGraspingAffordance">
       <computable:target rdf:resource="http://knowrob.org/kb/knowrob_kautham.owl#atomicPartOccludesGraspingAffordance"/>
-      <computable:command rdf:datatype="&xsd;string">comp_affordanceocclusion</computable:command>
+      <computable:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">comp_affordanceocclusion</computable:command>
     </computable:PrologProperty>
     
 

@@ -2,6 +2,8 @@
 
 #include <sensor_msgs/JointState.h>
 
+#include <ros/package.h>
+
 typedef struct
 {
     std::vector<float> conf;
@@ -275,6 +277,70 @@ tIKanswer get_config_from_pose(bool leftArm, double otx, double oty, double otz,
     return retq;
 }
 
+std::string resolvePackageURL(std::string const& meshURL)
+{
+    unsigned int headerLength = std::string("package://").length();
+    if(meshURL.length() < headerLength)
+        return meshURL;
+    std::string head, tail;
+    head = meshURL.substr(0, headerLength);
+    tail = meshURL.substr(headerLength);
+    if("package://" == head)
+    {
+        unsigned int slash = tail.find('/');
+        std::string package = tail.substr(0, slash);
+        tail = tail.substr(slash);
+        head = ros::package::getPath(package);
+        return head + tail;
+    }
+    else
+        return meshURL;
+}
+
+PREDICATE(kautham_add_obstacles_internal, 2)
+{
+    PlTail partDataList(PL_A1);
+    PlTail partIndexList(PL_A2);
+    PlTerm partData;
+    int index = 0;
+    while(partDataList.next(partData))
+    {
+        PlTerm part, mesh, pose, partIndex;
+        PlTail data(partData), response(partIndex);
+        data.next(part);
+        data.next(mesh);
+        data.next(pose);
+
+        std::string meshStr((char*)mesh);
+        meshStr = resolvePackageURL(meshStr);
+
+        PlTail poseTail(pose);
+        PlTerm poseComponent;
+
+        std::vector<float> conf;
+        conf.clear(); conf.reserve(7);
+        while(poseTail.next(poseComponent))
+            conf.push_back((float)((double)poseComponent));
+
+        kautham::AddObstacle addobstacle_srv;
+        addobstacle_srv.request.obstacle = meshStr;
+        addobstacle_srv.request.scale = 1.0;
+        addobstacle_srv.request.home = conf;
+
+        ros::service::call("/kautham_node/AddObstacle", addobstacle_srv);
+        index = addobstacle_srv.response.response;
+        if(-1 != index)
+        {
+            response.append(part);
+            response.append((long int)index);
+            response.close();
+            partIndexList.append(partIndex);
+        }
+    }
+    partIndexList.close();
+    return TRUE;
+}
+
 PREDICATE(kautham_init_planning_scene_internal, 2)
 {
     std::string modelFolder((char*)PL_A1);
@@ -283,16 +349,18 @@ PREDICATE(kautham_init_planning_scene_internal, 2)
     kthopenproblem_srv.request.problem = sceneMap;
     kthopenproblem_srv.request.dir.resize(1);
     kthopenproblem_srv.request.dir[0] = modelFolder;
-    ros::service::call("kautham_node/OpenManipProblem", kthopenproblem_srv);
+    ros::service::call("kautham_node/OpenProblem", kthopenproblem_srv);
     if (kthopenproblem_srv.response.response == true)
     {
         ROS_INFO( "Kautham Problem opened correctly" );
+        return TRUE;
     }
     else
     {
         ROS_ERROR( "ERROR Opening Kautham Problem" );
         ROS_ERROR( "models folder: %s", kthopenproblem_srv.request.dir[0].c_str() );
         ROS_ERROR( "scene map file: %s", kthopenproblem_srv.request.problem.c_str() );
+        return FALSE;
     }
 }
 
