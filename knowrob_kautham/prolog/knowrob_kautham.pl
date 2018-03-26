@@ -30,6 +30,7 @@
 */
 :- module(knowrob_kautham,
     [
+        battat_initialize_kautham_sim/0,
         comp_affordanceocclusion/3,
         kautham_init_planning_scene/2,
         kautham_grab_part/3,
@@ -59,6 +60,11 @@
   kautham_init_planning_scene(r, r),
   kautham_grab_part(r, r, r),
   kautham_put_part(r, r, r, r).
+
+battat_initialize_kautham_sim :- 
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_toys.owl'),
+  owl_parser:owl_parse('package://knowrob_kautham/owl/battat_airplane_test.owl', belief_state).
+%%  owl_parser:owl_parse('package://knowrob_kautham/owl/battat_airplane_simulation.owl').
 
 get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]) :-
   rdf_has(GraspSpecification, knowrob_paramserver:'hasGraspTransform', GraspTransform),

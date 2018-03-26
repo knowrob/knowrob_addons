@@ -11,6 +11,7 @@ project(knowrob_kautham)
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common knowrob_paramserver)
 find_package(catkin REQUIRED COMPONENTS
+  tf
   knowrob_common
   knowrob_paramserver
   knowrob_assembly
@@ -32,13 +33,32 @@ generate_messages(DEPENDENCIES roscpp std_msgs geometry_msgs kautham)
 
 catkin_package(
         INCLUDE_DIRS  include
-	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly roscpp roslib geometry_msgs std_msgs kautham
+	DEPENDS knowrob_common knowrob_paramserver knowrob_assembly roscpp roslib geometry_msgs std_msgs kautham tf
 )
 
 add_definitions( "--std=gnu++11" )
 add_library(kauthamwrapper SHARED src/kauthamwrapper.cpp)
 target_link_libraries(kauthamwrapper ${SWIPL_LIBRARIES} ${catkin_LIBRARIES})
 add_dependencies(kauthamwrapper ${catkin_EXPORTED_TARGETS} )
+
+## C++ examples
+add_executable(world2map src/world2map.cpp)
+target_link_libraries(world2map ${catkin_LIBRARIES})
+if(catkin_EXPORTED_TARGETS)
+  add_dependencies(world2map ${catkin_EXPORTED_TARGETS})
+endif()
+
+## Install C++ Examples
+install(TARGETS world2map
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+## Install Other Resources
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
 
 ##############################################################################
 # Installation

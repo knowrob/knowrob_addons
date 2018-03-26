@@ -346,9 +346,9 @@ PREDICATE(kautham_init_planning_scene_internal, 2)
     std::string modelFolder((char*)PL_A1);
     std::string sceneMap((char*)PL_A2);
     kautham::OpenProblem kthopenproblem_srv;
-    kthopenproblem_srv.request.problem = sceneMap;
+    kthopenproblem_srv.request.problem = resolvePackageURL(sceneMap);
     kthopenproblem_srv.request.dir.resize(1);
-    kthopenproblem_srv.request.dir[0] = modelFolder;
+    kthopenproblem_srv.request.dir[0] = resolvePackageURL(modelFolder);
     ros::service::call("kautham_node/OpenProblem", kthopenproblem_srv);
     if (kthopenproblem_srv.response.response == true)
     {
