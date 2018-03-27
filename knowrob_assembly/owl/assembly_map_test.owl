@@ -27,9 +27,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance -->
+    <!-- http://knowrob.org/kb/knowrob.owl#hasAffordance -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#hasAffordance"/>
     
 
 
@@ -726,11 +726,11 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Axle1">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Axle"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1SnapInM"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1TopGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1WheelSnapInMLeft"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1WheelSnapInMRight"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1SnapInM"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1WheelSnapInMLeft"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1WheelSnapInMRight"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle1InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleDAE"/>
@@ -823,11 +823,11 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Axle2">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Axle"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2SnapInM"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2TopGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2WheelSnapInMLeft"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2WheelSnapInMRight"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2SnapInM"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2WheelSnapInMLeft"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2WheelSnapInMRight"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Axle2InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#AxleDAE"/>
@@ -968,11 +968,11 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBody"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1ChassisSnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1LightSnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1SpoilerSnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1ChassisSnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1LightSnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1SpoilerSnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#CamaroBody1InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#CamaroBodyDAE"/>
@@ -1059,15 +1059,15 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Chassis1">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Chassis"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1AxleSnapInFBack"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1AxleSnapInFFront"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1BodySnapInM"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1HolderSlideInFlatF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1HolderSlideInRolledM"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1SeatSnapInFBack"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1SeatSnapInFFront"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1AxleSnapInFBack"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1AxleSnapInFFront"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1BodySnapInM"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1HolderSlideInFlatF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1HolderSlideInRolledM"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1SeatSnapInFBack"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1SeatSnapInFFront"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Chassis1InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ChassisDAE"/>
@@ -1231,11 +1231,11 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBody"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1ChassisSnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1LightSnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1SpoilerSnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1ChassisSnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1LightSnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1SpoilerSnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#PorscheBody1InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#PorscheBodyDAE"/>
@@ -1322,7 +1322,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Seat1">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeat"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Seat1SnapInM"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Seat1SnapInM"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeatSTL"/>
     </owl:NamedIndividual>
@@ -1341,7 +1341,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Seat2">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeat"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Seat2SnapInM"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Seat2SnapInM"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#BabyBlue"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#ShortSeatSTL"/>
     </owl:NamedIndividual>
@@ -1360,9 +1360,9 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Wheel1">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1SnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1SnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel1InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE"/>
@@ -1442,9 +1442,9 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Wheel2">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2SnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2SnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel2InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE"/>
@@ -1515,9 +1515,9 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Wheel3">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3SnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3SnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel3InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE"/>
@@ -1588,9 +1588,9 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_map_test.owl#Wheel4">
         <rdf:type rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Wheel"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4SideGrasp"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4SnapInF"/>
-        <knowrob_assembly:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4TopGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4SideGrasp"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4SnapInF"/>
+        <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4TopGrasp"/>
         <knowrob_paramserver:hasColor rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#Red"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/assembly_map_test.owl#Wheel4InitialTempRei"/>
         <knowrob_paramserver:hasShape rdf:resource="http://knowrob.org/kb/assembly_parts_test.owl#WheelDAE"/>
