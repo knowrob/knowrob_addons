@@ -180,7 +180,7 @@ assemblage_connection_create(ConnType, Objects, ConnId) :-
     rdf_has(Restr, owl:onProperty, knowrob_assembly:'consumesAffordance'),
     rdf_has(Restr, owl:'onClass', AffType)),once(((
       member(Obj,Objects),
-      rdf_has(Obj, knowrob_assembly:'hasAffordance', Affordance),
+      rdf_has(Obj, knowrob:'hasAffordance', Affordance),
       rdfs_individual_of(Affordance, AffType),
       rdf_assert(ConnId, knowrob_assembly:'consumesAffordance', Affordance)
     ) ; (
@@ -219,8 +219,8 @@ assemblage_linksAssemblage(Assemblage, Linked) :-
   rdf_has(Assemblage, knowrob_assembly:'usesConnection', Conn1),
   findall(X, (
     rdf_has(Conn1, knowrob_assembly:'consumesAffordance', Aff1),
-    rdf_has(Part1, knowrob_assembly:'hasAffordance', Aff1),
-    rdf_has(Part1, knowrob_assembly:'hasAffordance', Aff2),
+    rdf_has(Part1, knowrob:'hasAffordance', Aff1),
+    rdf_has(Part1, knowrob:'hasAffordance', Aff2),
     rdf_has(Conn2, knowrob_assembly:'consumesAffordance', Aff2),
     Conn1 \= Conn2,
     rdf_has(X, knowrob_assembly:'usesConnection', Conn2)
@@ -255,8 +255,8 @@ assemblage_possible_grasp(Assemblage, PossibleGrasp) :-
   assemblage_possible_grasp(Part, TargetConnection, PossibleGrasp).
 assemblage_possible_grasp(Object, TargetConnection, (GraspObj,GraspAff,GraspSpec)) :-
   (GraspObj=Object ; assemblage_part_links_part(Object, GraspObj)),
-  rdf_has(GraspObj, knowrob_assembly:'hasAffordance', GraspAff),
-  rdfs_individual_of(GraspAff, knowrob_assembly:'GraspingAffordance'),
+  rdf_has(GraspObj, knowrob:'hasAffordance', GraspAff),
+  rdfs_individual_of(GraspAff, knowrob:'GraspingAffordance'),
   % ensure grasped affordance not used in (not yet established) target assemblage
   \+ rdf_has(TargetConnection, knowrob_assembly:'consumesAffordance', GraspAff),
   % ensure the affordance is not yet blocked
@@ -280,16 +280,16 @@ assemblage_part(Assemblage, AtomicPart) :-
 %
 assemblage_connection_part(Connection, AtomicPart) :-
   ground(AtomicPart), !,
-  rdf_has(AtomicPart, knowrob_assembly:'hasAffordance', Affordance),
+  rdf_has(AtomicPart, knowrob:'hasAffordance', Affordance),
   rdf_has(Connection, knowrob_assembly:'consumesAffordance', Affordance).
 assemblage_connection_part(Connection, AtomicPart) :-
   rdf_has(Connection, knowrob_assembly:'consumesAffordance', Affordance),
-  rdf_has(AtomicPart, knowrob_assembly:'hasAffordance', Affordance).
+  rdf_has(AtomicPart, knowrob:'hasAffordance', Affordance).
 
 %% assemblage_part_blocked_affordance(?Part,?Affordance) is det.
 %
 assemblage_part_blocked_affordance(Part, Affordance) :-
-  rdf_has(Part, knowrob_assembly:'hasAffordance', Affordance),
+  rdf_has(Part, knowrob:'hasAffordance', Affordance),
   once((
     rdf_has(Connection, knowrob_assembly:'blocksAffordance', Affordance),
     assemblage_connection_established(Connection)
@@ -372,7 +372,7 @@ assemblage_connection_reference(Connection, TransformId, ReferenceObj) :-
   rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
   rdf_has(Restr, owl:'onClass', ReferenceCls),
   rdf_has(Connection, knowrob_assembly:'consumesAffordance', Aff),
-  rdf_has(ReferenceObj, knowrob_assembly:'hasAffordance', Aff),
+  rdf_has(ReferenceObj, knowrob:'hasAffordance', Aff),
   owl_individual_of(ReferenceObj,ReferenceCls), !.
 
 %% assemblage_part_make_reference(+RefObj,-OldParents) is det.
