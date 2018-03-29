@@ -53,6 +53,7 @@
 :- use_module(library('semweb/owl')).
 :- use_module(library('knowrob/computable')).
 :- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/utility/functional')).
 
 :-  rdf_meta
     cram_start_action(r, +, +, r, r, r),
