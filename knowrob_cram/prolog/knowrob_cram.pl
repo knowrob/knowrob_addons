@@ -33,8 +33,15 @@
     [
       cram_start_action/6,
       cram_start_action/5,
+      cram_start_event/5,
+      cram_start_event/4,
+      cram_start_motion/5,
+      cram_start_motion/4,
       cram_finish_action/2,
+      cram_finish_situation/2,
       cram_set_subaction/2,
+      cram_set_subevent/2,
+      cram_set_submotion/2,
       cram_add_image_to_event/2,
       cram_add_failure_to_action/5,
       cram_create_desig/2,
@@ -53,6 +60,7 @@
 :- use_module(library('semweb/owl')).
 :- use_module(library('knowrob/computable')).
 :- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/utility/functional')).
 
 :-  rdf_meta
     cram_start_action(r, +, +, r, r, r),
@@ -90,35 +98,51 @@
 % @param ParentTask   Instance of the parent-task in the task tree hierarchy (possibly unbound)
 % @param ActionInst   Returned reference to the created action instance
 %
-cram_start_action(Type, TaskContext, StartTime, PrevAction, ParentTask, ActionInst) :-
-
-  cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) ,
-
+cram_start_action(Type, _, StartTime, PrevAction, ParentTask, ActionInst) :-
+  cram_start_action(Type, StartTime, PrevAction, ActionInst) ,
   %subtask information is asserted
   (nonvar(ParentTask) -> (
       cram_set_subaction(ParentTask, ActionInst)) ; (true)).
 
-cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
+cram_start_action(Type, _, StartTime, PrevAction, ActionInst) :-
+  cram_start_situation(Type, StartTime, ActionInst),
+  %previous action information is asserted
+  (nonvar(PrevAction) -> (
+      rdf_assert(ActionInst, knowrob:previousAction, PrevAction, 'LoggingGraph'),
+      rdf_assert(PrevAction, knowrob:nextAction, ActionInst, 'LoggingGraph')) ; (true)).
 
+cram_start_event(Type, StartTime, Prev, ParentAction, EventInst) :-
+  cram_start_event(Type, StartTime, Prev, EventInst) ,
+  (nonvar(ParentAction) -> (
+      cram_set_subevent(ParentAction, EventInst)) ; (true)).
+
+cram_start_event(Type, StartTime, Prev, EventInst) :-
+  cram_start_situation(Type, TaskContext, StartTime, EventInst),
+  (nonvar(Prev) -> (
+      rdf_assert(EventInst, knowrob:previousEvent, Prev, 'LoggingGraph'),
+      rdf_assert(Prev, knowrob:nextEvent, EventInst, 'LoggingGraph')) ; (true)).
+
+cram_start_motion(Type, StartTime, Prev, ParentAction, MotionInst) :-
+  cram_start_motion(Type, StartTime, Prev, MotionInst) ,
+  (nonvar(ParentAction) -> (
+      cram_set_subevent(ParentAction, MotionInst)) ; (true)).
+
+cram_start_motion(Type, StartTime, Prev, MotionInst) :-
+  cram_start_situation(Type, TaskContext, StartTime, MotionInst),
+  (nonvar(Prev) -> (
+      rdf_assert(MotionInst, knowrob:previousMotion, Prev, 'LoggingGraph'),
+      rdf_assert(Prev, knowrob:nextMotion, MotionInst, 'LoggingGraph')) ; (true)).
+
+cram_start_situation(Type, StartTime, ActionInst) :-
   % create action instance
   rdf_instance_from_class(Type, 'LoggingGraph', ActionInst),
   rdf_assert(ActionInst, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
-  
-  % set task context property
-  rdf_assert(ActionInst, knowrob:taskContext, literal(type(xsd:string, TaskContext)), 'LoggingGraph'),
-
-
   % create timepoint instance and set as start time
   %create_timepoint(StartTime, StTime),
   owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=StartTime], StTime),
   rdf_assert(StTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(StTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
-  rdf_assert(ActionInst, knowrob:startTime, StTime, 'LoggingGraph'),
-
-  %previous action information is asserted
-  (nonvar(PrevAction) -> (
-      rdf_assert(ActionInst, knowrob:previousEvent, PrevAction, 'LoggingGraph'),
-      rdf_assert(PrevAction, knowrob:nextEvent, ActionInst, 'LoggingGraph')) ; (true)).
+  rdf_assert(ActionInst, knowrob:startTime, StTime, 'LoggingGraph').
 
 %% cram_finish_action(+ActionInst, +EndTime) is det.
 %
@@ -128,7 +152,9 @@ cram_start_action(Type, TaskContext, StartTime, PrevAction, ActionInst) :-
 % @param EndTime    POSIX timestamp (number with seconds sine 1970)
 %
 cram_finish_action(ActionInst, EndTime) :-
+  cram_finish_situation(ActionInst, EndTime).
 
+cram_finish_situation(ActionInst, EndTime) :-
   % create timepoint instance and set as end time
   %create_timepoint(EndTime, ETime),
   owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=EndTime], ETime),
@@ -180,6 +206,10 @@ cram_logged_query(QueryingInst, Query, BindingInst) :-
 %
 cram_set_subaction(Super, Sub) :-
   rdf_assert(Super, knowrob:subAction, Sub, 'LoggingGraph').
+cram_set_subevent(Super, Sub) :-
+  rdf_assert(Super, knowrob:subEvent, Sub, 'LoggingGraph').
+cram_set_submotion(Super, Sub) :-
+  rdf_assert(Super, knowrob:subMotion, Sub, 'LoggingGraph').
 
 
 
@@ -307,6 +337,7 @@ cram_set_object_acted_on(ActionInst, ObjectInst) :-
 % @param ObjectInst Returned reference to the created object instance
 %
 cram_set_detected_object(ActionInst, ObjectType, ObjectInst) :-
+  % FIXME: this is a very bad idea, you can't just create a new object of some type here!
   rdf_instance_from_class(ObjectType, 'LoggingGraph', ObjectInst),
   rdf_assert(ObjectInst, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(ActionInst, knowrob:detectedObject, ObjectInst, 'LoggingGraph').
