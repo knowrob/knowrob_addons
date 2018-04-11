@@ -37,6 +37,7 @@
       cram_start_event/4,
       cram_start_motion/5,
       cram_start_motion/4,
+      cram_start_situation/3,
       cram_finish_action/2,
       cram_finish_situation/2,
       cram_set_subaction/2,
@@ -65,6 +66,11 @@
 :-  rdf_meta
     cram_start_action(r, +, r, r, r),
     cram_start_action(r, +, r, r),
+    cram_start_event(r, +, r, r, r),
+    cram_start_event(r, +, r, r),
+    cram_start_motion(r, +, r, r, r),
+    cram_start_motion(r, +, r, r),
+    cram_start_situation(r, +, r),
     cram_finish_action(r, +),
     cram_set_subaction(r, r),
     cram_add_image_to_event(r, r),
@@ -84,7 +90,6 @@
 :- rdf_db:rdf_register_ns(owl, 'http://www.w3.org/2002/07/owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
-
 
 %% cram_start_action(+Type, +StartTime, ?PrevAction, -ActionInst) is det.
 %
