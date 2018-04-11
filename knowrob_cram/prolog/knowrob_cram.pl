@@ -31,8 +31,8 @@
 
 :- module(knowrob_cram,
     [
-      cram_start_action/6,
       cram_start_action/5,
+      cram_start_action/4,
       cram_start_event/5,
       cram_start_event/4,
       cram_start_motion/5,
@@ -63,8 +63,8 @@
 :- use_module(library('knowrob/utility/functional')).
 
 :-  rdf_meta
-    cram_start_action(r, +, +, r, r, r),
-    cram_start_action(r, +, +, r, r),
+    cram_start_action(r, +, r, r, r),
+    cram_start_action(r, +, r, r),
     cram_finish_action(r, +),
     cram_set_subaction(r, r),
     cram_add_image_to_event(r, r),
@@ -86,25 +86,24 @@
 :- rdf_db:rdf_register_ns(xsd, 'http://www.w3.org/2001/XMLSchema#', [keep(true)]).
 
 
-%% cram_start_action(+Type, +TaskContext, +StartTime, ?PrevAction, -ActionInst) is det.
+%% cram_start_action(+Type, +StartTime, ?PrevAction, -ActionInst) is det.
 %
 % Create an action instance, set properties like start time and task context.
 % Returns identifier of the generated instance.
 %
 % @param Type         OWL action class for the action to be created
-% @param TaskContext  String describing the task context
 % @param StartTime    POSIX timestamp (number with seconds sine 1970)
 % @param PrevAction   Instance of the previous action in the task (possibly unbound)
 % @param ParentTask   Instance of the parent-task in the task tree hierarchy (possibly unbound)
 % @param ActionInst   Returned reference to the created action instance
 %
-cram_start_action(Type, _, StartTime, PrevAction, ParentTask, ActionInst) :-
+cram_start_action(Type, StartTime, PrevAction, ParentTask, ActionInst) :-
   cram_start_action(Type, StartTime, PrevAction, ActionInst) ,
   %subtask information is asserted
   (nonvar(ParentTask) -> (
       cram_set_subaction(ParentTask, ActionInst)) ; (true)).
 
-cram_start_action(Type, _, StartTime, PrevAction, ActionInst) :-
+cram_start_action(Type, StartTime, PrevAction, ActionInst) :-
   cram_start_situation(Type, StartTime, ActionInst),
   %previous action information is asserted
   (nonvar(PrevAction) -> (
@@ -117,7 +116,7 @@ cram_start_event(Type, StartTime, Prev, ParentAction, EventInst) :-
       cram_set_subevent(ParentAction, EventInst)) ; (true)).
 
 cram_start_event(Type, StartTime, Prev, EventInst) :-
-  cram_start_situation(Type, TaskContext, StartTime, EventInst),
+  cram_start_situation(Type, StartTime, EventInst),
   (nonvar(Prev) -> (
       rdf_assert(EventInst, knowrob:previousEvent, Prev, 'LoggingGraph'),
       rdf_assert(Prev, knowrob:nextEvent, EventInst, 'LoggingGraph')) ; (true)).
@@ -128,7 +127,7 @@ cram_start_motion(Type, StartTime, Prev, ParentAction, MotionInst) :-
       cram_set_subevent(ParentAction, MotionInst)) ; (true)).
 
 cram_start_motion(Type, StartTime, Prev, MotionInst) :-
-  cram_start_situation(Type, TaskContext, StartTime, MotionInst),
+  cram_start_situation(Type, StartTime, MotionInst),
   (nonvar(Prev) -> (
       rdf_assert(MotionInst, knowrob:previousMotion, Prev, 'LoggingGraph'),
       rdf_assert(Prev, knowrob:nextMotion, MotionInst, 'LoggingGraph')) ; (true)).
