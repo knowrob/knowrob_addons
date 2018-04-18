@@ -92,10 +92,10 @@ comp_affordanceocclusion(Part, GraspingAffordance, ArmName) :-
 part_data(Part, Mesh, Pose) :-
   object_mesh_path(Part, Mesh),
   belief_at(Part, [_, _, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),
-  equal(Pose, [Tx, Ty, Tz, Rx, Ry, Rz, Rw]).
+  =(Pose, [Tx, Ty, Tz, Rx, Ry, Rz, Rw]).
 
 assert_part_index([Part, Index]) :-
-  owl_assert(Part, knowrob_kautham:'planningSceneIndex', literal(type('http://www.w3.org/2001/XMLSchema#integer', Index))).
+  rdf_assert(Part, knowrob_kautham:'planningSceneIndex', literal(type('http://www.w3.org/2001/XMLSchema#integer', Index))).
 
 kautham_init_planning_scene(ModelFolder, SceneMap) :-
   kautham_init_planning_scene_internal(ModelFolder, SceneMap),
@@ -114,7 +114,7 @@ kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName) :-
 
 kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName) :-
   rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
-  equal(PartGlobalTargetPose, [[TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
+  =(PartGlobalTargetPose, [[TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
   get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
   rdf_has(Part, knowrob_kautham:'planningSceneIndex', literal(type(_, ObjectIndex))),
   kautham_put_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName).

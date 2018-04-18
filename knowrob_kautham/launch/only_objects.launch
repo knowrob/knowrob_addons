@@ -10,6 +10,7 @@
   </node>
 
   <node name="kautham_node" pkg="kautham" type="kautham-rosnode" args=""/>
+  <node name="Yumi" pkg="yumik" type="yumik-node" args=""/>
 
   <node name="world2map" pkg="knowrob_kautham" type="world2map" args=""/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find knowrob_kautham)/config/yumi.rviz"/>
@@ -18,7 +19,7 @@
   
   <!-- <node name="krb_tf_listener" pkg="knowrob_objects" type="krb_tf_listener" output="screen"/> -->
   <param name="initial_package" type="string" value="knowrob_assembly" />
-  <param name="initial_goal" type="string" value="register_ros_package(knowrob_cram), register_ros_package(knowrob_kautham), battat_initialize_kautham_sim, kautham_init_planning_scene('package://assembly_models/battat/', './empty_world.xml')" />
+  <param name="initial_goal" type="string" value="register_ros_package(knowrob_cram), register_ros_package(knowrob_kautham), battat_initialize_kautham_sim, kautham_init_planning_scene('package://assembly_models/battat/', 'package://knowrob_kautham/launch/empty_world.xml')" />
   <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" output="screen"/>
 
 <!--

@@ -31,14 +31,59 @@ void get_grasp_pose_in_map(double otx, double oty, double otz, double orx, doubl
     rtz += otz;
 }
 
+int getNameConfIndex(const std::string& name)
+{
+    if("yumi_joint_1_l" == name)
+        return 0;
+    if("yumi_joint_2_l" == name)
+        return 1;
+    if("yumi_joint_7_l" == name)
+        return 2;
+    if("yumi_joint_3_l" == name)
+        return 3;
+    if("yumi_joint_4_l" == name)
+        return 4;
+    if("yumi_joint_5_l" == name)
+        return 5;
+    if("yumi_joint_6_l" == name)
+        return 6;
+    if("gripper_l_joint" == name)
+        return 7;
+    if("yumi_joint_1_r" == name)
+        return 8;
+    if("yumi_joint_2_r" == name)
+        return 9;
+    if("yumi_joint_7_r" == name)
+        return 10;
+    if("yumi_joint_3_r" == name)
+        return 11;
+    if("yumi_joint_4_r" == name)
+        return 12;
+    if("yumi_joint_5_r" == name)
+        return 13;
+    if("yumi_joint_6_r" == name)
+        return 14;
+    if("gripper_r_joint" == name)
+        return 15;
+    return -1;
+}
+
 void getCurrentRobotJointState(std::vector<float> &conf)
 {
     boost::shared_ptr<const sensor_msgs::JointState> msg = ros::topic::waitForMessage<sensor_msgs::JointState>("/joint_states");
     unsigned int maxK = msg->position.size();
+    std::vector<int> confIndex;
+    confIndex.resize(maxK);
+    for(int k = 0; k < maxK; k++)
+        confIndex[k] = getNameConfIndex(msg->name[k]);
     conf.clear();
-    conf.resize(maxK);
+    conf.resize(16);
     for(unsigned int k = 0; k < maxK; k++)
-        conf[k] = (float)msg->position[k];
+    {
+        int kc = confIndex[k];
+        if(0 < kc)
+            conf[kc] = (float)msg->position[k];
+    }
 }
 
 bool setQuery(std::vector <float> initControl,  std::vector <float> goalControl)
@@ -181,26 +226,26 @@ bool pub_rob_motion(std::vector<std::vector<float> > path){
         sensor_msgs::JointState joint_states;
         //defining joint names
         joint_states.name.resize(18);
-        joint_states.name[0]="yumi_joint_1_r";
-        joint_states.name[1]="yumi_joint_2_r";
-        joint_states.name[2]="yumi_joint_7_r";
-        joint_states.name[3]="yumi_joint_3_r";
-        joint_states.name[4]="yumi_joint_4_r";
-        joint_states.name[5]="yumi_joint_5_r";
-        joint_states.name[6]="yumi_joint_6_r";
+        joint_states.name[0]="yumi_joint_1_l";
+        joint_states.name[1]="yumi_joint_2_l";
+        joint_states.name[2]="yumi_joint_7_l";
+        joint_states.name[3]="yumi_joint_3_l";
+        joint_states.name[4]="yumi_joint_4_l";
+        joint_states.name[5]="yumi_joint_5_l";
+        joint_states.name[6]="yumi_joint_6_l";
 
-        joint_states.name[7]="yumi_joint_1_l";
-        joint_states.name[8]="yumi_joint_2_l";
-        joint_states.name[9]="yumi_joint_7_l";
-        joint_states.name[10]="yumi_joint_3_l";
-        joint_states.name[11]="yumi_joint_4_l";
-        joint_states.name[12]="yumi_joint_5_l";
-        joint_states.name[13]="yumi_joint_6_l";
+        joint_states.name[8]="yumi_joint_1_r";
+        joint_states.name[9]="yumi_joint_2_r";
+        joint_states.name[10]="yumi_joint_7_r";
+        joint_states.name[11]="yumi_joint_3_r";
+        joint_states.name[12]="yumi_joint_4_r";
+        joint_states.name[13]="yumi_joint_5_r";
+        joint_states.name[14]="yumi_joint_6_r";
 
-        joint_states.name[14]="gripper_r_joint";
-        joint_states.name[15]="gripper_r_joint_m";
-        joint_states.name[16]="gripper_l_joint";
-        joint_states.name[17]="gripper_l_joint_m";
+        joint_states.name[7]="gripper_l_joint";
+        joint_states.name[15]="gripper_r_joint";
+        joint_states.name[16]="gripper_l_joint_m";
+        joint_states.name[17]="gripper_r_joint_m";
 
 
         for (int i = 0; i < conf.size(); i++ )
@@ -216,15 +261,15 @@ bool pub_rob_motion(std::vector<std::vector<float> > path){
             joint_states.position[5]=conf[i][5];
             joint_states.position[6]=conf[i][6];
 
-            joint_states.position[7]=conf[i][8];
-            joint_states.position[8]=conf[i][9];
-            joint_states.position[9]=conf[i][10];
-            joint_states.position[10]=conf[i][11];
-            joint_states.position[11]=conf[i][12];
-            joint_states.position[12]=conf[i][13];
-            joint_states.position[13]=conf[i][14];
+            joint_states.position[8]=conf[i][8];
+            joint_states.position[9]=conf[i][9];
+            joint_states.position[10]=conf[i][10];
+            joint_states.position[11]=conf[i][11];
+            joint_states.position[12]=conf[i][12];
+            joint_states.position[13]=conf[i][13];
+            joint_states.position[14]=conf[i][14];
 
-            joint_states.position[14]=0.0;
+            joint_states.position[7]=0.0;
             joint_states.position[15]=0.0;
             joint_states.position[16]=0.0;
             joint_states.position[17]=0.0;
@@ -237,17 +282,8 @@ bool pub_rob_motion(std::vector<std::vector<float> > path){
     }
 }
 
-tIKanswer get_config_from_pose(bool leftArm, double otx, double oty, double otz, double orx, double ory, double orz, double orw, double gtx, double gty, double gtz, double grx, double gry, double grz, double grw)
+tIKanswer call_Yumi_IK(bool leftArm, double rtx, double rty, double rtz, double rrx, double rry, double rrz, double rrw)
 {
-    double rtx;
-    double rty;
-    double rtz;
-    double rrx;
-    double rry;
-    double rrz;
-    double rrw;
-    get_grasp_pose_in_map(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw, rtx, rty, rtz, rrx, rry, rrz, rrw);
-
     yumik::YumIK Yumi_srv;
 
     Yumi_srv.request.theta3 = 0.0;
@@ -275,6 +311,48 @@ tIKanswer get_config_from_pose(bool leftArm, double otx, double oty, double otz,
     retq.armType = true;
 
     return retq;
+}
+
+PREDICATE(kautham_call_yumi_ik, 3)
+{
+    std::string armName((char*)PL_A1);
+    bool leftArm = true;
+    if(armName == "right")
+        leftArm = false;
+    PlTail pose(PL_A2);
+    PlTail answer(PL_A3);
+    PlTerm value;
+    // object pose in map
+    pose.next(value); double rtx = value;
+    pose.next(value); double rty = value;
+    pose.next(value); double rtz = value;
+    pose.next(value); double rrx = value;
+    pose.next(value); double rry = value;
+    pose.next(value); double rrz = value;
+    pose.next(value); double rrw = value;
+
+    tIKanswer retq = call_Yumi_IK(leftArm, rtx, rty, rtz, rrx, rry, rrz, rrw);
+
+    answer.append((long int)retq.response);
+    answer.append((long int)retq.armType);
+    for(int k = 0; k < retq.conf.size(); k++)
+        answer.append((double)retq.conf[k]);
+    answer.close();
+    return TRUE;
+}
+
+tIKanswer get_config_from_pose(bool leftArm, double otx, double oty, double otz, double orx, double ory, double orz, double orw, double gtx, double gty, double gtz, double grx, double gry, double grz, double grw)
+{
+    double rtx;
+    double rty;
+    double rtz;
+    double rrx;
+    double rry;
+    double rrz;
+    double rrw;
+    get_grasp_pose_in_map(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw, rtx, rty, rtz, rrx, rry, rrz, rrw);
+
+    return call_Yumi_IK(leftArm, rtx, rty, rtz, rrx, rry, rrz, rrw);
 }
 
 std::string resolvePackageURL(std::string const& meshURL)
@@ -372,9 +450,9 @@ PREDICATE(kautham_grab_part_internal, 4)
         leftArm = false;
     int objectIndex = (int)PL_A3;
     int rob = 0;
-    int tcp = 6;
+    int tcp = 7;
     if(!leftArm)
-        tcp = 14;
+        tcp = 15;
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
     // object pose in map
@@ -404,7 +482,7 @@ PREDICATE(kautham_grab_part_internal, 4)
         int b = 0;
         if(!leftArm)
             b = 8;
-        for(int k = 0; k < 8; k++)
+        for(int k = 0; k < 7; k++)
             goal[k + b] = ikConf.conf[k];
         if(!setQuery(init, goal))
             return FALSE;
@@ -428,9 +506,9 @@ PREDICATE(kautham_put_part_internal, 4)
         leftArm = false;
     int objectIndex = (int)PL_A3;
     int rob = 0;
-    int tcp = 6;
+    int tcp = 7;
     if(!leftArm)
-        tcp = 14;
+        tcp = 15;
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
     // object pose in map
@@ -460,7 +538,7 @@ PREDICATE(kautham_put_part_internal, 4)
         int b = 0;
         if(!leftArm)
             b = 8;
-        for(int k = 0; k < 8; k++)
+        for(int k = 0; k < 7; k++)
             goal[k + b] = ikConf.conf[k];
         if(!setQuery(init, goal))
             return FALSE;
@@ -513,16 +591,37 @@ PREDICATE(kautham_blocking_objects, 4)
         int b = 0;
         if(!leftArm)
             b = 8;
-        for(int k = 0; k < 8; k++)
+        for(int k = 0; k < 7; k++)
             goal[k + b] = ikConf.conf[k];
-        check_collision_obstacles_srv.request.config = goal;
-        ros::service::call("/kautham_node/CheckCollisionRob", check_collision_obstacles_srv);
+        std::vector<float> shifty;
+        shifty.resize(16);
 
-        if(!check_collision_obstacles_srv.response.response)
+        shifty[0] = (goal[0] + 2.941)/(2.941 + 2.941);
+        shifty[1] = (goal[1] + 2.505)/(0.759 + 2.505);
+        shifty[2] = (goal[2] + 2.941)/(2.941 + 2.941);
+        shifty[3] = (goal[3] + 2.155)/(1.396 + 2.155);
+        shifty[4] = (goal[4] + 5.061)/(5.061 + 5.061);
+        shifty[5] = (goal[5] + 1.536)/(2.409 + 1.536);
+        shifty[6] = (goal[6] + 3.997)/(3.997 + 3.997);
+        shifty[7] = 0;
+        shifty[8] = (goal[8] + 2.941)/(2.941 + 2.941);
+        shifty[9] = (goal[9] + 2.505)/(0.759 + 2.505);
+        shifty[10] = (goal[10] + 2.941)/(2.941 + 2.941);
+        shifty[11] = (goal[11] + 2.155)/(1.396 + 2.155);
+        shifty[12] = (goal[12] + 5.061)/(5.061 + 5.061);
+        shifty[13] = (goal[13] + 1.536)/(2.409 + 1.536);
+        shifty[14] = (goal[14] + 3.997)/(3.997 + 3.997);
+        shifty[15] = 0;
+        check_collision_obstacles_srv.request.config = shifty;
+        ros::service::call("/kautham_node/CheckCollision", check_collision_obstacles_srv);
+
+        //colliders.append((long int)check_collision_obstacles_srv.response.response);
+        if(check_collision_obstacles_srv.response.response && (!check_collision_obstacles_srv.response.collisionFree))
         {
-            unsigned int maxK = check_collision_obstacles_srv.response.collObjs.size();
-            for(unsigned int k = 0; k < maxK; k++)
-                colliders.append((long int)check_collision_obstacles_srv.response.collObjs[k]);
+            //unsigned int maxK = check_collision_obstacles_srv.response.collObjs.size();
+            //for(unsigned int k = 0; k < maxK; k++)
+            //    colliders.append((long int)check_collision_obstacles_srv.response.collObjs[k]);
+            colliders.append((long int)check_collision_obstacles_srv.response.collObj);
         }
         colliders.close();
     }
