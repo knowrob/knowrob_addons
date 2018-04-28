@@ -33,8 +33,8 @@
         battat_initialize_kautham_sim/0,
         comp_affordanceocclusion/3,
         kautham_init_planning_scene/2,
-        kautham_grab_part/3,
-        kautham_put_part/4
+        kautham_grab_part/4,
+        kautham_put_part/5
     ]).
 
 
@@ -66,6 +66,51 @@ battat_initialize_kautham_sim :-
   owl_parser:owl_parse('package://knowrob_kautham/owl/battat_airplane_test.owl', belief_state).
 %%  owl_parser:owl_parse('package://knowrob_kautham/owl/battat_airplane_simulation.owl').
 
+free_grasping_affordance(Part, GraspingAffordance) :-
+  owl_has(MobilePart, knowrob_assembly:'hasAffordance', GraspingAffordance),
+  owl_individual_of(GraspingAffordance, knowrob_assembly:'GraspingAffordance'),
+  \+ rdf_has(Connection, knowrob_assembly:'blocksAffordance', GraspingAffordance).
+
+arm_available(GraspSpecification, ArmName) :-
+  %%%%%% find an arm that is free and reaches
+  =(ArmName, "left").
+
+get_connection_transform(Connection, [CTx, CTy, CTz, CRx, CRy, CRz, CRw], ReferenceObj) :-
+  once(owl_has(Connection, knowrob_assembly:'usesTransform', ConnectionTransform)),
+  assemblage_connection_reference(Connection, ConnectionTransform, ReferenceObj), 
+  rdf_has(ConnectionTransform, knowrob:'translation', literal(type(_, ConnectionTranslation))),
+  rdf_has(ConnectionTransform, knowrob:'quaternion', literal(type(_, ConnectionRotation))),
+  rdf_vector_prolog(ConnectionTranslation, [CTx, CTy, CTz]),
+  rdf_vector_prolog(ConnectionRotation, [CRx, CRy, CRz, CRw]).
+
+perform_put_away(ActionDescription, Result) :-
+  =(ActionDescription, ["an", "action", ["type", "putting_part_away"], ["mobile-part", MobilePart]])
+  free_grasping_affordance(MobilePart, GraspingAffordance),
+  rdf_has(GraspingAffordance, knowrob_assembly:'graspAt', GraspSpecification),
+  arm_available(GraspSpecification, ArmName),
+  %%%%%% PartGlobalTargetPose: "far enough away" from other parts
+  kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName, GrabResult),
+  =("ok", Result) -> 
+    kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName, Result);
+    =(GrabResult, Result).
+
+perform_assembly_action(ActionDescription, Result) :-
+  =(ActionDescription, ["an", "action", ["type", "connecting"], ["connection", Connection], ["fixed-part", FixedPart], ["mobile-part", MobilePart]]),
+  %%%%%% finding object to grasp and its transform acc. to the alt.check predicate 
+  free_grasping_affordance(MobilePart, GraspingAffordance),
+  rdf_has(GraspingAffordance, knowrob_assembly:'graspAt', GraspSpecification),
+  arm_available(GraspSpecification, ArmName),
+  get_connection_transform(Connection, [CTx, CTy, CTz, CRx, CRy, CRz, CRw], ReferenceObj),
+  belief_at_global(ReferenceObj, [_, _, [OTx, OTy, OTz], [ORx, ORy, ORz, ORw]]),
+  transform_multiply(["map", "fixedpart", [OTx, OTy, OTz], [ORx, ORy, ORz, ORw]], ["fixedpart", "mobilepart", [CTx, CTy, CTz], [CRx, CRy, CRz, CRw]], [_, _, [PTx, PTy, PTz], [PRx, PRy, PRz, PRw]]),
+  =(PartGlobalTargetPose, [[PTx, PTy, PTz], [PRx, PRy, PRz, PRw]]),
+  kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName, GrabResult),
+  =("ok", Result) -> 
+    kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName, Result);
+    =(GrabResult, Result).
+
+kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName, Result).
+
 get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]) :-
   rdf_has(GraspSpecification, knowrob_paramserver:'hasGraspTransform', GraspTransform),
   rdf_has(GraspTransform, knowrob:'translation', literal(type(_, GraspTranslation))),
@@ -82,7 +127,7 @@ comp_affordanceocclusion(Part, GraspingAffordance, ArmName) :-
 % Retrieve TargetPart (associated to GraspingAffordance)
   rdf_has(TargetPart, knowrob_assembly:'hasAffordance', GraspingAffordance),
 % Retrieve pose associated to TargetPart
-  belief_at(TargetPart, [_, _, [OTx, OTy, OTz], [ORx, ORy, ORz, ORw]]),
+  belief_at_global(TargetPart, [_, _, [OTx, OTy, OTz], [ORx, ORy, ORz, ORw]]),
 % Call helper program: give transform to TargetPart, return a list of colliding bodies (represented as indices in planning scene)
   kautham_blocking_objects([OTx, OTy, OTz, ORx, ORy, ORz, ORw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], CollidingObjectIndices, ArmName),
 % retrieve Part so that it has planningSceneIndex in the list
@@ -91,7 +136,7 @@ comp_affordanceocclusion(Part, GraspingAffordance, ArmName) :-
 
 part_data(Part, Mesh, Pose) :-
   object_mesh_path(Part, Mesh),
-  belief_at(Part, [_, _, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),
+  belief_at_global(Part, [_, _, [Tx, Ty, Tz], [Rx, Ry, Rz, Rw]]),
   =(Pose, [Tx, Ty, Tz, Rx, Ry, Rz, Rw]).
 
 assert_part_index([Part, Index]) :-
@@ -105,17 +150,21 @@ kautham_init_planning_scene(ModelFolder, SceneMap) :-
   kautham_add_obstacles_internal(PartData, Indices),
   maplist(assert_part_index, Indices).
 
-kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName) :-
+kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName, Result) :-
   rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
-  belief_at(Part, [_, _, [TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
+  belief_at_global(Part, [_, _, [TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
   get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
   rdf_has(Part, knowrob_kautham:'planningSceneIndex', literal(type(_, ObjectIndex))),
-  kautham_grab_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName).
+  kautham_grab_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName)
+  %%%%%%
+  .
 
-kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName) :-
+kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName, Result) :-
   rdf_has(Part, knowrob_assembly:'hasAffordance', GraspingAffordance),
   =(PartGlobalTargetPose, [[TTx, TTy, TTz], [TRx, TRy, TRz, TRw]]),
   get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
   rdf_has(Part, knowrob_kautham:'planningSceneIndex', literal(type(_, ObjectIndex))),
-  kautham_put_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName).
+  kautham_put_part_internal([TTx, TTy, TTz, TRx, TRy, TRz, TRw], [GTx, GTy, GTz, GRx, GRy, GRz, GRw], ObjectIndex, ArmName)
+  %%%%%%
+  .
 
