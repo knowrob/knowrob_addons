@@ -19,7 +19,7 @@
   
   <!-- <node name="krb_tf_listener" pkg="knowrob_objects" type="krb_tf_listener" output="screen"/> -->
   <param name="initial_package" type="string" value="knowrob_assembly" />
-  <param name="initial_goal" type="string" value="register_ros_package(knowrob_cram), register_ros_package(knowrob_kautham), battat_initialize_kautham_sim, kautham_init_planning_scene('package://assembly_models/battat/', 'package://knowrob_kautham/launch/empty_world.xml')" />
+  <param name="initial_goal" type="string" value="register_ros_package(knowrob_kautham), battat_initialize_kautham_sim, kautham_init_planning_scene('package://assembly_models/battat/', 'package://knowrob_kautham/launch/empty_world.xml')" />
   <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" output="screen"/>
 
 <!--

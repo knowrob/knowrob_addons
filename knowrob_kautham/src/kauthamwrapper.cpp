@@ -4,6 +4,10 @@
 
 #include <ros/package.h>
 
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
 typedef struct
 {
     std::vector<float> conf;
@@ -66,6 +70,30 @@ int getNameConfIndex(const std::string& name)
     if("gripper_r_joint" == name)
         return 15;
     return -1;
+}
+
+std::vector<float> normalizeJointVals(std::vector<float> const& inp)
+{
+    std::vector<float> shifty;
+    shifty.resize(16);
+
+    shifty[0] = (inp[0] + 2.941)/(2.941 + 2.941);
+    shifty[1] = (inp[1] + 2.505)/(0.759 + 2.505);
+    shifty[2] = (inp[2] + 2.941)/(2.941 + 2.941);
+    shifty[3] = (inp[3] + 2.155)/(1.396 + 2.155);
+    shifty[4] = (inp[4] + 5.061)/(5.061 + 5.061);
+    shifty[5] = (inp[5] + 1.536)/(2.409 + 1.536);
+    shifty[6] = (inp[6] + 3.997)/(3.997 + 3.997);
+    shifty[7] = 1.0;
+    shifty[8] = (inp[8] + 2.941)/(2.941 + 2.941);
+    shifty[9] = (inp[9] + 2.505)/(0.759 + 2.505);
+    shifty[10] = (inp[10] + 2.941)/(2.941 + 2.941);
+    shifty[11] = (inp[11] + 2.155)/(1.396 + 2.155);
+    shifty[12] = (inp[12] + 5.061)/(5.061 + 5.061);
+    shifty[13] = (inp[13] + 1.536)/(2.409 + 1.536);
+    shifty[14] = (inp[14] + 3.997)/(3.997 + 3.997);
+    shifty[15] = 1.0;
+    return shifty;
 }
 
 void getCurrentRobotJointState(std::vector<float> &conf)
@@ -269,10 +297,10 @@ bool pub_rob_motion(std::vector<std::vector<float> > path){
             joint_states.position[13]=conf[i][13];
             joint_states.position[14]=conf[i][14];
 
-            joint_states.position[7]=0.0;
-            joint_states.position[15]=0.0;
-            joint_states.position[16]=0.0;
-            joint_states.position[17]=0.0;
+            joint_states.position[7]=1.0;
+            joint_states.position[15]=1.0;
+            joint_states.position[16]=1.0;
+            joint_states.position[17]=1.0;
 
             joint_pub.publish(joint_states); //publishing the configuration message to the robot
             loop_rate.sleep();
@@ -333,8 +361,8 @@ PREDICATE(kautham_call_yumi_ik, 3)
 
     tIKanswer retq = call_Yumi_IK(leftArm, rtx, rty, rtz, rrx, rry, rrz, rrw);
 
-    answer.append((long int)retq.response);
-    answer.append((long int)retq.armType);
+    //answer.append((long int)retq.response);
+    //answer.append((long int)retq.armType);
     for(int k = 0; k < retq.conf.size(); k++)
         answer.append((double)retq.conf[k]);
     answer.close();
@@ -352,7 +380,7 @@ tIKanswer get_config_from_pose(bool leftArm, double otx, double oty, double otz,
     double rrw;
     get_grasp_pose_in_map(otx, oty, otz, orx, ory, orz, orw, gtx, gty, gtz, grx, gry, grz, grw, rtx, rty, rtz, rrx, rry, rrz, rrw);
 
-    return call_Yumi_IK(leftArm, rtx, rty, rtz, rrx, rry, rrz, rrw);
+    return call_Yumi_IK(leftArm, rtx + 0.08, rty, rtz - 0.1, rrx, rry, rrz, rrw);
 }
 
 std::string resolvePackageURL(std::string const& meshURL)
@@ -421,6 +449,7 @@ PREDICATE(kautham_add_obstacles_internal, 2)
 
 PREDICATE(kautham_init_planning_scene_internal, 2)
 {
+    srand(time(NULL));
     std::string modelFolder((char*)PL_A1);
     std::string sceneMap((char*)PL_A2);
     kautham::OpenProblem kthopenproblem_srv;
@@ -442,7 +471,7 @@ PREDICATE(kautham_init_planning_scene_internal, 2)
     }
 }
 
-PREDICATE(kautham_grab_part_internal, 4)
+PREDICATE(kautham_grab_part_internal, 5)
 {
     std::string armName((char*)PL_A4);
     bool leftArm = true;
@@ -484,21 +513,34 @@ PREDICATE(kautham_grab_part_internal, 4)
             b = 8;
         for(int k = 0; k < 7; k++)
             goal[k + b] = ikConf.conf[k];
+        init = normalizeJointVals(init);
+        goal = normalizeJointVals(goal);
         if(!setQuery(init, goal))
+        {
+            PL_A5 = "fail: query";
             return FALSE;
+        }
         std::vector<std::vector<float> > path = collisionFreePath();
         if(!path.size())
+        {
+            PL_A5 = "fail: path";
             return FALSE;
+        }
         pub_rob_motion(path);
         if(!attachObjToRob(rob, tcp, objectIndex))
+        {
+            PL_A5 = "fail: attach";
             return FALSE;
+        }
+        PL_A5 = "ok";
         return TRUE;
     }
 
+    PL_A5 = "fail: IK";
     return FALSE;
 }
 
-PREDICATE(kautham_put_part_internal, 4)
+PREDICATE(kautham_put_part_internal, 5)
 {
     std::string armName((char*)PL_A4);
     bool leftArm = true;
@@ -540,18 +582,31 @@ PREDICATE(kautham_put_part_internal, 4)
             b = 8;
         for(int k = 0; k < 7; k++)
             goal[k + b] = ikConf.conf[k];
+        init = normalizeJointVals(init);
+        goal = normalizeJointVals(goal);
         if(!setQuery(init, goal))
+        {
+            PL_A5 = "fail: query";
             return FALSE;
+        }
         std::vector<std::vector<float> > path = collisionFreePath();
         if(!path.size())
-            return FALSE;
+        {
+            PL_A5 = "fail: path";
+            return TRUE;
+        }
         pub_rob_motion(path);
         if(!detachObj(objectIndex))
-            return FALSE;
+        {
+            PL_A5 = "fail: detachObj";
+            return TRUE;
+        }
+        PL_A5 = "ok";
         return TRUE;
     }
 
-    return FALSE;
+    PL_A5 = "fail: IK";
+    return TRUE;
 }
 
 PREDICATE(kautham_blocking_objects, 4)
@@ -594,24 +649,8 @@ PREDICATE(kautham_blocking_objects, 4)
         for(int k = 0; k < 7; k++)
             goal[k + b] = ikConf.conf[k];
         std::vector<float> shifty;
-        shifty.resize(16);
 
-        shifty[0] = (goal[0] + 2.941)/(2.941 + 2.941);
-        shifty[1] = (goal[1] + 2.505)/(0.759 + 2.505);
-        shifty[2] = (goal[2] + 2.941)/(2.941 + 2.941);
-        shifty[3] = (goal[3] + 2.155)/(1.396 + 2.155);
-        shifty[4] = (goal[4] + 5.061)/(5.061 + 5.061);
-        shifty[5] = (goal[5] + 1.536)/(2.409 + 1.536);
-        shifty[6] = (goal[6] + 3.997)/(3.997 + 3.997);
-        shifty[7] = 0;
-        shifty[8] = (goal[8] + 2.941)/(2.941 + 2.941);
-        shifty[9] = (goal[9] + 2.505)/(0.759 + 2.505);
-        shifty[10] = (goal[10] + 2.941)/(2.941 + 2.941);
-        shifty[11] = (goal[11] + 2.155)/(1.396 + 2.155);
-        shifty[12] = (goal[12] + 5.061)/(5.061 + 5.061);
-        shifty[13] = (goal[13] + 1.536)/(2.409 + 1.536);
-        shifty[14] = (goal[14] + 3.997)/(3.997 + 3.997);
-        shifty[15] = 0;
+        shifty = normalizeJointVals(goal);
         check_collision_obstacles_srv.request.config = shifty;
         ros::service::call("/kautham_node/CheckCollision", check_collision_obstacles_srv);
 
@@ -630,6 +669,131 @@ PREDICATE(kautham_blocking_objects, 4)
         colliders.close();
     }
     
+    return TRUE;
+}
+
+//ArmName, TableLimits, PartHeight, [GTx, GTy, GTz, GRx, GRy, GRz, GRw], [PRx, PRy, PRz, PRw], PartPosesAndDists, PartGlobalTargetPose, FindResult
+PREDICATE(kautham_find_away_pose, 8)
+{
+    PlTerm value;
+    std::string armName((char*)PL_A1);
+    bool leftArm = true;
+    if(armName == "right")
+        leftArm = false;
+    PlTail limits(PL_A2);
+    double xMin, xMax, yMin, yMax, height;
+    limits.next(value); xMin = value;    
+    limits.next(value); xMax = value;    
+    limits.next(value); yMin = value;    
+    limits.next(value); yMax = value;
+    limits.next(value); height = value;
+    double partHeight = (double)PL_A3;
+    PlTail grasppose_list(PL_A4);
+    grasppose_list.next(value); double gtx = value;
+    grasppose_list.next(value); double gty = value;
+    grasppose_list.next(value); double gtz = value;
+    grasppose_list.next(value); double grx = value;
+    grasppose_list.next(value); double gry = value;
+    grasppose_list.next(value); double grz = value;
+    grasppose_list.next(value); double grw = value;
+    PlTail quat_list(PL_A5);
+    quat_list.next(value); double prx = value;
+    quat_list.next(value); double pry = value;
+    quat_list.next(value); double prz = value;
+    quat_list.next(value); double prw = value;
+    PlTail posesAndDists_list(PL_A6);
+    std::vector<std::vector<double> > posesAndDists;
+    posesAndDists.clear();
+    while(posesAndDists_list.next(value))
+    {
+        PlTail poseAndDist_list(value);
+        PlTerm component;
+        std::vector<double> aux;
+        while(poseAndDist_list.next(component))
+        {
+            aux.push_back((double) component);
+        }
+        posesAndDists.push_back(aux);
+    }
+
+    int maxK = 100;
+    int k = 0;
+    bool found = false;
+    std::vector<double> partPos;
+    partPos.resize(7);
+    std::vector<std::vector<double> > candidates;
+    while((!found) && (k < maxK))
+    {
+        double ptx = xMin + (((double)rand())/((double)RAND_MAX))*(xMax - xMin);
+        double pty = yMin + (((double)rand())/((double)RAND_MAX))*(yMax - yMin);
+        double ptz = height + partHeight;
+        double rtx, rty, rtz, rrx, rry, rrz, rrw;
+        get_grasp_pose_in_map(ptx, pty, ptz, prx, pry, prz, prw, gtx, gty, gtz, grx, gry, grz, grw, rtx, rty, rtz, rrx, rry, rrz, rrw);
+        tIKanswer ikConf = call_Yumi_IK(leftArm, rtx + 0.08, rty, rtz - 0.1, rrx, rry, rrz, rrw);
+        if(ikConf.response)
+        {
+            std::vector<double> aux;
+            aux.resize(7);
+            aux[0] = ptx;
+            aux[1] = pty;
+            aux[2] = ptz;
+            aux[3] = prx;
+            aux[4] = pry;
+            aux[5] = prz;
+            aux[6] = prw;
+            double cost = 0.0;
+            int maxJ = posesAndDists.size();
+            for(int j = 0; j < maxJ; j++)
+            {
+                double dx = ptx - posesAndDists[j][0];
+                double dy = pty - posesAndDists[j][1];
+                double d = sqrt(dx*dx + dy*dy);
+                d = posesAndDists[j][7] - d;
+                if(0 < d)
+                    cost += d;
+            }
+            if(0.001 > cost)
+            {
+                found = true;
+                partPos = aux;
+            }
+            else
+            {
+                aux.push_back(cost);
+                candidates.push_back(aux);
+            }
+        }
+        k++;
+    }
+
+    if((!found) && (candidates.size()))
+    {
+        found = true;
+        int minIdx = 0;
+        double cost = 1000.0;
+        for(int k = 1; k < candidates.size(); k++)
+            if(cost > candidates[k][7])
+            {
+                cost = candidates[k][7];
+                minIdx = k;
+            }
+        for(int k = 0; k < 7; k++)
+            partPos[k] = candidates[minIdx][k];
+    }
+
+    PlTail objpose_list(PL_A7);
+
+    if(found)    
+    {
+        PL_A8 = "ok";
+        for(int k = 0; k < 7; k++)
+            objpose_list.append(partPos[k]);
+        objpose_list.close();
+    }
+    else
+    {
+        PL_A8 = "fail: clutter";
+    }
     return TRUE;
 }
 

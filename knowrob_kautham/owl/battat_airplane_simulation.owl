@@ -12,7 +12,7 @@
      xmlns:knowrob_assembly="http://knowrob.org/kb/knowrob_assembly.owl#"
      xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl">
-        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_toys.owl"/>
+        <owl:imports rdf:resource="package://knowrob_kautham/owl/battat_toys.owl"/>
         <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-comp.owl"/>
     </owl:Ontology>
     
@@ -1182,7 +1182,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#BottomWingHolderInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.475 0.328 0.015</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.471 0.325 0.045</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -1633,6 +1633,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlanePropellerCorpusGrasp_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerCorpusGrasp"/>
+        <knowrob_assembly:graspAt rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspPropellerCorpus_1"/>
     </owl:NamedIndividual>
     
 
@@ -1642,7 +1643,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlanePropellerInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.495 -0.412 0.015</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.39 -0.28 0.015</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -1914,7 +1915,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneUnderBodyInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 1.0 0.0 0.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.25 -0.412 0.035</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.27 -0.46 0.048</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -1955,7 +1956,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneUpperBodyInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 -0.7071067811865476 0.7071067811865476</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.375 -0.392 0.045</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.395 -0.46 0.045</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -2149,7 +2150,7 @@
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#TopWingHolderInitialTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.475 0.448 0.015</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.485 0.486 0.03</knowrob:translation>
     </owl:NamedIndividual>
     
 

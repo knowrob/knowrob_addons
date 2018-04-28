@@ -4,17 +4,17 @@
     
     
     <Robot robot="robots/yumi_right_arm.urdf" >
-		<Home TH="1.0" WZ="0.0" WY="0.0" WX=".0" Z="0.0" Y="0.0" X="0.0" />
+		<Home TH="1.0" WZ="0.0" WY="0.0" WX="0.0" Z="0.1" Y="0.0" X="-0.08" />
           <InvKinematic name="YUMI_RIGHT" />
 	</Robot>
 
     <Robot robot="robots/yumi_left_arm.urdf"  >
-		<Home TH="1.0" WZ="0.0" WY="0.0" WX="0.0" Z="0.0" Y="0.0" X="0.0" />
+		<Home TH="1.0" WZ="0.0" WY="0.0" WX="0.0" Z="0.1" Y="0.0" X="-0.08" />
           <InvKinematic name="YUMI_LEFT" />
     </Robot>
 	
     <Obstacle obstacle="robots/yumi_body.urdf"   >
-            <Home TH="1.0" WZ="0.0" WY="0.0" WX="0.0" Z="0.0" Y="0.0" X="0.0" />
+            <Home TH="1.0" WZ="0.0" WY="0.0" WX="0.0" Z="0.1" Y="0.0" X="-0.08" />
     </Obstacle>
     
            
@@ -34,7 +34,7 @@
 		</Parameters>
 		<Queries>
 			<Query>
-				<Init dim="16">0.5 0.5 0.5 0.5 0.5 0.5 0.5 1.0 0.5 0.5 0.5 0.5 0.5 0.5 0.5 1.0</Init>
+				<Init dim="16">1.5 0.5 0.5 0.5 0.5 0.5 0.5 1.0 -1.5 0.5 0.5 0.5 0.5 0.5 0.5 1.0</Init>
 				<Goal dim="16">0.161066 0.177578 0.472698 0.653446 0.797245 0.873635 0.187077 1.0 0.5 0.5 0.5 0.5 0.5 0.5 0.5 1.0</Goal>
 			</Query>
 		</Queries>
