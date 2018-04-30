@@ -30,6 +30,7 @@ test(assembly_BattatPlaneBodyWithoutWindow) :-
   test_perform_agenda(Agenda).
 
 test_perform_agenda(Agenda) :-
-  agenda_perform_next(Agenda) -> test_perform_agenda(Agenda) ; true.
+  %agenda_write(Agenda),
+  (agenda_perform_next(Agenda) -> test_perform_agenda(Agenda) ; true).
 
 :- end_tests(knowrob_battat).
