@@ -23,20 +23,14 @@
 :- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 
+
 test(assembly_BattatPlaneBodyWithoutWindow) :-
   cram_assembly_initialize(battat_toys:'BattatPlaneBodyWithoutWindow', battat_test:'AgendaStrategy_1', Agenda),
   agenda_write(Agenda),
   test_perform_agenda_cram(Agenda).
 
 test_perform_agenda_cram(Agenda) :-
-  cram_assembly_next_action(Agenda, Action) -> (
-    writeln(Action),
-    test_perform_agenda_cram(Agenda)) ; test_agenda_empty(Agenda).
-
-test_agenda_empty(Agenda) :-
-  % FIXME: BUG: agenda_items has item while agenda_items_sorted does not!
-  %             --> seems removed but not retracted
-  % agenda_items(Agenda, []).
-  agenda_items_sorted(Agenda, []).
+  %agenda_write(Agenda),
+  (agenda_perform_next(Agenda) -> test_perform_agenda_cram(Agenda) ; true).
 
 :- end_tests(cram_assembly).
