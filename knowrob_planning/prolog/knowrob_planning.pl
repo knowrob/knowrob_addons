@@ -45,6 +45,7 @@
       agenda_item_strategy/2,
       agenda_item_matches_pattern/2,
       agenda_item_in_focus/1,
+      agenda_item_description_in_focus/2,
       agenda_pattern_property/2,
       agenda_pattern_domain/2,
       agenda_write/1,
@@ -90,13 +91,6 @@
 %   - Think about support for computables properties/SWRL
 %       - computed predicates should not yield agenda items
 %         but should be used when checking if a restriction is sattisfied or not
-%   - Generic approach for mapping agenda items to actions
-%       - use OWL representation of actions
-%       - generate action designator from action description
-%       - problematic: mapping between agenda item and action description
-%              - common parameters: type, objectActedOn
-%              - there could be unusual parameters!
-%              - mapping knowledge must be represented in processing knowledge of strategy
 %   - Also add items caused by specializable type?
 %   - Keep history of decisions. for instance union descriptions may require this!
 % FIXME(DB): continuity selection breaks pre-sorted agenda!
@@ -105,6 +99,33 @@
 %       - pattern if values added
 %       - selection by distance when robot or object moves
 %
+
+owl_planner_strategy(Entity, Strategy) :-
+  rdfs_individual_of(Strategy,knowrob_planning:'AgendaStrategy'),
+  once((
+    rdfs_individual_of(Strategy, Restr),
+    rdfs_individual_of(Restr, owl:'Restriction'),
+    (owl_description(Restr, restriction(Restr_P,all_values_from(Restr_Cls)))),
+    rdf_equal(Restr_P,knowrob_planning:plannedEntity))),
+  once(owl_individual_of(Entity, Restr_Cls)).
+
+owl_planner_run(Entity) :-
+  owl_planner_strategy(Entity, Strategy),
+  owl_planner_run(Entity, Strategy).
+
+owl_planner_run(Entity, Strategy) :-
+  write('    [INFO] Running planner for '), owl_write_readable(Entity), nl,
+  agenda_create(Entity, Strategy, Agenda),
+  ( agenda_run(Agenda) ->
+  ( write('    [WARN] Planning '), owl_write_readable(Entity), write(' failed.'), nl );
+  ( write('    [INFO] Planning '), owl_write_readable(Entity), write(' completed.'), nl )),
+  rdf_retractall(_, _, Agenda),
+  rdf_retractall(Agenda, _, _).
+
+agenda_run(Agenda) :-
+  agenda_perform_next(Agenda) ->
+    agenda_run(Agenda) ;
+    agenda_items_sorted(Agenda,[_X|_]).
 
 %% agenda_create(+Obj,+Strategy,-Agenda)
 %
@@ -158,7 +179,6 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
-% TODO: proper logging, use log4p?
   %write('    [POP] '), agenda_item_write(X_Descr), nl,
   % count how often item was selected
   agenda_item_inhibit(X),
@@ -202,9 +222,20 @@ agenda_add_object_without_children(Agenda, Obj, Depth) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
   forall(( % for each unsattisfied restriction add agenda items
      owl_unsatisfied_restriction(Obj, Descr),
-     satisfies_restriction_up_to(Obj, Descr, Item),
-     agenda_item_description_in_focus(Item,Strategy)
+     agenda_restriction_item(Obj, Descr, Item),
+     once(agenda_item_description_in_focus(Item, Strategy))
   ), assert_agenda_item(Item, Agenda, causedBy(Obj,Descr), Depth, _)).
+
+agenda_restriction_item(Obj, Descr, Item) :-
+  findall(Item,satisfies_restriction_up_to(Obj, Descr, Item),Items),
+  (Items=[] -> (
+    owl_description(Descr,Descr_),
+    write('[WARN] failed to generate agenda item for '),
+    owl_write_readable(Obj),
+    write(' and its unsattisfied restriction '),
+    owl_write_readable(Descr_), nl
+  ) ; true),
+  member(Item,Items).
 
 assert_agenda_item(Item, Agenda, CausedBy, Depth, ItemId) :-
   assert_agenda_item(Item,ItemId),
@@ -800,6 +831,11 @@ agenda_perform(Agenda, Item, Descr) :-
     agenda_item_project(Item,
         PerformDescr, Domain_computed, Selected)
   ), Selection ),
+  
+  
+  agenda_item_reason(Item, causedBy(ActionEntity)),
+  agenda_item_strategy(Item,Strategy),
+  
   % Print some debug messages for items that can't be processed
   % and make sure we will not loop forever trying to find a value.
   ( Selection=[] -> (
@@ -818,7 +854,11 @@ agenda_perform(Agenda, Item, Descr) :-
   % Update agenda according to asserted knowledge
   (  owl_atomic(Selection)
   -> agenda_item_update(PerformDescr, Agenda, Item, Siblings, Selection)
-  ;  agenda_sort_in(Agenda, Item) ).
+  ;  agenda_sort_in(Agenda, Item) ),
+  
+  !,
+  % ....
+  agenda_perform_action(ActionEntity,Descr,Strategy).
 
 agenda_add_candidates(Agenda,Item,P,Domain) :-
   agenda_item_depth_value(Item,Depth),
@@ -871,6 +911,76 @@ agenda_perform_description(Descr,Item,Perform,DomainIn,DomainOut) :-
   term_to_atom(Goal,Goal_atom),
   call(Goal, Descr, Item, DomainIn, DomainOut).
 
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+agenda_start_action(Act) :-
+  current_time(Now),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=Now], Time),
+  rdf_assert(Act, knowrob:startTime, Time).
+
+agenda_end_action(Act) :-
+  current_time(Now),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=Now], Time),
+  rdf_assert(Act, knowrob:endTime, Time).
+
+% action mappers are rules that generate action designators
+% for planning entities.
+agenda_action_mapper(PlanningEntity, Strategy, Goal) :-
+  rdf_has(Strategy, knowrob_planning:actionMapper, ActionMapper),
+  rdfs_individual_of(ActionMapper, knowrob_planning:'AgendaActionMapperProlog'),
+  once((
+    rdfs_individual_of(ActionMapper, Restr),
+    rdfs_individual_of(Restr, owl:'Restriction'),
+    (owl_description(Restr, restriction(Restr_P,all_values_from(Restr_Cls)))),
+    rdf_equal(Restr_P,knowrob_planning:plannedEntity))),
+  once(owl_individual_of(PlanningEntity, Restr_Cls)),
+  rdf_has(ActionMapper, knowrob_planning:command, literal(type(_,Goal_atom))),
+  term_to_atom(Goal,Goal_atom).
+
+agenda_action_performer(PlanningEntity, Strategy, Goal) :-
+  rdf_has(Strategy, knowrob_planning:actionPerformer, ActionMapper),
+  rdfs_individual_of(ActionMapper, knowrob_planning:'AgendaActionPerformerProlog'),
+  once((
+    rdfs_individual_of(ActionMapper, Restr),
+    rdfs_individual_of(Restr, owl:'Restriction'),
+    (owl_description(Restr, restriction(Restr_P,all_values_from(Restr_Cls)))),
+    rdf_equal(Restr_P,knowrob_planning:plannedEntity))),
+  once(owl_individual_of(PlanningEntity, Restr_Cls)),
+  rdf_has(ActionMapper, knowrob_planning:command, literal(type(_,Goal_atom))),
+  term_to_atom(Goal,Goal_atom).
+
+agenda_perform_action(PlanningEntity,Descr,Strategy) :-
+  agenda_action_mapper(PlanningEntity,Strategy,Goal),
+  forall(
+    % create an action entity
+    call(Goal,PlanningEntity,Descr,Strategy,ActionEntity),
+    % perform the action
+    once((
+      agenda_perform_action_internal(ActionEntity,Strategy);
+      (write('    [WARN] failed to perform action for '), owl_write_readable(Descr), nl)
+    ))
+  ), !.
+agenda_perform_action(_,_,_).
+
+agenda_perform_action_internal(ActionEntity,Strategy) :-
+  atom(ActionEntity),
+  % ensure pre-conditions are met
+  owl_planner_run(ActionEntity),
+  % finally execute the action
+  agenda_start_action(ActionEntity),
+  once(((
+    agenda_action_performer(ActionEntity,Strategy,Goal),
+    call(Goal,ActionEntity)
+  ) ; (
+    %% TODO
+    entity(ActionEntity, Descr),
+    entity_write(Descr)
+  ))),
+  agenda_end_action(ActionEntity).
+  
+
 %% agenda_perform_just_do_it(+Descr,+Item,+DomainIn,-DomainOut)
 %
 % Perform with random object selection (in case of integrate/detach),
@@ -898,9 +1008,9 @@ agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
   rdf_assert(DecomposeTypes, owl:intersectionOf, ListId), !.
 agenda_perform_just_do_it( classify(_,_), _, Domain, Domain) :- !.
 agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
-  rdfs_individual_of(Domain, owl:'Class') -> (
+  (rdfs_individual_of(Domain, owl:'Class') -> (
     rdf_has(S,P,O), owl_individual_of(O,Domain)) ;
-    rdf_has(S,P,Domain), !.
+    rdf_has(S,P,Domain)), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
