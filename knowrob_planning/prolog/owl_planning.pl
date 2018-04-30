@@ -146,6 +146,17 @@ owl_specializable_(Resource, restriction(P,cardinality(Min,_,Cls))) :-
   owl_inverse_property(P,P_inv),
   forall( owl_property_range_on_class(Cls, P_inv, Range_inv),
           owl_specializable(Resource, Range_inv) ).
+owl_specializable_(Resource, restriction(P,cardinality(_,Max,Cls))) :-
+  % specializable if we can specialize `Count_detach` instances of Cls to not(Cls) to satisfy max cardinality ...
+  resource_cardinality(Resource, P, Cls, Count_Cls), Count_Cls > Max,
+  Count_detach is Count_Cls - Max,
+  findall(Detachable, (
+    owl_has(Resource,P,Detachable),
+    once(owl_individual_of(Detachable,Cls)),
+    owl_specializable_(Detachable, complement_of(Cls))
+  ), DetachableValues),
+  length(DetachableValues, Count_detachable),
+  Count_detachable >= Count_detach.
 
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   % specializable if P already has this value
@@ -170,10 +181,18 @@ owl_specializable_(Resource, union_of(List)) :-
   % specializable if resource is specializable to at least one of the classes of the union
   member(Cls,List), owl_specializable(Resource, Cls), !.
 
+owl_specializable_(Resource, complement_of(Restr)) :-
+  atom(Restr),
+  rdfs_individual_of(Restr, owl:'Restriction'), !,
+  owl_description(Restr,Descr),
+  owl_specializable_(Resource, complement_of(Descr)).
+owl_specializable_(_Resource, complement_of(restriction(_P,_Facet))) :- true.
 owl_specializable_(Resource, complement_of(Cls)) :-
   rdfs_individual_of(Resource, owl:'Class'),!,
+  atom(Cls),
   \+ owl_subclass_of(Resource, Cls).
 owl_specializable_(Resource, complement_of(Cls)) :-
+  atom(Cls),
   \+ owl_individual_of(Resource, Cls).
 
 owl_specializable_class(Intersection, class(Cls_b)) :-
@@ -234,6 +253,7 @@ resource_cardinality(Resource, P, Cls, Card) :-
 %
 owl_satisfies_restriction_up_to(Resource, Restr, UpTo) :-
   owl_description(Restr, Descr),
+  % TODO: maybe retract if not specializable here?
   owl_specializable_(Resource,Descr),
   owl_satisfies_restriction_up_to_internal(Resource, Descr, UpTo).
 
@@ -300,8 +320,15 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
     owl_satisfies_min_cardinality_up_to(S, Card, Os,
         restriction(P,cardinality(Min,Max,Cls)), UpTo)
   ) ; (( % to many values of type Cls
-    Count is Card - Max, Count > 0,
-    UpTo=detach(S,P,Cls,Card)
+    Count is Card - Max, Count > 0, !,
+    rdf_has(S, P, O),
+    once(owl_individual_of(O, Cls)),
+    ((
+    ( owl_specializable_(O, complement_of(Cls)) ->
+      owl_satisfies_restriction_up_to_internal(O, complement_of(Cls), UpTo) ;
+      UpTo=detach(S,P,Cls,Card)
+    )
+    ) ; UpTo=detach(S,P,Cls,Card))
   ) ; (
     % cardinality is fine, check if restriction fails at a deeper level
     owl_description(Cls, Cls_descr),
@@ -310,6 +337,21 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
     owl_satisfies_restriction_up_to_internal(O,Cls_descr,UpTo)
   ))
   ).
+
+owl_satisfies_restriction_up_to_internal(S, complement_of(Cls), UpTo) :-
+  atom(Cls), rdfs_individual_of(Cls, owl:'Restriction'), !,
+  owl_description(Cls,Descr),
+  owl_satisfies_restriction_up_to_internal(S, complement_of(Descr), UpTo).
+owl_satisfies_restriction_up_to_internal(S, complement_of(restriction(P,some_values_from(Cls))), UpTo) :-
+  rdf_has(S, P, O),
+  once(owl_individual_of(O, Cls)),
+  ( owl_satisfies_restriction_up_to_internal(O,complement_of(Cls),UpTo_) *->
+    UpTo=UpTo_ ;
+    UpTo=detach(S,P,O,1) ).
+% TODO: more complete support for complement_of statements
+%owl_satisfies_restriction_up_to_internal(S, complement_of(restriction(P,all_values_from(Cls))), UpTo) :-
+%owl_satisfies_restriction_up_to_internal(S, complement_of(restriction(P,cardinality(Min,Max,Cls))), UpTo) :-
+
 
 owl_satisfies_min_cardinality_up_to(_, _, Os, restriction(_,cardinality(_,_,Cls)), UpTo) :-
   % some values of P could be specializable to Cls, for those Restr is fullfilled up to were they violate Cls 
