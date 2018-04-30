@@ -27,6 +27,14 @@
 test(assembly_BattatPlaneBodyWithoutWindow) :-
   cram_assembly_initialize(battat_toys:'BattatPlaneBodyWithoutWindow', battat_test:'AgendaStrategy_1', Agenda),
   agenda_write(Agenda),
+  % setup dummy action performer
+  owl_instance_from_class(knowrob_planning:'AgendaActionPerformerProlog',Performer),
+  rdf_assert(Performer,knowrob_planning:command,literal(type(xsd:string,'knowrob_cram:cram_write_action'))),
+  owl_restriction_assert(restriction(knowrob_planning:plannedEntity,all_values_from(owl:'Thing')), RestrId),
+  rdf_assert(Performer,rdf:type, RestrId),
+  rdf_assert(battat_test:'AgendaStrategy_1', knowrob_planning:actionPerformer, Performer),
+  rdf_assert(battat_test:'AgendaActionStrategy_1', knowrob_planning:actionPerformer, Performer),
+  
   test_perform_agenda_cram(Agenda).
 
 test_perform_agenda_cram(Agenda) :-

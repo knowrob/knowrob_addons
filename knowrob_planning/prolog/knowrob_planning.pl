@@ -88,9 +88,6 @@
            agenda_failing_item/2.
 %
 % TODO(DB): some ideas ...
-%   - Think about support for computables properties/SWRL
-%       - computed predicates should not yield agenda items
-%         but should be used when checking if a restriction is sattisfied or not
 %   - Also add items caused by specializable type?
 %   - Keep history of decisions. for instance union descriptions may require this!
 % FIXME(DB): continuity selection breaks pre-sorted agenda!
@@ -179,7 +176,6 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
-  %write('    [POP] '), agenda_item_write(X_Descr), nl,
   % count how often item was selected
   agenda_item_inhibit(X),
   ( agenda_item_valid(X_Descr, X)
@@ -191,7 +187,7 @@ agenda_pop(Agenda, Item, Descr)  :-
   ) ; ( % retract invalid, pop next
     % FIXME: redundant with validity check
     % FIXME: won't wotk for causedBy(Item) !
-    writeln('    [INVALID]'),
+    write('    [WARN] Popped invalid item '), owl_write_readable(X_Descr), nl,
     agenda_item_reason(X, causedBy(Cause,Cause_restriction)),
     agenda_item_depth_value(X, Depth),
     forall(
@@ -600,8 +596,6 @@ strategy_selection_criteria(Strategy, Criteria) :-
   % sort criteria according to their priority (high priority first)
   findall(C, rdf_has(Strategy, knowrob_planning:'selection', C), Cs),
   predsort(compare_selection_criteria, Cs, Criteria),
-% TODO: proper logging, use log4p?
-  %write('    [SELECTION] '), owl_write_readable(Criteria), nl,
   assertz(agenda_selection_criteria_sorted(Strategy, Criteria)).
 
 compare_selection_criteria(Delta, C1, C2) :-
@@ -831,16 +825,21 @@ agenda_perform(Agenda, Item, Descr) :-
     agenda_item_project(Item,
         PerformDescr, Domain_computed, Selected)
   ), Selection ),
-  
-  
-  agenda_item_reason(Item, causedBy(ActionEntity)),
-  agenda_item_strategy(Item,Strategy),
-  
+  % perform an action
+  % Note that this should happen before `agenda_item_update` such that
+  % relations changed during the action are taken into account.
+  % This is required for computables.
+  ( owl_atomic(Selection)
+  -> (
+    agenda_item_reason(Item, causedBy(ActionEntity)),
+    agenda_item_strategy(Item,Strategy),
+    agenda_perform_action(ActionEntity,Descr,Strategy)
+  );true),
   % Print some debug messages for items that can't be processed
   % and make sure we will not loop forever trying to find a value.
   ( Selection=[] -> (
     agenda_failing_item(Agenda,Item) -> (
-      write('    [ERR] giving up on `'), agenda_item_write(Item), write('`'), nl,
+      write('    [ERROR] giving up on `'), agenda_item_write(Item), write('`'), nl,
       fail
     );(
       write('    [WARN] no consistent value for `'), agenda_item_write(Item), write('`'), nl,
@@ -852,13 +851,17 @@ agenda_perform(Agenda, Item, Descr) :-
     )
   ) ; retractall(agenda_failing_item(Agenda,_)) ),
   % Update agenda according to asserted knowledge
-  (  owl_atomic(Selection)
+  (  agenda_item_processed(Descr,Selection)
   -> agenda_item_update(PerformDescr, Agenda, Item, Siblings, Selection)
-  ;  agenda_sort_in(Agenda, Item) ),
-  
-  !,
-  % ....
-  agenda_perform_action(ActionEntity,Descr,Strategy).
+  ;  agenda_sort_in(Agenda, Item) ).
+
+agenda_item_processed(item(Type,S,P,_,_),[O]) :-
+  owl_atomic(O),
+  (( Type=detach
+  -> \+ owl_compute_has(S,P,O)
+  ;  owl_compute_has(S,P,O) ) ; (
+     write('    [WARN] Agenda item remains incomplete '), owl_write_readable([S,P,O]), nl
+  )), !.
 
 agenda_add_candidates(Agenda,Item,P,Domain) :-
   agenda_item_depth_value(Item,Depth),
@@ -910,10 +913,43 @@ agenda_perform_description(Descr,Item,Perform,DomainIn,DomainOut) :-
   rdf_has(Perform, knowrob_planning:'command', literal(type(_,Goal_atom))),
   term_to_atom(Goal,Goal_atom),
   call(Goal, Descr, Item, DomainIn, DomainOut).
+  
+
+%% agenda_perform_just_do_it(+Descr,+Item,+DomainIn,-DomainOut)
+%
+% Perform with random object selection (in case of integrate/detach),
+% and just use the domain for projection otherwhise (in case of decompose/classify).
+agenda_perform_just_do_it(integrate(_,P), _, Domain, O) :-
+  % TODO(DB): Check if there are values that could be specialized so that
+  %               owl_individual_of(O, Domain) holds.
+  %           Then just use one of these values and specialize later...
+  owl_individual_of(O, Domain),
+  % enforce unique values for inverse functional properties
+  ( owl_inverse_functional(P) -> \+ rdf_has(_, P, O) ; true ), !.
+agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
+  owl_description(Domain, Descr),
+  class_statements(Domain, Descr, Types_Explicit),
+  findall(Type, ((
+    member(Type,Types_Explicit) ;
+    owl_property_range_on_subject(S,P,Type) ),
+    Type \= 'http://www.w3.org/2002/07/owl#Thing',
+    \+ rdfs_individual_of(Type, owl:'Restriction')
+  ), Types),
+  % create intersection class of inferred types
+  rdf_node(DecomposeTypes),
+  rdf_assert(DecomposeTypes, rdf:'type', owl:'Class'),
+  owl_description_list_assert(Types,ListId),
+  rdf_assert(DecomposeTypes, owl:intersectionOf, ListId), !.
+agenda_perform_just_do_it( classify(_,_), _, Domain, Domain) :- !.
+agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
+  (rdfs_individual_of(Domain, owl:'Class') -> (
+    rdf_has(S,P,O), owl_individual_of(O,Domain)) ;(
+    rdf_has(S,P,Domain), O=Domain
+    )), !.
 
 
-%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 agenda_start_action(Act) :-
   current_time(Now),
@@ -974,57 +1010,28 @@ agenda_perform_action_internal(ActionEntity,Strategy) :-
     agenda_action_performer(ActionEntity,Strategy,Goal),
     call(Goal,ActionEntity)
   ) ; (
-    %% TODO
-    entity(ActionEntity, Descr),
-    entity_write(Descr)
+    % TODO: retract action entity & fail
+    write('    [WARN] No action performer registered for '), owl_write_readable(ActionEntity), nl
   ))),
   agenda_end_action(ActionEntity).
-  
-
-%% agenda_perform_just_do_it(+Descr,+Item,+DomainIn,-DomainOut)
-%
-% Perform with random object selection (in case of integrate/detach),
-% and just use the domain for projection otherwhise (in case of decompose/classify).
-agenda_perform_just_do_it(integrate(_,P), _, Domain, O) :-
-  % TODO(DB): Check if there are values that could be specialized so that
-  %               owl_individual_of(O, Domain) holds.
-  %           Then just use one of these values and specialize later...
-  owl_individual_of(O, Domain),
-  % enforce unique values for inverse functional properties
-  ( owl_inverse_functional(P) -> \+ rdf_has(_, P, O) ; true ), !.
-agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
-  owl_description(Domain, Descr),
-  class_statements(Domain, Descr, Types_Explicit),
-  findall(Type, ((
-    member(Type,Types_Explicit) ;
-    owl_property_range_on_subject(S,P,Type) ),
-    Type \= 'http://www.w3.org/2002/07/owl#Thing',
-    \+ rdfs_individual_of(Type, owl:'Restriction')
-  ), Types),
-  % create intersection class of inferred types
-  rdf_node(DecomposeTypes),
-  rdf_assert(DecomposeTypes, rdf:'type', owl:'Class'),
-  owl_description_list_assert(Types,ListId),
-  rdf_assert(DecomposeTypes, owl:intersectionOf, ListId), !.
-agenda_perform_just_do_it( classify(_,_), _, Domain, Domain) :- !.
-agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
-  (rdfs_individual_of(Domain, owl:'Class') -> (
-    rdf_has(S,P,O), owl_individual_of(O,Domain)) ;
-    rdf_has(S,P,Domain)), !.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % Agenda item projection
-% NOTE: This actually asserts triples in the RDF store in case the domain of the agenda item is unique.
+% NOTE: This asserts triples in the RDF store in case the domain of the agenda item is unique
+%       and the corresponding property is not computable.
 
 %% agenda_item_project(+Item,+Domain,-Selected)
 %
 agenda_item_project(Item, Descr, Domain, Selected) :-
-  owl_atomic(Domain)
+  % ensure this item is not about a computable property
+  Descr=..[_,_,P], \+ rdfs_computable_property(P,_),
+  % project
+  (  owl_atomic(Domain)
   -> agenda_item_project_internal(Descr, Domain, Selected) ; (
      agenda_item_specialize_domain(Item, Domain),
      Selected=Domain
-  ), !.
+  )), !.
 
 agenda_item_project_internal(decompose(S,P), Cls, O)   :- decompose(S,P,Cls,O), !.
 agenda_item_project_internal(integrate(S,P),   O, O)   :- agenda_assert_triple(S,P,O), !.

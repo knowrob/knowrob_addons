@@ -113,13 +113,13 @@ owl_specializable_(Resource, restriction(P,Facet)) :-
 owl_specializable_(Resource, restriction(P,all_values_from(Cls))) :-
   % specializable if all values of P are specializable to Cls
   owl_description(Cls, Cls_descr),
-  forall( owl_has(Resource, P, O), owl_specializable_(O, Cls_descr) ).
+  forall( planner_has(Resource,P,O), owl_specializable_(O, Cls_descr) ).
 
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if one of the existing values can be specialized to Cls
   \+ rdfs_individual_of(Resource, owl:'Class'),
   owl_description(Cls, Cls_descr),
-  owl_has(Resource, P, O),
+  planner_has(Resource,P,O),
   owl_specializable_(O, Cls_descr), !.
 owl_specializable_(Resource, restriction(P,some_values_from(Cls))) :-
   % specializable if it is consistent to add a new value of type Cls for P
@@ -151,8 +151,8 @@ owl_specializable_(Resource, restriction(P,cardinality(_,Max,Cls))) :-
   resource_cardinality(Resource, P, Cls, Count_Cls), Count_Cls > Max,
   Count_detach is Count_Cls - Max,
   findall(Detachable, (
-    owl_has(Resource,P,Detachable),
-    once(owl_individual_of(Detachable,Cls)),
+    planner_has(Resource,P,Detachable),
+    once(planner_individual_of(Detachable,Cls)),
     owl_specializable_(Detachable, complement_of(Cls))
   ), DetachableValues),
   length(DetachableValues, Count_detachable),
@@ -160,7 +160,7 @@ owl_specializable_(Resource, restriction(P,cardinality(_,Max,Cls))) :-
 
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   % specializable if P already has this value
-  owl_has(Resource,P,O), !.
+  planner_has(Resource,P,O), !.
 owl_specializable_(Resource, restriction(P,has_value(O))) :-
   once((
     rdfs_type_of(O, Cls),
@@ -258,7 +258,7 @@ owl_satisfies_restriction_up_to(Resource, Restr, UpTo) :-
   owl_satisfies_restriction_up_to_internal(Resource, Descr, UpTo).
 
 owl_satisfies_restriction_up_to_internal(S, class(Cls), classify(S,Cls)) :-
-  \+ owl_individual_of(S,Cls). % Cls is a atomic class
+  \+ planner_individual_of(S,Cls). % Cls is a atomic class
 
 owl_satisfies_restriction_up_to_internal(S, intersection_of(List), UpTo) :-
   % for each class description Cls, check up to where S fullfills the description
@@ -283,12 +283,12 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,Facet), UpTo) :-
   owl_satisfies_restriction_up_to_internal(S, ChainRestr_descr, UpTo).
 
 owl_satisfies_restriction_up_to_internal(S, restriction(P,has_value(O)), specify(S,P,O,1)) :-
-  \+ owl_has(S, P, O). % violation if value is not specified
+  \+ planner_has(S,P,O). % violation if value is not specified
 
 owl_satisfies_restriction_up_to_internal(S, restriction(P,all_values_from(Cls)), UpTo) :-
   owl_description(Cls,Cls_descr),
-  bagof(O, owl_has(S, P, O), Os), member(O,Os),
-  \+ owl_individual_of(O, Cls), % For each value of P that is not instance of Cls check if it can be specialized
+  bagof(O, planner_has(S, P, O), Os), member(O,Os),
+  \+ planner_individual_of(O, Cls), % For each value of P that is not instance of Cls check if it can be specialized
   (  owl_specializable_(O, Cls_descr)
   -> (  % O is specializable to Cls, thus restr. is fullfilled up to were O violates Cls
      owl_satisfies_restriction_up_to_internal(O, Cls_descr, UpTo)
@@ -298,7 +298,7 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,all_values_from(Cls)),
 
 owl_satisfies_restriction_up_to_internal(S, restriction(P,some_values_from(Cls)), UpTo) :-
   owl_description(Cls,Cls_descr),
-  ( bagof(O, (owl_has(S, P, O), owl_specializable_(O, Cls_descr)), Os)
+  ( bagof(O, (planner_has(S,P,O), owl_specializable_(O, Cls_descr)), Os)
   -> (  % there are some values specializable to Cls, thus fullfilled up to were O \in Os violates Cls
     member(O,Os),
     owl_satisfies_restriction_up_to_internal(O, Cls_descr, UpTo)
@@ -314,15 +314,15 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
     % find values of P that can be specialized to Cls
     once((bagof(O, (
       owl_has(S, P, O),
-      \+ owl_individual_of(O, Cls),
+      \+ planner_individual_of(O, Cls),
       owl_specializable(O, Cls)
     ), Os) ; Os=[] )),
     owl_satisfies_min_cardinality_up_to(S, Card, Os,
         restriction(P,cardinality(Min,Max,Cls)), UpTo)
   ) ; (( % to many values of type Cls
     Count is Card - Max, Count > 0, !,
-    rdf_has(S, P, O),
-    once(owl_individual_of(O, Cls)),
+    planner_has(S,P,O),
+    once(planner_individual_of(O, Cls)),
     ((
     ( owl_specializable_(O, complement_of(Cls)) ->
       owl_satisfies_restriction_up_to_internal(O, complement_of(Cls), UpTo) ;
@@ -332,8 +332,8 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cl
   ) ; (
     % cardinality is fine, check if restriction fails at a deeper level
     owl_description(Cls, Cls_descr),
-    rdf_has(S,P,O),
-    owl_individual_of(O,Cls),
+    planner_has(S,P,O),
+    planner_individual_of(O,Cls),
     owl_satisfies_restriction_up_to_internal(O,Cls_descr,UpTo)
   ))
   ).
@@ -343,8 +343,8 @@ owl_satisfies_restriction_up_to_internal(S, complement_of(Cls), UpTo) :-
   owl_description(Cls,Descr),
   owl_satisfies_restriction_up_to_internal(S, complement_of(Descr), UpTo).
 owl_satisfies_restriction_up_to_internal(S, complement_of(restriction(P,some_values_from(Cls))), UpTo) :-
-  rdf_has(S, P, O),
-  once(owl_individual_of(O, Cls)),
+  planner_has(S,P,O),
+  once(planner_individual_of(O, Cls)),
   ( owl_satisfies_restriction_up_to_internal(O,complement_of(Cls),UpTo_) *->
     UpTo=UpTo_ ;
     UpTo=detach(S,P,O,1) ).
@@ -388,3 +388,14 @@ owl_propery_chain_restriction_([P|Rest], Facet, Restr) :-
 owl_propery_chain_restriction_([P|Rest], Facet, some_values_from(restriction(P,Sub))) :-
   owl_propery_chain_restriction_(Rest, Facet, Sub).
 
+%% helper
+
+% plain OWL semantics
+%planner_has(S,P,O)           :- owl_has(S,P,O).
+%planner_individual_of(S,Cls) :- owl_individual_of(S,Cls).
+% OWL + computable semantics
+planner_has(S,P,O)           :- owl_compute_has(S,P,O).
+planner_individual_of(S,Cls) :- owl_compute_individual_of(S,Cls).
+% OWL + computable + temporal semantics
+%planner_has(S,P,O)           :- owl_has_during(S,P,O).
+%planner_individual_of(S,Cls) :- owl_individual_of_during(S,Cls).
