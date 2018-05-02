@@ -5587,7 +5587,7 @@
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.47 0.87 0.0 0.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.005 -0.008 0.15</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.005 -0.008 0.17</knowrob:translation>
     </owl:NamedIndividual>
     
 

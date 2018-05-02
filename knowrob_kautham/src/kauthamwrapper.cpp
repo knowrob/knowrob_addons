@@ -109,7 +109,7 @@ void getCurrentRobotJointState(std::vector<float> &conf)
     for(unsigned int k = 0; k < maxK; k++)
     {
         int kc = confIndex[k];
-        if(0 < kc)
+        if(0 <= kc)
             conf[kc] = (float)msg->position[k];
     }
 }
@@ -181,11 +181,7 @@ std::vector <std::vector<float> > collisionFreePath(void)
 
         for(int i = 0; i < sizev; i++)
         {
-            path[i].resize(get_path_srv.response.response[i].v.size());
-            for(int j = 0; j < get_path_srv.response.response[i].v.size(); j++)
-            {
-                path[i][j] = get_path_srv.response.response[i].v[j];
-            }
+            path[i] = get_path_srv.response.response[i].v;
         }
         return path;
     }
@@ -281,26 +277,26 @@ bool pub_rob_motion(std::vector<std::vector<float> > path){
 
             joint_states.header.stamp = ros::Time::now();
             joint_states.position.resize(18);
-            joint_states.position[0]=conf[i][0];
-            joint_states.position[1]=conf[i][1];
-            joint_states.position[2]=conf[i][2];
-            joint_states.position[3]=conf[i][3];
-            joint_states.position[4]=conf[i][4];
-            joint_states.position[5]=conf[i][5];
-            joint_states.position[6]=conf[i][6];
+            joint_states.position[0]=conf[i][9];
+            joint_states.position[1]=conf[i][10];
+            joint_states.position[2]=conf[i][11];
+            joint_states.position[3]=conf[i][12];
+            joint_states.position[4]=conf[i][13];
+            joint_states.position[5]=conf[i][14];
+            joint_states.position[6]=conf[i][15];
 
-            joint_states.position[8]=conf[i][8];
-            joint_states.position[9]=conf[i][9];
-            joint_states.position[10]=conf[i][10];
-            joint_states.position[11]=conf[i][11];
-            joint_states.position[12]=conf[i][12];
-            joint_states.position[13]=conf[i][13];
-            joint_states.position[14]=conf[i][14];
+            joint_states.position[8]=conf[i][0];
+            joint_states.position[9]=conf[i][1];
+            joint_states.position[10]=conf[i][2];
+            joint_states.position[11]=conf[i][3];
+            joint_states.position[12]=conf[i][4];
+            joint_states.position[13]=conf[i][5];
+            joint_states.position[14]=conf[i][6];
 
-            joint_states.position[7]=1.0;
-            joint_states.position[15]=1.0;
-            joint_states.position[16]=1.0;
-            joint_states.position[17]=1.0;
+            joint_states.position[7]=0.03;
+            joint_states.position[15]=0.03;
+            joint_states.position[16]=0.03;
+            joint_states.position[17]=0.03;
 
             joint_pub.publish(joint_states); //publishing the configuration message to the robot
             loop_rate.sleep();
@@ -518,26 +514,26 @@ PREDICATE(kautham_grab_part_internal, 5)
         if(!setQuery(init, goal))
         {
             PL_A5 = "fail: query";
-            return FALSE;
+            return TRUE;
         }
         std::vector<std::vector<float> > path = collisionFreePath();
         if(!path.size())
         {
             PL_A5 = "fail: path";
-            return FALSE;
+            return TRUE;
         }
         pub_rob_motion(path);
         if(!attachObjToRob(rob, tcp, objectIndex))
         {
             PL_A5 = "fail: attach";
-            return FALSE;
+            return TRUE;
         }
         PL_A5 = "ok";
         return TRUE;
     }
 
     PL_A5 = "fail: IK";
-    return FALSE;
+    return TRUE;
 }
 
 PREDICATE(kautham_put_part_internal, 5)
@@ -587,7 +583,7 @@ PREDICATE(kautham_put_part_internal, 5)
         if(!setQuery(init, goal))
         {
             PL_A5 = "fail: query";
-            return FALSE;
+            return TRUE;
         }
         std::vector<std::vector<float> > path = collisionFreePath();
         if(!path.size())
