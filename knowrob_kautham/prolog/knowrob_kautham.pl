@@ -34,7 +34,9 @@
         comp_affordanceocclusion/3,
         kautham_init_planning_scene/2,
         kautham_grab_part/4,
-        kautham_put_part/5
+        kautham_put_part/5,
+        perform_assembly_action/2,
+        perform_put_away/2
     ]).
 
 
