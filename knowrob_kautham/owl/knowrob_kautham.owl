@@ -53,6 +53,14 @@
       <computable:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">comp_affordanceocclusion</computable:command>
     </computable:PrologProperty>
     
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy">
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_kautham.owl#atomicPartOccludesGraspingAffordance"/>
+            </rdf:Description>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
 
 
     <!-- 

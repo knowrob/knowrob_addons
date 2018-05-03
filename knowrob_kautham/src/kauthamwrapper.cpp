@@ -475,9 +475,9 @@ PREDICATE(kautham_grab_part_internal, 5)
         leftArm = false;
     int objectIndex = (int)PL_A3;
     int rob = 0;
-    int tcp = 7;
-    if(!leftArm)
-        tcp = 15;
+    int tcp = 6;
+    if(leftArm)
+        rob = 1;
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
     // object pose in map
@@ -544,9 +544,9 @@ PREDICATE(kautham_put_part_internal, 5)
         leftArm = false;
     int objectIndex = (int)PL_A3;
     int rob = 0;
-    int tcp = 7;
-    if(!leftArm)
-        tcp = 15;
+    int tcp = 6;
+    if(leftArm)
+        rob = 1;
     PlTail objpose_list(PL_A1), grasppose_list(PL_A2);
     PlTerm value;
     // object pose in map
