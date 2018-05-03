@@ -327,7 +327,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BattatBoltHeadGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatBoltAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -487,7 +487,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#BattatNutTopGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatNutAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -1806,7 +1806,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSideGraspLeft">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -1821,7 +1821,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingSideGraspRight">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWingAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -1994,7 +1994,7 @@
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWingM">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneChassisSlideInBottomWing"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -2200,7 +2200,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelTopGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneFrontWheelAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -2392,7 +2392,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneMotorGrillAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -2529,7 +2529,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlanePropellerCorpusGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -2827,7 +2827,7 @@
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneRearWingSlideInUnderBodyM">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWingAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneRearWingSlideInUnderBody"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -2967,7 +2967,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSideGraspLeft">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -2982,7 +2982,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingSideGraspRight">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneTopWingAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -3154,7 +3154,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyTopGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUnderBodyAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -3334,7 +3334,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodySideGraspLeft">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodyAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -3349,7 +3349,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodySideGraspRight">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneUpperBodyAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
     </owl:Class>
     
 
@@ -3665,7 +3665,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneWindowTopGrasp">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneWindowAffordance"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
@@ -4787,9 +4787,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance -->
+    <!-- http://knowrob.org/kb/knowrob.owl#SideGraspAffordance -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
     
 
 
@@ -4811,9 +4811,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance -->
+    <!-- http://knowrob.org/kb/knowrob.owl#TopGraspAffordance -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
     
 
 

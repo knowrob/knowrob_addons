@@ -1302,6 +1302,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWing_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneBottomWing"/>
+        <knowrob_assembly:partOccludedBy rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneUpperBody_1"/>
         <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#BottomWingSlideInHolderF_1"/>
         <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWingSideGraspLeft_1"/>
         <knowrob:hasAffordance rdf:resource="http://knowrob.org/kb/battat_airplane_simulation.owl#PlaneBottomWingSideGraspRight_1"/>

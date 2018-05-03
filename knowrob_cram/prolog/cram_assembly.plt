@@ -23,20 +23,22 @@
 :- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 
+
 test(assembly_BattatPlaneBodyWithoutWindow) :-
   cram_assembly_initialize(battat_toys:'BattatPlaneBodyWithoutWindow', battat_test:'AgendaStrategy_1', Agenda),
   agenda_write(Agenda),
+  % setup dummy action performer
+  owl_instance_from_class(knowrob_planning:'AgendaActionPerformerProlog',Performer),
+  rdf_assert(Performer,knowrob_planning:command,literal(type(xsd:string,'knowrob_cram:cram_write_action'))),
+  owl_restriction_assert(restriction(knowrob_planning:plannedEntity,all_values_from(owl:'Thing')), RestrId),
+  rdf_assert(Performer,rdf:type, RestrId),
+  rdf_assert(battat_test:'AgendaStrategy_1', knowrob_planning:actionPerformer, Performer),
+  rdf_assert(battat_test:'AgendaActionStrategy_1', knowrob_planning:actionPerformer, Performer),
+  
   test_perform_agenda_cram(Agenda).
 
 test_perform_agenda_cram(Agenda) :-
-  cram_assembly_next_action(Agenda, Action) -> (
-    writeln(Action),
-    test_perform_agenda_cram(Agenda)) ; test_agenda_empty(Agenda).
-
-test_agenda_empty(Agenda) :-
-  % FIXME: BUG: agenda_items has item while agenda_items_sorted does not!
-  %             --> seems removed but not retracted
-  % agenda_items(Agenda, []).
-  agenda_items_sorted(Agenda, []).
+  %agenda_write(Agenda),
+  (agenda_perform_next(Agenda) -> test_perform_agenda_cram(Agenda) ; true).
 
 :- end_tests(cram_assembly).

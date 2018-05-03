@@ -53,9 +53,12 @@
       cram_set_detected_object/3,
       cram_set_perception_request/2,
       cram_set_perception_result/2,
-      cram_logged_query/3
+      cram_logged_query/3,
+      cram_write_action/1,
+      cram_write_action/2
     ]).
 
+:- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl_parser')).
 :- use_module(library('semweb/owl')).
@@ -288,8 +291,7 @@ cram_create_desig(DesigType, DesigInst) :-
 % @param EquationTime Time to be stored for the equation event
 %
 cram_equate_designators(PreDesig, SuccDesig, EquationTime) :-
-  %create_timepoint(EquationTime, EqTime),
-  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=FailureTime], StTime),
+  owl_instance_from_class('http://knowrob.org/kb/knowrob.owl#TimePoint', [instant=EquationTime], EqTime),
   rdf_assert(EqTime, rdf:type, knowrob:'TimePoint', 'LoggingGraph'),
   rdf_assert(EqTime, rdf:type, owl:'NamedIndividual', 'LoggingGraph'),
   rdf_assert(PreDesig, knowrob:successorDesignator, SuccDesig, 'LoggingGraph'),
@@ -369,4 +371,8 @@ cram_set_perception_result(ActionInst, Res) :-
   rdf_assert(ActionInst, knowrob:perceptionResult, Res, 'LoggingGraph').
 
 
-
+cram_write_action(Act,_) :-
+  cram_write_action(Act).
+cram_write_action(Act) :-
+  entity(Act,Descr),
+  entity_write(Descr).
