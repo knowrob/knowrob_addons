@@ -1008,7 +1008,7 @@ agenda_perform_action_internal(ActionEntity,Strategy) :-
   agenda_start_action(ActionEntity),
   once(((
     agenda_action_performer(ActionEntity,Strategy,Goal),
-    call(Goal,ActionEntity)
+    call(Goal,ActionEntity,_)
   ) ; (
     % TODO: retract action entity & fail
     write('    [WARN] No action performer registered for '), owl_write_readable(ActionEntity), nl

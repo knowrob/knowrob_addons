@@ -54,7 +54,8 @@
       cram_set_perception_request/2,
       cram_set_perception_result/2,
       cram_logged_query/3,
-      cram_write_action/1
+      cram_write_action/1,
+      cram_write_action/2
     ]).
 
 :- use_module(library('semweb/rdf_db')).
@@ -370,6 +371,8 @@ cram_set_perception_result(ActionInst, Res) :-
   rdf_assert(ActionInst, knowrob:perceptionResult, Res, 'LoggingGraph').
 
 
+cram_write_action(Act,_) :-
+  cram_write_action(Act).
 cram_write_action(Act) :-
   entity(Act,Descr),
   entity_write(Descr).
