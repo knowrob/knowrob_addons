@@ -35,8 +35,7 @@
         kautham_init_planning_scene/2,
         kautham_grab_part/4,
         kautham_put_part/5,
-        perform_assembly_action/2,
-        perform_put_away/2
+        perform_action/2
     ]).
 
 
@@ -110,8 +109,10 @@ get_pose_and_dist([Tx, Ty, Tz, Rx, Ry, Rz, Rw, D]) :-
 get_poses_and_dists(PartPosesAndDists) :-
   findall(Pd, get_pose_and_dist(Pd), PartPosesAndDists).
 
-perform_put_away(ActionDescription, Result) :-
+perform_action(ActionDescription, Result) :-
+%% perform_put_away(ActionDescription, Result) :-
   %% =(ActionDescription, ["an", "action", ["type", "putting_part_away"], ["mobile-part", MobilePart]]),
+  rdfs_type_of(ActionDescription, knowrob_assembly:'PutAwayPart'),
   rdf_has(ActionDescription, knowrob_assembly:'movePart', MobilePart),
   free_grasping_affordance(MobilePart, GraspingAffordance),
   rdf_has(GraspingAffordance, knowrob_assembly:'graspAt', GraspSpecification),
@@ -128,8 +129,10 @@ perform_put_away(ActionDescription, Result) :-
     =(FindResult, Result))),
   =("ok", Result).
 
-perform_assembly_action(ActionDescription, Result) :-
+perform_action(ActionDescription, Result) :-
+%% perform_assembly_action(ActionDescription, Result) :-
   %% =(ActionDescription, ["an", "action", ["type", "connecting"], ["connection", Connection], ["fixed-part", _], ["mobile-part", MobilePart]]),
+  rdfs_type_of(ActionDescription, knowrob_assembly:'ConnectingParts'),
   rdf_has(ActionDescription, knowrob_assembly:'mobilePart', MobilePart),
   rdf_has(ActionDescription, knowrob_assembly:'assembledConnection', Connection),
   assemblage_possible_grasp(MobilePart, Connection, [GraspPart, GraspingAffordance, GraspSpecification]),
