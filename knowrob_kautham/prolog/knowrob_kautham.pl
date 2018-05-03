@@ -109,7 +109,8 @@ get_poses_and_dists(PartPosesAndDists) :-
   findall(Pd, get_pose_and_dist(Pd), PartPosesAndDists).
 
 perform_put_away(ActionDescription, Result) :-
-  =(ActionDescription, ["an", "action", ["type", "putting_part_away"], ["mobile-part", MobilePart]]),
+  %% =(ActionDescription, ["an", "action", ["type", "putting_part_away"], ["mobile-part", MobilePart]]),
+  rdf_has(ActionDescription, knowrob_assembly:'movePart', MobilePart),
   free_grasping_affordance(MobilePart, GraspingAffordance),
   rdf_has(GraspingAffordance, knowrob_assembly:'graspAt', GraspSpecification),
   grasppose(MobilePart, GraspSpecification, [PTx, PTy, PTz, PRx, PRy, PRz, PRw]),
@@ -120,12 +121,15 @@ perform_put_away(ActionDescription, Result) :-
   get_poses_and_dists(PartPosesAndDists),
   get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]),
   kautham_find_away_pose(ArmName, TableLimits, PartHeight, [GTx, GTy, GTz, GRx, GRy, GRz, GRw], [PRx, PRy, PRz, PRw], PartPosesAndDists, PartGlobalTargetPose, FindResult),
-  (=("ok", FindResult) ->
+  ((=("ok", FindResult) ->
     put_away_manips(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName, Result);
-    =(FindResult, Result)).
+    =(FindResult, Result))),
+  =("ok", Result).
 
 perform_assembly_action(ActionDescription, Result) :-
-  =(ActionDescription, ["an", "action", ["type", "connecting"], ["connection", Connection], ["fixed-part", _], ["mobile-part", MobilePart]]),
+  %% =(ActionDescription, ["an", "action", ["type", "connecting"], ["connection", Connection], ["fixed-part", _], ["mobile-part", MobilePart]]),
+  rdf_has(ActionDescription, knowrob_assembly:'mobilePart', MobilePart),
+  rdf_has(ActionDescription, knowrob_assembly:'assembledConnection', Connection),
   assemblage_possible_grasp(MobilePart, Connection, [GraspPart, GraspingAffordance, GraspSpecification]),
   grasppose(GraspPart, GraspSpecification, [PTx, PTy, PTz, PRx, PRy, PRz, PRw]),
   arm_available([PTx, PTy, PTz, PRx, PRy, PRz, PRw], ArmName),
@@ -134,9 +138,10 @@ perform_assembly_action(ActionDescription, Result) :-
   transform_multiply(["map", "fixedpart", [OTx, OTy, OTz], [ORx, ORy, ORz, ORw]], ["fixedpart", "mobilepart", [CTx, CTy, CTz], [CRx, CRy, CRz, CRw]], [_, _, [PTx, PTy, PTz], [PRx, PRy, PRz, PRw]]),
   =(PartGlobalTargetPose, [[PTx, PTy, PTz], [PRx, PRy, PRz, PRw]]),
   kautham_grab_part(GraspingAffordance, GraspSpecification, ArmName, GrabResult),
-  (=("ok", Result) -> 
+  ((=("ok", GrabResult) -> 
     kautham_put_part(GraspingAffordance, GraspSpecification, PartGlobalTargetPose, ArmName, Result);
-    =(GrabResult, Result)).
+    =(GrabResult, Result))),
+  =("ok", Result).
 
 get_grasp_transform(GraspSpecification, [GTx, GTy, GTz, GRx, GRy, GRz, GRw]) :-
   rdf_has(GraspSpecification, knowrob_paramserver:'hasGraspTransform', GraspTransform),
