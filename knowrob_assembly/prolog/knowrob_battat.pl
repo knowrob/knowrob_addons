@@ -1,6 +1,11 @@
 
 :- module(knowrob_battat,
     [
+      battat_init_scene/1,
+      %%
+      test_perform/2,
+      test_comp_occludedBy/2,
+      
         battat_initialize/0,
         battat_initialize_sim/0,
         battat_sim_plane_complete/0,
@@ -14,7 +19,7 @@
 
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(battat_test, 'http://knowrob.org/kb/battat_airplane_test.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(battat_sim, 'http://knowrob.org/kb/battat_airplane_simulation.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(battat_sim, 'http://knowrob.org/kb/battat_simulation.owl#', [keep(true)]).
 
 :-  rdf_meta
       battat_sim_plane_connection(r,r,t),
@@ -22,12 +27,17 @@
 
 battat_initialize :-
   owl_parser:owl_parse('package://knowrob_assembly/owl/battat_toys.owl'),
-  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_test.owl', belief_state),
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_strategy.owl', belief_state),
   owl_parser:owl_parse('package://knowrob_srdl/owl/Boxy_08_2016.owl').
 
 battat_initialize_sim :-
   battat_initialize,
   owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_simulation.owl').
+
+battat_init_scene(SceneOntology) :-
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_toys.owl'),
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_strategy.owl', belief_state),
+  owl_parser:owl_parse(SceneOntology, belief_state).
 
 battat_sim_plane_complete :-
   battat_sim_plane_connection(battat_toys:'BottomWingSlideInChassis', battat_sim:'PlaneBottomWing_1',
@@ -73,3 +83,36 @@ battat_sim_plane_connection(ConnType, Primary, Parts, Conn) :-
   forall( rdf_has(Conn, knowrob_assembly:'blocksAffordance', Aff), (
           write('    blocksAffordance '), owl_write_readable(Aff), nl )),
   cram_assembly:cram_assembly_apply_connection(Primary, Conn).
+
+:- dynamic put_away_performed/2.
+
+test_comp_occludedBy(A,B) :-
+  rdf_equal(A,battat_sim:'PlaneBottomWing_1'),
+  rdf_equal(B,battat_sim:'PlaneUpperBody_1'),
+  \+ put_away_performed(A,B).
+
+test_perform(Act,_) :-
+  rdfs_individual_of(Act,knowrob_assembly:'PutAwayPart'), !,
+  test_perform_put_away(Act).
+test_perform(Act,_) :-
+  rdfs_individual_of(Act,knowrob_assembly:'ConnectingParts'), !,
+  test_perform_connecting_parts(Act).
+
+test_perform_connecting_parts(PutAway) :-
+  writeln('PERFORM ConnectingParts'),
+  write_action__(PutAway).
+
+test_perform_put_away(PutAway) :-
+  writeln('PERFORM PutAwayPart'),
+  write_action__(PutAway),
+  %%%
+  rdf_equal(battat_sim:'PlaneBottomWing_1',A),
+  rdf_equal(battat_sim:'PlaneUpperBody_1',B),
+  rdf_has(PutAway, knowrob:avoidedObject, A),
+  rdf_has(PutAway, knowrob:movedObject, B),
+  assertz(put_away_performed(A,B)), !.
+test_perform_put_away(_).
+
+write_action__(Act) :-
+  entity(Act,Descr),
+  entity_write(Descr), !.

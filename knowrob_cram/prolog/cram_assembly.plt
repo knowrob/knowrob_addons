@@ -11,12 +11,12 @@
 :- use_module(library('knowrob_planning')).
 :- use_module(library('cram_assembly')).
 
-:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_test.owl').
-:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_simulation.owl').
+:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_strategy_test.owl').
+:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_scene1.owl').
 
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(battat_test, 'http://knowrob.org/kb/battat_airplane_test.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(battat_sim, 'http://knowrob.org/kb/battat_airplane_simulation.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(battat_strategy, 'http://knowrob.org/kb/battat_strategy.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(battat_sim, 'http://knowrob.org/kb/battat_simulation.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(params, 'http://knowrob.org/kb/knowrob_paramserver.owl#', [keep(true)]).
@@ -25,16 +25,9 @@
 
 
 test(assembly_BattatPlaneBodyWithoutWindow) :-
-  cram_assembly_initialize(battat_toys:'BattatPlaneBodyWithoutWindow', battat_test:'AgendaStrategy_1', Agenda),
+  owl_instance_from_class(battat_toys:'BattatPlaneBodyWithoutWindow', Assemblage),
+  agenda_create(Assemblage, battat_strategy:'AgendaStrategy_1', Agenda),
   agenda_write(Agenda),
-  % setup dummy action performer
-  owl_instance_from_class(knowrob_planning:'AgendaActionPerformerProlog',Performer),
-  rdf_assert(Performer,knowrob_planning:command,literal(type(xsd:string,'knowrob_cram:cram_write_action'))),
-  owl_restriction_assert(restriction(knowrob_planning:plannedEntity,all_values_from(owl:'Thing')), RestrId),
-  rdf_assert(Performer,rdf:type, RestrId),
-  rdf_assert(battat_test:'AgendaStrategy_1', knowrob_planning:actionPerformer, Performer),
-  rdf_assert(battat_test:'AgendaActionStrategy_1', knowrob_planning:actionPerformer, Performer),
-  
   test_perform_agenda_cram(Agenda).
 
 test_perform_agenda_cram(Agenda) :-

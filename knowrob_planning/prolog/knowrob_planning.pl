@@ -113,6 +113,7 @@ owl_planner_run(Entity) :-
 owl_planner_run(Entity, Strategy) :-
   write('    [INFO] Running planner for '), owl_write_readable(Entity), nl,
   agenda_create(Entity, Strategy, Agenda),
+  agenda_write(Agenda),
   ( agenda_run(Agenda) ->
   ( write('    [WARN] Planning '), owl_write_readable(Entity), write(' failed.'), nl );
   ( write('    [INFO] Planning '), owl_write_readable(Entity), write(' completed.'), nl )),
@@ -216,8 +217,10 @@ agenda_add_object(Agenda, Root, Depth) :-
 
 agenda_add_object_without_children(Agenda, Obj, Depth) :-
   rdf_has(Agenda, knowrob_planning:'strategy', Strategy),
+  planner_db(DB),
   forall(( % for each unsattisfied restriction add agenda items
-     owl_unsatisfied_restriction(Obj, Descr),
+     %owl_unsatisfied_restriction(Obj, Descr),
+     owl_unsatisfied_restriction(Obj, Descr, DB),
      agenda_restriction_item(Obj, Descr, Item),
      once(agenda_item_description_in_focus(Item, Strategy))
   ), assert_agenda_item(Item, Agenda, causedBy(Obj,Descr), Depth, _)).
@@ -943,8 +946,8 @@ agenda_perform_just_do_it(decompose(S,P), _, Domain, DecomposeTypes) :-
 agenda_perform_just_do_it( classify(_,_), _, Domain, Domain) :- !.
 agenda_perform_just_do_it(   detach(S,P), _, Domain, O) :-
   (rdfs_individual_of(Domain, owl:'Class') -> (
-    rdf_has(S,P,O), owl_individual_of(O,Domain)) ;(
-    rdf_has(S,P,Domain), O=Domain
+    planner_has(S,P,O), owl_individual_of(O,Domain)) ;(
+    planner_has(S,P,Domain), O=Domain
     )), !.
 
 
@@ -1025,13 +1028,14 @@ agenda_perform_action_internal(ActionEntity,Strategy) :-
 %
 agenda_item_project(Item, Descr, Domain, Selected) :-
   % ensure this item is not about a computable property
-  Descr=..[_,_,P], \+ rdfs_computable_property(P,_),
+  Descr=..[_,_,P],
   % project
+  (  rdfs_computable_property(P,_) -> Selected=Domain; (
   (  owl_atomic(Domain)
   -> agenda_item_project_internal(Descr, Domain, Selected) ; (
      agenda_item_specialize_domain(Item, Domain),
      Selected=Domain
-  )), !.
+  )))), !.
 
 agenda_item_project_internal(decompose(S,P), Cls, O)   :- decompose(S,P,Cls,O), !.
 agenda_item_project_internal(integrate(S,P),   O, O)   :- agenda_assert_triple(S,P,O), !.
