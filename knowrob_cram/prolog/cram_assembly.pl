@@ -1,7 +1,6 @@
 
 :- module(cram_assembly,
     [
-      cram_assembly_initialize/3,
       cram_assembly_apply_connection/2,
       cram_assembly_apply_grasp/3,
       cram_assembly_apply_ungrasp/3
@@ -22,22 +21,13 @@
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
 
 :- rdf_db:rdf_register_prefix(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 
-:- rdf_meta cram_assembly_initialize(r,r,r),
-            cram_assembly_apply_connection(r,r),
+:- rdf_meta cram_assembly_apply_connection(r,r),
             cram_assembly_apply_grasp(r,r,r),
             cram_assembly_apply_ungrasp(r,r,r).
 
 % TODO(DB): grasping only breaks connections to fixtures.
 %           can we express somehow when this happens for non permanent connections?
-
-%% cram_assembly_initialize(+AssemblageType, +Strategy, -Agenda) is det.
-%
-cram_assembly_initialize(AssemblageType, Strategy, Agenda) :-
-  rdf_instance_from_class(AssemblageType, Assemblage),
-  rdf_assert(Assemblage, rdf:type, owl:'NamedIndividual'),
-  agenda_create(Assemblage, Strategy, Agenda).
 
 %% cram_assembly_apply_connection(+PrimaryObject, +Connection) is det.
 %
@@ -57,7 +47,7 @@ cram_assembly_apply_connection(PrimaryObject, Connection) :-
   assemblage_part_make_reference(PrimaryObject, Parents),
   assemblage_connection_reference(Connection, TransformId, ReferenceObject),
   belief_at_internal(PrimaryObject, TransformData, ReferenceObject),
-  belief_marker_update([PrimaryObject|Parents]).
+  belief_republish_objects([PrimaryObject|Parents]).
 
 %% cram_assembly_apply_grasp(+GraspedObject, +Gripper, +GraspSpec) is det.
 %
@@ -92,7 +82,7 @@ cram_assembly_apply_grasp(GraspedObject, Gripper, GraspSpec) :-
   % accumulate list of dirty objects and cause beliefstate to republich TF frames
   findall(X, ( member(X, [GraspedObject|Parents]) ;
     ( member(List, DirtyUnconnected), member(X,List) )), Dirty),
-  belief_marker_update(Dirty),
+  belief_republish_objects(Dirty),
   % assert temporary connections that consume affordances blocked by the grasp
   cram_assembly_block_grasp_affordances(GraspedObject, GraspSpec).
 
