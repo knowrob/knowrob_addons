@@ -15,7 +15,6 @@
         <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_toys.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/knowrob_assembly.owl"/>
-        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_airplane_simulation.owl"/>
     </owl:Ontology>
     
 

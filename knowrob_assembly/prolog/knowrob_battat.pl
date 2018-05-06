@@ -1,6 +1,9 @@
 
 :- module(knowrob_battat,
     [
+      battat_init_scene/1,
+      
+      
         battat_initialize/0,
         battat_initialize_sim/0,
         battat_sim_plane_complete/0,
@@ -14,7 +17,7 @@
 
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(battat_test, 'http://knowrob.org/kb/battat_airplane_test.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(battat_sim, 'http://knowrob.org/kb/battat_airplane_simulation.owl#', [keep(true)]).
+:- rdf_db:rdf_register_prefix(battat_sim, 'http://knowrob.org/kb/battat_simulation.owl#', [keep(true)]).
 
 :-  rdf_meta
       battat_sim_plane_connection(r,r,t),
@@ -28,6 +31,11 @@ battat_initialize :-
 battat_initialize_sim :-
   battat_initialize,
   owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_simulation.owl').
+
+battat_init_scene(SceneOntology) :-
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_toys.owl'),
+  owl_parser:owl_parse('package://knowrob_assembly/owl/battat_airplane_test.owl', belief_state),
+  owl_parser:owl_parse(SceneOntology, belief_state).
 
 battat_sim_plane_complete :-
   battat_sim_plane_connection(battat_toys:'BottomWingSlideInChassis', battat_sim:'PlaneBottomWing_1',
