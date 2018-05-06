@@ -34,7 +34,9 @@
     [
       owl_specializable/2,
       owl_specialization_of/2,
-      owl_satisfies_restriction_up_to/3
+      owl_satisfies_restriction_up_to/3,
+      planner_has/3,
+      planner_db/1
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -226,6 +228,7 @@ owl_specializable_restriction_facet_(has_value(V), has_value(V)).
 owl_decomposable_on_resource(Resource, P, Cls) :-
   owl_decomposable_on_resource(Resource, P, Cls, 1).
 owl_decomposable_on_resource(Resource, P, Cls, Count_decompose) :-
+  % FIXME: use computable DB
   owl_cardinality_on_resource(Resource, P, Cls, cardinality(_,Max)), !,
   ( Max = infinite ; (
     resource_cardinality(Resource, P, Cls, Count),
@@ -236,7 +239,8 @@ owl_decomposable_on_resource(_, _, _, _).
 resource_cardinality(Resource, _, _, 0) :-
   rdfs_individual_of(Resource, owl:'Class'),!.
 resource_cardinality(Resource, P, Cls, Card) :-
-  owl_cardinality(Resource, P, Cls, Card).
+  planner_db(DB),
+  owl_cardinality(Resource, P, Cls, Card, DB).
 
 %% owl_satisfies_restriction_up_to(?Resource, ?Restr, ?UpTo)
 % 
@@ -307,7 +311,8 @@ owl_satisfies_restriction_up_to_internal(S, restriction(P,some_values_from(Cls))
   )).
 
 owl_satisfies_restriction_up_to_internal(S, restriction(P,cardinality(Min,Max,Cls)), UpTo) :-
-  owl_cardinality(S, P, Cls, Card),
+  planner_db(DB),
+  owl_cardinality(S, P, Cls, Card, DB),
   ( Card < Min
   -> (  % not enough values of type Cls
     owl_specializable_(S,restriction(P,some_values_from(Cls))),
@@ -394,8 +399,11 @@ owl_propery_chain_restriction_([P|Rest], Facet, some_values_from(restriction(P,S
 %planner_has(S,P,O)           :- owl_has(S,P,O).
 %planner_individual_of(S,Cls) :- owl_individual_of(S,Cls).
 % OWL + computable semantics
+
 planner_has(S,P,O)           :- owl_compute_has(S,P,O).
 planner_individual_of(S,Cls) :- owl_compute_individual_of(S,Cls).
+planner_db(db(rdfs_computable_has,rdfs_instance_of)).
+
 % OWL + computable + temporal semantics
 %planner_has(S,P,O)           :- owl_has_during(S,P,O).
 %planner_individual_of(S,Cls) :- owl_individual_of_during(S,Cls).
