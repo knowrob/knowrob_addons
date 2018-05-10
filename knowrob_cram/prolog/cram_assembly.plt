@@ -12,7 +12,7 @@
 :- use_module(library('cram_assembly')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_strategy_test.owl').
-:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_scene1.owl').
+:- owl_parser:owl_parse('package://knowrob_assembly/owl/battat_scene3.owl').
 
 :- rdf_db:rdf_register_prefix(battat_toys, 'http://knowrob.org/kb/battat_toys.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(battat_strategy, 'http://knowrob.org/kb/battat_strategy.owl#', [keep(true)]).
