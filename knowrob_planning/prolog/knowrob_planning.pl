@@ -32,6 +32,7 @@
 
 :- module(knowrob_planning,
     [
+      agenda_run/1,
       agenda_create/3,
       agenda_perform_next/1,
       agenda_items/2,
@@ -51,7 +52,8 @@
       agenda_write/1,
       agenda_item_write/1,
       agenda_pop/3,
-      agenda_perform/3
+      agenda_perform/3,
+      agenda_perform_just_do_it/4
     ]).
 
 :- use_module(library('semweb/rdfs')).
@@ -63,6 +65,7 @@
 :- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
 
 :-  rdf_meta
+      agenda_run(r),
       agenda_create(r,r,r),
       agenda_perform_next(r),
       agenda_items(r,-),
@@ -121,9 +124,10 @@ owl_planner_run(Entity, Strategy) :-
   rdf_retractall(Agenda, _, _).
 
 agenda_run(Agenda) :-
-  agenda_perform_next(Agenda) ->
+  %agenda_write(Agenda),
+  (agenda_perform_next(Agenda) ->
     agenda_run(Agenda) ;
-    agenda_items_sorted(Agenda,[_X|_]).
+    agenda_items_sorted(Agenda,[_X|_])).
 
 %% agenda_create(+Obj,+Strategy,-Agenda)
 %
@@ -177,6 +181,7 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
+  %write('    [INFO] Popped item '), owl_write_readable(X_Descr), nl,
   % count how often item was selected
   agenda_item_inhibit(X),
   ( agenda_item_valid(X_Descr, X)
@@ -222,7 +227,10 @@ agenda_add_object_without_children(Agenda, Obj, Depth) :-
      %owl_unsatisfied_restriction(Obj, Descr),
      owl_unsatisfied_restriction(Obj, Descr, DB),
      agenda_restriction_item(Obj, Descr, Item),
-     once(agenda_item_description_in_focus(Item, Strategy))
+     once(agenda_item_description_in_focus(Item, Strategy)->true;(
+       write('    [INFO] not in focus '), owl_write_readable(Item), nl,
+       fail
+     ))
   ), assert_agenda_item(Item, Agenda, causedBy(Obj,Descr), Depth, _)).
 
 agenda_restriction_item(Obj, Descr, Item) :-
@@ -409,8 +417,9 @@ agenda_item_property(Item,P) :-
   rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
   rdf(Restr, owl:'allValuesFrom', PropertyRestr),
   rdf(PropertyRestr, owl:'onProperty', P), !.
-agenda_item_property(_Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'). % classify item
-  
+agenda_item_property(Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') :-
+  agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem').
+
 %% agenda_item_domain(?Item,?Domain)
 %
 % Maps an agenda item to its domain (i.e., the class description
@@ -747,8 +756,9 @@ agenda_pattern_subject(Pattern, Subject) :-
   rdf(Restr, owl:'onProperty', knowrob_planning:'itemOf'),
   rdf(Restr, owl:'hasValue', Subject), !.
 agenda_pattern_subject(Pattern, Subject) :-
-  bagof(SType, agenda_pattern_subject_type(Pattern, SType), STypes),
-  (STypes=[Subject] ; owl_description_assert(intersection_of(STypes), Subject) ), !.
+  findall(SType, agenda_pattern_subject_type(Pattern, SType), STypes_list),
+  list_to_set(STypes_list, STypes),
+  member(Subject,STypes).
 
 agenda_pattern_subject_type(Pattern, SType) :-
   rdf(Pattern, rdf:'type', Restr),
@@ -836,7 +846,9 @@ agenda_perform(Agenda, Item, Descr) :-
   -> (
     agenda_item_reason(Item, causedBy(ActionEntity)),
     agenda_item_strategy(Item,Strategy),
-    agenda_perform_action(ActionEntity,Descr,Strategy)
+    Descr=item(I_Mode,I_S,I_P,_,I_Cause),
+    Selection=[I_O|_],
+    agenda_perform_action(ActionEntity,item(I_Mode,I_S,I_P,I_O,I_Cause),Strategy)
   );true),
   % Print some debug messages for items that can't be processed
   % and make sure we will not loop forever trying to find a value.
@@ -895,21 +907,13 @@ agenda_perform_specialization(_, _, _, Domain, Domain) :-
   \+ rdfs_individual_of(Domain, owl:'Class'), !.
 agenda_perform_specialization(Item, Descr, PerformDescr, DomainIn, DomainOut) :-
   agenda_item_strategy(Item,Strategy),
-  findall(Perform, (
-    rdf_has(Strategy, knowrob_planning:'performPattern', X),
-    rdf_has(X, knowrob_planning:'pattern', Pattern),
-    rdf_has(X, knowrob_planning:'perform', Perform),
-    agenda_item_matches_pattern(Descr, Pattern)
-  ), PerformMethods),
-  (  PerformMethods=[]
-  -> agenda_perform_just_do_it(  PerformDescr, Item, DomainIn, DomainOut)
-  ;  agenda_perform_descriptions(PerformDescr, Item, PerformMethods, DomainIn, DomainOut)
-  ).
-
-agenda_perform_descriptions(Descr,Item,[Perform|Rest],DomainIn,DomainOut) :-
-  agenda_perform_description(Descr,Item,Perform,DomainIn,DomainOutA),
-  agenda_perform_descriptions(Descr,Item,Rest,DomainOutA,DomainOut).
-agenda_perform_descriptions(_,_,[],DomainIn,DomainIn).
+  rdf_has(Strategy, knowrob_planning:'performPattern', X),
+  rdf_has(X, knowrob_planning:'pattern', Pattern),
+  rdf_has(X, knowrob_planning:'perform', Perform),
+  agenda_item_matches_pattern(Descr, Pattern),
+  agenda_perform_description(PerformDescr, Item, Perform, DomainIn, DomainOut), !.
+agenda_perform_specialization(Item, _Descr, PerformDescr, DomainIn, DomainOut) :-
+  agenda_perform_just_do_it(PerformDescr, Item, DomainIn, DomainOut).
 
 agenda_perform_description(Descr,Item,Perform,DomainIn,DomainOut) :-
   rdfs_individual_of(Perform, knowrob_planning:'AgendaPerformProlog'), !,
@@ -1049,7 +1053,13 @@ decompose(S,P,Domain,O) :-
   % TODO(DB): generally try to integrate first?
   %            --> would allow to have Assemblage's in sim ontology and use these
   owl_description(Domain, Descr),
-  class_statements(Domain, Descr, Types),
+  % FIXME owl_property_range_on_subject seems to not infer domain of inverse property
+  %owl_property_range_on_subject(S,P,Range),
+  findall(X_Type, (
+    (owl_inverse_property(P,P_inv), rdf_phas(P_inv, rdfs:domain, X_Type)) ;
+    (rdf_phas(P, rdfs:range, X_Type));
+    (class_statements(Domain, Descr, X_Types), member(X_Type,X_Types))
+  ), Types),
   once((
     owl_most_specific(Types, O_type),
     ( rdf_has(O_type, owl:unionOf, Union)
@@ -1100,16 +1110,12 @@ agenda_assert_triple_(S,P,O) :-
 planning_assert(S,P,O)  :- rdf_assert(S,P,O),     debug_assertion(S,P,O).
 planning_retract(S,P,O) :- rdf_retractall(S,P,O), debug_retraction(S,P,O).
 
-% TODO: proper logging, use log4p?
-debug_retraction(_S,_P,_O) :-
-  true.
-  %write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
-debug_assertion(_S,_P,_O) :-
-  true.
-  %write('    [ASSERT] '),  write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
-debug_type_assertion(_S,_Cls) :-
-  true.
-  %write('    [ASSERT] '),  write_name(S), write(' type '), write_name(Cls), writeln('.').
+debug_retraction(S,P,O) :-
+  write('    [RETRACT] '), write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
+debug_assertion(S,P,O) :-
+  write('    [ASSERT] '),  write_name(S), write(' --'), write_name(P), write('--> '), write_name(O), writeln('.').
+debug_type_assertion(S,Cls) :-
+  write('    [ASSERT] '),  write_name(S), write(' type '), write_name(Cls), writeln('.').
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
