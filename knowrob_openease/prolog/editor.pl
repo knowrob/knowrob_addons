@@ -32,9 +32,11 @@ ease_load_directory(Directory) :-
   directory_files(Directory, Entries),
   forall((
     member(File,Entries),
-    exists_file(File),
-    is_prolog_source_file(File)),
-    ease_consult(File)).
+    atomic_list_concat([
+        Directory, '/', File], FilePath),
+    exists_file(FilePath),
+    is_prolog_source_file(FilePath)),
+    ease_consult(FilePath)).
 
 
 ease_unload_file(File) :-
