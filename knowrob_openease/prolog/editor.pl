@@ -45,7 +45,7 @@ ease_unload_file(File) :-
     retractall(:(ease_user,Term))),
   retractall(ease_user_term(File,_)).
 ease_consult(File) :-
-  write('Consult file '), writlen(File),
+  write('Consult file '), writeln(File),
   open(File, read, Fd),
   read(Fd, First),
   read_data(File, First, Fd),
