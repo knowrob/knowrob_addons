@@ -32,7 +32,7 @@ ease_unload_directory(Directory) :-
         Directory, '/', File], FilePath),
     exists_file(FilePath),
     is_prolog_source_file(FilePath)),
-    ease_unload_file(File)).
+    ease_unload_file(FilePath)).
 ease_load_directory(Directory) :-
   directory_files(Directory, Entries),
   forall((
@@ -45,6 +45,7 @@ ease_load_directory(Directory) :-
 
 
 ease_unload_file(File) :-
+  write('Un-Consult file '), writeln(File),
   forall(
     ease_user_term(File,Term),
     retractall(:(ease_user,Term))),
