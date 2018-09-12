@@ -26,8 +26,13 @@ ease_load_user_package(PkgName) :-
 
 ease_unload_directory(Directory) :-
   directory_files(Directory, Entries),
-  forall(member(File,Entries),
-         ease_unload_file(File)).
+  forall((
+    member(File,Entries),
+    atomic_list_concat([
+        Directory, '/', File], FilePath),
+    exists_file(FilePath),
+    is_prolog_source_file(FilePath)),
+    ease_unload_file(File)).
 ease_load_directory(Directory) :-
   directory_files(Directory, Entries),
   forall((
