@@ -10,11 +10,13 @@
 is_prolog_source_file(File) :- true.
 
 
-ease_unload_user_package(PkgDirectory) :-
-  atom_concat(PkgDirectory,'/prolog',PrologDir),
+ease_unload_user_package(PkgName) :-
+  ros_package_path(PkgName,PkgPath),
+  atom_concat(PkgPath,'/prolog',PrologDir),
   ease_unload_directory(PrologDir).
-ease_load_user_package(PkgDirectory) :-
-  atom_concat(PkgDirectory,'/prolog',PrologDir),
+ease_load_user_package(PkgName) :-
+  ros_package_path(PkgName,PkgPath),
+  atom_concat(PkgPath,'/prolog',PrologDir),
   ease_load_directory(PrologDir).
 
 
