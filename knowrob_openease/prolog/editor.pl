@@ -2,7 +2,11 @@
 :- module(openease_editor,
     [
         ease_unload_user_package/1,
-        ease_load_user_package/1
+        ease_load_user_package/1,
+        ease_unload_directory/1,
+        ease_load_directory/1,
+        ease_unload_file/1,
+        ease_consult/1
     ]).
 
 :- dynamic ease_user_term/2.
@@ -28,6 +32,7 @@ ease_load_directory(Directory) :-
   directory_files(Directory, Entries),
   forall((
     member(File,Entries),
+    exists_file(File),
     is_prolog_source_file(File)),
     ease_consult(File)).
 
