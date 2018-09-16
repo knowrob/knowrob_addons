@@ -51,9 +51,8 @@ ease_load_directory(Directory) :-
 ease_unload_file(File) :-
   write('Un-Consult file '), writeln(File),
   forall(
-    ease_user_term(File,Term),(
-    rdf_equal(Term,Term_X),
-    retractall(:(user,Term_X)))),
+    ease_user_term(File,Term),
+    retractall(:(user,Term))),
   retractall(ease_user_term(File,_)).
 ease_consult(File) :-
   write('Consult file '), writeln(File),
@@ -64,8 +63,8 @@ ease_consult(File) :-
 
 read_data(_, end_of_file, _) :- !.
 read_data(File, Term, Fd) :-
-  rdf_equal(Term,Term_X),
-  assertz(:(user,Term_X)),
-  assertz(ease_user_term(File,Term)),
+  expand_term(Term,Expanded),
+  assertz(:(user,Expanded)),
+  assertz(ease_user_term(File,Expanded)),
   read(Fd, Next),
   read_data(File, Next, Fd).
