@@ -13,7 +13,6 @@
 :- use_module(library('semweb/rdfs')).
 
 :- dynamic ease_user_term/2.
-:- rdf_meta read_data(+,t,+).
 
 is_prolog_source_file(File) :- true.
 
