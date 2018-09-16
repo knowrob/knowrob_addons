@@ -46,13 +46,18 @@ ease_load_directory(Directory) :-
     is_prolog_source_file(FilePath)),
     ease_consult(FilePath)).
 
+ease_retract_term(X :- _) :-
+  retractall(user:X), !.
+ease_retract_term(X) :-
+  retractall(user:X).
 
 ease_unload_file(File) :-
   write('Un-Consult file '), writeln(File),
   forall(
     ease_user_term(File,Term),
-    retractall(:(user,Term))),
+    ease_retract_term(Term)),
   retractall(ease_user_term(File,_)).
+
 ease_consult(File) :-
   write('Consult file '), writeln(File),
   open(File, read, Fd),
