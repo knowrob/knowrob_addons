@@ -48,7 +48,7 @@ ease_unload_file(File) :-
   write('Un-Consult file '), writeln(File),
   forall(
     ease_user_term(File,Term),
-    retractall(:(ease_user,Term))),
+    retractall(:(user,Term))),
   retractall(ease_user_term(File,_)).
 ease_consult(File) :-
   write('Consult file '), writeln(File),
@@ -59,7 +59,7 @@ ease_consult(File) :-
 
 read_data(_, end_of_file, _) :- !.
 read_data(File, Term, Fd) :-
-  assertz(:(ease_user,Term)),
+  assertz(:(user,Term)),
   assertz(ease_user_term(File,Term)),
   read(Fd, Next),
   read_data(File, Next, Fd).
