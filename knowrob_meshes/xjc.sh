@@ -16,6 +16,7 @@ if [ ! -d "$DST" ]; then
   xjc $DIR/schema/collada/collada-schema-1.4.1.xsd \
       -d $DIR/knowrob_meshes/src/main/java \
       -p org.knowrob.vis.collada_1_4_1 \
+      -catalog $DIR/schema/catalog.cat \
       -extension $DIR/schema/simpleMode.xsd
   echo "COLLADA JAVA classes generated."
 fi
