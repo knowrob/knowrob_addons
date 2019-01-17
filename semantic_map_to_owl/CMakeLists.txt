@@ -4,7 +4,7 @@ project(semantic_map_to_owl)
 find_package(catkin REQUIRED rosjava_build_tools roscpp geometry_msgs knowrob_common message_generation)
 
 
-catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository)
+catkin_rosjava_setup(installDist publishMavenJavaPublicationToMavenRepository)
 
 add_message_files(
   FILES SemMap.msg SemMapObject.msg

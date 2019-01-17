@@ -11,7 +11,7 @@ project(knowrob_cram)
 
 find_package(catkin REQUIRED rosjava_build_tools knowrob_mongo designator_integration_msgs)
 
-catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
+catkin_rosjava_setup(installDist publishMavenJavaPublicationToMavenRepository writeClasspath)
 
 catkin_package(
   DEPENDS knowrob_mongo designator_integration_msgs
