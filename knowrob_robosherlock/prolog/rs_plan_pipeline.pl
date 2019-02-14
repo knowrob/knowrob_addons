@@ -229,6 +229,8 @@ annotators_for_predicate(text,A) :-
 	annotator_outputs(A,'http://knowrob.org/kb/rs_components.owl#RsAnnotationGoggles' ).
 annotators_for_predicate(product,A) :- 
 	annotator_outputs(A,'http://knowrob.org/kb/rs_components.owl#RsAnnotationGoggles' ).
+annotators_for_predicate(class,A) :- 
+	annotator_outputs(A,'http://knowrob.org/kb/rs_components.owl#RsAnnotationDetection' ).
 annotators_for_predicate(detection,A) :- 
 	annotator_outputs(A,'http://knowrob.org/kb/rs_components.owl#RsAnnotationDetection' ).
 annotators_for_predicate(handle,A) :- 
