@@ -75,7 +75,11 @@ test(owl_specializable_some_values2) :-
     restriction(planning_test:'testProperty', some_values_from(dul:'Organization'))),
   owl_specializable(planning_test:'TestSomeRestr_2',
     restriction(planning_test:'testProperty', some_values_from(dul:'Organization'))).
-test(owl_specializable_some_values4) :-
+test(owl_specializable_some_values4_1) :-
+  owl_specializable(dul:'Agent', dul:'PhysicalObject').
+test(owl_specializable_some_values4_2) :-
+  owl_specializable(planning_test:'TestObject_1', dul:'PhysicalObject').
+test(owl_specializable_some_values4_3) :-
   % specializable because there is a subclass of Agent that is also a PhysicalObject
   owl_specializable(planning_test:'TestSomeRestr_1',
     restriction(planning_test:'testProperty', some_values_from(dul:'PhysicalObject'))).
@@ -114,7 +118,6 @@ test(owl_specializable_all_values3) :-
   rdf_retractall(X1, _, _).
 
 test(owl_specializable_cardinality1) :-
-gtrace,
   owl_specializable(planning_test:'TestSomeRestr_1',
     restriction(planning_test:'testProperty', cardinality(2,2,dul:'Agent'))).
 test(owl_specializable_cardinality2) :-

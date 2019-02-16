@@ -103,9 +103,12 @@ owl_specializable_(Resource, class(Cls)) :-
   rdfs_individual_of(Resource, owl:'Class'), !,
   owl_specializable_class(Resource, class(Cls)).
 owl_specializable_(Resource, class(Cls)) :-
-  % specializable if one of the most specific types of resource is a generalization of Cls
+  % specializable if one of the most specific types of
+  % resource is a generalization of, or can be specialized to Cls
   rdfs_type_of(Resource, Resource_type),
-  owl_subclass_of(Cls, Resource_type), !.
+  ( owl_subclass_of(Cls, Resource_type) ; (
+    \+ owl_subclass_of(Resource_type, Cls),
+    owl_specializable_class(Resource_type, class(Cls)) )), !.
 
 owl_specializable_(Resource, restriction(P,Facet)) :-
   rdfs_individual_of(Resource, owl:'Restriction'), !,
@@ -146,7 +149,6 @@ owl_specializable_(Resource, restriction(P,cardinality(Min,_,Cls))) :-
           owl_specializable(Cls, Range) ),
   % and if Resource is a consistent value for inverse_of(P) on instances of Cls
   owl_inverse_property(P,P_inv),
-  owl_description(P_inv,InvDes),
   forall( owl_property_range_on_class(Cls, P_inv, Range_inv),
           owl_specializable(Resource, Range_inv) ).
 owl_specializable_(Resource, restriction(P,cardinality(_,Max,Cls))) :-
