@@ -416,9 +416,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuityStrategy -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuityStrategy">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
         <rdfs:comment>Prefer to stick to the subject for which a KBTask was executed in the last step. The selection value is 1 if the subject is the same as last step, and 0 otherwise.</rdfs:comment>
     </owl:Class>
@@ -435,9 +435,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirstSelection -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirstStrategy -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirstSelection">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirstStrategy">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
         <rdfs:comment>Prefer KBTask with higher depth in the ABox graph spanned by the root object.</rdfs:comment>
     </owl:Class>
@@ -557,9 +557,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#InhibitionStrategy -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#InhibitionStrategy">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
         <rdfs:comment>Prefer KBTasks which were performed less often. The selection value is the additive inverse of the number of times the item was selected before. This can be used to escape from a KBTask that can not be performed in a given situation, and to move on to other items.</rdfs:comment>
     </owl:Class>
@@ -714,7 +714,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameter"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PredicateURI"/>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PredicateName"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Parametrization"/>
@@ -739,7 +739,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameter"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PredicateURI"/>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PredicateName"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>A KBTask where some relation or property of the Subject needs to be inferred.</rdfs:comment>
@@ -747,9 +747,18 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternSelection -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PredicateName -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PredicateName">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Parameter"/>
+        <rdfs:comment>todo: can we use URI instead?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PreferenceStrategy -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PreferenceStrategy">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -759,14 +768,6 @@
         </rdfs:subClassOf>
         <rdfs:comment>Prefer KBTasks matching a given pattern. The selection value is 1 if the pattern matches the item, and 0 otherwise.</rdfs:comment>
         <rdfs:comment>todo: think about matches relation</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#PredicateURI -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PredicateURI">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Parameter"/>
     </owl:Class>
     
 
