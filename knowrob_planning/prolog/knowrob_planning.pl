@@ -101,7 +101,7 @@
 %
 
 owl_planner_strategy(Entity, Strategy) :-
-  rdfs_individual_of(Strategy,knowrob_planning:'AgendaStrategy'),
+  rdfs_individual_of(Strategy,knowrob_planning:'GroundingPlan'),
   once((
     rdfs_individual_of(Strategy, Restr),
     rdfs_individual_of(Restr, owl:'Restriction'),
@@ -150,8 +150,8 @@ agenda_create(Obj, Strategy, Agenda) :-
 %% agenda_items(+Agenda,-Items)
 %
 % The OWL representation of agenda item individuals is given by:
-%   AgendaItem_XYY
-%     type ItemType                                # one of DecomposeAgendaItem,...
+%   KBTask_XYY
+%     type ItemType                                # one of Decomposition,...
 %     type (itemOf only (Predicate some Domain))   # for decompose/integrate/detach items
 %     type (itemOf only Domain)                    # for classify items
 %     itemOf Subject                               # underspecified individual
@@ -250,16 +250,16 @@ assert_agenda_item(Item, Agenda, CausedBy, Depth, ItemId) :-
   assert_agenda_item_cause(ItemId,CausedBy),
   agenda_push(Agenda, ItemId).
 assert_agenda_item(integrate(S,P,Domain,Count), Item) :-
-  rdf_instance_from_class(knowrob_planning:'IntegrateAgendaItem', Item),
+  rdf_instance_from_class(knowrob_planning:'Integration', Item),
   assert_agenda_item_P(Item, (S,P,Domain,Count)).
 assert_agenda_item(decompose(S,P,Domain,Count), Item) :-
-  rdf_instance_from_class(knowrob_planning:'DecomposeAgendaItem', Item),
+  rdf_instance_from_class(knowrob_planning:'Decomposition', Item),
   assert_agenda_item_P(Item, (S,P,Domain,Count)).
 assert_agenda_item(detach(S,P,Domain,Count), Item) :-
-  rdf_instance_from_class(knowrob_planning:'DetachAgendaItem', Item),
+  rdf_instance_from_class(knowrob_planning:'Nullification', Item),
   assert_agenda_item_P(Item, (S,P,Domain,Count)).
 assert_agenda_item(classify(S,Domain), Item) :-
-  rdf_instance_from_class(knowrob_planning:'ClassifyAgendaItem', Item),
+  rdf_instance_from_class(knowrob_planning:'Classification', Item),
   rdf_assert(Item, knowrob_planning:'itemOf', S),
   assert_agenda_item_domain(Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', Domain).
 assert_agenda_item_P(Item, (S,P,Domain,Count)) :-
@@ -360,16 +360,16 @@ retract_agenda_item(Item) :-
 agenda_item_description(item(T,S,P,Domain,Reason),
                         item(T,S,P,Domain,Reason)) :- !.
 agenda_item_description(Item, item(integrate,S,P,Domain,Reason)) :-
-  rdfs_individual_of(Item, knowrob_planning:'IntegrateAgendaItem'),
+  rdfs_individual_of(Item, knowrob_planning:'Integration'),
   agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description(Item, item(decompose,S,P,Domain,Reason)) :-
-  rdfs_individual_of(Item, knowrob_planning:'DecomposeAgendaItem'),
+  rdfs_individual_of(Item, knowrob_planning:'Decomposition'),
   agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description(Item, item(detach,S,P,Domain,Reason)) :-
-  rdfs_individual_of(Item, knowrob_planning:'DetachAgendaItem'),
+  rdfs_individual_of(Item, knowrob_planning:'Nullification'),
   agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description(Item, item(classify,S,P,Domain,Reason)) :-
-  rdfs_individual_of(Item, knowrob_planning:'ClassifyAgendaItem'),
+  rdfs_individual_of(Item, knowrob_planning:'Classification'),
   agenda_item_description_internal(Item, item(S,P,Domain,Reason)), !.
 agenda_item_description_internal(Item, item(S,P,Domain,Reason)) :-
   rdf(Item, knowrob_planning:'itemOf', S),
@@ -384,13 +384,13 @@ agenda_item_description_internal(Item, item(S,P,Domain,Reason)) :-
 % @param Item Agenda item
 % @param Type Type of the item
 %
-agenda_item_type(item(integrate,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#IntegrateAgendaItem') :- !.
-agenda_item_type(item(decompose,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem') :- !.
-agenda_item_type(item(detach,_,_,_,_),    'http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem')    :- !.
-agenda_item_type(item(classify,_,_,_,_),  'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem')  :- !.
+agenda_item_type(item(integrate,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#Integration') :- !.
+agenda_item_type(item(decompose,_,_,_,_), 'http://knowrob.org/kb/knowrob_planning.owl#Decomposition') :- !.
+agenda_item_type(item(detach,_,_,_,_),    'http://knowrob.org/kb/knowrob_planning.owl#Nullification')    :- !.
+agenda_item_type(item(classify,_,_,_,_),  'http://knowrob.org/kb/knowrob_planning.owl#Classification')  :- !.
 agenda_item_type(Item, Type) :-
   rdf(Item, rdf:'type', Type),
-  rdfs_subclass_of(Type, knowrob_planning:'AgendaItem'), !.
+  rdfs_subclass_of(Type, knowrob_planning:'KBTask'), !.
 
 %% agenda_item_subject(?Item,?S)
 %
@@ -418,7 +418,7 @@ agenda_item_property(Item,P) :-
   rdf(Restr, owl:'allValuesFrom', PropertyRestr),
   rdf(PropertyRestr, owl:'onProperty', P), !.
 agenda_item_property(Item, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') :-
-  agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem').
+  agenda_item_type(Item, 'http://knowrob.org/kb/knowrob_planning.owl#Classification').
 
 %% agenda_item_domain(?Item,?Domain)
 %
@@ -435,7 +435,7 @@ agenda_item_domain(Item,Domain) :-
   rdf(Restr, owl:'allValuesFrom', ItemOfType),
   ( rdf(ItemOfType, owl:'someValuesFrom', Domain) ;
     rdf(ItemOfType, owl:'hasValue', Domain) ;
-    ( agenda_item_type(Item, knowrob_planning:'ClassifyAgendaItem'), Domain = ItemOfType )
+    ( agenda_item_type(Item, knowrob_planning:'Classification'), Domain = ItemOfType )
   ), !.
 
 % NOTE: it is assumed that the domain is in fact a specialization.
@@ -506,7 +506,7 @@ agenda_item_valid(item(_,S,P,Domain,causedBy(Cause,Restr)), _Item) :-
   owl_specializable(Domain,UpToDomain), !.
 
 agenda_item_valid(item(_,_S,_P,_Domain,causedBy(Cause)), _Item) :-
-  rdfs_individual_of(Cause, knowrob_planning:'AgendaItem'),
+  rdfs_individual_of(Cause, knowrob_planning:'KBTask'),
   agenda_item_description(Cause, Cause_descr),
   agenda_item_valid(Cause_descr, Cause), !.
 
@@ -714,7 +714,7 @@ agenda_item_matches_pattern(Item, Pattern) :-
 
 agenda_item_matches_item_type(Item, Pattern) :-
   ( rdf(Pattern, rdf:'type', Pattern_Type),
-    rdfs_subclass_of(Pattern_Type, knowrob_planning:'AgendaItem') )
+    rdfs_subclass_of(Pattern_Type, knowrob_planning:'KBTask') )
   *-> (
     agenda_item_type(Item, Type),
     rdfs_subclass_of(Type, Pattern_Type) )
