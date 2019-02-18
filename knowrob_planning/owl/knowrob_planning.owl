@@ -70,6 +70,17 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPattern -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPattern">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasConstituent"/>
+        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Entity"/>
+        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Entity"/>
+        <rdfs:label>has pattern</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasSalientTask -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasSalientTask">
@@ -93,6 +104,34 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasSubject -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasSubject">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith"/>
+        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSubjectOf"/>
+        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
+        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasSubjectRole"/>
+            <rdf:Description rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
+        </owl:propertyChainAxiom>
+        <rdfs:label>has subject</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasSubjectRole -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasSubjectRole">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isTaskOf"/>
+        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSubjectRoleOf"/>
+        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Subject"/>
+        <rdfs:label>has subject role</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#isSalientTaskIn -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#isSalientTaskIn">
@@ -100,6 +139,28 @@
         <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
         <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
         <rdfs:label>is salient task in</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#isSubjectOf -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#isSubjectOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith"/>
+        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
+        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
+        <rdfs:label>is subject of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#isSubjectRoleOf -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#isSubjectRoleOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasTask"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Subject"/>
+        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
+        <rdfs:label>is subject role of</rdfs:label>
     </owl:ObjectProperty>
     
 
@@ -164,6 +225,12 @@
     
 
 
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasConstituent -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasConstituent"/>
+    
+
+
     <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameter -->
 
     <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameter"/>
@@ -173,6 +240,12 @@
     <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasPart -->
 
     <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasPart"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasTask -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasTask"/>
     
 
 
@@ -191,6 +264,12 @@
     <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isPartOf -->
 
     <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isPartOf"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
     
 
 
@@ -291,7 +370,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#expresses"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#GroundingPlan"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#GroundingMethod"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -312,24 +391,10 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AttentionControl -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AttentionMethod -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AttentionControl">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Goal"/>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AttentionPlan -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AttentionPlan">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#MetaPlan"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasGoal"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AttentionControl"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AttentionMethod">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasSalientTask"/>
@@ -354,7 +419,7 @@
                 <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>A Plan that denotes which possible steps are salient when some other Plan is executed.</rdfs:comment>
+        <rdfs:comment>A Method that denotes salient steps of a Plan.</rdfs:comment>
     </owl:Class>
     
 
@@ -416,15 +481,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuityStrategy -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuityStrategy">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
-        <rdfs:comment>Prefer to stick to the subject for which a KBTask was executed in the last step. The selection value is 1 if the subject is the same as last step, and 0 otherwise.</rdfs:comment>
-    </owl:Class>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#Decomposition -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Decomposition">
@@ -435,11 +491,11 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirstStrategy -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirst -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirstStrategy">
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
-        <rdfs:comment>Prefer KBTask with higher depth in the ABox graph spanned by the root object.</rdfs:comment>
+        <rdfs:comment>Prefer Tasks with higher depth in the planning graph.</rdfs:comment>
     </owl:Class>
     
 
@@ -495,14 +551,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#GroundedEntity -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#GroundedEntity">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Goal"/>
-    </owl:Class>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#Grounder -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Grounder">
@@ -518,16 +566,10 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#GroundingPlan -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#GroundingMethod -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#GroundingPlan">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#MetaPlan"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasGoal"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#GroundedEntity"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#GroundingMethod">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesRole"/>
@@ -543,25 +585,44 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasPart"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#KBWorkflow"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#GroundingWorkflow"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasPart"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#MetaPlan"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionMethod"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>A Plan that guides grounding an Entity.</rdfs:comment>
+        <rdfs:comment>A Method that guides grounding an Entity.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#InhibitionStrategy -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#GroundingWorkflow -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#InhibitionStrategy">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
-        <rdfs:comment>Prefer KBTasks which were performed less often. The selection value is the additive inverse of the number of times the item was selected before. This can be used to escape from a KBTask that can not be performed in a given situation, and to move on to other items.</rdfs:comment>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#GroundingWorkflow">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Workflow"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasFirstStep"/>
+                <owl:someValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesRole"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Grounder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesTask"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#KBTask"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>(1) Restriction of object/value; (2) Selection of object/value (KBTask); (3) Manifestation of relation/property.</rdfs:comment>
+        <rdfs:comment>A Workflow that defines how KBTasks are to be executed.</rdfs:comment>
     </owl:Class>
     
 
@@ -596,9 +657,9 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isTaskOf"/>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasSubject"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Subject"/>
+                <owl:onClass rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>A Task in which some Entity is the Subject of discourse, and where some fact about this Entity is to be modified in the knowledge base.</rdfs:comment>
@@ -663,38 +724,10 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#KBWorkflow -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#KBWorkflow">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Workflow"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasFirstStep"/>
-                <owl:someValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasStep"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#KBTask"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesRole"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Grounder"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>(1) Restriction of object/value; (2) Selection of object/value (KBTask); (3) Manifestation of relation/property.</rdfs:comment>
-        <rdfs:comment>A Workflow that defines how KBTasks are to be executed.</rdfs:comment>
-    </owl:Class>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#MetaPlan -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#MetaPlan">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Plan"/>
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#guides"/>
@@ -702,6 +735,7 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>A Plan used to guide the execution of a Workflow.</rdfs:comment>
+        <rdfs:comment>todo: it is more a Method</rdfs:comment>
     </owl:Class>
     
 
@@ -756,40 +790,10 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#PreferenceStrategy -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#RecoveryMethod -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PreferenceStrategy">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
-                <owl:someValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>Prefer KBTasks matching a given pattern. The selection value is 1 if the pattern matches the item, and 0 otherwise.</rdfs:comment>
-        <rdfs:comment>todo: think about matches relation</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#RecoveryControl -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#RecoveryControl">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Goal"/>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#RecoveryPlan -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#RecoveryPlan">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#MetaPlan"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasGoal"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#RecoveryControl"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#RecoveryMethod">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesRole"/>
@@ -802,16 +806,41 @@
                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#FailureRecovery"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>A recovery Plan for unexpected failures signaled during the execution of some Workflow.</rdfs:comment>
+        <rdfs:comment>A recovery Method for unexpected failures signaled during the execution of some Workflow.</rdfs:comment>
         <rdfs:comment>todo: think about how to represent this</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionControl -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByContinuity -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionControl">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Goal"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByContinuity">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
+        <rdfs:comment>Prefer to stick to the subject for which a Task was executed in the last step. The selection value is 1 if the subject is the same as last step, and 0 otherwise.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByInhibition -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByInhibition">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
+        <rdfs:comment>Prefer Tasks which were performed less often. The selection value is the additive inverse of the number of times the item was selected before. This can be used to escape from a KBTask that can not be performed in a given situation, and to move on to other items.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasPattern"/>
+                <owl:someValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>Prefer Tasks matching a given pattern. The selection value is 1 if the pattern matches the item, and 0 otherwise.</rdfs:comment>
     </owl:Class>
     
 
@@ -827,21 +856,14 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>The Description of a preference with priority value.</rdfs:comment>
-        <rdfs:comment>todo: or is it information object?</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionPlan -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionMethod -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionPlan">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#MetaPlan"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasGoal"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionControl"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionMethod">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesRole"/>
@@ -860,7 +882,7 @@
                 <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionCriterion"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:comment>A Plan that prioritizes steps of some other Plan.</rdfs:comment>
+        <rdfs:comment>A Method that selects the next step of a Plan.</rdfs:comment>
     </owl:Class>
     
 
@@ -964,6 +986,18 @@
     <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#InformationObject -->
 
     <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#InformationObject"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Method"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
     
 
 
