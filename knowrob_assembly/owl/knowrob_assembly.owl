@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="http://knowrob.org/kb/knowrob_assembly#"
-     xml:base="http://knowrob.org/kb/knowrob_assembly"
+<rdf:RDF xmlns="http://knowrob.org/kb/knowrob_assembly.owl#"
+     xml:base="http://knowrob.org/kb/knowrob_assembly.owl"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
@@ -47,9 +47,21 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob.owl#avoidedObject -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#avoidedObject"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob.owl#hasAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#hasAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#movedObject -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#movedObject"/>
     
 
 
@@ -78,6 +90,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblyBlocksAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblyBlocksAffordance">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob.owl#Affordance"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -91,6 +104,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblyRequiresAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblyRequiresAffordance">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob.owl#AssemblyAffordance"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -104,6 +118,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
@@ -157,6 +172,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasPart -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasPart">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasComponent"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -173,6 +189,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasPart"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
     </owl:ObjectProperty>
     
@@ -180,13 +197,16 @@
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isDescribedBy"/>
+    </owl:ObjectProperty>
     
 
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasSubAssemblage -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasSubAssemblage">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasComponent"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
     </owl:ObjectProperty>
@@ -205,6 +225,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#linkedByAssemblage -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linkedByAssemblage">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -222,6 +243,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage">
+        <rdfs:subPropertyOf rdf:resource="http://www.ease.org/ont/EASE.owl#involvesArtifact"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -248,6 +270,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
@@ -259,6 +282,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#partConnectedTo -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#partConnectedTo">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
@@ -278,7 +302,9 @@
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith"/>
+    </owl:ObjectProperty>
     
 
 
@@ -303,6 +329,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesConnection -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isParticipantIn"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
@@ -313,31 +340,25 @@
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesGripper -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesGripper"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesGripper">
+        <rdfs:subPropertyOf rdf:resource="http://www.ease.org/ont/EASE.owl#involvesEffector"/>
+    </owl:ObjectProperty>
     
 
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesPose -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesPose"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesPose">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant"/>
+    </owl:ObjectProperty>
     
 
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesTransform -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#avoidedObject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#avoidedObject"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#movedObject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#movedObject"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant"/>
+    </owl:ObjectProperty>
     
 
 
@@ -350,6 +371,48 @@
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+    
+
+
+    <!-- http://www.ease.org/ont/EASE.owl#involvesArtifact -->
+
+    <owl:ObjectProperty rdf:about="http://www.ease.org/ont/EASE.owl#involvesArtifact"/>
+    
+
+
+    <!-- http://www.ease.org/ont/EASE.owl#involvesEffector -->
+
+    <owl:ObjectProperty rdf:about="http://www.ease.org/ont/EASE.owl#involvesEffector"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#coparticipatesWith"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasComponent -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasComponent"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isDescribedBy -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isDescribedBy"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isParticipantIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isParticipantIn"/>
     
 
 
@@ -374,7 +437,9 @@
 
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType"/>
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType">
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameterDataValue"/>
+    </owl:DatatypeProperty>
     
 
 
@@ -390,7 +455,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameterDataValue"/>
     </owl:DatatypeProperty>
     
 
@@ -419,6 +484,12 @@
     
 
 
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameterDataValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameterDataValue"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -444,7 +515,9 @@
 
     <!-- http://knowrob.org/kb/knowrob.owl#ConnectingTogether -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ConnectingTogether"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ConnectingTogether">
+        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+    </owl:Class>
     
 
 
@@ -462,7 +535,9 @@
 
     <!-- http://knowrob.org/kb/knowrob.owl#HumanScaleObject -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#HumanScaleObject"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#HumanScaleObject">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
+    </owl:Class>
     
 
 
@@ -474,7 +549,9 @@
 
     <!-- http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere">
+        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+    </owl:Class>
     
 
 
@@ -487,6 +564,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#ActionSpecification -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ActionSpecification">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
@@ -523,6 +601,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -658,6 +737,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
     </owl:Class>
     
 
@@ -720,6 +800,7 @@
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#HumanScaleObject"/>
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalArtifact"/>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
     </owl:Class>
     
@@ -1143,6 +1224,36 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM"/>
+    
+
+
+    <!-- http://www.ease.org/ont/EASE.owl#PhysicalAction -->
+
+    <owl:Class rdf:about="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+    
+
+
+    <!-- http://www.ease.org/ont/EASE.owl#PhysicalState -->
+
+    <owl:Class rdf:about="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalArtifact -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalArtifact"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
     
 
 
