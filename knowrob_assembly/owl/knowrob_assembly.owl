@@ -22,23 +22,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#todo -->
-
-    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/knowrob.owl#todo"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -712,7 +695,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <knowrob:todo>also assert that affordances must not be occluded</knowrob:todo>
     </owl:Class>
     
 
@@ -1017,7 +999,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts">
-        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob classes instead</knowrob:todo>
     </owl:Class>
     
 
@@ -1038,7 +1019,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Interval"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob temporal part representation</knowrob:todo>
     </owl:Class>
     
 
