@@ -22,23 +22,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#todo -->
-
-    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/knowrob.owl#todo"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -243,7 +226,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage">
-        <rdfs:subPropertyOf rdf:resource="http://www.ease.org/ont/EASE.owl#involvesArtifact"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#involvesArtifact"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -341,7 +324,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesGripper -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesGripper">
-        <rdfs:subPropertyOf rdf:resource="http://www.ease.org/ont/EASE.owl#involvesEffector"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#involvesEffector"/>
     </owl:ObjectProperty>
     
 
@@ -374,15 +357,15 @@
     
 
 
-    <!-- http://www.ease.org/ont/EASE.owl#involvesArtifact -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#involvesArtifact -->
 
-    <owl:ObjectProperty rdf:about="http://www.ease.org/ont/EASE.owl#involvesArtifact"/>
+    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#involvesArtifact"/>
     
 
 
-    <!-- http://www.ease.org/ont/EASE.owl#involvesEffector -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#involvesEffector -->
 
-    <owl:ObjectProperty rdf:about="http://www.ease.org/ont/EASE.owl#involvesEffector"/>
+    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#involvesEffector"/>
     
 
 
@@ -516,7 +499,7 @@
     <!-- http://knowrob.org/kb/knowrob.owl#ConnectingTogether -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ConnectingTogether">
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalAction"/>
     </owl:Class>
     
 
@@ -550,7 +533,7 @@
     <!-- http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere">
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalAction"/>
     </owl:Class>
     
 
@@ -601,7 +584,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalState"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -712,7 +695,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <knowrob:todo>also assert that affordances must not be occluded</knowrob:todo>
     </owl:Class>
     
 
@@ -737,7 +719,7 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalState"/>
     </owl:Class>
     
 
@@ -1017,7 +999,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts">
-        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob classes instead</knowrob:todo>
     </owl:Class>
     
 
@@ -1038,7 +1019,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Interval"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob temporal part representation</knowrob:todo>
     </owl:Class>
     
 
@@ -1227,15 +1207,15 @@
     
 
 
-    <!-- http://www.ease.org/ont/EASE.owl#PhysicalAction -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#PhysicalAction -->
 
-    <owl:Class rdf:about="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#PhysicalAction"/>
     
 
 
-    <!-- http://www.ease.org/ont/EASE.owl#PhysicalState -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#PhysicalState -->
 
-    <owl:Class rdf:about="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#PhysicalState"/>
     
 
 
