@@ -36,11 +36,40 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#vec3 -->
+
+    <rdfs:Datatype rdf:about="http://knowrob.org/kb/knowrob.owl#vec3"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#vec4 -->
+
+    <rdfs:Datatype rdf:about="http://knowrob.org/kb/knowrob.owl#vec4"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#hasAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#hasAffordance"/>
     
 
 
@@ -65,12 +94,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#graspAt -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#graspAt"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#hasAffordance -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#hasAffordance"/>
     
 
 
@@ -2480,7 +2503,6 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlanePropeller">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlanePropellerPart"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Propeller"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#hasAffordance"/>
@@ -4685,27 +4707,33 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#HolderGripper -->
+    <!-- http://knowrob.org/kb/knowrob.owl#Affordance -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Affordance"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#Propeller -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#Gripper -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Propeller"/>
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#SideGraspAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#TopGraspAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
     
 
 
     <!-- http://knowrob.org/kb/knowrob.owl#Wheel -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Wheel"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Affordance -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Affordance"/>
     
 
 
@@ -4736,12 +4764,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#Fastener -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Fastener"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
     
 
 
@@ -4787,12 +4809,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#SideGraspAffordance -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#SlideInAffordance -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SlideInAffordance"/>
@@ -4808,12 +4824,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#TopGraspAffordance -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#TopGraspAffordance"/>
     
 
 
@@ -5323,7 +5333,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 -0.7071067811865475 0.0 0.7071067811865475</knowrob:quaternion>
@@ -5349,7 +5359,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865475 0.0 -0.7071067811865475 0.0</knowrob:quaternion>
@@ -5375,7 +5385,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865475 0.0 0.0 0.7071067811865475</knowrob:quaternion>
@@ -5401,7 +5411,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.7071067811865475 0.0 0.7071067811865475</knowrob:quaternion>
@@ -5427,7 +5437,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 0.5 -0.5 -0.5</knowrob:quaternion>
@@ -5453,7 +5463,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 -0.5 -0.5 0.5</knowrob:quaternion>
@@ -5479,7 +5489,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.7071067811865475 0.0 0.7071067811865475</knowrob:quaternion>
@@ -5505,7 +5515,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">-0.7071067811865475 0.0 0.0 0.7071067811865475</knowrob:quaternion>
@@ -5531,7 +5541,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 0.5 0.5 0.5</knowrob:quaternion>
@@ -5557,7 +5567,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">-0.7071067811865475 0.0 0.0 0.7071067811865475</knowrob:quaternion>
@@ -5583,7 +5593,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865475 0.7071067811865475 0.0 0.0</knowrob:quaternion>
@@ -5609,7 +5619,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
@@ -5635,7 +5645,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865475 -0.7071067811865475 0.0 0.0</knowrob:quaternion>
@@ -5661,7 +5671,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#relativeTo"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#HolderGripper"/>
+                <owl:onClass rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
             </owl:Restriction>
         </rdf:type>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 1.0 0.0 0.0</knowrob:quaternion>
