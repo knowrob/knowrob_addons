@@ -13,6 +13,7 @@
      xmlns:computable="http://knowrob.org/kb/computable.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/knowrob_planning.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://ease_ontologies/owl/EASE-WF.owl"/>
     </owl:Ontology>
     
 
@@ -63,12 +64,7 @@
 
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasFirstStep -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasFirstStep">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasStep"/>
-        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Workflow"/>
-        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
-        <rdfs:label>has first step</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasFirstStep"/>
     
 
 
@@ -85,12 +81,7 @@
 
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasNextStep -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasNextStep">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#directlyPrecedes"/>
-        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
-        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
-        <rdfs:label>has next step</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasNextStep"/>
     
 
 
@@ -118,12 +109,7 @@
 
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasStep -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasStep">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#definesTask"/>
-        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Workflow"/>
-        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
-        <rdfs:label>has step</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasStep"/>
     
 
 
