@@ -428,15 +428,27 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirst -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#Integration -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Integration"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#OGPContinuityQuantification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OGPContinuityQuantification"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#OGPDepthQuantification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OGPDepthQuantification"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#OGPInhibitionQuantification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OGPInhibitionQuantification"/>
     
 
 
@@ -452,39 +464,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#RuleBasedRecovery -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#RuleBasedRecovery"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByContinuity -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByContinuity"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByInhibition -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByInhibition"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectiveAttention -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectiveAttention"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectivePrioritization -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectivePrioritization"/>
     
 
 
@@ -535,7 +517,6 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#BattatPriorization -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatPriorization">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectivePrioritization"/>
         <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector_19.0"/>
         <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0"/>
         <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0"/>
@@ -550,9 +531,7 @@
 
     <!-- http://knowrob.org/kb/battat_strategy.owl#BattatRecovery_Testing -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatRecovery_Testing">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#RuleBasedRecovery"/>
-    </owl:NamedIndividual>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatRecovery_Testing"/>
     
 
 
@@ -568,7 +547,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByContinuity"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OGPContinuityQuantification"/>
         <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
@@ -577,7 +556,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OGPDepthQuantification"/>
         <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
@@ -586,7 +565,6 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectiveAttention"/>
         <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector_1.0"/>
         <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector_5.0"/>
     </owl:NamedIndividual>
@@ -596,7 +574,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByInhibition"/>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OGPInhibitionQuantification"/>
         <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">99.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
