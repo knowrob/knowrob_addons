@@ -29,36 +29,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#describesObject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#describesObject">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
-        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
-        <rdfs:label>describes object</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#describesSubject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#describesSubject">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
-        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
-        <rdfs:label>describes subject</rdfs:label>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasAssignment -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasAssignment">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasCollection -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasCollection">
@@ -474,25 +444,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#describesProperty -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#describesProperty">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue"/>
-        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-        <rdfs:label>describes property</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasArgumentName -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasArgumentName">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue"/>
-    </owl:DatatypeProperty>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasCardinalityValue -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasCardinalityValue">
@@ -534,17 +485,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPredicateName -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPredicateName">
-        <rdfs:subPropertyOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue"/>
-        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#KBPredicate"/>
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-        <rdfs:label>has predicate name</rdfs:label>
-    </owl:DatatypeProperty>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPriorityValue -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPriorityValue">
@@ -552,6 +492,12 @@
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
         <rdfs:label>has priority value</rdfs:label>
     </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
     
 
 
@@ -624,14 +570,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ClassAffiliation -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ClassAffiliation">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Relation"/>
-    </owl:Class>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#ClassMembershipChecking -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ClassMembershipChecking">
@@ -657,13 +595,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskOutcome"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ClassAffiliation"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ClassAffiliation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Decomposition"/>
@@ -694,10 +632,10 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuityValue -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuityValue">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">continuityValue</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -724,13 +662,13 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskOutcome"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Integration"/>
@@ -743,7 +681,7 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthValue -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthValue">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
     </owl:Class>
     
 
@@ -793,7 +731,7 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#InhibitionValue -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#InhibitionValue">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
     </owl:Class>
     
 
@@ -821,72 +759,11 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Nullification"/>
         <rdfs:comment>The integration of an existing entity along one (reified) relation.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#KBPredicate -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#KBPredicate">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasPredicateName"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>A simplified description of a n-ary predicate in the knowledge base.
-Note that no ordering of arguments is explicated.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#KBQuerying -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#KBQuerying">
-        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#Querying"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParticipant"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#KBPredicate"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#KBVariable -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#KBVariable">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasAssignment"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass>
-                    <owl:Class>
-                        <owl:unionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
-                            <rdf:Description rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Region"/>
-                        </owl:unionOf>
-                    </owl:Class>
-                </owl:onClass>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasArgumentName"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -943,7 +820,7 @@ Note that no ordering of arguments is explicated.</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment>The nullification of a relation between entities.</rdfs:comment>
@@ -1241,7 +1118,7 @@ Note that no ordering of arguments is explicated.</rdfs:comment>
                         <owl:allValuesFrom>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass"/>
+                                    <rdf:Description rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
                                     <owl:Restriction>
                                         <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
                                         <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Task"/>
@@ -1424,58 +1301,6 @@ The procedure of OGP methods is:
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
-                <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Concept"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Entity"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>A description that *describes* a class. This is a reification of formal classes to allow having them as fillers for object properties.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Relation"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:comment>The reification of a formal relation.</rdfs:comment>
-    </owl:Class>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#RobotManipulationStep -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#RobotManipulationStep">
@@ -1573,6 +1398,12 @@ The procedure of OGP methods is:
     
 
 
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ClassAffiliation -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ClassAffiliation"/>
+    
+
+
     <!-- http://www.ease-crc.org/ont/EASE.owl#DeductiveReasoning -->
 
     <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#DeductiveReasoning"/>
@@ -1606,6 +1437,18 @@ The procedure of OGP methods is:
     <!-- http://www.ease-crc.org/ont/EASE.owl#Reasoning -->
 
     <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#Reasoning"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ReifiedClass -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
     
 
 
@@ -1839,7 +1682,7 @@ The procedure of OGP methods is:
         <rdf:type>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
             </owl:Restriction>
         </rdf:type>
     </owl:NamedIndividual>
@@ -1853,7 +1696,7 @@ The procedure of OGP methods is:
         <rdf:type>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
             </owl:Restriction>
         </rdf:type>
     </owl:NamedIndividual>
@@ -1921,7 +1764,7 @@ The procedure of OGP methods is:
         <rdf:type>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedClass"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
             </owl:Restriction>
         </rdf:type>
     </owl:NamedIndividual>
@@ -1955,7 +1798,7 @@ The procedure of OGP methods is:
         <rdf:type>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+                <owl:allValuesFrom rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
             </owl:Restriction>
         </rdf:type>
     </owl:NamedIndividual>

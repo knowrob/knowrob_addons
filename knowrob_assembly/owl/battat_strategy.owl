@@ -29,18 +29,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#describesObject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#describesSubject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasFilter -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasFilter"/>
@@ -80,6 +68,18 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesObject -->
+
+    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesSubject -->
+
+    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
     
 
 
@@ -130,15 +130,15 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#describesProperty -->
-
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPriorityValue -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPriorityValue"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
     
 
 
@@ -182,22 +182,22 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#NeededByConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeededByConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#AssemblyAffordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">neededByConnection</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -227,22 +227,22 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#NeedsAffordance -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordance">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#AssemblyAffordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">needsAffordance</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -272,22 +272,22 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#PartOccludedBy -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#PartOccludedBy">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
                 <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
                 <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">partOccludedBy</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -317,22 +317,22 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblage -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblage">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">usedByAssemblage</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -362,22 +362,22 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#UsesConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsesConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesObject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesSubject"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
                 <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">usesConnection</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -458,15 +458,15 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ReifiedRelation"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
     
 
 
