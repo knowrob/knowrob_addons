@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://knowrob.org/kb/assembly_test.owl#"
      xml:base="http://knowrob.org/kb/assembly_test.owl"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:knowrob_planning_strategy="http://knowrob.org/kb/knowrob_planning_strategy.owl#"
-     xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:knowrob_planning="http://knowrob.org/kb/knowrob_planning.owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
      xmlns:pancake="http://knowrob.org/kb/pancake-making.owl#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:computable="http://knowrob.org/kb/computable.owl#">
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:EASE="http://www.ease-crc.org/ont/EASE.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob_planning_strategy="http://knowrob.org/kb/knowrob_planning_strategy.owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:DUL="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/assembly_test.owl">
         <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
         <owl:imports rdf:resource="package://knowrob_assembly/owl/assembly_map_test.owl"/>
@@ -83,6 +85,42 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasDecomposableProperties -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasDecomposableProperties"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPredicatePattern -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPredicatePattern"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPrioritizedOrdering -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPrioritizedOrdering"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPrioritizedWorkflows -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPrioritizedWorkflows"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasTaskWhitelist -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasTaskWhitelist"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasTypePattern -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasTypePattern"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#itemOf -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
@@ -113,6 +151,18 @@
     
 
 
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasMember -->
+
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasMember"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -127,6 +177,24 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#selectionPriority -->
 
     <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#selectionPriority"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesFormalClass -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesFormalClass"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue"/>
     
 
 
@@ -207,6 +275,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirst -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthSelection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthSelection"/>
@@ -219,6 +293,12 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternFocus -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
@@ -228,6 +308,30 @@
     <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternSelection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ReifiedClass -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Collection -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Collection"/>
     
 
 
@@ -532,6 +636,255 @@
     
 
 
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning"/>
+        <knowrob_planning:hasDecomposableProperties rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Decomposable_Properties"/>
+        <knowrob_planning:hasPrioritizedOrdering rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering"/>
+        <knowrob_planning:hasPrioritizedWorkflows rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Workflows"/>
+        <knowrob_planning:hasTaskWhitelist rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Whitelist"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Classification -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Classification">
+        <rdf:type rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedClass"/>
+        <EASE:describesFormalClass rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">knowrob_planning:Classification</EASE:describesFormalClass>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_ContinuitySelection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_ContinuitySelection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Decomposable_Properties -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Decomposable_Properties">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Collection"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_usesConnection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_DepthFirst -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_DepthFirst">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_InhibitionSelection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_InhibitionSelection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Collection"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_Classification"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_ContinuitySelection"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_DepthFirst"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_InhibitionSelection"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_neededByConnection"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_needsAffordance"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_usedByAssemblage"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_usesConnection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_Classification -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_Classification">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_Classification"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">19.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_ContinuitySelection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_ContinuitySelection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_ContinuitySelection"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_DepthFirst -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_DepthFirst">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_DepthFirst"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_InhibitionSelection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_InhibitionSelection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_InhibitionSelection"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">99.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_neededByConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_neededByConnection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_neededByConnection"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_needsAffordance -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_needsAffordance">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_needsAffordance"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_usedByAssemblage -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_usedByAssemblage">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usedByAssemblage"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">7.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_usesConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Ordering_usesConnection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PrioritizedEntity"/>
+        <DUL:describes rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usesConnection"/>
+        <DUL:hasDataValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">5.0</DUL:hasDataValue>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_Classification -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_Classification">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:hasTypePattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Classification"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_neededByConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_neededByConnection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:hasPredicatePattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_neededByConnection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_needsAffordance -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_needsAffordance">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:hasPredicatePattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_needsAffordance"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usedByAssemblage -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usedByAssemblage">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:hasPredicatePattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_usedByAssemblage"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usesConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usesConnection">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+        <knowrob_planning:hasPredicatePattern rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_usesConnection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Whitelist -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Whitelist">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Collection"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_needsAffordance"/>
+        <DUL:hasMember rdf:resource="http://knowrob.org/kb/assembly_test.owl#OGP1_Pattern_usesConnection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_Workflows -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_Workflows">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Collection"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_neededByConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_neededByConnection">
+        <rdf:type rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <EASE:describesFormalProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">knowrob_assembly:neededByConnection</EASE:describesFormalProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_needsAffordance -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_needsAffordance">
+        <rdf:type rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <EASE:describesFormalProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">knowrob_assembly:needsAffordance</EASE:describesFormalProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_usedByAssemblage -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_usedByAssemblage">
+        <rdf:type rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <EASE:describesFormalProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">knowrob_assembly:usedByAssemblage</EASE:describesFormalProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/assembly_test.owl#OGP1_usesConnection -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#OGP1_usesConnection">
+        <rdf:type rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <EASE:describesFormalProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">knowrob_assembly:usesConnection</EASE:describesFormalProperty>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://knowrob.org/kb/assembly_test.owl#PatternSelection_classify -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/assembly_test.owl#PatternSelection_classify">
@@ -595,5 +948,5 @@
 
 
 
-<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
 
