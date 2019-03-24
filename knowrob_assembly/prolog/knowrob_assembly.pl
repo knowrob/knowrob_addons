@@ -52,7 +52,9 @@
         assemblage_part_connect_transforms/2,
         assemblage_part_make_reference/2,
         assemblage_remove_fixtures/1,
-        subassemblage/2
+        assemblage_linksAssemblage_restriction/2,
+        subassemblage/2,
+        assemblage_connection_affordance/2
     ]).
 
 :- use_module(library('semweb/rdf_db')).
@@ -91,6 +93,8 @@
       assemblage_part_connect_transforms(r,-),
       assemblage_part_make_reference(r,t),
       assemblage_remove_fixtures(r),
+      assemblage_linksAssemblage_restriction(r,r),
+      assemblage_connection_affordance(r,r),
       subassemblage(r,r).
 
 
@@ -174,11 +178,9 @@ assemblage_destroy_connection(Connection) :-
 %
 assemblage_connection_create(ConnType, Objects, ConnId) :-
   rdf_instance_from_class(ConnType, ConnId),
-  forall((
-    rdfs_subclass_of(ConnType,Restr),
-    rdfs_individual_of(Restr,owl:'Restriction'),
-    rdf_has(Restr, owl:onProperty, knowrob_assembly:'consumesAffordance'),
-    rdf_has(Restr, owl:'onClass', AffType)),once(((
+  forall(
+    assemblage_connection_affordance(ConnId,AffType),
+    once(((
       member(Obj,Objects),
       rdf_has(Obj, knowrob:'hasAffordance', Affordance),
       rdfs_individual_of(Affordance, AffType),
@@ -189,6 +191,12 @@ assemblage_connection_create(ConnType, Objects, ConnId) :-
       rdf_retractall(ConnId,_,_),
       fail
     )))).
+
+assemblage_connection_affordance(Connection,AffordanceConcept) :-
+  rdfs_individual_of(Connection,Restr),
+  rdfs_individual_of(Restr,owl:'Restriction'),
+  rdf_has(Restr, owl:onProperty, knowrob_assembly:'consumesAffordance'),
+  rdf_has(Restr, owl:'onClass', AffordanceConcept).
 
 %% assemblage_remove_fixtures(+Part) is det.
 %
@@ -229,7 +237,15 @@ assemblage_linksAssemblage(Assemblage, Linked) :-
   member(Linked, Links_set).
 
 assemblage_linksAssemblage_restriction(Assemblage, ChildAssemblageType) :-
+  rdfs_individual_of(Assemblage, owl:'Class'),!,
+  rdfs_subclass_of(Assemblage, Restr),
+  assemblage_linksAssemblage_restriction_(Restr, ChildAssemblageType).
+
+assemblage_linksAssemblage_restriction(Assemblage, ChildAssemblageType) :-
   rdfs_individual_of(Assemblage, Restr),
+  assemblage_linksAssemblage_restriction_(Restr, ChildAssemblageType).
+
+assemblage_linksAssemblage_restriction_(Restr, ChildAssemblageType) :-
   rdfs_individual_of(Restr, owl:'Restriction'),
   rdf_has(Restr, owl:'onProperty', knowrob_assembly:'usesConnection'),
   owl_restriction(Restr, restriction(_, cardinality(_,_,Descr))),

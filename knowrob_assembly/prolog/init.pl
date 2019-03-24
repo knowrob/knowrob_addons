@@ -37,5 +37,6 @@
 :- use_module('knowrob_assembly').
 :- use_module('knowrob_battat').
 :- use_module('assembly_perform').
+:- use_module('ogp_assembly').
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/knowrob_assembly.owl').
