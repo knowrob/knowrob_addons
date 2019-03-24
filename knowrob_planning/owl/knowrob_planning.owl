@@ -226,9 +226,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#Parameter -->
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ROSParameter -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Parameter"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ROSParameter"/>
     
 
 
@@ -618,7 +618,7 @@ The procedure of OGP methods is:
         <rdfs:subClassOf>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#Parameter"/>
+                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ROSParameter"/>
                     <rdf:Description rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Role"/>
                 </owl:unionOf>
             </owl:Class>

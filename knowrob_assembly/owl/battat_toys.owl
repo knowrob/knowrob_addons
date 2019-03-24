@@ -4713,12 +4713,6 @@
     
 
 
-    <!-- http://www.ease-crc.org/ont/EASE.owl#Gripper -->
-
-    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob.owl#SideGraspAffordance -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SideGraspAffordance"/>
@@ -4851,6 +4845,12 @@
     
 
 
+    <!-- http://www.ease-crc.org/ont/EASE.owl#Gripper -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#Gripper"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -4873,8 +4873,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneHorizontalHolder"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
-        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">-0.015 0.0 0.021</knowrob:translation>
     </owl:NamedIndividual>
@@ -4892,8 +4890,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/battat_toys.owl#BattatPlaneVerticalHolder"/>
             </owl:Restriction>
         </rdf:type>
-        <knowrob_paramserver:hasReferenceFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
-        <knowrob_paramserver:hasTargetFrame rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
         <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">-0.015 0.0 0.021</knowrob:translation>
     </owl:NamedIndividual>
@@ -5686,12 +5682,6 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
         <knowrob_paramserver:hasGraspTransform rdf:resource="http://knowrob.org/kb/battat_toys.owl#TopGraspWindowTransform_1"/>
     </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ObjectReferenceFrameSymbol"/>
 </rdf:RDF>
 
 

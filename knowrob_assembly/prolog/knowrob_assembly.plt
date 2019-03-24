@@ -74,10 +74,6 @@ unsatisfied_restrictions(Object, Restrictions) :-
       owl_unsatisfied_restriction(Object, Descr),
       owl_restriction_pl(Descr, Restr)
   ), Restrictions).
-
-
-test(assembly_axle_dae_type, [nondet]) :-
-  owl_individual_of(parts:'AxleDAE', params:'ReferenceShapeData'),!.
   
 test(assembly_axle_side_grasp_type1, [nondet]) :-
   owl_individual_of(assembly_map:'Axle1SideGrasp', parts:'AxleSideGrasp'), !.
