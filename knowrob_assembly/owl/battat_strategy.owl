@@ -29,57 +29,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasFilter -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasFilter"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPrioritizer -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPrioritizer"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasSelector -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasSelector"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasTroubleshooter -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasTroubleshooter"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#hasWorkflow -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasWorkflow"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-    
-
-
-    <!-- http://www.ease-crc.org/ont/EASE.owl#describesObject -->
-
-    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
-    
-
-
-    <!-- http://www.ease-crc.org/ont/EASE.owl#describesSubject -->
-
-    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
     
 
 
@@ -130,15 +82,9 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasPriorityValue -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasPriorityValue"/>
-    
-
-
-    <!-- http://www.ease-crc.org/ont/EASE.owl#describesProperty -->
-
-    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
+    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
     
 
 
@@ -168,13 +114,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-                <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Classification"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     </owl:Class>
     
 
@@ -185,19 +125,7 @@
         <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#AssemblyAffordance"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">neededByConnection</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -208,18 +136,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeededByConnection"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     </owl:Class>
     
 
@@ -230,19 +147,7 @@
         <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#AssemblyAffordance"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">needsAffordance</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -253,18 +158,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordance"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     </owl:Class>
     
 
@@ -275,19 +169,7 @@
         <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
-                <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
-                <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">partOccludedBy</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -298,18 +180,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#PartOccludedBySelector -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#PartOccludedBySelector">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PartOccludedBy"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     </owl:Class>
     
 
@@ -320,19 +191,7 @@
         <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">usedByAssemblage</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -343,18 +202,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblage"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     </owl:Class>
     
 
@@ -365,19 +213,7 @@
         <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesObject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesSubject"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesProperty"/>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">usesConnection</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -388,18 +224,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#isSelectorFor"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#hasTaskPredicate"/>
-                        <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsesConnection"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     </owl:Class>
     
 
@@ -422,9 +247,27 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_planning.owl#Decomposition -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Decomposition"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirst -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection"/>
     
 
 
@@ -434,33 +277,15 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#OGPContinuityQuantification -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OGPContinuityQuantification"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#OGPDepthQuantification -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OGPDepthQuantification"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#OGPInhibitionQuantification -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OGPInhibitionQuantification"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternSelection -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#SelectionByPattern"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
     
 
 
@@ -503,29 +328,13 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatOGP_Testing">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning"/>
-        <knowrob_planning:hasFilter rdf:resource="http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly"/>
-        <knowrob_planning:hasPrioritizer rdf:resource="http://knowrob.org/kb/battat_strategy.owl#BattatPriorization"/>
-        <knowrob_planning:hasTroubleshooter rdf:resource="http://knowrob.org/kb/battat_strategy.owl#BattatRecovery_Testing"/>
-        <knowrob_planning:hasWorkflow rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DeductiveClassification_1.0"/>
-        <knowrob_planning:hasWorkflow rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DeductiveDecomposition_1.0"/>
-        <knowrob_planning:hasWorkflow rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DeductiveIntegration_1.0"/>
-        <knowrob_planning:hasWorkflow rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DeductiveNullification_1.0"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://knowrob.org/kb/battat_strategy.owl#BattatPriorization -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatPriorization">
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector_19.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector_6.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector_1.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector_7.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector_5.0"/>
-    </owl:NamedIndividual>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatPriorization"/>
     
 
 
@@ -539,7 +348,6 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector_19.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">19.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
 
@@ -547,8 +355,7 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OGPContinuityQuantification"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</knowrob_planning:hasPriorityValue>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
     </owl:NamedIndividual>
     
 
@@ -556,26 +363,21 @@
     <!-- http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OGPDepthQuantification"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</knowrob_planning:hasPriorityValue>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
     </owl:NamedIndividual>
     
 
 
     <!-- http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly">
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector_1.0"/>
-        <knowrob_planning:hasSelector rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector_5.0"/>
-    </owl:NamedIndividual>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly"/>
     
 
 
     <!-- http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0 -->
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OGPInhibitionQuantification"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">99.0</knowrob_planning:hasPriorityValue>
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection"/>
     </owl:NamedIndividual>
     
 
@@ -584,7 +386,6 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector_6.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
 
@@ -593,7 +394,6 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector_1.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
 
@@ -602,7 +402,6 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector_7.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">7.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
     
 
@@ -611,32 +410,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector_5.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector"/>
-        <knowrob_planning:hasPriorityValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">5.0</knowrob_planning:hasPriorityValue>
     </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DeductiveClassification_1.0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DeductiveClassification_1.0"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DeductiveDecomposition_1.0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DeductiveDecomposition_1.0"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DeductiveIntegration_1.0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DeductiveIntegration_1.0"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DeductiveNullification_1.0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DeductiveNullification_1.0"/>
 </rdf:RDF>
 
 
