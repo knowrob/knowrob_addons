@@ -86,7 +86,7 @@ ogp_run(A0->Ax,D0->Dx,B0) :-
     ogp_agenda_specialize_task(A1,TaskDict->TaskDict_x),
     ogp_run_characterization(A1->A2,TaskDict_x,Selection),
     %%
-    print_message(informational, format('Task outcome: ~w.', [Selection])),
+    print_message(informational, format('New characteristic: ~w.', [Selection])),
     %%
     D1=[[TaskDict_x,Selection]|D0], B1=[],
     % re-add if cardinality has not reached zero

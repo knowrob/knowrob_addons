@@ -92,9 +92,7 @@ ogp_agenda_isEmpty((_,_,[])).
 %%
 % 
 ogp_agenda_pop((OGP,S0,T0)->(OGP,SX,TX),Decisions,Popped) :-
-  predsort(
-    compare_task_dicts((OGP,S0,T0)),
-    T0, [Top|T1]),
+  predsort(compare_task_dicts((OGP,S0,T0)), T0, [Top|T1]),
   ogp_task_subject(Top,S1),
   %%
   ogp_task_triple(Top,S,P,_),

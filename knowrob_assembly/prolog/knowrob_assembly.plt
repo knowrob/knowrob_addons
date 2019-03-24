@@ -389,6 +389,15 @@ test('subassemblage_queue(ChassisWithAxles)', [nondet]) :-
     assemblages_test:'AxleWithWheels',
     assemblages_test:'ChassisWithFrontAxle',
     assemblages_test:'ChassisWithAxles'
+  ], []),
+  % queue can create different sequences from partial ordering constraints.
+  test_queue_sequence(Q, [
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'ChassisWithFrontAxle',
+    assemblages_test:'ChassisWithAxles'
   ], []).
   
 test('subassemblage_queue(BodyOnChassis)', [nondet]) :-
@@ -446,12 +455,10 @@ test('ogp_characterize_entity(AxleWithLeftWheel1)', [nondet]) :-
   length(Decisions,2).
   
 test('ogp_execute_assembly(BodyOnChassis)') :-
-  %% FIXME: AxleWithWheel appears two times!!! currently this breaks.
   ogp_execute_assembly(assembly_test:'OGP1',
     assemblages_test:'BodyOnChassis', BodyOnChassis),
   % test whether BodyOnChassis is a full assemblage
   ogp_agenda_create(assembly_test:'OGP1',BodyOnChassis,A0),
-  % FIXME: agenda should not be empty, I think
   ogp_agenda_isEmpty(A0).
 
 :- end_tests(knowrob_assembly).
