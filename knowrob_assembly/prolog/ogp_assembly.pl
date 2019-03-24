@@ -51,36 +51,29 @@
 :-  rdf_meta ogp_execute_assembly(r,r,r).
 
 ogp_execute_assembly(OGP,Goal,Entity) :-
-  subassemblage_queue(Goal,As,Queue),
-  %% create assemblage symbols
-  findall(A_concept-A_entity, (
-    member(A_concept,As),
-    ogp_assemblage_create(A_concept,A_entity)),
-    AssemblagePairs),
-  dict_pairs(AssemblageDict,_,AssemblagePairs),
-  get_dict(Goal, AssemblageDict, Entity),
-  %%
-  ogp_execute_assembly_(OGP,AssemblageDict,Queue).
+  ogp_assemblage_create(Goal,Entity),
+  subassemblage_queue(Entity,AssemblageSequence,Queue),
+  ogp_execute_assembly_(OGP,AssemblageSequence,Queue).
 
 ogp_execute_assembly_(_, _, Q) :-
   subassemblage_queue_empty(Q),!.
 
-ogp_execute_assembly_(OGP, AssemblageDict, Q1) :-
-  subassemblage_queue_pop(Q1, AssemblageConcept, Q2),
+ogp_execute_assembly_(OGP, AssemblageSequence, Q1) :-
+  subassemblage_queue_pop(Q1, Assemblage, Q2),
   %%
-  print_message(informational, format('Next assemblage: ~w.', [AssemblageConcept])),
+  print_message(informational, format('Next assemblage: ~w.', [Assemblage])),
   %%
-  get_dict(AssemblageConcept, AssemblageDict, Assemblage),
+  %get_dict(AssemblageConcept, AssemblageDict, Assemblage),
   %%
   ogp_assemblage_proceed(OGP,Assemblage,_),
   !, % it is not allowed to go back, once proceeded
   forall(
     % attach Assemblage to its parent.
-    ogp_assemblage_parent(Assemblage,AssemblageDict,Parent),
+    ogp_assemblage_parent(Assemblage,AssemblageSequence,Parent),
     ogp_assemblage_link(Parent,Assemblage)
   ),
   %%
-  ogp_execute_assembly_(OGP, AssemblageDict, Q2).
+  ogp_execute_assembly_(OGP, AssemblageSequence, Q2).
 
 %%
 ogp_assemblage_proceed(OGP,Assemblage,Decisions) :-
@@ -107,28 +100,45 @@ ogp_assemblage_materialization(OGP,_Assemblage,Decisions) :-
       subassemblage_queue_peak(+,r).
 
 %% subassemblage_queue
-subassemblage_queue(Parent,Queue) :-
-  subassemblage_queue(Parent,_,Queue).
-subassemblage_queue(Parent,Assemblages,Queue) :-
-  %% first find set of required assemblages
-  subassemblages_transitive(Parent,Assemblages_list),
-  list_to_set(Assemblages_list,Assemblages),
-  %% second create constraints that child needs to be assembled before parent
-  findall(<(Child,X), (
-    member(X,Assemblages),
-    assemblage_linksAssemblage_restriction(X,Child)),
-    Constraints_list),
-  list_to_set(Constraints_list,Constraints),
-  %% finally create partially ordered queue
-  esg_assert(Assemblages,Constraints,ESG),
-  esg_to_list(ESG,Queue).
+subassemblage_queue(Entity,Queue) :-
+  subassemblage_queue(Entity,_,Queue).
 
-subassemblages_transitive(Parent,List) :-
-  findall(X, (X=Parent ; (
-    assemblage_linksAssemblage_restriction(Parent,Child),
-    subassemblages_transitive(Child,Xs),
-    member(X,Xs))),
-    List).
+subassemblage_queue(Goal,AssemblageSequence,Queue) :-
+  rdfs_individual_of(Goal,owl:'Class'),!,
+  ogp_assemblage_create(Goal,Entity),
+  subassemblage_queue(Entity,AssemblageSequence,Queue).
+
+subassemblage_queue(X0,AssemblageSequence,Queue) :-
+  subassemblages_create(X0,Subassemblages),
+  AssemblageSequence=[X0,Subassemblages],
+  subassemblages_list(AssemblageSequence,Assemblages),
+  subassemblages_constraints(AssemblageSequence,Constraints),
+  esg_assert(Assemblages,Constraints,ESG),
+  esg_to_list(ESG,Queue),!.
+
+subassemblages_create(Parent,Children) :-
+  findall([Child,ChildChildren], (
+    assemblage_linksAssemblage_restriction(Parent,ChildConcept),
+    ogp_assemblage_create(ChildConcept,Child),
+    subassemblages_create(Child,ChildChildren)
+  ), Children).
+
+subassemblages_constraints([Parent,Children],Constraints) :-
+  findall(<(X,Y), (
+    member(Child,Children), (
+    ( Child=[X,_], Y=Parent );
+    ( subassemblages_constraints(Child,ChildConstraints),
+      member(<(X,Y), ChildConstraints) )
+    )
+  ), Constraints).
+
+subassemblages_list([Parent,Children],Assemblages) :-
+  findall(X, (
+    ( X = Parent ) ; (
+    member(Child,Children), 
+    subassemblages_list(Child,Xs),
+    member(X,Xs))
+  ), Assemblages).
 
 subassemblage_queue_pop(In,Elem,Out) :-
   esg_pop(In,-Elem,X),
@@ -153,10 +163,16 @@ ogp_assemblage_child(Parent,AssemblageDict,Child) :-
   assemblage_linksAssemblage_restriction(Parent,ChildConcept),
   get_dict(ChildConcept,AssemblageDict,Child).
 
-ogp_assemblage_parent(Child,AssemblageDict,Parent) :-
-  get_dict(ChildConcept,AssemblageDict,Child),
-  get_dict(_,AssemblageDict,Parent), Parent \= Child,
-  assemblage_linksAssemblage_restriction(Parent,ChildConcept).
+ogp_assemblage_parent(X,[Parent,Children],Parent) :-
+  once(member([X,_],Children)),!.
+ogp_assemblage_parent(X,[_,Children],Parent) :-
+  member(Child,Children),
+  ogp_assemblage_parent(X,Child,Parent),!.
+
+%ogp_assemblage_parent(Child,AssemblageDict,Parent) :-
+  %get_dict(ChildConcept,AssemblageDict,Child),
+  %get_dict(_,AssemblageDict,Parent), Parent \= Child,
+  %assemblage_linksAssemblage_restriction(Parent,ChildConcept).
 
 ogp_assemblage_link(Parent,Child) :-
   rdf_has(Parent,knowrob_assembly:'usesConnection',ParentConn),

@@ -363,33 +363,44 @@ test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
 
 test_queue_sequence(Q0,[],Q0) :- !.
 test_queue_sequence(Q0,[X|Xs],Qx) :-
-  subassemblage_queue_pop(Q0,X,Q1),
+  subassemblage_queue_pop(Q0,X_ent,Q1),
+  once(owl_individual_of(X_ent,X)),
   test_queue_sequence(Q1,Xs,Qx).
+
+subassemblage_sequence([],[]) :-!.
+subassemblage_sequence(Q0,[X|Xs]) :-
+  subassemblage_queue_pop(Q0,X,Q1),
+  subassemblage_sequence(Q1,Xs).
   
-test('subassemblage_queue(BodyOnChassis)') :-
-  subassemblage_queue(assemblages_test:'BodyOnChassis',Q),
+  
+test('subassemblage_queue(AxleWithWheels)', [nondet]) :-
+  subassemblage_queue(assemblages_test:'AxleWithWheels',Q),
+  test_queue_sequence(Q, [
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels'
+  ], []).
+  
+test('subassemblage_queue(ChassisWithAxles)', [nondet]) :-
+  subassemblage_queue(assemblages_test:'ChassisWithAxles',Q),
   test_queue_sequence(Q, [
     assemblages_test:'AxleWithLeftWheel',
     assemblages_test:'AxleWithWheels',
-    assemblages_test:'ChassisWithFrontAxle',
-    assemblages_test:'ChassisWithAxles',
-    assemblages_test:'BodyOnChassis'
-  ], []).
-  
-test('subassemblage_queue(ChassisWithAxles)') :-
-  subassemblage_queue(assemblages_test:'ChassisWithAxles',Q),
-  test_queue_sequence(Q, [
     assemblages_test:'AxleWithLeftWheel',
     assemblages_test:'AxleWithWheels',
     assemblages_test:'ChassisWithFrontAxle',
     assemblages_test:'ChassisWithAxles'
   ], []).
   
-test('subassemblage_queue(AxleWithWheels)') :-
-  subassemblage_queue(assemblages_test:'AxleWithWheels',Q),
+test('subassemblage_queue(BodyOnChassis)', [nondet]) :-
+  subassemblage_queue(assemblages_test:'BodyOnChassis',Q),
   test_queue_sequence(Q, [
     assemblages_test:'AxleWithLeftWheel',
-    assemblages_test:'AxleWithWheels'
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'ChassisWithFrontAxle',
+    assemblages_test:'ChassisWithAxles',
+    assemblages_test:'BodyOnChassis'
   ], []).
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
