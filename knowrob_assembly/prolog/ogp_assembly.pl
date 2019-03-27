@@ -103,42 +103,64 @@ ogp_assemblage_materialization(OGP,_Assemblage,Decisions) :-
 subassemblage_queue(Entity,Queue) :-
   subassemblage_queue(Entity,_,Queue).
 
-subassemblage_queue(Goal,AssemblageSequence,Queue) :-
+subassemblage_queue(Goal,Assemblages,Queue) :-
   rdfs_individual_of(Goal,owl:'Class'),!,
   ogp_assemblage_create(Goal,Entity),
-  subassemblage_queue(Entity,AssemblageSequence,Queue).
+  subassemblage_queue(Entity,Assemblages,Queue).
 
-subassemblage_queue(X0,AssemblageSequence,Queue) :-
-  subassemblages_create(X0,Subassemblages),
-  AssemblageSequence=[X0,Subassemblages],
-  subassemblages_list(AssemblageSequence,Assemblages),
-  subassemblages_constraints(AssemblageSequence,Constraints),
-  esg_assert(Assemblages,Constraints,ESG),
+subassemblage_queue(X0,Assemblages,Queue) :-
+  subassembly_constraints(X0,[],Constraints),
+  findall(A, (A=X0 ;
+    member(<(A,_),Constraints) ; 
+    member(<(_,A),Constraints)),
+    Assemblages),
+  list_to_set(Assemblages,Assemblages_set),
+  esg_assert(Assemblages_set,Constraints,ESG),
   esg_to_list(ESG,Queue),!.
 
-subassemblages_create(Parent,Children) :-
+subassemblages_create(Parent,Assemblages,Children) :-
   findall([Child,ChildChildren], (
     assemblage_linksAssemblage_restriction(Parent,ChildConcept),
-    ogp_assemblage_create(ChildConcept,Child),
-    subassemblages_create(Child,ChildChildren)
+    once((
+    ( member(Child,Assemblages),
+      owl_individual_of(Child,ChildConcept),
+      ChildChildren=[] );
+    ( ogp_assemblage_create(ChildConcept,Child),
+      subassemblages_create(Child,Assemblages,ChildChildren) )))
   ), Children).
 
-subassemblages_constraints([Parent,Children],Constraints) :-
-  findall(<(X,Y), (
-    member(Child,Children), (
-    ( Child=[X,_], Y=Parent );
-    ( subassemblages_constraints(Child,ChildConstraints),
-      member(<(X,Y), ChildConstraints) )
-    )
-  ), Constraints).
+subassembly_constraints(Root,X,Constraints) :-
+  subassemblages_create(Root,X,RootSubassemblages),
+  RootSequence=[Root,RootSubassemblages],
+  subassemblages_list(RootSequence,Assemblages),
+  list_to_set(Assemblages,Assemblages_set),
+  %%
+  findall(C, (
+    subassemblages_constraint(RootSequence,C) ;
+    parent_assemblage_constraint(Assemblages_set,X,C)),
+    Constraints).
 
-subassemblages_list([Parent,Children],Assemblages) :-
-  findall(X, (
-    ( X = Parent ) ; (
-    member(Child,Children), 
-    subassemblages_list(Child,Xs),
-    member(X,Xs))
-  ), Assemblages).
+parent_assemblage_constraint([A|_],X,C) :-
+  \+ member(A,X),
+  assemblage_linkedByAssemblage_restriction(A,ParentConcept),
+  ogp_assemblage_create(ParentConcept,Parent),
+  subassembly_constraints(Parent,[A],Constraints),
+  ( C = <(A,Parent) ; member(C,Constraints) ).
+parent_assemblage_constraint([_|As],X,C) :-
+  parent_assemblage_constraint(As,X,C).
+
+subassemblages_constraint([Parent,Children],<(X,Y)) :-
+  member(Child,Children), (
+  ( Child=[X,_], Y=Parent )
+  ; subassemblages_constraint(Child,<(X,Y)) ).
+
+subassemblages_list([],[]) :- !.
+subassemblages_list([Parent,Children],[Parent|Ys]) :-
+  findall(Y, (
+    member(Next,Children),
+    subassemblages_list(Next, Next_s),
+    member(Y,Next_s)),
+    Ys).
 
 subassemblage_queue_pop(In,Elem,Out) :-
   esg_pop(In,-Elem,X),

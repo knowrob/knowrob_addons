@@ -84,7 +84,10 @@ ogp_run(A0->Ax,D0->Dx,B0) :-
   %%%%%%%%%%%%
   ((
     ogp_agenda_specialize_task(A1,TaskDict->TaskDict_x),
-    ogp_run_characterization(A1->A2,TaskDict_x,Selection),
+    ( ogp_run_characterization(A1->A2,TaskDict_x,Selection) -> true ; (
+      ogp_task_triple(TaskDict,S,P,_),
+      print_message(warning, format('Task execution failed: (~w,~w).', [S,P])),
+      fail)),
     %%
     print_message(informational, format('New characteristic: ~w.', [Selection])),
     %%
@@ -96,10 +99,6 @@ ogp_run(A0->Ax,D0->Dx,B0) :-
     -> ogp_agenda_push(A2->A3,TaskDict)
     ;  A3=A2 )
   );(
-    ogp_task_triple(TaskDict,S,P,_),
-    print_message(warning, format('Task execution failed: (~w,~w).', [S,P])),
-    %% TODO: first implementation tried to detach stuff before giving up (agenda_add_candidates)
-    % the task execution has failed,
     ogp_task_inhibit(TaskDict),
     A3=A0, D1=D0, B1=[TaskDict|B0]
   )),
@@ -117,7 +116,6 @@ ogp_run((OGP,S,_)->(OGP,S,[]),D0->D0,_).
 :- rdf_meta ogp_quantification_criteria(r,t).
 
 %%
-% TODO: better just use linked list of criteria?!?
 ogp_quantification_criteria(OGP, Criteria) :-
   rdf_has(OGP,knowrob_planning:hasPrioritizedOrdering,Collection),
   findall(C, rdf_has(Collection, dul:hasMember, C), Cs),
@@ -176,6 +174,15 @@ ogp_run_characterization_FIXED(TaskDict,OutputDict) :-
   ( rdf_has(S,P,Domain), O = Domain )),
   rdf_equal(Key,knowrob_planning:'Nullification_OGP_Outcome'),
   dict_pairs(OutputDict,_,[Key-O]).
+
+ogp_run_characterization_FIXED(TaskDict,OutputDict) :-
+  ogp_task_quantification(TaskDict),!,
+  %% domain must already be a region
+  ogp_task_triple(TaskDict,_,_,Region),
+  rdfs_individual_of(Region,dul:'Region'),
+  %%
+  rdf_equal(Key,knowrob_planning:'Quantification_OGP_Outcome'),
+  dict_pairs(OutputDict,_,[Key-Region]).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % % % % % % % % % % 

@@ -25,14 +25,4 @@ test('ogp_execute_assembly(BattatPlaneBodyWithoutWindow)') :-
   ogp_agenda_create(assembly_test:'OGP1',BodyOnChassis,A0),
   ogp_agenda_isEmpty(A0).
 
-%test(assembly_BattatPlaneBodyWithoutWindow) :-
-  %rdf_instance_from_class(battat_toys:'BattatPlaneBodyWithoutWindow', BattatPlaneBody),
-  %rdf_assert(BattatPlaneBody, rdf:type, owl:'NamedIndividual'),
-  %agenda_create(BattatPlaneBody, battat_strategy:'AgendaStrategy_1', Agenda),
-  %test_perform_agenda(Agenda).
-
-%test_perform_agenda(Agenda) :-
-  %%agenda_write(Agenda),
-  %(agenda_perform_next(Agenda) -> test_perform_agenda(Agenda) ; true).
-
 :- end_tests(knowrob_battat).

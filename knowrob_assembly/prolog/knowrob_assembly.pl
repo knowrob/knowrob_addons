@@ -53,6 +53,7 @@
         assemblage_part_make_reference/2,
         assemblage_remove_fixtures/1,
         assemblage_linksAssemblage_restriction/2,
+        assemblage_linkedByAssemblage_restriction/2,
         subassemblage/2,
         assemblage_connection_affordance/2
     ]).
@@ -94,6 +95,7 @@
       assemblage_part_make_reference(r,t),
       assemblage_remove_fixtures(r),
       assemblage_linksAssemblage_restriction(r,r),
+      assemblage_linkedByAssemblage_restriction(r,r),
       assemblage_connection_affordance(r,r),
       subassemblage(r,r).
 
@@ -248,12 +250,28 @@ assemblage_linksAssemblage_restriction(Assemblage, ChildAssemblageType) :-
 assemblage_linksAssemblage_restriction_(Restr, ChildAssemblageType) :-
   rdfs_individual_of(Restr, owl:'Restriction'),
   rdf_has(Restr, owl:'onProperty', knowrob_assembly:'usesConnection'),
+  % TODO: do not ignore cardinality
   owl_restriction(Restr, restriction(_, cardinality(_,_,Descr))),
   owl_description(Descr, Descr_x),
   ( Descr_x = restriction('http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage', some_values_from(ChildAssemblageType)) ; (
     Descr_x = intersection_of(List),
     member(restriction('http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage', some_values_from(ChildAssemblageType)), List)
   )).
+
+assemblage_linkedByAssemblage_restriction(Assemblage, ChildAssemblageType) :-
+  rdfs_individual_of(Assemblage, owl:'Class'),!,
+  rdfs_subclass_of(Assemblage, Restr),
+  assemblage_linkedByAssemblage_restriction_(Restr, ChildAssemblageType).
+
+assemblage_linkedByAssemblage_restriction(Assemblage, ChildAssemblageType) :-
+  rdfs_individual_of(Assemblage, Restr),
+  assemblage_linkedByAssemblage_restriction_(Restr, ChildAssemblageType).
+
+assemblage_linkedByAssemblage_restriction_(Restr, ChildAssemblageType) :-
+  rdfs_individual_of(Restr, owl:'Restriction'),
+  rdf_has(Restr, owl:'onProperty', knowrob_assembly:'linkedByAssemblage'),
+  % TODO: do not ignore cardinality
+  owl_restriction(Restr, restriction(_, cardinality(_,_,ChildAssemblageType))).
 
 %% assemblage_graspable_part(+Assemblage,+Part) is det.
 %
