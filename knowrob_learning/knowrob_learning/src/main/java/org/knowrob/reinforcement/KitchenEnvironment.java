@@ -818,7 +818,7 @@ public class KitchenEnvironment extends AbstractNodeMain implements Environment
 			else
 			{
 				Pr2GripperCommand gripper_cmd = gripper_publisher.newMessage();
-				gripper_cmd.setPosition(0.0);
+				gripper_cmd.setPosition((0.0);
 				gripper_cmd.setMaxEffort(100.0);
 				gripper_publisher.publish(gripper_cmd);
 			
