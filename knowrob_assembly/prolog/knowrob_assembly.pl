@@ -414,10 +414,10 @@ assemblage_connection_reference(Connection, TransformId, ReferenceObj) :-
 assemblage_part_make_reference(RefObj, OldParents) :-
   assemblage_transform_parents(RefObj, ChildParentTuples, []),
   findall( Parent, (
-    member((Child,_Parent), ChildParentTuples),
+    member((Child,Parent), ChildParentTuples),
     belief_at_id(Child,Pose),
     transform_invert(Pose,Pose_inv),
-    belief_at_update(Child,Pose_inv)
+    belief_at_update(Parent,Pose_inv)
     %belief_at_invert_topology(Child,Parent)
   ), OldParents).
 
