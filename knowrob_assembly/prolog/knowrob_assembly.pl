@@ -399,8 +399,21 @@ assemblage_connection_transform(Connection, PrimaryObject, [TargetFrame,RefFrame
 %
 assemblage_connection_reference(_Connection, TransformId, ReferenceObj) :-
   rdf_has(TransformId, knowrob:'relativeTo', ReferenceObj), !.
+
+
+assemblage_connection_reference(Parts, TransformId, ReferenceObj) :-
+  % FIXME: won't work when multiple instances of the reference object class are linked in the connection
+  is_list(Parts),!,
+  rdfs_individual_of(TransformId, Restr),
+  rdfs_individual_of(Restr, owl:'Restriction'),
+  rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),
+  rdf_has(Restr, owl:'onClass', ReferenceCls),
+  member(ReferenceObj,Parts),
+  owl_individual_of(ReferenceObj,ReferenceCls), !.
+  
 assemblage_connection_reference(Connection, TransformId, ReferenceObj) :-
   % FIXME: won't work when multiple instances of the reference object class are linked in the connection
+  atom(Connection),
   rdfs_individual_of(TransformId, Restr),
   rdfs_individual_of(Restr, owl:'Restriction'),
   rdf_has(Restr, owl:'onProperty', knowrob:'relativeTo'),

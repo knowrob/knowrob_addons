@@ -82,9 +82,9 @@ battat_sim_plane_connection(ConnType, Primary, Parts, Conn) :-
   write('    parts:   '), owl_write_readable(Parts), nl,
   forall( rdf_has(Conn, knowrob_assembly:'blocksAffordance', Aff), (
           write('    blocksAffordance '), owl_write_readable(Aff), nl )),
-  apply_connection(Primary, Conn).
+  apply_connection(Primary, Conn, Parts).
 
-apply_connection(PrimaryObject, Connection) :-
+apply_connection(PrimaryObject, Connection, Parts) :-
   %%%% input checking
   ground(PrimaryObject), ground(Connection),
   assemblage_mechanical_part(PrimaryObject),
@@ -94,7 +94,7 @@ apply_connection(PrimaryObject, Connection) :-
   once(owl_has(Connection, knowrob_assembly:'usesTransform', TransformId)),
   transform_data(TransformId, TransformData),
   assemblage_part_make_reference(PrimaryObject, Parents),
-  assemblage_connection_reference(Connection, TransformId, ReferenceObject),
+  assemblage_connection_reference(Parts, TransformId, ReferenceObject),
   belief_at_internal(PrimaryObject, TransformData, ReferenceObject),
   belief_republish_objects([PrimaryObject|Parents]).
 
