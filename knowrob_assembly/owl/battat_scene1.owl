@@ -13,7 +13,7 @@
      xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/battat_scene1.owl">
         <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_toys.owl"/>
-        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_simulation.owl"/>
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_iai_18.owl"/>
     </owl:Ontology>
     
     <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneBottomWingInitialTransform_1 -->
