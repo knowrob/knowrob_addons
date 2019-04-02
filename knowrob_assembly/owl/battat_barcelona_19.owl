@@ -70,9 +70,8 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneVerticalHolderTransform_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
-        <!-- TODO: add proper values here -->
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 0.5 0.5 0.5</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.9 0.4 0.0</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.73 0.4 0.0</knowrob:translation>
     </owl:NamedIndividual>
     
 

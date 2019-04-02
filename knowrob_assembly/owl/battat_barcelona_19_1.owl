@@ -55,7 +55,7 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <!-- TODO: add proper values here -->
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 0.5 0.5 0.5</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.85 0.33 0.0</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.65 0.33 0.0</knowrob:translation>
     </owl:NamedIndividual>
 
 
@@ -65,7 +65,7 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <!-- TODO: add proper values here -->
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865476 0.0 0.0 0.7071067811865476</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.85 0.47 0.0</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.65 0.47 0.0</knowrob:translation>
     </owl:NamedIndividual>
     
 
@@ -93,7 +93,7 @@
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
         <!-- TODO: add proper values here -->
         <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.7 0.4 0.0</knowrob:translation>
+        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.55 0.4 0.0</knowrob:translation>
     </owl:NamedIndividual>
 
 
