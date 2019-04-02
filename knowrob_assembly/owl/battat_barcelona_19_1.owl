@@ -85,22 +85,6 @@
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneFrontWheelTransform_2"/>
         <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneFrontWheelTransform_2"/>
     </owl:NamedIndividual>
-
-    <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
-        <!-- TODO: add proper values here -->
-        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
-        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">-1.05 1.25 2.89</knowrob:translation>
-    </owl:NamedIndividual>
-
-    <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrill_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrill_1">
-        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1"/>
-        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1"/>
-    </owl:NamedIndividual>
     
 
     <!-- http://knowrob.org/kb/battat_simulation.owl#PlanePropellerInitialTransform_1 -->
