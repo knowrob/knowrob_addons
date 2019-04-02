@@ -216,7 +216,7 @@
         <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#SmallTableInitialTransform_1"/>
         <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#SmallTableInitialTransform_1"/>
-        <knowrob:boundingBoxSize rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.3 0.3 0.1</knowrob:boundingBoxSize>
+        <knowrob:boundingBoxSize rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.3 0.2 0.1</knowrob:boundingBoxSize>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#SmallTableInitialTransform_1">
@@ -232,7 +232,7 @@
         <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
         <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BigTableInitialTransform_1"/>
         <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BigTableInitialTransform_1"/>
-        <knowrob:boundingBoxSize rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">1.2 0.8 0.1</knowrob:boundingBoxSize>
+        <knowrob:boundingBoxSize rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">1.06 0.9 0.1</knowrob:boundingBoxSize>
     </owl:NamedIndividual>
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BigTableInitialTransform_1">
