@@ -31,8 +31,12 @@
 
 :- register_ros_package(knowrob_common).
 
+:- owl_parser:owl_parse('package://knowrob_planning/owl/knowrob_planning.owl').
+:- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
+
 :- use_module(library('knowrob_planning')).
 :- use_module(library('owl_planning')).
 
-:- owl_parser:owl_parse('package://knowrob_planning/owl/knowrob_planning.owl').
-:- rdf_db:rdf_register_ns(knowrob_planning, 'http://knowrob.org/kb/knowrob_planning.owl#', [keep(true)]).
+:- use_module(library('ogp_task')).
+:- use_module(library('ogp_agenda')).
+:- use_module(library('ogp')).

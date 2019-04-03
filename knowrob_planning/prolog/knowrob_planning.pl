@@ -390,7 +390,7 @@ agenda_item_type(item(detach,_,_,_,_),    'http://knowrob.org/kb/knowrob_plannin
 agenda_item_type(item(classify,_,_,_,_),  'http://knowrob.org/kb/knowrob_planning.owl#Classification')  :- !.
 agenda_item_type(Item, Type) :-
   rdf(Item, rdf:'type', Type),
-  rdfs_subclass_of(Type, knowrob_planning:'KBTask'), !.
+  rdfs_subclass_of(Type, dul:'Task'), !.
 
 %% agenda_item_subject(?Item,?S)
 %

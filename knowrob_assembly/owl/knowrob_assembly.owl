@@ -22,23 +22,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#todo -->
-
-    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/knowrob.owl#todo"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -128,26 +111,11 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance">
         <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance"/>
         <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
     </owl:ObjectProperty>
     
 
@@ -163,7 +131,6 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#graspAt -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#graspAt">
-        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob.owl#GraspingAffordance"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
     </owl:ObjectProperty>
     
@@ -243,7 +210,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage">
-        <rdfs:subPropertyOf rdf:resource="http://www.ease.org/ont/EASE.owl#involvesArtifact"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#involvesArtifact"/>
         <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
         <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
@@ -308,24 +275,6 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesConnection -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection">
@@ -341,7 +290,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesGripper -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesGripper">
-        <rdfs:subPropertyOf rdf:resource="http://www.ease.org/ont/EASE.owl#involvesEffector"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#involvesEffector"/>
     </owl:ObjectProperty>
     
 
@@ -374,15 +323,15 @@
     
 
 
-    <!-- http://www.ease.org/ont/EASE.owl#involvesArtifact -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#involvesArtifact -->
 
-    <owl:ObjectProperty rdf:about="http://www.ease.org/ont/EASE.owl#involvesArtifact"/>
+    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#involvesArtifact"/>
     
 
 
-    <!-- http://www.ease.org/ont/EASE.owl#involvesEffector -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#involvesEffector -->
 
-    <owl:ObjectProperty rdf:about="http://www.ease.org/ont/EASE.owl#involvesEffector"/>
+    <owl:ObjectProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#involvesEffector"/>
     
 
 
@@ -516,48 +465,16 @@
     <!-- http://knowrob.org/kb/knowrob.owl#ConnectingTogether -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#ConnectingTogether">
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalAction"/>
     </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#Connection-Physical -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#GraspingAffordance -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#GraspingAffordance"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#HumanScaleObject -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#HumanScaleObject">
-        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
     
 
 
     <!-- http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PuttingSomethingSomewhere">
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalAction"/>
     </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#SpatialThing-Localized -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#SpatialThing-Localized"/>
     
 
 
@@ -565,10 +482,6 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ActionSpecification">
         <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Description"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
     </owl:Class>
     
 
@@ -600,8 +513,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalState"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
@@ -609,9 +521,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#AssemblyAffordance"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
     </owl:Class>
     
 
@@ -620,18 +529,6 @@
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
-                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -712,7 +609,6 @@
                 <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <knowrob:todo>also assert that affordances must not be occluded</knowrob:todo>
     </owl:Class>
     
 
@@ -736,42 +632,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
-        <rdfs:subClassOf rdf:resource="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Interval -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Interval">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime"/>
-                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime"/>
-                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#PhysicalState"/>
     </owl:Class>
     
 
@@ -798,10 +659,7 @@
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#HumanScaleObject"/>
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
         <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalArtifact"/>
-        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
     </owl:Class>
     
 
@@ -1014,149 +872,10 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts">
-        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob classes instead</knowrob:todo>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Interval"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Interval"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob temporal part representation</knowrob:todo>
-    </owl:Class>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryAssemblyConnection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryAssemblyConnection">
         <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Affordance"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType"/>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType"/>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType"/>
-                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart"/>
-                        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart"/>
-                        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                        <owl:onClass>
-                            <owl:Class>
-                                <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-                                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp"/>
-                                </owl:unionOf>
-                            </owl:Class>
-                        </owl:onClass>
-                    </owl:Restriction>
-                </owl:unionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart"/>
-                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TimePoint -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint">
-        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
     </owl:Class>
     
 
@@ -1215,27 +934,15 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ReferenceShapeData -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#PhysicalAction -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ReferenceShapeData"/>
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#PhysicalAction"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#PhysicalState -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM"/>
-    
-
-
-    <!-- http://www.ease.org/ont/EASE.owl#PhysicalAction -->
-
-    <owl:Class rdf:about="http://www.ease.org/ont/EASE.owl#PhysicalAction"/>
-    
-
-
-    <!-- http://www.ease.org/ont/EASE.owl#PhysicalState -->
-
-    <owl:Class rdf:about="http://www.ease.org/ont/EASE.owl#PhysicalState"/>
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#PhysicalState"/>
     
 
 
@@ -1254,23 +961,6 @@
     <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject -->
 
     <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Individuals
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol"/>
 </rdf:RDF>
 
 

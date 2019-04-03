@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/battat_iai_18.owl#"
+     xml:base="http://knowrob.org/kb/battat_iai_18.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:battat_simulation="http://knowrob.org/kb/battat_simulation.owl#"
+     xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:knowrob_assembly="http://knowrob.org/kb/knowrob_assembly.owl#"
+     xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/battat_iai_18.owl">
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_toys.owl"/>
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_simulation.owl"/>
+    </owl:Ontology>
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BottomWingHolderInitialTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BottomWingHolderInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 1.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.65 -0.4 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#TopWingHolderInitialTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#TopWingHolderInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 1.0 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.65 -0.238 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneHorizontalHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneHorizontalHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 0.5 0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.72 0.0 0.1</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatBoltHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatBoltHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.4 -0.2 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneVerticalHolderTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneVerticalHolderTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.5 0.5 0.5 0.5</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.73 0.4 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#WindowHolderInitialTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#WindowHolderInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <!-- TODO: add proper values here -->
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.9 -0.2 0.0</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatBoltHolder_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatBoltHolder_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BattatBoltHolderTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BattatBoltHolderTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatBottomWingHolder_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatBottomWingHolder_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BottomWingHolderInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BottomWingHolderInitialTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatNut_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatNut_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatNut_2 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatNut_2">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_2"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_2"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatPlaneHorizontalHolder_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatPlaneHorizontalHolder_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneHorizontalHolderTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneHorizontalHolderTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatPlaneVerticalHolder_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatPlaneVerticalHolder_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneVerticalHolderTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneVerticalHolderTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatTopWingHolder_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatTopWingHolder_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#TopWingHolderInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#TopWingHolderInitialTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#BattatWindowHolder_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BattatWindowHolder_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#WindowHolderInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#WindowHolderInitialTransform_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <!-- TODO: add proper values here -->
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.85 0.25 -0.01</knowrob:translation>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_2 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#NutInitialTransform_2">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <!-- TODO: add proper values here -->
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865476 0.0 0.7071067811865476 0.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://www.w3.org/2001/XMLSchema#vec3">0.85 0.2 -0.01</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    
+    
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#MotorGrillSlideInUnderBody_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#MotorGrillSlideInUnderBody"/>
+        <knowrob_assembly:consumesAffordance rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillSlideInF_1"/>
+        <knowrob_assembly:consumesAffordance rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillSlideInM_1"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#MotorGrillOnUnderBody_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_toys.owl#MotorGrillOnUnderBody"/>
+        <knowrob_assembly:usesConnection rdf:resource="http://knowrob.org/kb/battat_simulation.owl#MotorGrillSlideInUnderBody_1"/>
+        <knowrob_assembly:assemblageEstablished rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</knowrob_assembly:assemblageEstablished>
+    </owl:NamedIndividual>
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrill_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrill_1">
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1"/>
+    </owl:NamedIndividual>
+
+    <!-- http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#PlaneMotorGrillInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:relativeTo rdf:resource="http://knowrob.org/kb/battat_simulation.owl#PlaneUnderBody_1"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.7071067811865476 0.0 0.0 0.7071067811865476</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.0 -0.088 -0.017</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    
+    
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#SmallTable_1">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#SmallTableInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#SmallTableInitialTransform_1"/>
+        <knowrob:boundingBoxSize rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.3 0.2 0.1</knowrob:boundingBoxSize>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#SmallTableInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.72 0.0 0.05</knowrob:translation>
+    </owl:NamedIndividual>
+    
+    
+    
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BigTable_1">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
+        <knowrob_paramserver:hasInitialTransform rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BigTableInitialTransform_1"/>
+        <knowrob:pose rdf:resource="http://knowrob.org/kb/battat_simulation.owl#BigTableInitialTransform_1"/>
+        <knowrob:boundingBoxSize rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">1.06 0.9 0.1</knowrob:boundingBoxSize>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_simulation.owl#BigTableInitialTransform_1">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#Transform"/>
+        <knowrob:quaternion rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec4">0.0 0.0 0.0 1.0</knowrob:quaternion>
+        <knowrob:translation rdf:datatype="http://knowrob.org/kb/knowrob.owl#vec3">0.6 0.0 -0.05</knowrob:translation>
+    </owl:NamedIndividual>
+    
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
