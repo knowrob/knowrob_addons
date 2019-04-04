@@ -57,7 +57,12 @@ ogp_hasMaterializationStep(OGP) :- fail.
 :- rdf_meta ogp_characterize_entity(r,r,t),
             ogp_run(t,t).
 
-%%  
+%% ogp_characterize_entity(+OGP,+Entity,-Decisions) is nondet.
+%
+% @param OGP::iri OGP method individual.
+% @param Entity::iri The entity to characterize.
+% @param Decisions::list A list of triples that characterize the entity.
+%
 ogp_characterize_entity(OGP,Entity,Decisions) :-
   ogp_agenda_create(OGP,Entity,A0),
   ogp_run(A0->_,[]->Dx),
@@ -145,7 +150,6 @@ ogp_run_characterization(Agenda, TaskDict, Selection) :-
 %%
 ogp_run_characterization_WF(TaskDict,_IndividualTask,_InputDict,OutputDict) :-
   % TODO: Execute characterization workflows, if available
-  %           - catch WF errors
   ogp_run_characterization_FIXED(TaskDict,OutputDict).
 
 %%
