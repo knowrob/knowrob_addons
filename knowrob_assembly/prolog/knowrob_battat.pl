@@ -96,6 +96,8 @@ apply_connection(PrimaryObject, Connection, Parts) :-
   assemblage_part_make_reference(PrimaryObject, Parents),
   assemblage_connection_reference(Parts, TransformId, ReferenceObject),
   belief_at_internal(PrimaryObject, TransformData, ReferenceObject),
+  write('    transform:   '), owl_write_readable(
+    [PrimaryObject, TransformData, ReferenceObject]), nl,
   belief_republish_objects([PrimaryObject|Parents]).
 
 :- dynamic put_away_performed/2.
