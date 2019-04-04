@@ -186,6 +186,8 @@ owl_specializable_(Resource, union_of(List)) :-
   % specializable if resource is specializable to at least one of the classes of the union
   member(Cls,List), owl_specializable(Resource, Cls), !.
 
+% TODO: this is not needed?!? because resource is realization
+%           of the complement_of class anyway, if this clause holds
 owl_specializable_(Resource, complement_of(Restr)) :-
   atom(Restr),
   rdfs_individual_of(Restr, owl:'Restriction'), !,
