@@ -48,22 +48,50 @@
 % % % % % % % % % % % assembly procedure
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
+% TODO TODO TODO
+%
+% XXXXXX try to use existing assemblages XXXXXX
+% - allow to start with an existing assemblage, use existing sub-assemblages in the queue
+%      !! take apart !!
+% - prefer to use existing assemblage instead of a newly created one
+%      !! the motor grill sub-assemblage !!
+%
+% XXXXXX take apart destroyed assemblages XXXXXX
+% - assemblages that were selected initially could be destroyed in the course
+%    of bottom-up assembly
+% - they would get retracted, hence, after each materialize with cut!
+%   also update the queue, and handle destroyed assemblages by creating
+%   a new assemblage symbol
+%
+% TODO TODO TODO
+
 :-  rdf_meta ogp_execute_assembly(r,r,r).
 
+%% ogp_execute_assembly(+OGP,+Goal,-Entity)
+%
+% Execute an assembly task, following a *OGP* method.
+% *Goal* is an assemblage concept that shall be
+% materialized. *Entity* is the symbolic
+% representation of the manifested assemblage.
+%
 ogp_execute_assembly(OGP,Goal,Entity) :-
+  rdfs_individual_of(Goal,owl:'Class'),!,
   ogp_assemblage_create(Goal,Entity),
   subassemblage_queue(Entity,AssemblageSequence,Queue),
   ogp_execute_assembly_(OGP,AssemblageSequence,Queue).
+
+ogp_execute_assembly(_OGP,Goal,_Entity) :-
+  rdfs_individual_of(Goal,owl:'NamedIndividual'),!,
+  print_message(error, format('ogp_execute_assembly does not accept assemblage individuals.')),
+  fail.
 
 ogp_execute_assembly_(_, _, Q) :-
   subassemblage_queue_empty(Q),!.
 
 ogp_execute_assembly_(OGP, AssemblageSequence, Q1) :-
+  %%
   subassemblage_queue_pop(Q1, Assemblage, Q2),
-  %%
   print_message(informational, format('Next assemblage: ~w.', [Assemblage])),
-  %%
-  %get_dict(AssemblageConcept, AssemblageDict, Assemblage),
   %%
   ogp_assemblage_proceed(OGP,Assemblage,_),
   !, % it is not allowed to go back, once proceeded
@@ -88,6 +116,9 @@ ogp_assemblage_materialization(OGP,_,_) :-
 ogp_assemblage_materialization(OGP,_Assemblage,Decisions) :-
   %assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts),
   writeln('not implemented ogp_assemblage_materialization'), % TODO
+  %% TODO
+  % - get primary / secondary parts 
+  % - get grasps
   fail.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
@@ -99,9 +130,13 @@ ogp_assemblage_materialization(OGP,_Assemblage,Decisions) :-
       subassemblage_queue_pop(+,r,-),
       subassemblage_queue_peak(+,r).
 
-%% subassemblage_queue
-subassemblage_queue(Entity,Queue) :-
-  subassemblage_queue(Entity,_,Queue).
+%% subassemblage_queue(+Goal,-Queue) is det.
+%
+% @param Goal An assemblage concept or individual.
+% @param Queue A partially ordered queue of sub-assemblages.
+%
+subassemblage_queue(Goal,Queue) :-
+  subassemblage_queue(Goal,_,Queue).
 
 subassemblage_queue(Goal,Assemblages,Queue) :-
   rdfs_individual_of(Goal,owl:'Class'),!,
@@ -190,11 +225,6 @@ ogp_assemblage_parent(X,[Parent,Children],Parent) :-
 ogp_assemblage_parent(X,[_,Children],Parent) :-
   member(Child,Children),
   ogp_assemblage_parent(X,Child,Parent),!.
-
-%ogp_assemblage_parent(Child,AssemblageDict,Parent) :-
-  %get_dict(ChildConcept,AssemblageDict,Child),
-  %get_dict(_,AssemblageDict,Parent), Parent \= Child,
-  %assemblage_linksAssemblage_restriction(Parent,ChildConcept).
 
 ogp_assemblage_link(Parent,Child) :-
   rdf_has(Parent,knowrob_assembly:'usesConnection',ParentConn),
