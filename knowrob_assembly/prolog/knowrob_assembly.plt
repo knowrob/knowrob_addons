@@ -442,7 +442,7 @@ test('ogp_characterize_entity(AxleWithLeftWheel1)', [nondet]) :-
     assembly_map:'Axle1WheelSnapInMLeft'], T1),
   %% do the characterization
   ogp_characterize_entity(assembly_test:'OGP1',
-    assembly_test:'AxleWithLeftWheel1',Decisions),
+    assembly_test:'AxleWithLeftWheel1',[]->Decisions),
   %% test
   once((
     member(T0,Decisions),

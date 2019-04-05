@@ -56,13 +56,6 @@
 % - prefer to use existing assemblage instead of a newly created one
 %      !! the motor grill sub-assemblage !!
 %
-% XXXXXX take apart destroyed assemblages XXXXXX
-% - assemblages that were selected initially could be destroyed in the course
-%    of bottom-up assembly
-% - they would get retracted, hence, after each materialize with cut!
-%   also update the queue, and handle destroyed assemblages by creating
-%   a new assemblage symbol
-%
 % TODO TODO TODO
 
 :-  rdf_meta ogp_execute_assembly(r,r,r).
@@ -77,38 +70,96 @@
 ogp_execute_assembly(OGP,Goal,Entity) :-
   rdfs_individual_of(Goal,owl:'Class'),!,
   ogp_assemblage_create(Goal,Entity),
-  subassemblage_queue(Entity,AssemblageSequence,Queue),
-  ogp_execute_assembly_(OGP,AssemblageSequence,Queue).
+  subassemblage_queue(Entity,Assemblages,Constraints,Queue),
+  findall(A-A, member(A,Assemblages), Pairs),
+  dict_pairs(Dict,_,Pairs),
+  ogp_execute_assembly_(OGP,Dict,Constraints,Queue),
+  % retract created assemblages that were not used
+  % i.e. because some other existing assemblage was used instead
+  forall((
+    member(A,Assemblages),
+    \+ get_dict(A,Dict,A)),
+    ogp_assemblage_retract(A)
+  ).
 
 ogp_execute_assembly(_OGP,Goal,_Entity) :-
   rdfs_individual_of(Goal,owl:'NamedIndividual'),!,
   print_message(error, format('ogp_execute_assembly does not accept assemblage individuals.')),
   fail.
 
-ogp_execute_assembly_(_, _, Q) :-
+ogp_execute_assembly_(_, _, _, Q) :-
   subassemblage_queue_empty(Q),!.
 
-ogp_execute_assembly_(OGP, AssemblageSequence, Q1) :-
-  %%
-  subassemblage_queue_pop(Q1, Assemblage, Q2),
+ogp_execute_assembly_(OGP, Assemblages, Constraints, Q1) :-
+  %% pop next item
+  subassemblage_queue_pop(Q1, A_id, Q2),
+  %% try to use an existing assemblage first, else a newly created one,
+  %%  but not for the last element in the queue!
+  (( \+ subassemblage_queue_empty(Q2),
+     get_dict(A_id,Assemblages,A_id),
+     ogp_existing_assemblage(A_id,Assemblages,Constraints,Assemblage),
+     b_set_dict(A_id,Assemblages,Assemblage)
+  ); Assemblage = A_id ),
   print_message(informational, format('Next assemblage: ~w.', [Assemblage])),
+  %% imply the subassembly relation by a list of decisions
+  %% that the planner takes into account.
+  findall([integrate,S,P,O], (
+    member(<(C_id,X_id), Constraints),
+    get_dict(C_id, Assemblages, Child),
+    get_dict(X_id, Assemblages, Parent),
+    ogp_assemblage_link(Parent,Child,[S,P,O])
+  ), Decisions),
   %%
-  ogp_assemblage_proceed(OGP,Assemblage,_),
+  ogp_assemblage_proceed(OGP,Assemblage,Decisions->_),
   !, % it is not allowed to go back, once proceeded
+  %% recursion
+  ogp_execute_assembly_(OGP, Assemblages, Constraints, Q2).
+
+ogp_existing_assemblage(A_id,Dict,Constraints,Existing) :-
+  assemblage_concept(A_id,Concept),
+  findall(A, (
+    owl_individual_of(A,Concept),
+    \+ get_dict(A,Dict,_),
+    \+ get_dict(_,Dict,A)
+  ), As),
+  list_to_set(As,As_set),
+  member(Existing,As_set),
+  % all children of the existing assemblages must match the ones
+  % that were selected in earlier steps
   forall(
-    % attach Assemblage to its parent.
-    ogp_assemblage_parent(Assemblage,AssemblageSequence,Parent),
-    ogp_assemblage_link(Parent,Assemblage)
-  ),
-  %%
-  ogp_execute_assembly_(OGP, AssemblageSequence, Q2).
+    direct_child(Existing,Existing_child), (
+    member(<(B_id,A_id),Constraints),
+    get_dict(B_id, Dict, Existing_child)
+  )),
+  % all parents of the existing assemblage must be used in later steps
+  forall(
+    direct_parent(Existing,Existing_parent),
+    once((
+      member(<(A_id,P_id),Constraints),
+      get_dict(P_id, Dict, P_id),
+      assemblage_concept(P_id, P_Concept),
+      owl_individual_of(Existing_parent, P_Concept),
+      b_set_dict(P_id, Dict, Existing_parent)
+    ))
+  ).
+
+%% FIXME: what about linkedByAssemblage restrictions?
+direct_parent(Existing,Existing_parent) :-
+  subassemblage(Existing_parent, Existing).
+direct_child(Existing,Existing_child) :-
+  subassemblage(Existing, Existing_child).
+
+assemblage_concept(A,Concept) :-
+  rdf_has(A,rdf:type,Concept),
+  once((owl_subclass_of(Concept,knowrob_assembly:'Assemblage'))), !.
 
 %%
-ogp_assemblage_proceed(OGP,Assemblage,Decisions) :-
-  ogp_characterize_entity(OGP,Assemblage,Decisions),
-  ogp_assemblage_materialization(OGP,Assemblage,Decisions),
+ogp_assemblage_proceed(OGP,Assemblage,D0->Dx) :-
+  ogp_characterize_entity(OGP,Assemblage,D0->Dx),
+  ogp_assemblage_materialization(OGP,Assemblage,Dx),
   !, % no backtracking allowed after materialization succeeded
-  ogp_decisions_assert(Decisions).
+  print_message(debug(ogp), format('Asserting assemblage: ~w`.', [Assemblage])),
+  ogp_decisions_assert(Dx).
 
 %%
 ogp_assemblage_materialization(OGP,_,_) :-
@@ -136,14 +187,14 @@ ogp_assemblage_materialization(OGP,_Assemblage,Decisions) :-
 % @param Queue A partially ordered queue of sub-assemblages.
 %
 subassemblage_queue(Goal,Queue) :-
-  subassemblage_queue(Goal,_,Queue).
+  subassemblage_queue(Goal,_,_,Queue).
 
-subassemblage_queue(Goal,Assemblages,Queue) :-
+subassemblage_queue(Goal,Assemblages,Constraints,Queue) :-
   rdfs_individual_of(Goal,owl:'Class'),!,
   ogp_assemblage_create(Goal,Entity),
-  subassemblage_queue(Entity,Assemblages,Queue).
+  subassemblage_queue(Entity,Assemblages,Constraints,Queue).
 
-subassemblage_queue(X0,Assemblages,Queue) :-
+subassemblage_queue(X0,Assemblages_set,Constraints,Queue) :-
   subassembly_constraints(X0,[],Constraints),
   findall(A, (A=X0 ;
     member(<(A,_),Constraints) ; 
@@ -216,20 +267,25 @@ ogp_assemblage_create(Concept,Assemblage) :-
   rdf_instance_from_class(ConnConcept,Connection),
   rdf_assert(Assemblage,knowrob_assembly:usesConnection,Connection).
 
-ogp_assemblage_child(Parent,AssemblageDict,Child) :-
-  assemblage_linksAssemblage_restriction(Parent,ChildConcept),
-  get_dict(ChildConcept,AssemblageDict,Child).
+ogp_assemblage_retract(Assemblage) :-
+  rdf_has(Assemblage,knowrob_assembly:usesConnection,Conn),
+  rdf_retractall(Assemblage,_,_),
+  rdf_retractall(_,_,Assemblage),
+  rdf_retractall(Conn,_,_),
+  rdf_retractall(_,_,Conn).
 
-ogp_assemblage_parent(X,[Parent,Children],Parent) :-
-  once(member([X,_],Children)),!.
-ogp_assemblage_parent(X,[_,Children],Parent) :-
-  member(Child,Children),
-  ogp_assemblage_parent(X,Child,Parent),!.
+ogp_assemblage_connection(Assemblage,Connection) :-
+  rdf_has(Assemblage,knowrob_assembly:'usesConnection',Connection),!.
+ogp_assemblage_connection(Assemblage,Connection) :-
+  assemblage_concept(Assemblage,Concept),
+  owl_property_range_on_class(Concept,knowrob_assembly:usesConnection,ConnConcept),!,
+  rdf_instance_from_class(ConnConcept,Connection),
+  rdf_assert(Assemblage,knowrob_assembly:usesConnection,Connection).
 
-ogp_assemblage_link(Parent,Child) :-
-  rdf_has(Parent,knowrob_assembly:'usesConnection',ParentConn),
+ogp_assemblage_link(Parent, Child, [ParentConn,P,Affordance2]) :-
+  ogp_assemblage_connection(Parent,ParentConn),
+  ogp_assemblage_connection(Child,ChildConn),
   assemblage_connection_affordance(ParentConn,AffType),
-  rdf_has(Child,knowrob_assembly:'usesConnection',ChildConn),
   rdf_has(ChildConn,knowrob_assembly:'needsAffordance',Affordance1),
   %%
   rdf_has(Obj,knowrob:'hasAffordance',Affordance1),
@@ -237,4 +293,4 @@ ogp_assemblage_link(Parent,Child) :-
   Affordance1 \= Affordance2,
   rdfs_individual_of(Affordance2,AffType), !,
   %%
-  rdf_assert(ParentConn, knowrob_assembly:'consumesAffordance', Affordance2).
+  rdf_equal(P, knowrob_assembly:'consumesAffordance').
