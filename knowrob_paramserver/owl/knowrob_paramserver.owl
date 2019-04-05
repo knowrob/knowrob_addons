@@ -61,6 +61,28 @@
     
 
 
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasFarfeatureTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasFarfeatureTransform">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasFeatureTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasFeatureTransform">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasFrame -->
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasFrame"/>
@@ -96,6 +118,17 @@
 
     <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasPostgraspTransform">
         <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasPrefeatureTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasPrefeatureTransform">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
     </owl:ObjectProperty>
