@@ -206,7 +206,7 @@ ogp_task_create(classify(S,Cls),_{
 
 ogp_decomposed_restriction(OGP,specify(S,P,Domain,Card),O,Restr) :-
   ogp_is_decomposable(OGP,P),
-  rdfs_individual_of(Domain,owl:'Class'),
+  rdfs_individual_of(Domain,owl:'Class'),!,
   % decompose *Card* times
   between(1,Card,_),
   decompose(S,P,Domain,O),
@@ -430,6 +430,7 @@ decompose(S,P,Domain,O) :-
     rdfs_list_to_prolog_list(Union, Members),
     owl:owl_common_ancestor(Members, Type_selected) )
   ; Type_selected = O_type ),
+  !,
   %%%%%%%%%%
   %%% debugging
   %%%%%%%%%%

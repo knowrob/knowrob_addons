@@ -63,20 +63,33 @@ ogp_hasMaterializationStep(OGP) :- fail.
 % @param Entity::iri The entity to characterize.
 % @param Decisions::list A list of triples that characterize the entity.
 %
-ogp_characterize_entity(OGP,Entity,Decisions) :-
+ogp_characterize_entity(OGP,Entity,Decisions_in->Decisions_out) :-
   ogp_agenda_create(OGP,Entity,A0),
-  ogp_run(A0->_,[]->Dx),
+  %% create dicts of externally specified decisions
+  findall([TaskDict_in,O0], (
+    member([T0,S0,P0,O0],Decisions_in),
+    TaskDict_in = _{
+        ogp:        OGP,
+        type:      T0,
+        subject:   S0,
+        predicate: P0}
+  ), D0),
+  %%
+  ogp_run(A0->_,D0->Dx),
+  %% create list of quadruples representing each a decision
   findall([T,S,P,O], (
     member([TaskDict,O],Dx),
     ogp_task_triple(TaskDict,S,P,_),
     get_dict(type, TaskDict, T)),
-    Decisions).
+    Decisions_out).
 
 %%
 ogp_run(A,D) :- ogp_run(A,D,[]).
 ogp_run(A0->A0,D0->D0,_) :- ogp_agenda_isEmpty(A0), !.
 ogp_run(A0->Ax,D0->Dx,B0) :-
   ogp_agenda_pop(A0->A1,D0,TaskDict),!,
+  ogp_task_triple(TaskDict,S,P,D),
+  print_message(debug(ogp), format('Task selected: (~w,~w,~w).', [S,P,D])),
   %%%%%%%%%%%%
   %%% Loop detection
   %%%%%%%%%%%%
@@ -90,11 +103,10 @@ ogp_run(A0->Ax,D0->Dx,B0) :-
   ((
     ogp_agenda_specialize_task(A1,TaskDict->TaskDict_x),
     ( ogp_run_characterization(A1->A2,TaskDict_x,Selection) -> true ; (
-      ogp_task_triple(TaskDict,S,P,_),
-      print_message(warning, format('Task execution failed: (~w,~w).', [S,P])),
+      print_message(informational, format('Task execution failed: (~w,~w).', [S,P])),
       fail)),
     %%
-    print_message(informational, format('New characteristic: ~w.', [Selection])),
+    print_message(informational, format('New characteristic: `~w ~w ~w`.', [S,P,Selection])),
     %%
     D1=[[TaskDict_x,Selection]|D0], B1=[],
     % re-add if cardinality has not reached zero

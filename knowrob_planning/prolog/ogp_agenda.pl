@@ -95,16 +95,14 @@ ogp_agenda_pop((OGP,S0,T0)->(OGP,SX,TX),Decisions,Popped) :-
   predsort(compare_task_dicts((OGP,S0,T0)), T0, [Top|T1]),
   ogp_task_subject(Top,S1),
   %%
-  ogp_task_triple(Top,S,P,_),
+  ogp_task_triple(Top,S,P,D),
   %%
   ( ogp_task_isObsolete(Top,Decisions) -> (
     %% debugging
-    print_message(debug(ogp), format('Task obsolete: (~w,~w).', [S,P])),
+    print_message(debug(ogp), format('Task obsolete: (~w,~w,~w).', [S,P,D])),
     %%
     ogp_agenda_pop((OGP,S1,T1)->(OGP,SX,TX),Decisions,Popped) );
-  ( TX=T1, SX=S1, Popped=Top )),
-  %% debugging
-  print_message(debug(ogp), format('Task selected: (~w,~w).', [S,P])).
+  ( TX=T1, SX=S1, Popped=Top )).
 
 %%
 % 
@@ -197,7 +195,8 @@ ogp_agenda_specialize_domain(Siblings,Domain0->Domain1) :-
     ogp_task_domain(X,D)
   )), Domains),
   list_to_set(Domains,Domains_set),
-  owl_most_specific(Domains_set,Domain1).
+  owl_most_specific(Domains_set,Domain1),
+  owl_subclass_of(Domain1,Domain0),!.
 
 ogp_agenda_siblings((_,_,Tasks),TaskDict,Siblings) :-
   ogp_task_type(TaskDict,Type),
