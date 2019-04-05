@@ -48,16 +48,6 @@
 % % % % % % % % % % % assembly procedure
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
-% TODO TODO TODO
-%
-% XXXXXX try to use existing assemblages XXXXXX
-% - allow to start with an existing assemblage, use existing sub-assemblages in the queue
-%      !! take apart !!
-% - prefer to use existing assemblage instead of a newly created one
-%      !! the motor grill sub-assemblage !!
-%
-% TODO TODO TODO
-
 :-  rdf_meta ogp_execute_assembly(r,r,r).
 
 %% ogp_execute_assembly(+OGP,+Goal,-Entity)
@@ -84,6 +74,7 @@ ogp_execute_assembly(OGP,Goal,Entity) :-
 
 ogp_execute_assembly(_OGP,Goal,_Entity) :-
   rdfs_individual_of(Goal,owl:'NamedIndividual'),!,
+  % TODO: allow to start with an existing assemblage
   print_message(error, format('ogp_execute_assembly does not accept assemblage individuals.')),
   fail.
 
@@ -94,8 +85,9 @@ ogp_execute_assembly_(OGP, Assemblages, Constraints, Q1) :-
   %% pop next item
   subassemblage_queue_pop(Q1, A_id, Q2),
   %% try to use an existing assemblage first, else a newly created one,
-  %%  but not for the last element in the queue!
-  (( \+ subassemblage_queue_empty(Q2),
+  %% TODO: but not for the last element in the queue!
+  %% FIXME: i think it also needs to be prevented that this one is overwritten then!
+  (( %\+ subassemblage_queue_empty(Q2),
      get_dict(A_id,Assemblages,A_id),
      ogp_existing_assemblage(A_id,Assemblages,Constraints,Assemblage),
      b_set_dict(A_id,Assemblages,Assemblage)
