@@ -156,7 +156,7 @@ ogp_assemblage_proceed(OGP,Assemblage,D0->Dx) :-
 %%
 ogp_assemblage_materialization(OGP,_,_) :-
   \+ ogp_hasMaterializationStep(OGP), !.
-ogp_assemblage_materialization(OGP,_Assemblage,Decisions) :-
+ogp_assemblage_materialization(_OGP,_Assemblage,_Decisions) :-
   %assembly_primary_part(Assemblage, PrimaryPart, SecondaryParts),
   writeln('not implemented ogp_assemblage_materialization'), % TODO
   %% TODO

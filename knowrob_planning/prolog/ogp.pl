@@ -48,7 +48,7 @@
 :- use_module(library('ogp_task')).
 
 % TODO handle this
-ogp_hasMaterializationStep(OGP) :- fail.
+ogp_hasMaterializationStep(_OGP) :- fail.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % % % % % % % % % % OGP procedure
