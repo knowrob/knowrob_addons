@@ -72,7 +72,6 @@ highlight(Objects,Color) :-
       marker_name(Term,X));
       X=O))
   ), Names),
-writeln([marker,Names]),
   openease_highlight_msg(Names,Color,Msg),
   ros_publish('/openease/highlight', 'knowrob_openease/Highlight', Msg).
 
