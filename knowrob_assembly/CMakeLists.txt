@@ -10,7 +10,7 @@ project(knowrob_assembly)
 ##############################################################################
 
 #find_package(catkin REQUIRED rosjava_build_tools knowrob_common knowrob_paramserver)
-find_package(catkin REQUIRED COMPONENTS rosjava_build_tools knowrob_common knowrob_paramserver knowrob_planning)
+find_package(catkin REQUIRED COMPONENTS rosjava_build_tools knowrob_common knowrob_paramserver knowrob_planning knowrob_memory)
 
 # Set the gradle targets you want catkin's make to run by default, e.g.
 #   catkin_rosjava_setup(installApp)
@@ -20,7 +20,7 @@ find_package(catkin REQUIRED COMPONENTS rosjava_build_tools knowrob_common knowr
 catkin_rosjava_setup(installDist publishMavenJavaPublicationToMavenRepository writeClasspath)
 
 catkin_package(
-	DEPENDS knowrob_common knowrob_paramserver knowrob_planning
+	DEPENDS knowrob_common knowrob_paramserver knowrob_planning knowrob_memory
 )
 
 ##############################################################################
