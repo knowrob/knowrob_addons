@@ -53,7 +53,7 @@ import javax.vecmath.Point3f;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import org.knowrob.utils.FileUtil;
+import org.knowrob.vis.model.util.FileUtil;
 
 /**
  * A Mesh contains list of Triangles and Lines which represent an Object.

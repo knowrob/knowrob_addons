@@ -75,14 +75,14 @@ import com.dddviewr.collada.visualscene.InstanceNode;
 import com.dddviewr.collada.visualscene.Matrix;
 import com.dddviewr.collada.visualscene.VisualScene;
 
-import org.knowrob.utils.FileUtil;
-import org.knowrob.utils.ResourceRetriever;
+import org.knowrob.vis.model.util.ResourceRetriever;
 import org.knowrob.vis.model.Model;
 import org.knowrob.vis.model.util.Appearance;
 import org.knowrob.vis.model.util.Group;
 import org.knowrob.vis.model.util.Line;
 import org.knowrob.vis.model.util.Triangle;
 import org.knowrob.vis.model.util.Vertex;
+import org.knowrob.vis.model.util.FileUtil;
 
 /**
  * Connection between dae4j library and processing applet. Used to parse COLLADA (.dae) files and
