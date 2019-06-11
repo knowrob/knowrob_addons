@@ -28,7 +28,10 @@
 
     <!-- http://knowrob.org/kb/planning_test.owl#testProperty -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/planning_test.owl#testProperty"/>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/planning_test.owl#testProperty">
+        <rdfs:domain rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Entity"/>
+        <rdfs:range rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Object"/>
+    </owl:ObjectProperty>
     
 
 
@@ -39,23 +42,17 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob.owl#Container -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Container"/>
     
 
 
     <!-- http://knowrob.org/kb/planning_test.owl#TestSomeRestrA -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/planning_test.owl#TestSomeRestrA">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/planning_test.owl#testProperty"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Container"/>
+                <owl:allValuesFrom rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -65,11 +62,12 @@
     <!-- http://knowrob.org/kb/planning_test.owl#TestSomeRestrB -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/planning_test.owl#TestSomeRestrB">
+        <rdfs:subClassOf rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Entity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://knowrob.org/kb/planning_test.owl#testProperty"/>
                 <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob.owl#Container"/>
+                <owl:onClass rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -89,8 +87,8 @@
 
     <!-- http://knowrob.org/kb/planning_test.owl#TestContainer_1 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/planning_test.owl#TestContainer_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#Container"/>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/planning_test.owl#TestObject_1">
+        <rdf:type rdf:resource="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent"/>
     </owl:NamedIndividual>
     
 
@@ -99,7 +97,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/planning_test.owl#TestSomeRestr_1">
         <rdf:type rdf:resource="http://knowrob.org/kb/planning_test.owl#TestSomeRestrA"/>
-        <testProperty rdf:resource="http://knowrob.org/kb/planning_test.owl#TestContainer_1"/>
+        <testProperty rdf:resource="http://knowrob.org/kb/planning_test.owl#TestObject_1"/>
     </owl:NamedIndividual>
     
 
@@ -108,7 +106,7 @@
 
     <owl:NamedIndividual rdf:about="http://knowrob.org/kb/planning_test.owl#TestSomeRestr_2">
         <rdf:type rdf:resource="http://knowrob.org/kb/planning_test.owl#TestSomeRestrB"/>
-        <testProperty rdf:resource="http://knowrob.org/kb/planning_test.owl#TestContainer_1"/>
+        <testProperty rdf:resource="http://knowrob.org/kb/planning_test.owl#TestObject_1"/>
     </owl:NamedIndividual>
 </rdf:RDF>
 

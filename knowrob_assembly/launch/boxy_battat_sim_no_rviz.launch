@@ -11,7 +11,7 @@
     <arg name="rviz" value="$(arg rviz)" />
   </include>
 
-  <include file="$(find knowrob_assembly)/launch/assembly_knowrob_sim.launch" />
+  <include file="$(find knowrob_assembly)/launch/battat_scene1.launch" />
 
   <include file="$(find wsg_50_simulation)/launch/wsg_50_for_kinematic_sim.launch" />
 <!--

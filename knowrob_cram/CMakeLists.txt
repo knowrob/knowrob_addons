@@ -9,12 +9,12 @@ project(knowrob_cram)
 # Catkin
 ##############################################################################
 
-find_package(catkin REQUIRED rosjava_build_tools knowrob_mongo designator_integration_msgs)
+find_package(catkin REQUIRED rosjava_build_tools knowrob_mongo knowrob_memory designator_integration_msgs)
 
-catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
+catkin_rosjava_setup(installDist publishMavenJavaPublicationToMavenRepository writeClasspath)
 
 catkin_package(
-  DEPENDS knowrob_mongo designator_integration_msgs
+  DEPENDS knowrob_mongo knowrob_memory designator_integration_msgs
 )
 
 ##############################################################################

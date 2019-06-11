@@ -1,3 +1,0 @@
-<launch>
-  <node name="opencyc" pkg="opencyc" type="init_opencyc.sh" output="screen" />
-</launch>

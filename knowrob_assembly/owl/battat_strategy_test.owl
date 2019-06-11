@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/battat_strategy_test.owl#"
+     xml:base="http://knowrob.org/kb/battat_strategy_test.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:knowrob_planning="http://knowrob.org/kb/knowrob_planning.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:pancake="http://knowrob.org/kb/pancake-making.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/battat_strategy_test.owl">
+        <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_strategy.owl"/>
+    </owl:Ontology>
+    
+    
+    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaActionStrategy_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaActionStrategy_1">
+        <knowrob_planning:actionPerformer rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_ConnectingParts"/>
+        <knowrob_planning:actionPerformer rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_PutAwayPart"/>
+    </owl:NamedIndividual>
+    
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaStrategy_1 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaStrategy_1">
+        <knowrob_planning:actionPerformer rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_ConnectingParts"/>
+        <knowrob_planning:actionPerformer rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_PutAwayPart"/>
+    </owl:NamedIndividual>
+    
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_PutAwayPart -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_PutAwayPart">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaActionPerformerProlog"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PutAwayPart"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">knowrob_battat:test_perform</knowrob_planning:command>
+    </owl:NamedIndividual>
+    
+    
+    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_ConnectingParts -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaActionPerformer_ConnectingParts">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaActionPerformerProlog"/>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ConnectingParts"/>
+            </owl:Restriction>
+        </rdf:type>
+        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">knowrob_battat:test_perform</knowrob_planning:command>
+    </owl:NamedIndividual>
+    
+    
+    <computable:PrologProperty rdf:about="#compute_occludedBy">
+        <computable:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">knowrob_battat:test_comp_occludedBy</computable:command>
+        <computable:cache rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dontCache</computable:cache>
+        <computable:visible rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unvisible</computable:visible>
+        <computable:target rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy"/>
+    </computable:PrologProperty>
+    
+</rdf:RDF>
