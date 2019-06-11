@@ -21,23 +21,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Annotation properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#command -->
-
-    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/battat_strategy.owl#command"/>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Object Properties
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -46,121 +29,45 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#neededByConnection -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#hasWorkflow -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/battat_strategy.owl#neededByConnection">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
-        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#hasWorkflow"/>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#usedByAssemblage -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/battat_strategy.owl#usedByAssemblage">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
-        <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#associatedWith"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#hasAffordance -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#hasAffordance"/>
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#describes"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#preActors -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameter -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob.owl#preActors"/>
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameter"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasPart -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasPart"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isRoleOf"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isTaskOf -->
 
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesConnection -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection">
-        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#actionMapper -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#actionMapper"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#focus -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#focus"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemOf -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#pattern -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#pattern"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#perform -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#perform"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#performPattern -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#performPattern"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#plannedEntity -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#possibleAction -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#possibleAction"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#selection -->
-
-    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#selection"/>
+    <owl:ObjectProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#isTaskOf"/>
     
 
 
@@ -175,15 +82,21 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#command -->
+    <!-- http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#command"/>
+    <owl:DatatypeProperty rdf:about="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#selectionPriority -->
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue -->
 
-    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#selectionPriority"/>
+    <owl:DatatypeProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasDataValue"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameterDataValue -->
+
+    <owl:DatatypeProperty rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#hasParameterDataValue"/>
     
 
 
@@ -198,21 +111,121 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PartConnection -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    </owl:Class>
     
 
 
-    <!-- http://knowrob.org/kb/battat_toys.owl#PlaneHolderSlideInAffordance -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#NeededByConnection -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/battat_toys.owl#PlaneHolderSlideInAffordance"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeededByConnection">
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">neededByConnection</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob.owl#Action -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Action"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#NeedsAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordance">
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">needsAffordance</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#PartOccludedBy -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#PartOccludedBy">
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">partOccludedBy</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#PartOccludedBySelector -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#PartOccludedBySelector">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblage -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblage">
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">usedByAssemblage</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#UsesConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsesConnection">
+        <rdfs:subClassOf rdf:resource="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.ease-crc.org/ont/EASE.owl#describesFormalProperty"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">usesConnection</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    </owl:Class>
     
 
 
@@ -234,63 +247,21 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#FixedPart -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaActionMapperProlog -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaActionMapperProlog"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem -->
-
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem"/>
-    
-
-
     <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#Decomposition -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Decomposition"/>
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthSelection -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthFirst -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthSelection"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
     
 
 
@@ -300,15 +271,45 @@
     
 
 
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternFocus -->
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#Integration -->
 
-    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Integration"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning"/>
     
 
 
     <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternSelection -->
 
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+    
+
+
+    <!-- http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation -->
+
+    <owl:Class rdf:about="http://www.ease-crc.org/ont/EASE.owl#ReifiedRelation"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Classification -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Classification"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#PhysicalObject"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Relation -->
+
+    <owl:Class rdf:about="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Relation"/>
     
 
 
@@ -323,490 +324,93 @@
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_ConnectingParts -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#BattatOGP_Testing -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_ConnectingParts">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaActionMapperProlog"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
-                <owl:allValuesFrom>
-                    <owl:Class>
-                        <owl:unionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
-                            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
-                        </owl:unionOf>
-                    </owl:Class>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">assembly_perform:assembly_action_connecting_parts</knowrob_planning:command>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatOGP_Testing">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#OntologyGuidedPlanning"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_PutAwayPart -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#BattatPriorization -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_PutAwayPart">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaActionMapperProlog"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Action"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">assembly_perform:assembly_action_put_away</knowrob_planning:command>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatPriorization"/>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#BattatRecovery_Testing -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#BattatRecovery_Testing"/>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector_19.0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector_19.0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ClassificationSelector"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaActionStrategy_1 -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaActionStrategy_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob.owl#Action"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob_planning:actionMapper rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_PutAwayPart"/>
-        <knowrob_planning:actionMapper rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_ConnectingParts"/>
-        <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPerformPattern_connectToHolder"/>
-        <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_needsAffordance"/>
-        <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_partOccludedBy"/>
-        <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_preActors"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#DepthSelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_classify"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance_holder"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_usesConnection"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_needsAffordance"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_HolderSlideInConnection"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_partOccludedBy"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_usesConnection"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_needsAffordance -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_needsAffordance">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_needsAffordance_0"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_partOccludedBy -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_partOccludedBy">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_partOccludedBy_0"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_preActors -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_preActors">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_preActors_0"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_usesConnection -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_usesConnection">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_usesConnection_0"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_classify_0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_classify_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_connectToHolder -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_connectToHolder">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty>
-                            <rdf:Description>
-                                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-                            </rdf:Description>
-                        </owl:onProperty>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_needsAffordance_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_needsAffordance_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty>
-                            <rdf:Description>
-                                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-                            </rdf:Description>
-                        </owl:onProperty>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_needsAffordance_2 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_needsAffordance_2">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PlaneHolderSlideInAffordance"/>
-            </owl:Restriction>
-        </rdf:type>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty>
-                            <rdf:Description>
-                                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-                            </rdf:Description>
-                        </owl:onProperty>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_usesConnection_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_usesConnection_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty>
-                            <rdf:Description>
-                                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                            </rdf:Description>
-                        </owl:onProperty>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_needsAffordance_0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_needsAffordance_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#PartConnection"/>
-            </owl:Restriction>
-        </rdf:type>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-    
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_HolderSlideInConnection_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/battat_toys.owl#HolderSlideInConnection"/>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_partOccludedBy_0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_partOccludedBy_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#partOccludedBy"/>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_preActors_0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_preActors_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob.owl#preActors"/>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_usesConnection_0 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_usesConnection_0">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemOf"/>
-                <owl:allValuesFrom>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
-                        <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-                    </owl:Restriction>
-                </owl:allValuesFrom>
-            </owl:Restriction>
-        </rdf:type>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPerformPattern_connectToHolder -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPerformPattern_connectToHolder">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_connectToHolder"/>
-        <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_connectToHolder"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_connectToHolder -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_connectToHolder">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog"/>
-        <knowrob_planning:command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">assembly_perform:assembly_perform_connect_to_holder</knowrob_planning:command>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_needsAffordance -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_needsAffordance">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_needsAffordance_0"/>
-        <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_usesConnection -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_usesConnection">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_usesConnection_0"/>
-        <knowrob_planning:perform rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#AgendaStrategy_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#AgendaStrategy_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy"/>
-        <rdf:type>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#plannedEntity"/>
-                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
-            </owl:Restriction>
-        </rdf:type>
-        <knowrob_planning:actionMapper rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaActionMapper_ConnectingParts"/>
-        <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_needsAffordance"/>
-        <knowrob_planning:focus rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaFocus_usesConnection"/>
-        <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_needsAffordance"/>
-        <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPerform_usesConnection"/>
-        <knowrob_planning:performPattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPerformPattern_connectToHolder"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#DepthSelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelection_1"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_classify"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance_holder"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_usesConnection"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_needsAffordance"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_HolderSlideInConnection"/>
-        <knowrob_planning:selection rdf:resource="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_usesConnection"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#ContinuitySelection_1 -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelection_1">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#ContinuitySelector_3.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">3.0</knowrob_planning:selectionPriority>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#DepthSelection_1 -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#DepthSelection_1">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DepthSelection"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">2.0</knowrob_planning:selectionPriority>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#DepthFirstSelector_2.0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#DepthFirst"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#InhibitionSelection_1 -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelection_1">
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#FocussedAssembly"/>
+    
+
+
+    <!-- http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0 -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#InhibitionSelector_99.0">
         <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">99.0</knowrob_planning:selectionPriority>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_classify -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector_6.0 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_classify">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_classify_0"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">19.0</knowrob_planning:selectionPriority>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector_6.0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeededByConnectionSelector"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector_1.0 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_needsAffordance_1"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6.0</knowrob_planning:selectionPriority>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector_1.0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#NeedsAffordanceSelector"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance_holder -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector_7.0 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_needsAffordance_holder">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_needsAffordance_2"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">26.0</knowrob_planning:selectionPriority>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector_7.0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsedByAssemblageSelector"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_usesConnection -->
+    <!-- http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector_5.0 -->
 
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_inverse_usesConnection">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_inverse_usesConnection_1"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">7.0</knowrob_planning:selectionPriority>
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector_5.0">
+        <rdf:type rdf:resource="http://knowrob.org/kb/battat_strategy.owl#UsesConnectionSelector"/>
     </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_needsAffordance -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_needsAffordance">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_needsAffordance_0"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0</knowrob_planning:selectionPriority>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_HolderSlideInConnection">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_HolderSlideInConnection_0"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">49.0</knowrob_planning:selectionPriority>
-    </owl:NamedIndividual>
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_partOccludedBy -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_partOccludedBy">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_partOccludedBy_0"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">50.0</knowrob_planning:selectionPriority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/battat_strategy.owl#PatternSelection_usesConnection -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/battat_strategy.owl#PatternSelection_usesConnection">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
-        <knowrob_planning:pattern rdf:resource="http://knowrob.org/kb/battat_strategy.owl#AgendaPattern_usesConnection_0"/>
-        <knowrob_planning:selectionPriority rdf:datatype="http://www.w3.org/2001/XMLSchema#float">5.0</knowrob_planning:selectionPriority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AgendaPerformCRAM_AssemblyAction"/>
-    
-
-
-    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt -->
-
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt"/>
 </rdf:RDF>
 
 

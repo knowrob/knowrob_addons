@@ -38,7 +38,7 @@ import java.util.Iterator;
 
 import com.sun.j3d.utils.geometry.GeometryInfo;
 
-import org.knowrob.utils.ResourceRetriever;
+import org.knowrob.vis.model.util.ResourceRetriever;
 import org.knowrob.vis.model.Model;
 import org.knowrob.vis.model.util.Vertex;
 

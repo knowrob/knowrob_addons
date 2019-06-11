@@ -1,5 +1,5 @@
 /** <module> Planning according to OWL specifications
-  
+
   Copyright (C) 2017 Daniel Beßler
   All rights reserved.
 
@@ -53,7 +53,7 @@
       owl_satisfies_restriction_up_to(r,t,t).
 
 %% owl_specialization_of(+Specific, +General)
-% 
+%
 owl_specialization_of(Resource, Resource) :- !.
 owl_specialization_of(Specific, General) :-
   rdfs_individual_of(Specific, owl:'Class'),!,
@@ -103,9 +103,12 @@ owl_specializable_(Resource, class(Cls)) :-
   rdfs_individual_of(Resource, owl:'Class'), !,
   owl_specializable_class(Resource, class(Cls)).
 owl_specializable_(Resource, class(Cls)) :-
-  % specializable if one of the most specific types of resource is a generalization of Cls
+  % specializable if one of the most specific types of
+  % resource is a generalization of, or can be specialized to Cls
   rdfs_type_of(Resource, Resource_type),
-  owl_subclass_of(Cls, Resource_type), !.
+  ( owl_subclass_of(Cls, Resource_type) ; (
+    \+ owl_subclass_of(Resource_type, Cls),
+    owl_specializable_class(Resource_type, class(Cls)) )), !.
 
 owl_specializable_(Resource, restriction(P,Facet)) :-
   rdfs_individual_of(Resource, owl:'Restriction'), !,
@@ -183,6 +186,8 @@ owl_specializable_(Resource, union_of(List)) :-
   % specializable if resource is specializable to at least one of the classes of the union
   member(Cls,List), owl_specializable(Resource, Cls), !.
 
+% TODO: this is not needed?!? because resource is realization
+%           of the complement_of class anyway, if this clause holds
 owl_specializable_(Resource, complement_of(Restr)) :-
   atom(Restr),
   rdfs_individual_of(Restr, owl:'Restriction'), !,
@@ -243,14 +248,14 @@ resource_cardinality(Resource, P, Cls, Card) :-
   owl_cardinality(Resource, P, Cls, Card, DB).
 
 %% owl_satisfies_restriction_up_to(?Resource, ?Restr, ?UpTo)
-% 
+%
 % Infers at which points in a restriction description there are
 % unsattisfied conditions for the provided resource.
 %
 % @param Resource OWL resource that does not sattisfy a restriction
 % @param Restr    OWL resource of the unsattisfied restriction
 % @param UpTo     Prolog term describing how to resolve the inconsistency
-% 
+%
 % TODO: generate detach items for objects that vialote restrictions and are not specializable.
 %       seems that it might be best to exclusively generate detach items with this mechanism.
 %       then changing strategy could yield in detach items if wanted.
@@ -359,7 +364,7 @@ owl_satisfies_restriction_up_to_internal(S, complement_of(restriction(P,some_val
 
 
 owl_satisfies_min_cardinality_up_to(_, _, Os, restriction(_,cardinality(_,_,Cls)), UpTo) :-
-  % some values of P could be specializable to Cls, for those Restr is fullfilled up to were they violate Cls 
+  % some values of P could be specializable to Cls, for those Restr is fullfilled up to were they violate Cls
   owl_description(Cls,Cls_descr),
   % find out up to which point the specializable objects satisfy the description
   member(O,Os),

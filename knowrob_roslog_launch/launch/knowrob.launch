@@ -10,4 +10,5 @@
   <!-- rosbridge for websocket visualization -->
   <!--node name="mjpeg_server" pkg="mjpeg_server" type="mjpeg_server"  output="screen" /-->
   
+  <node pkg="rosprolog" name="json_wrapper" type="json_wrapper.py" output="screen"/> 
 </launch>

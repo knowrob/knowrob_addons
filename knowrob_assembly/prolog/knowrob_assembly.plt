@@ -7,6 +7,7 @@
 :- use_module(library('knowrob/swrl')).
 :- use_module(library('knowrob_assembly')).
 :- use_module(library('knowrob_planning')).
+:- use_module(library('ogp_assembly')).
 
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/assembly_map_test.owl').
 :- owl_parser:owl_parse('package://knowrob_assembly/owl/assembly_test.owl').
@@ -15,10 +16,7 @@
 :- rdf_db:rdf_register_prefix(assembly_map, 'http://knowrob.org/kb/assembly_map_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(assemblages_test, 'http://knowrob.org/kb/assemblages_test.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(parts, 'http://knowrob.org/kb/assembly_parts_test.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(knowrob_assembly, 'http://knowrob.org/kb/knowrob_assembly.owl#', [keep(true)]).
 :- rdf_db:rdf_register_prefix(params, 'http://knowrob.org/kb/knowrob_paramserver.owl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(swrl, 'http://www.w3.org/2003/11/swrl#', [keep(true)]).
-:- rdf_db:rdf_register_prefix(rdf, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', [keep(true)]).
 
 
 owl_restriction_pl(RestrictionID, restr(Property, Restriction, Value_term)) :-
@@ -76,10 +74,6 @@ unsatisfied_restrictions(Object, Restrictions) :-
       owl_unsatisfied_restriction(Object, Descr),
       owl_restriction_pl(Descr, Restr)
   ), Restrictions).
-
-
-test(assembly_axle_dae_type, [nondet]) :-
-  owl_individual_of(parts:'AxleDAE', params:'ReferenceShapeData'),!.
   
 test(assembly_axle_side_grasp_type1, [nondet]) :-
   owl_individual_of(assembly_map:'Axle1SideGrasp', parts:'AxleSideGrasp'), !.
@@ -87,22 +81,6 @@ test(assembly_axle_side_grasp_type1, [nondet]) :-
 test(assembly_axle_side_grasp_type2, [nondet]) :-
   owl_has(assembly_map:'Axle1', knowrob:hasAffordance, Affordance),
   owl_individual_of(Affordance, parts:'AxleSideGrasp'), !.
-
-test(assembly_axis_inconsistencies, [nondet]) :-
-  owl_individual_of(assembly_map:'Axle1', parts:'Axle'),!,
-  unsatisfied_restrictions(assembly_map:'Axle1', []).
-
-test(assembly_axis_inconsistencies, [nondet]) :-
-  owl_individual_of(assembly_map:'Wheel1', parts:'Wheel'),!,
-  unsatisfied_restrictions(assembly_map:'Wheel1', []).
-
-test(assembly_chassis_inconsistencies, [nondet]) :-
-  owl_individual_of(assembly_map:'Chassis1', parts:'Chassis'),!,
-  unsatisfied_restrictions(assembly_map:'Chassis1', []).
-
-test(assembly_porsche_inconsistencies, [nondet]) :-
-  owl_individual_of(assembly_map:'PorscheBody1', parts:'PorscheBody'),!,
-  unsatisfied_restrictions(assembly_map:'PorscheBody1', []).
 
 :- rdf_meta test_unsattisfied_restriction(r,t),
             test_unsattisfied_restricted_properties(r,t).
@@ -121,7 +99,7 @@ test_unsattisfied_restriction(Obj, Restr) :-
             test_BodyOnChassis_uses_connection(r).
 test_AxleWithLeftWheel_uses_connection(Obj) :-
   test_unsattisfied_restriction(Obj,
-    restr(knowrob_assembly:'usesConnection', (1,1), parts:'WheelSnapInOnLeft')).
+    restr(knowrob_assembly:'usesConnection', (1,1), parts:'WheelSnapInOnLeft')),!.
 test_AxleWithWheels_uses_connection(Obj) :-
   test_unsattisfied_restriction(Obj,
     restr(knowrob_assembly:'usesConnection', (1,1), intersect([
@@ -236,8 +214,7 @@ test(assembly_BodyOnChassis_needsAffordance1, [nondet]) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- rdf_meta assert_affordances(r,t),
-            fully_specified(r).
+:- rdf_meta assert_affordances(r,t).
 
 assert_affordances(Part, Xs) :-
   rdf_has(Part, knowrob_assembly:usesConnection, Conn),
@@ -263,24 +240,6 @@ test(assembly_ChassisWithAxles_needsAffordance2, [nondet]) :-
   \+ test_Axle_needsAffordance(assembly_test:'ChassisWithAxles1').
 test(assembly_BodyOnChassis_needsAffordance2, [nondet]) :-
   \+ test_BodyOnChassis_needsAffordance(assembly_test:'BodyOnChassis1').
-
-fully_specified(Obj) :-
-  once((unsatisfied_restrictions(Obj, []) ; (
-    % debug unsattisfied restrictions
-    write('obj: '), writeln(Obj),
-    unsatisfied_restrictions(Obj, Restr),
-    forall(member(R,Restr), (write('  '), writeln(R))),
-    forall(owl_has(Obj,knowrob_assembly:hasPart,O), (write('  part:'), writeln(O))),
-    fail
-  ))).
-  
-test(specified_AxleWithLeftWheel1) :-    fully_specified(assembly_test:'AxleWithLeftWheel1').
-test(specified_AxleWithLeftWheel2) :-    fully_specified(assembly_test:'AxleWithLeftWheel2').
-test(specified_AxleWithWheels1) :-       fully_specified(assembly_test:'AxleWithWheels1').
-test(specified_AxleWithWheels2) :-       fully_specified(assembly_test:'AxleWithWheels2').
-test(specified_ChassisWithFrontAxle) :-  fully_specified(assembly_test:'ChassisWithFrontAxle1').
-test(specified_ChassisWithAxles) :-      fully_specified(assembly_test:'ChassisWithAxles1').
-test(specified_BodyOnChassis) :-         fully_specified(assembly_test:'BodyOnChassis1').
 
 test(retract_some_facts) :-
   rdf_retractall(_, knowrob_assembly:'linksAssemblage', _),
@@ -393,358 +352,109 @@ test(assembly_PorscheBody1ChassisSnapInF_not_specializable1) :-
   \+ owl_specializable(assembly_map:'PorscheBody1ChassisSnapInF', Restr).
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%% Test generating agenda
+%%%%%%%%%% Test subassemblage sequencing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- rdf_meta test_agenda_items(t).
-test_agenda_items(Assumed) :-
-  assembly_test_agenda(Agenda),
-  agenda_items_sorted(Agenda,Actual),
-  test_agenda_items(Actual,Assumed), !.
-test_agenda_items([],[]).
-test_agenda_items([A|As],[B|Bs]) :-
-  agenda_item_description(A,B),
-  test_agenda_items(As,Bs).
+:- rdf_meta test_queue_sequence(+,t,-).
 
+test_queue_sequence(Q0,[],Q0) :- !.
+test_queue_sequence(Q0,[X|Xs],Qx) :-
+  subassemblage_queue_pop(Q0,X_ent,Q1),
+  once(owl_individual_of(X_ent,X)),
+  test_queue_sequence(Q1,Xs,Qx).
 
-test(assembly_toycar_step1) :-
-  agenda_create(assembly_test:'BodyOnChassis_a', assembly_test:'AgendaStrategy_1', Agenda),
-  once(( rdfs_individual_of(Agenda, knowrob_planning:'Agenda'),
-         rdf_has(Agenda, knowrob_planning:'strategy', assembly_test:'AgendaStrategy_1') )),
-  assertz(assembly_test_agenda(Agenda)),
-  test_agenda_items([
-      item(decompose,assembly_test:'BodyOnChassis_a',knowrob_assembly:'usesConnection',_,_), % hasPart CarBody
-      item(decompose,assembly_test:'BodyOnChassis_a',knowrob_assembly:'usesConnection',_,_)  % usesConnection (ChassisSnapInConnection and ...)
-  ]).
-
-test(assembly_toycar_step2) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-  test_agenda_items([
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInF', _),
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM', _),
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _, _), % hasPart CarBody
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _,_)   % linksAssemblage ChassisWithAxles
-  ]).
-
-test(assembly_toycar_step3) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
+subassemblage_sequence([],[]) :-!.
+subassemblage_sequence(Q0,[X|Xs]) :-
+  subassemblage_queue_pop(Q0,X,Q1),
+  subassemblage_sequence(Q1,Xs).
+  
+  
+test('subassemblage_queue(AxleWithWheels)', [nondet]) :-
+  subassemblage_queue(assemblages_test:'AxleWithWheels',Q),
+  test_queue_sequence(Q, [
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels'
+  ], []).
+  
+test('subassemblage_queue(ChassisWithAxles)', [nondet]) :-
+  subassemblage_queue(assemblages_test:'ChassisWithAxles',Q),
+  test_queue_sequence(Q, [
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'ChassisWithFrontAxle',
+    assemblages_test:'ChassisWithAxles'
+  ], []),
+  % queue can create different sequences from partial ordering constraints.
+  test_queue_sequence(Q, [
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'ChassisWithFrontAxle',
+    assemblages_test:'ChassisWithAxles'
+  ], []).
+  
+test('subassemblage_queue(BodyOnChassis)', [nondet]) :-
+  subassemblage_queue(assemblages_test:'BodyOnChassis',Q),
+  test_queue_sequence(Q, [
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'AxleWithLeftWheel',
+    assemblages_test:'AxleWithWheels',
+    assemblages_test:'ChassisWithFrontAxle',
+    assemblages_test:'ChassisWithAxles',
+    assemblages_test:'BodyOnChassis'
+  ], []).
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Test generating agenda
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+test('ogp_agenda_create(AxleWithLeftWheel1)') :-
+  test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel1'),
+  ogp_agenda_create(assembly_test:'OGP1', assembly_test:'AxleWithLeftWheel1', A0),
+  % connection is auto-decomposed
+  \+ test_AxleWithLeftWheel_uses_connection(assembly_test:'AxleWithLeftWheel1'),
+  \+ ogp_agenda_isEmpty(A0).
+  
+test('ogp_agenda_pop(AxleWithLeftWheel1)') :-
+  ogp_agenda_create(assembly_test:'OGP1',assembly_test:'AxleWithLeftWheel1',A0),
+  ogp_agenda_pop(A0->_,[],Top0),
+  ogp_task_triple(Top0,S,P,Domain),
   once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF')
-  )),
-  test_agenda_items([
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', parts:'BodyChassisSnapInM', _),
-      item(integrate,ChassisSnapInConnection, knowrob_assembly:'needsAffordance', _,_)   % linksAssemblage ChassisWithAxles
-  ]).
-
-test(assembly_toycar_step4) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
+    rdfs_individual_of(S,parts:'WheelSnapInOnLeft'),
+    owl_subproperty_of(P,knowrob_assembly:consumesAffordance),
+    owl_subclass_of(Domain,parts:'WheelSnapInM'))).
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Test running agenda
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+test('ogp_characterize_entity(AxleWithLeftWheel1)', [nondet]) :-
+  %% expected decisions
+  rdf_global_term([integrate, Connection,
+    knowrob_assembly:consumesAffordance,
+    assembly_map:'Wheel1SnapInF'], T0),
+  rdf_global_term([integrate, Connection,
+    knowrob_assembly:consumesAffordance,
+    assembly_map:'Axle1WheelSnapInMLeft'], T1),
+  %% do the characterization
+  ogp_characterize_entity(assembly_test:'OGP1',
+    assembly_test:'AxleWithLeftWheel1',[]->Decisions),
+  %% test
   once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM')
+    member(T0,Decisions),
+    member(T1,Decisions)
   )),
-  test_agenda_items([
-      item(decompose,assembly_map:'Chassis1AxleSnapInFBack', NeedsInv, _, _) % linksAssemblage ChassisWithAxles
-  ]).
-
-test(assembly_toycar_step5) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack')
-  )),
-  test_agenda_items([
-      item(decompose, AxleSnapInBack, UsesInv, assemblages_test:'ChassisWithAxles', _), % linksAssemblage ChassisWithAxles
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _)
-  ]).
-
-test(assembly_toycar_step6) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack')
-  )),
-  test_agenda_items([
-      item(decompose, assembly_map:'Chassis1AxleSnapInFFront', NeedsInv, _, _),   % linksAssemblage ChassisWithFrontAxle
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)    % linksAssemblage AxleWithWheels
-  ]).
-
-test(assembly_toycar_step7) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(AxleSnapInFront, knowrob_assembly:'consumesAffordance', assembly_map:'Chassis1AxleSnapInFFront')
-  )),
-  test_agenda_items([
-      item(decompose, AxleSnapInFront, UsesInv, _, _),   % linksAssemblage ChassisWithFrontAxle
-      item(integrate, AxleSnapInFront, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)    % linksAssemblage AxleWithWheels
-  ]).
-
-test(assembly_toycar_step8) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(AxleSnapInFront, knowrob_assembly:'consumesAffordance', assembly_map:'Chassis1AxleSnapInFFront')
-  )),
-  test_agenda_items([
-      item(integrate, AxleSnapInFront, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInFront, knowrob_assembly:'needsAffordance', _, _),  % linksAssemblage AxleWithWheels
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)    % linksAssemblage AxleWithWheels
-  ]).
-
-test(assembly_toycar_step9) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack')
-  )),
-  test_agenda_items([
-      item(decompose, assembly_map:'Axle1WheelSnapInMRight', NeedsInv, _, _),               % linksAssemblage AxleWithWheels
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)    % linksAssemblage AxleWithWheels
-  ]).
-
-test(assembly_toycar_step10) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMRight')
-  )),
-  test_agenda_items([
-      item(decompose, WheelSnapInOnRight, UsesInv, assemblages_test:'AxleWithWheels', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)    % linksAssemblage AxleWithWheels
-  ]).
-
-test(assembly_toycar_step11) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMRight')
-  )),
-  test_agenda_items([
-      item(decompose, assembly_map:'Axle1WheelSnapInMLeft', NeedsInv, _, _),                   % AxleWithLeftWheel
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _),  % Wheel
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)       % AxleWithWheels
-  ]).
-
-test(assembly_toycar_step12) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMRight'),
-    rdf_has(WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMLeft')
-  )),
-  test_agenda_items([
-      item(decompose, WheelSnapInOnLeft, UsesInv, assemblages_test:'AxleWithLeftWheel', _),
-      item(integrate, WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _),  % Wheel
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)       % AxleWithWheels
-  ]).
-
-test(assembly_toycar_step13) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMRight'),
-    rdf_has(WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMLeft')
-  )),
-  test_agenda_items([
-      item(integrate, WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnLeft, knowrob_assembly:'needsAffordance', _, _),  % Wheel
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _),  % Wheel
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)       % AxleWithWheels
-  ]).
-
-test(assembly_toycar_step14) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack'),
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle1WheelSnapInMRight')
-  )),
-  test_agenda_items([
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _),  % Wheel
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)       % AxleWithWheels
-  ]).
-
-test(assembly_toycar_step15) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(assembly_test:'BodyOnChassis_a', knowrob_assembly:'usesConnection', ChassisSnapInConnection),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInF),
-    rdfs_individual_of(BodyChassisSnapInF, parts:'BodyChassisSnapInF'),
-    rdf_has(ChassisSnapInConnection, knowrob_assembly:'consumesAffordance', BodyChassisSnapInM),
-    rdfs_individual_of(BodyChassisSnapInM, parts:'BodyChassisSnapInM'),
-    rdf_has(AxleSnapInBack, knowrob_assembly:'needsAffordance', assembly_map:'Chassis1AxleSnapInFBack')
-  )),
-  test_agenda_items([
-      item(integrate, AxleSnapInBack, knowrob_assembly:'consumesAffordance', parts:'AxleSnapInM', _),
-      item(integrate, AxleSnapInBack, knowrob_assembly:'needsAffordance', _, _)       % AxleWithWheels
-  ]).
-
-test(assembly_toycar_step16) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  test_agenda_items([
-      item(decompose, assembly_map:'Axle2WheelSnapInMRight', NeedsInv, _, _) % AxleWithWheels
-  ]).
-
-test(assembly_toycar_step17) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMRight')
-  )),
-  test_agenda_items([
-      item(decompose, WheelSnapInOnRight, UsesInv, assemblages_test:'AxleWithWheels', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _)
-  ]).
-
-test(assembly_toycar_step18) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance', NeedsInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMRight')
-  )),
-  test_agenda_items([
-      item(decompose, assembly_map:'Axle2WheelSnapInMLeft', NeedsInv, _, _), % AxleWithLeftWheel
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _)       % Wheel
-  ]).
-
-test(assembly_toycar_step19) :-
-  owl_inverse_property('http://knowrob.org/kb/knowrob_assembly.owl#usesConnection', UsesInv),
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMRight'),
-    rdf_has(WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMLeft')
-  )),
-  test_agenda_items([
-      item(decompose, WheelSnapInOnLeft, UsesInv, _, _),       % Wheel
-      item(integrate, WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _)       % Wheel
-  ]).
-
-test(assembly_toycar_step20) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMRight'),
-    rdf_has(WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMLeft')
-  )),
-  test_agenda_items([
-      item(integrate, WheelSnapInOnLeft, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnLeft, knowrob_assembly:'needsAffordance', _, _),      % Wheel
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _)       % Wheel
-  ]).
-
-test(assembly_toycar_step21) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  once((
-    rdf_has(WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', assembly_map:'Axle2WheelSnapInMRight')
-  )),
-  test_agenda_items([
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'consumesAffordance', parts:'WheelSnapInF', _),
-      item(integrate, WheelSnapInOnRight, knowrob_assembly:'needsAffordance', _, _)       % Wheel
-  ]).
-
-test(assembly_toycar_step22) :-
-  assembly_test_agenda(Agenda),
-  agenda_perform_next(Agenda),
-  test_agenda_items([]).
+  length(Decisions,2).
+  
+test('ogp_execute_assembly(BodyOnChassis)') :-
+  ogp_execute_assembly(assembly_test:'OGP1',
+    assemblages_test:'BodyOnChassis', BodyOnChassis),
+  % test whether BodyOnChassis is a full assemblage
+  ogp_agenda_create(assembly_test:'OGP1',BodyOnChassis,A0),
+  ogp_agenda_isEmpty(A0).
 
 :- end_tests(knowrob_assembly).

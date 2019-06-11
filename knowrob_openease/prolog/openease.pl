@@ -1,5 +1,6 @@
-/** 
-  Copyright (C) 2015-2016 Daniel Beßler, Asil Kaan Bozcuoglu
+/** <module> openease
+
+  Copyright (C) 2019 Daniel Beßler
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -25,34 +26,54 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   @author Daniel Beßler
-  @author Asil Kaan Bozcuoglu
   @license BSD
 */
 
+:- module(openease,
+    [
+        highlight/1,
+        highlight/2,
+        unhighlight/1
+    ]).
 
-:- register_ros_package(knowrob_common).
-:- register_ros_package(knowrob_mongo).
-:- register_ros_package(comp_temporal).
-:- register_ros_package(knowrob_vis).
-:- register_ros_package(knowrob_cram).
-:- register_ros_package(knowrob_srdl).
+:- use_module(library('semweb/rdf_db')).
+:- use_module(library('semweb/rdfs')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('lists')).
+:- use_module(library('knowrob/marker_vis')).
 
-:- register_ros_package(knowrob_openease).
-:- use_module(library('openease')).
-:- use_module(library('openease_video')).
-:- use_module(library('openease_tasktree')).
-:- use_module(library('teaching')).
-:- use_module(library('editor')).
+:- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 
-%Extended ontology
-%:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').
-%:- rdf_db:rdf_register_ns(saphari, 'http://knowrob.org/kb/saphari.owl#', [keep(true)]).
+openease_highlight_msg(Objects,[R,G,B],Msg) :-
+  openease_highlight_msg(Objects,[R,G,B,1],Msg), !.
+openease_highlight_msg(Objects,[R,G,B,A],_{
+    objects: ['array(string)',Objects],
+    color: ['std_msgs/ColorRGBA',_{r:[float32,R], 
+                                   g:[float32,G],
+                                   b:[float32,B],
+                                   a:[float32,A]}]
+  }).
 
-%:- owl_parser:owl_parse('package://knowrob_srdl/owl/openni_human1.owl').
-%:- rdf_db:rdf_register_ns(openni_human, 'http://knowrob.org/kb/openni_human1.owl#', [keep(true)]).
+highlight(Object) :-
+  highlight(Object,[1,0,0,1]).
 
-%:- owl_parser:owl_parse('package://knowrob_srdl/owl/Boxy.owl').
-%:- rdf_db:rdf_register_ns(boxy, 'http://knowrob.org/kb/Boxy.owl#', [keep(true)]).
+highlight(Object,Color) :-
+  atom(Object),!,
+  highlight([Object],Color).
 
-%:- rdf_db:rdf_register_ns(saphari_map, 'http://knowrob.org/kb/saphari_map.owl#', [keep(true)]).
+highlight(Objects,Color) :-
+  is_list(Objects),!,
+  findall(X,(
+    member(O,Objects),
+    % FIXME: this won't work with the object state publisher
+    once(((
+      marker_term(O,Term),
+      marker_name(Term,X));
+      X=O))
+  ), Names),
+  openease_highlight_msg(Names,Color,Msg),
+  ros_publish('/openease/highlight', 'knowrob_openease/Highlight', Msg).
 
+unhighlight(Obj) :-
+  highlight(Obj,[0,0,0,0]).

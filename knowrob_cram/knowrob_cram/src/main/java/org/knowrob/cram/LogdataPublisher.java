@@ -110,7 +110,7 @@ public class LogdataPublisher extends AbstractNodeMain {
 			
 			QueryBuilder query = QueryBuilder.start("designator._id").is(designatorId);
 			org.knowrob.interfaces.mongo.types.Designator d1 = mdb.designator(mdb.one(
-					mdb.query(MongoDBInterface.COLLECTION_LOGGED_DESIGNATORS, query)));
+					mdb.query(MongoDBInterface.COLLECTION_LOGGED_DESIGNATORS, query.get())));
 			publishDesignator(d1);
 			return true;
 		}

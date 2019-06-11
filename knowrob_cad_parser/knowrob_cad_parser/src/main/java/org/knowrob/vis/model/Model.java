@@ -56,7 +56,7 @@ import javax.vecmath.Vector3f;
 import org.apache.log4j.Logger;
 
 import processing.core.PGraphics;
-import org.knowrob.utils.ThreadPool;
+import org.knowrob.vis.model.util.ThreadPool;
 import org.knowrob.vis.model.util.BSphere;
 import org.knowrob.vis.model.util.DrawSettings;
 import org.knowrob.vis.model.util.Group;

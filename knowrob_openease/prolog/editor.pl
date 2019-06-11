@@ -14,7 +14,7 @@
 
 :- dynamic ease_user_term/2.
 
-is_prolog_source_file(File) :- true.
+is_prolog_source_file(_File) :- true.
 
 
 ease_unload_user_package(PkgName) :-
