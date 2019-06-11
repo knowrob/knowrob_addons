@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/knowrob_planning.owl#"
+     xml:base="http://knowrob.org/kb/knowrob_planning.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:knowrob_planning="http://knowrob.org/kb/knowrob_planning.owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/knowrob_planning.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#agendaItem -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#agendaItem">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#agendaPredicate"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:comment>(agendaItem AGENDA ITEM) means that ITEM is part of AGENDA.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#agendaPredicate -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#agendaPredicate"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#agendaStrategy -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#agendaStrategy">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#agendaPredicate"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy"/>
+        <rdfs:comment>(agendaStrategy AGENDA STRATEGY) means that AGENDA is using STRATEGY for planning.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#decomposablePredicate">
+        <rdfs:comment>Marks predicates as decomposable.
+Decomposable predicates cause decompose agenda items,
+and non decomposable predicates cause integrate agenda items.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#focus -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#focus">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#strategyPredicate"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaFocus"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemCause -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemCause">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemPredicate"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:comment>(itemCause ITEM THING) means that THING caused the existence of ITEM,
+and that THING is an individual of some unsattisfied restriction.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemOf -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemOf">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#itemPredicate"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:comment>(itemOf ITEM THING) means that THING is the subject of ITEM,
+and that THING is underspecified according to some restriction.
+Resolving the inconsistency requires to assert new facts
+about THING.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemPredicate -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemPredicate">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#agendaPredicate"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:comment>(itemPredicate ITEM THING) means that THING describes ITEM in some way.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#pattern -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#pattern">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
+                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus"/>
+                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#perform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#perform">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#performPattern -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#performPattern">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#strategyPredicate"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#selection -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#selection">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#strategyPredicate"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#strategyPredicate -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#strategyPredicate">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#command -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#command">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#inhibitionValue -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#inhibitionValue">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemCardinality -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemCardinality">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#itemDepth -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#itemDepth">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#selectionPriority -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#selectionPriority">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#InformationBearingThing -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#InformationBearingThing"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#Agenda -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Agenda">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>The collection of items whose information content is how to resolve an inconsistency in the knowledge base. Performing all items transforms a subject with unsattisfied restrictions into a valid object without inconsistencies according to the class description of the subject.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#InformationBearingThing"/>
+        <rdfs:comment>Each instance of Agenda-IBT is an item that contains information on how an inconsistency in the knowledge base can be resolved.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaFocus -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaFocus">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>Collection of descriptions that can be used to determine if a given agenda item should be entirely ignored or not. Agenda foci are attached to strategies. Changing the active strategy will also change the &quot;focussing knowledge&quot; described by instances of AgendaFocus.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>The collection of all InformationBearingThings whose information content is a description of how an atomic inconsistency in the knowledge base can be resolved by asserting new facts about the underspecified resource.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPattern">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>The collection of all InformationBearingThings whose information content is a partial specification of an agenda item.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformCRAM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformCRAM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPattern">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>The collection of all InformationBearingThings that map agenda item patterns to perform descriptions whose content is the information of how an agenda item value can be computed.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformCRAM"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>The collection of all InformationBearingThings whose information content is the prioritization of particular agenda items. Each planning strategy has a prioritized list of selection criteria where each criterium computes a value for each item according to which the items are ordered in the agenda.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaStrategy">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#Agenda-IBT"/>
+        <rdfs:comment>The collection of all InformationBearingThings whose information content are knowledge pieces used for planning including ordering, focussing, and perform knoweldge.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ClassifyAgendaItem">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:comment>The collection of AgendaItem&apos;s describing a type specialization</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#ContinuitySelection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection"/>
+        <rdfs:comment>Prefer to stick to the subject for which an agenda item was processed in the last step. The selection value is 1 if the subject is the same as last step, and 0 otherwise.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DecomposeAgendaItem">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PropertyAgendaItem"/>
+        <rdfs:comment>The collection of agenda items whose information content is that an inconsistentncy can be resolved by decomposing (i.e. creating a new instance) an individual along a particular predicate on a resource.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DepthSelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DepthSelection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection"/>
+        <rdfs:comment>Prefer items with higher depth in the assembly graph spanned by the root object. The selection value is simply the depth in the assembly graph.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#DetachAgendaItem">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:comment>The collection of AgendaItem&apos;s describing a retract operation</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#InhibitionSelection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection"/>
+        <rdfs:comment>Prefer items which were performed less often. The selection value is the additive inverse of the number of times the item was selected before. This can be used to escape from a item that can not be performed in a given situation, and to move on to other items.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#IntegrateAgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#IntegrateAgendaItem">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#PropertyAgendaItem"/>
+        <rdfs:comment>The collection of agenda items whose information content is that an inconsistentncy can be resolved by integrating (i.e. using an existing instance) an individual along a particular predicate on a resource.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternFocus -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternFocus">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaFocus"/>
+        <rdfs:comment>Desribes which agenda items should be considered for planning according to a agenda item pattern. Each item matching the pattern is considered to by focussed and will not be ignored.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PatternSelection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PatternSelection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaSelection"/>
+        <rdfs:comment>Prefer items matching a given pattern. The selection value is 1 if the pattern matches the item, and 0 otherwise.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#PropertyAgendaItem -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#PropertyAgendaItem">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaItem"/>
+        <rdfs:comment>The collection of AgendaItem&apos;s describing a predicate specification</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#Property -->
+
+    <owl:Class rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerform_JustDoIt">
+        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformProlog"/>
+        <command rdf:datatype="http://www.w3.org/2001/XMLSchema#string">knowrob_planning:agenda_perform_just_do_it</command>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+

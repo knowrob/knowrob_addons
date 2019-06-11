@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="owl_to_param_server" pkg="knowrob_paramserver" type="owl_to_param_server.py" output="screen">
+	<param name="yaml_path" value="$(find knowrob_paramserver)/launch/prolog_queries.yaml" />
+  </node>
+
+</launch>

@@ -12,3 +12,12 @@ execute_process(COMMAND rosrun iai_cad_downloader download-cad-models.py -d mode
 catkin_package(
     DEPENDS knowrob_common
 )
+
+install(DIRECTORY owl/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/owl)
+  
+install(DIRECTORY models/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/models)
+  
+install(DIRECTORY prolog/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/prolog)

@@ -1,5 +1,5 @@
 /** 
-  Copyright (C) 2015 Daniel Beßler
+  Copyright (C) 2015-2016 Daniel Beßler, Asil Kaan Bozcuoglu
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   @author Daniel Beßler
+  @author Asil Kaan Bozcuoglu
   @license BSD
 */
 
@@ -32,9 +33,14 @@
 :- register_ros_package(knowrob_common).
 :- register_ros_package(knowrob_mongo).
 :- register_ros_package(comp_temporal).
+:- register_ros_package(knowrob_vis).
+:- register_ros_package(knowrob_cram).
+:- register_ros_package(knowrob_srdl).
 
 :- register_ros_package(knowrob_openease).
 :- use_module(library('openease_video')).
+:- use_module(library('openease_tasktree')).
+:- use_module(library('teaching')).
 
 %Extended ontology
 %:- owl_parser:owl_parse('package://knowrob_saphari/owl/saphari.owl').

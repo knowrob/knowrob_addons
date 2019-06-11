@@ -35,30 +35,24 @@
     [
       designator_grasped_pose/5,
       designator_estimate_pose/5,
-      visualize_pnp_experiment/1,
       visualize_rolling_experiment/1,
-      visualize_forth_experiment/1,
-      visualize_forth_objects/1,
       show_action_trajectory/1,
       get_dynamics_image_perception/2,
       get_sherlock_image_perception/2,
       get_reach_action/2,
       get_roll_action/2,
-      get_retract_action/2,
-      experiment/1,
-      experiment_start/2,
-      experiment_end/2,
-      forth_task_start/2,
-      forth_task_end/2
+      get_retract_action/2
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('srdl2')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/temporal')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/srdl2')).
+:- use_module(library('knowrob_meshes')).
 :- use_module(library('lists')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -66,6 +60,7 @@
 :- rdf_db:rdf_register_ns(forth_human, 'http://knowrob.org/kb/forth_human.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(boxy2, 'http://knowrob.org/kb/BoxyWithRoller.owl#', [keep(true)]).
 :- rdf_db:rdf_register_ns(pr2, 'http://knowrob.org/kb/PR2.owl#', [keep(true)]).
+:- rdf_db:rdf_register_ns(srdl2comp, 'http://knowrob.org/kb/srdl2-comp.owl#', [keep(true)]).
 
 :-  rdf_meta
   designator_grasped_pose(r,r,r,r),
@@ -91,7 +86,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
-  writeln(T),
   % Find parent joint
   rdf_has(ParentJoint, srdl2comp:'succeedingLink', BodyPart),
   rdf_has(ParentLink, srdl2comp:'succeedingJoint', ParentJoint),
@@ -102,8 +96,8 @@ human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
   mng_lookup_transform('/map', URDF, T, Transform),
   mng_lookup_transform('/map', URDFParent, T, TransformParent),
   % Find the translation of both joints
-  matrix_translation(Transform, [X,Y,Z]),
-  matrix_translation(TransformParent, [X_Parent,Y_Parent,Z_Parent]),
+  matrix(Transform, [X,Y,Z], _),
+  matrix(TransformParent, [X_Parent,Y_Parent,Z_Parent], _),
   % Estimate rotation based on joint positions
   Dir_X is X - X_Parent,
   Dir_Y is Y - Y_Parent,
@@ -120,7 +114,7 @@ designator_grasped_pose(Grasp, ObjId, T, Position, Rotation) :-
   % TODO(daniel): Object might not be grasped at center of object
   %     - Use knowledge about graspable object parts
   %     - Use planner knowledge where the grasp was done
-  once(rdf_has(Action, knowrob:'bodyPartsUsed', BodyPart)),
+  once(rdf_has(Grasp, knowrob:'bodyPartsUsed', BodyPart)),
   % The time when the object was grasped
   rdf_has(Grasp, knowrob:'endTime', Grasp_T),
   % Find the pose of the object before the grasp
@@ -190,7 +184,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Put_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  writeln('PUTDOWN POSE'),
   % Find latest grasp that occurred before the PutDown happened
   designator_latest_grasp(ObjId, Put_T, Grasp),
   % Then the object was put down at timepoint Put_T.
@@ -212,7 +205,6 @@ designator_estimate_pose(ObjId, T, movable, Position, Rotation) :-
     time_earlier_then(Grasp_T, Perc_T),
     time_earlier_then(Perc_T, T)
   )),
-  writeln('HOLDING POSE'),
   designator_grasped_pose(Grasp, ObjId, T, Position, Rotation).
   %designator_grasped_pose(T, Grasp, Position, Rotation).
 
@@ -235,8 +227,7 @@ designator_perceived_pose(ObjId, T, Position, Rotation) :-
     time_earlier_then(Perc_T, Perc2_T)
   )),
   mng_designator_location(ObjId, Transform, T),
-  matrix_rotation(Transform, Rotation),
-  matrix_translation(Transform, Position).
+  matrix(Transform, Position, Rotation).
 
 designator_latest_grasp(ObjId, T, Grasp) :-
   rdfs_individual_of(Grasp, knowrob:'GraspingSomething'),
@@ -258,29 +249,28 @@ designator_latest_grasp(ObjId, T, Grasp) :-
 %%%%%%%%%%%%%%%%%%%%%%%
   
 get_reach_action(ActionID, ReachID):-
-  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
-  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
-  nth0(0, _Subs, ReachID).
+  rdf_has(ActionID, knowrob:'subAction', WithDesig),
+  findall(Sub,rdf_has(WithDesig, knowrob:'subAction', Sub),Subs),
+  nth0(0, Subs, ReachID).
   
 get_roll_action(ActionID, RollID):-
-  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
-  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
-  nth0(1, _Subs, RollID).
+  rdf_has(ActionID, knowrob:'subAction', WithDesig),
+  findall(Sub,rdf_has(WithDesig, knowrob:'subAction', Sub),Subs),
+  nth0(1, Subs, RollID).
   
 get_retract_action(ActionID, RetractID):-
-  rdf_has(ActionID, knowrob:'subAction', _WithDesig),
-  findall(_Sub,rdf_has(_WithDesig, knowrob:'subAction', _Sub),_Subs),
-  nth0(2, _Subs, RetractID).
+  rdf_has(ActionID, knowrob:'subAction', WithDesig),
+  findall(Sub,rdf_has(WithDesig, knowrob:'subAction', Sub),Subs),
+  nth0(2, Subs, RetractID).
   
 show_action_trajectory(ActionID):-
   clear_trajectories,
   task_start(ActionID,StAction),
   task_end(ActionID,EAction),
-  add_trajectory('right_arm_adapter_kms40_fwk050_frame_out', StAction, EAction,0.2,2),
-  add_agent_visualization('BOXY', boxy2:'boxy_robot2', StAction, '', '').
-  
-  
-  
+  marker_update(trajectory('right_arm_adapter_kms40_fwk050_frame_out'), interval(StAction, EAction, dt(0.2))),
+  marker_update(agent(boxy2:'boxy_robot2'), StAction).
+
+
   
 get_sherlock_image_perception(Parent,Perceive):-
   rdf_has(Parent, knowrob:'subAction', Perceive),
@@ -303,153 +293,53 @@ get_dynamics_image_perception(Parent,Perceive):-
   get_dynamics_image_perception(Sub,Perceive).
 
 
+% FIXME: is never called because
+%	- knowrob_marker implements more general case object(Obj)
+%         -> this must fail because no pose can be obtained
+%	- there is a generic case that just iterates all childs
+%	  -> fail if no children?
+%% special vis hook for the dough
+knowrob_marker:marker_new(MarkerName,
+    contour('http://knowrob.org/kb/IAI-kitchen.owl#Dough_fngh257tgh'),
+    MarkerObject, Parent) :-
+  marker_primitive(cube, MarkerName,
+      contour('http://knowrob.org/kb/IAI-kitchen.owl#Dough_fngh257tgh'),
+      MarkerObject, Parent),
+  marker_color(MarkerObject, [0.6,0.6,0.2,1.0]),
+  marker_scale(MarkerObject, [1.0,1.0,1.0]).
+
+knowrob_marker:marker_update(
+    contour('http://knowrob.org/kb/IAI-kitchen.owl#Dough_fngh257tgh'), 
+    MarkerObject, Instant) :-
+  % FIXME: hide dough if no desig could be found
+  %	- could be done one level above (i.e., hide markers for which marker_update failed)
+  mng_query_latest('logged_designators', one(DBObj),
+    '__recorded', Instant, [['designator.DOUGH', 'exist', 'true']]),
+  mng_designator(DBObj, Desig),
+  contour_mesh_extends(Desig, ['DOUGH', 'CONTOUR'],
+    [[Min_x,Min_y,Min_z], [Max_x,Max_y,Max_z]]),
+  % compute scaling
+  Scale_x is Max_x - Min_x,
+  Scale_y is Max_y - Min_y,
+  Scale_z is Max_z - Min_z,
+  marker_scale(MarkerObject, [Scale_x,Scale_y,Scale_z]),
+  % compute translation
+  Offset_x is 0.5*(Max_x + Min_x),
+  Offset_y is 0.5*(Max_y + Min_y),
+  Offset_z is 0.5*(Max_z + Min_z),
+  marker_translation(MarkerObject, [Offset_x,Offset_y,Offset_z]).
+
+
 visualize_rolling_experiment(T) :-
-  add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
-  mng_latest_designator_with_values(T, ['designator.DOUGH'], ['exist'], ['true'], Desig),
+  marker_update(agent(boxy2:'boxy_robot2'), T),
+  mng_query_latest('logged_designators', one(DBObj),
+    '__recorded', T, [['designator.DOUGH', 'exist', 'true']]),
+  mng_designator(DBObj, Desig),
+  % TODO: Interface for knowrob_meshes !!!
   add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).
   
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-
-experiment(E) :-
-  owl_individual_of(E, knowrob:'RobotExperiment').
-
-experiment_start(T,S) :-
-  experiment(T),
-  rdf_has(T, knowrob:'startTime', S).
-
-experiment_end(T,E) :-
-  experiment(T),
-  rdf_has(T, knowrob:'endTime', E).
-
-forth_task_start(T,S) :-
-  rdf_has(T, knowrob:'startTime', S).
-
-forth_task_end(T,E) :-
-  rdf_has(T, knowrob:'endTime', E).
-
-forth_object('http://knowrob.org/kb/labels.owl#tray_JKdma8aduNdkOM',
-             'package://kitchen/cooking-vessels/tray.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#spoon_Jdna8auH73bCMC',
-             'package://unsorted/robohow/spoon3.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#smallRedCup1_2ecD3otVRyYGYQ',
-             'package://kitchen/hand-tools/red_cup.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#smallRedCup2_feDa5geCRGasVB',
-             'package://kitchen/hand-tools/red_cup.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#cheese_Iuad8anDKa27op',
-             'package://unsorted/robohow/bowl_cheese.dae',
-             static).
-%forth_object('http://knowrob.org/kb/labels.owl#onion_Jam39adKAme1Aa',
-%             'package://unsorted/robohow/cup_onions.dae',
-%             static).
-forth_object('http://knowrob.org/kb/labels.owl#tomatoSauce_JameUd81KmdE18',
-             'package://unsorted/robohow/bowl_sauce.dae',
-             static).
-%forth_object('http://knowrob.org/kb/labels.owl#bacon_OAJe81c71DmaEg',
-%             'package://unsorted/robohow/cup_bacon.dae',
-%             static).
-forth_object('http://knowrob.org/kb/labels.owl#yellowBowl_mdJa91KdAoemAN',
-             'package://kitchen/cooking-vessels/yellow_bowl.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#redBowl_Jame81dDNMAkeC',
-             'package://kitchen/cooking-vessels/red_bowl.dae',
-             movable).
-forth_object('http://knowrob.org/kb/labels.owl#pizza_AleMDa28D1Kmvc',
-             'package://kitchen/food-drinks/pizza-credentials/pizza.dae',
-             movable).
-
-visualize_forth_objects(T) :-
-  forall( forth_object(ObjId, MeshPath, Mode), (
-    (
-      once(designator_estimate_pose(ObjId, T, Mode, Position, Rot)),
-      add_mesh(ObjId, MeshPath, Position, Rot)
-    ) ; true
-  )).
-
-visualize_forth_experiment(T) :-
-  % Remove because some links may be missing
-  %remove_agent_visualization('forth', forth_human:'forth_human_robot1'),
-  add_stickman_visualization('forth', forth_human:'forth_human_robot1', T, '', ''),
-  visualize_forth_objects(T).
-
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%
-
-pnp_object('SPOON',
-           'package://unsorted/robohow/spoon3.dae',
-            movable).
-pnp_object('TRAY',
-           'package://kitchen/cooking-vessels/tray.dae',
-           movable).
-pnp_object('TOMATO-SAUCE',
-           'package://kitchen/food-drinks/ketchup/ketchup.dae',
-           movable).
-
-pnp_object_pose(ObjType, T, Position, Rotation) :-
-  task_type(Perc,knowrob:'UIMAPerception'),
-  % Is perceive earlier then T?
-  task_end(Perc,_E),
-  time_earlier_then(_E, T),
-  % Is there a designator?
-  rdf_has(Perc, knowrob:'nextAction', PostAction),
-  designator_between(Obj, Perc, PostAction),
-  % Has the designator the correct type?
-  mng_designator(Obj, ObjJava),
-  mng_designator_props(Obj, ObjJava, ['TYPE'], ObjType),
-  
-  mng_designator_location(Obj, Transform, T),
-  matrix_rotation(Transform, Rotation),
-  matrix_translation(Transform, Position).
-
-visualize_pnp_objects(T) :-
-  forall( pnp_object(ObjType, MeshPath, _), (
-    (
-      once(pnp_object_pose(ObjType, T, Position, Rot)),
-      add_mesh(ObjType, MeshPath, Position, Rot)
-    ) ; (
-      remove_object(ObjType)
-    )
-  )).
-  
-visualize_pnp_speech_bubble(Agent, T) :-
-  (
-    rdfs_individual_of(Ev, knowrob:'SpeechAct'),
-    rdf_has(Ev, knowrob:'sender', Agent),
-    rdf_has(Ev, knowrob:'startTime', T0),
-    rdf_has(Ev, knowrob:'endTime', T1),
-    time_earlier_then(T0, T),
-    time_earlier_then(T, T1),
-    % Speech bubble visible
-    rdf_has(Ev, knowrob:'content', literal(type(_,Text))),
-    visualize_pnp_speech_bubble(Sender, Text, T)
-  ) ; (
-    % no speech bubble visible
-    add_speech_bubble(Agent, '', [0,0,0])
-  ).
-
-visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, T) :-
-  mng_lookup_transform('/map', '/head_pan_link', T, Transform),
-  matrix_translation(Transform, [X,Y,Z]),
-  Z_Offset is Z + 0.2,
-  add_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', Text, [X,Y,Z_Offset]).
-
-visualize_pnp_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, T) :-
-  true.
-  %mng_lookup_transform('/map', '/boxy_head_mount_kinect2_rgb_optical_frame', T, Transform),
-  %matrix_translation(Transform, [X,Y,Z]),
-  %Z_Offset is Z + 0.2,
-  %add_speech_bubble('http://knowrob.org/kb/Boxy.owl#boxy_robot1', Text, [2,2,2]).
-  
-
-visualize_pnp_experiment(T) :-
-  update_object_with_children('http://knowrob.org/kb/IAI-kitchen.owl#IAIKitchenMap_PM580j', T),
-  add_agent_visualization('PR2', pr2:'PR2Robot1', T, '', ''),
-  visualize_pnp_objects(T),
-  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#PR2', T),
-  visualize_pnp_speech_bubble('http://knowrob.org/kb/PR2.owl#boxy_robot1', T), !.
+  %add_agent_visualization('BOXY', boxy2:'boxy_robot2', T, '', ''),
+  %mng_query_latest('logged_designators', one(DBObj),
+  %  '__recorded', T, [['designator.DOUGH', 'exist', 'true']]),
+  %mng_designator(DBObj, Desig),
+  %add_designator_contour_mesh('DOUGH', Desig, [0.6,0.6,0.2], ['DOUGH', 'CONTOUR']).

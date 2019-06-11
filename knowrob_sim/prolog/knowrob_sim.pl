@@ -45,29 +45,28 @@
         supported_during/4,
         simact_start/3,
         simact_end/3,
-        sim_timeline_val/2,
         subact/3,
         subact_all/2,
         successful_simacts_for_goal/2,
-        simflipping/9,
+        simflipping/8,
         simgrasped/4,
         add_count/1,
         experiment_file/1,
         load_sim_experiments/2,
-        visualize_simulation_scene/1,
-        visualize_simulation_object/3,
-        visualize_simulation_particles/4,
         anyact/3,
         intersected_uid_event/6,
-        sim_subsumes/4
+        sim_subsumes/4,
+        sim_timeline_val/4,
+        get_exp_times/3,
+        interval_setdifference/6
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/mongo')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_sim, 'http://knowrob.org/kb/knowrob_sim.owl#', [keep(true)]).
@@ -87,23 +86,21 @@
     simlift_liftonly(r,r,r,r),
     simflip_full(r,r,r,r,r,r,r,r,r),
     simflip_fliponly(r,r,r,r,r,r,r,r,r),
-    sim_timeline_val(r,r),
     supported_during(r,r,r,r),
     subact(r,r),
     subact_all(r,r),
     simact_start(r,r),
     simact_end(r,r),
-    simflipping(r,r,r,r,r,r,r,r,r),
+    simflipping(r,r,r,r,r,r,r,r),
     simgrasped(r,r,r,r),
     experiment_file(r),
     load_sim_experiments(r,r),
     intersected_uid_event(r,r,r,r,r,r),
     successful_simacts_for_goal(+,-),
-    visualize_simulation_scene(r),
-    visualize_simulation_object(+,+,r),
-    visualize_simulation_particles(+,+,+,r),
     anyact(r,r,r),
     sim_subsumes(r,r,r,r),
+    sim_timeline_val(r,r,r,r),
+    get_exp_times(r,r,r),
     successful_simacts_for_goal(+,-).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,7 +112,6 @@ exp_list(['sim_exp1.owl','sim_exp2.owl','sim_exp4.owl','sim_exp6.owl']).
 experiment_file(X):-
     exp_list(List),
     member(X,List).
-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
@@ -130,11 +126,19 @@ experiment_file(X):-
 %  @param ExpOwlPath path where the logfiles are located
 %  @param ExpFiles list of logfile names to be loaded
 % 
-load_sim_experiments(ExpOwlPath, []).
+load_sim_experiments(_, []).
 load_sim_experiments(ExpOwlPath, [ExpFile|T]) :-
     atom_concat(ExpOwlPath, ExpFile, Path),
     (load_experiment(Path) -> load_sim_experiments(ExpOwlPath, T); load_sim_experiments(ExpOwlPath, T)).
 
+%% get_exp_times(?Exp, ?StartTime, ?EndTime)
+%   
+%  Provides information on the global start and endtime of a certain experiment.
+%
+get_exp_times(Exp, Start, End):-
+    rdf_has(MetaData, knowrob:'experiment', literal(type(_, Exp))), 
+    rdf_has(MetaData, knowrob:'startTime',Start), 
+    rdf_has(MetaData, knowrob:'endTime',End).
 
 %% simact(?Task) is nondet.
 %
@@ -185,6 +189,9 @@ simact(Experiment, EventID, EventClass) :-
     rdf_has(MetaData, knowrob:'experiment', literal(type(_, Experiment))),
     rdf_has(MetaData, knowrob:'subAction', EventID).
 
+%% sim_class_individual(?ObjectClass, ?ObjectIndivid)
+%
+% Get the ObjectClass of an individual, or an individual of a certain class
 sim_class_individual(ObjectClass, ObjectIndivid) :-
     rdf_has(ObjectIndivid, rdf:type, ObjectClass),
     rdf_reachable(ObjectClass, rdfs:subClassOf, owl:'Thing'). %Otherwise it will return owl:namedIndividual as a Class of any objectinstance as well
@@ -200,9 +207,9 @@ sim_class_individual(ObjectClass, ObjectIndivid) :-
 %   > simact_contact_specific(Exp, E, knowrob_sim:'Cup_object_hkm6glYmRQ0BWF', knowrob_sim:'KitchenTable_object_50SJX00eStoIfD').
 simact_contact(Experiment, Event, ObjectClass, ObjectInstance) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
-    sim_class_individual(ObjectClass, ObjectInstance),
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance),
-    simact_start(Experiment, Event, StartTime).
+    sim_class_individual(ObjectClass, ObjectInstance).
+    %simact_start(Experiment, Event, StartTime).
     %writeln(StartTime).
  %% Find a certain event involving a certain object
 simact_contact_specific(Experiment, Event, ObjectInstance) :-
@@ -214,24 +221,35 @@ simact_contact_specific(Experiment, Event, ObjectInstance) :-
 %
 simact_contact(Experiment, Event, Object1Class, Object2Class, ObjectInstance1, ObjectInstance2) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2),
     sim_class_individual(Object1Class, ObjectInstance1),
     sim_class_individual(Object2Class, ObjectInstance2),
-    ObjectInstance1\=ObjectInstance2,
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+    ObjectInstance1\=ObjectInstance2.
 %%  simact_contact(?Event, ?EventClass, +ObjectInstance1, +ObjectInstance2)
 %   
 %   Find a certain event involving certain objects
 %
 simact_contact_specific(Experiment, Event, ObjectInstance1, ObjectInstance2) :-
     simact(Experiment, Event, knowrob_sim:'TouchingSituation'),
-    ObjectInstance1\=ObjectInstance2,
     rdf_has(Event, knowrob_sim:'inContact', ObjectInstance1),
-    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2).
+    rdf_has(Event, knowrob_sim:'inContact', ObjectInstance2),
+    ObjectInstance1\=ObjectInstance2.
 
 %% Function returns a range for each event in the list during which that event is true
-% Not done yet!
-sim_timeline_val(EventList, vals).
+%
+% Example call for plotting timeline: sim_timeline_val(Exp, Events, Times), add_diagram('id', 'Title', timeline, 'Time', 'Events', 300, 300, '12px', [[Events,Times]]).
+sim_timeline_val(Expname, EventNamesList, StartTimeList, EndTimeList):-
+    %Find all events from a single experiment
+    rdf_has(_, knowrob:'experiment', literal(type(_, Expname))),
+    %Get list of all the events that happen in the experiment for extracting timepoints
+    findall(Type, simact(Expname,Type), EventList), 
+    %Get list of event names that happened in the experment for putting in the timeline
+    findall(EventName, (member(E,EventList),rdf_split_url(_,EventName,E)), EventNamesList),
+    %Get list of all [start|end] times of the events in the list
+    findall(StartTime, (member(Event, EventList), simact_start(Exp,Event,Start), time_term(Start, StartTime)), StartTimeList),
+    findall(EndTime, (member(Event, EventList), simact_end(Exp,Event,End), time_term(End, EndTime)), EndTimeList).
+
 
 %%  Auxilary function for enabling changing color on consecutive calls
 %
@@ -325,7 +343,7 @@ simlift_liftonly(Experiment, ObjectClass, Start, End) :-
     interval_setdifference(Experiment, TempStart, TempEnd, Candidates, Start, End).
 
 %% Flipping: grasping start until object entirely on tool, start contact tool and target, start object on tool until object back on pancakemaker, start still grasping tool until tool put down.
-simflipping(Experiment, ObjectO, ToolO, TargetO, GraspS, ToolCTargetS, ObjectLiftS, PutbackS, PutbackE) :-
+simflipping(Experiment, ObjectO, ToolO, TargetO, GraspS, ObjectLiftS, PutbackS, PutbackE) :-
     % start of GraspSpatula
     simgrasped(Experiment, Event1ID, _,ToolO),
     simact_start(Experiment, Event1ID, GraspS),
@@ -337,14 +355,10 @@ simflipping(Experiment, ObjectO, ToolO, TargetO, GraspS, ToolCTargetS, ObjectLif
     ObjectO\=TargetO,
     ToolO\=TargetO,
     %% Tool is in contact with the Object but Object has not left Target yet
-    simact_contact(Experiment, Event2ID, _, _, ToolO, ObjectO),
-    simact_start(Experiment, Event2ID, ToolCTargetS),
+    %% simact_contact(Experiment, Event2ID, _, _, ToolO, ObjectO),
+    %% simact_start(Experiment, Event2ID, ToolCTargetS),
     %% Tool is no longer in contact with the Target, but it is in contact with the Object. There is a small overlapping issue because the pancake leaves the pancakemaker a few miliseconds after the spatula does, so ObjectLiftS starts a bit before simact_end(Event0ID, End0) ends.
-    simflip_fliponly(Experiment,_,_,_,ObjectLiftS, _, ObjectO, ToolO, TargetO),
-    %% Object touches the target again
-    simact_contact(Experiment, Event3ID, _, _, ObjectO, TargetO),
-    comp_beforeI(Event2ID, Event3ID), %touches target after leaving tool
-    simact_start(Experiment, Event3ID, PutbackS). %WARNING: in old version need to cut because jsonquery backend returns all solutions, try again?
+    simflip_fliponly(Experiment,knowrob:'LiquidTangibleThing',_,_,ObjectLiftS, PutbackS, ObjectO, ToolO, TargetO).
 
 %% Gives a new interval, which is the union of contactPancake-Spatula and contactSpatula-Liquid.
 %% These two events should be overlapping in order to be a full flipping interval 
@@ -372,17 +386,16 @@ simflip_full(Experiment, ObjectClass, ToolClass, LocationClass, Start, End, OObj
 simflip_fliponly(Experiment, ObjectClass, ToolClass, LocationClass, Start, End, OObj, TObj, LObj) :-
     % get contactInterval spatula-pancakemaker
     simact_contact(Experiment, EventID, ToolClass, LocationClass, TObj, LObj),
-    % get contactInterval spatula-liquid
-    simact_contact(Experiment, EventID2, ObjectClass, ToolClass, OObj, TObj),
     %don't get the owlNamedIndividual classes
-    ObjectClass\=ToolClass,
     ToolClass\=LocationClass,
+    simact_contact(Experiment, EventID2, ObjectClass, LocationClass, OObj, LObj),
+    %% findall(EventID2, (simact_contact(Experiment, EventID2, ObjectClass, LocationClass, OObj, LObj), not(comp_temporallySubsumes(EventID2, EventID))), Candidates),
     LocationClass\=ObjectClass,
-    % these two should overlap, with the spatula-pancakemaker coming first
-    comp_overlapsI(EventID, EventID2),
+    %% [EventID2a|EventIDs] = Candidates,
     % select start and end as intersection
+    comp_beforeI(EventID,EventID2),
     simact_end(Experiment,EventID, Start),
-    simact_end(Experiment,EventID2, End).
+    simact_start(Experiment,EventID2, End).
 
 %%  simsupported(?Experiment, ?EventID, ?ObjectInstance) is 
 %   Body of the function for supported_during
@@ -403,7 +416,6 @@ test(Arr) :-
     jpl_list_to_array(['1','2','3','4'], Arr),
     jpl_call(Canvas, 'showAverageTrajectory', [bla, Arr, Arr, 1, 1], _).
 
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 %
 % Interval handling
@@ -414,43 +426,55 @@ test(Arr) :-
 %   these if they overlap with the given start/endtime interval. Returns start/endtime values
 %   that do not include any of those intervals in the list.
 %
+%If Start equals End, it means that no difference set could be found 
 %Bottom case; unify temporary start and end with the result
-interval_setdifference(Experiment, Start, End, [], Start, End). 
+interval_setdifference(_, Start, End, [], Start, End).
+%If the event is identical to the interval we started with, there cannot be any difference left, so the call will fail.
+interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
+    simact_start(Experiment,EventID2, Start2),
+    simact_end(Experiment,EventID2, End2),
+    Start == Start2,
+    End == End2,!, fail.
 %If the head overlaps at the beginning
 interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
     simact_start(Experiment,EventID2, Start2),
     simact_end(Experiment,EventID2, End2),
     sim_timepoints_overlap(Start, End, Start2, End2),
+    End \= End2,
     interval_setdifference(Experiment, End2, End, Tail, ResStart, ResEnd), !.
 %If the head overlaps at the end
 interval_setdifference(Experiment, Start, End, [EventID2|Tail], ResStart, ResEnd) :-
     simact_start(Experiment,EventID2, Start2),
     simact_end(Experiment,EventID2, End2),
     sim_timepoints_overlap_inv(Start, End, Start2, End2),
+    Start \= Start2,
     interval_setdifference(Experiment, Start, Start2, Tail, ResStart, ResEnd), !.
-%if there is no overlap, so we don't care about the current head
+%if there is no overlap, we don't care about the event in the current head and leave Start and End the way it was.
 interval_setdifference(Experiment, Start, End, [_|Tail], ResStart, ResEnd) :-
+    not((Start==ResStart, End==ResEnd)),
     interval_setdifference(Experiment, Start, End, Tail, ResStart, ResEnd), !.
+    
 
 %% Similar to the comp_overlapsI predicate but works with separate timepoints 
 %% True if I2 overlaps with I1 at the beginning
 %% Called by: interval_setdifference
 sim_timepoints_overlap(Start1, End1, Start2, End2) :-
-    time_point_value(Start1, SVal1),
-    time_point_value(End1, EVal1),
-    time_point_value(Start2, SVal2),
-    time_point_value(End2, EVal2),
-    SVal2 < SVal1, %Start2 is before Start1
+    time_term(Start1, SVal1),
+    time_term(End1, EVal1),
+    time_term(Start2, SVal2),
+    time_term(End2, EVal2),
+    SVal2 =< SVal1, %Start2 is before Start1
     EVal2 > SVal1, %End2 is after Start1
-    EVal2 < EVal1. %End2 ends before End1
+    EVal2 =< EVal1. %End2 ends before End1
+%% True if I2 overlaps with I1 at the end
 sim_timepoints_overlap_inv(Start1, End1, Start2, End2) :-
     sim_timepoints_overlap(Start2, End2, Start1, End1).
 
 sim_subsumes(Start1,End1, Start2, End2):-
-    time_point_value(Start1, SVal1),
-    time_point_value(End1, EVal1),
-    time_point_value(Start2, SVal2),
-    time_point_value(End2, EVal2),
+    time_term(Start1, SVal1),
+    time_term(End1, EVal1),
+    time_term(Start2, SVal2),
+    time_term(End2, EVal2),
     SVal1 =< EVal1, %check this interval is ok (start comes before end)
     SVal2 =< EVal2, %check this interval is ok (start comes before end)
     SVal2 >= SVal1, %Start2 is after Start1
@@ -476,7 +500,6 @@ supported_during(Experiment, EventID, EventID2, ObjectInstance) :-
 %
 % Temporal stuff: start, end, duration of a simact
 %
-
 
 %% simact_start(?Task, ?Start) is nondet.
 %
@@ -509,17 +532,6 @@ simact_end(Experiment, Event, End) :-
 %
 % Goals, success, failure
 %
-
-%% simact_goal(?Task, ?Goal) is nondet.
-%
-%  Check if Goal is the goal of Task
-%
-%  @param Task Identifier of given Task
-%  @param Goal Identifier of given Goal
-% 
-simact_subaction(Subaction, Type) :-
-    simact(_, Task),
-    rdf_has(Task, knowrob:'simactContext', literal(type(_, Goal))).
 
 %% successful_simacts_for_goal(+Goal, -Tasks) is nondet.
 %
@@ -565,51 +577,3 @@ add_object_to_semantic_map(Obj, Matrix, Time, ObjInstance, H, W, D) :-
     rdf_assert(Perception, knowrob:'eventOccursAt', Matrix),
 
     set_object_perception(ObjInstance, Perception).
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-%
-% Visualization methods
-%
-
-visualize_simulation_scene(T) :-
-  % Query experiment information
-  experiment(Exp, T),
-  experiment_map(Exp, Map, T),
-  % Query all occuring objects
-  findall(Obj, (
-    owl_has(Exp, knowrob:'occuringObject', ObjUrl),
-    rdf_split_url(_, Obj, ObjUrl)
-  ), Objs),
-  % Show the simulation hand
-  add_agent_visualization('http://knowrob.org/kb/sim-hand.owl#SimulationHand', T),
-  % Show objects
-  forall(
-    member(Obj, Objs), ((
-    designator_template(Map, Obj, Template),
-    owl_has(Template, knowrob:'pathToCadModel', literal(type(_,MeshPath))),
-    (  owl_has(Template, knowrob:'numParticles', literal(type(_,ParticleCount)))
-    -> (
-      atom_number(ParticleCount, N),
-      visualize_simulation_particles(Obj, MeshPath, N, T)
-    )
-    ;  visualize_simulation_object(Obj, MeshPath, T)
-    )) ; true
-  )).
-
-visualize_simulation_particles(Obj, MeshPath, ParticleCount, T) :-
-  Count is ParticleCount - 1,
-  atom_concat(Obj, '_link_', Prefix),
-  forall( between(0, Count, N), (
-    atom_concat(Prefix, N, ObjectFrame),
-    visualize_simulation_object(ObjectFrame, MeshPath, T)
-  )).
-  
-visualize_simulation_object(Obj, MeshPath, T) :-
-  % Lookup object pose in mongo
-  atom_concat('/', Obj, ObjFrame),
-  mng_lookup_transform('/map', ObjFrame, T, Transform),
-  % Extract quaternion and translation vector
-  matrix_rotation(Transform, Quaternion),
-  matrix_translation(Transform, Translation),
-  % Publish mesh marker message
-  add_mesh(ObjFrame, MeshPath, Translation, Quaternion).

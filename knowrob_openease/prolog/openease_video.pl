@@ -50,16 +50,21 @@
         publish_background/1,
         
         experiment_videos/2,
-        video_play/1
+        experiment_videos/3,
+        video_play/1,
+
+        openease_video_fps/1,
+        openease_video_start/0,
+        openease_video_stop/0
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('srdl2')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/srdl2')).
 :- use_module(library('lists')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
@@ -181,6 +186,10 @@ publish_background(T) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+experiment_videos(Category, Experiment, VideoURLs) :-
+    jpl_call('org.knowrob.cram.LogdataPublisher', 'getVideoURLs', [Category,Experiment], AddressJava),
+    jpl_array_to_list(AddressJava, VideoURLs).
+
 experiment_videos(ExpName, VideaoURLs) :-
     video_interface(V),
     term_to_atom( ExpName, ExpAtom),
@@ -189,3 +198,22 @@ experiment_videos(ExpName, VideaoURLs) :-
 
 video_play(VideoURL) :-
   designator_publish_image(VideoURL).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+openease_video_fps(FPS) :-
+  video_interface(V),
+  jpl_call(V, 'setVideoFPS', [FPS,FPS], _).
+
+openease_video_start :-
+  video_interface(V),
+  jpl_call(V, 'startRecording', [], _).
+
+openease_video_stop :-
+  video_interface(V),
+  jpl_call(V, 'stopRecording', [], _).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

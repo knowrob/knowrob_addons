@@ -10,6 +10,7 @@ project(knowrob_openease)
 ##############################################################################
 
 find_package(catkin REQUIRED rosjava_build_tools knowrob_common knowrob_vis knowrob_mongo knowrob_cram)
+find_package(OpenCV REQUIRED)
 
 # Set the gradle targets you want catkin's make to run by default, e.g.
 #   catkin_rosjava_setup(installApp)
@@ -18,7 +19,7 @@ find_package(catkin REQUIRED rosjava_build_tools knowrob_common knowrob_vis know
 catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository writeClasspath)
 
 catkin_package(
-  DEPENDS knowrob_mongo
+  DEPENDS knowrob_mongo OpenCV
 )
 
 ##############################################################################

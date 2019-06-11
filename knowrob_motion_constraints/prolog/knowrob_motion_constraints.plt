@@ -23,14 +23,14 @@
 
 :- use_module(library('knowrob_motion_constraints')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl_parser')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('jpl')).
-:- use_module(library('knowrob_objects')).
-:- use_module(library('knowrob_actions')).
-:- use_module(library('knowrob_perception')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/objects')).
+:- use_module(library('knowrob/actions')).
+:- use_module(library('knowrob/perception')).
 :- use_module(library('knowrob_mesh_reasoning')).
+:- use_module(library('jpl')).
 
 
 :- owl_parser:owl_parse('package://knowrob_motion_constraints/owl/spatula-features.owl').

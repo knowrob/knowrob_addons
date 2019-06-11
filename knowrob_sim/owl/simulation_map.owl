@@ -7,10 +7,11 @@
           <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
           <!ENTITY knowrob 'http://knowrob.org/kb/knowrob.owl#'>
           <!ENTITY sim 'http://knowrob.org/kb/simulation_map.owl#'>
-
+          <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
           ]>
 
-<rdf:RDF
+<rdf:RDF xmlns="http://knowrob.org/kb/simulation_map.owl#"
+   xml:base="http://knowrob.org/kb/simulation_map.owl"
    xmlns:computable="http://knowrob.org/kb/computable.owl#"
    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -18,7 +19,7 @@
    xmlns:owl="http://www.w3.org/2002/07/owl#"
    xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
    xmlns:sim="http://knowrob.org/kb/simulation_map.owl#"
-   xml:base="http://knowrob.org/kb/simulation_map.owl">
+   xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#">
   <owl:Ontology rdf:about="http://knowrob.org/kb/simulation_map.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
   </owl:Ontology>
@@ -169,35 +170,35 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <!-- SemanticEnvironmentMap_SAsdfs -->
-    <owl:NamedIndividual rdf:about="&sim;SemanticEnvironmentMap_SAsdfs">
+    <!-- SemanticEnvironmentMap_vpdsmf09ewtnv -->
+    <owl:NamedIndividual rdf:about="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv">
         <rdf:type rdf:resource="&knowrob;SemanticEnvironmentMap"/>
     </owl:NamedIndividual>
 
     <!-- timepoint_1313654300 -->
-    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/simulation_map.owl#timepoint_1313654300">
-        <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#TimePoint"/>
+    <owl:NamedIndividual rdf:about="&sim;timepoint_0">
+        <rdf:type rdf:resource="&knowrob;TimePoint"/>
     </owl:NamedIndividual>
 
 
-    <knowrob:CounterTop rdf:about="#CounterTop_Asdkll">
-        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+    <knowrob:CounterTop rdf:about="&sim;CounterTop_Asdkll">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:heightOfObject rdf:datatype="&xsd;float">0.03</knowrob:heightOfObject>
         <knowrob:widthOfObject rdf:datatype="&xsd;float">0.80</knowrob:widthOfObject>
         <knowrob:depthOfObject rdf:datatype="&xsd;float">2.45</knowrob:depthOfObject> 
         <rdfs:label rdf:datatype="&xsd;string">KitchenIsland</rdfs:label>
     </knowrob:CounterTop>
 
-    <knowrob:TableLeft rdf:about="#TableLeft_Asdkll">
-        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+    <knowrob:TableLeft rdf:about="&sim;TableLeft_Asdkll">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:heightOfObject rdf:datatype="&xsd;float">0.82</knowrob:heightOfObject> 
         <knowrob:widthOfObject rdf:datatype="&xsd;float">0.60</knowrob:widthOfObject> 
         <knowrob:depthOfObject rdf:datatype="&xsd;float">0.03</knowrob:depthOfObject>
         <rdfs:label rdf:datatype="&xsd;string">KitchenTableLeft</rdfs:label>
     </knowrob:TableLeft>
 
-    <knowrob:TableLeft rdf:about="#TableRight_Asdkll">
-        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_SAsdfs"/>
+    <knowrob:TableLeft rdf:about="&sim;TableRight_Asdkll">
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:heightOfObject rdf:datatype="&xsd;float">0.82</knowrob:heightOfObject> <!--Z-->
         <knowrob:widthOfObject rdf:datatype="&xsd;float">0.60</knowrob:widthOfObject> <!--X-->
         <knowrob:depthOfObject rdf:datatype="&xsd;float">0.03</knowrob:depthOfObject> <!--Y-->
@@ -205,26 +206,26 @@
     </knowrob:TableLeft>
 
 
-    <knowrob:SemanticMapPerception rdf:about="#SemanticMapPerception_13">
-        <knowrob:startTime rdf:resource="#timepoint_1313654300"/>
-        <knowrob:objectActedOn rdf:resource="#CounterTop_Asdkll"/>
-        <knowrob:eventOccursAt rdf:resource="#rotationmatrix3d_countertop_Asdkll"/>
+    <knowrob:SemanticMapPerception rdf:about="&sim;SemanticMapPerception_13">
+        <knowrob:startTime rdf:resource="&sim;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&sim;CounterTop_Asdkll"/>
+        <knowrob:eventOccursAt rdf:resource="&sim;rotationmatrix3d_countertop_Asdkll"/>
     </knowrob:SemanticMapPerception>
 
-    <knowrob:SemanticMapPerception rdf:about="#SemanticMapPerception_14">
-        <knowrob:startTime rdf:resource="#timepoint_1313654300"/>
-        <knowrob:objectActedOn rdf:resource="#TableLeft_Asdkll"/>
-        <knowrob:eventOccursAt rdf:resource="#rotationmatrix3d_tableleft_Asdkll"/>
+    <knowrob:SemanticMapPerception rdf:about="&sim;SemanticMapPerception_14">
+        <knowrob:startTime rdf:resource="&sim;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&sim;TableLeft_Asdkll"/>
+        <knowrob:eventOccursAt rdf:resource="&sim;rotationmatrix3d_tableleft_Asdkll"/>
     </knowrob:SemanticMapPerception>
 
-    <knowrob:SemanticMapPerception rdf:about="#SemanticMapPerception_15">
-        <knowrob:startTime rdf:resource="#timepoint_1313654300"/>
-        <knowrob:objectActedOn rdf:resource="#TableRight_Asdkll"/>
-        <knowrob:eventOccursAt rdf:resource="#rotationmatrix3d_tableright_Asdkll"/>
+    <knowrob:SemanticMapPerception rdf:about="&sim;SemanticMapPerception_15">
+        <knowrob:startTime rdf:resource="&sim;timepoint_0"/>
+        <knowrob:objectActedOn rdf:resource="&sim;TableRight_Asdkll"/>
+        <knowrob:eventOccursAt rdf:resource="&sim;rotationmatrix3d_tableright_Asdkll"/>
     </knowrob:SemanticMapPerception>
 
 
-    <knowrob:RotationMatrix3D rdf:about="#rotationmatrix3d_countertop_Asdkll">
+    <knowrob:RotationMatrix3D rdf:about="&sim;rotationmatrix3d_countertop_Asdkll">
         <knowrob:m00 rdf:datatype="&xsd;float">0.00</knowrob:m00>
         <knowrob:m01 rdf:datatype="&xsd;float">-1.00</knowrob:m01>
         <knowrob:m02 rdf:datatype="&xsd;float">0.00</knowrob:m02>
@@ -247,7 +248,7 @@
     </knowrob:RotationMatrix3D>
 
 
-    <knowrob:RotationMatrix3D rdf:about="#rotationmatrix3d_tableleft_Asdkll">
+    <knowrob:RotationMatrix3D rdf:about="&sim;rotationmatrix3d_tableleft_Asdkll">
         <knowrob:m00 rdf:datatype="&xsd;float">0.00</knowrob:m00>
         <knowrob:m01 rdf:datatype="&xsd;float">-1.00</knowrob:m01>
         <knowrob:m02 rdf:datatype="&xsd;float">0.00</knowrob:m02>
@@ -269,7 +270,7 @@
         <knowrob:m33 rdf:datatype="&xsd;float">1.00</knowrob:m33>
     </knowrob:RotationMatrix3D>
 
-    <knowrob:RotationMatrix3D rdf:about="#rotationmatrix3d_tableright_Asdkll">
+    <knowrob:RotationMatrix3D rdf:about="&sim;rotationmatrix3d_tableright_Asdkll">
         <knowrob:m00 rdf:datatype="&xsd;float">0.00</knowrob:m00>
         <knowrob:m01 rdf:datatype="&xsd;float">-1.00</knowrob:m01>
         <knowrob:m02 rdf:datatype="&xsd;float">0.00</knowrob:m02>
@@ -290,64 +291,73 @@
         <knowrob:m32 rdf:datatype="&xsd;float">0.00</knowrob:m32>
         <knowrob:m33 rdf:datatype="&xsd;float">1.00</knowrob:m33>
     </knowrob:RotationMatrix3D>
-
-    <!-- OBJECT TEMPLATES -->
     
-    <owl:NamedIndividual rdf:about="&sim;PizzaBoard_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">PizzaBoard</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;PizzaBoard_asf35rtsaf">
+        <rdf:type rdf:resource="&knowrob;CuttingBoard"/>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/pizza_board.dae</knowrob:pathToCadModel>
+        <srdl2-comp:urdfName>/PizzaBoard</srdl2-comp:urdfName>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&sim;Pizza_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Pizza</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;Pizza_gh56efgfsd">
+        <rdf:type rdf:resource="&knowrob;Pizza"/>
+        <srdl2-comp:urdfName>/PizzaBoard</srdl2-comp:urdfName>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/pizza_ease.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&sim;CheeseBowl_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">CheeseBowl</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;CheeseBowl_bcxghjzfu6">
+        <rdf:type rdf:resource="&knowrob;Bowl-Mixing"/>
+        <srdl2-comp:urdfName>/CheeseBowl</srdl2-comp:urdfName>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/bowl.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&sim;ChampignonBowl_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">ChampignonBowl</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;ChampignonBowl_asfh5e6fds">
+        <rdf:type rdf:resource="&knowrob;Bowl-Mixing"/>
+        <srdl2-comp:urdfName>/ChampignonBowl</srdl2-comp:urdfName>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/bowl.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&sim;Cup_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Cup</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;Cup_vcbreze56">
+        <rdf:type rdf:resource="&knowrob;Cup"/>
+        <srdl2-comp:urdfName>/Cup</srdl2-comp:urdfName>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/mug.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&sim;Spoon_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Spoon</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;Spoon_iujcbrw54">
+        <rdf:type rdf:resource="&knowrob;Spoon"/>
+        <srdl2-comp:urdfName>/Spoon</srdl2-comp:urdfName>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/spoon.dae</knowrob:pathToCadModel>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&sim;Cheese_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Cheese</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;CheesePile_vxbfrt5">
+        <rdf:type rdf:resource="&knowrob;Pile"/>
+        <knowrob:arrangementObjectTypes rdf:resource="&knowrob;Cheese"/>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/cheese_cube.dae</knowrob:pathToCadModel>
         <knowrob:numParticles rdf:datatype="&xsd;int">19</knowrob:numParticles>
+        <srdl2-comp:urdfName>/Cheese_link_~d</srdl2-comp:urdfName>
     </owl:NamedIndividual>
 
-    <owl:NamedIndividual rdf:about="&sim;Champignon_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Champignon</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;ChampignonPile_bcfhrdz567">
+        <rdf:type rdf:resource="&knowrob;Pile"/>
+        <knowrob:arrangementObjectTypes rdf:resource="&knowrob;Champignon"/>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/mushroom.dae</knowrob:pathToCadModel>
         <knowrob:numParticles rdf:datatype="&xsd;int">10</knowrob:numParticles>
+        <srdl2-comp:urdfName>/Champignon_link_~d</srdl2-comp:urdfName>
     </owl:NamedIndividual>
     
-    <owl:NamedIndividual rdf:about="&sim;Sauce_TEMPLATE">
-        <rdf:type rdf:resource="&knowrob;EnduringThing-Localized"/>
-        <knowrob:perceptionResponse rdf:datatype="&xsd;string">Sauce</knowrob:perceptionResponse>
+    <owl:NamedIndividual rdf:about="&sim;TomatoBasedSauce_xcbhjfbt5hgf">
+        <rdf:type rdf:resource="&knowrob;TomatoBasedSauce"/>
+        <knowrob:describedInMap rdf:resource="&sim;SemanticEnvironmentMap_vpdsmf09ewtnv"/>
         <knowrob:pathToCadModel rdf:datatype="&xsd;string">package://unsorted/robohow/sauce.dae</knowrob:pathToCadModel>
         <knowrob:numParticles rdf:datatype="&xsd;int">40</knowrob:numParticles>
+        <srdl2-comp:urdfName>/Sauce_link_~d</srdl2-comp:urdfName>
     </owl:NamedIndividual>
 
 </rdf:RDF>

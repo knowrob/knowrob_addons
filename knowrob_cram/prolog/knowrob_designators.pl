@@ -52,16 +52,17 @@
         
         designator_publish/1,
         designator_publish/2,
-        designator_publish_image/1
+        designator_publish_image/1,
+        show_entity/1
     ]).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
-:- use_module(library('owl')).
-:- use_module(library('rdfs_computable')).
-:- use_module(library('owl_parser')).
-:- use_module(library('comp_temporal')).
-:- use_module(library('knowrob_mongo')).
-:- use_module(library('knowrob_objects')).
+:- use_module(library('semweb/owl')).
+:- use_module(library('semweb/owl_parser')).
+:- use_module(library('knowrob/comp_temporal')).
+:- use_module(library('knowrob/computable')).
+:- use_module(library('knowrob/mongo')).
+:- use_module(library('knowrob/objects')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
 :- rdf_db:rdf_register_ns(knowrob_cram, 'http://knowrob.org/kb/knowrob_cram.owl#', [keep(true)]).
@@ -86,7 +87,8 @@
     action_designator_exp(r,r),
     designator_publish(r),
     designator_publish(r,+),
-    designator_publish_image(r).
+    designator_publish_image(r),
+    show_entity(r).
 
 
 :- assert(log_pbl(fail)).
@@ -139,6 +141,7 @@ designator_template(Map, Response, Template) :-
   atom(Map),
   owl_individual_of(Map, knowrob:'SemanticEnvironmentMap'),
   owl_has(Template, knowrob:'perceptionResponse', literal(type(_,Response))),
+  atom_concat(_, '_TEMPLATE', Template),
   % Make sure template instance is defined in Map
   rdf_split_url(MapUrl, _, Map),
   rdf_split_url(MapUrl, _, Template).
@@ -168,7 +171,7 @@ designator_assert(ObjInstance, Designator, Map) :-
 designator_assert(ObjInstance, Designator, _, _) :-
   designator_object(Designator, ObjInstance),
   % Check if already asserted
-  rdf_has(ObjInstance, rdf:type, _).
+  rdf_has(ObjInstance, rdf:type, _), !.
 
 designator_assert(ObjInstance, Designator, DesignatorJava, Map) :-
   designator_object(Designator, ObjInstance),
@@ -222,7 +225,9 @@ designator_read_template_from_map(ObjInstance, Map, Response) :-
   findall([Prop,Value], (
     rdf_has(TemplateInstance, Prop, Value),
     % Only handle knowrob properties
-    rdf_split_url('http://knowrob.org/kb/knowrob.owl#', _, Prop)
+    % TODO: handle all properties? Why skipping some?
+    ( rdf_split_url('http://knowrob.org/kb/knowrob.owl#', _, Prop)
+    ; Prop = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' )
   ), Props),
   
   forall(
@@ -319,7 +324,7 @@ designator_add_perception(ObjInstance, Designator, Pose, Time) :-
 
 designator_add_perception(ObjInstance, Designator, Pose, Time) :-
   is_list(Pose),
-  create_pose(Pose, Matrix),
+  create_pose(mat(Pose), Matrix),
   designator_add_perception(ObjInstance, Designator, Matrix, Time).
 
 designator_add_perception(ObjInstance, _Designator, Pose, Time) :-
@@ -342,10 +347,33 @@ designator_between(Designator, PreAction, PostAction) :-
   task_start(PostAction, T1),
   rdfs_individual_of(Designator, knowrob:'CRAMDesignator'),
   rdf_has(Designator, knowrob:'equationTime', T),
-  time_point_value(T0, T_Val0),
-  time_point_value(T1, T_Val1),
-  time_point_value(T, T_Val),
+  time_term(T0, T_Val0),
+  time_term(T1, T_Val1),
+  time_term(T, T_Val),
   T_Val =< T_Val1, T_Val >= T_Val0.
+
+show_entity(Entity) :-
+  entity(Entity, Descr),
+  Descr = [_,Type|Descr_],
+  jpl_new('org.knowrob.interfaces.mongo.types.Designator', [], Desig),
+  jpl_call(Desig, 'put', ['_designator_type', Type], _),
+  read_entity_desig(Desig, Descr_),
+  designator_publish(Entity, Desig).
+
+read_entity_desig(_, []).
+read_entity_desig(Desig, [[Key,Val]|Descr]) :-
+  term_to_atom(Key, KeyAtom),
+  (  is_list(Val)
+  -> (
+    jpl_new('org.knowrob.interfaces.mongo.types.Designator', [], Val_),
+    Val = [_, Type|Nested],
+    jpl_call(Val_, 'put', ['_designator_type', Type], _),
+    read_entity_desig(Val_, Nested)
+  ) ; term_to_atom(Val, Val_) ),
+  jpl_call(Desig, 'put', [KeyAtom, Val_], _),
+  read_entity_desig(Desig, Descr), !.
+read_entity_desig(Desig, [_|Descr]) :-
+  read_entity_desig(Desig, Descr).
 
 %% designator_publish(+Designator) is nondet.
 %
@@ -389,14 +417,19 @@ designator_publish_image(Input) :-
   designator_publish_image(Task), !.
 
 designator_publish_image(Input) :-
-  task(Input),
+  once(rdf_has(Input, rdf:'type', _)), !, % owl individuals have capturedImage or don't get published
   rdf_has(Input, knowrob:'capturedImage', Img),
+  rdf_has(Input, knowrob:'startTime', T),
   rdf_has(Img, knowrob:'linkToImageFile', literal(type(_, Path))),
 
-  rdf_has(Directory, rdf:type, knowrob:'DirectoryName'),
+  % Find directory that contains the experiment active at given timepoint
+  experiment(Experiment, T),
+  rdf_has(Directory, knowrob:experiment, Experiment),
+  rdf_has(Directory, rdf:type, knowrob:'RobotExperimentDirectory'),
+  
   atomic_list_concat([_Prefix, Dir], '#', Directory),
   atomic_list_concat([Dir, Path], '/', CompletePath),
-  designator_publish_image(CompletePath).
+  designator_publish_image(CompletePath), !.
 
 designator_publish_image(Input) :-
   atom(Input),

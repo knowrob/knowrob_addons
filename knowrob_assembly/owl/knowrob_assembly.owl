@@ -1,0 +1,1014 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://knowrob.org/kb/knowrob_assembly#"
+     xml:base="http://knowrob.org/kb/knowrob_assembly"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:knowrob_planning="http://knowrob.org/kb/knowrob_planning.owl#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:knowrob_assembly="http://knowrob.org/kb/knowrob_assembly.owl#"
+     xmlns:computable="http://knowrob.org/kb/computable.owl#"
+     xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/knowrob_assembly.owl">
+        <owl:imports rdf:resource="package://knowrob_planning/owl/knowrob_planning.owl"/>
+        <owl:imports rdf:resource="package://knowrob_paramserver/owl/knowrob_paramserver.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#todo -->
+
+    <owl:AnnotationProperty rdf:about="http://knowrob.org/kb/knowrob.owl#todo"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblyBlocksAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblyBlocksAffordance">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblyRequiresAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblyRequiresAffordance">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#canHoldObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordance">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance"/>
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#graspAt -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#graspAt">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasPart -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasPart">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+            </rdf:Description>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart">
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#hasSubAssemblage -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#hasSubAssemblage">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#isGrasped -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#isGrasped">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#linkedByAssemblage -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linkedByAssemblage">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage"/>
+            </rdf:Description>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+            </rdf:Description>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#linksAssemblage">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+            </rdf:Description>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasPart"/>
+            </rdf:Description>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesConnection -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+        <rdfs:range rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesGripper -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesGripper"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesPose -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesPose"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#usesTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#usesTransform"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasShape -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasShape"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform -->
+
+    <owl:ObjectProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordanceType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#consumesAffordanceType">
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordanceType"/>
+        <rdfs:subPropertyOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#needsAffordanceType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#assemblageEstablished">
+        <rdfs:domain rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#command -->
+
+    <owl:DatatypeProperty rdf:about="http://knowrob.org/kb/knowrob_planning.owl#command"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#Connection-Physical -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#ActionSpecification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ActionSpecification">
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Affordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Affordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AffordanceByPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AffordanceByPart">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Assemblage -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#needsAffordance"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
+    </owl:Class>
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#Connection-Physical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasTransform"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasAffordance"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Bolt -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Bolt">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Fastener"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Fastener -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Fastener">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#FixedPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AtomicPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Interval -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Interval">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#endsAtTime"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#startsAtTime"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#IrreversibleAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#IrreversibleAssemblyConnection">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection"/>
+                    <owl:Class>
+                        <owl:complementOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ReversibleAssemblyConnection"/>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ReversibleAssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#MechanicalPart">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob.owl#PhysicalPartOfObject"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#MetalFixture -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#MetalFixture">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#MetalPiece"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#MetalPiece -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#MetalPiece">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Nut -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Nut">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Fastener"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryAssemblyConnection"/>
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#IrreversibleAssemblyConnection"/>
+            <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ReversibleAssemblyConnection"/>
+        </owl:disjointUnionOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#PlasticFixture -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#PlasticFixture">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PlasticPiece"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#PlasticPiece -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#PlasticPiece">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#ReversibleAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ReversibleAssemblyConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#Screw -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#Screw">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Fastener"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#ScrewAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ScrewAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#ScrewConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ScrewConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#ScrewFType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ScrewFType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ScrewAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#ScrewMType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#ScrewMType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#ScrewAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SideGraspAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SlideInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SlideInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SlideInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SlideInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SlideInFType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SlideInFType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SlideInMType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SnapInAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SnapInAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SnapInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SnapInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#PermanentAssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SnapInFType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SnapInFType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#SnapInMType -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#SnapInMType">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SnapInAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts">
+        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob classes instead</knowrob:todo>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Interval"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#temporalExtent"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Interval"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <knowrob:todo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">use KnowRob temporal part representation</knowrob:todo>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryAssemblyConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryAssemblyConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#blocksAffordance"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Affordance"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification"/>
+                <owl:allValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasSpecification"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasGripperType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasObjectType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#hasRobotType"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryTransform">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalReification"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart"/>
+                        <owl:hasValue rdf:resource="http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart"/>
+                        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                        <owl:onClass>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#AssemblyConnection"/>
+                                    <rdf:Description rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TemporaryGrasp"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:onClass>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#hasReferencePart"/>
+                <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TimePoint -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TimePoint">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#TemporalConcepts"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#TopGraspAffordance">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#GraspingAffordance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#UnstableAssemblage -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#UnstableAssemblage">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#usesConnection"/>
+                <owl:someValuesFrom rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#UnstableConnection"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#Assemblage"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#UnstableConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#UnstableConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#NonPermanentAssemblyConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#UnstableSlideInConnection -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#UnstableSlideInConnection">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#SlideInConnection"/>
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#UnstableConnection"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#WoodenFixture -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#WoodenFixture">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#FixedPart"/>
+        <owl:disjointWith rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#WoodenPiece"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_assembly.owl#WoodenPiece -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_assembly.owl#WoodenPiece">
+        <rdfs:subClassOf rdf:resource="http://knowrob.org/kb/knowrob_assembly.owl#BasicMechanicalPart"/>
+    </owl:Class>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#GraspSpecification"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#ReferenceShapeData -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#ReferenceShapeData"/>
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM -->
+
+    <owl:Class rdf:about="http://knowrob.org/kb/knowrob_planning.owl#AgendaPerformPrologCRAM"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol -->
+
+    <owl:NamedIndividual rdf:about="http://knowrob.org/kb/knowrob_paramserver.owl#MapFrameSymbol"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+

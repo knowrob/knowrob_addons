@@ -6,3 +6,6 @@ find_package(catkin REQUIRED COMPONENTS comp_temporal comp_spatial)
 catkin_package(
     DEPENDS comp_temporal comp_spatial
 )
+  
+install(DIRECTORY prolog/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/prolog)
