@@ -2,9 +2,11 @@ package org.knowrob.reinforcement;
 
 import com.google.common.base.Preconditions;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.lang.Thread;
 
 import org.ros.exception.RemoteException;
@@ -140,6 +142,8 @@ public class KitchenEnvironment extends AbstractNodeMain implements Environment
 	int direction = 0;
 
 
+	static HashMap<String, Process> processMap = new HashMap<String, Process>();
+
 	double goalFingerOneX, goalFingerOneY, goalFingerOneZ, goalFingerTwoX, goalFingerTwoY, goalFingerTwoZ;
 
 	ConnectedNode node;
@@ -244,14 +248,14 @@ public class KitchenEnvironment extends AbstractNodeMain implements Environment
 			arg_for_tf_logging[6] = "-c";
 			arg_for_tf_logging[7] = "roslog.tf" + direction;
 
-			output1 = RosUtilities.roslaunch("pr2_gazebo", "pr2_empty_world.launch", args);
+			output1 = roslaunch("pr2_gazebo", "pr2_empty_world.launch", args);
 			Thread.sleep(5000);
-			output2 = RosUtilities.roslaunch("iai_kitchen", "gazebo_spawn_kitchen.launch", args);
+			output2 = roslaunch("iai_kitchen", "gazebo_spawn_kitchen.launch", args);
 			Thread.sleep(5000);
-			output3 = RosUtilities.roslaunch("knowrob_learning", "fake_localization.launch", args);
-			output3 = RosUtilities.roslaunch("pr2_arm_kinematics", "pr2_ik_rarm_node.launch", args);
+			output3 = roslaunch("knowrob_learning", "fake_localization.launch", args);
+			output3 = roslaunch("pr2_arm_kinematics", "pr2_ik_rarm_node.launch", args);
 			Thread.sleep(5000);
-			output4 = RosUtilities.rosrun("mongodb_log", "mongodb_log_tf", arg_for_tf_logging);
+			output4 = rosrun("mongodb_log", "mongodb_log_tf", arg_for_tf_logging);
 			Thread.sleep(5000);
 		}	
 		catch(Exception e)
@@ -318,10 +322,10 @@ public class KitchenEnvironment extends AbstractNodeMain implements Environment
 	{
 		
 		direction++;
-		RosUtilities.kill(gazebo);
-		RosUtilities.kill(world);
-		RosUtilities.kill(controllers);
-		RosUtilities.kill(logger);
+		kill(gazebo);
+		kill(world);
+		kill(controllers);
+		kill(logger);
 
 		try
 		{
@@ -882,5 +886,40 @@ public class KitchenEnvironment extends AbstractNodeMain implements Environment
 	public List<TransformStamped> getCurrentPoses()
 	{
 		return getCurrentPoses(last_tfs);
+	}
+    
+   
+	/**
+	 * Runs the given launch file of the given ROS package 
+	 * @param pkg name of the ROS package
+	 * @param launch_file name of the launch file
+	 * @param args Arguments
+	 * @return Handle to this process
+	 * @throws IOException 
+	 */
+	public static String roslaunch(String pkg, String launch_file, String[] arg) throws IOException {
+		String handle = null;
+		try
+		{
+			String args = Joiner.on(" ").join(arg);
+			Process p = Runtime.getRuntime().exec("roslaunch " + pkg + " " + launch_file + " " + args);
+			handle = UUID.randomUUID().toString();
+			processMap.put(handle, p);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return handle;
+	}
+	
+	/**
+	 * Kill a process based on its UUID (which has been returned 
+	 * by the RosUtilities.rosrun() method
+	 * @param UUID of the process to be killed
+	 * @param binary name of the binary
+	 */
+	public static void kill(String handle) {
+		processMap.get(handle).destroy();
 	}
 }
