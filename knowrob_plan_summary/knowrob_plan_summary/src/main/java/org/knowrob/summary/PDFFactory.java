@@ -43,7 +43,7 @@ import org.ros.message.Duration;
 import org.ros.message.Time;
 import org.knowrob.utils.ros.RosUtilities;
 import org.knowrob.tfmemory.TFMemory;
-import tfjava.StampedTransform;
+import org.knowrob.tfmemory.StampedTransform;
 
 /**
  * 2D latex-based plan summary from log files 

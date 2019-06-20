@@ -234,9 +234,9 @@ public class LogdataPublisher extends AbstractNodeMain {
 			{
 				handleVectorValue(designator_msg, c, (Vector3d) value);
 			}
-			else if (value instanceof tfjava.Stamped<?>)
+			else if (value instanceof org.knowrob.tfmemory.Stamped<?>)
 			{
-				Object innerVal = ((tfjava.Stamped<?>)value).getData();
+				Object innerVal = ((org.knowrob.tfmemory.Stamped<?>)value).getData();
 				if (innerVal instanceof Matrix4d)
 					handleMatrixValue(designator_msg, c, (Matrix4d) innerVal);
 				else if (innerVal instanceof Vector3d)

@@ -12,7 +12,7 @@ import org.knowrob.tfmemory.TFMemory;
 import org.knowrob.vis.MarkerObject;
 import org.knowrob.vis.MarkerPublisher;
 
-import tfjava.StampedTransform;
+import org.knowrob.tfmemory.StampedTransform;
 import visualization_msgs.Marker;
 
 public class MeshVisualization
