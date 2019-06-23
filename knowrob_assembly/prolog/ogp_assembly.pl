@@ -41,7 +41,7 @@
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
-:- use_module(library('knowrob/ESG')).
+:- use_module(library('knowrob/event_graph')).
 :- use_module(library('ogp')).
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 

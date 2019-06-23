@@ -38,7 +38,6 @@ import javax.vecmath.Quat4d;
 import javax.vecmath.Vector2d;
 import javax.vecmath.Vector3d;
 
-import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.vis.collada_1_4_1.ProfileCOMMON;
 import org.knowrob.vis.collada_1_4_1.Source;
 
@@ -138,25 +137,6 @@ public class CheckerBoardMesh extends ColladaMesh {
 	//////////////////////////////
 	///////////// Factory
 	//////////////////////////////
-	
-	public static CheckerBoardMesh createCheckerBoardMesh(Designator objectDesignator) {
-		
-		/*
-		Designator checkerBoard = objectDesignator.getDesignator("PIZZA");
-		if(checkerBoard==null) {
-			return null;
-		}
-		Object boardSize = checkerBoard.get("SIZE");
-		Object cellSize = checkerBoard.get("FIELD_SIZE");
-		Object boardPose = checkerBoard.get("POSE");
-		System.err.println("boardSize " + boardSize.getClass());
-		System.err.println("cellSize " + cellSize.getClass());
-		System.err.println("boardPose " + boardPose.getClass());
-		*/
-		
-		// TODO
-		return createCheckerBoardMesh();
-	}
 	
 	public static CheckerBoardMesh createCheckerBoardMesh() {
 		Vector3d position = new Vector3d(0.0,0.0,0.0);

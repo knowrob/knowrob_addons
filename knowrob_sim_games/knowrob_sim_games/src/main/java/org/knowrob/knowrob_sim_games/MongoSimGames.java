@@ -62,8 +62,8 @@ import weka.core.Instances;
 import weka.core.Attribute;
 import weka.core.Utils;
 
-import org.knowrob.vis.MarkerObject;
-import org.knowrob.vis.MarkerPublisher;
+// import org.knowrob.vis.MarkerObject;
+// import org.knowrob.vis.MarkerPublisher;
 import visualization_msgs.Marker;
 import geometry_msgs.Point;
 
@@ -237,12 +237,13 @@ public class MongoSimGames {
 	 * Helper function to create a geometry_msgs.Point
 	 */
 	private Point msgPoint(Vector3d v){
-		// TODO make node a class attribute?
-		Point p = MarkerPublisher.get().getNode().getTopicMessageFactory().newFromType(Point._TYPE);
-		p.setX(v.x);
-		p.setY(v.y);
-		p.setZ(v.z);
-		return p;
+// 		// TODO make node a class attribute?
+// 		Point p = MarkerPublisher.get().getNode().getTopicMessageFactory().newFromType(Point._TYPE);
+// 		p.setX(v.x);
+// 		p.setY(v.y);
+// 		p.setZ(v.z);
+// 		return p;
+  return null;
 	}
 
 	
@@ -311,30 +312,30 @@ public class MongoSimGames {
 	 * Create the rviz markers
 	 */
 	public void CreateMarkers(ArrayList<Vector3d> pointsArr, String markerID, String markerType, String color, float scale){
-		// List of marker points
-		List<Point> marker_points = new ArrayList<Point>();
-		
-		// iterate the 3d vector to create the marker points
-		for (Vector3d p_iter : pointsArr){
-			marker_points.add(msgPoint(p_iter));
-		}
-
-		// check if marker already exists
-		MarkerObject m = MarkerPublisher.get().getMarker(markerID);
-		if(m==null) {			
-			// create marker
-			m = MarkerPublisher.get().createMarker(markerID);
-			// set the type of the marker
-			m.setType(markerFromString(markerType));
-			// set the positions of the list markers
-			m.getMessage().setPoints(marker_points);
-			// transform string color to float[] array
-			m.setColor(this.colorFromString(color));
-			// set the scale of the marker
-			m.setScale(new float[] {scale, scale, scale});
-		}
-		// add ID to the marker container
-		this.markerIDs.add(markerID);
+// 		// List of marker points
+// 		List<Point> marker_points = new ArrayList<Point>();
+// 		
+// 		// iterate the 3d vector to create the marker points
+// 		for (Vector3d p_iter : pointsArr){
+// 			marker_points.add(msgPoint(p_iter));
+// 		}
+// 
+// 		// check if marker already exists
+// 		MarkerObject m = MarkerPublisher.get().getMarker(markerID);
+// 		if(m==null) {			
+// 			// create marker
+// 			m = MarkerPublisher.get().createMarker(markerID);
+// 			// set the type of the marker
+// 			m.setType(markerFromString(markerType));
+// 			// set the positions of the list markers
+// 			m.getMessage().setPoints(marker_points);
+// 			// transform string color to float[] array
+// 			m.setColor(this.colorFromString(color));
+// 			// set the scale of the marker
+// 			m.setScale(new float[] {scale, scale, scale});
+// 		}
+// 		// add ID to the marker container
+// 		this.markerIDs.add(markerID);
 	}
 	
 	/**
@@ -342,22 +343,22 @@ public class MongoSimGames {
 	 */
 	public void CreateMeshMarker(double translation[], double orientation[], String meshPath, String markerID){		
 		// check if marker already exists
-		MarkerObject m = MarkerPublisher.get().getMarker(markerID);
-		if(m==null) {
-			// create marker
-			m = MarkerPublisher.get().createMarker(markerID);
-			// set the type of the marker
-			m.setType(Marker.MESH_RESOURCE);
-			// set the path to the mesh
-			m.setMeshResource(meshPath);
-			// set pos and rotation
-			m.setTranslation(translation);
-			m.setOrientation(orientation);
-			// set scale
-			m.setScale(new float[] {1.0f,1.0f,1.0f});
-		}
-		// add ID to the marker container
-		this.markerIDs.add(markerID);
+// 		MarkerObject m = MarkerPublisher.get().getMarker(markerID);
+// 		if(m==null) {
+// 			// create marker
+// 			m = MarkerPublisher.get().createMarker(markerID);
+// 			// set the type of the marker
+// 			m.setType(Marker.MESH_RESOURCE);
+// 			// set the path to the mesh
+// 			m.setMeshResource(meshPath);
+// 			// set pos and rotation
+// 			m.setTranslation(translation);
+// 			m.setOrientation(orientation);
+// 			// set scale
+// 			m.setScale(new float[] {1.0f,1.0f,1.0f});
+// 		}
+// 		// add ID to the marker container
+// 		this.markerIDs.add(markerID);
 	}
 
 	/**
@@ -370,35 +371,35 @@ public class MongoSimGames {
 			String meshFolderPath,
 			String markerID){
 		// create marker for every link mesh
-		for (int i = 0; i < names.size(); ++i)
-		{
-			final String curr_name = names.get(i);
-			final String curr_id = markerID + curr_name;
-			// check if marker already exists (ID + link names)
-			MarkerObject m = MarkerPublisher.get().getMarker(curr_id);
-			if(m==null) {
-				// create marker
-				m = MarkerPublisher.get().createMarker(curr_id);
-				// set the type of the marker
-				m.setType(Marker.MESH_RESOURCE);
-				// set the path to the mesh
-				m.setMeshResource(meshFolderPath + curr_name + ".dae");
-				// set pos and rotation
-				m.setTranslation(translations.get(i));
-				m.setOrientation(orientations.get(i));
-				// set scale
-				m.setScale(new float[] {1.0f,1.0f,1.0f});
-			}
-			// add ID to the marker container
-			this.markerIDs.add(curr_id);		
-		}
+// 		for (int i = 0; i < names.size(); ++i)
+// 		{
+// 			final String curr_name = names.get(i);
+// 			final String curr_id = markerID + curr_name;
+// 			// check if marker already exists (ID + link names)
+// 			MarkerObject m = MarkerPublisher.get().getMarker(curr_id);
+// 			if(m==null) {
+// 				// create marker
+// 				m = MarkerPublisher.get().createMarker(curr_id);
+// 				// set the type of the marker
+// 				m.setType(Marker.MESH_RESOURCE);
+// 				// set the path to the mesh
+// 				m.setMeshResource(meshFolderPath + curr_name + ".dae");
+// 				// set pos and rotation
+// 				m.setTranslation(translations.get(i));
+// 				m.setOrientation(orientations.get(i));
+// 				// set scale
+// 				m.setScale(new float[] {1.0f,1.0f,1.0f});
+// 			}
+// 			// add ID to the marker container
+// 			this.markerIDs.add(curr_id);		
+// 		}
 	}
 	
 	/**
 	 * Remove the rviz marker with the given ID
 	 */
 	public void RemoveMarker(String markerID){
-		MarkerPublisher.get().eraseMarker(markerID);		
+// 		MarkerPublisher.get().eraseMarker(markerID);		
 	}
 	
 	/**
