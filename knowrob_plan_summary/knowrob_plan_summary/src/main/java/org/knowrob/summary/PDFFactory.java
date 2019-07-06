@@ -41,7 +41,7 @@ import java.text.DecimalFormat;
 
 import org.ros.message.Duration;
 import org.ros.message.Time;
-import org.knowrob.utils.ros.RosUtilities;
+// import org.knowrob.utils.ros.RosUtilities;
 import org.knowrob.tfmemory.TFMemory;
 import org.knowrob.tfmemory.StampedTransform;
 
