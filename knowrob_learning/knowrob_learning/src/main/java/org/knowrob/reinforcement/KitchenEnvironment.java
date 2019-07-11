@@ -1,11 +1,13 @@
 package org.knowrob.reinforcement;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Joiner;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.lang.Thread;
 
@@ -28,8 +30,6 @@ import org.ros.node.topic.Publisher;
 import org.ros.rosjava_geometry.Quaternion;
 import org.ros.rosjava_geometry.Vector3;
 import org.ros.exception.RemoteException;
-
-import org.knowrob.utils.ros.RosUtilities;  
 
 import geometry_msgs.TransformStamped;
 import geometry_msgs.PoseStamped;
@@ -909,6 +909,31 @@ public class KitchenEnvironment extends AbstractNodeMain implements Environment
 		catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		return handle;
+	}
+
+	/**
+	 * Finds a ROS package using rospack and returns its path. 
+	 * @param pkg name of the ROS package
+	 * @param binary name of the binary
+	 * @param args Arguments
+	 * @return Handle to this process
+	 * @throws IOException 
+	 */
+	public static String rosrun(String pkg, String binary, String[] arg) throws IOException {
+		String handle = null;
+		try
+		{
+		  String args = Joiner.on(" ").join(arg);
+		  Process p = Runtime.getRuntime().exec("rosrun " + pkg + " " + binary + " " + args);
+		  
+		  handle = UUID.randomUUID().toString();
+		  processMap.put(handle, p);
+		}
+		catch (Exception e)
+		{
+		  e.printStackTrace();
 		}
 		return handle;
 	}
