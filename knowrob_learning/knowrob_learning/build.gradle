@@ -43,7 +43,6 @@ dependencies {
   compile 'org.ros.rosjava_messages:moveit_msgs:0.5.3'
   compile 'org.ros.rosjava_messages:pr2_controllers_msgs:[0.1,1.10.14)'
   compile 'org.ros.rosjava_messages:trajectory_msgs:1.12.+'
-  compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
   compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
   compile files('src/main/javalibs/weka-stable-3.8.0.jar')
   compile group: 'tw.edu.ntu.csie', name: 'libsvm', version: '3.1'

@@ -1,7 +1,6 @@
 package org.knowrob.gaussian;
 
 import java.io.*;
-import org.knowrob.utils.ros.RosUtilities;
 
 public class MixedGaussianInterface
 {
@@ -15,7 +14,7 @@ public class MixedGaussianInterface
 	public void createHeatMaps()
 	{
 		//String learning_path = RosUtilities.rospackFind("knowrob_learning");
-		String learning_path = "/home/ros/src/knowrob_addons/knowrob_learning");
+		String learning_path = "/home/ros/src/knowrob_addons/knowrob_learning";
 		String script_path = learning_path + "/scripts";
 		
 		try
