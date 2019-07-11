@@ -103,7 +103,9 @@ human_hand_pose(BodyPart, T, [X,Y,Z], Rotation) :-
   Dir_Y is Y - Y_Parent,
   Dir_Z is Z - Z_Parent,
   jpl_list_to_array([Dir_X, Dir_Y, Dir_Z], DirArr),
-  jpl_call('org.knowrob.utils.MathUtil', 'orientationToQuaternion', [DirArr], QuaternionArr),
+  fail,
+  % FIXME
+  %jpl_call('org.knowrob.utils.MathUtil', 'orientationToQuaternion', [DirArr], QuaternionArr),
   jpl_array_to_list(QuaternionArr, Rotation).
   
 
@@ -130,11 +132,11 @@ designator_grasped_pose(Grasp, ObjId, T, Position, Rotation) :-
   % Find rotation difference of hand between Grasp_T and T
   jpl_list_to_array(Rh_0, Rh_0_Arr),
   jpl_list_to_array(Rh_T, Rh_T_Arr),
-  jpl_call('org.knowrob.utils.MathUtil', 'quaternionDifference', [Rh_0_Arr, Rh_T_Arr], Rh_Diff_Arr),
+  quaternion_diff(Rh_0_Arr, Rh_T_Arr, Rh_Diff_Arr),
   
   % Apply quaternion difference to Ro_0
   jpl_list_to_array(Ro_0, Ro_0_Arr),
-  jpl_call('org.knowrob.utils.MathUtil', 'quaternionMultiply', [Ro_0_Arr, Rh_Diff_Arr], Rot_Arr),
+  quaternion_multiply(Ro_0_Arr, Rh_Diff_Arr, Rot_Arr),
   jpl_array_to_list(Rot_Arr, Rotation).
 
 

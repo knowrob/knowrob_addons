@@ -35,7 +35,7 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Point3d;
 import javax.vecmath.Matrix4d;
 import java.io.*;
-import tfjava.StampedTransform;
+import org.knowrob.tfmemory.StampedTransform;
 
 
 import org.knowrob.knowrob_sim_games.MongoSimGames;

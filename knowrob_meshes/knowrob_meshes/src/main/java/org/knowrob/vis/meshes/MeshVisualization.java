@@ -9,10 +9,10 @@ import javax.vecmath.Vector3d;
 import org.ros.message.Time;
 import org.knowrob.interfaces.mongo.types.Designator;
 import org.knowrob.tfmemory.TFMemory;
-import org.knowrob.vis.MarkerObject;
-import org.knowrob.vis.MarkerPublisher;
+// import org.knowrob.vis.MarkerObject;
+// import org.knowrob.vis.MarkerPublisher;
 
-import tfjava.StampedTransform;
+import org.knowrob.tfmemory.StampedTransform;
 import visualization_msgs.Marker;
 
 public class MeshVisualization
@@ -123,24 +123,24 @@ public class MeshVisualization
 				else if(p.z>max.z) max.z=p.z;
 			}
 
-			MarkerObject m = MarkerPublisher.get().getMarker(markerId);
-			if(m==null) {
-				m = MarkerPublisher.get().createMarker(markerId);
-				m.setType(Marker.CUBE);
-				m.setColor(new double[] {color.x, color.y, color.z, 1.0});
-			}
-
-			m.setScale(new double[] {
-				max.x-min.x,
-				max.y-min.y,
-				max.z-min.z
-			});
-			m.setTranslation(new double[] {
-				0.5*(min.x+max.x),
-				0.5*(min.y+max.y),
-				0.5*(min.z+max.z)
-			});
-			m.setOrientation(new double[] {1.0,0.0,0.0,0.0});
+// 			MarkerObject m = MarkerPublisher.get().getMarker(markerId);
+// 			if(m==null) {
+// 				m = MarkerPublisher.get().createMarker(markerId);
+// 				m.setType(Marker.CUBE);
+// 				m.setColor(new double[] {color.x, color.y, color.z, 1.0});
+// 			}
+// 
+// 			m.setScale(new double[] {
+// 				max.x-min.x,
+// 				max.y-min.y,
+// 				max.z-min.z
+// 			});
+// 			m.setTranslation(new double[] {
+// 				0.5*(min.x+max.x),
+// 				0.5*(min.y+max.y),
+// 				0.5*(min.z+max.z)
+// 			});
+// 			m.setOrientation(new double[] {1.0,0.0,0.0,0.0});
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -176,7 +176,7 @@ public class MeshVisualization
 	public static void addDesignatorCheckerboardMesh(String markerId, Designator designator) {
 		// TODO
 		try {
-			ColladaMesh m = CheckerBoardMesh.createCheckerBoardMesh(designator);
+			//ColladaMesh m = CheckerBoardMesh.createCheckerBoardMesh(designator);
 			//ProfileCOMMON profile = m.setPhongMaterial(
 			//		new double[] {0.0, 0.0, 0.0, 1.0},
 			//		new double[] {0.137255, 0.403922, 0.870588, 1},

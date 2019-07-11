@@ -41,9 +41,9 @@ import java.text.DecimalFormat;
 
 import org.ros.message.Duration;
 import org.ros.message.Time;
-import org.knowrob.utils.ros.RosUtilities;
+// import org.knowrob.utils.ros.RosUtilities;
 import org.knowrob.tfmemory.TFMemory;
-import tfjava.StampedTransform;
+import org.knowrob.tfmemory.StampedTransform;
 
 /**
  * 2D latex-based plan summary from log files 
@@ -63,7 +63,8 @@ public class PDFFactory
 
 	public PDFFactory()
 	{
-		path_of_knowrob_plan_summary = RosUtilities.rospackFind("knowrob_plan_summary");
+// 		path_of_knowrob_plan_summary = RosUtilities.rospackFind("knowrob_plan_summary");
+		path_of_knowrob_plan_summary = "/home/ros/src/knowrob_addons/knowrob_plan_summary";
 	}
 
 	public PDFFactory(String path_for_generated_latex)
@@ -280,8 +281,6 @@ public class PDFFactory
 	{
 		try
 		{
-			String path_of_knowrob_plan_summary = RosUtilities.rospackFind("knowrob_plan_summary");
-
 			FileReader fr = new FileReader(path_of_knowrob_plan_summary + "/latex/base.tex");  
         		BufferedReader br = new BufferedReader(fr);  
 

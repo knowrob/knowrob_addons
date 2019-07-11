@@ -347,4 +347,39 @@ public class VideoFactory extends AbstractNodeMain implements MessageListener<se
 		
 		return true;
 	}
+	
+	// TODO: move to openease package
+// 	public static String[] getVideoURLs(String cat, String exp)
+// 	{
+// 		LinkedList<String> urls = new LinkedList<String>();
+// 		File expDir = new File("/episodes/"+cat+"/"+exp);
+// 		if(expDir.exists()) {
+// 			for (final File episodeDir : expDir.listFiles()) {
+// 				if(!episodeDir.isDirectory()) continue;
+// 				File videoDir = new File(episodeDir, "videos");
+// 				if(videoDir.exists()) {
+// 					for (final File vidFile : videoDir.listFiles()) {
+// 						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/videos/"+vidFile.getName());
+// 					}
+// 				}
+// 				for (final File vidFile : episodeDir.listFiles()) {
+// 					if(vidFile.isDirectory()) continue;
+// 					String ext = vidFile.getName().substring(vidFile.getName().indexOf(".") + 1);
+// 					if (ext.equalsIgnoreCase("avi") ||
+// 					    ext.equalsIgnoreCase("mpg") ||
+// 					    ext.equalsIgnoreCase("mp4") ||
+// 					    ext.equalsIgnoreCase("mpeg") ||
+// 					    ext.equalsIgnoreCase("flv") ||
+// 					    ext.equalsIgnoreCase("mov") ||
+// 					    ext.equalsIgnoreCase("mkv")) {
+// 						urls.add("/knowrob/knowrob_data/"+cat+"/"+exp+"/"+episodeDir.getName()+"/" + vidFile.getName());
+// 					}
+// 				}
+// 			}
+// 		}
+// 		if(urls.isEmpty())
+// 			return null;
+// 		else
+// 			return urls.toArray(new String[urls.size()]);
+// 	}
 }

@@ -30,7 +30,6 @@ dependencies {
   compile project(':oeclient')
   compile group: 'org.json', name: 'json', version: '20160810'
   compile 'org.ros.rosjava_core:rosjava:[0.1,)'
-  compile 'org.knowrob.knowrob_common:knowrob_common:[0.1,)'
   compile 'org.knowrob.knowrob_mongo:knowrob_mongo:[0.1,)'
   compile 'org.knowrob.knowrob_cram:knowrob_cram:[0.1,)'
 }

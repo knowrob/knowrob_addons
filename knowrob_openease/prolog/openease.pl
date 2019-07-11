@@ -31,6 +31,7 @@
 
 :- module(openease,
     [
+      camera_pose/2,
         highlight/1,
         highlight/2,
         unhighlight/1
@@ -44,6 +45,20 @@
 :- use_module(library('knowrob/marker_vis')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#',  [keep(true)]).
+
+%% camera_pose(+Position:list, +Orientation:list) is det
+%
+% Sends a pose via the ROS topic _|/camera/pose|_.
+% Visualization clients may choose to manipulate some 3D camera accordingly.
+%
+% @param Position [float x,y,z]
+% @param Orientation [float qx,qy,qz,qw]
+%
+camera_pose([X,Y,Z], [QX,QY,QZ,QW]) :-
+    ros_publish('/camera/pose', 'geometry_msgs/Pose', _{
+      position:    _{x: X, y: Y, z: Z},
+      orientation: _{x: QX, y: QY, z: QZ, w: QW},
+    }).
 
 openease_highlight_msg(Objects,[R,G,B],Msg) :-
   openease_highlight_msg(Objects,[R,G,B,1],Msg), !.

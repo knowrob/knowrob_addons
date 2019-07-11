@@ -101,7 +101,7 @@ public class BasicBehavior extends AbstractNodeMain
 		env = new KitchenEnvironment(0.5, 0.05, 0.0, 0.5, 0.05, 0.0);
 		String[] arg = new String[1];
 		arg[0] = "org.knowrob.reinforcement.KitchenEnvironment";
-		RosUtilities.runRosjavaNode(env, arg);
+		runNode(env, arg);
 		env.setTF(tf);
 		try
 		{
@@ -155,4 +155,12 @@ public class BasicBehavior extends AbstractNodeMain
 	    return dt.getTime()/1000.0;
 	}
 		
+    
+    public static void runNode(AbstractNodeMain node, String[] args) {
+        CommandLineLoader loader = new CommandLineLoader(Lists.newArrayList(args));
+        NodeConfiguration nodeConfiguration = loader.build();
+
+        NodeMainExecutor nodeMainExecutor = DefaultNodeMainExecutor.newDefault();
+        nodeMainExecutor.execute(node, nodeConfiguration);
+    }
 }
