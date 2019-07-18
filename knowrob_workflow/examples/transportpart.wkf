@@ -1,0 +1,130 @@
+project http://knowrob.org/kb/wf_transportpart.owl
+namespace assembly http://knowrob.org/kb/knowrob_assembly.owl
+namespace grasp http://knowrob.org/kb/wf_grasppart.owl
+namespace pick http://knowrob.org/kb/wf_pickuppart.owl
+namespace place http://knowrob.org/kb/wf_placepart.owl
+namespace location http://knowrob.org/kb/wf_interpretlocation.owl
+namespace jair http://knowrob.org/kb/jair_atomic_tasks.owl
+
+#
+
+1 TransportPart[part:?p; graspaffordance: ?ga; actuator: ?act; grasppose: ?gp; destinationpose: ?dp; preserveaffordances: ?pa][status: ?status]
+2 jair&get_waypoints_Task[jair&get_waypoints_Part: ?p; jair&get_waypoints_Actuator: ?act; jair&get_waypoints_graspaffordance: ?ga; ][waypoints&status: ?status; waypoints&pregrasp: &pregrasp; waypoints&grasp: ?grasp; waypoints&postgrasp: ?postgrasp; waypoints&predrop: &predrop; waypoints&drop: ?drop; waypoints&postdrop: ?postdrop]
+
+3 checkik&CheckIK[checkik&pose: ?pregrasp; checkik&actuator: ?act][checkik&status: ?status; checkik&config: ?pregrasp]
+4 checkik&CheckIK[checkik&pose: ?grasp; checkik&actuator: ?act][checkik&status: ?status; checkik&config: ?grasp]
+5 checkik&CheckIK[checkik&pose: ?postgrasp; checkik&actuator: ?act][checkik&status: ?status; checkik&config: ?postgrasp]
+6 checkik&CheckIK[checkik&pose: ?predrop; checkik&actuator: ?act][checkik&status: ?status; checkik&config: ?predrop]
+7 checkik&CheckIK[checkik&pose: ?drop; checkik&actuator: ?act][checkik&status: ?status; checkik&config: ?drop]
+8 checkik&CheckIK[checkik&pose: ?postdrop; checkik&actuator: ?act][checkik&status: ?status; checkik&config: ?postdrop]
+
+9 append&Append[append&head: ?pa; append&element: ?ga][append&result: ?npa]
+10 empty&Empty[][empty&list: ?empty]
+
+11 checkcollision&CheckCollision[checkcollision&config: ?pregrasp; checkcollision&actuator: ?act; checkcollision&allowedcollision: ?part][checkcollision&collision: ?c; checkcollision&collider: ?collider]
+12 putaway&PutPartAway[putaway&mobilepart: ?collider; putaway&preserveaffordances: ?npa; putaway&actuator: ?act][putaway&status: ?status]
+13 checkcollision&CheckCollision[checkcollision&config: ?grasp; checkcollision&actuator: ?act; checkcollision&allowedcollision: ?part][checkcollision&collision: ?c; checkcollision&collider: ?collider]
+14 putaway&PutPartAway[putaway&mobilepart: ?collider; putaway&preserveaffordances: ?npa; putaway&actuator: ?act][putaway&status: ?status]
+15 checkcollision&CheckCollision[checkcollision&config: ?postgrasp; checkcollision&actuator: ?act; checkcollision&allowedcollision: ?part][checkcollision&collision: ?c; checkcollision&collider: ?collider]
+16 putaway&PutPartAway[putaway&mobilepart: ?collider; putaway&preserveaffordances: ?npa; putaway&actuator: ?act][putaway&status: ?status]
+
+17 crconfig&CrConfig[crconfig&actuator: ?act][crconfig&config: ?ini]
+18 safeconfig&SafeConfig[safeconfig&actuator: ?act][safeconfig&config: ?fin]
+
+19 motplan&PlanTrajectory[motplan&actuator: ?act; motplan&start: ?ini; motplan&goal: ?pregrasp][motplan&status: ?status; motplan&trajectory: ?ini_pregrasp]
+20 interp&InterpolateTrajectory[interp&actuator: ?act; interp&start: ?pregrasp; interp&goal: ?grasp][interp&status: ?status; interp&trajectory: ?pregrasp_grasp]
+21 interp&InterpolateTrajectory[interp&actuator: ?act; interp&start: ?grasp; interp&goal: ?postgrasp][interp&status: ?status; interp&trajectory: ?grasp_postgrasp]
+22 motplan&PlanTrajectory[motplan&actuator: ?act; motplan&start: ?postgrasp; motplan&goal: ?predrop][motplan&status: ?status; motplan&trajectory: ?postgrasp_predrop]
+23 interp&InterpolateTrajectory[interp&actuator: ?act; interp&start: ?predrop; interp&goal: ?drop][interp&status: ?status; interp&trajectory: ?predrop_drop]
+24 interp&InterpolateTrajectory[interp&actuator: ?act; interp&start: ?drop; interp&goal: ?postdrop][interp&status: ?status; interp&trajectory: ?drop_postdrop]
+25 motplan&PlanTrajectory[motplan&actuator: ?act; motplan&start: ?postdrop; motplan&goal: ?fin][motplan&status: ?status; motplan&trajectory: ?postdrop_fin]
+
+26 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?ini_pregrasp][follow&status: ?status]
+27 open&Open[open&actuator: ?act; open&part: ?empty][open&status: ?status]
+28 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?pregrasp_grasp][follow&status: ?status]
+29 close&Close[close&actuator: ?act; close&part: ?part][close&status: ?status]
+30 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?grasp_postgrasp][follow&status: ?status]
+31 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?postgrasp_predrop][follow&status: ?status]
+32 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?predrop_drop][follow&status: ?status]
+33 open&Open[open&actuator: ?act; open&part: ?part][open&status: ?status]
+34 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?drop_postdrop][follow&status: ?status]
+35 follow&FollowTrajectory[follow&actuator: ?act; follow&trajectory: ?postdrop_fin][follow&status: ?status]
+
+36 Return[status= EASE-WF&WFSuccess]
+37 Return[status= EASE-WF&FailWFHardware]
+38 Return[status= assembly-sigs&InfeasibleTransport]
+
+: 1->2
+: 2->3[?status= EASE-WF&WFSuccess]
+: 2->38[?status= assembly-sigs&WaypointUndefined]
+: 3->4[?status= EASE-WF&WFSuccess]
+: 3->38[?status= assembly-sigs&NoIK]
+: 4->5[?status= EASE-WF&WFSuccess]
+: 4->38[?status= assembly-sigs&NoIK]
+: 5->6[?status= EASE-WF&WFSuccess]
+: 5->38[?status= assembly-sigs&NoIK]
+: 6->7[?status= EASE-WF&WFSuccess]
+: 6->38[?status= assembly-sigs&NoIK]
+: 7->8[?status= EASE-WF&WFSuccess]
+: 7->38[?status= assembly-sigs&NoIK]
+: 8->9[?status= EASE-WF&WFSuccess]
+: 8->38[?status= assembly-sigs&NoIK]
+
+: 9->10
+: 10->11
+
+: 11->12[?c= checkcollision&HaveCollision]
+: 11->13[?c= checkcollision&NoCollision]
+: 12->11[?status= EASE-WF&WFSuccess]
+: 12->37[?status= EASE-WF&FailWFHardware]
+: 12->38[?status= assembly-sigs&InfeasibleTransport]
+: 13->14[?c= checkcollision&HaveCollision]
+: 13->15[?c= checkcollision&NoCollision]
+: 14->13[?status= EASE-WF&WFSuccess]
+: 14->37[?status= EASE-WF&FailWFHardware]
+: 14->38[?status= assembly-sigs&InfeasibleTransport]
+: 15->16[?c= checkcollision&HaveCollision]
+: 15->17[?c= checkcollision&NoCollision]
+: 16->15[?status= EASE-WF&WFSuccess]
+: 16->37[?status= EASE-WF&FailWFHardware]
+: 16->38[?status= assembly-sigs&InfeasibleTransport]
+
+: 17->18
+: 18->19
+
+: 19->20[?status= EASE-WF&WFSuccess]
+: 19->38[?status= assembly-sigs&PlanningFailure]
+: 20->21[?status= EASE-WF&WFSuccess]
+: 20->38[?status= assembly-sigs&NoIK]
+: 21->22[?status= EASE-WF&WFSuccess]
+: 21->38[?status= assembly-sigs&NoIK]
+: 22->23[?status= EASE-WF&WFSuccess]
+: 22->38[?status= assembly-sigs&PlanningFailure]
+: 23->24[?status= EASE-WF&WFSuccess]
+: 23->38[?status= assembly-sigs&NoIK]
+: 24->25[?status= EASE-WF&WFSuccess]
+: 24->38[?status= assembly-sigs&NoIK]
+: 25->26[?status= EASE-WF&WFSuccess]
+: 25->38[?status= assembly-sigs&PlanningFailure]
+
+: 26->27[?status= EASE-WF&WFSuccess]
+: 26->37[?status= EASE-WF&FailWFHardware]
+: 27->28[?status= EASE-WF&WFSuccess]
+: 27->37[?status= EASE-WF&FailWFHardware]
+: 28->29[?status= EASE-WF&WFSuccess]
+: 28->37[?status= EASE-WF&FailWFHardware]
+: 29->30[?status= EASE-WF&WFSuccess]
+: 29->37[?status= EASE-WF&FailWFHardware]
+: 30->31[?status= EASE-WF&WFSuccess]
+: 30->37[?status= EASE-WF&FailWFHardware]
+: 31->32[?status= EASE-WF&WFSuccess]
+: 31->37[?status= EASE-WF&FailWFHardware]
+: 32->33[?status= EASE-WF&WFSuccess]
+: 32->37[?status= EASE-WF&FailWFHardware]
+: 33->34[?status= EASE-WF&WFSuccess]
+: 33->37[?status= EASE-WF&FailWFHardware]
+: 34->35[?status= EASE-WF&WFSuccess]
+: 34->37[?status= EASE-WF&FailWFHardware]
+: 35->36[?status= EASE-WF&WFSuccess]
+: 35->37[?status= EASE-WF&FailWFHardware]
+

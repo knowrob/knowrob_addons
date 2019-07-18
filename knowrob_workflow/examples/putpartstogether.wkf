@@ -1,0 +1,21 @@
+project http://knowrob.org/kb/wf_putpartstogether.owl
+namespace assembly http://knowrob.org/kb/knowrob_assembly.owl
+namespace destination http://knowrob.org/kb/wf_getdestinationpose.owl
+namespace transport http://knowrob.org/kb/wf_transportpart.owl
+namespace append http://knowrob.org/kb/wf_append.owl
+#
+
+1 PutPartsTogether[mobilepart: ?mp; mobileassemblyaffordance: ?maa; graspaffordance: ?ga; grasppose: ?gp; fixedpart: ?fp; fixedassemblyaffordance: ?faa; actuator: ?act][status: ?status]
+2 destination&GetDestinationPose[destination&mobileassemblyaffordance: ?maa; destination&fixedassemblyaffordance: ?faa][destination&status: ?status; destination&destinationpose: ?dp]
+3 append&Append[append&head: ?maa; append&element: ?faa][append&result: ?pa]
+4 transport&TransportPart[transport&part:?mp; transport&graspaffordance: ?ga; transport&grasppose: ?gp; transport&destinationpose: ?dp; transport&actuator: ?act; transport&preserveaffordances: ?pa][transport&status: ?status]
+5 Return[status= EASE-WF&WFSuccess]
+6 Return[status: ?status]
+: 1->2
+: 2->3[?status= EASE-WF&WFSuccess]
+: 2->6[?status= destination&InfeasibleTransport]
+: 3->4
+: 4->5[?status= EASE-WF&WFSuccess]
+: 4->6[?status= EASE-WF&FailWFHardware]
+: 4->6[?status= transport&InfeasibleTransport]
+

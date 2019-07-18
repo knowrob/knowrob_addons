@@ -1,0 +1,18 @@
+project http://knowrob.org/kb/wf_putpartaway.owl
+namespace assembly http://knowrob.org/kb/knowrob_assembly.owl
+namespace storage http://knowrob.org/kb/wf_getstoragemaneuver.owl
+namespace transport http://knowrob.org/kb/wf_transportpart.owl
+#
+
+1 PutPartAway[mobilepart: ?mp; preserveaffordances: ?pa; actuator: ?act][status: ?status]
+2 storage&GetStorageManeuver[storage&part: ?mp; storage&preserveaffordances: ?pa][storage&status: ?status; storage&pose: ?p; storage&graspaffordance: ?ga; storage&grasppose: ?gp]
+3 transport&TransportPart[transport&part:?mp; transport&graspaffordance: ?ga; transport&grasppose: ?gp; transport&destinationpose: ?p; transport&actuator: ?act; transport&preserveaffordances: ?pa][transport&status: ?status]
+4 Return[status= EASE-WF&WFSuccess]
+5 Return[status: ?status]
+: 1->2
+: 2->3[?status= EASE-WF&WFSuccess]
+: 2->5[?status= storage&NoStorageAvailable]
+: 3->4[?status= EASE-WF&WFSuccess]
+: 3->5[?status= EASE-WF&FailWFHardware]
+: 3->5[?status= transport&InfeasibleTransport]
+
