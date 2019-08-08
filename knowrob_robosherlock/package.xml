@@ -17,6 +17,6 @@
   <depend>knowrob_common</depend>
   <depend>knowrob_vis</depend>
   <depend>knowrob_actions</depend>
-  <depend>knowrob_srdl</depend>
+  <depend>srdl</depend>
 
 </package>

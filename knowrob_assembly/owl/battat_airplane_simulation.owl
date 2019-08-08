@@ -13,7 +13,7 @@
      xmlns:knowrob_paramserver="http://knowrob.org/kb/knowrob_paramserver.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/battat_airplane_simulation.owl">
         <owl:imports rdf:resource="package://knowrob_assembly/owl/battat_toys.owl"/>
-        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-comp.owl"/>
+        <owl:imports rdf:resource="package://srdl/owl/srdl2-comp.owl"/>
     </owl:Ontology>
     
 

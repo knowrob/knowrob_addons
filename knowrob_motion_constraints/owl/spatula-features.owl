@@ -26,8 +26,8 @@
      xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#">
     <owl:Ontology rdf:about="http://knowrob.org/kb/spatula-features.owl">
         <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
-        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-cap.owl"/>
-        <owl:imports rdf:resource="package://knowrob_srdl/owl/PR2.owl"/>
+        <owl:imports rdf:resource="package://srdl/owl/srdl2-cap.owl"/>
+        <owl:imports rdf:resource="package://srdl/owl/PR2.owl"/>
     </owl:Ontology>
 
 
