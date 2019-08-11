@@ -5,3 +5,5 @@ bin
 build
 .gradle
 *.pyc
+CATKIN_IGNORE
+catalog-v001.xml
