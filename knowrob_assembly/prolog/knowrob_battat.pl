@@ -77,11 +77,11 @@ battat_sim_plane_complete :-
 battat_sim_plane_connection(ConnType, Primary, Parts) :- battat_sim_plane_connection(ConnType, Primary, Parts, _).
 battat_sim_plane_connection(ConnType, Primary, Parts, Conn) :-
   assemblage_connection_create(ConnType, Parts, Conn),
-  write('  connection '), owl_write_readable(Conn), nl,
-  write('    primary: '), owl_write_readable(Primary), nl,
-  write('    parts:   '), owl_write_readable(Parts), nl,
+  write('  connection '), print(Conn), nl,
+  write('    primary: '), print(Primary), nl,
+  write('    parts:   '), print(Parts), nl,
   forall( rdf_has(Conn, knowrob_assembly:'blocksAffordance', Aff), (
-          write('    blocksAffordance '), owl_write_readable(Aff), nl )),
+          write('    blocksAffordance '), print(Aff), nl )),
   apply_connection(Primary, Conn, Parts).
 
 apply_connection(PrimaryObject, Connection, Parts) :-
@@ -96,7 +96,7 @@ apply_connection(PrimaryObject, Connection, Parts) :-
   assemblage_part_make_reference(PrimaryObject, Parents),
   assemblage_connection_reference(Parts, TransformId, ReferenceObject),
   belief_at_internal(PrimaryObject, TransformData, ReferenceObject),
-  write('    transform:   '), owl_write_readable(
+  write('    transform:   '), print(
     [PrimaryObject, TransformData, ReferenceObject]), nl,
   belief_republish_objects([PrimaryObject|Parents]).
 

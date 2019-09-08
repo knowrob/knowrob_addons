@@ -172,7 +172,7 @@ assemblage_destroy(Connection) :-
   assemblage_destroy_connection(Connection).
 
 assemblage_destroy_connection(Connection) :-
-  write('[assembly] detach: '), owl_write_readable(Connection), nl,
+  write('[assembly] detach: '), print(Connection), nl,
   rdf_retractall(_,_,Connection),
   rdf_retractall(Connection,_,_).
 
@@ -188,8 +188,8 @@ assemblage_connection_create(ConnType, Objects, ConnId) :-
       rdfs_individual_of(Affordance, AffType),
       rdf_assert(ConnId, knowrob_assembly:'consumesAffordance', Affordance)
     ) ; (
-      write('[ERR] Create '), owl_write_readable(ConnType),
-      write(': affordance '), owl_write_readable(AffType), write(' missing.'), nl,
+      write('[ERR] Create '), print(ConnType),
+      write(': affordance '), print(AffType), write(' missing.'), nl,
       rdf_retractall(ConnId,_,_),
       fail
     )))).
