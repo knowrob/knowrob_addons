@@ -74,7 +74,6 @@
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
 :- use_module(library('semweb/owl_parser')).
-:- use_module(library('knowrob/comp_temporal')).
 :- use_module(library('knowrob/computable')).
 :- use_module(library('knowrob/mongo')).
 :- use_module(library('knowrob/temporal')).

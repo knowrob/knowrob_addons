@@ -12,7 +12,7 @@
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/owl')).
 :- use_module(library('semweb/owl_parser')).
-:- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/knowrob')).
 :- use_module(library('knowrob_assembly')).
 :- use_module(library('knowrob_planning')).
 :- use_module(library('knowrob/beliefstate')).

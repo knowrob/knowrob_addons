@@ -43,7 +43,7 @@
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/owl')).
-:- use_module(library('knowrob/rdfs')).
+:- use_module(library('knowrob/knowrob')).
 :- use_module(library('ogp_agenda')).
 :- use_module(library('ogp_task')).
 

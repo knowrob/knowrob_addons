@@ -32,7 +32,6 @@
 :- register_ros_package(knowrob_mongo).
 :- register_ros_package(knowrob_planning).
 :- register_ros_package(knowrob_memory).
-:- register_ros_package(comp_temporal).
 
 :- register_ros_package(knowrob_cram).
 :- use_module(library('knowrob_cram')).
