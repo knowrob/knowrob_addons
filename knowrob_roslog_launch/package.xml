@@ -19,7 +19,7 @@
   <build_depend>knowrob_cram</build_depend>
   <build_depend>knowrob_mongo</build_depend>
 <!--   <build_depend>iai_maps</build_depend> -->
-  <build_depend>json_prolog</build_depend>
+  <build_depend>rosprolog</build_depend>
   <build_depend>knowrob_vis</build_depend>
   <build_depend>knowrob_meshes</build_depend>
   <build_depend>rosbridge_server</build_depend>
@@ -31,7 +31,7 @@
   <run_depend>knowrob_cram</run_depend>
   <run_depend>knowrob_mongo</run_depend>
 <!--   <run_depend>iai_maps</run_depend> -->
-  <run_depend>json_prolog</run_depend>
+  <run_depend>rosprolog</run_depend>
   <run_depend>knowrob_vis</run_depend>
   <run_depend>knowrob_meshes</run_depend>
   <run_depend>mjpeg_server</run_depend>

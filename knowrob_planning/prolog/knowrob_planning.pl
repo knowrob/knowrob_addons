@@ -58,7 +58,7 @@
 
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
-:- use_module(library('knowrob/owl')).
+:- use_module(library('knowrob/knowrob')).
 :- use_module(library('owl_planning')).
 
 :- rdf_db:rdf_register_ns(knowrob, 'http://knowrob.org/kb/knowrob.owl#', [keep(true)]).
@@ -114,12 +114,12 @@ owl_planner_run(Entity) :-
   owl_planner_run(Entity, Strategy).
 
 owl_planner_run(Entity, Strategy) :-
-  write('    [INFO] Running planner for '), owl_write_readable(Entity), nl,
+  write('    [INFO] Running planner for '), print(Entity), nl,
   agenda_create(Entity, Strategy, Agenda),
   agenda_write(Agenda),
   ( agenda_run(Agenda) ->
-  ( write('    [WARN] Planning '), owl_write_readable(Entity), write(' failed.'), nl );
-  ( write('    [INFO] Planning '), owl_write_readable(Entity), write(' completed.'), nl )),
+  ( write('    [WARN] Planning '), print(Entity), write(' failed.'), nl );
+  ( write('    [INFO] Planning '), print(Entity), write(' completed.'), nl )),
   rdf_retractall(_, _, Agenda),
   rdf_retractall(Agenda, _, _).
 
@@ -181,7 +181,7 @@ agenda_pop(Agenda, Item, Descr)  :-
   agenda_items_sorted(Agenda, [X|RestItems]),
   agenda_items_sorted_update(Agenda, RestItems),
   agenda_item_description(X, X_Descr),
-  %write('    [INFO] Popped item '), owl_write_readable(X_Descr), nl,
+  %write('    [INFO] Popped item '), print(X_Descr), nl,
   % count how often item was selected
   agenda_item_inhibit(X),
   ( agenda_item_valid(X_Descr, X)
@@ -193,7 +193,7 @@ agenda_pop(Agenda, Item, Descr)  :-
   ) ; ( % retract invalid, pop next
     % FIXME: redundant with validity check
     % FIXME: won't wotk for causedBy(Item) !
-    write('    [WARN] Popped invalid item '), owl_write_readable(X_Descr), nl,
+    write('    [WARN] Popped invalid item '), print(X_Descr), nl,
     agenda_item_reason(X, causedBy(Cause,Cause_restriction)),
     agenda_item_depth_value(X, Depth),
     forall(
@@ -228,7 +228,7 @@ agenda_add_object_without_children(Agenda, Obj, Depth) :-
      owl_unsatisfied_restriction(Obj, Descr, DB),
      agenda_restriction_item(Obj, Descr, Item),
      once(agenda_item_description_in_focus(Item, Strategy)->true;(
-       write('    [INFO] not in focus '), owl_write_readable(Item), nl,
+       write('    [INFO] not in focus '), print(Item), nl,
        fail
      ))
   ), assert_agenda_item(Item, Agenda, causedBy(Obj,Descr), Depth, _)).
@@ -238,9 +238,9 @@ agenda_restriction_item(Obj, Descr, Item) :-
   (Items=[] -> (
     owl_description(Descr,Descr_),
     write('[WARN] failed to generate agenda item for '),
-    owl_write_readable(Obj),
+    print(Obj),
     write(' and its unsattisfied restriction '),
-    owl_write_readable(Descr_), nl
+    print(Descr_), nl
   ) ; true),
   member(Item,Items).
 
@@ -615,9 +615,7 @@ compare_selection_criteria(Delta, C1, C2) :-
   ( V1 =< V2 -> Delta='>' ; Delta='<' ). % high priority first
 
 selection_priority(C,V) :-
-  rdf_has(C, knowrob_planning:'selectionPriority', Val),
-  strip_literal_type(Val, Val_stripped),
-  atom_number(Val_stripped, V), !.
+  kb_triple(C, knowrob_planning:'selectionPriority', V), !.
 selection_priority(_,0).
 
 %% agenda_item_selection_value(+Item,+Criterium,?Val)
@@ -668,9 +666,7 @@ agenda_item_continuity_value_internal(_, _, 0).
 %% agenda_item_inhibit(+Item,?InhibitionValue)
 %
 agenda_item_inhibition_value(Item, InhibitionValue) :-
-  rdf_has(Item, knowrob_planning:'inhibitionValue', X),
-  strip_literal_type(X,X_stripped),
-  (number(X_stripped) -> InhibitionValue=X_stripped ; atom_number(X_stripped, InhibitionValue)), !.
+  kb_triple(Item, knowrob_planning:'inhibitionValue', InhibitionValue), !.
 agenda_item_inhibition_value(_, 0).
 
 %% agenda_item_inhibit(+Item)
@@ -875,7 +871,7 @@ agenda_item_processed(item(Type,S,P,_,_),[O]) :-
   (( Type=detach
   -> \+ owl_compute_has(S,P,O)
   ;  owl_compute_has(S,P,O) ) ; (
-     write('    [WARN] Agenda item remains incomplete '), owl_write_readable([S,P,O]), nl
+     write('    [WARN] Agenda item remains incomplete '), print([S,P,O]), nl
   )), !.
 
 agenda_add_candidates(Agenda,Item,P,Domain) :-
@@ -1002,7 +998,7 @@ agenda_perform_action(PlanningEntity,Descr,Strategy) :-
     % perform the action
     once((
       agenda_perform_action_internal(ActionEntity,Strategy);
-      (write('    [WARN] failed to perform action for '), owl_write_readable(Descr), nl)
+      (write('    [WARN] failed to perform action for '), print(Descr), nl)
     ))
   ), !.
 agenda_perform_action(_,_,_).
@@ -1018,7 +1014,7 @@ agenda_perform_action_internal(ActionEntity,Strategy) :-
     call(Goal,ActionEntity,_)
   ) ; (
     % TODO: retract action entity & fail
-    write('    [WARN] No action performer registered for '), owl_write_readable(ActionEntity), nl
+    write('    [WARN] No action performer registered for '), print(ActionEntity), nl
   ))),
   agenda_end_action(ActionEntity).
 
@@ -1293,10 +1289,10 @@ write_name(X) :- atom(X), rdf_split_url(_, X_, X), write(X_).
 write_description(Domain) :-
   atom(Domain),
   owl_description_recursive(Domain,Descr),
-  owl_readable(Descr,Readable), write(Readable), !.
+  print(Descr), !.
 write_description(Domain) :-
   atom(Domain),
-  owl_readable(Domain,Readable), write(Readable), !.
+  print(Descr), !.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %

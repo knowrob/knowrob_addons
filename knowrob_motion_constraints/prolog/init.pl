@@ -28,7 +28,7 @@
   @license BSD
 */
 
-:- register_ros_package(knowrob_srdl).
+:- register_ros_package(srdl).
 :- register_ros_package(knowrob_actions).
 :- register_ros_package(knowrob_objects).
 :- register_ros_package(knowrob_mesh_reasoning).

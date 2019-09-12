@@ -61,15 +61,6 @@ define_goal(reach(GoalPositionX, GoalPositionY, GoalPositionZ), Offset, JavaList
    jpl_new('org.knowrob.reinforcement.KitchenEnvironment', [GoalPositionX, GoalPositionY, GoalPositionZ, GoalPositionX, GoalPositionY, GoalPositionZ], KitchenEnv),
    ArgList = ['org.knowrob.reinforcement.KitchenEnvironment'],
    jpl_new( '[Ljava.lang.String;', ArgList, Arg),
-   
-    
-    public static void runNode(AbstractNodeMain node, String[] args) {
-        CommandLineLoader loader = new CommandLineLoader(Lists.newArrayList(args));
-        NodeConfiguration nodeConfiguration = loader.build();
-
-        NodeMainExecutor nodeMainExecutor = DefaultNodeMainExecutor.newDefault();
-        nodeMainExecutor.execute(node, nodeConfiguration);
-    }
    jpl_call('org.knowrob.reinforcement.BasicBehavior', 'runNode', [KitchenEnv, Arg], _X),
    jpl_call(KitchenEnv, 'setTF', [KitchenTf], _Y),
    jpl_call(KitchenEnv, 'sleep', [5000], _Z),

@@ -43,7 +43,7 @@
 :- use_module(library('semweb/rdfs')).
 :- use_module(library('semweb/rdf_db')).
 :- use_module(library('semweb/owl')).
-:- use_module(library('knowrob/rdfs')).
+:- use_module(library('knowrob/knowrob')).
 :- use_module(library('ogp_agenda')).
 :- use_module(library('ogp_task')).
 
@@ -218,7 +218,7 @@ ogp_decision_assert([integrate,S,P,Entity]) :-
   rdf_assert(S,P,Entity).
 
 ogp_decision_assert([quantify,S,P,DataValue]) :-
-  rdf_assert_prolog(S,P,DataValue).
+  kb_assert(S,P,DataValue).
 
 ogp_decision_assert([classify,S,_,Class]) :-
   rdf_assert(S,rdf:type,Class).

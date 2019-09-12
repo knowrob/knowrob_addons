@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(knowrob_motion_constraints)
 
-find_package(catkin REQUIRED COMPONENTS rospy tf knowrob_srdl)
+find_package(catkin REQUIRED COMPONENTS rospy tf srdl)
 
 
 add_message_files(
@@ -20,7 +20,7 @@ generate_messages(
 
 
 catkin_package(
-    DEPENDS rospy tf knowrob_srdl
+    DEPENDS rospy tf srdl
 )
 
 install(DIRECTORY data/

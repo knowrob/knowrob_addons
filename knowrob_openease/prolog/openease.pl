@@ -57,7 +57,7 @@
 camera_pose([X,Y,Z], [QX,QY,QZ,QW]) :-
     ros_publish('/camera/pose', 'geometry_msgs/Pose', _{
       position:    _{x: X, y: Y, z: Z},
-      orientation: _{x: QX, y: QY, z: QZ, w: QW},
+      orientation: _{x: QX, y: QY, z: QZ, w: QW}
     }).
 
 openease_highlight_msg(Objects,[R,G,B],Msg) :-

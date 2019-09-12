@@ -20,7 +20,7 @@
   <build_depend>knowrob_cram</build_depend>
   <build_depend>comp_temporal</build_depend>
   <build_depend>knowrob_mongo</build_depend>
-  <build_depend>knowrob_srdl</build_depend>
+  <build_depend>srdl</build_depend>
   <build_depend>knowrob_sim_games</build_depend>
   <build_depend>knowrob_cram</build_depend>
   <build_depend>rosjava_build_tools</build_depend>
@@ -29,7 +29,7 @@
 
   <run_depend>knowrob_common</run_depend>
   <run_depend>knowrob_cram</run_depend>
-  <run_depend>knowrob_srdl</run_depend>
+  <run_depend>srdl</run_depend>
   <run_depend>comp_temporal</run_depend>
   <run_depend>knowrob_mongo</run_depend>
   <run_depend>rosjava_bootstrap</run_depend>
